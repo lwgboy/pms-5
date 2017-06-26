@@ -5,7 +5,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridItem;
@@ -22,8 +21,10 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -49,11 +50,11 @@ public class WorkBoardRender {
 				} else if (e.text.startsWith("finishWork/")) {
 					finishWork((Work) ((GridItem) e.item).getData());
 				} else {
-					ObjectId id = new ObjectId(e.text.split("/")[1]);
+					String idx = e.text.split("/")[1];
 					if (e.text.startsWith("openWorkPackage/")) {
-						openWorkPackage(id);
+						openWorkPackage((WorkBoardInfo) ((GridItem) e.item).getData(), idx);
 					} else if (e.text.startsWith("assignWork/")) {
-						assignWork(id);
+						assignWork((WorkBoardInfo) ((GridItem) e.item).getData());
 					}
 				}
 			} else {
@@ -68,13 +69,19 @@ public class WorkBoardRender {
 		}
 	}
 
-	private void assignWork(ObjectId work_id) {
-		// TODO Auto-generated method stub
-
+	private void openWorkPackage(WorkBoardInfo workInfo, String idx) {
+		Work work = workInfo.getWork();
+		if ("default".equals(idx)) {
+			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
+		} else {
+			List<TrackView> wps = work.getWorkPackageSetting();
+			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
+		}
 	}
 
-	private void openWorkPackage(ObjectId work_id) {
-		brui.openContent(brui.getAssembly("工作包计划"), Services.get(WorkService.class).getWork(work_id));
+	private void assignWork(WorkBoardInfo work) {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void finishWork(Work work) {
@@ -117,10 +124,10 @@ public class WorkBoardRender {
 		// 开始和完成按钮
 		if (work.getActualStart() == null) {
 			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='startWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/start.svg'/></a></div>");
+					+ "' target='_rwt'><img class='layui-btn layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/start_w.svg'/></a></div>");
 		} else if (work.getActualFinish() == null) {
 			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='finishWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish.svg'/></a></div>");
+					+ "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
 		}
 
 		sb.append("<div style=''>" + work.getProjectName() + "</div>");
@@ -146,6 +153,7 @@ public class WorkBoardRender {
 		Double ind;
 
 		StringBuffer sb = new StringBuffer();
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 显示进度指标信息
 		sb.append(
 				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
@@ -162,6 +170,7 @@ public class WorkBoardRender {
 		}
 		sb.append("</div></div></div>");
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 显示工期指标信息
 		ind = work.getDAR();
 		// ind = 0.9365555d;
@@ -179,17 +188,35 @@ public class WorkBoardRender {
 		}
 		sb.append("</div></div></div>");
 
-		// 按钮
+		sb.append("<div style='display:inline-flex;width:100%;justify-content:flex-end;padding-right:24px'>");
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 工作包按钮
+		List<TrackView> wps = work.getWorkPackageSetting();
+		if (Util.isEmptyOrNull(wps)) {
+			sb.append(
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
+		} else if (wps.size() == 1) {
+			sb.append(
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
-		sb.append(
-				"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;width:60px;margin-top:16px;margin-right:32px;' href='openWorkPackage/"
-						+ work.get_id() + "' target='_rwt'>工作包</a>");
+		} else {
+			for (int i = 0; i < wps.size(); i++) {
+				sb.append(
+						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+			}
+		}
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 指派按钮
 		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right; width:60px;margin-top:16px;margin-right:8px;' href='assignWork/"
+					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:16px;margin-right:4px;' href='assignWork/"
 							+ work.get_id() + "' target='_rwt'>指派</a>");
 		}
+		sb.append("</div>");
 
 		cell.setText(sb.toString());
 	}

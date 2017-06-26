@@ -33,7 +33,9 @@ public interface DocumentService {
 	@Path("/folder/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Folder> listRootFolder(@PathParam("project_id") ObjectId project_id);
+	@DataSet("项目文件夹选择列表/list")
+	public List<Folder> listRootFolder(
+			@PathParam("project_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 
 	@POST
 	@Path("/folder/project_id/{project_id}/count")
@@ -71,17 +73,17 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	public Docu createDocument(Docu doc);
 
-//	@POST
-//	@Path("/docu/folder_id/{folder_id}/ds")
-//	@Consumes("application/json; charset=UTF-8")
-//	@Produces("application/json; charset=UTF-8")
-//	public List<Docu> listDocument(@PathParam("folder_id") ObjectId folder_id);
+	// @POST
+	// @Path("/docu/folder_id/{folder_id}/ds")
+	// @Consumes("application/json; charset=UTF-8")
+	// @Produces("application/json; charset=UTF-8")
+	// public List<Docu> listDocument(@PathParam("folder_id") ObjectId folder_id);
 
-//	@POST
-//	@Path("/docu/folder_id/{folder_id}/count")
-//	@Consumes("application/json; charset=UTF-8")
-//	@Produces("application/json; charset=UTF-8")
-//	public long countDocument(@PathParam("folder_id") ObjectId folder_id);
+	// @POST
+	// @Path("/docu/folder_id/{folder_id}/count")
+	// @Consumes("application/json; charset=UTF-8")
+	// @Produces("application/json; charset=UTF-8")
+	// public long countDocument(@PathParam("folder_id") ObjectId folder_id);
 
 	@DELETE
 	@Path("/docu/_id/{_id}")
@@ -103,7 +105,7 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.LIST)
 	public List<Docu> listDocument(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
-	
+
 	@POST
 	@Path("/docu/count")
 	@Consumes("application/json; charset=UTF-8")

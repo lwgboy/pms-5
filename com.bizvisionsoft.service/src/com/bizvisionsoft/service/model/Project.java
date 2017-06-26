@@ -385,6 +385,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private String type3;
 
+	@ReadValue("type2_3")
+	private String getType2_3() {
+		String str = "";
+		if (type2 != null)
+			str += type2 + " ";
+		if (type3 != null)
+			str += type3;
+		return str.trim();
+	}
+
 	/**
 	 * ¾ü±øÖÖ
 	 */

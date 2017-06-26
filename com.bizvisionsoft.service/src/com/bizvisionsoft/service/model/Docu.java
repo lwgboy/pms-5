@@ -69,7 +69,11 @@ public class Docu {
 	@ReadValue
 	@WriteValue
 	private Date createOn;
-	
+
+	@ReadValue
+	@WriteValue
+	private ObjectId workPackage_id;
+
 	@Override
 	@Label
 	public String toString() {
@@ -85,6 +89,11 @@ public class Docu {
 		this.createOn = ci.date;
 		this.createBy = ci.userId;
 		this.createByInfo = ci.getCreatorInfo();
+		return this;
+	}
+
+	public Docu addWorkPackageId(ObjectId workPackage_id) {
+		this.workPackage_id = workPackage_id;
 		return this;
 	}
 }

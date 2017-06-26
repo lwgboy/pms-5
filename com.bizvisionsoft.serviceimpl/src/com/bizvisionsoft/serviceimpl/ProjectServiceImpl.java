@@ -292,10 +292,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
+
+		String pjName = getName("project", _id);
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("新的工作计划", "工作 "+w.getString("fullName") + " 已下达。", distributeBy,
-					w.getString("chargerId"), null));
+			messages.add(Message.newInstance("新下达的工作计划",
+					"项目 "+pjName+"，工作 " + w.getString("fullName") + "，计划 "
+							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planStart")) + " - "
+							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planFinish")),
+					distributeBy, w.getString("chargerId"), null));
 		});
 
 		if (ids.isEmpty()) {
@@ -308,7 +313,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						.append("distributeOn", new Date())));
 
 		sendMessages(messages);
-		
+
 		return new ArrayList<Result>();
 
 	}
