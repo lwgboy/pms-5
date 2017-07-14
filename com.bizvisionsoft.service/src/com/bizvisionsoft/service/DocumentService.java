@@ -107,6 +107,13 @@ public interface DocumentService {
 	public List<Docu> listDocument(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
 
 	@POST
+	@Path("/docu/wp_id/{wp_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("Êä³öÎÄµµ/" + DataSet.LIST)
+	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
+
+	@POST
 	@Path("/docu/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

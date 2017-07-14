@@ -498,8 +498,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return _id;
 	}
 
-	public void set_id(ObjectId _id) {
+	public Project set_id(ObjectId _id) {
 		this._id = _id;
+		return this;
 	}
 
 	public Date getPlanStart() {
