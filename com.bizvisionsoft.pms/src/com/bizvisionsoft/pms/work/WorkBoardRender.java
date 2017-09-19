@@ -161,7 +161,7 @@ public class WorkBoardRender {
 				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
 		ind = work.getWAR();
 		// ind = 0.2365555d;
-		sb.append("<div style='width:112px;'>工作量完成：</div>");
+		sb.append("<div style='width:112px;'>工作进度：</div>");
 		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
 		if (ind != null) {
 			NumberFormat df = DecimalFormat.getInstance();
