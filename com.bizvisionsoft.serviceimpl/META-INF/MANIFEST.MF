@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Serviceimpl
+Bundle-SymbolicName: com.bizvisionsoft.serviceimpl
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: BIZVISIONSOFT
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.osgi.framework;version="1.8.0"
+Require-Bundle: com.bizvisionsoft.mongocodex;bundle-version="1.0.0",
+ org.mongodb.mongo-java-driver;bundle-version="3.6.0",
+ com.eclipsesource.jaxrs.jersey-all;bundle-version="2.22.2",
+ com.bizvisionsoft.service;bundle-version="1.0.0",
+ com.bizvisionsoft.annotations;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
+Export-Package: com.bizvisionsoft.serviceimpl

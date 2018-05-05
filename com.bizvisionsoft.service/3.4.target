@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="rap3.4" sequenceNumber="29">
+<locations>
+<location path="D:\dev\bundle" type="Directory"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="3.4.0.20171204-1005"/>
+<unit id="org.eclipse.rap.examples.feature.feature.group" version="3.4.0.20171017-0945"/>
+<unit id="org.eclipse.rap.feature.feature.group" version="3.4.0.20171130-0837"/>
+<unit id="org.eclipse.rap.sdk.feature.feature.group" version="3.4.0.20171130-0837"/>
+<repository location="jar:file:/D:/dev/rap3.4/rap-3.4.0-R-20171204-1637.zip!/"/>
+</location>
+</locations>
+</target>

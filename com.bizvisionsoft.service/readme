@@ -1,0 +1,41 @@
+这个bundle只包括模型和服务接口，服务端和消费端都需要依赖
+
+开发服务的步骤
+1. 在com.bizvisionsoft.service\model\中定义模型
+2. 在com.bizvisionsoft.service\中定义服务接口
+3. 在com.bizvisionsoft.serviceimpl\中实现服务接口
+4. 在com.bizvisionsoft.server.rs.Activator中注册服务
+以上的步骤，服务端的注册已经完成
+
+下面的步骤是注册服务端消费者，也就是注册PM系统如何调用服务
+1. 在com.bizvisionsoft.serviceconsumer\publisher.activate中添加该服务（注意，就是上面的接口，不是实现）
+
+
+注意：
+服务端和消费端分离时：
+上述过程无需改变各个项目的依赖关系。com.bizvisionsoft.serviceimpl只在RS服务端使用，不在消费端使用。
+如果服务端和消费端合并：
+直接调用com.bizvisionsoft.serviceimpl。后续会开发本地服务注册的机制，暂时不考虑。
+
+
+服务API必须遵循以下规则保持风格统一：
+1. POST用于插入
+2. GET用于查询
+3. PUT用于更新
+4. DELETE用于删除
+请参考UserService的定义方式
+
+关于模型
+1. 什么时候区分查询出来的对象、用于编辑的对象？
+比如 用户集合（数据库中是account集合）中包括一个字段，orgId。
+我们可以在User中定义一个属性 organization, 然后用ProstEncoding标注的方法来查询组织，并将结果放入该字段。
+如果用于编辑，只需一条数据，上面的做法就比较好。
+但这种方式明显在显示多条数据时比较慢，而且在表格中根本不需要组织的完整信息，可能只需要组织的全名即可。
+那么我们可以再定义一个模型，UserInfo, 我们再UserInfo中给一个字段叫orgName。然后在查询时使用Aggregate Lookup来实现。
+按以下的命名规则：
+比如：用于插入、编辑的模型 名称为Xxx，表格显示的采用XxxInfo
+请参考UserService的定义方式
+
+
+
+
