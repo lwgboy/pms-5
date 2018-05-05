@@ -7,6 +7,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.cbs.assembly.BudgetCBS;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -23,8 +24,11 @@ public class UnDistributeCBSBudget {
 			CBSItem item = (CBSItem) parent;
 			CBSItem parentItem = item.getParent();
 			if (item.isScopeRoot()) {
-				Services.get(CBSService.class).allocateBudget(item.get_id(), parentItem.getScope_id(),
+				CBSItem cbsItem = Services.get(CBSService.class).allocateBudget(item.get_id(), parentItem.getScope_id(),
 						parentItem.getScopeName(), false);
+				BudgetCBS grid = (BudgetCBS) context.getContent();
+				grid.replaceItem(parent, cbsItem);
+				grid.refresh(parent);
 			}
 
 		});
