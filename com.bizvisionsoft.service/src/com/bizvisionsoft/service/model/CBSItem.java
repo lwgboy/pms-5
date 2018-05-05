@@ -61,6 +61,10 @@ public class CBSItem {
 	@ReadValue
 	@WriteValue
 	private ObjectId scope_id;
+	
+	@SetValue
+	@ReadValue
+	private String scopename;
 
 	@Behavior({ "CBS/编辑" })
 	private boolean behaviourEditName() {
@@ -73,6 +77,7 @@ public class CBSItem {
 		return !scopeRoot && countSubCBSItems() == 0;
 		// TODO 传参数问题
 	}
+	
 
 	@SetValue
 	@ReadValue
@@ -164,6 +169,10 @@ public class CBSItem {
 
 	public ObjectId getScope_id() {
 		return scope_id;
+	}
+
+	public String getScopeName() {
+		return scopename;
 	}
 
 	public CBSItem setId(String id) {

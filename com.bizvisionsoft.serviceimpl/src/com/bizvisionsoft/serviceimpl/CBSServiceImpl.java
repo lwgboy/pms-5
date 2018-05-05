@@ -189,14 +189,21 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public void allocateBudget(ObjectId _id, ObjectId work_id, String workname) {
+	public CBSItem allocateBudget(ObjectId _id, ObjectId work_id, String workname) {
 		UpdateResult ur = c(WorkInfo.class).updateOne(new BasicDBObject("_id", work_id),
 				new BasicDBObject("$set", new BasicDBObject("cbs_id", _id)));
-		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("scope_id", work_id).append("scopeRoot", true)));
+		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set",
+				new BasicDBObject("scope_id", work_id).append("scopename", workname).append("scopeRoot", true)));
 
+		List<ObjectId> list = new ArrayList<ObjectId>();
+		list.add(_id);
+		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id");
+		ur = c(CBSItem.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
+				new BasicDBObject("$set", new BasicDBObject("scope_id", work_id).append("scopename", workname)));
 		// TODO ´íÎó·µ»Ø
 		System.out.println(ur);
+
+		return get(_id);
 	}
 
 }

@@ -61,7 +61,7 @@ public abstract class BudgetGrid extends GridPart {
 		
 
 		c = new Column();
-		c.setName("scope");
+		c.setName("scopename");
 		c.setText("·¶Î§");
 		c.setWidth(120);
 		c.setAlignment(SWT.LEFT);

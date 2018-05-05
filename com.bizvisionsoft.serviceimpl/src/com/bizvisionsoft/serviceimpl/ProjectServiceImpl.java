@@ -120,8 +120,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
-		
-		appendStage(pipeline,"stage_id","stage");
+
+		appendStage(pipeline, "stage_id", "stage");
 
 		List<Project> result = new ArrayList<Project>();
 		c(Project.class).aggregate(pipeline).into(result);
@@ -252,12 +252,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		filter.put("pmId", userid);
 		return query(skip, limit, filter);
-		
+
 	}
 
 	@Override
 	public long countPMProject(BasicDBObject filter, String userid) {
-		if(filter == null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.put("pmId", userid);
@@ -269,5 +269,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// TODO É¾³ý¼ì²é
 		return delete(_id, Project.class);
 	}
+
 
 }
