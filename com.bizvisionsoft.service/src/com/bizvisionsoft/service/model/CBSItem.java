@@ -68,26 +68,26 @@ public class CBSItem {
 	private String scopename;
 
 	@Behavior({ "CBS/添加" })
-	private boolean behaviourAdd() {
-		return true;
+	private boolean behaviourAdd(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+		return this.scope_id.equals(scope_id);
 		// TODO 传参数问题
 	}
 	
 	@Behavior({ "CBS/分配" })
-	private boolean behaviourDistribute() {
-		return true;
+	private boolean behaviourDistribute(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+		return this.scope_id.equals(scope_id);
 		// TODO 传参数问题
 	}
 	
 	@Behavior({ "CBS/取消" })
-	private boolean behaviourUnDistribute() {
-		return true;
+	private boolean behaviourUnDistribute(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+		return !this.scope_id.equals(scope_id) && scopeRoot;
 		// TODO 传参数问题
 	}
 	
 	@Behavior({ "CBS/编辑" })
-	private boolean behaviourEditName() {
-		return !scopeRoot;
+	private boolean behaviourEditName(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+		return this.scope_id.equals(scope_id) && !scopeRoot;
 		// TODO 传参数问题
 	}
 

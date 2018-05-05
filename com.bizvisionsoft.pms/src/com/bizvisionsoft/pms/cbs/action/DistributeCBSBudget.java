@@ -37,7 +37,7 @@ public class DistributeCBSBudget {
 							MessageDialog.openError(brui.getCurrentShell(), "错误", "已经为该阶段分配预算，无法再次分配。");
 						} else {
 							CBSItem cbsItem = Services.get(CBSService.class).allocateBudget(((CBSItem) parent).get_id(),
-									workInfo.get_id(), workInfo.toString());
+									workInfo.get_id(), workInfo.toString(), true);
 							// TODO 错误返回
 							// TODO 成功提示
 							BudgetCBS grid = (BudgetCBS) context.getContent();

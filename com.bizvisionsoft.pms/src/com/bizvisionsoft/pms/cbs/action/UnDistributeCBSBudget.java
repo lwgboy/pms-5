@@ -22,11 +22,11 @@ public class UnDistributeCBSBudget {
 		context.selected(parent -> {
 			CBSItem item = (CBSItem) parent;
 			CBSItem parentItem = item.getParent();
-			if(item.isScopeRoot()) {
-				Services.get(CBSService.class).allocateBudget(item.get_id(),
-						parentItem.getScope_id(), parentItem.getScopeName());
+			if (item.isScopeRoot()) {
+				Services.get(CBSService.class).allocateBudget(item.get_id(), parentItem.getScope_id(),
+						parentItem.getScopeName(), false);
 			}
-			
+
 		});
 	}
 
