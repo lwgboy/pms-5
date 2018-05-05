@@ -13,6 +13,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CBSService;
@@ -61,11 +62,29 @@ public class CBSItem {
 	@ReadValue
 	@WriteValue
 	private ObjectId scope_id;
-	
+
 	@SetValue
 	@ReadValue
 	private String scopename;
 
+	@Behavior({ "CBS/添加" })
+	private boolean behaviourAdd() {
+		return true;
+		// TODO 传参数问题
+	}
+	
+	@Behavior({ "CBS/分配" })
+	private boolean behaviourDistribute() {
+		return true;
+		// TODO 传参数问题
+	}
+	
+	@Behavior({ "CBS/取消" })
+	private boolean behaviourUnDistribute() {
+		return true;
+		// TODO 传参数问题
+	}
+	
 	@Behavior({ "CBS/编辑" })
 	private boolean behaviourEditName() {
 		return !scopeRoot;
@@ -73,11 +92,10 @@ public class CBSItem {
 	}
 
 	@Behavior({ "CBS/删除", "CBS/科目", "CBS/预算" })
-	private boolean behaviourEditAmount() {
-		return !scopeRoot && countSubCBSItems() == 0;
+	private boolean behaviourEditAmount(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+		return this.scope_id.equals(scope_id) && !scopeRoot && countSubCBSItems() == 0;
 		// TODO 传参数问题
 	}
-	
 
 	@SetValue
 	@ReadValue

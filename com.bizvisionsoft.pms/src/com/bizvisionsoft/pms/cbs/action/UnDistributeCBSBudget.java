@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class DeleteDistributeCBSBudget {
+public class UnDistributeCBSBudget {
 
 	@Inject
 	private IBruiService brui;

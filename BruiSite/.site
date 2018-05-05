@@ -13428,7 +13428,7 @@
                 "forceText": false,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               },
               {
@@ -13512,7 +13512,7 @@
                 "text": "»°œ˚∑÷≈‰",
                 "image": "/img/delete_w.svg",
                 "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.cbs.action.DeleteDistributeCBSBudget",
+                "className": "com.bizvisionsoft.pms.cbs.action.UnDistributeCBSBudget",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
