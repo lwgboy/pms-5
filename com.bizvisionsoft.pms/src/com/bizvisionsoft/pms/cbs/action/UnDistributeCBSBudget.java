@@ -24,8 +24,9 @@ public class UnDistributeCBSBudget {
 			CBSItem item = (CBSItem) parent;
 			CBSItem parentItem = item.getParent();
 			if (item.isScopeRoot()) {
+				String scopeName = parentItem.getScopeName();
 				CBSItem cbsItem = Services.get(CBSService.class).allocateBudget(item.get_id(), parentItem.getScope_id(),
-						parentItem.getScopeName(), false);
+						scopeName, false);
 				BudgetCBS grid = (BudgetCBS) context.getContent();
 				grid.replaceItem(parent, cbsItem);
 				grid.refresh(parent);
