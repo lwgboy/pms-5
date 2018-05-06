@@ -20,7 +20,7 @@ public class AddCBSItem {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		context.selected(parent -> {
-			Editor.create("成本项编辑器", context, CBSItem.newSubItem((CBSItem) parent), true).setTitle("添加子项").ok((r, o) -> {
+			Editor.create("成本项编辑器", context, CBSItem.getInstance((CBSItem) parent), true).setTitle("添加子项").ok((r, o) -> {
 				BudgetCBS cbsGrid = (BudgetCBS) context.getContent();
 				cbsGrid.addCBSItem((CBSItem) parent, o);
 			});

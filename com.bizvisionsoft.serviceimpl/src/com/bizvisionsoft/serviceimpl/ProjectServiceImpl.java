@@ -65,12 +65,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			/////////////////////////////////////////////////////////////////////////////
 			// 2. 财务科目初始化
 			// 创建根
-			CBSItem cbsRoot = new CBSItem()//
-					.set_id(cbsRoot_id)//
-					.setScope_id(project.get_id())//
-					.setParent_id(cbsParent_id)//
-					.setName(project.getName())//
-					.setScopeRoot(true);// 区分这个节点是范围内的根节点
+			CBSItem cbsRoot = CBSItem.getInstance(project, true);//
+			cbsRoot.set_id(cbsRoot_id);//
+			cbsRoot.setParent_id(cbsParent_id);//
 
 			new CBSServiceImpl().insertCBSItem(cbsRoot);// 插入记录
 		} else {
@@ -161,6 +158,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足启动条件的项目。"));
 			return result;
 		}
+		
+		//TODO CBS金额汇总
 
 		// TODO 通知项目团队成员，项目已经启动
 
@@ -269,6 +268,5 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// TODO 删除检查
 		return delete(_id, Project.class);
 	}
-
 
 }

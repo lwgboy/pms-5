@@ -189,11 +189,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public CBSItem allocateBudget(ObjectId _id, ObjectId scope_id, String scopename, boolean scopeRoot) {
+	public CBSItem allocateBudget(ObjectId _id, ObjectId scope_id, String scopename) {
 		UpdateResult ur = c(WorkInfo.class).updateOne(new BasicDBObject("_id", scope_id),
 				new BasicDBObject("$set", new BasicDBObject("cbs_id", _id)));
 		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set",
-				new BasicDBObject("scope_id", scope_id).append("scopename", scopename).append("scopeRoot", scopeRoot)));
+				new BasicDBObject("scope_id", scope_id).append("scopename", scopename).append("scopeRoot", true)));
 
 		List<ObjectId> list = new ArrayList<ObjectId>();
 		list.add(_id);
@@ -201,7 +201,26 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		ur = c(CBSItem.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
 				new BasicDBObject("$set", new BasicDBObject("scope_id", scope_id).append("scopename", scopename)));
 		// TODO ´íÎó·µ»Ø
-		System.out.println(ur);
+
+		return get(_id);
+	}
+
+	@Override
+	public CBSItem unallocateBudget(ObjectId _id, ObjectId parent_id) {
+		CBSItem parent = get(parent_id);
+		UpdateResult ur = c(WorkInfo.class).updateOne(new BasicDBObject("cbs_id", _id),
+				new BasicDBObject("$unset", new BasicDBObject("cbs_id", 1)));
+		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id())
+						.append("scopename", parent.getScopeName()).append("scopeRoot", false)));
+
+		List<ObjectId> list = new ArrayList<ObjectId>();
+		list.add(_id);
+		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id");
+		ur = c(CBSItem.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
+				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id()).append("scopename",
+						parent.getScopeName())));
+		// TODO ´íÎó·µ»Ø
 
 		return get(_id);
 	}

@@ -11,6 +11,8 @@ public interface ICBSScope {
 	public ObjectId getScope_id();
 
 	public Date[] getCBSRange();
+	
+	public String getScopeName();
 
 
 }

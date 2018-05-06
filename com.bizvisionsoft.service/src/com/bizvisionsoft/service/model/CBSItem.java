@@ -8,6 +8,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
@@ -63,38 +64,28 @@ public class CBSItem {
 	@WriteValue
 	private ObjectId scope_id;
 
-	@SetValue
+	@Persistence
 	@ReadValue
 	private String scopename;
 
-	@Behavior({ "CBS/添加" })
+	@Behavior({ "CBS/编辑和设定" })
 	private boolean behaviourAdd(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
 		return this.scope_id.equals(scope_id);
-		// TODO 传参数问题
 	}
-	
-	@Behavior({ "CBS/分配" })
-	private boolean behaviourDistribute(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
-		return this.scope_id.equals(scope_id);
-		// TODO 传参数问题
-	}
-	
+
 	@Behavior({ "CBS/取消" })
 	private boolean behaviourUnDistribute(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
 		return !this.scope_id.equals(scope_id) && scopeRoot;
-		// TODO 传参数问题
 	}
-	
-	@Behavior({ "CBS/编辑" })
-	private boolean behaviourEditName(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
-		return this.scope_id.equals(scope_id) && !scopeRoot;
-		// TODO 传参数问题
+
+	@Behavior({ "CBS/编辑","CBS/分配" })
+	private boolean behaviourEditName() {
+		return !scopeRoot;
 	}
 
 	@Behavior({ "CBS/删除", "CBS/科目", "CBS/预算" })
-	private boolean behaviourEditAmount(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
-		return this.scope_id.equals(scope_id) && !scopeRoot && countSubCBSItems() == 0;
-		// TODO 传参数问题
+	private boolean behaviourEditAmount() {
+		return !scopeRoot && countSubCBSItems() == 0;
 	}
 
 	@SetValue
@@ -156,33 +147,28 @@ public class CBSItem {
 		return _id;
 	}
 
-	public CBSItem setParent_id(ObjectId parent_id) {
+	public void setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
-		return this;
 	}
 
-	public CBSItem set_id(ObjectId _id) {
+	public void set_id(ObjectId _id) {
 		this._id = _id;
-		return this;
 	}
 
-	public CBSItem setScope_id(ObjectId scope_id) {
+	public void setScope_id(ObjectId scope_id) {
 		this.scope_id = scope_id;
-		return this;
 	}
 
-	public CBSItem setScopeRoot(boolean scopeRoot) {
+	public void setScopeRoot(boolean scopeRoot) {
 		this.scopeRoot = scopeRoot;
-		return this;
 	}
 
 	public boolean isScopeRoot() {
 		return scopeRoot;
 	}
 
-	public CBSItem setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
 
 	public ObjectId getScope_id() {
@@ -193,9 +179,8 @@ public class CBSItem {
 		return scopename;
 	}
 
-	public CBSItem setId(String id) {
+	public void setId(String id) {
 		this.id = id;
-		return this;
 	}
 
 	public Double getBudgetSummary() {
@@ -250,12 +235,42 @@ public class CBSItem {
 
 	}
 
-	public static CBSItem newSubItem(CBSItem parent) {
-		return new CBSItem().setParent_id(parent.get_id()).setScope_id(parent.getScope_id()).setScopeRoot(false);
+	public static CBSItem getInstance(CBSItem parent) {
+		CBSItem cbsItem = getInstance();
+
+		cbsItem.setParent_id(parent.get_id());
+		cbsItem.setScope_id(parent.getScope_id());
+		cbsItem.setScopeRoot(false);
+		cbsItem.setScopeName(parent.getScopeName());
+
+		return cbsItem;
+	}
+
+	public static CBSItem getInstance(ICBSScope cbsScope, boolean scopeRoot) {
+		CBSItem cbsItem = getInstance();
+		cbsItem.setScope_id(cbsScope.getScope_id());
+		cbsItem.setScopeName(cbsScope.getScopeName());
+		cbsItem.setScopeRoot(scopeRoot);
+
+		return cbsItem;
+	}
+
+	public static CBSItem getInstance() {
+		CBSItem cbsItem = new CBSItem();
+		cbsItem.set_id(new ObjectId());
+		return cbsItem;
+	}
+
+	private void setScopeName(String scopeName) {
+		this.scopename = scopeName;
 	}
 
 	public CBSItem getParent() {
 		return parent;
+	}
+
+	public ObjectId getParent_id() {
+		return parent_id;
 	}
 
 	public void addChild(CBSItem child) {
