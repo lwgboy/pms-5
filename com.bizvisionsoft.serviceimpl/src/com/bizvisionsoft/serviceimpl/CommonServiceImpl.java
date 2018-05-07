@@ -15,6 +15,7 @@ import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
+import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -256,6 +257,26 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 
 		return c(AccountItem.class).aggregate(pipeline).into(new ArrayList<AccountItem>());
+	}
+
+	@Override
+	public List<Message> listMessage(BasicDBObject condition, String userId) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			condition.put("filter", filter = new BasicDBObject());
+		}
+		filter.put("receiver", userId);
+		condition.put("sort",new BasicDBObject("sendDate",-1));
+		return createDataSet(condition, Message.class);
+	}
+
+	@Override
+	public long countMessage(BasicDBObject filter, String userId) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.put("receiver", userId);
+		return count(filter, Message.class);
 	}
 
 }

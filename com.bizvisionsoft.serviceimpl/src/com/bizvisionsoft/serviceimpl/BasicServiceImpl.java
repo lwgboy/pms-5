@@ -59,20 +59,29 @@ public class BasicServiceImpl {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		return query(skip, limit, filter, clazz);
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		return query(skip, limit, filter, sort, clazz);
 	}
 
 	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, Class<T> clazz) {
+		return query(skip, limit, filter, null, clazz);
+	}
+
+	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, Class<T> clazz) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
+
 
 		List<T> result = new ArrayList<T>();
 		c(clazz).aggregate(pipeline).into(result);
