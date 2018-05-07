@@ -794,6 +794,12 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "161a9e24569",
+            "defaultAssembly": false
+          },
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "1623cfdd178",
             "defaultAssembly": true
           }
         ]
