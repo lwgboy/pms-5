@@ -99,4 +99,10 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	public CBSItem unallocateBudget(@PathParam("_id") ObjectId _id, @PathParam("parent_id") ObjectId parent_id);
 
+	@PUT
+	@Path("/_id/{_id}/calculation/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CBSItem calculationBudget(@PathParam("_id") ObjectId _id);
+
 }
