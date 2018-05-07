@@ -28,7 +28,7 @@ public class CreateRootTask {
 		if(project.isStageEnable()) {
 			title = "创建阶段";
 			editor = bruiService.getAssembly("甘特图阶段工作编辑器");
-			workInfo.setManageLevel("level1_task").setStage(true);
+			workInfo.setManageLevel("1").setStage(true);
 		}else {
 			title = "创建工作";
 			editor = bruiService.getAssembly("甘特图工作编辑器");

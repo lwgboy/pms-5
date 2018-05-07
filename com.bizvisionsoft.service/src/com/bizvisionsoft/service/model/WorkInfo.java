@@ -268,7 +268,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	@Persistence("planStart")
 	private Date start_date;
 
-	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/end_date" })
+	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
 	public void setStart_date(Date start_date) {
 		checkDate(start_date, this.end_date, this.deadline);
 		this.start_date = start_date;
@@ -340,7 +340,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	@GetValue("planDuration")
 	public int getDuration() {
 		if (end_date != null && start_date != null) {
-			return (int) (end_date.getTime() - start_date.getTime()) / (1000 * 3600 * 24);
+			return (int)( (end_date.getTime() - start_date.getTime()) / (1000 * 3600 * 24));
 		} else {
 			return 0;
 		}
