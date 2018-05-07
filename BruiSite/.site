@@ -13827,7 +13827,22 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16339312386",
+            "name": "Ã·Ωª",
+            "image": "/img/submit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.cbs.action.SubminBudgetSubject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,

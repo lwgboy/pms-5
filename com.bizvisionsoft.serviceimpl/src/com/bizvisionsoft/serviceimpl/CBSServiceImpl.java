@@ -1,7 +1,9 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -18,6 +20,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
@@ -221,6 +224,21 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id()).append("scopename",
 						parent.getScopeName())));
 		// TODO ´íÎó·µ»Ø
+
+		return get(_id);
+	}
+
+	@Override
+	public CBSItem calculationBudget(ObjectId _id) {
+		List<CBSSubject> subjectBudget = getSubjectBudget(_id);
+		Map<String, Double> cbsPeriods = new HashMap<String, Double>();
+		for (CBSSubject cbsSubject : subjectBudget) {
+			String id = cbsSubject.getId();
+			Double budget = cbsPeriods.get(id);
+			cbsPeriods.put(id,
+					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0) + (budget != null ? budget : 0));
+		}
+		c(CBSPeriod.class).deleteMany(new BasicDBObject("cbsItem_id", _id));
 
 		return get(_id);
 	}
