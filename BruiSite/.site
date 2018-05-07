@@ -13408,8 +13408,23 @@
         "actions": [],
         "rowActions": [
           {
+            "id": "1633027393f",
+            "name": "取消",
+            "text": "取消分配",
+            "image": "",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.cbs.action.UnDistributeCBSBudget",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "customized"
+          },
+          {
             "id": "162fd48f205",
-            "name": "菜单",
+            "name": "编辑和设定",
             "image": "/img/menu.svg",
             "openContent": false,
             "propagate": false,
@@ -13428,7 +13443,7 @@
                 "forceText": false,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": true,
+                "objectBehavier": false,
                 "type": "customized"
               },
               {
@@ -13505,25 +13520,10 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
                 "type": "customized"
-              },
-              {
-                "id": "1633027393f",
-                "name": "取消",
-                "text": "取消分配",
-                "image": "/img/delete_w.svg",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.cbs.action.UnDistributeCBSBudget",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "style": "serious",
-                "editorAssemblyEditable": false,
-                "objectBehavier": true,
-                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           }
         ],

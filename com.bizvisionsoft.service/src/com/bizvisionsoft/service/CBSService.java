@@ -87,10 +87,16 @@ public interface CBSService {
 	public CBSSubject upsertCBSSubjectBudget(CBSSubject o);
 
 	@PUT
-	@Path("/_id/{_id}/allocate/{scope_id}/{scopename}/{scopeRoot}")
+	@Path("/_id/{_id}/allocate/{scope_id}/{scopename}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public CBSItem allocateBudget(@PathParam("_id") ObjectId _id, @PathParam("scope_id") ObjectId scope_id,
-			@PathParam("scopename") String scopename,@PathParam("scopeRoot") boolean scopeRoot);
+			@PathParam("scopename") String scopename);
+
+	@PUT
+	@Path("/_id/{_id}/unallocate/{parent_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CBSItem unallocateBudget(@PathParam("_id") ObjectId _id, @PathParam("parent_id") ObjectId parent_id);
 
 }

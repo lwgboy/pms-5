@@ -264,7 +264,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 计划开始日期, 编辑器保存时需要校验
-	@ReadValue({"start_date","planStart"})
+	@ReadValue({ "start_date", "planStart" })
 	@Persistence("planStart")
 	private Date start_date;
 
@@ -289,7 +289,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 计划完成日期, 编辑器保存时需要校验
-	@ReadValue({"end_date","planFinish"})
+	@ReadValue({ "end_date", "planFinish" })
 	@Persistence("planFinish")
 	private Date end_date;
 
@@ -366,7 +366,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 
 	@Persistence
 	private boolean stage;
-	
+
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -482,16 +482,15 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Structure("项目进度计划表/list")
-	private List<WorkInfo> listChildren(){
+	private List<WorkInfo> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
 	@Structure("项目进度计划表/count")
-	private long countChildren(){
+	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
 
-	
 	public WorkInfo set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
@@ -596,6 +595,11 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	}
 
 	@Override
+	public String getScopeName() {
+		return text;
+	}
+
+	@Override
 	public Date[] getCBSRange() {
 		return ServicesLoader.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
 	}
@@ -629,7 +633,6 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.obs_id = obs_id;
 	}
 
-	
 	public String getStatus() {
 		return status;
 	}

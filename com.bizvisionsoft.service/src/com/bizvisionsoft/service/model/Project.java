@@ -445,6 +445,11 @@ public class Project implements IOBSScope, ICBSScope {
 	}
 
 	@Override
+	public String getScopeName() {
+		return name;
+	}
+
+	@Override
 	public ObjectId getCBS_id() {
 		return cbs_id;
 	}
