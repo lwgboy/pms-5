@@ -20,7 +20,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
@@ -197,14 +196,18 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new BasicDBObject("$set", new BasicDBObject("cbs_id", _id)));
 		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set",
 				new BasicDBObject("scope_id", scope_id).append("scopename", scopename).append("scopeRoot", true)));
+		if (ur.getModifiedCount() == 0) {
 
+		}
 		List<ObjectId> list = new ArrayList<ObjectId>();
 		list.add(_id);
 		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id");
 		ur = c(CBSItem.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
 				new BasicDBObject("$set", new BasicDBObject("scope_id", scope_id).append("scopename", scopename)));
 		// TODO ´íÎó·µ»Ø
+		if (ur.getModifiedCount() == 0) {
 
+		}
 		return get(_id);
 	}
 
@@ -217,6 +220,9 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id())
 						.append("scopename", parent.getScopeName()).append("scopeRoot", false)));
 
+		if (ur.getModifiedCount() == 0) {
+
+		}
 		List<ObjectId> list = new ArrayList<ObjectId>();
 		list.add(_id);
 		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id");
@@ -225,20 +231,33 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 						parent.getScopeName())));
 		// TODO ´íÎó·µ»Ø
 
+		if (ur.getModifiedCount() == 0) {
+
+		}
 		return get(_id);
 	}
 
 	@Override
 	public CBSItem calculationBudget(ObjectId _id) {
 		List<CBSSubject> subjectBudget = getSubjectBudget(_id);
-		Map<String, Double> cbsPeriods = new HashMap<String, Double>();
+		Map<String, Double> cbsPeriodMap = new HashMap<String, Double>();
 		for (CBSSubject cbsSubject : subjectBudget) {
 			String id = cbsSubject.getId();
-			Double budget = cbsPeriods.get(id);
-			cbsPeriods.put(id,
+			Double budget = cbsPeriodMap.get(id);
+			cbsPeriodMap.put(id,
 					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0) + (budget != null ? budget : 0));
 		}
 		c(CBSPeriod.class).deleteMany(new BasicDBObject("cbsItem_id", _id));
+
+		List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
+		for (String id : cbsPeriodMap.keySet()) {
+			CBSPeriod cbsPeriod = new CBSPeriod();
+			cbsPeriod.setCBSItem_id(_id);
+			cbsPeriod.setId(id);
+			cbsPeriod.setBudget(cbsPeriodMap.get(id));
+			cbsPeriods.add(cbsPeriod);
+		}
+		c(CBSPeriod.class).insertMany(cbsPeriods);
 
 		return get(_id);
 	}

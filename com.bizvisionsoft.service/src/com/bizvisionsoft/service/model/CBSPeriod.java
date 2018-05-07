@@ -120,4 +120,24 @@ public class CBSPeriod {
 		return id;
 	}
 
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
+
+	public void setBudget(Double budget) {
+		this.budget = budget;
+	}
+
+	public void setCbsItem_id(ObjectId cbsItem_id) {
+		this.cbsItem_id = cbsItem_id;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 }

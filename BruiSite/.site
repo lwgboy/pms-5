@@ -1317,7 +1317,7 @@
           {
             "id": "162fff9a646",
             "name": "项目基本信息",
-            "switchContentToAssemblyId": "16305720b4b",
+            "switchContentToAssemblyId": "163399430d8",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -11762,7 +11762,7 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162dbff5e91",
@@ -11886,21 +11886,6 @@
             "selectorAssemblyId": "162ba875640",
             "maxFileSize": 0,
             "timeLimit": 0
-          },
-          {
-            "id": "162dd8a666d",
-            "name": "organization",
-            "text": "链接到组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": false,
-            "textLimit": 0,
-            "selectorAssemblyId": "1621d403c8b",
-            "maxFileSize": 0,
-            "timeLimit": 0
           }
         ],
         "gridAutoColumnWidth": false,
@@ -11918,7 +11903,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162dc3fab0c",
@@ -12499,7 +12484,7 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162dd7c1893",
@@ -12624,21 +12609,6 @@
             "selectorAssemblyId": "162ba875640",
             "maxFileSize": 0,
             "timeLimit": 0
-          },
-          {
-            "id": "162dd8dce76",
-            "name": "organization",
-            "text": "链接到组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": false,
-            "textLimit": 0,
-            "selectorAssemblyId": "1621d403c8b",
-            "maxFileSize": 0,
-            "timeLimit": 0
           }
         ],
         "gridAutoColumnWidth": false,
@@ -12656,7 +12626,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162dd81536e",
@@ -12707,21 +12677,6 @@
             "textLimit": 0,
             "maxFileSize": 0,
             "timeLimit": 0
-          },
-          {
-            "id": "162dd8d251a",
-            "name": "organization",
-            "text": "链接到组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": false,
-            "textLimit": 0,
-            "selectorAssemblyId": "1621d403c8b",
-            "maxFileSize": 0,
-            "timeLimit": 0
           }
         ],
         "gridAutoColumnWidth": false,
@@ -12739,7 +12694,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162dd95b76b",
@@ -13830,13 +13785,14 @@
         "actions": [
           {
             "id": "16339312386",
-            "name": "提交",
-            "image": "/img/submit_w.svg",
+            "name": "提交科目预算",
+            "text": "提交科目预算",
+            "image": "",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cbs.action.SubminBudgetSubject",
             "openContent": false,
             "propagate": false,
-            "forceText": false,
+            "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
@@ -16507,6 +16463,86 @@
         "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "163399430d8",
+        "name": "项目基本信息（创建状态）",
+        "layout": [
+          {
+            "id": "1630572e84f",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 2,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": true,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "16305416779",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "163056fb075",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              }
+            ]
+          }
+        ],
+        "stickerTitle": "项目",
+        "folderId": "1631b7d0058",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false
