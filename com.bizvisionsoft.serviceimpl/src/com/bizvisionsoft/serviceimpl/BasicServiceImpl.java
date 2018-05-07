@@ -162,6 +162,10 @@ public class BasicServiceImpl {
 		return Service.col(clazz);
 	}
 
+	protected <T> MongoCollection<T> c(String col,Class<T> clazz) {
+		return Service.db().getCollection(col, clazz);
+	}
+	
 	protected MongoCollection<Document> c(String name) {
 		return Service.col(name);
 	}
