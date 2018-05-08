@@ -27,7 +27,7 @@ public class EventHandler {
 		project = (Project) context.getRootInput();
 	}
 
-	@Listener("项目甘特图/onTaskLinkBefore")
+	@Listener({"项目甘特图/onTaskLinkBefore","项目甘特图(编辑)/onTaskLinkBefore"})
 	public void onTaskLinkBefore(GanttEvent event) {
 		WorkLinkInfo input = WorkLinkInfo.newInstance(project.get_id()).setSource((WorkInfo) event.linkSource)
 				.setTarget((WorkInfo) event.linkTarget).setType(event.linkType);
@@ -38,7 +38,7 @@ public class EventHandler {
 		});
 	}
 
-	@Listener("项目甘特图/onLinkDblClick")
+	@Listener({"项目甘特图/onLinkDblClick","项目甘特图(编辑)/onLinkDblClick"})
 	public void onLinkDblClick(GanttEvent event) {
 		Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
@@ -46,7 +46,7 @@ public class EventHandler {
 		});
 	}
 
-	@Listener("项目甘特图/onTaskDblClick")
+	@Listener({"项目甘特图/onTaskDblClick","项目甘特图(编辑)/onTaskDblClick"})
 	public void onTaskDblClick(GanttEvent event) {
 		String editor ;
 		if(((WorkInfo)event.task).isStage()) {

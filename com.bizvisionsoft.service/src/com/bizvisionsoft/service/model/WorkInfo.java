@@ -274,7 +274,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.start_date = start_date;
 	}
 
-	@WriteValue("项目甘特图/start_date")
+	@WriteValue({"项目甘特图/start_date","项目甘特图(编辑)/start_date"})
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
 		if (!Util.equals(newDate, this.start_date)) {
@@ -299,7 +299,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.end_date = end_date;
 	}
 
-	@WriteValue("项目甘特图/end_date")
+	@WriteValue({"项目甘特图/end_date","项目甘特图(编辑)/end_date"})
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
 		if (!Util.equals(newDate, this.end_date)) {
@@ -323,7 +323,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.deadline = deadline;
 	}
 
-	@WriteValue("项目甘特图/deadline")
+	@WriteValue({"项目甘特图/deadline","项目甘特图(编辑)/deadline"})
 	public boolean setDeadline(String deadline) {
 		Date newDate = Util.str_date(deadline);
 		if (!Util.equals(newDate, this.deadline)) {
