@@ -434,6 +434,10 @@ public class Project implements IOBSScope, ICBSScope {
 	public String getName() {
 		return name;
 	}
+	
+	public String getId() {
+		return id;
+	}
 
 	public ObjectId getProjectSet_id() {
 		return projectSet_id;

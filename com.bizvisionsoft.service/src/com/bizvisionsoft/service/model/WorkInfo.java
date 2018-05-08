@@ -636,4 +636,8 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	public String getStatus() {
 		return status;
 	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

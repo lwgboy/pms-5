@@ -11,6 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.WorkInfo;
 
 public class CreateRootTask {
@@ -28,7 +29,7 @@ public class CreateRootTask {
 		if(project.isStageEnable()) {
 			title = "创建阶段";
 			editor = bruiService.getAssembly("甘特图阶段工作编辑器");
-			workInfo.setManageLevel("1").setStage(true);
+			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);
 		}else {
 			title = "创建工作";
 			editor = bruiService.getAssembly("甘特图工作编辑器");

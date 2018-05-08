@@ -13524,7 +13524,22 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "1633e89aaa4",
+            "name": "按阶段创建",
+            "text": "按阶段创建",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.cbs.action.AddCBSItemByStage",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,

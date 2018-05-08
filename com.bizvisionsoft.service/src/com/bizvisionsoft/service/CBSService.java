@@ -105,4 +105,10 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	public CBSItem calculationBudget(@PathParam("_id") ObjectId _id);
 
+	@PUT
+	@Path("/_id/{_id}/addcbsbystage/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CBSItem addCBSItemByStage(@PathParam("_id") ObjectId _id,@PathParam("project_id")  ObjectId project_id);
+
 }
