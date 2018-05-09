@@ -16783,21 +16783,6 @@
             "type": "customized"
           },
           {
-            "id": "162a33a3bd6",
-            "name": "排程",
-            "text": "排程",
-            "image": "/img/schedule_16_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.Reschedule",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
             "id": "16251a062df",
             "name": "设置",
             "text": "设置",
