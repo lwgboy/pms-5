@@ -263,18 +263,32 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 计划开始日期, 编辑器保存时需要校验
+	/**
+	 * 计划开始日期, 编辑器保存时需要校验
+	 */
 	@ReadValue({ "start_date", "planStart" })
 	@Persistence("planStart")
 	private Date start_date;
 
 	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
-	public void setStart_date(Date start_date) {
+	public WorkInfo setStart_date(Date start_date) {
 		checkDate(start_date, this.end_date, this.deadline);
 		this.start_date = start_date;
+		return this;
 	}
 
+	/**
+	 * <b>！！！Gantt图控件反写的方法 这个方法比较特殊！！！</b>
+	 * <p>
+	 * 注意返回true和false的目的是告知是否更改了该字段的值
+	 * 
+	 * @param start_date
+	 *            <p>
+	 *            接收的是JS传来的日期字符串。格式为yyyy-MM-dd'T'HH:mm:ss.SSS UTC
+	 *            <p>
+	 *            使用Util.str_date()方法可以转换
+	 * @return
+	 */
 	@WriteValue({ "项目甘特图/start_date", "项目甘特图(编辑)/start_date" })
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
@@ -299,9 +313,10 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	private Date end_date;
 
 	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
-	public void setEnd_date(Date end_date) {
+	public WorkInfo setEnd_date(Date end_date) {
 		checkDate(this.start_date, end_date, this.deadline);
 		this.end_date = end_date;
+		return this;
 	}
 
 	@WriteValue({ "项目甘特图/end_date", "项目甘特图(编辑)/end_date" })
@@ -587,9 +602,10 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	public String getText() {
 		return text;
 	}
-
-	public void setText(String text) {
+	
+	public WorkInfo setText(String text) {
 		this.text = text;
+		return this;
 	}
 
 	public Project getProject() {
