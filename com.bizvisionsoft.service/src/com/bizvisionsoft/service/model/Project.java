@@ -37,7 +37,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope {
+public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘
@@ -383,6 +383,9 @@ public class Project implements IOBSScope, ICBSScope {
 	@Persistence
 	private ObjectId cbs_id;
 
+	@Persistence
+	private ObjectId wbs_id;
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -427,6 +430,11 @@ public class Project implements IOBSScope, ICBSScope {
 		return this;
 	}
 
+	public Project setWBS_id(ObjectId wbs_id) {
+		this.wbs_id = wbs_id;
+		return this;
+	}
+
 	public ObjectId getOBS_id() {
 		return obs_id;
 	}
@@ -434,7 +442,7 @@ public class Project implements IOBSScope, ICBSScope {
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -474,6 +482,11 @@ public class Project implements IOBSScope, ICBSScope {
 	public Project setStatus(String status) {
 		this.status = status;
 		return this;
+	}
+
+	@Override
+	public ObjectId getWBS_id() {
+		return wbs_id;
 	}
 
 	@Override

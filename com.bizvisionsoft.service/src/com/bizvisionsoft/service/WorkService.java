@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -121,5 +122,82 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> start(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@GET
+	@Path("/_id/{_id}/daterange")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}/scheduleplan/checkout/{userId}/{sessionId}/{cancelCheckOutSubSchedule}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result checkOutSchedulePlan(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
+			@PathParam("sessionId") String sessionId,
+			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
+
+	@GET
+	@Path("/_id/{_id}/scheduleplan/checkoutunauthorized/{userId}/{sessionId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean checkOutSchedulePlanUnauthorized(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
+			@PathParam("sessionId") String sessionId);
+
+	@POST
+	@Path("/gantt/tasksspace")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("data")
+	public List<WorkInfo> createTaskDataSetBySpace(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+
+	@POST
+	@Path("/gantt/linksspace")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("links")
+	public List<WorkLinkInfo> createLinkDataSetBySpace(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+
+	@GET
+	@Path("/_id/{_id}/daterangespace")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Date> getPlanDateRangeBySpace(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/taskspace/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkInfo insertWorkBySpace(WorkInfo work);
+
+	@POST
+	@Path("/linkspace/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkLinkInfo insertLinkBySpace(WorkLinkInfo link);
+
+	@PUT
+	@Path("/taskspace/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateWorkBySpace(BasicDBObject filterAndUpdate);
+
+	@PUT
+	@Path("/linkspace/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateLinkBySpace(BasicDBObject filterAndUpdate);
+
+	@DELETE
+	@Path("/taskspace/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteWorkBySpace(@PathParam("_id") ObjectId _id);
+
+	@DELETE
+	@Path("/linkspace/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteLinkBySpace(@PathParam("_id") ObjectId _id);
 
 }

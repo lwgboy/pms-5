@@ -25,21 +25,20 @@ public class CreateRootTask {
 		Project project = (Project) context.getRootInput();
 		String title;
 		Assembly editor;
-		WorkInfo workInfo = WorkInfo.newInstance(project.get_id());
-		if(project.isStageEnable()) {
+		WorkInfo workInfo = WorkInfo.newInstance(project.get_id(), project.getWBS_id());
+		if (project.isStageEnable()) {
 			title = "创建阶段";
 			editor = bruiService.getAssembly("甘特图阶段工作编辑器");
 			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);
-		}else {
+		} else {
 			title = "创建工作";
 			editor = bruiService.getAssembly("甘特图工作编辑器");
 		}
-		
-		new Editor<WorkInfo>(editor, context).setTitle(title)
-				.setInput(workInfo).ok((r, wi) -> {
-					GanttPart content = (GanttPart) context.getContent();
-					content.addTask(wi, wi.index());
-				});
+
+		new Editor<WorkInfo>(editor, context).setTitle(title).setInput(workInfo).ok((r, wi) -> {
+			GanttPart content = (GanttPart) context.getContent();
+			content.addTask(wi, wi.index());
+		});
 	}
 
 }

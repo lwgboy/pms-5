@@ -260,6 +260,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		}
 		return fullName;
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,7 +275,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.start_date = start_date;
 	}
 
-	@WriteValue({"项目甘特图/start_date","项目甘特图(编辑)/start_date"})
+	@WriteValue({ "项目甘特图/start_date", "项目甘特图(编辑)/start_date" })
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
 		if (!Util.equals(newDate, this.start_date)) {
@@ -283,6 +284,10 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		} else {
 			return false;
 		}
+	}
+
+	public Date getStart_date() {
+		return start_date;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +304,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.end_date = end_date;
 	}
 
-	@WriteValue({"项目甘特图/end_date","项目甘特图(编辑)/end_date"})
+	@WriteValue({ "项目甘特图/end_date", "项目甘特图(编辑)/end_date" })
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
 		if (!Util.equals(newDate, this.end_date)) {
@@ -308,6 +313,10 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		} else {
 			return false;
 		}
+	}
+
+	public Date getEnd_date() {
+		return end_date;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -323,7 +332,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.deadline = deadline;
 	}
 
-	@WriteValue({"项目甘特图/deadline","项目甘特图(编辑)/deadline"})
+	@WriteValue({ "项目甘特图/deadline", "项目甘特图(编辑)/deadline" })
 	public boolean setDeadline(String deadline) {
 		Date newDate = Util.str_date(deadline);
 		if (!Util.equals(newDate, this.deadline)) {
@@ -340,7 +349,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	@GetValue("planDuration")
 	public int getDuration() {
 		if (end_date != null && start_date != null) {
-			return (int)( (end_date.getTime() - start_date.getTime()) / (1000 * 3600 * 24));
+			return (int) ((end_date.getTime() - start_date.getTime()) / (1000 * 3600 * 24));
 		} else {
 			return 0;
 		}
@@ -579,6 +588,10 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		return text;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public Project getProject() {
 		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id))
 				.orElse(null);
@@ -639,5 +652,37 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Persistence
+	private String checkOutUserId;
+
+	@Persistence
+	private Date checkOutDate;
+
+	@Persistence
+	private String checkOutSessionId;
+
+	@Persistence
+	private ObjectId checkOutWorkId;
+
+	public void setCheckOutUserId(String checkOutUserId) {
+		this.checkOutUserId = checkOutUserId;
+	}
+
+	public void setCheckOutDate(Date checkOutDate) {
+		this.checkOutDate = checkOutDate;
+	}
+
+	public void setCheckOutSessionId(String checkOutSessionId) {
+		this.checkOutSessionId = checkOutSessionId;
+	}
+
+	public void setCheckOutWorkId(ObjectId checkOutWorkId) {
+		this.checkOutWorkId = checkOutWorkId;
+	}
+
+	public String getCheckOutUserId() {
+		return checkOutUserId;
 	}
 }

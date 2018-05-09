@@ -142,4 +142,132 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return new ArrayList<Result>();
 	}
 
+	@Override
+	public List<Date> getPlanDateRange(ObjectId _id) {
+		WorkInfo data = c(WorkInfo.class).find(new BasicDBObject("_id", _id)).first();
+		ArrayList<Date> result = new ArrayList<Date>();
+		result.add(data.getStart_date());
+		result.add(data.getEnd_date());
+		return result;
+	}
+
+	@Override
+	public Result checkOutSchedulePlan(ObjectId _id, String userId, String sessionId,
+			boolean cancelCheckOutSubSchedule) {
+		// if (!checkOutSchedulePlanUnauthorized(_id, userId, sessionId)) {
+		// return Result.checkOutSchedulePlan("您没有编辑计划的权限。", Result.TYPE_UNAUTHORIZED);
+		// }
+
+		List<ObjectId> inputIds = new ArrayList<ObjectId>();
+		inputIds.add(_id);
+		inputIds = getDesentItems(inputIds, "work", "parent_id");
+
+		long count = c("workspace", WorkInfo.class).count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+				.append("checkOutUserId", new BasicDBObject("$ne", userId)));
+
+		if (count > 0) {
+			if (!cancelCheckOutSubSchedule) {
+				return Result.checkOutSchedulePlan("下级进度已被检出进行编辑，请确认是否取消下级的检出。", Result.TYPE_HASCHECKOUTSUB);
+			} else {
+				List<ObjectId> cancelInputIds = getDesentItems(inputIds, "workspace", "parent_id");
+				c("workspace", WorkInfo.class)
+						.deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", cancelInputIds)));
+			}
+		}
+
+		count = c("workspace", WorkInfo.class).count(
+				new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds)).append("checkOutUserId", userId));
+		if (count <= 0) {
+			List<WorkInfo> works = getWorks(inputIds);
+			if (works != null && works.size() > 0) {
+				for (WorkInfo workInfo : works) {
+					workInfo.setCheckOutUserId(userId);
+					workInfo.setCheckOutDate(new Date());
+					workInfo.setCheckOutSessionId(sessionId);
+					workInfo.setCheckOutWorkId(_id);
+				}
+				c("workspace", WorkInfo.class).insertMany(works);
+			}
+
+			List<WorkLinkInfo> workLinkInfos = c(WorkLinkInfo.class)
+					.find(new BasicDBObject("$or",
+							new BasicDBObject[] { new BasicDBObject("source", new BasicDBObject("$in", inputIds)),
+									new BasicDBObject("target", new BasicDBObject("$in", inputIds)) }))
+					.into(new ArrayList<WorkLinkInfo>());
+			if (workLinkInfos != null && workLinkInfos.size() > 0) {
+				for (WorkLinkInfo workLinkInfo : workLinkInfos) {
+					workLinkInfo.setCheckOutUserId(userId);
+					workLinkInfo.setCheckOutDate(new Date());
+					workLinkInfo.setCheckOutSessionId(sessionId);
+					workLinkInfo.setCheckOutWorkId(_id);
+
+				}
+				c("worklinksspace", WorkLinkInfo.class).insertMany(workLinkInfos);
+			}
+		}
+
+		return Result.checkOutSchedulePlan("检出成功。", Result.TYPE_SUCCESS);
+	}
+
+	public boolean checkOutSchedulePlanUnauthorized(ObjectId _id, String userId, String sessionId) {
+		WorkInfo workInfo = c("workspace", WorkInfo.class).find(new BasicDBObject("_id", _id)).first();
+		if (workInfo != null) {
+			return userId.equals(workInfo.getCheckOutUserId());
+		}
+		return false;
+	}
+
+	private List<WorkInfo> getWorks(List<ObjectId> inputIds) {
+		return c(WorkInfo.class).find(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds)))
+				.into(new ArrayList<WorkInfo>());
+	}
+
+	@Override
+	public List<WorkInfo> createTaskDataSetBySpace(BasicDBObject condition) {
+		return c("workspace", WorkInfo.class).find(condition).into(new ArrayList<WorkInfo>());
+	}
+
+	@Override
+	public List<WorkLinkInfo> createLinkDataSetBySpace(BasicDBObject condition) {
+		return c("worklinksspace", WorkLinkInfo.class).find(condition).into(new ArrayList<WorkLinkInfo>());
+	}
+
+	@Override
+	public List<Date> getPlanDateRangeBySpace(ObjectId _id) {
+		WorkInfo data = c("workspace", WorkInfo.class).find(new BasicDBObject("_id", _id)).first();
+		ArrayList<Date> result = new ArrayList<Date>();
+		result.add(data.getStart_date());
+		result.add(data.getEnd_date());
+		return result;
+	}
+
+	@Override
+	public WorkInfo insertWorkBySpace(WorkInfo work) {
+		return insert(work, "workspace", WorkInfo.class);
+	}
+
+	@Override
+	public WorkLinkInfo insertLinkBySpace(WorkLinkInfo link) {
+		return insert(link, "worklinksspace", WorkLinkInfo.class);
+	}
+
+	@Override
+	public long updateWorkBySpace(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "workspace", WorkInfo.class);
+	}
+
+	@Override
+	public long updateLinkBySpace(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "worklinksspace", WorkLinkInfo.class);
+	}
+
+	@Override
+	public long deleteWorkBySpace(ObjectId _id) {
+		return delete(_id, "workspace", WorkInfo.class);
+	}
+
+	@Override
+	public long deleteLinkBySpace(ObjectId _id) {
+		return delete(_id, "worklinksspace", WorkLinkInfo.class);
+	}
 }

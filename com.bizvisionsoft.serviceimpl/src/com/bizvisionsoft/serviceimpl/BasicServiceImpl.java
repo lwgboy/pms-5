@@ -29,8 +29,24 @@ public class BasicServiceImpl {
 		return cnt;
 	}
 
+	protected <T> long update(BasicDBObject fu, String cname, Class<T> clazz) {
+		BasicDBObject filter = (BasicDBObject) fu.get("filter");
+		BasicDBObject update = (BasicDBObject) fu.get("update");
+		update.remove("_id");
+		UpdateOptions option = new UpdateOptions();
+		option.upsert(false);
+		UpdateResult updateMany = c(cname, clazz).updateMany(filter, update, option);
+		long cnt = updateMany.getModifiedCount();
+		return cnt;
+	}
+
 	protected <T> T insert(T obj, Class<T> clazz) {
 		c(clazz).insertOne(obj);
+		return obj;
+	}
+
+	protected <T> T insert(T obj, String cname, Class<T> clazz) {
+		c(cname, clazz).insertOne(obj);
 		return obj;
 	}
 
@@ -41,6 +57,10 @@ public class BasicServiceImpl {
 
 	protected <T> long delete(ObjectId _id, Class<T> clazz) {
 		return c(clazz).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+	}
+
+	protected <T> long delete(ObjectId _id, String cname, Class<T> clazz) {
+		return c(cname, clazz).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
 	}
 
 	protected <T> long count(BasicDBObject filter, Class<T> clazz) {
@@ -81,7 +101,6 @@ public class BasicServiceImpl {
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-
 
 		List<T> result = new ArrayList<T>();
 		c(clazz).aggregate(pipeline).into(result);
@@ -162,10 +181,10 @@ public class BasicServiceImpl {
 		return Service.col(clazz);
 	}
 
-	protected <T> MongoCollection<T> c(String col,Class<T> clazz) {
+	protected <T> MongoCollection<T> c(String col, Class<T> clazz) {
 		return Service.db().getCollection(col, clazz);
 	}
-	
+
 	protected MongoCollection<Document> c(String name) {
 		return Service.col(name);
 	}

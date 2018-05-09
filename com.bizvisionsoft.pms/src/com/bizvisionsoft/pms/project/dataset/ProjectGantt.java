@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruiengine.Brui;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.Util;
@@ -30,71 +31,150 @@ public class ProjectGantt {
 	@Inject
 	private IBruiService brui;
 
-
 	private WorkService workService;
+
+	private ObjectId work_id;
 
 	private ObjectId project_id;
 
+	private String userId;
+
+	private String sessionId;
+
 	@Init
 	private void init() {
+		work_id = ((Project) context.getRootInput()).getWBS_id();
 		project_id = ((Project) context.getRootInput()).get_id();
+		userId = brui.getCurrentUserId();
+		sessionId = Brui.sessionManager.getSessionId();
 		workService = Services.get(WorkService.class);
 	}
-	
 
-	@DataSet({"项目甘特图/data","项目甘特图(编辑)/data","项目甘特图（无表格查看）/data"})
+	@DataSet({ "项目甘特图/data", "项目甘特图（无表格查看）/data" })
 	public List<WorkInfo> data() {
-		return workService.createTaskDataSet(new BasicDBObject("project_id", project_id));
+		return workService.createTaskDataSet(new BasicDBObject("parent_id", work_id));
 	}
-	
 
-	@DataSet({"项目甘特图/links","项目甘特图(编辑)/links","项目甘特图（无表格查看）/links"})
+	@DataSet({ "项目甘特图/links", "项目甘特图（无表格查看）/links" })
 	public List<WorkLinkInfo> links() {
 		return workService.createLinkDataSet(new BasicDBObject("project_id", project_id));
 	}
 
-	@DataSet({"项目甘特图/initDateRange","项目甘特图(编辑)/initDateRange","项目甘特图（无表格查看）/initDateRange"})
+	@DataSet({ "项目甘特图/initDateRange", "项目甘特图（无表格查看）/initDateRange" })
 	public Date[] initDateRange() {
 		return Services.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
+
 	}
 
-	@Listener({"项目甘特图/onAfterTaskAdd","项目甘特图(编辑)/onAfterTaskAdd"}) 
+	@Listener({ "项目甘特图/onAfterTaskAdd" })
 	public void onAfterTaskAdd(GanttEvent e) {
 		workService.insertWork((WorkInfo) e.task);
 		System.out.println(e.text);
 	}
 
-	@Listener({"项目甘特图/onAfterTaskUpdate","项目甘特图(编辑)/onAfterTaskUpdate"})
+	@Listener({ "项目甘特图/onAfterTaskUpdate" })
 	public void onAfterTaskUpdate(GanttEvent e) {
 		workService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson(e.task,  "_id")).bson());
+				.set(Util.getBson(e.task, "_id")).bson());
 		System.out.println(e.text);
 	}
 
-	@Listener({"项目甘特图/onAfterTaskDelete","项目甘特图(编辑)/onAfterTaskDelete"})
+	@Listener({ "项目甘特图/onAfterTaskDelete" })
 	public void onAfterTaskDelete(GanttEvent e) {
 		workService.deleteWork(new ObjectId(e.id));
 		System.out.println(e.text);
 	}
 
-	@Listener({"项目甘特图/onAfterLinkAdd","项目甘特图(编辑)/onAfterLinkAdd"})
+	@Listener({ "项目甘特图/onAfterLinkAdd" })
 	public void onAfterLinkAdd(GanttEvent e) {
 		workService.insertLink((WorkLinkInfo) e.link);
 		System.out.println(e.text);
 	}
 
-	@Listener({"项目甘特图/onAfterLinkUpdate","项目甘特图(编辑)/onAfterLinkUpdate"})
+	@Listener({ "项目甘特图/onAfterLinkUpdate" })
 	public void onAfterLinkUpdate(GanttEvent e) {
 		workService.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson(e.link,  "_id")).bson());
+				.set(Util.getBson(e.link, "_id")).bson());
 		System.out.println(e.text);
 	}
 
-	@Listener({"项目甘特图/onAfterLinkDelete","项目甘特图(编辑)/onAfterLinkDelete"})
+	@Listener({ "项目甘特图/onAfterLinkDelete" })
 	public void onAfterLinkDelete(GanttEvent e) {
 		workService.deleteLink(new ObjectId(e.id));
 		System.out.println(e.text);
 	}
-	
+
+	@DataSet({ "项目甘特图(编辑)/data" })
+	public List<WorkInfo> dataBySpace() {
+		return workService.createTaskDataSetBySpace(new BasicDBObject("parent_id", work_id));
+	}
+
+	@DataSet({ "项目甘特图(编辑)/links" })
+	public List<WorkLinkInfo> linksBySpace() {
+		return workService.createLinkDataSetBySpace(new BasicDBObject("checkOutWorkId", work_id));
+	}
+
+	@DataSet({ "项目甘特图(编辑)/initDateRange" })
+	public Date[] initDateRangeBySpace() {
+		return Services.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterTaskAdd" })
+	public void onAfterTaskAddBySpace(GanttEvent e) {
+		WorkInfo workInfo = (WorkInfo) e.task;
+		workInfo.setCheckOutDate(new Date());
+		workInfo.setCheckOutSessionId(sessionId);
+		workInfo.setCheckOutUserId(userId);
+		workInfo.setCheckOutWorkId(work_id);
+		workService.insertWorkBySpace(workInfo);
+		System.out.println(e.text);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterTaskUpdate" })
+	public void onAfterTaskUpdateBySpace(GanttEvent e) {
+		WorkInfo workInfo = (WorkInfo) e.task;
+		workInfo.setCheckOutDate(new Date());
+		workInfo.setCheckOutSessionId(sessionId);
+		workInfo.setCheckOutUserId(userId);
+		workInfo.setCheckOutWorkId(work_id);
+		workService.updateWorkBySpace(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
+				.set(Util.getBson(workInfo, "_id")).bson());
+		System.out.println(e.text);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterTaskDelete" })
+	public void onAfterTaskDeleteBySpace(GanttEvent e) {
+		workService.deleteWorkBySpace(new ObjectId(e.id));
+		System.out.println(e.text);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterLinkAdd" })
+	public void onAfterLinkAddBySpace(GanttEvent e) {
+		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
+		workLinkInfo.setCheckOutDate(new Date());
+		workLinkInfo.setCheckOutSessionId(sessionId);
+		workLinkInfo.setCheckOutUserId(userId);
+		workLinkInfo.setCheckOutWorkId(work_id);
+		workService.insertLinkBySpace(workLinkInfo);
+		System.out.println(e.text);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterLinkUpdate" })
+	public void onAfterLinkUpdateBySpace(GanttEvent e) {
+		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
+		workLinkInfo.setCheckOutDate(new Date());
+		workLinkInfo.setCheckOutSessionId(sessionId);
+		workLinkInfo.setCheckOutUserId(userId);
+		workLinkInfo.setCheckOutWorkId(work_id);
+		workService.updateLinkBySpace(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
+				.set(Util.getBson(workLinkInfo, "_id")).bson());
+		System.out.println(e.text);
+	}
+
+	@Listener({ "项目甘特图(编辑)/onAfterLinkDelete" })
+	public void onAfterLinkDeleteBySpace(GanttEvent e) {
+		workService.deleteLinkBySpace(new ObjectId(e.id));
+		System.out.println(e.text);
+	}
 
 }

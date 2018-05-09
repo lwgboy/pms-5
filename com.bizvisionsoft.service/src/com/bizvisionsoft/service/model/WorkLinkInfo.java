@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
@@ -82,12 +84,12 @@ public class WorkLinkInfo {
 	@Persistence
 	private ObjectId _id;
 
-	@ReadValue({"项目甘特图/id","项目甘特图(编辑)/id","项目甘特图（无表格查看）/id"})
+	@ReadValue({ "项目甘特图/id", "项目甘特图(编辑)/id", "项目甘特图（无表格查看）/id" })
 	public String getId() {
 		return _id.toHexString();
 	}
 
-	@WriteValue({"项目甘特图/id","项目甘特图(编辑)/id","项目甘特图（无表格查看）/id"})
+	@WriteValue({ "项目甘特图/id", "项目甘特图(编辑)/id", "项目甘特图（无表格查看）/id" })
 	public WorkLinkInfo setId(String id) {
 		this._id = new ObjectId(id);
 		return this;
@@ -99,12 +101,12 @@ public class WorkLinkInfo {
 	@Persistence
 	private ObjectId project_id;
 
-	@ReadValue({"项目甘特图/project","项目甘特图(编辑)/project","项目甘特图（无表格查看）/project"})
+	@ReadValue({ "项目甘特图/project", "项目甘特图(编辑)/project", "项目甘特图（无表格查看）/project" })
 	public String getProject() {
 		return project_id == null ? null : project_id.toHexString();
 	}
 
-	@WriteValue({"项目甘特图/project","项目甘特图(编辑)/project","项目甘特图（无表格查看）/project"})
+	@WriteValue({ "项目甘特图/project", "项目甘特图(编辑)/project", "项目甘特图（无表格查看）/project" })
 	public WorkLinkInfo setProject(String project_id) {
 		this.project_id = project_id == null ? null : new ObjectId(project_id);
 		return this;
@@ -115,7 +117,7 @@ public class WorkLinkInfo {
 	//
 	private WorkInfo source;
 
-	@ReadValue({"项目甘特图/source","项目甘特图(编辑)/source","项目甘特图（无表格查看）/source"})
+	@ReadValue({ "项目甘特图/source", "项目甘特图(编辑)/source", "项目甘特图（无表格查看）/source" })
 	public String getSource() {
 		return source == null ? null : source.get_id().toHexString();
 	}
@@ -124,12 +126,12 @@ public class WorkLinkInfo {
 	public String getSourceTaskLabel() {
 		return source.toString();
 	}
-	
+
 	@GetValue("source")
 	public ObjectId getSourceId() {
 		return source.get_id();
 	}
-	
+
 	@SetValue("source")
 	public void setSourceId(ObjectId source_id) {
 		source = ServicesLoader.get(WorkService.class).getWork(source_id);
@@ -140,7 +142,7 @@ public class WorkLinkInfo {
 	//
 	private WorkInfo target;
 
-	@ReadValue({"项目甘特图/target","项目甘特图(编辑)/target","项目甘特图（无表格查看）/target"})
+	@ReadValue({ "项目甘特图/target", "项目甘特图(编辑)/target", "项目甘特图（无表格查看）/target" })
 	public String getTarget() {
 		return target == null ? null : target.get_id().toHexString();
 	}
@@ -149,12 +151,12 @@ public class WorkLinkInfo {
 	public String getTargetTaskLabel() {
 		return target.toString();
 	}
-	
+
 	@GetValue("target")
 	public ObjectId getTargetId() {
 		return target.get_id();
 	}
-	
+
 	@SetValue("target")
 	public void setTargetId(ObjectId target_id) {
 		target = ServicesLoader.get(WorkService.class).getWork(target_id);
@@ -171,8 +173,8 @@ public class WorkLinkInfo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
-	@ReadValue({"项目甘特图/lag","项目甘特图(编辑)/lag","项目甘特图（无表格查看）/lag"})
-	@WriteValue({"项目甘特图/lag","项目甘特图(编辑)/lag","项目甘特图（无表格查看）/lag"})
+	@ReadValue({ "项目甘特图/lag", "项目甘特图(编辑)/lag", "项目甘特图（无表格查看）/lag" })
+	@WriteValue({ "项目甘特图/lag", "项目甘特图(编辑)/lag", "项目甘特图（无表格查看）/lag" })
 	@Persistence
 	private int lag;
 
@@ -226,6 +228,34 @@ public class WorkLinkInfo {
 	public WorkLinkInfo setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
+	}
+
+	@Persistence
+	private String checkOutUserId;
+
+	@Persistence
+	private Date checkOutDate;
+
+	@Persistence
+	private String checkOutSessionId;
+
+	@Persistence
+	private ObjectId checkOutWorkId;
+
+	public void setCheckOutUserId(String checkOutUserId) {
+		this.checkOutUserId = checkOutUserId;
+	}
+
+	public void setCheckOutDate(Date checkOutDate) {
+		this.checkOutDate = checkOutDate;
+	}
+
+	public void setCheckOutSessionId(String checkOutSessionId) {
+		this.checkOutSessionId = checkOutSessionId;
+	}
+
+	public void setCheckOutWorkId(ObjectId checkOutWorkId) {
+		this.checkOutWorkId = checkOutWorkId;
 	}
 
 }

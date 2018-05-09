@@ -1,15 +1,18 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.Brui;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.IWBSScope;
+import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class EditGantt {
 
@@ -19,10 +22,25 @@ public class EditGantt {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Project project = (Project) context.getRootInput();
+		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
 
 		// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
+		Result result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+				brui.getCurrentUserId(), Brui.sessionManager.getSessionId(), false);
+		if(Result.TYPE_SUCCESS == result.type) {
+			brui.switchContent("项目甘特图(编辑)", wbsScope);
+		} else if(Result.TYPE_HASCHECKOUTSUB == result.type) {
+			if(MessageDialog.openConfirm(brui.getCurrentShell(), "提示", result.message)) {
+				result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+						brui.getCurrentUserId(), Brui.sessionManager.getSessionId(), true);
+				if(Result.TYPE_SUCCESS == result.type) {
+					brui.switchContent("项目甘特图(编辑)", wbsScope);
+				}
+			}
+		} else if(Result.TYPE_UNAUTHORIZED == result.type) {
+			MessageDialog.openInformation(brui.getCurrentShell(), "提示", result.message);
+		}
 		// 参数要传当前用户id。判断如果不是自己有权检出的报错。
 		// 参数要传 是否取消下级检出 （cancelCheckOutSubSchedule）。
 		// 该服务调用方式如下：
@@ -41,7 +59,6 @@ public class EditGantt {
 		// Editor.create("项目甘特图(编辑)", context.setInput(project),project,
 		// false).setTitle("进度计划甘特图").ok((r, o) -> {
 		// });
-		brui.switchContent("项目甘特图(编辑)", null);
 	}
 
 }

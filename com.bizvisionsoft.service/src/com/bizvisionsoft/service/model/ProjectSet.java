@@ -39,7 +39,7 @@ public class ProjectSet {
 	@WriteValue
 	@Persistence
 	private String id;
-	
+
 	@ImageURL("id")
 	private String logo = "/img/project_set_c.svg";
 
@@ -90,6 +90,12 @@ public class ProjectSet {
 	@Persistence
 	private ObjectId obs_id;
 
+	@Persistence
+	private ObjectId cbs_id;
+
+	@Persistence
+	private ObjectId wbs_id;
+
 	public ProjectSet setEps_id(ObjectId eps_id) {
 		this.eps_id = eps_id;
 		return this;
@@ -138,22 +144,22 @@ public class ProjectSet {
 
 	@Behavior("EPS浏览/编辑项目集") // 控制action
 	private boolean enableEdit() {
-		return true;//TODO 考虑权限 
+		return true;// TODO 考虑权限
 	}
 
 	@Behavior("EPS浏览/创建项目集") // 控制action
 	private boolean enableAdd() {
-		return true;//TODO 考虑权限
+		return true;// TODO 考虑权限
 	}
 
 	@Behavior("EPS浏览/删除项目集") // 控制action
 	private boolean enableDelete() {
-		return true;//TODO 考虑权限
+		return true;// TODO 考虑权限
 	}
 
 	@Behavior("EPS浏览/打开") // 控制action
 	private boolean enableOpen() {
-		return true;//TODO 考虑权限
+		return true;// TODO 考虑权限
 	}
 
 	@Override
