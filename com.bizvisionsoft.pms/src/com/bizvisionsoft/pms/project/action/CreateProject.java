@@ -10,7 +10,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -31,7 +31,7 @@ public class CreateProject {
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {
-						Services.get(WorkService.class).checkOutSchedulePlan(pj.getWBS_id(),
+						Services.get(WorkSpaceService.class).checkOutSchedulePlan(pj.getWBS_id(),
 								bruiService.getCurrentUserId(), true);
 						if (MessageDialog.openQuestion(bruiService.getCurrentShell(), "创建项目", "项目创建成功，是否进入项目主页？")) {
 							bruiService.switchPage("项目首页（启动）", pj.get_id().toHexString());

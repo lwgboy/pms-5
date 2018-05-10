@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -18,9 +17,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLink;
-import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.mongodb.BasicDBObject;
 
 @Path("/work")
@@ -40,11 +37,6 @@ public interface WorkService {
 	@DataSet("links")
 	public List<WorkLink> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
-	@POST
-	@Path("/tasks/nextwbsidx")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public int nextWBSIndex(BasicDBObject condition);
 
 	@POST
 	@Path("/task/")
@@ -90,13 +82,6 @@ public interface WorkService {
 	public Work getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
 	@GET
-	@Path("/taskInfo/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.INPUT)
-	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
-	
-	@GET
 	@Path("/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -131,87 +116,4 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> start(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
-
-	@GET
-	@Path("/_id/{_id}/daterange")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
-
-	@GET
-	@Path("/_id/{_id}/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Result checkOutSchedulePlan(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
-
-			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
-
-	@POST
-	@Path("/gantt/tasksspace")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("data")
-	public List<WorkInfo> createTaskDataSetBySpace(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
-
-	@POST
-	@Path("/gantt/linksspace")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("links")
-	public List<WorkLinkInfo> createLinkDataSetBySpace(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
-
-	@GET
-	@Path("/_id/{_id}/daterangespace")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Date> getPlanDateRangeBySpace(@PathParam("_id") ObjectId _id);
-
-	@POST
-	@Path("/taskspace/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public WorkInfo insertWorkBySpace(WorkInfo work);
-
-	@POST
-	@Path("/linkspace/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public WorkLinkInfo insertLinkBySpace(WorkLinkInfo link);
-
-	@PUT
-	@Path("/taskspace/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long updateWorkBySpace(BasicDBObject filterAndUpdate);
-
-	@PUT
-	@Path("/linkspace/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long updateLinkBySpace(BasicDBObject filterAndUpdate);
-
-	@DELETE
-	@Path("/taskspace/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteWorkBySpace(@PathParam("_id") ObjectId _id);
-
-	@DELETE
-	@Path("/linkspace/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteLinkBySpace(@PathParam("_id") ObjectId _id);
-
-	@PUT
-	@Path("/_id/{_id}/checkoutuserid/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public String getCheckOutUserId(@PathParam("_id") ObjectId _id);
-
-	@PUT
-	@Path("/_id/{_id}/getspaceid/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public ObjectId getSpaceId(@PathParam("_id") ObjectId _id);
-
 }

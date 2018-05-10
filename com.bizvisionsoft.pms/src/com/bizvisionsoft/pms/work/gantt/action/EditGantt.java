@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -26,13 +26,13 @@ public class EditGantt {
 		String checkOutUserId = wbsScope.getCheckOutUserId();
 		if (checkOutUserId == null || "".equals(checkOutUserId) || brui.getCurrentUserId().equals(checkOutUserId)) {
 			// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
-			Result result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+			Result result = Services.get(WorkSpaceService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
 					brui.getCurrentUserId(), false);
 			if (Result.TYPE_SUCCESS == result.type) {
 				brui.switchContent("项目甘特图(编辑)", wbsScope);
 			} else if (Result.TYPE_HASCHECKOUTSUB == result.type) {
 				if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示", "下级进度已被检出进行编辑，请确认是否取消下级的检出。")) {
-					result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+					result = Services.get(WorkSpaceService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
 							brui.getCurrentUserId(), true);
 					if (Result.TYPE_SUCCESS == result.type) {
 						brui.switchContent("项目甘特图(编辑)", wbsScope);

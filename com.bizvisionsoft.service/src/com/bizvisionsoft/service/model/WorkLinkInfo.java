@@ -11,6 +11,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkSpaceService;
 
 @PersistenceCollection("worklinksspace")
 @Strict
@@ -71,7 +72,7 @@ public class WorkLinkInfo {
 
 	@SetValue("source")
 	public void setSourceId(ObjectId source_id) {
-		source = ServicesLoader.get(WorkService.class).getWorkInfo(source_id);
+		source = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(source_id);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +97,7 @@ public class WorkLinkInfo {
 
 	@SetValue("target")
 	public void setTargetId(ObjectId target_id) {
-		target = ServicesLoader.get(WorkService.class).getWorkInfo(target_id);
+		target = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(target_id);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 

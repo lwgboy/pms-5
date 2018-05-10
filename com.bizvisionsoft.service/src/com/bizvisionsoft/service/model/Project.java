@@ -27,6 +27,7 @@ import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.mongodb.BasicDBObject;
 
@@ -520,11 +521,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@Override
 	public String getCheckOutUserId() {
-		return ServicesLoader.get(WorkService.class).getCheckOutUserId(getWBS_id());
+		return ServicesLoader.get(WorkSpaceService.class).getCheckOutUserId(getWBS_id());
 	}
 
 	@Override
 	public ObjectId getSpaceId() {
-		return ServicesLoader.get(WorkService.class).getSpaceId(getWBS_id());
+		return ServicesLoader.get(WorkSpaceService.class).getSpaceId(getWBS_id());
 	}
 }

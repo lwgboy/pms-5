@@ -546,27 +546,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return index;
 	}
 
-	public static Work newInstance(ObjectId project_id) {
-		return newInstance(project_id, null);
-	}
-
-	/**
-	 * 生成本层的顺序号
-	 * 
-	 * @param projectId
-	 * @param parentId
-	 * @return
-	 */
-	private Work generateIndex() {
-		index = ServicesLoader.get(WorkService.class)
-				.nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id", parent_id));
-		return this;
-	}
-
-	public static Work newInstance(ObjectId project_id, ObjectId parent_id) {
-		return new Work().set_id(new ObjectId()).setProject_id(project_id).setParent_id(parent_id).generateIndex();
-	}
-
 	private void checkDate(Date start_date, Date end_date, Date deadline) {
 		if (start_date != null && end_date != null && start_date.after(end_date)) {
 			throw new RuntimeException("开始日期不得晚于完成日期");
@@ -653,6 +632,15 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 				.setScopeRoot(true);// 区分这个节点是范围内的根节点
 
 		return obsRoot;
+	}
+
+	public static Work newInstance(ObjectId project_id, ObjectId parent_id) {
+		return new Work().set_id(new ObjectId()).setProject_id(project_id).setParent_id(parent_id).setIndex(1);
+	}
+
+	public Work setIndex(int index) {
+		this.index = index;
+		return this;
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
@@ -346,7 +346,7 @@ public class WorkInfo implements IWBSScope {
 	 * @return
 	 */
 	private WorkInfo generateIndex() {
-		index = ServicesLoader.get(WorkService.class)
+		index = ServicesLoader.get(WorkSpaceService.class)
 				.nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id", parent_id));
 		return this;
 	}
@@ -448,5 +448,6 @@ public class WorkInfo implements IWBSScope {
 	public boolean isSummary() {
 		return summary;
 	}
+
 
 }
