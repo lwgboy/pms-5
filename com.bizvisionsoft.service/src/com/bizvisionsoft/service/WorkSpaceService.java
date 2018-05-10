@@ -38,14 +38,6 @@ public interface WorkSpaceService {
 	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
 	@POST
-	@Path("/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Result checkOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
-			@PathParam("userId") String userId,
-			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
-
-	@POST
 	@Path("/gantt/tasksspace")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -112,5 +104,34 @@ public interface WorkSpaceService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public ObjectId getSpaceId(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result checkOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+			@PathParam("userId") String userId,
+			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
+
+	@POST
+	@Path("/scheduleplan/check/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+			@PathParam("userId") String userId);
+
+	@POST
+	@Path("/scheduleplan/checkin/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result checkInSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+			@PathParam("userId") String userId);
+
+	@POST
+	@Path("/scheduleplan/cancelcheckon/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result cancelCheckOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+			@PathParam("userId") String userId);
 
 }

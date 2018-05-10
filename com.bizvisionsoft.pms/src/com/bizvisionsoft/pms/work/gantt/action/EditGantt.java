@@ -29,13 +29,13 @@ public class EditGantt {
 			// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
 			Result result = Services.get(WorkSpaceService.class).checkOutSchedulePlan(wbsScope.getCheckOutKey(),
 					brui.getCurrentUserId(), false);
-			if (Result.TYPE_SUCCESS == result.type) {
+			if (Result.CODE_SUCCESS == result.type) {
 				brui.switchContent("项目甘特图(编辑)", wbsScope);
-			} else if (Result.TYPE_HASCHECKOUTSUB == result.type) {
+			} else if (Result.CODE_HASCHECKOUTSUB == result.type) {
 				if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示", "下级进度已被检出进行编辑，请确认是否取消下级的检出。")) {
 					result = Services.get(WorkSpaceService.class).checkOutSchedulePlan(wbsScope.getCheckOutKey(),
 							brui.getCurrentUserId(), true);
-					if (Result.TYPE_SUCCESS == result.type) {
+					if (Result.CODE_SUCCESS == result.type) {
 						brui.switchContent("项目甘特图(编辑)", wbsScope);
 					}
 				}

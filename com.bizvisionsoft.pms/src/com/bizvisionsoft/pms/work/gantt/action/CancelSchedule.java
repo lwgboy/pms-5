@@ -7,7 +7,10 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
+import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CancelSchedule {
 	@Inject
@@ -17,6 +20,11 @@ public class CancelSchedule {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
-		// 显示编辑器
+		
+		Result result = Services.get(WorkSpaceService.class).cancelCheckOutSchedulePlan(wbsScope.getCheckOutKey(),
+				bruiService.getCurrentUserId());
+		if (Result.CODE_SUCCESS == result.type) {
+				bruiService.switchContent("项目甘特图", null);
+		}
 	}
 }
