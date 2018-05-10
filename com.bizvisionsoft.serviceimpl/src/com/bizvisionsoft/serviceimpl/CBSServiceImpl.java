@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
@@ -192,7 +192,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public CBSItem allocateBudget(ObjectId _id, ObjectId scope_id, String scopename) {
-		UpdateResult ur = c(WorkInfo.class).updateOne(new BasicDBObject("_id", scope_id),
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", scope_id),
 				new BasicDBObject("$set", new BasicDBObject("cbs_id", _id)));
 		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set",
 				new BasicDBObject("scope_id", scope_id).append("scopename", scopename).append("scopeRoot", true)));
@@ -214,7 +214,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public CBSItem unallocateBudget(ObjectId _id, ObjectId parent_id) {
 		CBSItem parent = get(parent_id);
-		UpdateResult ur = c(WorkInfo.class).updateOne(new BasicDBObject("cbs_id", _id),
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("cbs_id", _id),
 				new BasicDBObject("$unset", new BasicDBObject("cbs_id", 1)));
 		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id())
@@ -264,11 +264,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public CBSItem addCBSItemByStage(ObjectId _id, ObjectId project_id) {
-		List<WorkInfo> workInfoList = c(WorkInfo.class)
+		List<Work> workInfoList = c(Work.class)
 				.find(new BasicDBObject("project_id", project_id).append("stage", Boolean.TRUE))
-				.into(new ArrayList<WorkInfo>());
+				.into(new ArrayList<Work>());
 		List<CBSItem> cbsItemList = new ArrayList<CBSItem>();
-		for (WorkInfo workInfo : workInfoList) {
+		for (Work workInfo : workInfoList) {
 			CBSItem cbsItem = CBSItem.getInstance();
 			cbsItem.setId(workInfo.getId());
 			cbsItem.setName(workInfo.toString());

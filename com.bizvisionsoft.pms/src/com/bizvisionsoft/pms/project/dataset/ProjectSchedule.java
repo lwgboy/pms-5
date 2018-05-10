@@ -14,7 +14,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ProjectSchedule {
@@ -30,7 +30,7 @@ public class ProjectSchedule {
 	}
 
 	@DataSet("阶段选择器列表/list")
-	private List<WorkInfo> listStage(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id) {
+	private List<Work> listStage(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id) {
 		return Services.get(ProjectService.class).listStage(parent_id);
 	}
 
@@ -40,14 +40,14 @@ public class ProjectSchedule {
 	}
 	
 	@DataSet("项目进度计划表/list")
-	private List<WorkInfo> listRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
+	private List<Work> listRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).listProjectRootTask(((Project) input).get_id());
-		} else if (input instanceof WorkInfo) {
-			return Services.get(WorkService.class).listChildren(((WorkInfo) input).get_id());
+		} else if (input instanceof Work) {
+			return Services.get(WorkService.class).listChildren(((Work) input).get_id());
 		} else {
 			// TODO 其他类型
-			return new ArrayList<WorkInfo>();
+			return new ArrayList<Work>();
 		}
 	}
 
@@ -55,8 +55,8 @@ public class ProjectSchedule {
 	private long countRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).countProjectRootTask(((Project) input).get_id());
-		} else if (input instanceof WorkInfo) {
-			return Services.get(WorkService.class).countChildren(((WorkInfo) input).get_id());
+		} else if (input instanceof Work) {
+			return Services.get(WorkService.class).countChildren(((Work) input).get_id());
 		} else {
 			// TODO 其他类型
 			return 0l;

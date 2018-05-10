@@ -16,7 +16,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Stockholder;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -75,7 +75,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			cbsRoot.setName(project.getName());
 			new CBSServiceImpl().insertCBSItem(cbsRoot);// ≤Â»Îº«¬º
 			
-			WorkInfo workInfo = WorkInfo.newInstance(project.get_id(), wbsParent_id);
+			Work workInfo = Work.newInstance(project.get_id(), wbsParent_id);
 			workInfo.set_id(wbsRoot_id);
 //			workInfo.setId(project.getId());
 			workInfo.setText(project.getName());
@@ -200,7 +200,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		UpdateResult ur = c(WorkInfo.class).updateMany(
+		UpdateResult ur = c(Work.class).updateMany(
 				new Document("project_id", _id).append("parent_id", null).append("chargerId", new Document("$ne", null))
 						.append("distributed", new Document("$ne", true)),
 				new Document("$set", new Document("distributed", true).append("distributeBy", distributeBy)
@@ -220,10 +220,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<WorkInfo> listStage(ObjectId _id) {
+	public List<Work> listStage(ObjectId _id) {
 		// TODO ≈≈–Ú
 		return new WorkServiceImpl().query(null, null, new BasicDBObject("project_id", _id).append("stage", true),
-				WorkInfo.class);
+				Work.class);
 	}
 
 	@Override

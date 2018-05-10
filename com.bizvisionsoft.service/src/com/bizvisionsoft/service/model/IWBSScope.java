@@ -9,5 +9,7 @@ public interface IWBSScope {
 	public ObjectId getScope_id();
 	
 	public String getCheckOutUserId();
+	
+	public ObjectId getSpaceId();
 
 }

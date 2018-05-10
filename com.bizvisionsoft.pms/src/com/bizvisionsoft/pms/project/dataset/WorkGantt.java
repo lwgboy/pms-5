@@ -16,8 +16,8 @@ import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.WorkInfo;
-import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -37,18 +37,18 @@ public class WorkGantt {
 
 	@Init
 	private void init() {
-		parent_id = ((WorkInfo) context.getRootInput()).get_id();
-		project_id = ((WorkInfo) context.getRootInput()).getParent_id();
+		parent_id = ((Work) context.getRootInput()).get_id();
+		project_id = ((Work) context.getRootInput()).getParent_id();
 		workService = Services.get(WorkService.class);
 	}
 
 	@DataSet({ "工作甘特图/data", "工作甘特图（无表格查看）/data" })
-	public List<WorkInfo> data() {
+	public List<Work> data() {
 		return workService.createTaskDataSet(new BasicDBObject("parent_id", parent_id));
 	}
 
 	@DataSet({ "工作甘特图/links", "工作甘特图（无表格查看）/links" })
-	public List<WorkLinkInfo> links() {
+	public List<WorkLink> links() {
 		return workService.createLinkDataSet(new BasicDBObject("parent_id", parent_id));
 	}
 
@@ -60,7 +60,7 @@ public class WorkGantt {
 
 	@Listener("工作甘特图/onAfterTaskAdd")
 	public void onAfterTaskAdd(GanttEvent e) {
-		workService.insertWork((WorkInfo) e.task);
+		workService.insertWork((Work) e.task);
 		System.out.println(e.text);
 	}
 
@@ -79,7 +79,7 @@ public class WorkGantt {
 
 	@Listener("工作甘特图/onAfterLinkAdd")
 	public void onAfterLinkAdd(GanttEvent e) {
-		workService.insertLink((WorkLinkInfo) e.link);
+		workService.insertLink((WorkLink) e.link);
 		System.out.println(e.text);
 	}
 

@@ -225,7 +225,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@ReadValue
 	@SetValue
-	private WorkInfo stage;
+	private Work stage;
 
 	@Persistence
 	private ObjectId projectTemplate_Id;
@@ -521,5 +521,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Override
 	public String getCheckOutUserId() {
 		return ServicesLoader.get(WorkService.class).getCheckOutUserId(getWBS_id());
+	}
+
+	@Override
+	public ObjectId getSpaceId() {
+		return ServicesLoader.get(WorkService.class).getSpaceId(getWBS_id());
 	}
 }

@@ -23,7 +23,8 @@ public class EditGantt {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
-		if (brui.getCurrentUserId().equals(wbsScope.getCheckOutUserId())) {
+		String checkOutUserId = wbsScope.getCheckOutUserId();
+		if (checkOutUserId == null || "".equals(checkOutUserId) || brui.getCurrentUserId().equals(checkOutUserId)) {
 			// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
 			Result result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
 					brui.getCurrentUserId(), false);

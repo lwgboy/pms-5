@@ -17,7 +17,9 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.mongodb.BasicDBObject;
 
@@ -29,14 +31,14 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("data")
-	public List<WorkInfo> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<Work> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("links")
-	public List<WorkLinkInfo> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<WorkLink> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/tasks/nextwbsidx")
@@ -48,13 +50,13 @@ public interface WorkService {
 	@Path("/task/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public WorkInfo insertWork(WorkInfo work);
+	public Work insertWork(Work work);
 
 	@POST
 	@Path("/link/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public WorkLinkInfo insertLink(WorkLinkInfo link);
+	public WorkLink insertLink(WorkLink link);
 
 	@PUT
 	@Path("/task/")
@@ -85,19 +87,26 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public WorkInfo getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public Work getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
+	@GET
+	@Path("/taskInfo/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet(DataSet.INPUT)
+	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	
 	@GET
 	@Path("/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public WorkLinkInfo getLink(@PathParam("_id") ObjectId _id);
+	public WorkLink getLink(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> listProjectRootTask(@PathParam("project_id") ObjectId project_id);
+	public List<Work> listProjectRootTask(@PathParam("project_id") ObjectId project_id);
 
 	@GET
 	@Path("/project_id/{project_id}/count")
@@ -109,7 +118,7 @@ public interface WorkService {
 	@Path("/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> listChildren(@PathParam("parent_id") ObjectId parent_id);
+	public List<Work> listChildren(@PathParam("parent_id") ObjectId parent_id);
 
 	@GET
 	@Path("/parent_id/{parent_id}/count")
@@ -198,5 +207,11 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public String getCheckOutUserId(@PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/_id/{_id}/getspaceid/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ObjectId getSpaceId(@PathParam("_id") ObjectId _id);
 
 }

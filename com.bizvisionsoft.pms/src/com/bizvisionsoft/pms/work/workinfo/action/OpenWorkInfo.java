@@ -9,7 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.ProjectStatus;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 
 public class OpenWorkInfo {
 
@@ -19,7 +19,7 @@ public class OpenWorkInfo {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		WorkInfo work = ((WorkInfo) ((GanttEvent) event).task);
+		Work work = ((Work) ((GanttEvent) event).task);
 		if (work.isStage()) {
 			// TODO 区分状态，区分类型
 			if (ProjectStatus.Created.equals(work.getStatus())) {

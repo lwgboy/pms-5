@@ -17,7 +17,9 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -32,24 +34,27 @@ public class ProjectGantt {
 
 	private WorkService workService;
 
-	private ObjectId work_id;
+	private ObjectId space_id;
 
 	private ObjectId project_id;
 
+	private ObjectId work_id;
+
 	@Init
 	private void init() {
+		space_id = ((Project) context.getRootInput()).getSpaceId();
 		work_id = ((Project) context.getRootInput()).getWBS_id();
 		project_id = ((Project) context.getRootInput()).get_id();
 		workService = Services.get(WorkService.class);
 	}
 
 	@DataSet({ "项目甘特图/data", "项目甘特图（无表格查看）/data" })
-	public List<WorkInfo> data() {
-		return workService.createTaskDataSet(new BasicDBObject("parent_id", work_id));
+	public List<Work> data() {
+		return workService.createTaskDataSet(new BasicDBObject("project_id", project_id));
 	}
 
 	@DataSet({ "项目甘特图/links", "项目甘特图（无表格查看）/links" })
-	public List<WorkLinkInfo> links() {
+	public List<WorkLink> links() {
 		return workService.createLinkDataSet(new BasicDBObject("project_id", project_id));
 	}
 
@@ -61,7 +66,7 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图/onAfterTaskAdd" })
 	public void onAfterTaskAdd(GanttEvent e) {
-		workService.insertWork((WorkInfo) e.task);
+		workService.insertWork((Work) e.task);
 		System.out.println(e.text);
 	}
 
@@ -80,7 +85,7 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图/onAfterLinkAdd" })
 	public void onAfterLinkAdd(GanttEvent e) {
-		workService.insertLink((WorkLinkInfo) e.link);
+		workService.insertLink((WorkLink) e.link);
 		System.out.println(e.text);
 	}
 
@@ -99,22 +104,27 @@ public class ProjectGantt {
 
 	@DataSet({ "项目甘特图(编辑)/data" })
 	public List<WorkInfo> dataBySpace() {
-		return workService.createTaskDataSetBySpace(new BasicDBObject("parent_id", work_id));
+		return workService.createTaskDataSetBySpace(
+				new BasicDBObject("space_id", space_id).append("_id", new BasicDBObject("$ne", work_id)));
 	}
 
 	@DataSet({ "项目甘特图(编辑)/links" })
 	public List<WorkLinkInfo> linksBySpace() {
-		return workService.createLinkDataSetBySpace(new BasicDBObject("checkOutWorkId", work_id));
+		return workService.createLinkDataSetBySpace(new BasicDBObject("space_id", space_id));
 	}
 
-	@DataSet({ "项目甘特图(编辑)/initDateRange" })
-	public Date[] initDateRangeBySpace() {
-		return Services.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
-	}
+	// @DataSet({ "项目甘特图(编辑)/initDateRange" })
+	// public Date[] initDateRangeBySpace() {
+	// return
+	// Services.get(ProjectService.class).getPlanDateRange(project_id).toArray(new
+	// Date[0]);
+	// }
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskAdd" })
 	public void onAfterTaskAddBySpace(GanttEvent e) {
-		workService.insertWorkBySpace((WorkInfo) e.task);
+		WorkInfo workInfo = (WorkInfo) e.task;
+		workInfo.setSpaceId(space_id);
+		workService.insertWorkBySpace(workInfo);
 		System.out.println(e.text);
 	}
 
@@ -133,7 +143,9 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkAdd" })
 	public void onAfterLinkAddBySpace(GanttEvent e) {
-		workService.insertLinkBySpace((WorkLinkInfo) e.link);
+		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
+		workLinkInfo.setSpaceId(space_id);
+		workService.insertLinkBySpace(workLinkInfo);
 		System.out.println(e.text);
 	}
 

@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -13,137 +12,16 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Strict;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
-/**
- * <div class="doc" id="doc_content">
- * 
- * <a name="specifyingdataproperties">
- * <h2>Specifying Data Properties</h2></a>
- * 
- * <p>
- * A data source for the Gantt chart is an object that stores 2 types of
- * information:
- * </p>
- * 
- * <ul>
- * <li><strong>tasks</strong> - the items of tasks.</li>
- * <li><strong>links</strong> - the items of dependency links.</li>
- * </ul>
- * 
- * <h3 id="task_properties">Properties of a task object</h3>
- * 
- * <ul>
- * <li><b><i>Mandatory properties</i></b> - these properties will always be
- * defined on the client, they must be provided by the datasource in order for
- * gantt to operate correctly.</li>
- * <ul>
- * <li><b>text</b> - (<i> string </i>) the task text.</li>
- * <li><b>start_date</b> - (<i> Date|string </i>) the date when a task is
- * scheduled to begin. Must match
- * <a href="api__gantt_xml_date_config.html">xml_date</a> format if provided as
- * a string.</li>
- * <li><b>duration</b> - (<i> number </i>) the task duration.
- * <a href="desktop__loading.html#loadingtaskdates">Can be replaced with the
- * 'end_date' property</a>.</li>
- * <li><b>id</b> - (<i> string|number </i>) the task id.</li>
- * </ul>
- * <li><b><i>Optional properties</i></b> - these properties may or may not be
- * defined. The default logic and templates of gantt will use these properties
- * if they are defined.</li>
- * <ul>
- * <li><b>type</b> - (<i>string</i>) the task type. The available values are
- * stored in the <a href="api__gantt_types_config.html">types</a> object:</li>
- * <ul>
- * <li><a href="desktop__task_types.html#regulartasks">"task"</a> - a regular
- * task (<i>default value</i>).</li>
- * <li><a href="desktop__task_types.html#projecttasks">"project"</a> - a task
- * that starts, when its earliest child task starts, and ends, when its latest
- * child ends. <i>The <b>start_date</b>, <b>end_date</b>, <b>duration</b>
- * properties are ignored for such tasks.</i></li>
- * <li><a href="desktop__task_types.html#milestones">"milestone"</a> - a
- * zero-duration task that is used to mark out important dates of the project.
- * <i>The <b>duration</b>, <b>progress</b>, <b>end_date</b> properties are
- * ignored for such tasks. </i></li>
- * </ul>
- * <li><b>parent</b> - (<i> string|number </i>) the id of the parent task. The
- * id of the root task is specified by the
- * <a href="api__gantt_root_id_config.html">root_id</a> config.</li>
- * <li><b>progress</b> - (<i> number from 0 to 1 </i>) the task progress.</li>
- * <li><b>open</b> - (<i> boolean </i>) specifies whether the task branch will
- * be opened initially (to show child tasks).</li>
- * <li><b>end_date</b> - (<i> Date|string </i>) the date when a task is
- * scheduled to be completed. Used as an alternative to the <i>duration</i>
- * property for setting the duration of a task. Must match
- * <a href="api__gantt_xml_date_config.html">xml_date</a> format if provided as
- * a string.</li>
- * <li><b>readonly</b>-(<i>boolean</i>) optional, can mark task as <a href=
- * "desktop__readonly_mode.html#readonlymodeforspecifictaskslinks">readonly</a>.
- * </li>
- * <li><b>editable</b>-(<i>boolean</i>) optional, can mark task as <a href=
- * "desktop__readonly_mode.html#readonlymodeforspecifictaskslinks">editable</a>.
- * </li>
- * </ul>
- * <li><b><i>Dynamic properties</i></b> - are created on the client and
- * represent the current state of a task or a link. They shouldn't be saved to
- * the database, gantt will ignore these properties if they are specified in
- * your JSON/XML.</li>
- * <ul>
- * <li><b>$source</b> - (<i> array </i>) ids of links that come out of the
- * task.</li>
- * <li><b>$target</b> - (<i> array </i>) ids of links that come into task.</li>
- * <li><b>$level</b> - (<i> number </i>) the task's level in the tasks hierarchy
- * (zero-based numbering).</li>
- * <li><b>$open</b> - (<i> boolean </i>) specifies whether the task is currently
- * opened.</li>
- * <li><b>$index</b> - (<i> number </i>) the number of the task row in the
- * gantt.</li>
- * </ul>
- * </ul>
- * 
- * <p>
- * The default date format for JSON and XML data is <strong>"%d-%m-%Y
- * %H:%i"</strong> (see the <a href="desktop__date_format.html"> date format
- * specification</a>).<br>
- * To change it, use the <a href="api__gantt_xml_date_config.html">xml_date</a>
- * configuration option.
- * </p>
- * 
- * <pre>
- * <code><pre class="js">gantt.<span class="me1">config</span>.<span class=
- * "me1">xml_date</span><span class="sy0">=</span><span class=
- * "st0">"%Y-%m-%d"</span><span class="sy0">;</span>
-gantt.<span class="me1">init</span><span class="br0">(</span><span class=
-"st0">"gantt_here"</span><span class="br0">)</span><span class=
-"sy0">;</span></pre></code>
- * </pre>
- * 
- * <p>
- * Once loaded into Gantt, the <strong>start_date</strong> and
- * <strong>end_date</strong> properties will be parsed into the Date type.
- * </p>
- * 
- * <p>
- * Date formats that are not supported by the
- * <a href="api__gantt_xml_date_config.html">xml_date</a> config can be parsed
- * manually via the <a href="api__gantt_xml_date_template.html">xml_date</a>
- * template.
- * </p>
- * 
- * @author hua
- *
- */
-@PersistenceCollection("work")
+@PersistenceCollection("workspace")
 @Strict
-public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
+public class WorkInfo implements IWBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -227,14 +105,6 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private int index;
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// WBS代码 TODO 自动生成的方法
-	@WriteValue
-	@ReadValue
-	@Persistence
-	private String wbsCode;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,54 +242,6 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 完成百分比
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private Float progress;
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 如果是里程碑，gantt的type为milestone，否则为task。
-	// 如果在gantt中更新了task,使得他有子工作，gantt将type改为project
-	@Persistence
-	private boolean milestone;
-
-	@Persistence
-	private boolean summary;
-
-	@Persistence
-	private boolean stage;
-
-	@Persistence
-	@ReadValue
-	@WriteValue
-	private String status;
-
-	@ReadValue("type")
-	public String getType() {
-		if (milestone)
-			return "milestone";
-		else if (summary)
-			return "project";
-		else
-			return "task";
-	}
-
-	@WriteValue("type")
-	public boolean setType(String type) {
-		boolean milestone = "milestone".equals(type);
-		boolean summary = "project".equals(type);
-		if (this.milestone != milestone || this.summary != summary) {
-			this.milestone = milestone;
-			this.summary = summary;
-			return true;
-		}
-		return false;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 存储在数据库中的是管理级别。表现在Gantt中的是barstyle,样式
 	@ReadValue
 	@WriteValue
@@ -474,46 +296,12 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * 工作角色
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String chargerId;
-
-	@SetValue
-	@ReadValue
-	private String chargerInfo;
-
-	@WriteValue("charger")
-	private void setCharger(User charger) {
-		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
-	}
-
-	@ReadValue("charger")
-	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
-	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
 
 	@Persistence
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Structure("项目进度计划表/list")
-	private List<WorkInfo> listChildren() {
-		return ServicesLoader.get(WorkService.class).listChildren(_id);
-	}
-
-	@Structure("项目进度计划表/count")
-	private long countChildren() {
-		return ServicesLoader.get(WorkService.class).countChildren(_id);
-	}
 
 	public WorkInfo set_id(ObjectId _id) {
 		this._id = _id;
@@ -582,23 +370,6 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 
 	}
 
-	public boolean isSummary() {
-		return summary;
-	}
-
-	public boolean isMilestone() {
-		return milestone;
-	}
-
-	public boolean isStage() {
-		return stage;
-	}
-
-	public WorkInfo setStage(boolean stage) {
-		this.stage = stage;
-		return this;
-	}
-
 	public String getText() {
 		return text;
 	}
@@ -619,58 +390,6 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 	}
 
 	@Override
-	public ObjectId getCBS_id() {
-		return cbs_id;
-	}
-
-	@Override
-	public String getScopeName() {
-		return text;
-	}
-
-	@Override
-	public Date[] getCBSRange() {
-		return ServicesLoader.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
-	}
-
-	@Override
-	public ObjectId getOBS_id() {
-		return obs_id;
-	}
-
-	@Override
-	public OBSItem newOBSScopeRoot() {
-		ObjectId obsParent_id = Optional.ofNullable(getProject()).map(ps -> ps.getOBS_id()).orElse(null);
-
-		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-				.set_id(new ObjectId())// 设置_id与项目关联
-				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
-				.setParent_id(obsParent_id)// 设置上级的id
-				.setName(text + "团队")// 设置该组织节点的默认名称
-				.setRoleId(OBSItem.ID_CHARGER)// 设置该组织节点的角色id
-				.setRoleName(OBSItem.NAME_CHARGER)// 设置该组织节点的名称
-				.setManagerId(chargerId) // 设置该组织节点的角色对应的人
-				.setScopeRoot(true);// 区分这个节点是范围内的根节点
-
-		return obsRoot;
-	}
-
-	@Override
-	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-				.set(new BasicDBObject("obs_id", obs_id)).bson());
-		this.obs_id = obs_id;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@Override
 	public ObjectId getWBS_id() {
 		return _id;
 	}
@@ -681,6 +400,53 @@ public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 	@Override
 	public String getCheckOutUserId() {
 		return checkOutBy;
+	}
+
+	@Persistence
+	private ObjectId space_id;
+
+	@Override
+	public ObjectId getSpaceId() {
+		return space_id;
+	}
+
+	public void setSpaceId(ObjectId space_id) {
+		this.space_id = space_id;
+	}
+	
+
+	@Persistence
+	private boolean stage;
+	
+	public WorkInfo setStage(boolean stage) {
+		this.stage = stage;
+		return this;
+	}
+	
+	public boolean isStage() {
+		return stage;
+	}
+	
+
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+
+	@Persistence
+	private boolean summary;
+
+	public boolean isSummary() {
+		return summary;
 	}
 
 }

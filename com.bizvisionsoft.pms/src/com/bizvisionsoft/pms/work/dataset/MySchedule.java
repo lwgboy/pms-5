@@ -11,7 +11,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 
 public class MySchedule {
 
@@ -22,8 +22,8 @@ public class MySchedule {
 	private IBruiService brui;
 
 	@DataSet({ "我的工作（日历牌）/list" })
-	public List<WorkInfo> data() {
-		ArrayList<WorkInfo> result = new ArrayList<WorkInfo>();
+	public List<Work> data() {
+		ArrayList<Work> result = new ArrayList<Work>();
 
 		Calendar cal = Calendar.getInstance();
 		for (int i = 0; i < 10; i++) {
@@ -31,7 +31,7 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 3);
 			Date end = cal.getTime();
-			result.add(new WorkInfo().set_id(new ObjectId()).setStart_date(start).setEnd_date(end).setText("工作" + i));
+			result.add(new Work().set_id(new ObjectId()).setStart_date(start).setEnd_date(end).setText("工作" + i));
 		}
 		
 		return result;

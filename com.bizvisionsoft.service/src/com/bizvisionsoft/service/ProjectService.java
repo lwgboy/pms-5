@@ -18,7 +18,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Stockholder;
-import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Project;
 import com.mongodb.BasicDBObject;
 
@@ -66,7 +66,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/stage/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> listStage(@PathParam("_id") ObjectId _id);
+	public List<Work> listStage(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/stage/count")
