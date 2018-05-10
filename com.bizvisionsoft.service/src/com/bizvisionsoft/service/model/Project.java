@@ -26,8 +26,6 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.mongodb.BasicDBObject;
 
@@ -385,9 +383,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private ObjectId cbs_id;
 
-	@Persistence
-	private ObjectId wbs_id;
-
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -429,11 +424,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	public Project setCBS_id(ObjectId cbs_id) {
 		this.cbs_id = cbs_id;
-		return this;
-	}
-
-	public Project setWBS_id(ObjectId wbs_id) {
-		this.wbs_id = wbs_id;
 		return this;
 	}
 
@@ -488,7 +478,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@Override
 	public ObjectId getWBS_id() {
-		return wbs_id;
+		return null;
 	}
 
 	@Override
@@ -519,13 +509,29 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		this.obs_id = obs_id;
 	}
 
+	@Persistence
+	private String checkOutBy;
+
 	@Override
 	public String getCheckOutUserId() {
-		return ServicesLoader.get(WorkSpaceService.class).getCheckOutUserId(getWBS_id());
+		return checkOutBy;
 	}
+
+	@Persistence
+	private ObjectId space_id;
 
 	@Override
 	public ObjectId getSpaceId() {
-		return ServicesLoader.get(WorkSpaceService.class).getSpaceId(getWBS_id());
+		return space_id;
+	}
+
+	@Override
+	public ObjectId getProject_id() {
+		return _id;
+	}
+
+	@Override
+	public BasicDBObject getCheckOutKey() {
+		return new BasicDBObject("project_id",_id).append("work_id", null);
 	}
 }

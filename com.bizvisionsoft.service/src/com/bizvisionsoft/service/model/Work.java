@@ -529,6 +529,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return this;
 	}
 
+	@Override
 	public ObjectId getProject_id() {
 		return project_id;
 	}
@@ -634,10 +635,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return obsRoot;
 	}
 
-	public static Work newInstance(ObjectId project_id, ObjectId parent_id) {
-		return new Work().set_id(new ObjectId()).setProject_id(project_id).setParent_id(parent_id).setIndex(1);
-	}
-
 	public Work setIndex(int index) {
 		this.index = index;
 		return this;
@@ -681,6 +678,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	public void setSpaceId(ObjectId space_id) {
 		this.space_id = space_id;
+	}
+
+	@Override
+	public BasicDBObject getCheckOutKey() {
+		return new BasicDBObject("project_id",project_id).append("work_id", _id);
 	}
 
 }
