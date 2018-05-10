@@ -143,7 +143,7 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
  */
 @PersistenceCollection("work")
 @Strict
-public class WorkInfo implements ICBSScope, IOBSScope {
+public class WorkInfo implements ICBSScope, IOBSScope, IWBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -602,7 +602,7 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 	public String getText() {
 		return text;
 	}
-	
+
 	public WorkInfo setText(String text) {
 		this.text = text;
 		return this;
@@ -670,35 +670,17 @@ public class WorkInfo implements ICBSScope, IOBSScope {
 		this.status = status;
 	}
 
-	@Persistence
-	private String checkOutUserId;
-
-	@Persistence
-	private Date checkOutDate;
-
-	@Persistence
-	private String checkOutSessionId;
-
-	@Persistence
-	private ObjectId checkOutWorkId;
-
-	public void setCheckOutUserId(String checkOutUserId) {
-		this.checkOutUserId = checkOutUserId;
+	@Override
+	public ObjectId getWBS_id() {
+		return _id;
 	}
 
-	public void setCheckOutDate(Date checkOutDate) {
-		this.checkOutDate = checkOutDate;
-	}
+	@Persistence
+	private String checkOutBy;
 
-	public void setCheckOutSessionId(String checkOutSessionId) {
-		this.checkOutSessionId = checkOutSessionId;
-	}
-
-	public void setCheckOutWorkId(ObjectId checkOutWorkId) {
-		this.checkOutWorkId = checkOutWorkId;
-	}
-
+	@Override
 	public String getCheckOutUserId() {
-		return checkOutUserId;
+		return checkOutBy;
 	}
+
 }

@@ -7,5 +7,7 @@ public interface IWBSScope {
 	public ObjectId getWBS_id();
 	
 	public ObjectId getScope_id();
+	
+	public String getCheckOutUserId();
 
 }

@@ -10,7 +10,6 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
-import com.bizvisionsoft.bruiengine.Brui;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.Util;
@@ -37,16 +36,10 @@ public class ProjectGantt {
 
 	private ObjectId project_id;
 
-	private String userId;
-
-	private String sessionId;
-
 	@Init
 	private void init() {
 		work_id = ((Project) context.getRootInput()).getWBS_id();
 		project_id = ((Project) context.getRootInput()).get_id();
-		userId = brui.getCurrentUserId();
-		sessionId = Brui.sessionManager.getSessionId();
 		workService = Services.get(WorkService.class);
 	}
 
@@ -121,24 +114,14 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskAdd" })
 	public void onAfterTaskAddBySpace(GanttEvent e) {
-		WorkInfo workInfo = (WorkInfo) e.task;
-		workInfo.setCheckOutDate(new Date());
-		workInfo.setCheckOutSessionId(sessionId);
-		workInfo.setCheckOutUserId(userId);
-		workInfo.setCheckOutWorkId(work_id);
-		workService.insertWorkBySpace(workInfo);
+		workService.insertWorkBySpace((WorkInfo) e.task);
 		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskUpdate" })
 	public void onAfterTaskUpdateBySpace(GanttEvent e) {
-		WorkInfo workInfo = (WorkInfo) e.task;
-		workInfo.setCheckOutDate(new Date());
-		workInfo.setCheckOutSessionId(sessionId);
-		workInfo.setCheckOutUserId(userId);
-		workInfo.setCheckOutWorkId(work_id);
 		workService.updateWorkBySpace(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson(workInfo, "_id")).bson());
+				.set(Util.getBson((WorkInfo) e.task, "_id")).bson());
 		System.out.println(e.text);
 	}
 
@@ -150,24 +133,14 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkAdd" })
 	public void onAfterLinkAddBySpace(GanttEvent e) {
-		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
-		workLinkInfo.setCheckOutDate(new Date());
-		workLinkInfo.setCheckOutSessionId(sessionId);
-		workLinkInfo.setCheckOutUserId(userId);
-		workLinkInfo.setCheckOutWorkId(work_id);
-		workService.insertLinkBySpace(workLinkInfo);
+		workService.insertLinkBySpace((WorkLinkInfo) e.link);
 		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkUpdate" })
 	public void onAfterLinkUpdateBySpace(GanttEvent e) {
-		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
-		workLinkInfo.setCheckOutDate(new Date());
-		workLinkInfo.setCheckOutSessionId(sessionId);
-		workLinkInfo.setCheckOutUserId(userId);
-		workLinkInfo.setCheckOutWorkId(work_id);
 		workService.updateLinkBySpace(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson(workLinkInfo, "_id")).bson());
+				.set(Util.getBson((WorkLinkInfo) e.link, "_id")).bson());
 		System.out.println(e.text);
 	}
 

@@ -82,7 +82,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			workInfo.setStart_date(project.getPlanStart());
 			workInfo.setEnd_date(project.getPlanFinish());
 			new WorkServiceImpl().insertWork(workInfo);
-			
 
 		} else {
 			// TODO 根据模板创建

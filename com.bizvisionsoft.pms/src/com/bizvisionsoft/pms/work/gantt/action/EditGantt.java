@@ -6,7 +6,6 @@ import org.eclipse.swt.widgets.Event;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruiengine.Brui;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
@@ -24,22 +23,23 @@ public class EditGantt {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
-
-		// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
-		Result result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
-				brui.getCurrentUserId(), Brui.sessionManager.getSessionId(), false);
-		if(Result.TYPE_SUCCESS == result.type) {
-			brui.switchContent("项目甘特图(编辑)", wbsScope);
-		} else if(Result.TYPE_HASCHECKOUTSUB == result.type) {
-			if(MessageDialog.openConfirm(brui.getCurrentShell(), "提示", result.message)) {
-				result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
-						brui.getCurrentUserId(), Brui.sessionManager.getSessionId(), true);
-				if(Result.TYPE_SUCCESS == result.type) {
-					brui.switchContent("项目甘特图(编辑)", wbsScope);
+		if (brui.getCurrentUserId().equals(wbsScope.getCheckOutUserId())) {
+			// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
+			Result result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+					brui.getCurrentUserId(), false);
+			if (Result.TYPE_SUCCESS == result.type) {
+				brui.switchContent("项目甘特图(编辑)", wbsScope);
+			} else if (Result.TYPE_HASCHECKOUTSUB == result.type) {
+				if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示", "下级进度已被检出进行编辑，请确认是否取消下级的检出。")) {
+					result = Services.get(WorkService.class).checkOutSchedulePlan(wbsScope.getWBS_id(),
+							brui.getCurrentUserId(), true);
+					if (Result.TYPE_SUCCESS == result.type) {
+						brui.switchContent("项目甘特图(编辑)", wbsScope);
+					}
 				}
 			}
-		} else if(Result.TYPE_UNAUTHORIZED == result.type) {
-			MessageDialog.openInformation(brui.getCurrentShell(), "提示", result.message);
+		} else {
+			MessageDialog.openError(brui.getCurrentShell(), "提示", "您没有编辑计划的权限。");
 		}
 		// 参数要传当前用户id。判断如果不是自己有权检出的报错。
 		// 参数要传 是否取消下级检出 （cancelCheckOutSubSchedule）。

@@ -16640,7 +16640,7 @@
             "openContent": false,
             "propagate": false,
             "forceText": true,
-            "style": "info",
+            "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -16652,7 +16652,7 @@
             "openContent": false,
             "propagate": false,
             "forceText": true,
-            "style": "info",
+            "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -16664,6 +16664,7 @@
             "openContent": false,
             "propagate": false,
             "forceText": true,
+            "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -16675,6 +16676,7 @@
             "openContent": false,
             "propagate": false,
             "forceText": true,
+            "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"

@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.mongodb.BasicDBObject;
 
@@ -515,5 +516,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		ServicesLoader.get(ProjectService.class).update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 				.set(new BasicDBObject("obs_id", obs_id)).bson());
 		this.obs_id = obs_id;
+	}
+
+	@Override
+	public String getCheckOutUserId() {
+		return ServicesLoader.get(WorkService.class).getCheckOutUserId(getWBS_id());
 	}
 }

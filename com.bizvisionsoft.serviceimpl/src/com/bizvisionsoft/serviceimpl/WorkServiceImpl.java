@@ -152,74 +152,43 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public Result checkOutSchedulePlan(ObjectId _id, String userId, String sessionId,
-			boolean cancelCheckOutSubSchedule) {
-		// if (!checkOutSchedulePlanUnauthorized(_id, userId, sessionId)) {
-		// return Result.checkOutSchedulePlan("您没有编辑计划的权限。", Result.TYPE_UNAUTHORIZED);
-		// }
-
+	public Result checkOutSchedulePlan(ObjectId _id, String userId, boolean cancelCheckOutSubSchedule) {
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
 		inputIds.add(_id);
 		inputIds = getDesentItems(inputIds, "work", "parent_id");
 
-		long count = c("workspace", WorkInfo.class).count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
-				.append("checkOutUserId", new BasicDBObject("$ne", userId)));
+		if (cancelCheckOutSubSchedule) {
+			c("workspace", WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
 
-		if (count > 0) {
-			if (!cancelCheckOutSubSchedule) {
-				return Result.checkOutSchedulePlan("下级进度已被检出进行编辑，请确认是否取消下级的检出。", Result.TYPE_HASCHECKOUTSUB);
-			} else {
-				List<ObjectId> cancelInputIds = getDesentItems(inputIds, "workspace", "parent_id");
-				c("workspace", WorkInfo.class)
-						.deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", cancelInputIds)));
+			c("worklinksspace", WorkLinkInfo.class)
+					.deleteMany(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
+							new BasicDBObject("$in", inputIds)));
+		} else {
+			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+					.append("checkOutBy", new BasicDBObject("$ne", null)));
+			if (count > 0) {
+				return Result.checkOutSchedulePlan("", Result.TYPE_HASCHECKOUTSUB);
 			}
 		}
 
-		count = c("workspace", WorkInfo.class).count(
-				new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds)).append("checkOutUserId", userId));
-		if (count <= 0) {
-			List<WorkInfo> works = getWorks(inputIds);
-			if (works != null && works.size() > 0) {
-				for (WorkInfo workInfo : works) {
-					workInfo.setCheckOutUserId(userId);
-					workInfo.setCheckOutDate(new Date());
-					workInfo.setCheckOutSessionId(sessionId);
-					workInfo.setCheckOutWorkId(_id);
-				}
-				c("workspace", WorkInfo.class).insertMany(works);
-			}
+		List<Document> works = c("work").find(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds)))
+				.into(new ArrayList<Document>());
+		if (works != null && works.size() > 0) {
+			c(WorkInfo.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
+					new BasicDBObject("$set", new BasicDBObject("checkOutBy", userId)));
 
-			List<WorkLinkInfo> workLinkInfos = c(WorkLinkInfo.class)
-					.find(new BasicDBObject("$or",
-							new BasicDBObject[] { new BasicDBObject("source", new BasicDBObject("$in", inputIds)),
-									new BasicDBObject("target", new BasicDBObject("$in", inputIds)) }))
-					.into(new ArrayList<WorkLinkInfo>());
+			c("workspace").insertMany(works);
+			
+			List<Document> workLinkInfos = c("worklinks")
+					.find(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
+							new BasicDBObject("$in", inputIds)))
+					.into(new ArrayList<Document>());
+
 			if (workLinkInfos != null && workLinkInfos.size() > 0) {
-				for (WorkLinkInfo workLinkInfo : workLinkInfos) {
-					workLinkInfo.setCheckOutUserId(userId);
-					workLinkInfo.setCheckOutDate(new Date());
-					workLinkInfo.setCheckOutSessionId(sessionId);
-					workLinkInfo.setCheckOutWorkId(_id);
-
-				}
-				c("worklinksspace", WorkLinkInfo.class).insertMany(workLinkInfos);
+				c("worklinksspace").insertMany(workLinkInfos);
 			}
 		}
-
 		return Result.checkOutSchedulePlan("检出成功。", Result.TYPE_SUCCESS);
-	}
-
-	public boolean checkOutSchedulePlanUnauthorized(ObjectId _id, String userId, String sessionId) {
-		WorkInfo workInfo = c("workspace", WorkInfo.class).find(new BasicDBObject("_id", _id)).first();
-		if (workInfo != null) {
-			return userId.equals(workInfo.getCheckOutUserId());
-		}
-		return false;
-	}
-
-	private List<WorkInfo> getWorks(List<ObjectId> inputIds) {
-		return c(WorkInfo.class).find(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds)))
-				.into(new ArrayList<WorkInfo>());
 	}
 
 	@Override
@@ -269,5 +238,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long deleteLinkBySpace(ObjectId _id) {
 		return delete(_id, "worklinksspace", WorkLinkInfo.class);
+	}
+
+	@Override
+	public String getCheckOutUserId(ObjectId _id) {
+		return getWork(_id).getCheckOutUserId();
 	}
 }

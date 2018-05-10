@@ -1,7 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.Date;
-
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
@@ -228,34 +226,6 @@ public class WorkLinkInfo {
 	public WorkLinkInfo setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
-	}
-
-	@Persistence
-	private String checkOutUserId;
-
-	@Persistence
-	private Date checkOutDate;
-
-	@Persistence
-	private String checkOutSessionId;
-
-	@Persistence
-	private ObjectId checkOutWorkId;
-
-	public void setCheckOutUserId(String checkOutUserId) {
-		this.checkOutUserId = checkOutUserId;
-	}
-
-	public void setCheckOutDate(Date checkOutDate) {
-		this.checkOutDate = checkOutDate;
-	}
-
-	public void setCheckOutSessionId(String checkOutSessionId) {
-		this.checkOutSessionId = checkOutSessionId;
-	}
-
-	public void setCheckOutWorkId(ObjectId checkOutWorkId) {
-		this.checkOutWorkId = checkOutWorkId;
 	}
 
 }

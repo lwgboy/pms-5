@@ -130,19 +130,12 @@ public interface WorkService {
 	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
 
 	@GET
-	@Path("/_id/{_id}/scheduleplan/checkout/{userId}/{sessionId}/{cancelCheckOutSubSchedule}")
+	@Path("/_id/{_id}/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result checkOutSchedulePlan(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
-			@PathParam("sessionId") String sessionId,
-			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
 
-	@GET
-	@Path("/_id/{_id}/scheduleplan/checkoutunauthorized/{userId}/{sessionId}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public boolean checkOutSchedulePlanUnauthorized(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
-			@PathParam("sessionId") String sessionId);
+			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
 
 	@POST
 	@Path("/gantt/tasksspace")
@@ -199,5 +192,11 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteLinkBySpace(@PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/_id/{_id}/checkoutuserid/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String getCheckOutUserId(@PathParam("_id") ObjectId _id);
 
 }

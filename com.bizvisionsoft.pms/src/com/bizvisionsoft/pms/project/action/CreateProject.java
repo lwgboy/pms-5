@@ -10,6 +10,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -24,13 +25,16 @@ public class CreateProject {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
 
-				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(bruiService.creationInfo()))
+				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true)
+						.setCreationInfo(bruiService.creationInfo()))
 
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {
+						Services.get(WorkService.class).checkOutSchedulePlan(pj.getWBS_id(),
+								bruiService.getCurrentUserId(), true);
 						if (MessageDialog.openQuestion(bruiService.getCurrentShell(), "创建项目", "项目创建成功，是否进入项目主页？")) {
-							bruiService.switchPage("项目首页（启动）",pj.get_id().toHexString());
+							bruiService.switchPage("项目首页（启动）", pj.get_id().toHexString());
 						}
 
 					}
