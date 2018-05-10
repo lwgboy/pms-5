@@ -37,11 +37,12 @@ public interface WorkSpaceService {
 	@DataSet(DataSet.INPUT)
 	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
-	@GET
-	@Path("/_id/{_id}/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
+	@POST
+	@Path("/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkOutSchedulePlan(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId,
+	public Result checkOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+			@PathParam("userId") String userId,
 			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
 
 	@POST

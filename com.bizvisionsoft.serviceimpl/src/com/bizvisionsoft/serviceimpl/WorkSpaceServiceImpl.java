@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.mongodb.BasicDBObject;
@@ -31,10 +32,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	}
 
 	@Override
-	public Result checkOutSchedulePlan(ObjectId _id, String userId, boolean cancelCheckOutSubSchedule) {
+	public Result checkOutSchedulePlan(BasicDBObject wbsScope, String userId, boolean cancelCheckOutSubSchedule) {
+		ObjectId project_id = wbsScope.getObjectId("project_id");
+		ObjectId work_id = wbsScope.getObjectId("work_id");
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
-		inputIds.add(_id);
-		inputIds = getDesentItems(inputIds, "work", "parent_id");
+		if (work_id == null) {
+			inputIds = c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id), ObjectId.class)
+					.into(new ArrayList<ObjectId>());
+		} else {
+			inputIds.add(work_id);
+			inputIds = getDesentItems(inputIds, "work", "parent_id");
+		}
 
 		if (cancelCheckOutSubSchedule) {
 			c(WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
@@ -55,8 +63,14 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))));
 		pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
 
+		if (work_id == null) {
+			c("project").updateOne(new BasicDBObject("_id", project_id), new BasicDBObject("$set",
+					new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
+		}
+		
 		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
 		if (works != null && works.size() > 0) {
+
 			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
 					new BasicDBObject("$set", new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
 

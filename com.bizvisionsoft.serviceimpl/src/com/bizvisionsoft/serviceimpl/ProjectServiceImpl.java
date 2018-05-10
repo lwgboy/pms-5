@@ -33,24 +33,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			// 数据准备
 			ObjectId obsRoot_id = new ObjectId();// 组织根
 			ObjectId cbsRoot_id = new ObjectId();// 预算根
-			ObjectId wbsRoot_id = new ObjectId();// WBS根
 
 			ObjectId projectSet_id = input.getProjectSet_id();
 			ObjectId obsParent_id = null;// 组织上级
 			ObjectId cbsParent_id = null;// 成本上级
-			ObjectId wbsParent_id = null;// WBS上级
 			if (projectSet_id != null) {
 				// 获得上级obs_id
 				Document doc = c("projectSet").find(new BasicDBObject("_id", projectSet_id))
 						.projection(new BasicDBObject("obs_id", true).append("cbs_id", true)).first();
 				obsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("obs_id")).orElse(null);
 				cbsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("cbs_id")).orElse(null);
-				wbsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("wbs_id")).orElse(null);
 
 			}
 			/////////////////////////////////////////////////////////////////////////////
 			// 0. 创建项目
-			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id).setWBS_id(wbsRoot_id), Project.class);
+			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class);
 
 			/////////////////////////////////////////////////////////////////////////////
 			// 1. 项目团队初始化
@@ -74,14 +71,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			cbsRoot.setId(project.getId());
 			cbsRoot.setName(project.getName());
 			new CBSServiceImpl().insertCBSItem(cbsRoot);// 插入记录
-			
-			Work workInfo = Work.newInstance(project.get_id(), wbsParent_id);
-			workInfo.set_id(wbsRoot_id);
-//			workInfo.setId(project.getId());
-			workInfo.setText(project.getName());
-			workInfo.setStart_date(project.getPlanStart());
-			workInfo.setEnd_date(project.getPlanFinish());
-			new WorkServiceImpl().insertWork(workInfo);
 
 		} else {
 			// TODO 根据模板创建

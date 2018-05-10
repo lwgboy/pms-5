@@ -73,7 +73,6 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countStage(@PathParam("_id") ObjectId _id);
-	
 
 	@GET
 	@Path("/_id/{_id}/action/start/{executeBy}")
@@ -108,7 +107,6 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Stockholder insertStockholder(Stockholder c);
-	
 
 	@POST
 	@Path("/userid/{userid}/ds")
