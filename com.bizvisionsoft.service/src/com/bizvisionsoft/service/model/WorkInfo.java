@@ -15,6 +15,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
@@ -296,6 +297,30 @@ public class WorkInfo implements IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * 工作角色
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String chargerId;
+
+	@SetValue
+	@ReadValue
+	private String chargerInfo;
+
+	@WriteValue("charger")
+	private void setCharger(User charger) {
+		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
+	}
+
+	@ReadValue("charger")
+	private User getCharger() {
+		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
 
@@ -439,16 +464,60 @@ public class WorkInfo implements IWBSScope {
 		this.status = status;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 如果是里程碑，gantt的type为milestone，否则为task。
+	// 如果在gantt中更新了task,使得他有子工作，gantt将type改为project
+	@Persistence
+	private boolean milestone;
+
 	@Persistence
 	private boolean summary;
+
+	@ReadValue("type")
+	public String getType() {
+		if (milestone)
+			return "milestone";
+		else if (summary)
+			return "project";
+		else
+			return "task";
+	}
+
+	@WriteValue("type")
+	public boolean setType(String type) {
+		boolean milestone = "milestone".equals(type);
+		boolean summary = "project".equals(type);
+		if (this.milestone != milestone || this.summary != summary) {
+			this.milestone = milestone;
+			this.summary = summary;
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean isSummary() {
 		return summary;
 	}
 
+	public boolean isMilestone() {
+		return milestone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public BasicDBObject getCheckOutKey() {
 		return new BasicDBObject("project_id", project_id).append("work_id", _id);
 	}
+	
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 完成百分比
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private Float progress;
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

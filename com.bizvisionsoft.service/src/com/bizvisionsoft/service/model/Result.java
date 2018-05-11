@@ -8,11 +8,11 @@ public class Result {
 
 	public static final int TYPE_INFO = 2;
 
-	public static final int TYPE_SUCCESS = 600;
+	public static final int CODE_SUCCESS = 600;
 
-	public static final int TYPE_HASCHECKOUTSUB = 601;
+	public static final int CODE_HASCHECKOUTSUB = 601;
 	
-	public static final int TYPE_UNAUTHORIZED = 602;
+	public static final int CODE_UNAUTHORIZED = 602;
 	
 	public int code;
 

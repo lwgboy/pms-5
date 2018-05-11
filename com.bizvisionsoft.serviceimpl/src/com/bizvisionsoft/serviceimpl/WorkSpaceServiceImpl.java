@@ -32,65 +32,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	}
 
 	@Override
-	public Result checkOutSchedulePlan(BasicDBObject wbsScope, String userId, boolean cancelCheckOutSubSchedule) {
-		ObjectId project_id = wbsScope.getObjectId("project_id");
-		ObjectId work_id = wbsScope.getObjectId("work_id");
-		List<ObjectId> inputIds = new ArrayList<ObjectId>();
-		if (work_id == null) {
-			inputIds = c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id), ObjectId.class)
-					.into(new ArrayList<ObjectId>());
-		} else {
-			inputIds.add(work_id);
-			inputIds = getDesentItems(inputIds, "work", "parent_id");
-		}
-
-		if (cancelCheckOutSubSchedule) {
-			c(WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
-
-			c(WorkLinkInfo.class).deleteMany(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
-					.append("target", new BasicDBObject("$in", inputIds)));
-		} else {
-			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
-					.append("checkOutBy", new BasicDBObject("$ne", null)));
-			if (count > 0) {
-				return Result.checkOutSchedulePlan("", Result.TYPE_HASCHECKOUTSUB);
-			}
-		}
-
-		ObjectId space_id = new ObjectId();
-
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))));
-		pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
-
-		if (work_id == null) {
-			c("project").updateOne(new BasicDBObject("_id", project_id), new BasicDBObject("$set",
-					new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
-		}
-		
-		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
-		if (works != null && works.size() > 0) {
-
-			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
-					new BasicDBObject("$set", new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
-
-			c("workspace").insertMany(works);
-
-			pipeline = new ArrayList<Bson>();
-			pipeline.add(Aggregates.match(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
-					.append("target", new BasicDBObject("$in", inputIds))));
-			pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
-
-			List<Document> workLinkInfos = c("worklinks").aggregate(pipeline).into(new ArrayList<Document>());
-
-			if (workLinkInfos != null && workLinkInfos.size() > 0) {
-				c("worklinksspace").insertMany(workLinkInfos);
-			}
-		}
-		return Result.checkOutSchedulePlan("检出成功。", Result.TYPE_SUCCESS);
-	}
-
-	@Override
 	public List<WorkInfo> createTaskDataSet(BasicDBObject condition) {
 		return c(WorkInfo.class).find(condition).into(new ArrayList<WorkInfo>());
 	}
@@ -147,5 +88,106 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	@Override
 	public ObjectId getSpaceId(ObjectId _id) {
 		return c("work").distinct("space_id", new BasicDBObject("_id", _id), ObjectId.class).first();
+	}
+
+	@Override
+	public Result checkOutSchedulePlan(BasicDBObject wbsScope, String userId, boolean cancelCheckOutSubSchedule) {
+		ObjectId project_id = wbsScope.getObjectId("project_id");
+		ObjectId work_id = wbsScope.getObjectId("work_id");
+		List<ObjectId> inputIds = new ArrayList<ObjectId>();
+		if (work_id == null) {
+			inputIds = c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id), ObjectId.class)
+					.into(new ArrayList<ObjectId>());
+		} else {
+			inputIds.add(work_id);
+			inputIds = getDesentItems(inputIds, "work", "parent_id");
+		}
+
+		if (cancelCheckOutSubSchedule) {
+			cancelCheckOutSchedulePlan(project_id, inputIds, userId);
+		} else {
+			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+					.append("checkOutBy", new BasicDBObject("$ne", null)));
+			if (count > 0) {
+				return Result.checkOutSchedulePlan("", Result.CODE_HASCHECKOUTSUB);
+			}
+		}
+
+		ObjectId space_id = new ObjectId();
+
+		if (work_id == null) {
+			c("project").updateOne(new BasicDBObject("_id", project_id),
+					new BasicDBObject("$set", new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
+		}
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))));
+		pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
+		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
+		if (works.size() > 0) {
+
+			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
+					new BasicDBObject("$set", new BasicDBObject("checkOutBy", userId).append("space_id", space_id)));
+
+			c("workspace").insertMany(works);
+
+			pipeline = new ArrayList<Bson>();
+			pipeline.add(Aggregates.match(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
+					.append("target", new BasicDBObject("$in", inputIds))));
+			pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
+
+			List<Document> workLinkInfos = c("worklinks").aggregate(pipeline).into(new ArrayList<Document>());
+
+			if (workLinkInfos.size() > 0) {
+				c("worklinksspace").insertMany(workLinkInfos);
+			}
+		}
+		return Result.checkOutSchedulePlan("检出成功。", Result.CODE_SUCCESS);
+	}
+
+	@Override
+	public Result schedulePlanCheck(BasicDBObject wbsScope, String userId) {
+		// 检查
+
+		return Result.checkOutSchedulePlan("检查完成。", Result.CODE_SUCCESS);
+	}
+
+	@Override
+	public Result checkInSchedulePlan(BasicDBObject wbsScope, String userId) {
+		// TODO Auto-generated method stub
+		return Result.checkOutSchedulePlan("检入成功。", Result.CODE_SUCCESS);
+	}
+
+	@Override
+	public Result cancelCheckOutSchedulePlan(BasicDBObject wbsScope, String userId) {
+		ObjectId project_id = wbsScope.getObjectId("project_id");
+		ObjectId work_id = wbsScope.getObjectId("work_id");
+		List<ObjectId> inputIds = new ArrayList<ObjectId>();
+		if (work_id == null) {
+			inputIds = c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id), ObjectId.class)
+					.into(new ArrayList<ObjectId>());
+		} else {
+			inputIds.add(work_id);
+			inputIds = getDesentItems(inputIds, "work", "parent_id");
+		}
+
+		cancelCheckOutSchedulePlan(project_id, inputIds, userId);
+
+		return Result.checkOutSchedulePlan("撤销检出成功。", Result.CODE_SUCCESS);
+	}
+
+	private Result cancelCheckOutSchedulePlan(ObjectId project_id, List<ObjectId> inputIds, String userId) {
+		c(WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
+
+		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
+				.append("target", new BasicDBObject("$in", inputIds)));
+
+		c("project").updateOne(new BasicDBObject("_id", project_id),
+				new BasicDBObject("$unset", new BasicDBObject("checkOutBy", 1).append("space_id", 1)));
+
+		c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
+				new BasicDBObject("$set", new BasicDBObject("checkOutBy", 1).append("space_id", 1)));
+
+		return Result.checkOutSchedulePlan("撤销检出成功。", Result.CODE_SUCCESS);
 	}
 }
