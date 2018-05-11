@@ -114,11 +114,11 @@ public interface WorkSpaceService {
 			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
 
 	@POST
-	@Path("/scheduleplan/check/{userId}")
+	@Path("/scheduleplan/check/{userId}/{checkManageItem}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
-			@PathParam("userId") String userId);
+			@PathParam("userId") String userId,@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@POST
 	@Path("/scheduleplan/checkin/{userId}")

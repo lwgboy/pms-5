@@ -109,7 +109,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
 					.append("checkOutBy", new BasicDBObject("$ne", null)));
 			if (count > 0) {
-				return Result.checkOutSchedulePlan("", Result.CODE_HASCHECKOUTSUB);
+				return Result.checkOutSchedulePlanError("下级进度已被检出进行编辑。", Result.CODE_HASCHECKOUTSUB);
 			}
 		}
 
@@ -142,20 +142,77 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				c("worklinksspace").insertMany(workLinkInfos);
 			}
 		}
-		return Result.checkOutSchedulePlan("检出成功。", Result.CODE_SUCCESS);
+		return Result.checkOutSchedulePlanSuccess("检出成功。");
 	}
 
 	@Override
-	public Result schedulePlanCheck(BasicDBObject wbsScope, String userId) {
-		// 检查
+	public Result schedulePlanCheck(BasicDBObject wbsScope, String userId, Boolean checkManageItem) {
+		// 获取需检查的节点。
+		ObjectId project_id = wbsScope.getObjectId("project_id");
+		ObjectId work_id = wbsScope.getObjectId("work_id");
+		ObjectId space_id = wbsScope.getObjectId("space_id");
+		List<ObjectId> checkIds = new ArrayList<ObjectId>();
+		if (checkManageItem) {
+			checkIds.addAll(
+					c(Work.class)
+							.distinct("_id",
+									new BasicDBObject("space_id", space_id).append("manageLevel",
+											new BasicDBObject("$ne", null)),
+									ObjectId.class)
+							.into(new ArrayList<ObjectId>()));
+		}
 
-		return Result.checkOutSchedulePlan("检查完成。", Result.CODE_SUCCESS);
+		if (work_id != null) {
+			checkIds.add(work_id);
+		} else {
+			checkIds.addAll(
+					c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id).append("parent_id", null),
+							ObjectId.class).into(new ArrayList<ObjectId>()));
+		}
+
+		// 根据检查检点构建查询语句
+
+		/**
+		 * { "$match" : { "_id" : { "$in" : [] } } }, { "$lookup" : { "from" : "work",
+		 * "localField" : "_id", "foreignField" : "_id", "as" : "work" } }, { "$unwind"
+		 * : "$work" }, { "$lookup" : { "from" : "project", "localField" : "project_id",
+		 * "foreignField" : "_id", "as" : "project" }}, { "$unwind" : "$project" }, {
+		 * "$project" : { "fullName" : true, "stage" : true, "project_id" : true, "name"
+		 * : true, "parent_id" : true, "planFinish" : true, "wpf" : { "$gt" : [
+		 * "$planFinish", "$work.planFinish" ] }, "ppf" : { "$gt" : [ "$planFinish",
+		 * "$project.planFinish" ] } } },
+		 * 
+		 * { "$match" : { "$or" : [ { "stage" : true, "ppf" : true }, { "stage" : false,
+		 * "wpf" : true } ] } }
+		 **/
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject("$in", checkIds))));
+		pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
+		pipeline.add(Aggregates.unwind("work"));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("project"));
+		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE)
+				.append("wpf", new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))
+				.append("ppf", new BasicDBObject("$gt", new String[] { "$planFinish", "$project.planFinish" }))));
+		// 查询不满足条件的节点数量
+		pipeline.add(Aggregates.match(new BasicDBObject("$or",
+				new BasicDBObject[] { new BasicDBObject("stage", Boolean.TRUE).append("ppf", Boolean.TRUE),
+						new BasicDBObject("stage", Boolean.FALSE).append("wpf", Boolean.TRUE) })));
+		WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
+		if (workInfo != null) {
+			return Result.checkOutSchedulePlanError("检查不通过，管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+		}
+
+		// 返回检查结果
+
+		return Result.checkOutSchedulePlanSuccess("检查完成。");
 	}
 
 	@Override
 	public Result checkInSchedulePlan(BasicDBObject wbsScope, String userId) {
 		// TODO Auto-generated method stub
-		return Result.checkOutSchedulePlan("检入成功。", Result.CODE_SUCCESS);
+		return Result.checkOutSchedulePlanSuccess("检入成功。");
 	}
 
 	@Override
@@ -171,9 +228,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			inputIds = getDesentItems(inputIds, "work", "parent_id");
 		}
 
-		cancelCheckOutSchedulePlan(project_id, inputIds, userId);
+		return cancelCheckOutSchedulePlan(project_id, inputIds, userId);
 
-		return Result.checkOutSchedulePlan("撤销检出成功。", Result.CODE_SUCCESS);
 	}
 
 	private Result cancelCheckOutSchedulePlan(ObjectId project_id, List<ObjectId> inputIds, String userId) {
@@ -188,6 +244,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
 				new BasicDBObject("$set", new BasicDBObject("checkOutBy", 1).append("space_id", 1)));
 
-		return Result.checkOutSchedulePlan("撤销检出成功。", Result.CODE_SUCCESS);
+		return Result.checkOutSchedulePlanSuccess("撤销检出成功。");
 	}
 }

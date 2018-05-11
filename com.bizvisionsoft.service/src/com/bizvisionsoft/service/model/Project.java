@@ -532,6 +532,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@Override
 	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id",_id).append("work_id", null);
+		return new BasicDBObject("project_id", _id).append("work_id", null).append("space_id", space_id);
 	}
 }

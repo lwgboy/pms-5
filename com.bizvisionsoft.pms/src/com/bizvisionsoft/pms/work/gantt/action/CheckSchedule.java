@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -9,6 +10,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -21,9 +23,12 @@ public class CheckSchedule {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(wbsScope.getCheckOutKey(),
-				bruiService.getCurrentUserId());
+				bruiService.getCurrentUserId(), !(wbsScope instanceof Project));
 
-		if (Result.CODE_SUCCESS == result.type) {
+		if (Result.CODE_SUCCESS == result.code) {
+			MessageDialog.openInformation(bruiService.getCurrentShell(), "检查结果", result.message);
+		} else {
+			MessageDialog.openError(bruiService.getCurrentShell(), "检查结果", result.message);
 		}
 	}
 }
