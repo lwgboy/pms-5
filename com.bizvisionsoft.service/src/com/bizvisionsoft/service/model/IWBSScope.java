@@ -16,6 +16,11 @@ public interface IWBSScope {
 
 	public ObjectId getProject_id();
 
+	/**
+	 * 构造检出信息字段
+	 * 
+	 * @return BasicDBObject 由project_id、work_id和space_id三个字段组合构成
+	 */
 	public BasicDBObject getCheckOutKey();
 
 }

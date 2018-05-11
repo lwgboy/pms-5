@@ -23,7 +23,7 @@ public class CancelSchedule {
 		
 		Result result = Services.get(WorkSpaceService.class).cancelCheckOutSchedulePlan(wbsScope.getCheckOutKey(),
 				bruiService.getCurrentUserId());
-		if (Result.CODE_SUCCESS == result.type) {
+		if (Result.CODE_SUCCESS == result.code) {
 				bruiService.switchContent("ÏîÄ¿¸ÊÌØÍ¼", null);
 		}
 	}

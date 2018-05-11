@@ -13,6 +13,8 @@ public class Result {
 	public static final int CODE_HASCHECKOUTSUB = 601;
 	
 	public static final int CODE_UNAUTHORIZED = 602;
+
+	public static final int CODE_UPDATEMANAGEITEM = 603;
 	
 	public int code;
 
@@ -28,11 +30,19 @@ public class Result {
 		return e;
 	}
 
-	public static Result checkOutSchedulePlan(String message,int type) {
+	public static Result checkOutSchedulePlanError(String message,int code) {
 		Result e = new Result();
-		e.code = 0x601;
+		e.code = code;
 		e.message = message;
-		e.type = type;
+		e.type = Result.TYPE_ERROR;
+		return e;
+	};
+
+	public static Result checkOutSchedulePlanSuccess(String message) {
+		Result e = new Result();
+		e.code = Result.CODE_SUCCESS;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
 		return e;
 	};
 

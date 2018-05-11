@@ -137,14 +137,70 @@ public class WorkInfo implements IWBSScope {
 	/**
 	 * 计划开始日期, 编辑器保存时需要校验
 	 */
-	@ReadValue({ "start_date", "planStart" })
+	@ReadValue("planStart")
 	@Persistence("planStart")
-	private Date start_date;
+	private Date planStart;
+
+	@ReadValue("actualStart")
+	@Persistence("actualStart")
+	private Date actualStart;
 
 	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
 	public WorkInfo setStart_date(Date start_date) {
-		checkDate(start_date, this.end_date, this.deadline);
-		this.start_date = start_date;
+		checkDate(start_date, this.getEnd_date(), this.deadline);
+		if (actualStart != null) {
+			actualStart = start_date;
+		} else {
+			planStart = start_date;
+		}
+		return this;
+	}
+
+	@WriteValue("项目甘特图(编辑)/start_date")
+	public boolean setStart_date(String start_date) {
+		Date newDate = Util.str_date(start_date);
+		if (actualStart != null) {
+			if (!Util.equals(newDate, this.actualStart)) {
+				actualStart = newDate;
+				return true;
+			}
+		} else {
+			if (!Util.equals(newDate, this.planStart)) {
+				planStart = newDate;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@ReadValue({ "start_date" })
+	public Date getStart_date() {
+		if (actualStart != null) {
+			return actualStart;
+		}
+		return planStart;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 计划完成日期, 编辑器保存时需要校验
+	@ReadValue("planFinish")
+	@Persistence("planFinish")
+	private Date planFinish;
+
+	@ReadValue("actualFinish")
+	@Persistence("actualFinish")
+	private Date actualFinish;
+
+	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
+	public WorkInfo setEnd_date(Date end_date) {
+		checkDate(getStart_date(), end_date, this.deadline);
+		if (actualFinish != null) {
+			actualFinish = end_date;
+		} else {
+			planFinish = end_date;
+		}
 		return this;
 	}
 
@@ -160,49 +216,29 @@ public class WorkInfo implements IWBSScope {
 	 *            使用Util.str_date()方法可以转换
 	 * @return
 	 */
-	@WriteValue("项目甘特图(编辑)/start_date")
-	public boolean setStart_date(String start_date) {
-		Date newDate = Util.str_date(start_date);
-		if (!Util.equals(newDate, this.start_date)) {
-			this.start_date = newDate;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 计划完成日期, 编辑器保存时需要校验
-	@ReadValue({ "end_date", "planFinish" })
-	@Persistence("planFinish")
-	private Date end_date;
-
-	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
-	public WorkInfo setEnd_date(Date end_date) {
-		checkDate(this.start_date, end_date, this.deadline);
-		this.end_date = end_date;
-		return this;
-	}
-
 	@WriteValue("项目甘特图(编辑)/end_date")
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
-		if (!Util.equals(newDate, this.end_date)) {
-			this.end_date = newDate;
-			return true;
+		if (actualFinish != null) {
+			if (!Util.equals(newDate, this.actualFinish)) {
+				actualFinish = newDate;
+				return true;
+			}
 		} else {
-			return false;
+			if (!Util.equals(newDate, this.planFinish)) {
+				planFinish = newDate;
+				return true;
+			}
 		}
+		return false;
 	}
 
+	@ReadValue("end_date")
 	public Date getEnd_date() {
-		return end_date;
+		if (actualFinish != null) {
+			return actualFinish;
+		}
+		return planFinish;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -214,7 +250,7 @@ public class WorkInfo implements IWBSScope {
 
 	@WriteValue("deadline")
 	public void setDeadline(Date deadline) {
-		checkDate(this.start_date, this.end_date, deadline);
+		checkDate(this.getStart_date(), this.getEnd_date(), deadline);
 		this.deadline = deadline;
 	}
 
@@ -233,9 +269,19 @@ public class WorkInfo implements IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期, 需要保存，但无需传递到gantt和编辑器
 	@GetValue("planDuration")
-	public int getDuration() {
-		if (end_date != null && start_date != null) {
-			return (int) ((end_date.getTime() - start_date.getTime()) / (1000 * 3600 * 24));
+	public int getPlanDuration() {
+		if (planFinish != null && planStart != null) {
+			return (int) ((planFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24));
+		} else {
+			return 0;
+		}
+	}
+	
+
+	@GetValue("actualDuration")
+	public int getActualDuration() {
+		if (actualFinish != null && actualStart != null) {
+			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
 		} else {
 			return 0;
 		}
@@ -494,7 +540,6 @@ public class WorkInfo implements IWBSScope {
 		}
 		return false;
 	}
-	
 
 	public boolean isSummary() {
 		return summary;
@@ -508,9 +553,8 @@ public class WorkInfo implements IWBSScope {
 
 	@Override
 	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id", project_id).append("work_id", _id);
+		return new BasicDBObject("project_id", project_id).append("work_id", _id).append("space_id", space_id);
 	}
-	
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 完成百分比

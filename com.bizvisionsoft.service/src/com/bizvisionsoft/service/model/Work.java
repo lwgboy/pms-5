@@ -682,7 +682,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Override
 	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id",project_id).append("work_id", _id);
+		return new BasicDBObject("project_id",project_id).append("work_id", _id).append("space_id", space_id);
 	}
 
 }
