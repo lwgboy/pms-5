@@ -104,7 +104,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		if (cancelCheckOutSubSchedule) {
-			updateCheckOutSchedulePlan(project_id, inputIds, userId);
+			cleanCheckOutSchedulePlanTab(project_id, inputIds, userId);
 		} else {
 			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
 					.append("checkOutBy", new BasicDBObject("$ne", null)));
@@ -273,7 +273,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("worklinks").insertMany(worklinks);
 		}
 
-		if (Result.CODE_SUCCESS == updateCheckOutSchedulePlan(project_id, workIds, userId).code) {
+		if (Result.CODE_SUCCESS == cleanCheckOutSchedulePlanTab(project_id, workIds, userId).code) {
 			return Result.checkOutSchedulePlanSuccess("检入成功。");
 		} else {
 			return Result.checkOutSchedulePlanError("撤销检入失败。", Result.CODE_ERROR);
@@ -287,14 +287,14 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<ObjectId> inputIds = c(Work.class).distinct("_id", new BasicDBObject("space_id", space_id), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
-		if (Result.CODE_SUCCESS == updateCheckOutSchedulePlan(project_id, inputIds, userId).code) {
+		if (Result.CODE_SUCCESS == cleanCheckOutSchedulePlanTab(project_id, inputIds, userId).code) {
 			return Result.checkOutSchedulePlanSuccess("撤销检出成功。");
 		} else {
 			return Result.checkOutSchedulePlanError("撤销检出失败。", Result.CODE_ERROR);
 		}
 	}
 
-	private Result updateCheckOutSchedulePlan(ObjectId project_id, List<ObjectId> inputIds, String userId) {
+	private Result cleanCheckOutSchedulePlanTab(ObjectId project_id, List<ObjectId> inputIds, String userId) {
 		c(WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
 
 		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("source", new BasicDBObject("$in", inputIds))

@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
@@ -10,10 +9,10 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.model.IWBSScope;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.WorkInfo;
 
-public class DeleteTask {
+public class EditTask {
 
 	@Inject
 	private IBruiService bruiService;
@@ -21,12 +20,20 @@ public class DeleteTask {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
-		
-		if(MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
-			WorkInfo task = (WorkInfo) ((GanttEvent) event).task;
-			((GanttPart) context.getContent()).deleteTask(task.getId());
+		WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;
+		String editor;
+		if (workinfo.isStage()) {
+			editor = "甘特图阶段工作编辑器";
+		} else if (workinfo.isSummary()) {
+			editor = "甘特图总成工作编辑器";
+		} else {
+			editor = "甘特图工作编辑器";
 		}
+		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
+			GanttPart content = (GanttPart) context.getContent();
+			content.updateTask(wi);
+		});
+
 	}
 
 }

@@ -69,13 +69,13 @@ public class ProjectGantt {
 	}
 
 	@DataSet({ "项目甘特图(编辑)/data" })
-	public List<WorkInfo> dataBySpace() {
+	public List<WorkInfo> dataInSpace() {
 		return workSpaceService.createTaskDataSet(
 				new BasicDBObject("space_id", space_id).append("_id", new BasicDBObject("$ne", work_id)));
 	}
 
 	@DataSet({ "项目甘特图(编辑)/links" })
-	public List<WorkLinkInfo> linksBySpace() {
+	public List<WorkLinkInfo> linksInSpace() {
 		return workSpaceService.createLinkDataSet(new BasicDBObject("space_id", space_id));
 	}
 
@@ -87,7 +87,7 @@ public class ProjectGantt {
 	// }
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskAdd" })
-	public void onAfterTaskAddBySpace(GanttEvent e) {
+	public void onAfterTaskAddInSpace(GanttEvent e) {
 		WorkInfo workInfo = (WorkInfo) e.task;
 		workInfo.setSpaceId(space_id);
 		workSpaceService.insertWork(workInfo);
@@ -96,19 +96,19 @@ public class ProjectGantt {
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskUpdate", "项目甘特图(编辑)/onAfterTaskMove", "项目甘特图(编辑)/onAfterTaskResize",
 			"项目甘特图(编辑)/onAfterTaskProgress" })
-	public void onAfterTaskUpdateBySpace(GanttEvent e) {
+	public void onAfterTaskUpdateInSpace(GanttEvent e) {
 		workSpaceService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
 				.set(Util.getBson((WorkInfo) e.task, "_id")).bson());
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskDelete" })
-	public void onAfterTaskDeleteBySpace(GanttEvent e) {
+	public void onAfterTaskDeleteInSpace(GanttEvent e) {
 		workSpaceService.deleteWork(new ObjectId(e.id));
 		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkAdd" })
-	public void onAfterLinkAddBySpace(GanttEvent e) {
+	public void onAfterLinkAddInSpace(GanttEvent e) {
 		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
 		workLinkInfo.setSpaceId(space_id);
 		workSpaceService.insertLink(workLinkInfo);
@@ -116,20 +116,20 @@ public class ProjectGantt {
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkUpdate" })
-	public void onAfterLinkUpdateBySpace(GanttEvent e) {
+	public void onAfterLinkUpdateInSpace(GanttEvent e) {
 		workSpaceService.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
 				.set(Util.getBson((WorkLinkInfo) e.link, "_id")).bson());
 		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterLinkDelete" })
-	public void onAfterLinkDeleteBySpace(GanttEvent e) {
+	public void onAfterLinkDeleteInSpace(GanttEvent e) {
 		workSpaceService.deleteLink(new ObjectId(e.id));
 		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterAutoSchedule" })
-	public void onAfterAutoSchedule(GanttEvent e) {
+	public void onAfterAutoScheduleInSpace(GanttEvent e) {
 		System.out.println("--------------------onAfterAutoSchedule--------------------");
 	}
 }
