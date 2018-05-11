@@ -1,9 +1,9 @@
 package com.bizvisionsoft.service.model;
 
 public class Result {
-	
+
 	public static final int TYPE_ERROR = 0;
-	
+
 	public static final int TYPE_WARNING = 1;
 
 	public static final int TYPE_INFO = 2;
@@ -11,11 +11,13 @@ public class Result {
 	public static final int CODE_SUCCESS = 600;
 
 	public static final int CODE_HASCHECKOUTSUB = 601;
-	
+
 	public static final int CODE_UNAUTHORIZED = 602;
 
 	public static final int CODE_UPDATEMANAGEITEM = 603;
-	
+
+	public static final int CODE_ERROR = 699;
+
 	public int code;
 
 	public String message;
@@ -30,7 +32,7 @@ public class Result {
 		return e;
 	}
 
-	public static Result checkOutSchedulePlanError(String message,int code) {
+	public static Result checkOutSchedulePlanError(String message, int code) {
 		Result e = new Result();
 		e.code = code;
 		e.message = message;

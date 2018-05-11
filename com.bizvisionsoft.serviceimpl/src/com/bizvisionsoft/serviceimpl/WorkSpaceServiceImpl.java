@@ -104,7 +104,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		if (cancelCheckOutSubSchedule) {
-			cancelCheckOutSchedulePlan(project_id, inputIds, userId);
+			updateCheckOutSchedulePlan(project_id, inputIds, userId);
 		} else {
 			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
 					.append("checkOutBy", new BasicDBObject("$ne", null)));
@@ -189,12 +189,12 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject("$in", checkIds))));
 		pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
-		pipeline.add(Aggregates.unwind("work"));
+		pipeline.add(Aggregates.unwind("$work"));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("project"));
+		pipeline.add(Aggregates.unwind("$project"));
 		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE)
-				.append("wpf", new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))
-				.append("ppf", new BasicDBObject("$gt", new String[] { "$planFinish", "$project.planFinish" }))));
+				.append("wpf", new BasicDBObject("$gt", new String[] { "planFinish", "$work.planFinish" }))
+				.append("ppf", new BasicDBObject("$gt", new String[] { "planFinish", "$project.planFinish" }))));
 		// 查询不满足条件的节点数量
 		pipeline.add(Aggregates.match(new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("stage", Boolean.TRUE).append("ppf", Boolean.TRUE),
@@ -211,28 +211,90 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result checkInSchedulePlan(BasicDBObject wbsScope, String userId) {
-		// TODO Auto-generated method stub
-		return Result.checkOutSchedulePlanSuccess("检入成功。");
+		ObjectId project_id = wbsScope.getObjectId("project_id");
+		ObjectId space_id = wbsScope.getObjectId("space_id");
+		List<ObjectId> workIds = c(Work.class).distinct("_id", new BasicDBObject("space_id", space_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		List<ObjectId> workspaceIds = c(WorkInfo.class)
+				.distinct("_id", new BasicDBObject("space_id", space_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		// 获取插入集合
+		List<ObjectId> insertIds = new ArrayList<ObjectId>();
+		insertIds.addAll(workspaceIds);
+		insertIds.removeAll(workIds);
+
+		// 获取删除集合
+		List<ObjectId> deleteIds = new ArrayList<ObjectId>();
+		deleteIds.addAll(workIds);
+		deleteIds.removeAll(workspaceIds);
+
+		// 获取修改集合
+		List<ObjectId> updateIds = new ArrayList<ObjectId>();
+		updateIds.addAll(workspaceIds);
+		updateIds.removeAll(insertIds);
+
+		// 根据删除集合删除Work
+		c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
+
+		// 根据插入集合插入Work
+		if (insertIds.size() > 0) {
+			ArrayList<Document> insertDoc = c("workspace")
+					.find(new BasicDBObject("_id", new BasicDBObject("$in", insertIds)))
+					.into(new ArrayList<Document>());
+			c("work").insertMany(insertDoc);
+		}
+
+		// 根据修改集合逐条更新Work
+		for (ObjectId _id : updateIds) {
+			BasicDBObject first = c("workspace").find(new BasicDBObject("_id", _id), BasicDBObject.class)
+					.projection(new BasicDBObject("name", Boolean.TRUE).append("fullName", Boolean.TRUE)
+							.append("planStart", Boolean.TRUE).append("actualStart", Boolean.TRUE)
+							.append("planFinish", Boolean.TRUE).append("actualFinish", Boolean.TRUE)
+							.append("planDuration", Boolean.TRUE).append("actualDuration", Boolean.TRUE)
+							.append("manageLevel", Boolean.TRUE).append("chargerId", Boolean.TRUE)
+							.append("milestone", Boolean.TRUE).append("summary", Boolean.TRUE))
+					.first();
+
+			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", first));
+		}
+
+		// 获取worklinksspace中的记录
+		List<Document> worklinks = c("worklinksspace").find(new BasicDBObject("space_id", space_id))
+				.into(new ArrayList<Document>());
+
+		// 删除worklinks中的记录
+		c("worklinks").deleteMany(new BasicDBObject("source", new BasicDBObject("$in", workIds)).append("target",
+				new BasicDBObject("$in", workIds)));
+
+		// 将获取的worklinksspace中的记录插入worklinks
+		if (worklinks.size() > 0) {
+			c("worklinks").insertMany(worklinks);
+		}
+
+		if (Result.CODE_SUCCESS == updateCheckOutSchedulePlan(project_id, workIds, userId).code) {
+			return Result.checkOutSchedulePlanSuccess("检入成功。");
+		} else {
+			return Result.checkOutSchedulePlanError("撤销检入失败。", Result.CODE_ERROR);
+		}
 	}
 
 	@Override
 	public Result cancelCheckOutSchedulePlan(BasicDBObject wbsScope, String userId) {
 		ObjectId project_id = wbsScope.getObjectId("project_id");
-		ObjectId work_id = wbsScope.getObjectId("work_id");
-		List<ObjectId> inputIds = new ArrayList<ObjectId>();
-		if (work_id == null) {
-			inputIds = c(Work.class).distinct("_id", new BasicDBObject("project_id", project_id), ObjectId.class)
-					.into(new ArrayList<ObjectId>());
+		ObjectId space_id = wbsScope.getObjectId("space_id");
+		List<ObjectId> inputIds = c(Work.class).distinct("_id", new BasicDBObject("space_id", space_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		if (Result.CODE_SUCCESS == updateCheckOutSchedulePlan(project_id, inputIds, userId).code) {
+			return Result.checkOutSchedulePlanSuccess("撤销检出成功。");
 		} else {
-			inputIds.add(work_id);
-			inputIds = getDesentItems(inputIds, "work", "parent_id");
+			return Result.checkOutSchedulePlanError("撤销检出失败。", Result.CODE_ERROR);
 		}
-
-		return cancelCheckOutSchedulePlan(project_id, inputIds, userId);
-
 	}
 
-	private Result cancelCheckOutSchedulePlan(ObjectId project_id, List<ObjectId> inputIds, String userId) {
+	private Result updateCheckOutSchedulePlan(ObjectId project_id, List<ObjectId> inputIds, String userId) {
 		c(WorkInfo.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)));
 
 		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("source", new BasicDBObject("$in", inputIds))

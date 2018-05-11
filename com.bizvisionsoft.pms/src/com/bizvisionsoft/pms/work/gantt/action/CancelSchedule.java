@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -20,11 +21,16 @@ public class CancelSchedule {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
-		
-		Result result = Services.get(WorkSpaceService.class).cancelCheckOutSchedulePlan(wbsScope.getCheckOutKey(),
-				bruiService.getCurrentUserId());
-		if (Result.CODE_SUCCESS == result.code) {
+
+		String checkOutUserId = wbsScope.getCheckOutUserId();
+		if (checkOutUserId == null || "".equals(checkOutUserId) || bruiService.getCurrentUserId().equals(checkOutUserId)) {
+			Result result = Services.get(WorkSpaceService.class).cancelCheckOutSchedulePlan(wbsScope.getCheckOutKey(),
+					bruiService.getCurrentUserId());
+			if (Result.CODE_SUCCESS == result.code) {
 				bruiService.switchContent("项目甘特图", null);
+			}
+		} else {
+			MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
 		}
 	}
 }

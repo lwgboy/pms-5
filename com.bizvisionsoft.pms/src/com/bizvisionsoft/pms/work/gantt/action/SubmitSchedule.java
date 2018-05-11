@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -31,11 +32,14 @@ public class SubmitSchedule {
 						brui.getCurrentUserId());
 
 				if (Result.CODE_SUCCESS == result.code) {
+					MessageDialog.openInformation(brui.getCurrentShell(), "检入提示", result.message);
 					brui.switchContent("项目甘特图", null);
 				}
 			} else {
-				
+				MessageDialog.openError(brui.getCurrentShell(), "检入错误", result.message);
 			}
+		} else {
+			MessageDialog.openError(brui.getCurrentShell(), "检入错误", "您没有检入计划的权限。");
 		}
 	}
 }
