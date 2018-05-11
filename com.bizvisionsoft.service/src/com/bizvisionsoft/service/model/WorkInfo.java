@@ -20,9 +20,10 @@ import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
+//implements IWBSScope 
 @PersistenceCollection("workspace")
 @Strict
-public class WorkInfo implements IWBSScope {
+public class WorkInfo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -276,7 +277,6 @@ public class WorkInfo implements IWBSScope {
 			return 0;
 		}
 	}
-	
 
 	@GetValue("actualDuration")
 	public int getActualDuration() {
@@ -455,28 +455,9 @@ public class WorkInfo implements IWBSScope {
 				.orElse(null);
 	}
 
-	@Override
-	public ObjectId getScope_id() {
-		return _id;
-	}
-
-	@Override
-	public ObjectId getWBS_id() {
-		return _id;
-	}
-
-	@Persistence
-	private String checkOutBy;
-
-	@Override
-	public String getCheckOutUserId() {
-		return checkOutBy;
-	}
-
 	@Persistence
 	private ObjectId space_id;
 
-	@Override
 	public ObjectId getSpaceId() {
 		return space_id;
 	}
@@ -547,13 +528,6 @@ public class WorkInfo implements IWBSScope {
 
 	public boolean isMilestone() {
 		return milestone;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id", project_id).append("work_id", _id).append("space_id", space_id);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
