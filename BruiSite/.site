@@ -566,6 +566,7 @@
                 "id": "161989cc8b9",
                 "name": "部门工作管理",
                 "text": "部门工作管理",
+                "switchContentToAssemblyId": "16348c0cc10",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
