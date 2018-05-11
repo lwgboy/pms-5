@@ -34,7 +34,7 @@ public class ProjectGantt {
 	private IBruiService brui;
 
 	private WorkService workService;
-	
+
 	private WorkSpaceService workSpaceService;
 
 	private ObjectId space_id;
@@ -94,11 +94,11 @@ public class ProjectGantt {
 		System.out.println(e.text);
 	}
 
-	@Listener({ "项目甘特图(编辑)/onAfterTaskUpdate" })
+	@Listener({ "项目甘特图(编辑)/onAfterTaskUpdate", "项目甘特图(编辑)/onAfterTaskMove", "项目甘特图(编辑)/onAfterTaskResize",
+			"项目甘特图(编辑)/onAfterTaskProgress" })
 	public void onAfterTaskUpdateBySpace(GanttEvent e) {
 		workSpaceService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
 				.set(Util.getBson((WorkInfo) e.task, "_id")).bson());
-		System.out.println(e.text);
 	}
 
 	@Listener({ "项目甘特图(编辑)/onAfterTaskDelete" })
@@ -128,9 +128,8 @@ public class ProjectGantt {
 		System.out.println(e.text);
 	}
 
-
-	@Listener({ "项目甘特图(编辑)/onAfterTaskAutoSchedule" })
-	public void onAfterTaskAutoSchedule(GanttEvent e) {
-		System.out.println(">>>onAfterTaskAutoSchedule");
+	@Listener({ "项目甘特图(编辑)/onAfterAutoSchedule" })
+	public void onAfterAutoSchedule(GanttEvent e) {
+		System.out.println("--------------------onAfterAutoSchedule--------------------");
 	}
 }
