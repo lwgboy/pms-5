@@ -43,7 +43,7 @@ public class User {
 	}
 
 	@Persistence
-	@ReadValue
+	@ReadValue({"name","部门工作日程表/label"})
 	@WriteValue
 	private String name;
 
@@ -129,6 +129,7 @@ public class User {
 
 	@Override
 	@Label
+	@ReadValue("部门工作日程表/label")
 	public String toString() {
 		return name + " [" + userId + "]";
 	}
@@ -136,7 +137,13 @@ public class User {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "用户";
-
+	
+	
+	@ReadValue("部门工作日程表/key")
+	private String getSectionKey() {
+		return userId;
+	}
+	
 	public boolean isActivated() {
 		return activated;
 	}
@@ -147,6 +154,16 @@ public class User {
 	
 	public List<RemoteFile> getHeadPics() {
 		return headPics;
+	}
+	
+	public User setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
+	
+	public User setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 }

@@ -495,6 +495,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getCharger() {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
+	
+	@ReadValue("部门工作日程表/section_id")
+	private String getSectionId() {
+		return chargerId;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -683,6 +689,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Override
 	public BasicDBObject getCheckOutKey() {
 		return new BasicDBObject("project_id",project_id).append("work_id", _id).append("space_id", space_id);
+	}
+	
+	public Work setChargerId(String chargerId) {
+		this.chargerId = chargerId;
+		return this;
 	}
 
 }
