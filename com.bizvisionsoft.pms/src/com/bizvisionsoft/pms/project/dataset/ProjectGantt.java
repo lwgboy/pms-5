@@ -128,4 +128,9 @@ public class ProjectGantt {
 		System.out.println(e.text);
 	}
 
+
+	@Listener({ "ÏîÄ¿¸ÊÌØÍ¼(±à¼­)/onAfterTaskAutoSchedule" })
+	public void onAfterTaskAutoSchedule(GanttEvent e) {
+		System.out.println(">>>onAfterTaskAutoSchedule");
+	}
 }
