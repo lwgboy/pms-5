@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Strict;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -537,5 +538,15 @@ public class WorkInfo {
 	@Persistence
 	private Float progress;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Behavior({ "项目甘特图(编辑)/创建子任务" })
+	private boolean behaviourAddTask() {
+		return actualFinish == null;
+	}
+
+	@Behavior({ "项目甘特图(编辑)/删除任务" })
+	private boolean behaviourDeleteTask() {
+		return actualStart == null;
+	}
 
 }

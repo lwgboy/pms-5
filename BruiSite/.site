@@ -16689,7 +16689,7 @@
         "rowActions": [
           {
             "id": "162519f7181",
-            "name": "创建",
+            "name": "创建子任务",
             "text": "创建",
             "image": "/img/add_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
@@ -16699,7 +16699,7 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
@@ -16719,7 +16719,7 @@
           },
           {
             "id": "162516ce0ff",
-            "name": "删除",
+            "name": "删除任务",
             "text": "删除",
             "image": "/img/minus_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
@@ -16729,7 +16729,7 @@
             "forceText": false,
             "style": "warning",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
