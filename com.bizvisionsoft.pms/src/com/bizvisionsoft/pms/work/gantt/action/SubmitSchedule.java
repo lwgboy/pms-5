@@ -28,7 +28,7 @@ public class SubmitSchedule {
 					brui.getCurrentUserId(), !(wbsScope instanceof Project));
 
 			if (Result.CODE_SUCCESS == result.code) {
-				result = Services.get(WorkSpaceService.class).checkInSchedulePlan(wbsScope.getCheckOutKey(),
+				result = Services.get(WorkSpaceService.class).checkin(wbsScope.getCheckOutKey(),
 						brui.getCurrentUserId());
 
 				if (Result.CODE_SUCCESS == result.code) {

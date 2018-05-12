@@ -21,117 +21,106 @@ import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.mongodb.BasicDBObject;
 
-@Path("/work")
+@Path("/workspace")
 public interface WorkSpaceService {
 
 	@POST
-	@Path("/tasks/nextwbsidx")
+	@Path("/work/nextwbsidx")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public int nextWBSIndex(BasicDBObject condition);
 
 	@GET
-	@Path("/taskInfo/_id/{_id}")
+	@Path("/work/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
 	@POST
-	@Path("/gantt/tasksspace")
+	@Path("/gantt/works")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("data")
 	public List<WorkInfo> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST
-	@Path("/gantt/linksspace")
+	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("links")
 	public List<WorkLinkInfo> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@GET
-	@Path("/_id/{_id}/daterangespace")
+	@Path("/_id/{_id}/daterange")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/taskspace/")
+	@Path("/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public WorkInfo insertWork(WorkInfo work);
 
 	@POST
-	@Path("/linkspace/")
+	@Path("/link/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public WorkLinkInfo insertLink(WorkLinkInfo link);
 
 	@PUT
-	@Path("/taskspace/")
+	@Path("/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateWork(BasicDBObject filterAndUpdate);
 
 	@PUT
-	@Path("/linkspace/")
+	@Path("/link/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateLink(BasicDBObject filterAndUpdate);
 
 	@DELETE
-	@Path("/taskspace/_id/{_id}")
+	@Path("/work/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteWork(@PathParam("_id") ObjectId _id);
 
 	@DELETE
-	@Path("/linkspace/_id/{_id}")
+	@Path("/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteLink(@PathParam("_id") ObjectId _id);
 
-	@PUT
-	@Path("/_id/{_id}/checkoutuserid/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public String getCheckOutUserId(@PathParam("_id") ObjectId _id);
-
-	@PUT
-	@Path("/_id/{_id}/getspaceid/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public ObjectId getSpaceId(@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/scheduleplan/checkout/{userId}/{cancelCheckOutSubSchedule}")
+	@Path("/checkout/{userId}/{cancelCheckoutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+	public Result checkout(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
 			@PathParam("userId") String userId,
-			@PathParam("cancelCheckOutSubSchedule") boolean cancelCheckOutSubSchedule);
+			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
 
 	@POST
-	@Path("/scheduleplan/check/{userId}/{checkManageItem}")
+	@Path("/check/{userId}/{checkManageItem}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
 			@PathParam("userId") String userId,@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@POST
-	@Path("/scheduleplan/checkin/{userId}")
+	@Path("/checkin/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkInSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+	public Result checkin(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
 			@PathParam("userId") String userId);
 
 	@POST
-	@Path("/scheduleplan/cancelcheckon/{userId}")
+	@Path("/cancelcheckout/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result cancelCheckOutSchedulePlan(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
 			@PathParam("userId") String userId);
 
 }

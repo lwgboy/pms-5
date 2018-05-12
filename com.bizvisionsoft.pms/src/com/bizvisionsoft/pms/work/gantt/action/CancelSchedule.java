@@ -24,7 +24,7 @@ public class CancelSchedule {
 
 		String checkOutUserId = wbsScope.getCheckOutUserId();
 		if (checkOutUserId == null || "".equals(checkOutUserId) || bruiService.getCurrentUserId().equals(checkOutUserId)) {
-			Result result = Services.get(WorkSpaceService.class).cancelCheckOutSchedulePlan(wbsScope.getCheckOutKey(),
+			Result result = Services.get(WorkSpaceService.class).cancelCheckout(wbsScope.getCheckOutKey(),
 					bruiService.getCurrentUserId());
 			if (Result.CODE_SUCCESS == result.code) {
 				bruiService.switchContent("ÏîÄ¿¸ÊÌØÍ¼", null);

@@ -16800,6 +16800,7 @@
         "borderBottom": false,
         "borderLeft": false,
         "readonly": false,
+        "ganttTimeScaleType": "year-month",
         "ganttGridWidthCalculate": true,
         "ganttGridWidth": 0,
         "eventHandlerBundleId": "com.bizvisionsoft.pms",

@@ -32,7 +32,7 @@ public class Result {
 		return e;
 	}
 
-	public static Result checkOutSchedulePlanError(String message, int code) {
+	public static Result checkoutError(String message, int code) {
 		Result e = new Result();
 		e.code = code;
 		e.message = message;
@@ -40,7 +40,7 @@ public class Result {
 		return e;
 	};
 
-	public static Result checkOutSchedulePlanSuccess(String message) {
+	public static Result checkoutSuccess(String message) {
 		Result e = new Result();
 		e.code = Result.CODE_SUCCESS;
 		e.message = message;
