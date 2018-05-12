@@ -25,7 +25,7 @@ public class CreateRootTask {
 		Project project = (Project) context.getRootInput();
 		String title;
 		Assembly editor;
-		WorkInfo workInfo = WorkInfo.newInstance(project.get_id(), project.getWBS_id());
+		WorkInfo workInfo = WorkInfo.newInstance(project.get_id(), null);
 		if (project.isStageEnable()) {
 			title = "´´½¨½×¶Î";
 			editor = bruiService.getAssembly("¸ÊÌØÍ¼½×¶Î¹¤×÷±à¼­Æ÷");

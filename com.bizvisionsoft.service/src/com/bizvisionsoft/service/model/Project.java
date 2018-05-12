@@ -37,7 +37,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope, IWBSScope {
+public class Project implements IOBSScope, ICBSScope {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘
@@ -477,11 +477,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@Override
-	public ObjectId getWBS_id() {
-		return null;
-	}
-
-	@Override
 	public OBSItem newOBSScopeRoot() {
 
 		ObjectId obsParent_id = Optional.ofNullable(projectSet_id)
@@ -512,26 +507,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private String checkOutBy;
 
-	@Override
-	public String getCheckOutUserId() {
-		return checkOutBy;
-	}
-
 	@Persistence
 	private ObjectId space_id;
 
-	@Override
-	public ObjectId getSpaceId() {
-		return space_id;
+	public Workspace getWorkspace() {
+		return Workspace.newInstance(_id, null, space_id, checkOutBy);
 	}
 
-	@Override
-	public ObjectId getProject_id() {
-		return _id;
-	}
-
-	@Override
-	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id", _id).append("work_id", null).append("space_id", space_id);
-	}
 }

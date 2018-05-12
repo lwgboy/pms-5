@@ -10,7 +10,6 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.WorkInfo;
 
 public class DeleteTask {
@@ -21,8 +20,6 @@ public class DeleteTask {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
-		
 		if(MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
 			WorkInfo task = (WorkInfo) ((GanttEvent) event).task;
 			((GanttPart) context.getContent()).deleteTask(task.getId());

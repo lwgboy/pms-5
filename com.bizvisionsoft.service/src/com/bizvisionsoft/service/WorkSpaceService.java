@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -19,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
 @Path("/workspace")
@@ -50,12 +50,6 @@ public interface WorkSpaceService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("links")
 	public List<WorkLinkInfo> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
-
-	@GET
-	@Path("/_id/{_id}/daterange")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/work/")
@@ -98,29 +92,27 @@ public interface WorkSpaceService {
 	@Path("/checkout/{userId}/{cancelCheckoutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkout(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
+	public Result checkout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace,
 			@PathParam("userId") String userId,
 			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
 
 	@POST
-	@Path("/check/{userId}/{checkManageItem}")
+	@Path("/check/{checkManageItem}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
-			@PathParam("userId") String userId,@PathParam("checkManageItem") Boolean checkManageItem);
+	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) Workspace workspace,
+			@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@POST
 	@Path("/checkin/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkin(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
-			@PathParam("userId") String userId);
+	public Result checkin(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
 
 	@POST
-	@Path("/cancelcheckout/{userId}")
+	@Path("/cancelcheckout/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) BasicDBObject wbsScope,
-			@PathParam("userId") String userId);
+	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
 
 }

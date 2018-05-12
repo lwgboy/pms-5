@@ -143,7 +143,7 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
  */
 @PersistenceCollection("work")
 @Strict
-public class Work implements ICBSScope, IOBSScope, IWBSScope {
+public class Work implements ICBSScope, IOBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -495,12 +495,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getCharger() {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
-	
+
 	@ReadValue("部门工作日程表/section_id")
 	private String getSectionId() {
 		return chargerId;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -533,11 +533,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	public Work setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
-	}
-
-	@Override
-	public ObjectId getProject_id() {
-		return project_id;
 	}
 
 	public Work setParent_id(ObjectId parent_id) {
@@ -661,36 +656,20 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		this.status = status;
 	}
 
-	@Override
-	public ObjectId getWBS_id() {
-		return _id;
-	}
-
 	@Persistence
 	private String checkOutBy;
 
-	@Override
-	public String getCheckOutUserId() {
-		return checkOutBy;
-	}
-
 	@Persistence
 	private ObjectId space_id;
-
-	@Override
-	public ObjectId getSpaceId() {
-		return space_id;
-	}
 
 	public void setSpaceId(ObjectId space_id) {
 		this.space_id = space_id;
 	}
 
-	@Override
-	public BasicDBObject getCheckOutKey() {
-		return new BasicDBObject("project_id",project_id).append("work_id", _id).append("space_id", space_id);
+	public Workspace getWorkspace() {
+		return Workspace.newInstance(project_id, _id, space_id, checkOutBy);
 	}
-	
+
 	public Work setChargerId(String chargerId) {
 		this.chargerId = chargerId;
 		return this;
