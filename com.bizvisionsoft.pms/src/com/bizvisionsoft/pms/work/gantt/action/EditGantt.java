@@ -32,15 +32,16 @@ public class EditGantt {
 		}
 		if (workspace != null) {
 			// 显示编辑器
-			String checkOutUserId = workspace.getCheckoutBy();
-			if (checkOutUserId == null || "".equals(checkOutUserId) || brui.getCurrentUserId().equals(checkOutUserId)) {
-				// 开发检出服务，名称：checkOutSchedulePlan，参数要考虑如下：
+			String checkoutUserId = workspace.getCheckoutBy();
+			if (checkoutUserId == null || "".equals(checkoutUserId) || brui.getCurrentUserId().equals(checkoutUserId)) {
+				// 开发检出服务，名称：checkoutSchedulePlan，参数要考虑如下：
 				Result result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 						false);
 				if (Result.CODE_SUCCESS == result.code) {
 					brui.switchContent("项目甘特图(编辑)", workspace);
 				} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
-					if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示", result.message + "请确认是否取消下级的检出。")) {
+					if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
+							result.message + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
 						result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 								true);
 						if (Result.CODE_SUCCESS == result.code) {
@@ -49,7 +50,7 @@ public class EditGantt {
 					}
 				}
 			} else {
-				MessageDialog.openError(brui.getCurrentShell(), "提示", "您没有编辑计划的权限。");
+				MessageDialog.openError(brui.getCurrentShell(), "提示", "您没有编辑本计划的权限。");
 			}
 		}
 	}

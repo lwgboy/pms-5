@@ -104,7 +104,7 @@ public interface WorkSpaceService {
 			@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@POST
-	@Path("/checkin/{userId}")
+	@Path("/checkin/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result checkin(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);

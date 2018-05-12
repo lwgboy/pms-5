@@ -53,4 +53,8 @@ public class Workspace {
 				.setCheckoutBy(checkoutBy);
 
 	}
+
+	public static Workspace newInstance(ObjectId project_id, ObjectId space_id, String checkoutBy) {
+		return new Workspace().setProject_id(project_id).setSpace_id(space_id).setCheckoutBy(checkoutBy);
+	}
 }

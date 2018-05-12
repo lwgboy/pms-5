@@ -30,9 +30,9 @@ public class CancelSchedule {
 			workspace = ((Work) rootInput).getWorkspace();
 		}
 		if (workspace != null) {
-			String checkOutUserId = workspace.getCheckoutBy();
-			if (checkOutUserId == null || "".equals(checkOutUserId)
-					|| bruiService.getCurrentUserId().equals(checkOutUserId)) {
+			String checkoutUserId = workspace.getCheckoutBy();
+			if (checkoutUserId == null || "".equals(checkoutUserId)
+					|| bruiService.getCurrentUserId().equals(checkoutUserId)) {
 				Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
 				if (Result.CODE_SUCCESS == result.code) {
 					bruiService.switchContent("ÏîÄ¿¸ÊÌØÍ¼", null);

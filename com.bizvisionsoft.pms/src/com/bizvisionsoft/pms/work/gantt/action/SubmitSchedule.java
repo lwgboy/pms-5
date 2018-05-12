@@ -30,8 +30,8 @@ public class SubmitSchedule {
 			workspace = ((Work) rootInput).getWorkspace();
 		}
 		if (workspace != null) {
-			String checkOutUserId = workspace.getCheckoutBy();
-			if (checkOutUserId == null || "".equals(checkOutUserId) || brui.getCurrentUserId().equals(checkOutUserId)) {
+			String checkoutUserId = workspace.getCheckoutBy();
+			if (checkoutUserId == null || "".equals(checkoutUserId) || brui.getCurrentUserId().equals(checkoutUserId)) {
 				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace,
 						 !(rootInput instanceof Project));
 

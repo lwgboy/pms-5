@@ -149,7 +149,7 @@ public class WorkInfo {
 
 	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
 	public WorkInfo setStart_date(Date start_date) {
-		checkDate(start_date, this.getEnd_date(), this.deadline);
+		checkDate(start_date, this.getEnd_date());
 		if (actualStart != null) {
 			actualStart = start_date;
 		} else {
@@ -197,7 +197,7 @@ public class WorkInfo {
 
 	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
 	public WorkInfo setEnd_date(Date end_date) {
-		checkDate(getStart_date(), end_date, this.deadline);
+		checkDate(getStart_date(), end_date);
 		if (actualFinish != null) {
 			actualFinish = end_date;
 		} else {
@@ -241,30 +241,6 @@ public class WorkInfo {
 			return actualFinish;
 		}
 		return planFinish;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 期限, 编辑器保存时需要校验
-	@ReadValue
-	@Persistence
-	private Date deadline;
-
-	@WriteValue("deadline")
-	public void setDeadline(Date deadline) {
-		checkDate(this.getStart_date(), this.getEnd_date(), deadline);
-		this.deadline = deadline;
-	}
-
-	@WriteValue("项目甘特图(编辑)/deadline")
-	public boolean setDeadline(String deadline) {
-		Date newDate = Util.str_date(deadline);
-		if (!Util.equals(newDate, this.deadline)) {
-			this.deadline = newDate;
-			return true;
-		} else {
-			return false;
-		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -427,19 +403,10 @@ public class WorkInfo {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(project_id).setParent_id(parent_id).generateIndex();
 	}
 
-	private void checkDate(Date start_date, Date end_date, Date deadline) {
+	private void checkDate(Date start_date, Date end_date) {
 		if (start_date != null && end_date != null && start_date.after(end_date)) {
 			throw new RuntimeException("开始日期不得晚于完成日期");
 		}
-
-		if (start_date != null && deadline != null && start_date.after(deadline)) {
-			throw new RuntimeException("如果设定了期限，开始日期不得晚于期限日期");
-		}
-
-		if (end_date != null && deadline != null && end_date.after(deadline)) {
-			throw new RuntimeException("如果设定了期限，完成日期不得晚于期限日期");
-		}
-
 	}
 
 	public String getText() {

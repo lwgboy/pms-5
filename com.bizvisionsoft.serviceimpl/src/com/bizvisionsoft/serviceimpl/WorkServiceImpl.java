@@ -12,6 +12,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
+import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.result.UpdateResult;
@@ -131,5 +132,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 7. 预算没有分配，警告
 
 		return new ArrayList<Result>();
+	}
+
+	@Override
+	public Workspace getWorkspace(ObjectId _id) {
+		BasicDBObject dbo = c("work").find(new BasicDBObject("_id", _id), BasicDBObject.class)
+				.projection(new BasicDBObject("space_id", Boolean.TRUE).append("checkoutBy", Boolean.TRUE)
+						.append("project_id", Boolean.TRUE))
+				.first();
+		return Workspace.newInstance(dbo.getObjectId("project_id"), _id, dbo.getObjectId("space_id"),
+				dbo.getString("checkoutBy"));
 	}
 }

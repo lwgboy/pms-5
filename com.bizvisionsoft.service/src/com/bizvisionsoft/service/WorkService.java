@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
+import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
 @Path("/work")
@@ -116,4 +117,10 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> start(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@GET
+	@Path("/workspace/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Workspace getWorkspace(ObjectId _id);
 }

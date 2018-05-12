@@ -272,7 +272,7 @@ public class Work implements ICBSScope, IOBSScope {
 
 	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
 	public Work setStart_date(Date start_date) {
-		checkDate(start_date, this.end_date, this.deadline);
+		checkDate(start_date, this.end_date);
 		this.start_date = start_date;
 		return this;
 	}
@@ -314,7 +314,7 @@ public class Work implements ICBSScope, IOBSScope {
 
 	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
 	public Work setEnd_date(Date end_date) {
-		checkDate(this.start_date, end_date, this.deadline);
+		checkDate(this.start_date, end_date);
 		this.end_date = end_date;
 		return this;
 	}
@@ -332,30 +332,6 @@ public class Work implements ICBSScope, IOBSScope {
 
 	public Date getEnd_date() {
 		return end_date;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 期限, 编辑器保存时需要校验
-	@ReadValue
-	@Persistence
-	private Date deadline;
-
-	@WriteValue("deadline")
-	public void setDeadline(Date deadline) {
-		checkDate(this.start_date, this.end_date, deadline);
-		this.deadline = deadline;
-	}
-
-	@WriteValue({ "项目甘特图/deadline", "项目甘特图(编辑)/deadline" })
-	public boolean setDeadline(String deadline) {
-		Date newDate = Util.str_date(deadline);
-		if (!Util.equals(newDate, this.deadline)) {
-			this.deadline = newDate;
-			return true;
-		} else {
-			return false;
-		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -548,17 +524,9 @@ public class Work implements ICBSScope, IOBSScope {
 		return index;
 	}
 
-	private void checkDate(Date start_date, Date end_date, Date deadline) {
+	private void checkDate(Date start_date, Date end_date) {
 		if (start_date != null && end_date != null && start_date.after(end_date)) {
 			throw new RuntimeException("开始日期不得晚于完成日期");
-		}
-
-		if (start_date != null && deadline != null && start_date.after(deadline)) {
-			throw new RuntimeException("如果设定了期限，开始日期不得晚于期限日期");
-		}
-
-		if (end_date != null && deadline != null && end_date.after(deadline)) {
-			throw new RuntimeException("如果设定了期限，完成日期不得晚于期限日期");
 		}
 
 	}
@@ -657,7 +625,7 @@ public class Work implements ICBSScope, IOBSScope {
 	}
 
 	@Persistence
-	private String checkOutBy;
+	private String checkoutBy;
 
 	@Persistence
 	private ObjectId space_id;
@@ -667,7 +635,7 @@ public class Work implements ICBSScope, IOBSScope {
 	}
 
 	public Workspace getWorkspace() {
-		return Workspace.newInstance(project_id, _id, space_id, checkOutBy);
+		 return ServicesLoader.get(WorkService.class).getWorkspace(_id);
 	}
 
 	public Work setChargerId(String chargerId) {

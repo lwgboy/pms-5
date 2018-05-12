@@ -19,6 +19,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.Project;
 import com.mongodb.BasicDBObject;
 
@@ -130,4 +131,10 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的项目/" + DataSet.DELETE)
 	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId id);
+
+	@GET
+	@Path("/workspace/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
 }

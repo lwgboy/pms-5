@@ -204,14 +204,6 @@ public class Project implements IOBSScope, ICBSScope {
 	private Integer actualWorks;
 
 	/**
-	 * 完工期限
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private Date deadline;
-
-	/**
 	 * 启用阶段管理
 	 */
 	@ReadValue
@@ -505,13 +497,13 @@ public class Project implements IOBSScope, ICBSScope {
 	}
 
 	@Persistence
-	private String checkOutBy;
+	private String checkoutBy;
 
 	@Persistence
 	private ObjectId space_id;
 
 	public Workspace getWorkspace() {
-		return Workspace.newInstance(_id, null, space_id, checkOutBy);
+		return ServicesLoader.get(ProjectService.class).getWorkspace(_id);
 	}
 
 }

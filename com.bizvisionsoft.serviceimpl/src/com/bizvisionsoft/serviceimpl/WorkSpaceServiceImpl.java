@@ -86,10 +86,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		if (Boolean.TRUE.equals(cancelCheckoutSubSchedule)) {
 			cleanWorkspace(workspace);
 		} else {
-			long count = c("work").count(new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
-					.append("checkoutBy", new BasicDBObject("$ne", null)));
-			if (count > 0) {
-				return Result.checkoutError("下级进度已被检出进行编辑。", Result.CODE_HASCHECKOUTSUB);
+			List<Bson> pipeline = new ArrayList<Bson>();
+			pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))
+					.append("checkoutBy", new BasicDBObject("$ne", null))));
+			pipeline.add(Aggregates.lookup("user", "checkoutBy", "userId", "user"));
+			pipeline.add(Aggregates.unwind("$user"));
+			pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("username", "$user.name")));
+
+			BasicDBObject checkout = c("work").aggregate(pipeline, BasicDBObject.class).first();
+			if (checkout != null) {
+				return Result.checkoutError("本计划中的  <b style='color: red;'>" + checkout.getString("name") + "</b>  工作正在由   <b style='color: red;'>"
+						+ checkout.getString("username") + "</b>  进行计划编辑。", Result.CODE_HASCHECKOUTSUB);
 			}
 		}
 
@@ -183,7 +190,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		// 返回检查结果
 
-		return Result.checkoutSuccess("检查完成。");
+		return Result.checkoutSuccess("本计划已通过检查。");
 	}
 
 	@Override
@@ -225,7 +232,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
 			Object _id = d.get("_id");
 			d.remove("_id");
-			d.remove("sapce_id");
+			d.remove("space_id");
 			d.remove("checkoutBy");
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 		});
@@ -244,32 +251,32 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		if (Result.CODE_SUCCESS == cleanWorkspace(workspace).code) {
-			return Result.checkoutSuccess("检入成功。");
+			return Result.checkoutSuccess("本计划已成功提交。");
 		} else {
-			return Result.checkoutError("撤销检入失败。", Result.CODE_ERROR);
+			return Result.checkoutError("本计划提交失败。", Result.CODE_ERROR);
 		}
 	}
 
 	@Override
 	public Result cancelCheckout(Workspace workspace) {
 		if (Result.CODE_SUCCESS == cleanWorkspace(workspace).code) {
-			return Result.checkoutSuccess("撤销检出成功。");
+			return Result.checkoutSuccess("本计划已成功撤销。");
 		} else {
-			return Result.checkoutError("撤销检出失败。", Result.CODE_ERROR);
+			return Result.checkoutError("本计划撤销失败。", Result.CODE_ERROR);
 		}
 	}
 
 	private Result cleanWorkspace(Workspace workspace) {
-		c(WorkInfo.class).deleteMany(new BasicDBObject("sapce_id", workspace.getSpace_id()));
+		c(WorkInfo.class).deleteMany(new BasicDBObject("space_id", workspace.getSpace_id()));
 
-		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("sapce_id", workspace.getSpace_id()));
+		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("space_id", workspace.getSpace_id()));
 
-		c("project").updateOne(new BasicDBObject("sapce_id", workspace.getSpace_id()),
-				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", 1).append("space_id", 1)));
+		c("project").updateOne(new BasicDBObject("space_id", workspace.getSpace_id()),
+				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", null).append("space_id", null)));
 
-		c("work").updateMany(new BasicDBObject("sapce_id", workspace.getSpace_id()),
-				new BasicDBObject("$set", new BasicDBObject("checkoutBy", 1).append("space_id", 1)));
+		c("work").updateMany(new BasicDBObject("space_id", workspace.getSpace_id()),
+				new BasicDBObject("$set", new BasicDBObject("checkoutBy", null).append("space_id", null)));
 
-		return Result.checkoutSuccess("撤销检出成功。");
+		return Result.checkoutSuccess("本计划已完成撤销成功。");
 	}
 }
