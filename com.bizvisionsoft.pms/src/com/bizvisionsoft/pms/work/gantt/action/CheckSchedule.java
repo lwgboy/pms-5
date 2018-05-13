@@ -34,7 +34,7 @@ public class CheckSchedule {
 					 !(rootInput instanceof Project));
 
 			if (Result.CODE_SUCCESS == result.code) {
-				MessageDialog.openInformation(bruiService.getCurrentShell(), "检查结果", result.message);
+				MessageDialog.openFinished(bruiService.getCurrentShell(), "检查结果", result.message);
 			} else {
 				MessageDialog.openError(bruiService.getCurrentShell(), "检查结果", result.message);
 			}
