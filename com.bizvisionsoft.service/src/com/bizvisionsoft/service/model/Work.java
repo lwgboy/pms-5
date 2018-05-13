@@ -143,7 +143,7 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
  */
 @PersistenceCollection("work")
 @Strict
-public class Work implements ICBSScope, IOBSScope {
+public class Work implements ICBSScope, IOBSScope,IWBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -198,6 +198,11 @@ public class Work implements ICBSScope, IOBSScope {
 	// 写入时请注意，返回值表示了该parent值是否被更改。如果没有变化，返回false。告知调用者
 	@Persistence
 	private ObjectId project_id;
+
+	@Override
+	public ObjectId getProject_id() {
+		return parent_id;
+	}
 
 	@ReadValue("project")
 	public String getProjectId() {
@@ -634,6 +639,7 @@ public class Work implements ICBSScope, IOBSScope {
 		this.space_id = space_id;
 	}
 
+	@Override
 	public Workspace getWorkspace() {
 		 return ServicesLoader.get(WorkService.class).getWorkspace(_id);
 	}

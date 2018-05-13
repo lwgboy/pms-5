@@ -9,10 +9,9 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkSpaceService;
-import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CancelSchedule {
@@ -22,26 +21,23 @@ public class CancelSchedule {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Workspace workspace = null;
-		Object rootInput = context.getRootInput();
-		if (rootInput instanceof Project) {
-			workspace = ((Project) rootInput).getWorkspace();
-		} else if (rootInput instanceof Work) {
-			workspace = ((Work) rootInput).getWorkspace();
-		}
-		if (workspace != null) {
-			String checkoutUserId = workspace.getCheckoutBy();
-			if (checkoutUserId == null || "".equals(checkoutUserId)
-					|| bruiService.getCurrentUserId().equals(checkoutUserId)) {
-				Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
-				if (Result.CODE_SUCCESS == result.code) {
-					bruiService.switchContent("项目甘特图", null);
+		IWBSScope rootInput = (IWBSScope) context.getRootInput();
+		if (rootInput != null) {
+			Workspace workspace = rootInput.getWorkspace();
+			if (workspace != null) {
+				String checkoutUserId = workspace.getCheckoutBy();
+				if (checkoutUserId == null || "".equals(checkoutUserId)
+						|| bruiService.getCurrentUserId().equals(checkoutUserId)) {
+					Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
+					if (Result.CODE_SUCCESS == result.code) {
+						bruiService.switchContent("项目甘特图", null);
+					}
+				} else {
+					MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
 				}
 			} else {
 				MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
 			}
-		} else {
-			MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
 		}
 	}
 }

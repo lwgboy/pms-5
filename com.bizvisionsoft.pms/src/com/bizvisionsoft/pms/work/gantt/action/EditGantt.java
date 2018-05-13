@@ -9,10 +9,9 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkSpaceService;
-import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class EditGantt {
@@ -23,34 +22,32 @@ public class EditGantt {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Workspace workspace = null;
-		Object rootInput = context.getRootInput();
-		if (rootInput instanceof Project) {
-			workspace = ((Project) rootInput).getWorkspace();
-		} else if (rootInput instanceof Work) {
-			workspace = ((Work) rootInput).getWorkspace();
-		}
-		if (workspace != null) {
-			// 显示编辑器
-			String checkoutUserId = workspace.getCheckoutBy();
-			if (checkoutUserId == null || "".equals(checkoutUserId) || brui.getCurrentUserId().equals(checkoutUserId)) {
-				// 开发检出服务，名称：checkoutSchedulePlan，参数要考虑如下：
-				Result result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
-						false);
-				if (Result.CODE_SUCCESS == result.code) {
-					brui.switchContent("项目甘特图(编辑)", workspace);
-				} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
-					if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
-							result.message + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
-						result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
-								true);
-						if (Result.CODE_SUCCESS == result.code) {
-							brui.switchContent("项目甘特图(编辑)", workspace);
+		IWBSScope rootInput = (IWBSScope) context.getRootInput();
+		if (rootInput != null) {
+			Workspace workspace = rootInput.getWorkspace();
+			if (workspace != null) {
+				// 显示编辑器
+				String checkoutUserId = workspace.getCheckoutBy();
+				if (checkoutUserId == null || "".equals(checkoutUserId)
+						|| brui.getCurrentUserId().equals(checkoutUserId)) {
+					// 开发检出服务，名称：checkoutSchedulePlan，参数要考虑如下：
+					Result result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
+							false);
+					if (Result.CODE_SUCCESS == result.code) {
+						brui.switchContent("项目甘特图(编辑)", workspace);
+					} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
+						if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
+								result.message + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
+							result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
+									true);
+							if (Result.CODE_SUCCESS == result.code) {
+								brui.switchContent("项目甘特图(编辑)", workspace);
+							}
 						}
 					}
+				} else {
+					MessageDialog.openError(brui.getCurrentShell(), "提示", "您没有编辑本计划的权限。");
 				}
-			} else {
-				MessageDialog.openError(brui.getCurrentShell(), "提示", "您没有编辑本计划的权限。");
 			}
 		}
 	}

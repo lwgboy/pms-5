@@ -37,7 +37,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope {
+public class Project implements IOBSScope, ICBSScope,IWBSScope {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘
@@ -502,8 +502,19 @@ public class Project implements IOBSScope, ICBSScope {
 	@Persistence
 	private ObjectId space_id;
 
+	@Override
 	public Workspace getWorkspace() {
 		return ServicesLoader.get(ProjectService.class).getWorkspace(_id);
+	}
+
+	@Override
+	public ObjectId getParent_id() {
+		return null;
+	}
+
+	@Override
+	public ObjectId getProject_id() {
+		return _id;
 	}
 
 }

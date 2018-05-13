@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -42,8 +42,7 @@ public class ProjectGantt {
 
 	@Init
 	private void init() {
-		workspace = ((Project) context.getRootInput()).getWorkspace();
-
+		workspace = ((IWBSScope) context.getRootInput()).getWorkspace();
 		workService = Services.get(WorkService.class);
 		workSpaceService = Services.get(WorkSpaceService.class);
 	}

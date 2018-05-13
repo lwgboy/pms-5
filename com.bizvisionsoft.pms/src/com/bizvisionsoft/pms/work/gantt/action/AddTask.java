@@ -10,7 +10,7 @@ import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.WorkInfo;
 
 public class AddTask {
@@ -21,11 +21,11 @@ public class AddTask {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Project project = (Project) context.getRootInput();
+		IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// ÏÔÊ¾±à¼­Æ÷
 		
 		new Editor<WorkInfo>(bruiService.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷"), context)
-				.setInput(WorkInfo.newInstance(project.get_id(), ((WorkInfo) ((GanttEvent) event).task).get_id()))
+				.setInput(WorkInfo.newInstance(wbsScope.getProject_id(), ((WorkInfo) ((GanttEvent) event).task).get_id()))
 				.ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi,  wi.index());

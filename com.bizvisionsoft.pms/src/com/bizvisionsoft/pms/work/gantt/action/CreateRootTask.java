@@ -10,6 +10,7 @@ import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.WorkInfo;
@@ -22,11 +23,11 @@ public class CreateRootTask {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Project project = (Project) context.getRootInput();
+		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		String title;
 		Assembly editor;
-		WorkInfo workInfo = WorkInfo.newInstance(project.get_id(), null);
-		if (project.isStageEnable()) {
+		WorkInfo workInfo = WorkInfo.newInstance(rootInput.getProject_id(), rootInput.getParent_id());
+		if ((rootInput instanceof Project) && ((Project)rootInput).isStageEnable()) {
 			title = "´´½¨½×¶Î";
 			editor = bruiService.getAssembly("¸ÊÌØÍ¼½×¶Î¹¤×÷±à¼­Æ÷");
 			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);

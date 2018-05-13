@@ -264,18 +264,21 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public CBSItem addCBSItemByStage(ObjectId _id, ObjectId project_id) {
-		List<Work> workInfoList = c(Work.class)
+		List<Work> workList = c(Work.class)
 				.find(new BasicDBObject("project_id", project_id).append("stage", Boolean.TRUE))
 				.into(new ArrayList<Work>());
-		List<CBSItem> cbsItemList = new ArrayList<CBSItem>();
-		for (Work workInfo : workInfoList) {
-			CBSItem cbsItem = CBSItem.getInstance();
-			cbsItem.setId(workInfo.getId());
-			cbsItem.setName(workInfo.toString());
-			cbsItem.setParent_id(_id);
-			cbsItemList.add(cbsItem);
+		if (workList.size() > 0) {
+			List<CBSItem> cbsItemList = new ArrayList<CBSItem>();
+			for (Work work : workList) {
+				CBSItem cbsItem = CBSItem.getInstance();
+				// TODO workÈ±ÉÙid×Ö¶Î
+				// cbsItem.setId(work.get);
+				cbsItem.setName(work.toString());
+				cbsItem.setParent_id(_id);
+				cbsItemList.add(cbsItem);
+			}
+			c(CBSItem.class).insertMany(cbsItemList);
 		}
-		c(CBSItem.class).insertMany(cbsItemList);
 		return get(_id);
 	}
 
