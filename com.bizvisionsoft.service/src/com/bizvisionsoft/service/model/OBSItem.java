@@ -41,6 +41,15 @@ public class OBSItem {
 	@Exclude
 	public static final String NAME_CHARGER = "负责人";
 
+	@Exclude
+	private static final int TYPE_CHARGER_ITEM = 0;
+
+	@Exclude
+	private static final int TYPE_ROLE_ITEM = 1;
+
+	@Exclude
+	private static final int TYPE_TEAM_ITEM = 2;
+
 	@Override
 	@Label
 	@ReadValue("项目团队/label")
@@ -218,10 +227,27 @@ public class OBSItem {
 
 	@ReadValue("组织结构图/title")
 	public String getDiagramTitle() {
-		String title = "";
-		if (!Util.isEmptyOrNull(name))
-			title += name;
-		return title;
+		int type = getDiagramItemType();
+		if (TYPE_CHARGER_ITEM == type || TYPE_TEAM_ITEM == type) {
+			return name;
+		} else if (TYPE_ROLE_ITEM == type) {
+			return roleName;
+		}
+		return " ";
+	}
+
+	private int getDiagramItemType() {
+		// 有名称，有负责角色，有负责角色名称，有指定人的:例如：某某阶段团队，项目经理，张三
+		if (!Util.isEmptyOrNull(name) && roleId != null && managerId != null)
+			return TYPE_CHARGER_ITEM;
+		// 无名称，有负责角色，有负责角色名称，有指定人的:例如：财务经理，李四
+		if (Util.isEmptyOrNull(name) && roleId != null && managerId != null)
+			return TYPE_ROLE_ITEM;
+		// 有名称，没有角色也没有管理者的例如：某某团队
+		if (!Util.isEmptyOrNull(name) && roleId == null && managerId == null)
+			return TYPE_TEAM_ITEM;
+
+		return TYPE_TEAM_ITEM;
 	}
 
 	@ReadValue("组织结构图/id")
@@ -231,18 +257,16 @@ public class OBSItem {
 
 	@ReadValue("组织结构图/text")
 	public String getDiagramText() {
-		String text = "";
-		if (!Util.isEmptyOrNull(roleName))
-			text += roleName;
+		int type = getDiagramItemType();
+		if (TYPE_CHARGER_ITEM == type) {
+			return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
+		} else if (TYPE_ROLE_ITEM == type) {
+			return managerInfo.substring(0, managerInfo.indexOf("["));
+		} else if (TYPE_TEAM_ITEM == type) {
+			return "小组";
+		}
+		return " ";
 
-		if (!Util.isEmptyOrNull(managerInfo)) {
-			text += " " + managerInfo.substring(0, managerInfo.indexOf("["));
-		}
-		
-		if(text.isEmpty()) {
-			text += "组";
-		}
-		return text;
 	}
 
 	@ReadValue("组织结构图/parent")
