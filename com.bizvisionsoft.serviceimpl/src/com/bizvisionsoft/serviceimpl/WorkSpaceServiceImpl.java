@@ -279,4 +279,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		return Result.checkoutSuccess("本计划已完成撤销成功。");
 	}
+
+	@Override
+	public List<WorkInfo> createComparableWorkDataSet(ObjectId root_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
