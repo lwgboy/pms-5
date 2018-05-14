@@ -83,6 +83,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			inputIds = c(Work.class)
 					.distinct("_id", new BasicDBObject("project_id", workspace.getProject_id()), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
+			inputIdHasWorks.addAll(inputIds);
 		} else {
 			// 获取检出工作及其下级工作
 			inputIdHasWorks.add(workspace.getWork_id());
@@ -216,6 +217,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<ObjectId> workIds = c(Work.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
+		workIds.remove(workspace.getWork_id());
 
 		List<ObjectId> workspaceIds = c(WorkInfo.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)

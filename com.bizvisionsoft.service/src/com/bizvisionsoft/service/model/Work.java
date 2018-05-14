@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -202,7 +201,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Override
 	public ObjectId getProject_id() {
-		return parent_id;
+		return project_id;
 	}
 
 	@ReadValue("project")
@@ -652,31 +651,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Override
 	public List<WorkLink> createGanttLinkDataSet() {
-		List<ObjectId> inputIds = listAllChildrenId();
-		return ServicesLoader.get(WorkService.class)
-				.createLinkDataSet(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
-						new BasicDBObject("$in", inputIds)));
-	}
-
-	private List<ObjectId> listAllChildrenId() {
-		return ServicesLoader.get(WorkService.class).listAllSubWorkIds(_id);
+		return ServicesLoader.get(WorkService.class).createWorkLinkDataSet(_id);
 	}
 
 	@Override
 	public List<Work> createGanttTaskDataSet() {
-		return listAllChildren();
-	}
-
-	private List<Work> listAllChildren() {
-		List<Work> result = new ArrayList<Work>();
-		// 获取当前工作的下级工作
-		ServicesLoader.get(WorkService.class).createTaskDataSet(new BasicDBObject("parent_id", _id)).forEach(parent -> {
-			// 将下级工作添加到返回集合中
-			result.add(parent);
-			// 迭代获取下级工作的子工作，并添加到返回集合中
-			result.addAll(parent.listAllChildren());
-		});
-		return result;
+		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
 }

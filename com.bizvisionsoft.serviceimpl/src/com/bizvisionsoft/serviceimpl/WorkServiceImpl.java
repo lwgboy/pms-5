@@ -15,6 +15,7 @@ import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.client.result.UpdateResult;
 
 public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
@@ -145,11 +146,34 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<ObjectId> listAllSubWorkIds(ObjectId _id) {
+	public List<WorkLink> createWorkLinkDataSet(ObjectId parent_id) {
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
-		inputIds.add(_id);
+		inputIds.add(parent_id);
 		getDesentItems(inputIds, "work", "parent_id");
-		inputIds.remove(_id);
-		return inputIds;
+		return createLinkDataSet(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
+				new BasicDBObject("$in", inputIds)));
+	}
+
+	@Override
+	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
+		List<Work> result = new ArrayList<Work>();
+		c(Work.class).find(new BasicDBObject("parent_id", parent_id)).forEach(new Block<Work>() {
+			@Override
+			public void apply(final Work work) {
+				result.add(work);
+				result.addAll(createWorkTaskDataSet(work.get_id()));
+			}
+		});
+		return result;
+	}
+
+	@Override
+	public List<WorkLink> createProjectLinkDataSet(ObjectId project_id) {
+		return createLinkDataSet(new BasicDBObject("project_id", project_id));
+	}
+
+	@Override
+	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
+		return createTaskDataSet(new BasicDBObject("project_id", project_id));
 	}
 }

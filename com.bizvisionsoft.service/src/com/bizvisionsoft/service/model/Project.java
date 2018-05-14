@@ -520,12 +520,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@Override
 	public List<WorkLink> createGanttLinkDataSet() {
-		return ServicesLoader.get(WorkService.class).createLinkDataSet(new BasicDBObject("project_id", _id));
+		return ServicesLoader.get(WorkService.class).createProjectLinkDataSet(_id);
 	}
 
 	@Override
 	public List<Work> createGanttTaskDataSet() {
-		return ServicesLoader.get(WorkService.class).createTaskDataSet(new BasicDBObject("project_id", _id));
+		return ServicesLoader.get(WorkService.class).createProjectTaskDataSet(_id);
 	}
 
 }

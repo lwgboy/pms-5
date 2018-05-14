@@ -26,8 +26,13 @@ public class CreateRootTask {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		String title;
 		Assembly editor;
-		WorkInfo workInfo = WorkInfo.newInstance(rootInput.getProject_id(), rootInput.getParent_id());
-		if ((rootInput instanceof Project) && ((Project)rootInput).isStageEnable()) {
+		WorkInfo workInfo;
+		if (rootInput instanceof Project) {
+			workInfo = WorkInfo.newInstance(rootInput.getProject_id(), null);
+		} else {
+			workInfo = WorkInfo.newInstance(rootInput.getProject_id(), rootInput.get_id());
+		}
+		if ((rootInput instanceof Project) && ((Project) rootInput).isStageEnable()) {
 			title = "´´½¨½×¶Î";
 			editor = bruiService.getAssembly("¸ÊÌØÍ¼½×¶Î¹¤×÷±à¼­Æ÷");
 			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);

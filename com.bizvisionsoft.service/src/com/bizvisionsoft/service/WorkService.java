@@ -119,11 +119,30 @@ public interface WorkService {
 	@Path("/workspace/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Workspace getWorkspace(ObjectId _id);
+	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
 
 	@GET
-	@Path("/parent_id/{_id}")
+	@Path("/parent_id/{parent_id}/ganttlinks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ObjectId> listAllSubWorkIds(ObjectId _id);
+	public List<WorkLink> createWorkLinkDataSet(@PathParam("parent_id") ObjectId parent_id);
+
+	@GET
+	@Path("/parent_id/{parent_id}/gantttasks")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createWorkTaskDataSet(@PathParam("parent_id") ObjectId parent_id);
+
+	@GET
+	@Path("/project_id/{project_id}/ganttlinks")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkLink> createProjectLinkDataSet(@PathParam("project_id") ObjectId project_id);
+
+	@GET
+	@Path("/project_id/{project_id}/gantttasks")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createProjectTaskDataSet(@PathParam("project_id") ObjectId project_id);
+
 }

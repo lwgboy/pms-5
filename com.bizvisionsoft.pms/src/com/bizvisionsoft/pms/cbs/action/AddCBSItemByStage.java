@@ -27,7 +27,7 @@ public class AddCBSItemByStage {
 			CBSItem cbsRoot = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
 					project.get_id());
 			BudgetCBS budgetCBS = (BudgetCBS) context.getChildContextByName("cbs").getContent();
-			budgetCBS.refresh(cbsRoot);
+			budgetCBS.update(cbsRoot);
 		}
 	}
 }

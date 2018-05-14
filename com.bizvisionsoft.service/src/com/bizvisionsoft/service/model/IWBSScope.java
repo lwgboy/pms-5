@@ -18,6 +18,7 @@ public interface IWBSScope {
 
 	public List<Work> createGanttTaskDataSet();
 
+	public ObjectId get_id();
 
 
 }
