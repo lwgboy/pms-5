@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -281,8 +282,37 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	}
 
 	@Override
-	public List<WorkInfo> createComparableWorkDataSet(ObjectId root_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<WorkInfo> createComparableWorkDataSet(ObjectId space_id) {
+        List<? extends Bson> pipeline = Arrays.asList(
+                new Document()
+                        .append("$match", new Document()
+                                .append("space_id", space_id)
+                        ), 
+                new Document()
+                        .append("$lookup", new Document()
+                                .append("from", "work")
+                                .append("localField", "_id")
+                                .append("foreignField", "_id")
+                                .append("as", "work")
+                        ), 
+                new Document()
+                        .append("$unwind", new Document()
+                                .append("path", "$work")
+                                .append("preserveNullAndEmptyArrays", true)
+                        ), 
+                new Document()
+                        .append("$addFields", new Document()
+                                .append("planStart1", "$work.planStart")
+                                .append("planFinish1", "$work.planFinish")
+                                .append("actualStart1", "$work.actualStart")
+                                .append("actualFinish1", "$work.actualFinish")
+                        ), 
+                new Document()
+                        .append("$project", new Document()
+                                .append("work", false)
+                        )
+        );
+        
+        return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
 	}
 }

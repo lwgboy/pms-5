@@ -27,7 +27,7 @@ public class CompareSchedule {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope root = (IWBSScope) context.getRootInput();
 		Workspace ws = root.getWorkspace();
-		List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(root.getScope_id());
+		List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(ws.getSpace_id());
 		List<WorkLinkInfo> linkSet = Services.get(WorkSpaceService.class)
 				.createLinkDataSet(new BasicDBObject("space_id", ws.getSpace_id()));
 		brui.openContent(brui.getAssembly("±»Ωœ∏ ÃÿÕº"), new Object[] { workSet, linkSet });
