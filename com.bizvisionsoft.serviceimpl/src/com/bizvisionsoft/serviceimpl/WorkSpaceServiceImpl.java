@@ -74,21 +74,27 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result checkout(Workspace workspace, String userId, Boolean cancelCheckoutSubSchedule) {
+		//获取所有需检出的工作ID inputIds为需要复制到Workspace中的工作。inputIdHasWorks为需要进行校验的工作
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
+		List<ObjectId> inputIdHasWorks = new ArrayList<ObjectId>();
+//		判断是否为项目
 		if (workspace.getWork_id() == null) {
+//			获取项目下所有工作
 			inputIds = c(Work.class)
 					.distinct("_id", new BasicDBObject("project_id", workspace.getProject_id()), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 		} else {
-			inputIds.add(workspace.getWork_id());
-			inputIds = getDesentItems(inputIds, "work", "parent_id");
+			inputIdHasWorks.add(workspace.getWork_id());
+			inputIdHasWorks = getDesentItems(inputIdHasWorks, "work", "parent_id");
+			inputIds.addAll(inputIdHasWorks);
+			inputIds.remove(workspace.getWork_id());
 		}
 
 		if (Boolean.TRUE.equals(cancelCheckoutSubSchedule)) {
 			cleanWorkspace(workspace);
 		} else {
 			List<Bson> pipeline = new ArrayList<Bson>();
-			pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))
+			pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIdHasWorks))
 					.append("checkoutBy", new BasicDBObject("$ne", null))));
 			pipeline.add(Aggregates.lookup("user", "checkoutBy", "userId", "user"));
 			pipeline.add(Aggregates.unwind("$user"));
@@ -115,7 +121,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
 		if (works.size() > 0) {
 
-			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIds)),
+			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
 					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
 
 			c("workspace").insertMany(works);

@@ -83,22 +83,73 @@ public class EventHandler {
 	@Listener({ "项目甘特图(编辑)/onLinkDblClick" })
 	public void onLinkDblClickBySpace(GanttEvent event) {
 		List<Action> actions = new ArrayList<Action>();
+		// "id": "162516cb740",
+		// "name": "编辑",
+		// "text": "编辑",
+		// "image": "/img/edit_w.svg",
+		// "bundleId": "com.bizvisionsoft.pms",
+		// "className": "com.bizvisionsoft.pms.work.gantt.action.EditTask",
+		// "openContent": false,
+		// "propagate": false,
+		// "forceText": true,
+		// "style": "normal",
+		// "editorAssemblyEditable": false,
+		// "objectBehavier": false,
+		// "type": "customized"
 		// 编辑Link action
 		Action editAction = new Action();
+		editAction.setName("编辑link");
+		editAction.setName("编辑");
+		editAction.setImage("/img/edit_w.svg");
+		editAction.setBundleId("com.bizvisionsoft.pms");
+		editAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.EditLink");
+		editAction.setOpenContent(false);
+		editAction.setPropagate(false);
+		editAction.setForceText(true);
+		editAction.setStyle("normal");
+		editAction.setEditorAssemblyEditable(false);
+		editAction.setObjectBehavier(false);
+		editAction.setType("customized");
 		actions.add(editAction);
 
+		// "id": "162516ce0ff",
+		// "name": "删除任务",
+		// "text": "删除",
+		// "image": "/img/minus_w.svg",
+		// "bundleId": "com.bizvisionsoft.pms",
+		// "className": "com.bizvisionsoft.pms.work.gantt.action.DeleteTask",
+		// "openContent": false,
+		// "propagate": false,
+		// "forceText": true,
+		// "style": "warning",
+		// "editorAssemblyEditable": false,
+		// "objectBehavier": true,
+		// "type": "customized"
 		// 删除Link action
 		Action deleteAction = new Action();
+		deleteAction.setName("删除link");
+		deleteAction.setName("编辑");
+		deleteAction.setImage("/img/minus_w.svg");
+		deleteAction.setBundleId("com.bizvisionsoft.pms");
+		deleteAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.DeleteLink");
+		deleteAction.setOpenContent(false);
+		deleteAction.setPropagate(false);
+		deleteAction.setForceText(true);
+		deleteAction.setStyle("warning");
+		deleteAction.setEditorAssemblyEditable(false);
+		deleteAction.setObjectBehavier(false);
+		deleteAction.setType("customized");
 		actions.add(deleteAction);
 
 		// 弹出menu
+		// TODO 弹出时缺少文字
 		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
 				.setActions(actions).setEvent(event).open();
 
-		Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
-			GanttPart content = (GanttPart) context.getContent();
-			content.updateLink(wi);
-		});
+		// Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
+		// GanttPart content = (GanttPart) context.getContent();
+		// content.updateLink(wi);
+		// });
 	}
 
 	@Listener({ "项目甘特图(编辑)/onTaskDblClick" })
