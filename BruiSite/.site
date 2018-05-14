@@ -1712,12 +1712,13 @@
               {
                 "id": "16324c5bc6b",
                 "name": "进度计划甘特图",
+                "switchContentToAssemblyId": "1628f2f73ab",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized"
+                "type": "switch"
               },
               {
                 "id": "16324c5c1f2",

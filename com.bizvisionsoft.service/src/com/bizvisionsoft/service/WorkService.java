@@ -122,5 +122,5 @@ public interface WorkService {
 	@Path("/workspace/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Workspace getWorkspace(ObjectId _id);
+	public Workspace getWorkspace(@PathParam("_id")  ObjectId _id);
 }
