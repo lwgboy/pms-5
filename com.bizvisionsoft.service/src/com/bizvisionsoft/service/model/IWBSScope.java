@@ -9,4 +9,9 @@ public interface IWBSScope {
 	public ObjectId getParent_id();
 
 	public ObjectId getProject_id();
+	
+	public ObjectId getScope_id();
+
+
+
 }

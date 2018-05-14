@@ -350,6 +350,49 @@ public class WorkInfo {
 	@Persistence
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 *  用于比较的计划完成时间
+	 */
+	@SetValue
+	private Date planFinish1;
+
+	/**
+	 *  用于比较的实际完成时间
+	 */
+	@SetValue
+	private Date actualFinish1;
+
+	@ReadValue("end_date1")
+	public Date getEnd_date1() {
+		if (actualFinish1 != null) {
+			return actualFinish1;
+		}
+		return planFinish1;
+	}
+
+	/**
+	 *  用于比较的计划开始时间
+	 */
+	@SetValue
+	private Date planStart1;
+
+	/**
+	 *  用于比较的实际开始时间
+	 */
+	@SetValue
+	private Date actualStart1;
+
+	@ReadValue("start_date1")
+	public Date getStart_date1() {
+		if (actualStart1 != null) {
+			return actualStart1;
+		}
+		return planStart1;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public WorkInfo set_id(ObjectId _id) {
 		this._id = _id;

@@ -115,4 +115,11 @@ public interface WorkSpaceService {
 	@Produces("application/json; charset=UTF-8")
 	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
 
+	
+	@POST
+	@Path("/compare/{root_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id")  ObjectId root_id);
+
 }
