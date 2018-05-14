@@ -566,6 +566,7 @@
                 "id": "161989cc8b9",
                 "name": "部门工作管理",
                 "text": "部门工作管理",
+                "switchContentToAssemblyId": "1635d7d0d35",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -16813,7 +16814,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "schedulerType": "scheduler"
       },
       {
         "id": "1635c2a9c42",
@@ -16892,7 +16894,7 @@
             "columns": [],
             "markupEnabled": false,
             "sort": 0,
-            "hide": true,
+            "hide": false,
             "element": false
           },
           {
@@ -16935,6 +16937,47 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false
+      },
+      {
+        "id": "1635d7d0d35",
+        "name": "部门工作日程表",
+        "layout": [],
+        "type": "scheduler",
+        "folderId": "1626f3377b5",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetBundleId": "com.bizvisionsoft.pms",
+        "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.MySchedule",
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "schedulerType": "timeline"
       }
     ]
   }
