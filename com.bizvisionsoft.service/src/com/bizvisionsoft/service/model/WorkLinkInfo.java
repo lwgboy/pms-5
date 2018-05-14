@@ -21,12 +21,12 @@ public class WorkLinkInfo {
 	@Persistence
 	private ObjectId _id;
 
-	@ReadValue( "项目甘特图(编辑)/id" )
+	@ReadValue( "项目甘特图（编辑）/id" )
 	public String getId() {
 		return _id.toHexString();
 	}
 
-	@WriteValue(  "项目甘特图(编辑)/id")
+	@WriteValue(  "项目甘特图（编辑）/id")
 	public WorkLinkInfo setId(String id) {
 		this._id = new ObjectId(id);
 		return this;
@@ -38,12 +38,12 @@ public class WorkLinkInfo {
 	@Persistence
 	private ObjectId project_id;
 
-	@ReadValue( "项目甘特图(编辑)/project")
+	@ReadValue( "项目甘特图（编辑）/project")
 	public String getProject() {
 		return project_id == null ? null : project_id.toHexString();
 	}
 
-	@WriteValue( "项目甘特图(编辑)/project")
+	@WriteValue( "项目甘特图（编辑）/project")
 	public WorkLinkInfo setProject(String project_id) {
 		this.project_id = project_id == null ? null : new ObjectId(project_id);
 		return this;
@@ -54,7 +54,7 @@ public class WorkLinkInfo {
 	//
 	private WorkInfo source;
 
-	@ReadValue( "项目甘特图(编辑)/source")
+	@ReadValue( "项目甘特图（编辑）/source")
 	public String getSource() {
 		return source == null ? null : source.get_id().toHexString();
 	}
@@ -79,7 +79,7 @@ public class WorkLinkInfo {
 	//
 	private WorkInfo target;
 
-	@ReadValue( "项目甘特图(编辑)/target")
+	@ReadValue( "项目甘特图（编辑）/target")
 	public String getTarget() {
 		return target == null ? null : target.get_id().toHexString();
 	}
@@ -110,8 +110,8 @@ public class WorkLinkInfo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//o
-	@ReadValue( "项目甘特图(编辑)/lag")
-	@WriteValue( "项目甘特图(编辑)/lag")
+	@ReadValue( "项目甘特图（编辑）/lag")
+	@WriteValue( "项目甘特图（编辑）/lag")
 	@Persistence
 	private int lag;
 

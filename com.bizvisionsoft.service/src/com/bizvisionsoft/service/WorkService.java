@@ -28,16 +28,13 @@ public interface WorkService {
 	@Path("/gantt/tasks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("data")
 	public List<Work> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("links")
 	public List<WorkLink> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
-
 
 	@POST
 	@Path("/task/")
@@ -123,4 +120,10 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Workspace getWorkspace(ObjectId _id);
+
+	@GET
+	@Path("/parent_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ObjectId> listAllSubWorkIds(ObjectId _id);
 }
