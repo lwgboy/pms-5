@@ -143,4 +143,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return Workspace.newInstance(dbo.getObjectId("project_id"), _id, dbo.getObjectId("space_id"),
 				dbo.getString("checkoutBy"));
 	}
+
+	@Override
+	public List<ObjectId> listAllSubWorkIds(ObjectId _id) {
+		List<ObjectId> inputIds = new ArrayList<ObjectId>();
+		inputIds.add(_id);
+		getDesentItems(inputIds, "work", "parent_id");
+		inputIds.remove(_id);
+		return inputIds;
+	}
 }

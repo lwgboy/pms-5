@@ -23,7 +23,7 @@ public class OpenGantt {
 			Workspace workspace = rootInput.getWorkspace();
 			if (workspace != null) {
 				if (brui.getCurrentUserId().equals(workspace.getCheckoutBy())) {
-					brui.switchContent("项目甘特图(编辑)", null);
+					brui.switchContent("项目甘特图（编辑）", null);
 					return;
 				}
 			}

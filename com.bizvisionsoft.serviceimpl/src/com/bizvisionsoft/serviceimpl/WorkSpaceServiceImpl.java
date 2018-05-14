@@ -74,25 +74,29 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result checkout(Workspace workspace, String userId, Boolean cancelCheckoutSubSchedule) {
-		//获取所有需检出的工作ID inputIds为需要复制到Workspace中的工作。inputIdHasWorks为需要进行校验的工作
+		// 获取所有需检出的工作ID inputIds为需要复制到Workspace中的工作。inputIdHasWorks为需要进行校验的工作
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
 		List<ObjectId> inputIdHasWorks = new ArrayList<ObjectId>();
-//		判断是否为项目
+		// 判断是否为项目
 		if (workspace.getWork_id() == null) {
-//			获取项目下所有工作
+			// 获取项目下所有工作
 			inputIds = c(Work.class)
 					.distinct("_id", new BasicDBObject("project_id", workspace.getProject_id()), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 		} else {
+			// 获取检出工作及其下级工作
 			inputIdHasWorks.add(workspace.getWork_id());
 			inputIdHasWorks = getDesentItems(inputIdHasWorks, "work", "parent_id");
+			// 获取检出工作的下级工作
 			inputIds.addAll(inputIdHasWorks);
 			inputIds.remove(workspace.getWork_id());
 		}
-
+		// 判断是否需要检查本计划被其他人员检出
 		if (Boolean.TRUE.equals(cancelCheckoutSubSchedule)) {
+			// 不进行检查时，直接清除被检出的计划
 			cleanWorkspace(workspace);
 		} else {
+			// 获取被其他人员检出的计划
 			List<Bson> pipeline = new ArrayList<Bson>();
 			pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIdHasWorks))
 					.append("checkoutBy", new BasicDBObject("$ne", null))));
@@ -102,30 +106,36 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 			BasicDBObject checkout = c("work").aggregate(pipeline, BasicDBObject.class).first();
 			if (checkout != null) {
+				// 如被其他人员检出,则提示给当前用户
 				Result result = Result.checkoutError("计划正在进行计划编辑。", Result.CODE_HASCHECKOUTSUB);
 				result.setResultDate(checkout);
 				return result;
 			}
 		}
 
+		// 生成工作区标识
 		ObjectId space_id = new ObjectId();
 
+		// 检出项目时，给项目标记检出人和工作区标记
 		if (workspace.getWork_id() == null) {
 			c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
 					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
 		}
 
+		// 获取需检出到工作区的Work到List中,并为获取的工作添加工作区标记
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))));
 		pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
 		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
 		if (works.size() > 0) {
-
+			// 给work集合中检出的工作增加检出人和工作区标记
 			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
 					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
-
+			
+			// 将检出的工作存入workspace集合中
 			c("workspace").insertMany(works);
-
+			
+			// 获取检出的工作搭接关系，并存入worklinksspace集合中
 			pipeline = new ArrayList<Bson>();
 			pipeline.add(Aggregates.match(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
 					.append("target", new BasicDBObject("$in", inputIds))));
@@ -290,36 +300,19 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public List<WorkInfo> createComparableWorkDataSet(ObjectId space_id) {
-        List<? extends Bson> pipeline = Arrays.asList(
-                new Document()
-                        .append("$match", new Document()
-                                .append("space_id", space_id)
-                        ), 
-                new Document()
-                        .append("$lookup", new Document()
-                                .append("from", "work")
-                                .append("localField", "_id")
-                                .append("foreignField", "_id")
-                                .append("as", "work")
-                        ), 
-                new Document()
-                        .append("$unwind", new Document()
-                                .append("path", "$work")
-                                .append("preserveNullAndEmptyArrays", true)
-                        ), 
-                new Document()
-                        .append("$addFields", new Document()
-                                .append("planStart1", "$work.planStart")
-                                .append("planFinish1", "$work.planFinish")
-                                .append("actualStart1", "$work.actualStart")
-                                .append("actualFinish1", "$work.actualFinish")
-                        ), 
-                new Document()
-                        .append("$project", new Document()
-                                .append("work", false)
-                        )
-        );
-        
-        return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document().append("$match", new Document().append("space_id", space_id)),
+				new Document().append("$lookup",
+						new Document().append("from", "work").append("localField", "_id").append("foreignField", "_id")
+								.append("as", "work")),
+				new Document().append("$unwind",
+						new Document().append("path", "$work").append("preserveNullAndEmptyArrays", true)),
+				new Document().append("$addFields",
+						new Document().append("planStart1", "$work.planStart").append("planFinish1", "$work.planFinish")
+								.append("actualStart1", "$work.actualStart")
+								.append("actualFinish1", "$work.actualFinish")),
+				new Document().append("$project", new Document().append("work", false)));
+
+		return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
 	}
 }

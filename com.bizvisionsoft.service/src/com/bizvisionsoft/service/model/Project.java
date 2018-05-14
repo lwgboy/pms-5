@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.mongodb.BasicDBObject;
 
@@ -37,7 +38,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope ,IWBSScope{
+public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘
@@ -515,6 +516,16 @@ public class Project implements IOBSScope, ICBSScope ,IWBSScope{
 	@Override
 	public ObjectId getProject_id() {
 		return _id;
+	}
+
+	@Override
+	public List<WorkLink> createGanttLinkDataSet() {
+		return ServicesLoader.get(WorkService.class).createLinkDataSet(new BasicDBObject("project_id", _id));
+	}
+
+	@Override
+	public List<Work> createGanttTaskDataSet() {
+		return ServicesLoader.get(WorkService.class).createTaskDataSet(new BasicDBObject("project_id", _id));
 	}
 
 }

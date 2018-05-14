@@ -41,14 +41,12 @@ public interface WorkSpaceService {
 	@Path("/gantt/works")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("data")
 	public List<WorkInfo> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("links")
 	public List<WorkLinkInfo> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
 
 	@POST

@@ -69,7 +69,7 @@ public class EventHandler {
 		});
 	}
 
-	@Listener({ "项目甘特图(编辑)/onTaskLinkBefore" })
+	@Listener({ "项目甘特图（编辑）/onTaskLinkBefore" })
 	public void onTaskLinkBeforeBySpace(GanttEvent event) {
 		WorkLinkInfo input = WorkLinkInfo.newInstance(wbsspace.getProject_id()).setSource((WorkInfo) event.linkSource)
 				.setTarget((WorkInfo) event.linkTarget).setType(event.linkType);
@@ -80,7 +80,7 @@ public class EventHandler {
 		});
 	}
 
-	@Listener({ "项目甘特图(编辑)/onLinkDblClick" })
+	@Listener({ "项目甘特图（编辑）/onLinkDblClick" })
 	public void onLinkDblClickBySpace(GanttEvent event) {
 		List<Action> actions = new ArrayList<Action>();
 		// "id": "162516cb740",
@@ -99,16 +99,11 @@ public class EventHandler {
 		// 编辑Link action
 		Action editAction = new Action();
 		editAction.setName("编辑link");
-		editAction.setName("编辑");
+		editAction.setText("编辑");
 		editAction.setImage("/img/edit_w.svg");
 		editAction.setBundleId("com.bizvisionsoft.pms");
 		editAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.EditLink");
-		editAction.setOpenContent(false);
-		editAction.setPropagate(false);
-		editAction.setForceText(true);
 		editAction.setStyle("normal");
-		editAction.setEditorAssemblyEditable(false);
-		editAction.setObjectBehavier(false);
 		editAction.setType("customized");
 		actions.add(editAction);
 
@@ -128,21 +123,14 @@ public class EventHandler {
 		// 删除Link action
 		Action deleteAction = new Action();
 		deleteAction.setName("删除link");
-		deleteAction.setName("编辑");
+		deleteAction.setText("编辑");
 		deleteAction.setImage("/img/minus_w.svg");
 		deleteAction.setBundleId("com.bizvisionsoft.pms");
 		deleteAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.DeleteLink");
-		deleteAction.setOpenContent(false);
-		deleteAction.setPropagate(false);
-		deleteAction.setForceText(true);
 		deleteAction.setStyle("warning");
-		deleteAction.setEditorAssemblyEditable(false);
-		deleteAction.setObjectBehavier(false);
-		deleteAction.setType("customized");
 		actions.add(deleteAction);
 
 		// 弹出menu
-		// TODO 弹出时缺少文字
 		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
 				.setActions(actions).setEvent(event).open();
 
@@ -152,7 +140,7 @@ public class EventHandler {
 		// });
 	}
 
-	@Listener({ "项目甘特图(编辑)/onTaskDblClick" })
+	@Listener({ "项目甘特图（编辑）/onTaskDblClick" })
 	public void onTaskDblClickBySpace(GanttEvent event) {
 		String editor;
 		if (((WorkInfo) event.task).isStage()) {

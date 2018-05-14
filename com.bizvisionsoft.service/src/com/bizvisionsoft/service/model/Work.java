@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -143,7 +144,7 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
  */
 @PersistenceCollection("work")
 @Strict
-public class Work implements ICBSScope, IOBSScope,IWBSScope {
+public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -294,7 +295,7 @@ public class Work implements ICBSScope, IOBSScope,IWBSScope {
 	 *            使用Util.str_date()方法可以转换
 	 * @return
 	 */
-	@WriteValue({ "项目甘特图/start_date", "项目甘特图(编辑)/start_date" })
+	@WriteValue({ "项目甘特图/start_date", "项目甘特图（编辑）/start_date" })
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
 		if (!Util.equals(newDate, this.start_date)) {
@@ -324,7 +325,7 @@ public class Work implements ICBSScope, IOBSScope,IWBSScope {
 		return this;
 	}
 
-	@WriteValue({ "项目甘特图/end_date", "项目甘特图(编辑)/end_date" })
+	@WriteValue({ "项目甘特图/end_date", "项目甘特图（编辑）/end_date" })
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
 		if (!Util.equals(newDate, this.end_date)) {
@@ -641,12 +642,41 @@ public class Work implements ICBSScope, IOBSScope,IWBSScope {
 
 	@Override
 	public Workspace getWorkspace() {
-		 return ServicesLoader.get(WorkService.class).getWorkspace(_id);
+		return ServicesLoader.get(WorkService.class).getWorkspace(_id);
 	}
 
 	public Work setChargerId(String chargerId) {
 		this.chargerId = chargerId;
 		return this;
+	}
+
+	@Override
+	public List<WorkLink> createGanttLinkDataSet() {
+		List<ObjectId> inputIds = listAllChildrenId();
+		return ServicesLoader.get(WorkService.class)
+				.createLinkDataSet(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
+						new BasicDBObject("$in", inputIds)));
+	}
+
+	private List<ObjectId> listAllChildrenId() {
+		return ServicesLoader.get(WorkService.class).listAllSubWorkIds(_id);
+	}
+
+	@Override
+	public List<Work> createGanttTaskDataSet() {
+		return listAllChildren();
+	}
+
+	private List<Work> listAllChildren() {
+		List<Work> result = new ArrayList<Work>();
+		// 获取当前工作的下级工作
+		ServicesLoader.get(WorkService.class).createTaskDataSet(new BasicDBObject("parent_id", _id)).forEach(parent -> {
+			// 将下级工作添加到返回集合中
+			result.add(parent);
+			// 迭代获取下级工作的子工作，并添加到返回集合中
+			result.addAll(parent.listAllChildren());
+		});
+		return result;
 	}
 
 }

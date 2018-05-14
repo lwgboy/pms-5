@@ -158,7 +158,7 @@ public class WorkInfo {
 		return this;
 	}
 
-	@WriteValue("项目甘特图(编辑)/start_date")
+	@WriteValue("项目甘特图（编辑）/start_date")
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
 		if (actualStart != null) {
@@ -218,7 +218,7 @@ public class WorkInfo {
 	 *            使用Util.str_date()方法可以转换
 	 * @return
 	 */
-	@WriteValue("项目甘特图(编辑)/end_date")
+	@WriteValue("项目甘特图（编辑）/end_date")
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
 		if (actualFinish != null) {
@@ -549,12 +549,12 @@ public class WorkInfo {
 	private Float progress;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Behavior({ "项目甘特图(编辑)/创建子任务" })
+	@Behavior({ "项目甘特图（编辑）/创建子任务" })
 	private boolean behaviourAddTask() {
 		return actualFinish == null;
 	}
 
-	@Behavior({ "项目甘特图(编辑)/删除任务" })
+	@Behavior({ "项目甘特图（编辑）/删除任务" })
 	private boolean behaviourDeleteTask() {
 		return actualStart == null;
 	}

@@ -34,7 +34,7 @@ public class EditGantt {
 					Result result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 							false);
 					if (Result.CODE_SUCCESS == result.code) {
-						brui.switchContent("项目甘特图(编辑)", workspace);
+						brui.switchContent("项目甘特图（编辑）", workspace);
 					} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
 						if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
 								"本计划中的  <b style='color: red;'>" + result.data.getString("name")
@@ -43,7 +43,7 @@ public class EditGantt {
 							result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 									true);
 							if (Result.CODE_SUCCESS == result.code) {
-								brui.switchContent("项目甘特图(编辑)", workspace);
+								brui.switchContent("项目甘特图（编辑）", workspace);
 							}
 						}
 					}
