@@ -8,7 +8,6 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.IWBSScope;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Workspace;
 
 public class OpenGantt {
@@ -21,7 +20,7 @@ public class OpenGantt {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		if (rootInput != null) {
-			Workspace workspace = ((Project) rootInput).getWorkspace();
+			Workspace workspace = rootInput.getWorkspace();
 			if (workspace != null) {
 				if (brui.getCurrentUserId().equals(workspace.getCheckoutBy())) {
 					brui.switchContent("ÏîÄ¿¸ÊÌØÍ¼(±à¼­)", null);

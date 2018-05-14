@@ -37,7 +37,9 @@ public class EditGantt {
 						brui.switchContent("项目甘特图(编辑)", workspace);
 					} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
 						if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
-								result.message + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
+								"本计划中的  <b style='color: red;'>" + result.data.getString("name")
+										+ "</b>  工作正在由   <b style='color: red;'>" + result.data.getString("username")
+										+ "</b>  进行计划编辑。" + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
 							result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 									true);
 							if (Result.CODE_SUCCESS == result.code) {

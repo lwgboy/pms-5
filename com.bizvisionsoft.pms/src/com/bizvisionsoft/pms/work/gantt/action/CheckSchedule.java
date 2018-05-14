@@ -10,7 +10,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -26,8 +25,8 @@ public class CheckSchedule {
 		if (rootInput != null) {
 			Workspace workspace = rootInput.getWorkspace();
 			if (workspace != null) {
-				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace,
-						!(rootInput instanceof Project));
+				Boolean checkManageItem = true;
+				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 				if (Result.CODE_SUCCESS == result.code) {
 					MessageDialog.openInformation(bruiService.getCurrentShell(), "¼ì²é½á¹û", result.message);

@@ -14,7 +14,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.IWBSScope;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -84,18 +83,18 @@ public class EventHandler {
 	@Listener({ "项目甘特图(编辑)/onLinkDblClick" })
 	public void onLinkDblClickBySpace(GanttEvent event) {
 		List<Action> actions = new ArrayList<Action>();
-		//编辑Link action
+		// 编辑Link action
 		Action editAction = new Action();
 		actions.add(editAction);
-		
 
-		//删除Link action
+		// 删除Link action
 		Action deleteAction = new Action();
 		actions.add(deleteAction);
-		
+
 		// 弹出menu
-		new ActionMenu(bruiService).setContext(context).setInput(event.link).setActions(actions).setEvent(event).open();
-				
+		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
+				.setActions(actions).setEvent(event).open();
+
 		Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.updateLink(wi);

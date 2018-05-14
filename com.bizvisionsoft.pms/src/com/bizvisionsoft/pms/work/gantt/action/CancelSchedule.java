@@ -24,19 +24,10 @@ public class CancelSchedule {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		if (rootInput != null) {
 			Workspace workspace = rootInput.getWorkspace();
-			if (workspace != null) {
-				String checkoutUserId = workspace.getCheckoutBy();
-				if (checkoutUserId == null || "".equals(checkoutUserId)
-						|| bruiService.getCurrentUserId().equals(checkoutUserId)) {
-					Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
-					if (Result.CODE_SUCCESS == result.code) {
-						bruiService.switchContent("项目甘特图", null);
-					}
-				} else {
-					MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
-				}
-			} else {
-				MessageDialog.openError(bruiService.getCurrentShell(), "撤销提示", "您没有撤销计划编辑的权限。");
+			Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
+			if (Result.CODE_SUCCESS == result.code) {
+				MessageDialog.openInformation(bruiService.getCurrentShell(), "撤销提示", "本计划的修改内容已成功撤销。");
+				bruiService.switchContent("项目甘特图", null);
 			}
 		}
 	}
