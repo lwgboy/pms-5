@@ -17,6 +17,7 @@ import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ResourceType;
+import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -288,6 +289,26 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("value");
+	}
+
+	@Override
+	public List<TrackView> getTrackView() {
+		return c(TrackView.class).find().into(new ArrayList<TrackView>());
+	}
+
+	@Override
+	public TrackView insertTrackView(TrackView trackView) {
+		return insert(trackView, TrackView.class);
+	}
+
+	@Override
+	public long deleteTrackView(ObjectId _id) {
+		return delete(_id, TrackView.class);
+	}
+
+	@Override
+	public long updateTrackView(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, TrackView.class);
 	}
 
 }
