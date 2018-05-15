@@ -28,9 +28,9 @@ public class CreateRootTask {
 		Assembly editor;
 		WorkInfo workInfo;
 		if (rootInput instanceof Project) {
-			workInfo = WorkInfo.newInstance(rootInput.getProject_id(), null);
+			workInfo = WorkInfo.newInstance(rootInput, null);
 		} else {
-			workInfo = WorkInfo.newInstance(rootInput.getProject_id(), rootInput.get_id());
+			workInfo = WorkInfo.newInstance(rootInput, rootInput.getScope_id());
 		}
 		if ((rootInput instanceof Project) && ((Project) rootInput).isStageEnable()) {
 			title = "´´½¨½×¶Î";

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -18,6 +19,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkSpaceService;
+import com.bizvisionsoft.service.sn.WorkGenerator;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
@@ -80,6 +82,26 @@ public class WorkInfo {
 	@Persistence
 	private ObjectId project_id;
 
+	@SetValue
+	private String projectName;
+
+	public WorkInfo setProjectName(String projectName) {
+		this.projectName = projectName;
+		return this;
+	}
+
+	@SetValue
+	private String projectNumber;
+
+	public WorkInfo setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+		return this;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
 	@ReadValue("project")
 	public String getProjectId() {
 		return project_id == null ? null : project_id.toHexString();
@@ -108,6 +130,59 @@ public class WorkInfo {
 	@WriteValue
 	@Persistence
 	private int index;
+
+	public int index() {
+		return index;
+	}
+
+	/**
+	 * 生成本层的顺序号
+	 * 
+	 * @param projectId
+	 * @param parentId
+	 * @return
+	 */
+	private WorkInfo generateIndex() {
+		index = ServicesLoader.get(WorkSpaceService.class)
+				.nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id", parent_id));
+		return this;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// WBS代码 TODO 自动生成的方法
+	@WriteValue
+	@ReadValue
+	@Persistence
+	private String wbsCode;
+
+	/**
+	 * 生成WBS CODE
+	 * 
+	 * @param projectId
+	 * @param parentId
+	 * @return
+	 */
+	private WorkInfo generateWBSCode() {
+		// TODO 自动生成
+		// wbsCode = ServicesLoader.get(WorkSpaceService.class)
+		// .nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id",
+		// parent_id));
+		return this;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// WBS代码 TODO 自动生成的方法
+	@WriteValue
+	@Persistence
+	@Generator(name = Generator.DEFAULT_NAME, key = "work", generator = WorkGenerator.class, callback = Generator.NONE_CALLBACK)
+	private String code;
+
+	@ReadValue
+	public String getCode() {
+		return code;
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -350,17 +425,17 @@ public class WorkInfo {
 	@Persistence
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 *  用于比较的计划完成时间
+	 * 用于比较的计划完成时间
 	 */
 	@SetValue
 	private Date planFinish1;
 
 	/**
-	 *  用于比较的实际完成时间
+	 * 用于比较的实际完成时间
 	 */
 	@SetValue
 	private Date actualFinish1;
@@ -374,13 +449,13 @@ public class WorkInfo {
 	}
 
 	/**
-	 *  用于比较的计划开始时间
+	 * 用于比较的计划开始时间
 	 */
 	@SetValue
 	private Date planStart1;
 
 	/**
-	 *  用于比较的实际开始时间
+	 * 用于比较的实际开始时间
 	 */
 	@SetValue
 	private Date actualStart1;
@@ -421,29 +496,14 @@ public class WorkInfo {
 		return parent_id;
 	}
 
-	public int index() {
-		return index;
+	public static WorkInfo newInstance(IWBSScope wbsScope) {
+		return newInstance(wbsScope, null);
 	}
 
-	public static WorkInfo newInstance(ObjectId project_id) {
-		return newInstance(project_id, null);
-	}
-
-	/**
-	 * 生成本层的顺序号
-	 * 
-	 * @param projectId
-	 * @param parentId
-	 * @return
-	 */
-	private WorkInfo generateIndex() {
-		index = ServicesLoader.get(WorkSpaceService.class)
-				.nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id", parent_id));
-		return this;
-	}
-
-	public static WorkInfo newInstance(ObjectId project_id, ObjectId parent_id) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(project_id).setParent_id(parent_id).generateIndex();
+	public static WorkInfo newInstance(IWBSScope wbsScope, ObjectId parent_id) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(wbsScope.getProject_id()).setParent_id(parent_id)
+				.setProjectName(wbsScope.getProjectName()).setProjectNumber(wbsScope.getProjectNumber())
+				.generateIndex();
 	}
 
 	private void checkDate(Date start_date, Date end_date) {

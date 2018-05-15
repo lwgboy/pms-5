@@ -297,4 +297,10 @@ public interface CommonService {
 	@DataSet({ "财务科目设置/" + DataSet.UPDATE })
 	public long updateAccountItem(BasicDBObject filterAndUpdate);
 
+	@POST
+	@Path("/gencode/{name}/{key}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public int generateCode(@PathParam("name") String name, @PathParam("key") String key);
+
 }

@@ -57,6 +57,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String id;
+	
+	@Override
+	public String getProjectNumber() {
+		return id;
+	}
 
 	/**
 	 * ¹¤×÷ÁîºÅ
@@ -102,6 +107,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	@Label(Label.NAME_LABEL)
 	private String name;
+	
+	@Override
+	public String getProjectName() {
+		return name;
+	}
 
 	/**
 	 * ÃèÊö

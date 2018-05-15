@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
@@ -16,14 +17,31 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.result.UpdateResult;
 
 public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createTaskDataSet(BasicDBObject condition) {
-		// TODO
-		return c(Work.class).find(condition).into(new ArrayList<Work>());
+		return queryWork(condition).into(new ArrayList<Work>());
+	}
+
+	private AggregateIterable<Work> queryWork(BasicDBObject condition) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(condition));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<String>("projectName", "$project.name"));
+		fields.add(new Field<String>("projectNumber", "$project.id"));
+		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
+		return iterable;
 	}
 
 	@Override
@@ -83,7 +101,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public Work getWork(ObjectId _id) {
-		return get(_id, Work.class);
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("_id", _id)));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<String>("projectName", "$project.name"));
+		fields.add(new Field<String>("projectNumber", "$project.id"));
+		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		return c(Work.class).aggregate(pipeline).first();
 	}
 
 	@Override
@@ -157,14 +184,24 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
 		List<Work> result = new ArrayList<Work>();
-		c(Work.class).find(new BasicDBObject("parent_id", parent_id)).sort(new BasicDBObject("index", 1))
-				.forEach(new Block<Work>() {
-					@Override
-					public void apply(final Work work) {
-						result.add(work);
-						result.addAll(createWorkTaskDataSet(work.get_id()));
-					}
-				});
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("parent_id", parent_id)));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<String>("projectName", "$project.name"));
+		fields.add(new Field<String>("projectNumber", "$project.id"));
+		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+
+		c(Work.class).aggregate(pipeline).forEach(new Block<Work>() {
+			@Override
+			public void apply(final Work work) {
+				result.add(work);
+				result.addAll(createWorkTaskDataSet(work.get_id()));
+			}
+		});
 		return result;
 	}
 
@@ -176,7 +213,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
-		return c(Work.class).find(new BasicDBObject("project_id", project_id)).sort(new BasicDBObject("index", 1))
-				.into(new ArrayList<Work>());
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("project_id", project_id)));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<String>("projectName", "$project.name"));
+		fields.add(new Field<String>("projectNumber", "$project.id"));
+		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 }

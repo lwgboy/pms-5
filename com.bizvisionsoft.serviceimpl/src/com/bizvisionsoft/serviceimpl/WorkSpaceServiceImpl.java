@@ -34,7 +34,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public List<WorkInfo> createTaskDataSet(BasicDBObject condition) {
-		return c(WorkInfo.class).find(condition).into(new ArrayList<WorkInfo>());
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(condition));
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<String>("projectName", "$project.name"));
+		fields.add(new Field<String>("projectNumber", "$project.id"));
+		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
 	}
 
 	@Override

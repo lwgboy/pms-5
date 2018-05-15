@@ -25,7 +25,7 @@ public class AddTask {
 		// ÏÔÊ¾±à¼­Æ÷
 		
 		new Editor<WorkInfo>(bruiService.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷"), context)
-				.setInput(WorkInfo.newInstance(wbsScope.getProject_id(), ((WorkInfo) ((GanttEvent) event).task).get_id()))
+				.setInput(WorkInfo.newInstance(wbsScope, ((WorkInfo) ((GanttEvent) event).task).get_id()))
 				.ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi,  wi.index());

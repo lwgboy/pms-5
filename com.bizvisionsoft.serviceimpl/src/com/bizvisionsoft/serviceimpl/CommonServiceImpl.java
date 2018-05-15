@@ -20,6 +20,10 @@ import com.bizvisionsoft.service.model.ResourceType;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.Updates;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -266,7 +270,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			condition.put("filter", filter = new BasicDBObject());
 		}
 		filter.put("receiver", userId);
-		condition.put("sort",new BasicDBObject("sendDate",-1));
+		condition.put("sort", new BasicDBObject("sendDate", -1));
 		return createDataSet(condition, Message.class);
 	}
 
@@ -277,6 +281,13 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		}
 		filter.put("receiver", userId);
 		return count(filter, Message.class);
+	}
+
+	@Override
+	public int generateCode(String name, String key) {
+		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
+				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
+		return doc.getInteger("value");
 	}
 
 }
