@@ -1562,13 +1562,15 @@
               {
                 "id": "1631b6d896d",
                 "name": "进度计划甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
                 "switchContentToAssemblyId": "1628f2f73ab",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
@@ -1712,13 +1714,15 @@
               {
                 "id": "16324c5bc6b",
                 "name": "进度计划甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
                 "switchContentToAssemblyId": "1628f2f73ab",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "customized"
               },
               {
                 "id": "16324c5c1f2",

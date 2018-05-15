@@ -150,30 +150,33 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
 		inputIds.add(parent_id);
 		getDesentItems(inputIds, "work", "parent_id");
-		return createLinkDataSet(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
-				new BasicDBObject("$in", inputIds)));
+		return c(WorkLink.class).find(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
+				new BasicDBObject("$in", inputIds))).into(new ArrayList<WorkLink>());
 	}
 
 	@Override
 	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
 		List<Work> result = new ArrayList<Work>();
-		c(Work.class).find(new BasicDBObject("parent_id", parent_id)).forEach(new Block<Work>() {
-			@Override
-			public void apply(final Work work) {
-				result.add(work);
-				result.addAll(createWorkTaskDataSet(work.get_id()));
-			}
-		});
+		c(Work.class).find(new BasicDBObject("parent_id", parent_id)).sort(new BasicDBObject("index", 1))
+				.forEach(new Block<Work>() {
+					@Override
+					public void apply(final Work work) {
+						result.add(work);
+						result.addAll(createWorkTaskDataSet(work.get_id()));
+					}
+				});
 		return result;
 	}
 
 	@Override
 	public List<WorkLink> createProjectLinkDataSet(ObjectId project_id) {
-		return createLinkDataSet(new BasicDBObject("project_id", project_id));
+		return c(WorkLink.class).find(new BasicDBObject("project_id", project_id)).sort(new BasicDBObject("index", 1))
+				.into(new ArrayList<WorkLink>());
 	}
 
 	@Override
 	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
-		return createTaskDataSet(new BasicDBObject("project_id", project_id));
+		return c(Work.class).find(new BasicDBObject("project_id", project_id)).sort(new BasicDBObject("index", 1))
+				.into(new ArrayList<Work>());
 	}
 }

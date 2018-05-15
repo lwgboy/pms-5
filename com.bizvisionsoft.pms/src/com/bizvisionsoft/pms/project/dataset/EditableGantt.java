@@ -61,6 +61,9 @@ public class EditableGantt {
 	public void onAfterTaskAddInSpace(GanttEvent e) {
 		WorkInfo workInfo = (WorkInfo) e.task;
 		workInfo.setSpaceId(workspace.getSpace_id());
+		if (workInfo.getParent_id() == null && workspace.getWork_id() != null) {
+			workInfo.setParent_id(workspace.getWork_id());
+		}
 		workSpaceService.insertWork(workInfo);
 		System.out.println(e.text);
 	}

@@ -127,15 +127,16 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject().append("$in", inputIds))));
 		pipeline.add(Aggregates.addFields(new Field<ObjectId>("space_id", space_id)));
+		pipeline.add(Aggregates.project(new BasicDBObject("checkoutBy", false)));
 		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
 		if (works.size() > 0) {
 			// 给work集合中检出的工作增加检出人和工作区标记
 			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
 					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
-			
+
 			// 将检出的工作存入workspace集合中
 			c("workspace").insertMany(works);
-			
+
 			// 获取检出的工作搭接关系，并存入worklinksspace集合中
 			pipeline = new ArrayList<Bson>();
 			pipeline.add(Aggregates.match(new BasicDBObject("source", new BasicDBObject("$in", inputIds))
@@ -253,7 +254,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			Object _id = d.get("_id");
 			d.remove("_id");
 			d.remove("space_id");
-			d.remove("checkoutBy");
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 		});
 
