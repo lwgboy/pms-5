@@ -109,6 +109,6 @@ public interface CBSService {
 	@Path("/_id/{_id}/addcbsbystage/{project_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public CBSItem addCBSItemByStage(@PathParam("_id") ObjectId _id,@PathParam("project_id")  ObjectId project_id);
+	public List<CBSItem> addCBSItemByStage(@PathParam("_id") ObjectId _id,@PathParam("project_id")  ObjectId project_id);
 
 }

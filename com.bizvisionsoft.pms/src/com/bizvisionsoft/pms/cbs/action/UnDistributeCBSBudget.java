@@ -21,14 +21,16 @@ public class UnDistributeCBSBudget {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		context.selected(parent -> {
-			CBSItem item = (CBSItem) parent;
+		context.selected(c -> {
+			CBSItem item = (CBSItem) c;
 			ObjectId parentItemId = item.getParent_id();
 			if (item.isScopeRoot()) {
 				CBSItem cbsItem = Services.get(CBSService.class).unallocateBudget(item.get_id(), parentItemId);
 				BudgetCBS grid = (BudgetCBS) context.getContent();
-				grid.replaceItem(parent, cbsItem);
-				grid.refresh(parent);
+				CBSItem parent = item.getParent();
+				grid.replaceItem(item, cbsItem);
+				item.setParent(parent);
+				grid.refresh(item);
 			}
 
 		});
