@@ -13418,7 +13418,7 @@
             "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
-            "objectBehavier": true,
+            "objectBehavier": false,
             "type": "customized"
           }
         ],
@@ -16339,80 +16339,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ComparableGantt",
-        "columns": [
-          {
-            "id": "1628f30623d",
-            "name": "text",
-            "text": "名称",
-            "alignment": 16384,
-            "width": 320,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false
-          },
-          {
-            "id": "1628f3062e6",
-            "name": "start_date",
-            "text": "开始",
-            "alignment": 16384,
-            "width": 96,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false
-          },
-          {
-            "id": "1628f306399",
-            "name": "end_date",
-            "text": "完成",
-            "alignment": 16384,
-            "width": 96,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false
-          },
-          {
-            "id": "1628f306450",
-            "name": "duration",
-            "text": "工期",
-            "alignment": 16384,
-            "width": 40,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false
-          }
-        ],
+        "columns": [],
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -16423,7 +16350,7 @@
         "readonly": true,
         "enableGanttCompare": true,
         "ganttTimeScaleType": "year-month-week",
-        "ganttGridWidthCalculate": true,
+        "ganttGridWidthCalculate": false,
         "ganttGridWidth": 0,
         "eventHandlerBundleId": "",
         "eventHandlerClassName": "",
@@ -16705,9 +16632,9 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true
-      }
-      ,{
-       "id": "16362425e75",
+      },
+      {
+        "id": "16362425e75",
         "name": "阶段预算",
         "layout": [
           {
@@ -16776,7 +16703,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false
-        }
+      }
     ]
   }
 }

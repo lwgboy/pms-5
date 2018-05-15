@@ -132,6 +132,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
 					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
 		}
+		// 给work集合中检出的工作增加检出人和工作区标记
+		c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
+				new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
 
 		// 获取需检出到工作区的Work到List中,并为获取的工作添加工作区标记
 		List<Bson> pipeline = new ArrayList<Bson>();
@@ -140,9 +143,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.project(new BasicDBObject("checkoutBy", false)));
 		List<Document> works = c("work").aggregate(pipeline).into(new ArrayList<Document>());
 		if (works.size() > 0) {
-			// 给work集合中检出的工作增加检出人和工作区标记
-			c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
-					new BasicDBObject("$set", new BasicDBObject("checkoutBy", userId).append("space_id", space_id)));
 
 			// 将检出的工作存入workspace集合中
 			c("workspace").insertMany(works);
