@@ -23,6 +23,7 @@ public class SubmitSchedule {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		if (rootInput != null) {
+			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交计划", "请确认提交当前计划。")) {
 			Workspace workspace = rootInput.getWorkspace();
 			if (workspace != null) {
 				Boolean checkManageItem = true;
@@ -32,12 +33,13 @@ public class SubmitSchedule {
 					result = Services.get(WorkSpaceService.class).checkin(workspace);
 
 					if (Result.CODE_SUCCESS == result.code) {
-						MessageDialog.openInformation(brui.getCurrentShell(), "提交计划", result.message);
+						MessageDialog.openFinished(brui.getCurrentShell(), "提交计划", result.message);
 						brui.switchContent("项目甘特图", null);
 					}
 				} else {
 					MessageDialog.openError(brui.getCurrentShell(), "提交计划", result.message);
 				}
+			}
 			}
 		}
 	}

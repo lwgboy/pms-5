@@ -156,18 +156,13 @@ public class WorkInfo {
 	@Persistence
 	private String wbsCode;
 
-	/**
-	 * 生成WBS CODE
-	 * 
-	 * @param projectId
-	 * @param parentId
-	 * @return
-	 */
-	private WorkInfo generateWBSCode() {
-		// TODO 自动生成
-		// wbsCode = ServicesLoader.get(WorkSpaceService.class)
-		// .nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id",
-		// parent_id));
+	private WorkInfo setWBSCode(String parentWBSCode) {
+		if (parentWBSCode != null) {
+			this.wbsCode = parentWBSCode + "." + index;
+		} else {
+			this.wbsCode = "" + index;
+		}
+
 		return this;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -496,14 +491,22 @@ public class WorkInfo {
 		return parent_id;
 	}
 
-	public static WorkInfo newInstance(IWBSScope wbsScope) {
-		return newInstance(wbsScope, null);
+	public static WorkInfo newInstance(Project project) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id())
+				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber()).generateIndex()
+				.setWBSCode(null);
 	}
 
-	public static WorkInfo newInstance(IWBSScope wbsScope, ObjectId parent_id) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(wbsScope.getProject_id()).setParent_id(parent_id)
-				.setProjectName(wbsScope.getProjectName()).setProjectNumber(wbsScope.getProjectNumber())
-				.generateIndex();
+	public static WorkInfo newInstance(Work work) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
+				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber()).generateIndex()
+				.setWBSCode(work.getWBSCode());
+	}
+
+	public static WorkInfo newInstance(WorkInfo workinfo) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id())
+				.setParent_id(workinfo.get_id()).setProjectName(workinfo.projectName)
+				.setProjectNumber(workinfo.projectNumber).generateIndex().setWBSCode(workinfo.wbsCode);
 	}
 
 	private void checkDate(Date start_date, Date end_date) {

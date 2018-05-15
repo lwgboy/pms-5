@@ -13,6 +13,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 
 public class CreateRootTask {
@@ -28,9 +29,9 @@ public class CreateRootTask {
 		Assembly editor;
 		WorkInfo workInfo;
 		if (rootInput instanceof Project) {
-			workInfo = WorkInfo.newInstance(rootInput, null);
+			workInfo = WorkInfo.newInstance((Project) rootInput);
 		} else {
-			workInfo = WorkInfo.newInstance(rootInput, rootInput.getScope_id());
+			workInfo = WorkInfo.newInstance((Work) rootInput);
 		}
 		if ((rootInput instanceof Project) && ((Project) rootInput).isStageEnable()) {
 			title = "´´½¨½×¶Î";

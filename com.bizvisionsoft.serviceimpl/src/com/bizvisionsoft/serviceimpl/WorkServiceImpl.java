@@ -176,7 +176,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<WorkLink> createWorkLinkDataSet(ObjectId parent_id) {
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
 		inputIds.add(parent_id);
-		getDesentItems(inputIds, "work", "parent_id");
+		inputIds = getDesentItems(inputIds, "work", "parent_id");
 		return c(WorkLink.class).find(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
 				new BasicDBObject("$in", inputIds))).into(new ArrayList<WorkLink>());
 	}

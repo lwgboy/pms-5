@@ -225,6 +225,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result checkin(Workspace workspace) {
+		if(workspace.getSpace_id() == null ) {
+			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
+		}
 		List<ObjectId> workIds = c(Work.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
@@ -289,6 +292,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result cancelCheckout(Workspace workspace) {
+		if(workspace.getSpace_id() == null ) {
+			return Result.checkoutError("撤销失败。", Result.CODE_ERROR);
+		}
+		
 		if (Result.CODE_SUCCESS == cleanWorkspace(workspace).code) {
 			return Result.checkoutSuccess("已成功撤销。");
 		} else {
@@ -302,10 +309,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("space_id", workspace.getSpace_id()));
 
 		c("project").updateOne(new BasicDBObject("space_id", workspace.getSpace_id()),
-				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", null).append("space_id", null)));
+				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", true).append("space_id", true)));
 
 		c("work").updateMany(new BasicDBObject("space_id", workspace.getSpace_id()),
-				new BasicDBObject("$set", new BasicDBObject("checkoutBy", null).append("space_id", null)));
+				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", true).append("space_id", true)));
 
 		return Result.checkoutSuccess("已完成撤销成功。");
 	}
