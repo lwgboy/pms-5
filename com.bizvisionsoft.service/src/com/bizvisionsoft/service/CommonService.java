@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ResourceType;
+import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
 
 @Path("/common")
@@ -303,4 +304,35 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public int generateCode(@PathParam("name") String name, @PathParam("key") String key);
 
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@POST
+	@Path("/track/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目跟踪视图设置/" + DataSet.LIST)
+	public List<TrackView> getTrackView();
+
+	@POST
+	@Path("/track/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目跟踪视图设置/" + DataSet.INSERT)
+	public TrackView insertTrackView(@ServiceParam(ServiceParam.OBJECT) TrackView trackView);
+
+	@DELETE
+	@Path("/track/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目跟踪视图设置/" + DataSet.DELETE)
+	public long deleteTrackView(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/track/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目跟踪视图设置/" + DataSet.UPDATE)
+	public long updateTrackView(BasicDBObject filterAndUpdate);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
