@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.beans.Transient;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -281,6 +282,13 @@ public class CBSItem {
 	public void addChild(CBSItem child) {
 		child.parent = this;
 		children.add(child);
+	}
+
+	public void addChild(List<CBSItem> childs) {
+		childs.forEach(child ->{
+			child.parent = this;
+		});
+		children.addAll(childs);
 	}
 
 	public void removeChild(CBSItem child) {

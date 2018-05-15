@@ -207,8 +207,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
 		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE)
-				.append("wpf", new BasicDBObject("$gt", new String[] { "planFinish", "$work.planFinish" }))
-				.append("ppf", new BasicDBObject("$gt", new String[] { "planFinish", "$project.planFinish" }))));
+				.append("wpf", new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))
+				.append("ppf", new BasicDBObject("$gt", new String[] { "$planFinish", "$project.planFinish" }))));
 		// 查询不满足条件的节点数量
 		pipeline.add(Aggregates.match(new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("stage", Boolean.TRUE).append("ppf", Boolean.TRUE),

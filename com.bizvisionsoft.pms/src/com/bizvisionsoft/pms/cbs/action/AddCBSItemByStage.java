@@ -1,5 +1,7 @@
 package com.bizvisionsoft.pms.cbs.action;
 
+import java.util.List;
+
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -24,10 +26,12 @@ public class AddCBSItemByStage {
 		Object rootInput = context.getRootInput();
 		if(rootInput instanceof Project) {
 			Project project = (Project) rootInput;
-			CBSItem cbsRoot = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
+			List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
 					project.get_id());
 			BudgetCBS budgetCBS = (BudgetCBS) context.getChildContextByName("cbs").getContent();
-			budgetCBS.update(cbsRoot);
+			CBSItem cbsRoot = (CBSItem) budgetCBS.getViewerInput().get(0);
+			cbsRoot.addChild(cbsItems);
+			budgetCBS.refresh(cbsRoot);
 		}
 	}
 }

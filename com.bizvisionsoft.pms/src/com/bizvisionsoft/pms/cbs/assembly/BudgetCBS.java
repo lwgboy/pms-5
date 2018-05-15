@@ -76,6 +76,10 @@ public class BudgetCBS extends BudgetGrid {
 	protected Date[] getRange() {
 		return scope.getCBSRange();
 	}
+	
+	public ICBSScope getScope() {
+		return scope;
+	}
 
 	@Override
 	protected Color getNumberColor(Object item) {

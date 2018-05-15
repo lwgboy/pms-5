@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -36,7 +35,7 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 3);
 			Date end = cal.getTime();
-			result.add(new Work().set_id(new ObjectId()).setStart_date(start).setEnd_date(end).setText("工作" + i));
+//			result.add(new Work().set_id(new ObjectId()).setStart_date(start).setEnd_date(end).setText("工作" + i));
 		}
 
 		return result;
@@ -52,8 +51,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 3);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("zh").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作甲" + i));
+//			result.add(new Work().setChargerId("zh").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作甲" + i));
 		}
 
 		cal = Calendar.getInstance();
@@ -62,8 +61,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 2);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("1").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作乙" + i));
+//			result.add(new Work().setChargerId("1").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作乙" + i));
 		}
 
 		cal = Calendar.getInstance();
@@ -72,8 +71,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("2").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("2").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -82,8 +81,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("3").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("3").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -92,8 +91,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("4").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("4").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -102,8 +101,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("5").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("5").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -112,8 +111,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("6").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("6").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -122,8 +121,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("7").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("7").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -132,8 +131,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("8").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("8").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 		
 		cal = Calendar.getInstance();
@@ -142,8 +141,8 @@ public class MySchedule {
 			Date start = cal.getTime();
 			cal.add(Calendar.DATE, 1);
 			Date end = cal.getTime();
-			result.add(new Work().setChargerId("9").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
-					.setText("工作丙" + i));
+//			result.add(new Work().setChargerId("9").set_id(new ObjectId()).setStart_date(start).setEnd_date(end)
+//					.setText("工作丙" + i));
 		}
 
 		return result;
@@ -172,5 +171,7 @@ public class MySchedule {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		System.out.println(context);
 	}
+	
+	
 
 }
