@@ -26,10 +26,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createTaskDataSet(BasicDBObject condition) {
-		return queryWork(condition).into(new ArrayList<Work>());
+		return queryWork(condition, new BasicDBObject("index", 1)).into(new ArrayList<Work>());
 	}
 
-	private AggregateIterable<Work> queryWork(BasicDBObject condition) {
+	private AggregateIterable<Work> queryWork(BasicDBObject condition, BasicDBObject sort) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(condition));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
@@ -39,7 +39,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		fields.add(new Field<String>("projectNumber", "$project.id"));
 		pipeline.add(Aggregates.addFields(fields));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
-		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		pipeline.add(Aggregates.sort(sort));
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}
@@ -101,7 +101,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public Work getWork(ObjectId _id) {
-		return queryWork(new BasicDBObject("_id", _id)).first();
+		return queryWork(new BasicDBObject("_id", _id), new BasicDBObject("index", 1)).first();
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
 		List<Work> result = new ArrayList<Work>();
-		queryWork(new BasicDBObject("parent_id", parent_id)).forEach(new Block<Work>() {
+		queryWork(new BasicDBObject("parent_id", parent_id), new BasicDBObject("index", 1)).forEach(new Block<Work>() {
 			@Override
 			public void apply(final Work work) {
 				result.add(work);
@@ -193,12 +193,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
-		return queryWork(new BasicDBObject("project_id", project_id)).into(new ArrayList<Work>());
+		return queryWork(new BasicDBObject("project_id", project_id), new BasicDBObject("index", 1))
+				.into(new ArrayList<Work>());
 	}
 
 	@Override
 	public List<Work> createProcessingWorkDataSet(String userid) {
-		return queryWork(new BasicDBObject("chargerId", userid).append("summary", false).append("actualFinish", null))
-				.into(new ArrayList<Work>());
+		return queryWork(new BasicDBObject("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid) })// TODO 添加指派者角色
+				.append("summary", false).append("actualFinish", null).append("isSend", true),
+				new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
 	}
 }

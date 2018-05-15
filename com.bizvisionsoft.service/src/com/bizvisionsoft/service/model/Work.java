@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Strict;
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -226,9 +228,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	}
 
 	@SetValue
+	@ReadValue
 	private String projectName;
 
 	@SetValue
+	@ReadValue
 	private String projectNumber;
 
 	@Override
@@ -240,6 +244,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	public String getProjectNumber() {
 		return projectNumber;
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,11 +269,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码
-	@WriteValue
 	@Persistence
 	private String code;
 
-	@ReadValue
+	@ReadValue("code")
 	public String getCode() {
 		return code;
 	}
@@ -386,13 +390,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期, 需要保存，但无需传递到gantt和编辑器
 	@SetValue
 	@ReadValue
 	private int planDuration;
-	
+
 	@GetValue("planDuration")
 	public int getPlanDuration() {
 		if (planFinish != null && planStart != null) {
@@ -431,6 +435,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Persistence
 	private boolean stage;
+	
+	@Persistence
+	private boolean isSend;
 
 	@Persistence
 	@ReadValue
@@ -465,7 +472,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	private String barstyle;
-	
+
 	@ReadValue
 	private String manageLevel;
 
@@ -714,6 +721,23 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Override
 	public List<Work> createGanttTaskDataSet() {
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
+	}
+
+	@ImageURL("warningIcon")
+	private String getWarningIcon() {
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		if (planFinish.equals(date) || planFinish.before(date)) {
+			return "/img/redball.svg";
+		}
+		// TODO 从系统设置中获取预警时间
+		int preWarning = 5;
+		cal.add(Calendar.DAY_OF_MONTH, preWarning);
+		date = cal.getTime();
+		if (planFinish.equals(date) || planFinish.before(date)) {
+			return "/img/orangeball.svg";
+		}
+		return "/img/greenball.svg";
 	}
 
 }
