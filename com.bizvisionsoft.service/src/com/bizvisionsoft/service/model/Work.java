@@ -389,6 +389,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期, 需要保存，但无需传递到gantt和编辑器
+	@SetValue
+	@ReadValue
+	private int planDuration;
+	
 	@GetValue("planDuration")
 	public int getPlanDuration() {
 		if (planFinish != null && planStart != null) {
@@ -462,6 +466,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@WriteValue
 	private String barstyle;
 	
+	@ReadValue
 	private String manageLevel;
 
 	@GetValue("manageLevel")

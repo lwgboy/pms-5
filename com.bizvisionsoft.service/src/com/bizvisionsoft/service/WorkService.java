@@ -144,4 +144,10 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createProjectTaskDataSet(@PathParam("project_id") ObjectId project_id);
+
+	@GET
+	@Path("/processing/{userid}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createProcessingWorkDataSet(@PathParam("userid") String userid);
 }
