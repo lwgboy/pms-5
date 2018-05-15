@@ -16341,7 +16341,22 @@
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ComparableGantt",
         "columns": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16362f9b990",
+            "name": "时间刻度",
+            "text": "时间刻度",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
