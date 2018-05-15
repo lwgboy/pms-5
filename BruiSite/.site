@@ -1596,7 +1596,7 @@
           {
             "id": "1631b4793f8",
             "name": "阶段预算",
-            "switchContentToAssemblyId": "162ec7a411c",
+            "switchContentToAssemblyId": "16362425e75",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -3739,24 +3739,6 @@
             "element": false
           },
           {
-            "id": "1624ba6a686",
-            "name": "deadline",
-            "text": "期限",
-            "alignment": 16384,
-            "width": 96,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": true,
-            "element": false
-          },
-          {
             "id": "1625038cb73",
             "name": "progress",
             "text": "进展",
@@ -5608,21 +5590,6 @@
             "type": "customized"
           },
           {
-            "id": "1625139f60c",
-            "name": "流程",
-            "text": "流程",
-            "image": "/img/workflow_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkFlow",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
             "id": "1625139f6a9",
             "name": "资源",
             "text": "资源",
@@ -5659,21 +5626,6 @@
             "image": "/img/daily-report_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkReport",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1625139f89f",
-            "name": "参考",
-            "text": "参考",
-            "image": "/img/book_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkReferences",
             "openContent": false,
             "propagate": false,
             "forceText": true,
@@ -13466,7 +13418,7 @@
             "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           }
         ],
@@ -13742,7 +13694,6 @@
             "id": "16339312386",
             "name": "提交科目预算",
             "text": "提交科目预算",
-            "image": "",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cbs.action.SubminBudgetSubject",
             "openContent": false,
@@ -14498,24 +14449,6 @@
             "element": false
           },
           {
-            "id": "1628f306607",
-            "name": "deadline",
-            "text": "期限",
-            "alignment": 16384,
-            "width": 96,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": true,
-            "element": false
-          },
-          {
             "id": "1628f306edd",
             "name": "progress",
             "text": "进展",
@@ -14765,25 +14698,6 @@
             "id": "1631b846a6e",
             "name": "planFinish",
             "text": "计划完成",
-            "alignment": 16777216,
-            "width": 160,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "format": "yyyy-MM-dd",
-            "sort": 0,
-            "hide": false,
-            "element": false
-          },
-          {
-            "id": "1631b8504ea",
-            "name": "deadline",
-            "text": "完工期限",
             "alignment": 16777216,
             "width": 160,
             "minimumWidth": 0,
@@ -16792,6 +16706,77 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true
       }
+      ,{
+       "id": "16362425e75",
+        "name": "阶段预算",
+        "layout": [
+          {
+            "id": "162ec7aed97",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 1,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "162ec2b8570",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "cbs"
+              }
+            ]
+          }
+        ],
+        "type": "sticker",
+        "stickerTitle": "预算（人民币万元）",
+        "folderId": "162ec25146d",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": true,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+        }
     ]
   }
 }

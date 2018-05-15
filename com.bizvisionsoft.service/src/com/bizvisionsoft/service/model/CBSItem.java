@@ -78,13 +78,18 @@ public class CBSItem {
 		return !this.scope_id.equals(scope_id) && scopeRoot;
 	}
 
-	@Behavior({ "CBS/±à¼­","CBS/·ÖÅä" })
+	@Behavior({ "CBS/±à¼­", "CBS/·ÖÅä" })
 	private boolean behaviourEditName() {
 		return !scopeRoot;
 	}
 
-	@Behavior({ "CBS/É¾³ý", "CBS/¿ÆÄ¿", "CBS/Ô¤Ëã" })
+	@Behavior({ "CBS/¿ÆÄ¿", "CBS/Ô¤Ëã" })
 	private boolean behaviourEditAmount() {
+		return countSubCBSItems() == 0;
+	}
+
+	@Behavior({ "CBS/É¾³ý" })
+	private boolean behaviourDelete() {
 		return !scopeRoot && countSubCBSItems() == 0;
 	}
 

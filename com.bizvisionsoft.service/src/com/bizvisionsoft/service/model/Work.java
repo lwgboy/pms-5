@@ -224,18 +224,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 			return false;
 		}
 	}
-	
+
 	@SetValue
 	private String projectName;
 
 	@SetValue
 	private String projectNumber;
-	
+
 	@Override
 	public String getProjectName() {
 		return projectName;
 	}
-	
+
 	@Override
 	public String getProjectNumber() {
 		return projectNumber;
