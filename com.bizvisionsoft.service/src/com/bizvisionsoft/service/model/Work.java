@@ -761,4 +761,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@SetValue
 	private String overdue;
 
+	public Date getPlanFinished() {
+		return planFinish;
+	}
+
 }

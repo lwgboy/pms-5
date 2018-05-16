@@ -13,6 +13,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
+import com.bizvisionsoft.service.model.WorkPackageCommon;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -36,12 +37,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (condition != null)
 			pipeline.add(Aggregates.match(condition));
 
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
 		appendProject(pipeline);
 
 		appendOverdue(pipeline);
@@ -52,6 +47,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+		
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}
@@ -67,8 +68,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
-		int watningDay = (int) getSystemSetting(WARNING_DAY);
-		watningDay = watningDay * 24 * 60 * 60 * 1000;
+		int warningDay = (int) getSystemSetting(WARNING_DAY);
+		warningDay = warningDay * 24 * 60 * 60 * 1000;
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond", new BasicDBObject("if", new BasicDBObject(
 				"$ne", new Object[] { new BasicDBObject("$ifNull", new Object[] { "$actualFinish", true }), true }))
@@ -79,7 +80,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 												.append("else", new BasicDBObject("$cond",
 														new BasicDBObject("if", new BasicDBObject("$lt",
 																new Object[] { "$planFinish", new BasicDBObject("$add",
-																		new Object[] { new Date(), watningDay }) }))
+																		new Object[] { new Date(), warningDay }) }))
 																				.append("then", "预警")
 																				.append("else", "")))))
 						.append("then", new BasicDBObject("$cond",
@@ -149,7 +150,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public Work getWork(ObjectId _id) {
-		return queryWork(null, null, new BasicDBObject("_id", _id), null, new BasicDBObject("index", 1)).first();
+		return queryWork(null, null, new BasicDBObject("_id", _id), null, null).first();
 	}
 
 	@Override
@@ -269,5 +270,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
 						.append("distributed", true),
 				filter, new BasicDBObject("actualFinish", 1)).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<WorkPackageCommon> createWorkPackageCommonDataSet(BasicDBObject condition, ObjectId _id) {
+		//TODO 返回工作包
+		return null;
 	}
 }
