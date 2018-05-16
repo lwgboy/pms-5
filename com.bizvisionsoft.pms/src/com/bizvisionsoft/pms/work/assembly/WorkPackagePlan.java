@@ -23,6 +23,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 
 public class WorkPackagePlan {
@@ -79,10 +80,9 @@ public class WorkPackagePlan {
 	}
 
 	private void createContent(Composite parent) {
+		List<TrackView> packageSettings = work.getWorkPackageSetting();
 
-		List<String> packageAssemblyId = null;//work.getPackageAssemblyId();
-
-		if (Util.isEmptyOrNull(packageAssemblyId)) {
+		if (Util.isEmptyOrNull(packageSettings)) {
 			parent.setLayout(new FillLayout());
 			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(work)
 					.setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create();
@@ -93,7 +93,8 @@ public class WorkPackagePlan {
 			layout.marginWidth = 16;
 			parent.setLayout(layout);
 			TabFolder folder = new TabFolder(parent, SWT.TOP | SWT.BORDER);
-			Optional.ofNullable(packageAssemblyId).ifPresent(ids -> ids.forEach(id -> {
+			Optional.ofNullable(packageSettings).ifPresent(ids -> ids.forEach(setting -> {
+				String id = setting.getPackageAssembly();
 				Assembly assembly = brui.getAssembly(id);
 				TabItem item = new TabItem(folder, SWT.NONE);
 				item.setText(assembly.getTitle());

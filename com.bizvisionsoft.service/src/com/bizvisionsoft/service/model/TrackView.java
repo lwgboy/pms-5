@@ -31,6 +31,9 @@ public class TrackView {
 	@WriteValue
 	private String packageAssembly;
 
+	public String getPackageAssembly() {
+		return packageAssembly;
+	}
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude

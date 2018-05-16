@@ -570,6 +570,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Persistence
 	private List<TrackView> workPackageSetting;
 	
+	public List<TrackView> getWorkPackageSetting() {
+		return workPackageSetting;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
