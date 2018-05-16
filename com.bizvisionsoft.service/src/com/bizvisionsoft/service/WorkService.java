@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
+import com.bizvisionsoft.service.model.WorkPackageCommon;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
@@ -160,4 +161,11 @@ public interface WorkService {
 	@DataSet("我的工作（已完成）/list")
 	public List<Work> createFinishedWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/{_id}/package/common/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkPackageCommon> createWorkPackageCommonDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition, @PathParam("_id") ObjectId _id);
 }

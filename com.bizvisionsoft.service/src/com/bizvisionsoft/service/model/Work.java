@@ -582,7 +582,21 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
-
+	
+	@Persistence
+	private List<String> packageAssemblyId;
+	
+	public List<String> getPackageAssemblyId() {
+		return packageAssemblyId;
+	}
+	
+	@Persistence
+	private List<String> viewId;
+	
+	public List<String> getViewId() {
+		return viewId;
+	}
+	
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
@@ -746,5 +760,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@ReadValue
 	@SetValue
 	private String overdue;
+
+	public Date getPlanFinished() {
+		return planFinish;
+	}
 
 }
