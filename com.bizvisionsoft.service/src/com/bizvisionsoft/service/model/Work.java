@@ -445,7 +445,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private boolean stage;
 
 	@Persistence
-	private boolean isSend;
+	private boolean distributed;
 
 	@Persistence
 	@ReadValue

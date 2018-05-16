@@ -254,7 +254,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", null).append("isSend", true),
+						.append("summary", false).append("actualFinish", null).append("distributed", true),
 				filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
 	}
 
@@ -267,7 +267,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
 						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
-						.append("isSend", true),
+						.append("distributed", true),
 				filter, new BasicDBObject("actualFinish", 1)).into(new ArrayList<Work>());
 	}
 }
