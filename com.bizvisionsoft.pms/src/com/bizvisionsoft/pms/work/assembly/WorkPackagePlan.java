@@ -80,7 +80,7 @@ public class WorkPackagePlan {
 
 	private void createContent(Composite parent) {
 
-		List<String> packageAssemblyId = work.getPackageAssemblyId();
+		List<String> packageAssemblyId = null;//work.getPackageAssemblyId();
 
 		if (Util.isEmptyOrNull(packageAssemblyId)) {
 			parent.setLayout(new FillLayout());

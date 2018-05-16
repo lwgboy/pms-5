@@ -311,28 +311,28 @@ public interface CommonService {
 	@Path("/track/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目跟踪视图设置/" + DataSet.LIST)
+	@DataSet({"视图和工作包列表/" + DataSet.LIST,"视图和工作包选择器/"+ DataSet.LIST})
 	public List<TrackView> getTrackView();
 
 	@POST
 	@Path("/track/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目跟踪视图设置/" + DataSet.INSERT)
+	@DataSet("视图和工作包列表/" + DataSet.INSERT)
 	public TrackView insertTrackView(@ServiceParam(ServiceParam.OBJECT) TrackView trackView);
 
 	@DELETE
 	@Path("/track/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目跟踪视图设置/" + DataSet.DELETE)
+	@DataSet("视图和工作包列表/" + DataSet.DELETE)
 	public long deleteTrackView(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/track/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目跟踪视图设置/" + DataSet.UPDATE)
+	@DataSet("视图和工作包列表/" + DataSet.UPDATE)
 	public long updateTrackView(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

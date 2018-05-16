@@ -565,6 +565,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<TrackView> workPackageSetting;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
@@ -581,13 +586,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Structure("项目进度计划表/count")
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
-	}
-	
-	@Persistence
-	private List<String> packageAssemblyId;
-	
-	public List<String> getPackageAssemblyId() {
-		return packageAssemblyId;
 	}
 	
 	@Persistence

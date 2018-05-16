@@ -53,6 +53,7 @@ public interface WorkService {
 	@Path("/task/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的工作/"+DataSet.UPDATE)
 	public long updateWork(BasicDBObject filterAndUpdate);
 
 	@PUT

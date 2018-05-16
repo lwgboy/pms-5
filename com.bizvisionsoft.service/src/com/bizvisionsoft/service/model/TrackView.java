@@ -25,11 +25,16 @@ public class TrackView {
 
 	@ReadValue
 	@WriteValue
-	private String viewName;
+	private String viewAssembly;
 
+	@ReadValue
+	@WriteValue
+	private String packageAssembly;
+
+	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "项目跟踪视图";
+	private String typeName = "视图和工作包";
 
 	@Override
 	@Label
