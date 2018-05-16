@@ -491,7 +491,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@SetValue("manageLevel")
 	public Work setManageLevel(String level) {
-		this.manageLevel = level;
 		if ("1".equals(level)) {
 			barstyle = "level1_task";
 		} else if ("2".equals(level)) {
