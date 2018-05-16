@@ -201,4 +201,13 @@ public class BasicServiceImpl {
 		return result;
 	}
 
+	protected static final String WARNING_DAY = "warningDay";
+
+	protected Object getSystemSetting(String settingName) {
+		if (settingName.equals(WARNING_DAY)) {
+			return 5;
+		}
+		return null;
+	}
+
 }

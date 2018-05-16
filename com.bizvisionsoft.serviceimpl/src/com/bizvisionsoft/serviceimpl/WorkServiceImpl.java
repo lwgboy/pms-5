@@ -59,6 +59,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.addFields(fields));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
+	
+	private void appendWarning(List<Bson> pipeline) {
+		int watningDay = (int) getSystemSetting(WARNING_DAY);
+	}
 
 	@Override
 	public List<WorkLink> createLinkDataSet(BasicDBObject condition) {
