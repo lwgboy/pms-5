@@ -26,7 +26,7 @@ public class AddResource {
 
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context) {
-		ResourceType element = (ResourceType) context.getFristElement();
+		ResourceType element = (ResourceType) context.getFirstElement();
 		if (ResourceType.TYPE_HR.equals(element.getType())) {
 			addHR(element, context);
 		} else if (ResourceType.TYPE_ER.equals(element.getType())) {

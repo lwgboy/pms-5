@@ -26,7 +26,7 @@ public class DeleteElement {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Object elem = context.getFristElement();
+		Object elem = context.getFirstElement();
 		if (elem instanceof Calendar) {
 			DeleteSelected.deleteElementInGrid(bruiService, context, elem);
 		} else if (elem instanceof WorkTime) {

@@ -22,7 +22,7 @@ public class EditElement {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Object em = context.getFristElement();
+		Object em = context.getFirstElement();
 		GridPart grid = (GridPart) context.getContent();
 		if (em instanceof Calendar) {
 			Editor.open("工作日历编辑器", context, em, (r, o) -> {
