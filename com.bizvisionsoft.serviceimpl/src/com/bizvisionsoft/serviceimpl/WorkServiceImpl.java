@@ -26,14 +26,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createTaskDataSet(BasicDBObject condition) {
-		return queryWork(null, null, condition, new BasicDBObject("index", 1)).into(new ArrayList<Work>());
+		return queryWork(null, null, condition, null, new BasicDBObject("index", 1)).into(new ArrayList<Work>());
 	}
 
-	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
+	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject condition,
+			BasicDBObject filter, BasicDBObject sort) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
+		if (condition != null)
+			pipeline.add(Aggregates.match(condition));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -43,7 +44,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendProject(pipeline);
 
-		appendWarning(pipeline);
+		appendOverdue(pipeline);
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
@@ -62,16 +66,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
-	private void appendWarning(List<Bson> pipeline) {
+	private void appendOverdue(List<Bson> pipeline) {
 		int watningDay = (int) getSystemSetting(WARNING_DAY);
 		watningDay = watningDay * 24 * 60 * 60 * 1000;
-		pipeline.add(Aggregates.addFields(new Field<Bson>("warning", new BasicDBObject("$cond",
-				new BasicDBObject("if", new BasicDBObject("$lte", new Object[] { "$planFinish", new Date() }))
-						.append("then", "已超期").append("else",
-								new BasicDBObject("$cond", new BasicDBObject("if", new BasicDBObject("$lte",
-										new Object[] { "$planFinish",
-												new BasicDBObject("$add", new Object[] { new Date(), watningDay }) }))
-														.append("then", "预警").append("else", "")))))));
+		List<Field<?>> fields = new ArrayList<Field<?>>();
+		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond", new BasicDBObject("if", new BasicDBObject(
+				"$ne", new Object[] { new BasicDBObject("$ifNull", new Object[] { "$actualFinish", true }), true }))
+						.append("else",
+								new BasicDBObject("$cond", new BasicDBObject("if",
+										new BasicDBObject("$lt", new Object[] { "$planFinish", new Date() }))
+												.append("then", "已超期")
+												.append("else", new BasicDBObject("$cond",
+														new BasicDBObject("if", new BasicDBObject("$lt",
+																new Object[] { "$planFinish", new BasicDBObject("$add",
+																		new Object[] { new Date(), watningDay }) }))
+																				.append("then", "预警")
+																				.append("else", "")))))
+						.append("then", new BasicDBObject("$cond",
+								new BasicDBObject("if",
+										new BasicDBObject("$lt", new Object[] { "$planFinish", "$actualFinish" }))
+												.append("then", "是").append("else", "否")))
+
+		)));
+
+		pipeline.add(Aggregates.addFields(fields));
 	}
 
 	@Override
@@ -131,7 +149,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public Work getWork(ObjectId _id) {
-		return queryWork(null, null, new BasicDBObject("_id", _id), new BasicDBObject("index", 1)).first();
+		return queryWork(null, null, new BasicDBObject("_id", _id), null, new BasicDBObject("index", 1)).first();
 	}
 
 	@Override
@@ -205,7 +223,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
 		List<Work> result = new ArrayList<Work>();
-		queryWork(null, null, new BasicDBObject("parent_id", parent_id), new BasicDBObject("index", 1))
+		queryWork(null, null, new BasicDBObject("parent_id", parent_id), null, new BasicDBObject("index", 1))
 				.forEach(new Block<Work>() {
 					@Override
 					public void apply(final Work work) {
@@ -224,7 +242,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
-		return queryWork(null, null, new BasicDBObject("project_id", project_id), new BasicDBObject("index", 1))
+		return queryWork(null, null, new BasicDBObject("project_id", project_id), null, new BasicDBObject("index", 1))
 				.into(new ArrayList<Work>());
 	}
 
@@ -233,28 +251,23 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
-			filter = new BasicDBObject("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
-					new BasicDBObject("assignerId", userid) });
-		} else {
-			Object orObject = filter.get("$or");
-			if (orObject != null) {
-				filter.remove("$or");
-				filter.put("$and",
-						new Object[] { new BasicDBObject("$or", new BasicDBObject[] {
-								new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }),
-								orObject });
-			} else {
-				filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
-						new BasicDBObject("assignerId", userid) });
-			}
 
-		}
+		return queryWork(skip, limit, new BasicDBObject("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
+						.append("summary", false).append("actualFinish", null).append("isSend", true),
+				filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
+	}
 
-		filter.put("summary", false);
-		filter.put("actualFinish", null);
-		filter.put("isSend", true);
+	@Override
+	public List<Work> createFinishedWorkDataSet(BasicDBObject condition, String userid) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
-		return queryWork(skip, limit, filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
+		return queryWork(skip, limit, new BasicDBObject("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
+						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
+						.append("isSend", true),
+				filter, new BasicDBObject("actualFinish", 1)).into(new ArrayList<Work>());
 	}
 }

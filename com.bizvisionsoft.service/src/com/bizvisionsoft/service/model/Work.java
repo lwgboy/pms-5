@@ -244,6 +244,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return projectNumber;
 	}
 
+	@ReadValue("projectText")
+	public String getProjectText() {
+		return projectName + "[" + projectNumber + "]";
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -405,6 +410,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		}
 	}
 
+	@SetValue
+	@ReadValue
+	private int actualDuration;
+
 	@GetValue("actualDuration")
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
@@ -472,9 +481,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@WriteValue
 	private String barstyle;
 
-	@ReadValue
-	private String manageLevel;
-
+	@ReadValue("manageLevel")
 	@GetValue("manageLevel")
 	private String getManageLevel() {
 		if ("level1_task".equals(barstyle)) {
@@ -726,18 +733,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
-	@SetValue
-	@ReadValue
-	private String warning;
-
 	@ImageURL("warningIcon")
 	private String getWarningIcon() {
-		if (warning == "已超期") {
+		if ("已超期".equals(overdue))
 			return "/img/redball.svg";
-		} else if (warning == "预警") {
+		else if ("预警".equals(overdue))
 			return "/img/orangeball.svg";
-		}
-		return "/img/greenball.svg";
+		else
+			return "/img/greenball.svg";
 	}
+
+	@ReadValue
+	@SetValue
+	private String overdue;
 
 }
