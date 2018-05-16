@@ -31,12 +31,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return queryWork(null, null, condition, null, new BasicDBObject("index", 1)).into(new ArrayList<Work>());
 	}
 
-	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject condition,
+	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject basicCondition,
 			BasicDBObject filter, BasicDBObject sort) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		if (condition != null)
-			pipeline.add(Aggregates.match(condition));
+		if (basicCondition != null)
+			pipeline.add(Aggregates.match(basicCondition));
 
 		appendProject(pipeline);
 
@@ -50,10 +50,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
-		
+
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-		
+
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}
@@ -275,7 +275,28 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackageCommon> createWorkPackageCommonDataSet(BasicDBObject condition, ObjectId _id) {
-		//TODO 返回工作包
+		// TODO 返回工作包
 		return null;
+	}
+
+	@Override
+	public List<Work> createDeptUserWorkDataSet(String userid) {
+		ObjectId organization_id = c("user").distinct("org_id", new BasicDBObject("userId", userid), ObjectId.class)
+				.first();
+		if (organization_id != null) {
+			List<String> users = c("user")
+					.distinct("userId", new BasicDBObject().append("org_id", organization_id), String.class)
+					.into(new ArrayList<String>());
+
+			return queryWork(null, null,
+					new BasicDBObject("$or",
+							new BasicDBObject[] { new BasicDBObject("chargerId", new BasicDBObject("$in", users)),
+									new BasicDBObject("assignerId", new BasicDBObject("$in", users)) })
+											.append("summary", false).append("actualFinish", null)
+											.append("distributed", true),
+					null, new BasicDBObject("chargerId", 1).append("assignerId", 1).append("planFinish", 1))
+							.into(new ArrayList<Work>());
+		} else
+			return new ArrayList<Work>();
 	}
 }

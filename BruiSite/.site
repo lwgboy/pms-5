@@ -196,7 +196,6 @@
             "children": [],
             "name": "部门工作",
             "id": "16367c5636d"
-
           },
           {
             "children": [],
@@ -16740,7 +16739,7 @@
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
         "gridFix": 0,
-        "gridPageControl": false,
+        "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "columns": [
           {
@@ -17063,7 +17062,7 @@
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
         "gridFix": 0,
-        "gridPageControl": false,
+        "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "columns": [
           {

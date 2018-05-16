@@ -168,4 +168,9 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackageCommon> createWorkPackageCommonDataSet(
 			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition, @PathParam("_id") ObjectId _id);
+	@POST
+	@Path("/userid/{userid}/deptuserwork/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
 }

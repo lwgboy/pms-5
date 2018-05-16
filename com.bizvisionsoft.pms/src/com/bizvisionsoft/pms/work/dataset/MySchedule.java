@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.work.dataset;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -12,8 +11,11 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class MySchedule {
 
@@ -25,16 +27,15 @@ public class MySchedule {
 
 	@DataSet({ "部门工作日程表/list" })
 	public List<Work> createDeptUserWork() {
-		User user = brui.getCurrentUserInfo();
-		ObjectId orgId = user.getOrganizationId();
-		
-		
+		String userid = brui.getCurrentUserId();
+		return Services.get(WorkService.class).createDeptUserWorkDataSet(userid);
+
 	}
 
 	@DataSet({ "部门工作日程表/section" })
 	public List<User> createDeptUser() {
-		User user = brui.getCurrentUserInfo();
-		ObjectId orgId = user.getOrganizationId();
+		String userid = brui.getCurrentUserId();
+		return Services.get(UserService.class).createDeptUserDataSet(userid);
 	}
 
 	@Execute
