@@ -462,8 +462,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@WriteValue
 	private String barstyle;
 	
-	private String manageLevel;
-
 	@GetValue("manageLevel")
 	private String getManageLevel() {
 		if ("level1_task".equals(barstyle)) {
@@ -480,7 +478,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@SetValue("manageLevel")
 	public Work setManageLevel(String level) {
-		this.manageLevel = level;
 		if ("1".equals(level)) {
 			barstyle = "level1_task";
 		} else if ("2".equals(level)) {
