@@ -145,9 +145,12 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createProjectTaskDataSet(@PathParam("project_id") ObjectId project_id);
 
-	@GET
-	@Path("/processing/{userid}")
+
+	@POST
+	@Path("/userid/{userid}/processing/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Work> createProcessingWorkDataSet(@PathParam("userid") String userid);
+	@DataSet("我的工作/list")
+	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 }

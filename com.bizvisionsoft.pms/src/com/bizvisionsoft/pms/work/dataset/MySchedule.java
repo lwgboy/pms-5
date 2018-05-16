@@ -14,10 +14,8 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.serviceconsumer.Services;
 
 public class MySchedule {
 
@@ -173,13 +171,5 @@ public class MySchedule {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		System.out.println(context);
 	}
-	
-	@DataSet({ "我的工作/list" })
-	public List<Work> processingDataSet(){
-		String userId = brui.getCurrentUserId();
-		return Services.get(WorkService.class).createProcessingWorkDataSet(userId);
-	}
-	
-	
 
 }

@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 
@@ -104,8 +105,16 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 		// 判断是否需要检查本计划被其他人员检出
 		if (Boolean.TRUE.equals(cancelCheckoutSubSchedule)) {
-			// 不进行检查时，直接清除被检出的计划
-			cleanWorkspace(workspace);
+			// 获取要检出工作及该工作下级工作的工作区id，并进行清除
+			cleanWorkspace(workspace.getSpace_id());
+
+			c("work").distinct("space_id", new BasicDBObject("_id", new BasicDBObject("$in", inputIdHasWorks)),
+					ObjectId.class).forEach(new Block<ObjectId>() {
+						@Override
+						public void apply(final ObjectId space_id) {
+							cleanWorkspace(space_id);
+						}
+					});
 		} else {
 			// 获取被其他人员检出的计划
 			List<Bson> pipeline = new ArrayList<Bson>();
@@ -225,7 +234,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result checkin(Workspace workspace) {
-		if(workspace.getSpace_id() == null ) {
+		if (workspace.getSpace_id() == null) {
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
 		}
 		List<ObjectId> workIds = c(Work.class)
@@ -292,10 +301,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public Result cancelCheckout(Workspace workspace) {
-		if(workspace.getSpace_id() == null ) {
+		if (workspace.getSpace_id() == null) {
 			return Result.checkoutError("撤销失败。", Result.CODE_ERROR);
 		}
-		
+
 		if (Result.CODE_SUCCESS == cleanWorkspace(workspace).code) {
 			return Result.checkoutSuccess("已成功撤销。");
 		} else {
@@ -304,14 +313,18 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	}
 
 	private Result cleanWorkspace(Workspace workspace) {
-		c(WorkInfo.class).deleteMany(new BasicDBObject("space_id", workspace.getSpace_id()));
+		return cleanWorkspace(workspace.getSpace_id());
+	}
 
-		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("space_id", workspace.getSpace_id()));
+	private Result cleanWorkspace(ObjectId space_id) {
+		c(WorkInfo.class).deleteMany(new BasicDBObject("space_id", space_id));
 
-		c("project").updateOne(new BasicDBObject("space_id", workspace.getSpace_id()),
+		c(WorkLinkInfo.class).deleteMany(new BasicDBObject("space_id", space_id));
+
+		c("project").updateOne(new BasicDBObject("space_id", space_id),
 				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", true).append("space_id", true)));
 
-		c("work").updateMany(new BasicDBObject("space_id", workspace.getSpace_id()),
+		c("work").updateMany(new BasicDBObject("space_id", space_id),
 				new BasicDBObject("$unset", new BasicDBObject("checkoutBy", true).append("space_id", true)));
 
 		return Result.checkoutSuccess("已完成撤销成功。");

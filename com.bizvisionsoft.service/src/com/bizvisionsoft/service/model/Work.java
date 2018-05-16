@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -435,7 +434,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Persistence
 	private boolean stage;
-	
+
 	@Persistence
 	private boolean isSend;
 
@@ -552,6 +551,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private String getSectionId() {
 		return chargerId;
 	}
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String assignerId;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -723,18 +727,15 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
+	@SetValue
+	@ReadValue
+	private String warning;
+
 	@ImageURL("warningIcon")
 	private String getWarningIcon() {
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
-		if (planFinish.equals(date) || planFinish.before(date)) {
+		if (warning == "已超期") {
 			return "/img/redball.svg";
-		}
-		// TODO 从系统设置中获取预警时间
-		int preWarning = 5;
-		cal.add(Calendar.DAY_OF_MONTH, preWarning);
-		date = cal.getTime();
-		if (planFinish.equals(date) || planFinish.before(date)) {
+		} else if (warning == "预警") {
 			return "/img/orangeball.svg";
 		}
 		return "/img/greenball.svg";
