@@ -43,6 +43,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendProject(pipeline);
 
+		appendWarning(pipeline);
+
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 
@@ -59,9 +61,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.addFields(fields));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
-	
+
 	private void appendWarning(List<Bson> pipeline) {
 		int watningDay = (int) getSystemSetting(WARNING_DAY);
+		watningDay = watningDay * 24 * 60 * 60 * 1000;
+		pipeline.add(Aggregates.addFields(new Field<Bson>("warning", new BasicDBObject("$cond",
+				new BasicDBObject("if", new BasicDBObject("$lte", new Object[] { "$planFinish", new Date() }))
+						.append("then", "ÒÑ³¬ÆÚ").append("else",
+								new BasicDBObject("$cond", new BasicDBObject("if", new BasicDBObject("$lte",
+										new Object[] { "$planFinish",
+												new BasicDBObject("$add", new Object[] { new Date(), watningDay }) }))
+														.append("then", "Ô¤¾¯").append("else", "")))))));
 	}
 
 	@Override
