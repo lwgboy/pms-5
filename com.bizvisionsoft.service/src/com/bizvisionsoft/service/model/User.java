@@ -115,6 +115,10 @@ public class User {
 		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
 				.orElse(null);
 	}
+	
+	public ObjectId getOrganizationId() {
+		return organizationId;
+	}
 
 	@WriteValue("resourceType ")
 	public void setResourceType(ResourceType rt) {

@@ -24,8 +24,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public User check(String userId, String password) {
-		User user = c(User.class).find(new BasicDBObject("userId", userId).append("password", password))
-				.first();
+		User user = c(User.class).find(new BasicDBObject("userId", userId).append("password", password)).first();
 		if (user != null && user.isActivated()) {
 			return user;
 		}
@@ -80,7 +79,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		appendOrgFullName(pipeline,"org_id","orgFullName");
+		appendOrgFullName(pipeline, "org_id", "orgFullName");
 
 		List<User> result = new ArrayList<User>();
 		c(User.class).aggregate(pipeline).into(result);
@@ -109,6 +108,16 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 		// TODO ÆäËû¼ì²é
 		return delete(_id, User.class);
+	}
+
+	@Override
+	public List<User> createDeptUserDataSet(String userid) {
+		ObjectId organization_id = c("user").distinct("org_id", new BasicDBObject("userId", userid), ObjectId.class)
+				.first();
+		if (organization_id != null)
+			return query(null, null, new BasicDBObject("org_id", organization_id));
+		else
+			return new ArrayList<User>();
 	}
 
 }

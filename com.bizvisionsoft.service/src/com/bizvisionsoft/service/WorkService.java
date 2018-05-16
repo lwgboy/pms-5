@@ -122,25 +122,25 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/parent_id/{parent_id}/ganttlinks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkLink> createWorkLinkDataSet(@PathParam("parent_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/parent_id/{parent_id}/gantttasks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createWorkTaskDataSet(@PathParam("parent_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/project_id/{project_id}/ganttlinks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkLink> createProjectLinkDataSet(@PathParam("project_id") ObjectId project_id);
 
-	@GET
+	@POST
 	@Path("/project_id/{project_id}/gantttasks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -150,7 +150,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/processing/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的工作/list")
+	@DataSet({ "我的工作/list", "我的工作（日历牌）/list" })
 	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -168,4 +168,9 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackageCommon> createWorkPackageCommonDataSet(
 			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition, @PathParam("_id") ObjectId _id);
+	@POST
+	@Path("/userid/{userid}/deptuserwork/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
 }

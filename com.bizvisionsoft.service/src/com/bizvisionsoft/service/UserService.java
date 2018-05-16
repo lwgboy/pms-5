@@ -66,4 +66,10 @@ public interface UserService {
 	@DataSet(DataSet.DELETE)
 	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId get_id);
 
+	@POST
+	@Path("/userid/{userid}/deptuser/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<User> createDeptUserDataSet(@PathParam("userid") String userid);
+
 }
