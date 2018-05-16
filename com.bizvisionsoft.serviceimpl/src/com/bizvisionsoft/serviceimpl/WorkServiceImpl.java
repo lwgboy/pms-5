@@ -3,6 +3,7 @@ package com.bizvisionsoft.serviceimpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -248,9 +249,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createProcessingWorkDataSet(BasicDBObject condition, String userid) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
@@ -260,9 +261,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createFinishedWorkDataSet(BasicDBObject condition, String userid) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
