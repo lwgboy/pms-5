@@ -17026,7 +17026,71 @@
             "type": "query"
           }
         ],
-        "rowActions": [],
+        "rowActions": [
+          {
+            "id": "163682f28d4",
+            "name": "指派",
+            "text": "指派",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163682f31d3",
+            "name": "开始工作",
+            "text": "开始",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163682f3a8b",
+            "name": "完成工作",
+            "text": "完成",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163682f44d4",
+            "name": "我的工作操作",
+            "text": "操作",
+            "image": "/img/menu.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "children": [
+              {
+                "id": "163682f4e33",
+                "name": "编辑工作",
+                "text": "编辑",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "style": "normal",
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,

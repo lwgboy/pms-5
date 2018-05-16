@@ -154,6 +154,14 @@ public interface WorkService {
 	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
+	@GET
+	@Path("/userid/{userid}/processing/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的工作/count")
+	public long countProcessingWorkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
 	@POST
 	@Path("/userid/{userid}/finished/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -162,12 +170,21 @@ public interface WorkService {
 	public List<Work> createFinishedWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
+	@GET
+	@Path("/userid/{userid}/finished/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的工作（已完成）/count")
+	public long countFinishedWorkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
 	@POST
 	@Path("/{_id}/package/common/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackageCommon> createWorkPackageCommonDataSet(
 			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition, @PathParam("_id") ObjectId _id);
+
 	@POST
 	@Path("/userid/{userid}/deptuserwork/ds")
 	@Consumes("application/json; charset=UTF-8")

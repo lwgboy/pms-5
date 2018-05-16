@@ -261,6 +261,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	public long countProcessingWorkDataSet(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("summary", false);
+		filter.put("actualFinish", null);
+		filter.put("distributed", true);
+		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
+				new BasicDBObject("assignerId", userid) });
+		return count(filter, Work.class);
+	}
+
+	@Override
 	public List<Work> createFinishedWorkDataSet(BasicDBObject condition, String userid) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
@@ -271,6 +284,22 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
 						.append("distributed", true),
 				filter, new BasicDBObject("actualFinish", 1)).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countFinishedWorkDataSet(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		if (filter.get("actualFinish") == null)
+			filter.put("actualFinish", new BasicDBObject("$ne", null));
+
+		filter.put("summary", false);
+		filter.put("distributed", true);
+		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
+				new BasicDBObject("assignerId", userid) });
+
+		return count(filter, Work.class);
 	}
 
 	@Override
