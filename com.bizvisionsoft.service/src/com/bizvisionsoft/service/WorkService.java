@@ -191,4 +191,12 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
+	
+
+	@GET
+	@Path("/_id/{_id}/action/distribute/{executeBy}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> distributeWorkPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
 }
