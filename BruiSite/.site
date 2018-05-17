@@ -16912,6 +16912,7 @@
             "expanded": false,
             "columns": [],
             "markupEnabled": false,
+            "format": "yyyy-MM-dd",
             "sort": 0,
             "hide": false,
             "element": false
@@ -17078,6 +17079,34 @@
         "gridAutoColumnWidth": true,
         "actions": [
           {
+            "id": "1636daa0e46",
+            "name": "本周",
+            "text": "本周",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.SearchThisWeekWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "1636daa14d0",
+            "name": "本月",
+            "text": "本月",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.SearchThisMonthWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
             "id": "1636689b0b9",
             "name": "查询工作",
             "image": "/img/search_w.svg",
@@ -17124,9 +17153,10 @@
                 "propagate": false,
                 "forceText": true,
                 "style": "normal",
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized"
+                "editorAssemblyId": "1636da6b29d",
+                "editorAssemblyEditable": true,
+                "objectBehavier": true,
+                "type": "edit"
               },
               {
                 "id": "163691c2a66",
@@ -17154,7 +17184,7 @@
                 "forceText": true,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               },
               {
@@ -17169,7 +17199,7 @@
                 "forceText": true,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               }
             ],
@@ -18452,6 +18482,60 @@
           },
           {
             "id": "1636c469227",
+            "name": "charger",
+            "text": "负责人",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "selectorAssemblyId": "162ba875640",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "1636da6b29d",
+        "name": "工作指派编辑器",
+        "title": "工作指派",
+        "layout": [],
+        "type": "editor",
+        "folderId": "163624e9684",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "fields": [
+          {
+            "id": "1636da737e5",
             "name": "charger",
             "text": "负责人",
             "type": "对象选择框",

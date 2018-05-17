@@ -405,10 +405,42 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Result> startWork(ObjectId _id) {
-		c("work").updateOne(new BasicDBObject("_id", _id).append("actualStart", new BasicDBObject("$ne", null)),
-				new BasicDBObject("$set", new BasicDBObject("actualStart",new Date())));
+		List<Result> result = startWorkCheck(_id);
+		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id).append("actualStart", null),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+		if (doc == null) {
+			result.add(Result.updateFailure("没有需要启动的工作。"));
+			return result;
+		}
+		ObjectId parent_id = doc.getObjectId("parent_id");
+		if (parent_id != null)
+			startParentWork(parent_id);
 
-		return null;
+		return new ArrayList<Result>();
+	}
+
+	private void startParentWork(ObjectId _id) {
+		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id).append("actualStart", null),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+		if (doc == null)
+			return;
+
+		ObjectId parent_id = doc.getObjectId("parent_id");
+		if (parent_id != null)
+			startParentWork(parent_id);
+		else
+			startProject(doc.getObjectId("project_id"));
+
+	}
+
+	private void startProject(ObjectId _id) {
+		c("project").updateOne(new BasicDBObject("_id", _id).append("actualStart", null),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+	}
+
+	private List<Result> startWorkCheck(ObjectId _id) {
+		// TODO 检查是否可以启动工作
+		return new ArrayList<Result>();
 	}
 
 	@Override
