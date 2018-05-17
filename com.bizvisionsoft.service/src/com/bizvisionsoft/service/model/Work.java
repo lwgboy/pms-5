@@ -11,9 +11,11 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Strict;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
@@ -569,11 +571,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private List<TrackView> workPackageSetting;
-	
+
 	public List<TrackView> getWorkPackageSetting() {
 		return workPackageSetting;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
@@ -591,14 +593,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
-	
+
 	@Persistence
 	private List<String> viewId;
-	
+
 	public List<String> getViewId() {
 		return viewId;
 	}
-	
+
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
@@ -765,6 +767,21 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	public Date getPlanFinished() {
 		return planFinish;
+	}
+
+	@Behavior("我的工作/指派")
+	private boolean behaviourAssigner(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userid) {
+		return userid.equals(assignerId);
+	}
+
+	@Behavior("我的工作/开始工作")
+	private boolean behaviourStart() {
+		return actualStart == null;
+	}
+
+	@Behavior("我的工作/完成工作")
+	private boolean behaviourFinish() {
+		return actualStart != null;
 	}
 
 }

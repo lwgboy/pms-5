@@ -1,10 +1,12 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -286,9 +288,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
-						.append("distributed", true),
-				filter, new BasicDBObject("actualFinish", 1)).into(new ArrayList<Work>());
+						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null)),
+				filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
 	}
 
 	@Override
@@ -349,7 +350,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer limit = (Integer) condition.get("limit");
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-		
+
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		AggregateIterable<WorkPackage> iterable = c(WorkPackage.class).aggregate(pipeline);
@@ -369,5 +370,36 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long deleteWorkPackage(ObjectId _id) {
 		return delete(_id, WorkPackage.class);
+	}
+
+	public List<Result> distributeWorkPlan(ObjectId _id, String distributeBy) {
+		List<Result> result = distributeWorkPlanCheck(_id, distributeBy);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		List<ObjectId> inputIds = Arrays.asList(_id);
+		inputIds = getDesentItems(inputIds, "work", "parent_id");
+
+		UpdateResult ur = c("work").updateMany(
+				new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+						.append("$or",
+								new BasicDBObject[] { new BasicDBObject("chargerId", new Document("$ne", null)),
+										new BasicDBObject("assignerId", new Document("$ne", null)) })
+						.append("distributed", new BasicDBObject("$ne", true)),
+				new BasicDBObject("$set", new BasicDBObject("distributed", true).append("distributeBy", distributeBy)
+						.append("distributeOn", new Date())));
+
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有需要下达的计划。"));
+			return result;
+		}
+
+		return new ArrayList<Result>();
+	}
+
+	private List<Result> distributeWorkPlanCheck(ObjectId _id, String distributeBy) {
+		// TODO 检查是否可以下达
+		return new ArrayList<Result>();
 	}
 }
