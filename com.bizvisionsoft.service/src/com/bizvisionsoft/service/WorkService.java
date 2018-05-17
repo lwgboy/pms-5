@@ -112,10 +112,10 @@ public interface WorkService {
 	public long countChildren(@PathParam("parent_id") ObjectId parent_id);
 
 	@GET
-	@Path("/_id/{_id}/action/start/{executeBy}")
+	@Path("/_id/{_id}/action/startstage/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> start(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> startStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
 	@GET
 	@Path("/workspace/{_id}")
@@ -190,7 +190,7 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkPackage(BasicDBObject filter);
-	
+
 	@POST
 	@Path("/package/")
 	@Consumes("application/json; charset=UTF-8")
@@ -208,12 +208,23 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
-	
 
 	@GET
 	@Path("/_id/{_id}/action/distribute/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> distributeWorkPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@GET
+	@Path("/_id/{_id}/action/startwork")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> startWork(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}/action/finishwork")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> finishWork(@PathParam("_id") ObjectId _id);
 
 }

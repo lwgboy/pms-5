@@ -167,8 +167,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> start(ObjectId _id, String executeBy) {
-		List<Result> result = startWorkCheck(_id, executeBy);
+	public List<Result> startStage(ObjectId _id, String executeBy) {
+		List<Result> result = startStageCheck(_id, executeBy);
 		if (!result.isEmpty()) {
 			return result;
 		}
@@ -176,7 +176,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 修改状态
 		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("actualStart", new Date()).append("startBy", executeBy)));
+						.append("startOn", new Date()).append("startBy", executeBy)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -196,7 +196,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return result;
 	}
 
-	private List<Result> startWorkCheck(ObjectId _id, String executeBy) {
+	private List<Result> startStageCheck(ObjectId _id, String executeBy) {
 		//////////////////////////////////////////////////////////////////////
 		// 须检查的信息
 		// 1. 检查是否创建了第一层的WBS，并有计划，如果没有，提示警告
@@ -401,5 +401,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	private List<Result> distributeWorkPlanCheck(ObjectId _id, String distributeBy) {
 		// TODO 检查是否可以下达
 		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> startWork(ObjectId _id) {
+		c("work").updateOne(new BasicDBObject("_id", _id).append("actualStart", new BasicDBObject("$ne", null)),
+				new BasicDBObject("$set", new BasicDBObject("actualStart",new Date())));
+
+		return null;
+	}
+
+	@Override
+	public List<Result> finishWork(ObjectId _id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

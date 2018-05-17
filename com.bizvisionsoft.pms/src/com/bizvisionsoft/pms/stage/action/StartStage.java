@@ -37,7 +37,7 @@ public class StartStage {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).start(stage.get_id(), brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class).startStage(stage.get_id(), brui.getCurrentUserId());
 			if (result.isEmpty()) {
 				MessageDialog.openInformation(shell, "启动阶段", "阶段启动完成。");
 
