@@ -1,8 +1,8 @@
 package com.bizvisionsoft.pms.work.assembly;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.TabItem;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
-import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.BruiActionEngine;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
@@ -38,9 +37,12 @@ public class WorkPackagePlan {
 
 	private BruiAssemblyContext currentContext;
 
+	private List<TrackView> packageSettings;
+
 	@CreateUI
 	public void createUI(Composite parent) {
 		work = (Work) context.getInput();
+		packageSettings = work.getWorkPackageSetting();
 
 		parent.setLayout(new FormLayout());
 
@@ -49,7 +51,12 @@ public class WorkPackagePlan {
 		closeAction.setImage("/img/close.svg");
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
-		bar.setText("工作包 - " + work);
+		String text = "工作包 "+work;
+		if (packageSettings != null && packageSettings.size() == 1) {
+			text +=  "-"+packageSettings.get(0).getName();
+		}
+
+		bar.setText(text);
 		bar.setActions(context.getAssembly().getActions());
 
 		FormData fd = new FormData();
@@ -72,7 +79,12 @@ public class WorkPackagePlan {
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			} else {
-				BruiActionEngine.create(action, brui).invokeExecute(e, currentContext);
+				try {
+					BruiActionEngine.create(action, brui).invokeExecute(e, currentContext);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+					MessageDialog.openError(brui.getCurrentShell(), "系统错误", e2.getMessage());
+				}
 			}
 		});
 
@@ -80,12 +92,17 @@ public class WorkPackagePlan {
 	}
 
 	private void createContent(Composite parent) {
-		List<TrackView> packageSettings = work.getWorkPackageSetting();
 
 		if (Util.isEmptyOrNull(packageSettings)) {
 			parent.setLayout(new FillLayout());
-			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(work)
-					.setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create();
+			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
+					.setServices(brui).create();
+			this.currentContext = c.getContext();
+		} else if (packageSettings.size() == 1) {
+			parent.setLayout(new FillLayout());
+			TrackView tv = packageSettings.get(0);
+			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(tv)
+					.setAssembly(brui.getAssembly(tv.getPackageAssembly())).setServices(brui).create();
 			this.currentContext = c.getContext();
 		} else {
 			FillLayout layout = new FillLayout();
@@ -93,18 +110,17 @@ public class WorkPackagePlan {
 			layout.marginWidth = 16;
 			parent.setLayout(layout);
 			TabFolder folder = new TabFolder(parent, SWT.TOP | SWT.BORDER);
-			Optional.ofNullable(packageSettings).ifPresent(ids -> ids.forEach(setting -> {
+			packageSettings.forEach(setting -> {
 				String id = setting.getPackageAssembly();
-				Assembly assembly = brui.getAssembly(id);
 				TabItem item = new TabItem(folder, SWT.NONE);
-				item.setText(assembly.getTitle());
+				item.setText(setting.getName());
 				Composite pageContent = new Composite(folder, SWT.NONE);
 				pageContent.setLayout(new FillLayout());
-				AssemblyContainer c = new AssemblyContainer(pageContent, context).setInput(work)
+				AssemblyContainer c = new AssemblyContainer(pageContent, context).setInput(setting)
 						.setAssembly(brui.getAssembly(id)).setServices(brui).create();
 				item.setData("context", c.getContext());
 				item.setControl(pageContent);
-			}));
+			});
 			folder.addListener(SWT.Selection, e -> {
 				int idx = folder.getSelectionIndex();
 				if (idx != -1) {
