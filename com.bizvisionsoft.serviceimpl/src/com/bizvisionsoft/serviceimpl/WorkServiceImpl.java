@@ -14,7 +14,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
-import com.bizvisionsoft.service.model.WorkPackageCommon;
+import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -66,6 +66,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		fields.add(new Field<String>("projectNumber", "$project.id"));
 		pipeline.add(Aggregates.addFields(fields));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+	}
+
+	private void appendWork(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
+		pipeline.add(Aggregates.unwind("$work"));
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
@@ -303,12 +308,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<WorkPackageCommon> createWorkPackageCommonDataSet(BasicDBObject condition, ObjectId _id) {
-		// TODO 返回工作包
-		return null;
-	}
-
-	@Override
 	public List<Work> createDeptUserWorkDataSet(String userid) {
 		ObjectId organization_id = c("user").distinct("org_id", new BasicDBObject("userId", userid), ObjectId.class)
 				.first();
@@ -327,5 +326,48 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 							.into(new ArrayList<Work>());
 		} else
 			return new ArrayList<Work>();
+	}
+
+	@Override
+	public List<WorkPackage> listWorkPackage(BasicDBObject condition) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		appendWork(pipeline);
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		AggregateIterable<WorkPackage> iterable = c(WorkPackage.class).aggregate(pipeline);
+		return iterable.into(new ArrayList<WorkPackage>());
+	}
+
+	@Override
+	public long countWorkPackage(BasicDBObject filter) {
+		return count(filter, WorkPackage.class);
+	}
+
+	@Override
+	public WorkPackage insertWorkPackage(WorkPackage wp) {
+		return insert(wp, WorkPackage.class);
+	}
+
+	@Override
+	public long deleteWorkPackage(ObjectId _id) {
+		return delete(_id, WorkPackage.class);
 	}
 }

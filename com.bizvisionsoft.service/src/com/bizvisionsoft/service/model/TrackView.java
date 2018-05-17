@@ -18,11 +18,19 @@ public class TrackView {
 	@ReadValue
 	@WriteValue
 	private String catagory;
+	
+	public String getCatagory() {
+		return catagory;
+	}
 
 	@ReadValue
 	@WriteValue
 	private String name;
 
+	public String getName() {
+		return name;
+	}
+	
 	@ReadValue
 	@WriteValue
 	private String viewAssembly;
@@ -33,6 +41,14 @@ public class TrackView {
 
 	public String getPackageAssembly() {
 		return packageAssembly;
+	}
+
+	@ReadValue
+	@WriteValue
+	private String editAssembly;
+
+	public String getEditAssembly() {
+		return editAssembly;
 	}
 	
 	@ReadValue(ReadValue.TYPE)

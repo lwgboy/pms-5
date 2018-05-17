@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.beans.Transient;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;

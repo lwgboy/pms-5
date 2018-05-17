@@ -18,7 +18,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
-import com.bizvisionsoft.service.model.WorkPackageCommon;
+import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
@@ -53,7 +53,7 @@ public interface WorkService {
 	@Path("/task/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的工作/"+DataSet.UPDATE)
+	@DataSet("我的工作/" + DataSet.UPDATE)
 	public long updateWork(BasicDBObject filterAndUpdate);
 
 	@PUT
@@ -180,11 +180,28 @@ public interface WorkService {
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/{_id}/package/common/")
+	@Path("/package/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkPackageCommon> createWorkPackageCommonDataSet(
-			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition, @PathParam("_id") ObjectId _id);
+	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
+
+	@POST
+	@Path("/package/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkPackage(BasicDBObject filter);
+	
+	@POST
+	@Path("/package/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkPackage insertWorkPackage(WorkPackage wp);
+
+	@DELETE
+	@Path("/package/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteWorkPackage(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/userid/{userid}/deptuserwork/ds")
