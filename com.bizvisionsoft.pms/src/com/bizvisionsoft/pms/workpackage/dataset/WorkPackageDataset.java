@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.workpackage.dataset;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -57,9 +56,12 @@ public class WorkPackageDataset {
 
 	private void appendFilter(BasicDBObject filter) {
 		filter.append("work_id", work.get_id());
-		Optional.ofNullable((TrackView) context.getInput())
-				.map(t -> filter.append("catagory", t.getCatagory()).append("name", t.getName()))
-				.orElse(filter.append("catagory", null).append("name", null));
+		TrackView tv = (TrackView) context.getInput();
+		if(tv!=null) {
+			filter.append("catagory", tv.getCatagory()).append("name", tv.getName());
+		}else {
+			filter.append("catagory", null).append("name", null);
+		}
 	}
 
 	@DataSet(DataSet.COUNT)
