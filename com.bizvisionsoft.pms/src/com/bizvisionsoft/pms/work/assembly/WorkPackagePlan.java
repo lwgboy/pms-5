@@ -51,7 +51,7 @@ public class WorkPackagePlan {
 		closeAction.setImage("/img/close.svg");
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
-		String text = "工作包 "+work;
+		String text = "工作包: "+work;
 		if (packageSettings != null && packageSettings.size() == 1) {
 			text +=  "-"+packageSettings.get(0).getName();
 		}

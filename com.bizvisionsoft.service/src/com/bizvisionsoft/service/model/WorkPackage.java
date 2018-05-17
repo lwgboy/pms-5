@@ -18,6 +18,17 @@ import com.bizvisionsoft.service.UserService;
 @PersistenceCollection("workPackage")
 public class WorkPackage {
 
+	public static WorkPackage newInstance(Work work, TrackView tv) {
+		WorkPackage wp = new WorkPackage();
+		wp.work_id = work.get_id();
+		wp.work = work;
+		if (tv != null) {
+			wp.catagory = tv.getCatagory();
+			wp.name = tv.getName();
+		}
+		return wp;
+	}
+
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
@@ -81,15 +92,31 @@ public class WorkPackage {
 		return work.getPlanFinished();
 	}
 
-	public static WorkPackage newInstance(Work work, TrackView tv) {
-		WorkPackage wp = new WorkPackage();
-		wp.work_id = work.get_id();
-		wp.work = work;
-		if (tv != null) {
-			wp.catagory = tv.getCatagory();
-			wp.name = tv.getName();
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 采购使用的字段，不排除其他视图使用
+	@ReadValue
+	@WriteValue
+	private String matId;
+
+	@ReadValue
+	@WriteValue
+	private String matDesc;
+
+	@ReadValue
+	@WriteValue
+	private String unit;
+
+	@ReadValue
+	private Double planQty;
+
+	@WriteValue("planQty")
+	private void setPlanQty(String _planQty) {
+		try {
+			planQty = Double.parseDouble(_planQty);
+		} catch (Exception e) {
+			throw new RuntimeException("请输入合法的数字");
 		}
-		return wp;
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
