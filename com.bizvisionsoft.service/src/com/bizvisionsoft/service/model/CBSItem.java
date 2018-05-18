@@ -117,7 +117,7 @@ public class CBSItem {
 	@Exclude
 	private List<AccountItem> subjects;
 
-	@Structure("CBSSubject/list")
+	@Structure({ "CBSSubject/list", "CBSSubject（查看）/list" })
 	public List<AccountItem> listSubjects() {
 		if (subjects == null) {
 			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
@@ -125,7 +125,7 @@ public class CBSItem {
 		return subjects;
 	}
 
-	@Structure("CBSSubject/count")
+	@Structure({ "CBSSubject/count", "CBSSubject（查看）/count" })
 	public long countSubjects() {
 		if (subjects == null) {
 			return ServicesLoader.get(CommonService.class).countAccoutItemRoot();
@@ -134,13 +134,13 @@ public class CBSItem {
 		}
 	}
 
-	@Structure("CBS/list")
+	@Structure({ "CBS/list", "CBS（查看）/list" })
 	public List<CBSItem> listSubCBSItems() {
 		children.forEach(c -> c.parent = this);
 		return children;
 	}
 
-	@Structure("CBS/count")
+	@Structure({ "CBS/count", "CBS（查看）/count" })
 	public long countSubCBSItems() {
 		return children.size();
 	}
@@ -284,7 +284,7 @@ public class CBSItem {
 	}
 
 	public void addChild(List<CBSItem> childs) {
-		childs.forEach(child ->{
+		childs.forEach(child -> {
 			child.parent = this;
 		});
 		children.addAll(childs);

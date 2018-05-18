@@ -33,7 +33,7 @@ public interface CBSService {
 	@Path("/scope/root/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("CBS/list")
+	@DataSet({ "CBS/list", "CBS£¨²é¿´£©/list" })
 	public List<CBSItem> getScopeRoot(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
@@ -109,6 +109,7 @@ public interface CBSService {
 	@Path("/_id/{_id}/addcbsbystage/{project_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<CBSItem> addCBSItemByStage(@PathParam("_id") ObjectId _id,@PathParam("project_id")  ObjectId project_id);
+	public List<CBSItem> addCBSItemByStage(@PathParam("_id") ObjectId _id,
+			@PathParam("project_id") ObjectId project_id);
 
 }

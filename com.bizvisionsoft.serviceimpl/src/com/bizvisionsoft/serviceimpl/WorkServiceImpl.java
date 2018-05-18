@@ -502,9 +502,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 			if (doc == null)
 				return;
-			
-			//TODO 处理摘要工作实际工期
-			
+
+			// TODO 处理摘要工作实际工期
+
 			// 更新上级工作的完工时间
 			ObjectId parent_id = doc.getObjectId("parent_id");
 			if (parent_id != null)
@@ -539,8 +539,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			result.add(Result.updateFailure("没有满足完工条件的阶段。"));
 			return result;
 		}
-		
-		//TODO 处理阶段实际工期
+
+		// TODO 处理阶段实际工期
 
 		return result;
 	}
@@ -555,5 +555,33 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			result.add(Result.finishError("阶段存在没有完工的工作。"));
 		}
 		return result;
+	}
+
+	@Override
+	public List<Result> closeStage(ObjectId _id, String executeBy) {
+		List<Result> result = closeStageCheck(_id, executeBy);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		// 修改状态
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed)
+						.append("closeOn", new Date()).append("closeBy", executeBy)));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			throw new ServiceException("没有满足关闭条件的工作。");
+		}
+
+		// TODO 通知团队成员，工作已经关闭
+
+		return result;
+	}
+
+	private List<Result> closeStageCheck(ObjectId _id, String executeBy) {
+		//////////////////////////////////////////////////////////////////////
+		// 须检查的信息
+		return new ArrayList<Result>();
 	}
 }

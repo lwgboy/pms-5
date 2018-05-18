@@ -80,7 +80,7 @@ public interface OBSService {
 	@Path("/member/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("团队成员/" + DataSet.LIST)
+	@DataSet({ "团队成员/" + DataSet.LIST, "团队成员（查看）/" + DataSet.LIST })
 	public List<User> getMember(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
 
@@ -88,7 +88,7 @@ public interface OBSService {
 	@Path("/member/count/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("团队成员/" + DataSet.COUNT)
+	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
 	public long countMember(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
 
