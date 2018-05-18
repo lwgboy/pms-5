@@ -143,4 +143,10 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@GET
+	@Path("/_id/{_id}/action/close/{executeBy}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> closeProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 }

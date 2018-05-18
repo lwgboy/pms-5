@@ -1498,6 +1498,893 @@
     },
     {
       "typeName": "页面",
+      "id": "96183e364b9",
+      "name": "项目首页（收尾）",
+      "title": "项目首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": true,
+        "width": 240,
+        "header": "1628e1d1914",
+        "toolbarItems": [
+          {
+            "id": "96370fc36a6",
+            "name": "关闭",
+            "text": "关闭",
+            "description": "关闭",
+            "tooltips": "关闭",
+            "image": "/img/close.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.CloseProject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "9628dec0239",
+            "name": "项目概览",
+            "text": "项目概览",
+            "switchContentToAssemblyId": "16305720b4b",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "963099ca971",
+            "name": "组织结构和干系人",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "963099d3908",
+                "name": "组织结构",
+                "text": "组织结构",
+                "switchContentToAssemblyId": "16371c338b9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decb6d6",
+                "name": "项目干系人",
+                "switchContentToAssemblyId": "1632b6942a0",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "9628decb7e0",
+            "name": "项目进度管理",
+            "text": "项目进度管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decb92d",
+                "name": "项目进度计划",
+                "switchContentToAssemblyId": "1631b7ee056",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "16371ebbf89",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decbc1b",
+                "name": "设计进度监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decbdcc",
+                "name": "采购计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decbf7e",
+                "name": "生产计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decc10d",
+                "name": "进度绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628decc2ae",
+            "name": "项目资源管理",
+            "text": "项目资源管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decc40b",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "1636e56e08c",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decc58a",
+                "name": "资源用量状况",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "9628decc6f8",
+            "name": "项目成本管理",
+            "text": "项目成本管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decc878",
+                "name": "项目预算",
+                "switchContentToAssemblyId": "163722a9d18",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decc9e5",
+                "name": "项目成本管理",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628deccb88",
+                "name": "成本绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628deccce4",
+            "name": "项目风险管理",
+            "text": "项目风险管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decce74",
+                "name": "项目风险清单",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628deccfe3",
+                "name": "项目进度风险指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd162",
+                "name": "临近、监测和影响分析",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd302",
+                "name": "风险应对计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628decd492",
+            "name": "项目质量管理",
+            "text": "项目质量管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decd621",
+                "name": "外购件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd7a1",
+                "name": "自制件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd951",
+                "name": "厂检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decdb14",
+                "name": "军检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628decdce7",
+            "name": "项目变更管理",
+            "text": "项目变更管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decdec9",
+                "name": "项目基线",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628df2227f",
+                "name": "发起项目变更",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628df226b9",
+            "name": "项目绩效管理",
+            "text": "项目绩效管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628df2289c",
+                "name": "项目周报",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628df22a5e",
+                "name": "项目月报",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628df22c41",
+                "name": "项目绩效报告",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9628df224b5",
+            "name": "项目档案",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "9628df3363b",
+            "name": "项目权限管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          }
+        ]
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "16305720b4b",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "99183e364b9",
+      "name": "项目首页（关闭）",
+      "title": "项目首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": true,
+        "width": 240,
+        "header": "1628e1d1914",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "9928dec0239",
+            "name": "项目概览",
+            "text": "项目概览",
+            "switchContentToAssemblyId": "16305720b4b",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "993099ca971",
+            "name": "组织结构和干系人",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "993099d3908",
+                "name": "组织结构",
+                "text": "组织结构",
+                "switchContentToAssemblyId": "16371c338b9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decb6d6",
+                "name": "项目干系人",
+                "switchContentToAssemblyId": "1632b6942a0",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "9928decb7e0",
+            "name": "项目进度管理",
+            "text": "项目进度管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decb92d",
+                "name": "项目进度计划",
+                "switchContentToAssemblyId": "1631b7ee056",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "16371ebbf89",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decbc1b",
+                "name": "设计进度监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decbdcc",
+                "name": "采购计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decbf7e",
+                "name": "生产计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decc10d",
+                "name": "进度绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928decc2ae",
+            "name": "项目资源管理",
+            "text": "项目资源管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decc40b",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "1636e56e08c",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decc58a",
+                "name": "资源用量状况",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "9928decc6f8",
+            "name": "项目成本管理",
+            "text": "项目成本管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decc878",
+                "name": "项目预算",
+                "switchContentToAssemblyId": "163722a9d18",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decc9e5",
+                "name": "项目成本管理",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928deccb88",
+                "name": "成本绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928deccce4",
+            "name": "项目风险管理",
+            "text": "项目风险管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decce74",
+                "name": "项目风险清单",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928deccfe3",
+                "name": "项目进度风险指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decd162",
+                "name": "临近、监测和影响分析",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decd302",
+                "name": "风险应对计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928decd492",
+            "name": "项目质量管理",
+            "text": "项目质量管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decd621",
+                "name": "外购件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decd7a1",
+                "name": "自制件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decd951",
+                "name": "厂检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decdb14",
+                "name": "军检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928decdce7",
+            "name": "项目变更管理",
+            "text": "项目变更管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928decdec9",
+                "name": "项目基线",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928df226b9",
+            "name": "项目绩效管理",
+            "text": "项目绩效管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9928df2289c",
+                "name": "项目周报",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928df22a5e",
+                "name": "项目月报",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928df22c41",
+                "name": "项目绩效报告",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false
+          },
+          {
+            "id": "9928df224b5",
+            "name": "项目档案",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "9928df3363b",
+            "name": "项目权限管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          }
+        ]
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "163723be22d",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
       "id": "1631ac0ee2e",
       "name": "阶段首页（启动）",
       "title": "阶段首页",
@@ -1531,7 +2418,7 @@
           {
             "id": "1631b456657",
             "name": "概览",
-            "switchContentToAssemblyId": "1631ac3637f",
+            "switchContentToAssemblyId": "163723c27be",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -1706,12 +2593,13 @@
           {
             "id": "16324c595d5",
             "name": "概览",
+            "switchContentToAssemblyId": "1631ac3637f",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "switch"
           },
           {
             "id": "16324c59e18",
@@ -2043,12 +2931,13 @@
           {
             "id": "96324c595d5",
             "name": "概览",
+            "switchContentToAssemblyId": "1631ac3637f",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "switch"
           },
           {
             "id": "96324c59e18",
@@ -2331,6 +3220,323 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "1631ac3637f",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
+    },
+    {
+      "typeName": "页面",
+      "id": "963719d18b9",
+      "name": "阶段首页（关闭）",
+      "title": "阶段首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": true,
+        "width": 240,
+        "header": "1631b43cace",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "99324c595d5",
+            "name": "概览",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "99324c59e18",
+            "name": "组织管理",
+            "switchContentToAssemblyId": "16371c338b9",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "99324c5b264",
+            "name": "进度管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "96324c5b799",
+                "name": "进度计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5bc6b",
+                "name": "进度计划甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "16371ebbf89",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "99324c5c1f2",
+                "name": "设计进度监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5c6e4",
+                "name": "采购计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5cc18",
+                "name": "生产计划监控",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5d3d6",
+                "name": "进度绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "99324c5d832",
+            "name": "资源管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "99324c5dd98",
+                "name": "资源计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5e259",
+                "name": "资源用量",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "99324c5e79e",
+            "name": "成本管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "99324c5ecd3",
+                "name": "阶段预算",
+                "switchContentToAssemblyId": "16372045263",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "99324c5f1a2",
+                "name": "阶段成本",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c5f6eb",
+                "name": "成本绩效指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "96371bb72d8",
+            "name": "风险管理",
+            "text": "风险管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "96371bbacf1",
+                "name": "风险清单",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "96371bbb258",
+                "name": "进度风险指标",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "96371bbb5bc",
+                "name": "临近、监测和影响分析",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "96371bbb98e",
+                "name": "风险应对计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "99324c5fc1c",
+            "name": "质量管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "99324c6011e",
+                "name": "外购件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c60dcf",
+                "name": "自制件检验",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324c61389",
+                "name": "厂检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "99324d19f77",
+                "name": "军检",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ]
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "163723c3033",
             "defaultAssembly": true
           }
         ]
@@ -14945,8 +16151,8 @@
       },
       {
         "id": "1631ac3637f",
-        "name": "阶段首页",
-        "title": "阶段首页",
+        "name": "阶段基本信息",
+        "title": "阶段基本信息",
         "layout": [
           {
             "id": "1631b09d447",
@@ -20077,6 +21283,320 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "163722a9d18",
+        "name": "预算（查看）",
+        "layout": [
+          {
+            "id": "162ec7aed97",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 1,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "163720498db",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "cbs（查看）"
+              }
+            ]
+          }
+        ],
+        "type": "sticker",
+        "stickerTitle": "预算（人民币万元）",
+        "folderId": "162ec25146d",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": true,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "163723be22d",
+        "name": "项目基本信息（关闭状态）",
+        "layout": [
+          {
+            "id": "1630572e84f",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 2,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": true,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "16305416779",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "163056fb075",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "1630607a1fb",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 2,
+                "widthHint": -1,
+                "heightHint": 500
+              },
+              {
+                "id": "162e10dc2e4",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 2,
+                "widthHint": -1,
+                "heightHint": 600
+              }
+            ]
+          }
+        ],
+        "stickerTitle": "项目",
+        "folderId": "1631b7d0058",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": true,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "163723c27be",
+        "name": "阶段基本信息（创建状态）",
+        "title": "阶段基本信息",
+        "layout": [
+          {
+            "id": "1631b09d447",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 1,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "162dc3fab0c",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              }
+            ]
+          }
+        ],
+        "folderId": "1631ac2c36a",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false
+      },
+      {
+        "id": "163723c3033",
+        "name": "阶段基本信息（关闭状态）",
+        "title": "阶段基本信息",
+        "layout": [
+          {
+            "id": "1631b09d447",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 1,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "162dc3fab0c",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              }
+            ]
+          }
+        ],
+        "folderId": "1631ac2c36a",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
