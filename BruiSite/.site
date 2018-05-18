@@ -13440,7 +13440,7 @@
         "ganttGridWidth": 0,
         "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
-        "displayRootInputLabelInTitlebar": true,
+        "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false
