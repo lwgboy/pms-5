@@ -40,7 +40,7 @@ public interface OBSService {
 	@Path("/scope/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("组织结构图/list")
+	@DataSet({ "组织结构图/list", "组织结构图（查看）/list" })
 	public List<OBSItem> getScopeOBS(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 

@@ -137,4 +137,10 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}/action/finish/{executeBy}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> finishProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 }

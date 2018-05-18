@@ -406,36 +406,54 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Result> startWork(ObjectId _id) {
 		List<Result> result = startWorkCheck(_id);
-		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id).append("actualStart", null),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+
+		// 工作没有开始时间或开始时间大于当前时间时，更新当前工作的开始时间为当前时间并获取更新的工作
+		Date startDate = new Date();
+		Document doc = c("work").findOneAndUpdate(
+				new BasicDBObject("_id", _id).append("$or",
+						new BasicDBObject[] { new BasicDBObject("actualStart", null),
+								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
+
+		// 如果没有获得工作则该工作已经启动
 		if (doc == null) {
-			result.add(Result.updateFailure("没有需要启动的工作。"));
+			result.add(Result.updateFailure("工作已经启动。"));
 			return result;
 		}
+
+		// 更新上级工作的启动时间
 		ObjectId parent_id = doc.getObjectId("parent_id");
 		if (parent_id != null)
-			startParentWork(parent_id);
+			startParentWork(parent_id, startDate);
 
 		return new ArrayList<Result>();
 	}
 
-	private void startParentWork(ObjectId _id) {
-		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id).append("actualStart", null),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+	private void startParentWork(ObjectId _id, Date startDate) {
+		// 工作没有开始时间或开始时间大于启动时间时，更新工作的开始时间为当前时间，并获取更新的工作
+		Document doc = c("work").findOneAndUpdate(
+				new BasicDBObject("_id", _id).append("$or",
+						new BasicDBObject[] { new BasicDBObject("actualStart", null),
+								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
+		// 如果没有获得工作则该工作已经启动，并不需要继续循环启动上级工作
 		if (doc == null)
 			return;
-
+		// 更新上级工作的启动时间，如果没有上级工作，则更新项目启动时间
 		ObjectId parent_id = doc.getObjectId("parent_id");
 		if (parent_id != null)
-			startParentWork(parent_id);
+			startParentWork(parent_id, startDate);
 		else
-			startProject(doc.getObjectId("project_id"));
+			startProject(doc.getObjectId("project_id"), startDate);
 
 	}
 
-	private void startProject(ObjectId _id) {
-		c("project").updateOne(new BasicDBObject("_id", _id).append("actualStart", null),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", new Date())));
+	private void startProject(ObjectId _id, Date startDate) {
+		c("project").updateOne(
+				new BasicDBObject("_id", _id).append("$or",
+						new BasicDBObject[] { new BasicDBObject("actualStart", null),
+								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
 	}
 
 	private List<Result> startWorkCheck(ObjectId _id) {
@@ -445,7 +463,97 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Result> finishWork(ObjectId _id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Result> result = finishWorkCheck(_id);
+		// 工作没有完成时间或完成时间小于当前时间时，更新工作的完成时间为当前时间，并获取更新的工作
+		Date finishDate = new Date();
+		Document doc = c("work").findOneAndUpdate(
+				new BasicDBObject("_id", _id).append("$or",
+						new BasicDBObject[] { new BasicDBObject("actualFinish", null),
+								new BasicDBObject("actualFinish", new BasicDBObject("$lt", finishDate)) }),
+				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate)));
+		// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
+		if (doc == null) {
+			result.add(Result.updateFailure("工作已经完成。"));
+			return result;
+		}
+
+		// 更新上级工作的完工时间
+		ObjectId parent_id = doc.getObjectId("parent_id");
+		if (parent_id != null)
+			finishParentWork(parent_id, finishDate);
+
+		return result;
+	}
+
+	private void finishParentWork(ObjectId _id, Date finishDate) {
+		// 判断该工作是否存在未完成的子工作，存在则不更新该工作实际完成时间
+		long count = c("work").count(new BasicDBObject("parent_id", _id).append("actualFinish", null));
+		if (count == 0) {
+			// 工作没有完成时间或完成时间小于当前时间段且不为阶段时，更新工作的完成时间为当前时间，并获取更新的工作
+			Document doc = c("work")
+					.findOneAndUpdate(
+							new BasicDBObject("_id", _id)
+									.append("$or",
+											new BasicDBObject[] { new BasicDBObject("actualFinish", null),
+													new BasicDBObject("actualFinish",
+															new BasicDBObject("$lt", finishDate)) })
+									.append("stage", false),
+							new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate)));
+			// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
+			if (doc == null)
+				return;
+			
+			//TODO 处理摘要工作实际工期
+			
+			// 更新上级工作的完工时间
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id != null)
+				finishParentWork(parent_id, finishDate);
+		}
+	}
+
+	private List<Result> finishWorkCheck(ObjectId _id) {
+		// TODO 检查是否可以完成工作
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> finishStage(ObjectId _id, String executeBy) {
+		List<Result> result = finishStageCheck(_id, executeBy);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		Document doc = c("work").find(new BasicDBObject("parent_id", _id))
+				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
+				.first();
+
+		// 修改项目状态
+		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set",
+						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", new Date())
+								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足完工条件的阶段。"));
+			return result;
+		}
+		
+		//TODO 处理阶段实际工期
+
+		return result;
+	}
+
+	private List<Result> finishStageCheck(ObjectId _id, String executeBy) {
+		//////////////////////////////////////////////////////////////////////
+		// 须检查的信息
+		// 1. 检查所属该阶段的工作是否全部完工，若没有，错误。根据工作完工后，自动向上级汇总实际完成的规则，只需要判断阶段下一级工作是否全部完工。
+		ArrayList<Result> result = new ArrayList<Result>();
+		long count = c("work").count(new BasicDBObject("parent_id", _id).append("actualFinish", null));
+		if (count > 0) {
+			result.add(Result.finishError("阶段存在没有完工的工作。"));
+		}
+		return result;
 	}
 }
