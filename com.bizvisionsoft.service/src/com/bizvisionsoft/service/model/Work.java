@@ -565,6 +565,20 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Persistence
 	private String assignerId;
 
+	@SetValue
+	@ReadValue
+	private String assignerInfo;
+
+	@WriteValue("assigner")
+	private void setAssigner(User assigner) {
+		this.assignerId = Optional.ofNullable(assigner).map(o -> o.getUserId()).orElse(null);
+	}
+
+	@ReadValue("assigner")
+	private User getAssigner() {
+		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue

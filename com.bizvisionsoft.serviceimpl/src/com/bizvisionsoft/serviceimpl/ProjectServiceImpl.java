@@ -279,4 +279,73 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return Workspace.newInstance(_id, dbo.getObjectId("space_id"), dbo.getString("checkoutBy"));
 	}
 
+	@Override
+	public List<Result> finishProject(ObjectId _id, String executeBy) {
+		List<Result> result = finishProjectCheck(_id, executeBy);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		Document doc = c("work").find(new BasicDBObject("project_id", _id))
+				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
+				.first();
+
+		// 修改项目状态
+		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closing)
+						.append("finishOn", new Date()).append("finishBy", executeBy).append("actualFinish",
+								doc.get("actualFinish"))));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足完工条件的项目。"));
+			return result;
+		}
+
+
+		return result;
+	}
+
+	private List<Result> finishProjectCheck(ObjectId _id, String executeBy) {
+		//////////////////////////////////////////////////////////////////////
+		// 须检查的信息
+		// 1. 检查所属该项目的工作是否全部完工，若没有，错误。
+		ArrayList<Result> result = new ArrayList<Result>();
+		long count = c("work").count(new BasicDBObject("project_id", _id).append("actualFinish", null));
+		if (count > 0) {
+			result.add(Result.finishError("项目存在没有完工的工作。"));
+		}
+		return result;
+	}
+
+	@Override
+	public List<Result> closeProject(ObjectId _id, String executeBy) {
+		List<Result> result = closeProjectCheck(_id, executeBy);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		// 修改项目状态
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed)
+						.append("closeOn", new Date()).append("closeBy", executeBy)));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足关闭条件的项目。"));
+			return result;
+		}
+
+		// TODO 通知项目团队成员，项目已经关闭
+
+		return result;
+	}
+
+
+	private List<Result> closeProjectCheck(ObjectId _id, String executeBy) {
+		//////////////////////////////////////////////////////////////////////
+		// 须检查的信息
+
+		return new ArrayList<Result>();
+	}
 }

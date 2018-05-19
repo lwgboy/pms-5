@@ -54,6 +54,14 @@ public class Result {
 
 	public void setResultDate(BasicDBObject data) {
 		this.data = data;
+	}
+
+	public static Result finishError(String message) {
+		Result e = new Result();
+		e.code = 100;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
+		return e;
 	};
 
 }

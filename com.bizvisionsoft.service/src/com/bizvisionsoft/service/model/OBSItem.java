@@ -225,7 +225,7 @@ public class OBSItem {
 		return null;
 	}
 
-	@ReadValue("组织结构图/title")
+	@ReadValue({"组织结构图/title","组织结构图（查看）/title"})
 	public String getDiagramTitle() {
 		int type = getDiagramItemType();
 		if (TYPE_CHARGER_ITEM == type || TYPE_TEAM_ITEM == type) {
@@ -250,12 +250,12 @@ public class OBSItem {
 		return TYPE_TEAM_ITEM;
 	}
 
-	@ReadValue("组织结构图/id")
+	@ReadValue({"组织结构图/id","组织结构图（查看）/id"})
 	public String getDiagramId() {
 		return _id.toHexString();
 	}
 
-	@ReadValue("组织结构图/text")
+	@ReadValue({"组织结构图/text","组织结构图（查看）/text"})
 	public String getDiagramText() {
 		int type = getDiagramItemType();
 		if (TYPE_CHARGER_ITEM == type) {
@@ -269,12 +269,12 @@ public class OBSItem {
 
 	}
 
-	@ReadValue("组织结构图/parent")
+	@ReadValue({"组织结构图/parent","组织结构图（查看）/parent"})
 	public String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
-	@ReadValue("组织结构图/img")
+	@ReadValue({"组织结构图/img","组织结构图（查看）/img"})
 	public String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);

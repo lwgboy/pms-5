@@ -18,7 +18,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class StartStage {
+public class FinishStage {
 
 	@Inject
 	private IBruiService brui;
@@ -32,20 +32,20 @@ public class StartStage {
 		Project project = stage.getProject();
 		if (project != null && ProjectStatus.Processing.equals(project.getStatus())) {
 
-			boolean ok = MessageDialog.openConfirm(shell, "启动阶段",
-					"请确认启动阶段" + stage + "。\n系统将记录现在时刻为阶段的启动时间，并向本阶段项目组成员发出启动通知。");
+			boolean ok = MessageDialog.openConfirm(shell, "完工阶段",
+					"请确认完工阶段" + stage + "。\n系统将记录现在时刻为阶段的完工时间，并向本阶段项目组成员发出完工通知。");
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).startStage(stage.get_id(), brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class).finishStage(stage.get_id(), brui.getCurrentUserId());
 			if (result.isEmpty()) {
-				MessageDialog.openInformation(shell, "启动阶段", "阶段启动完成。");
+				MessageDialog.openInformation(shell, "完工阶段", "阶段已完工。");
 
-				brui.switchPage("阶段首页（执行）", ((Work) stage).get_id().toHexString());
+				brui.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());
 			}
 			// TODO 显示多条错误信息的通用方法
 		} else {
-			MessageDialog.openError(shell, "启动阶段", "阶段所在项目未启动，无法启动阶段。");
+			MessageDialog.openError(shell, "完工阶段", "阶段所在项目未启动，无法完工阶段。");
 		}
 	}
 

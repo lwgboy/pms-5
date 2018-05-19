@@ -26,6 +26,8 @@ public class OpenWorkInfo {
 				bruiService.switchPage("阶段首页（启动）", work.get_id().toHexString());
 			} else if (ProjectStatus.Processing.equals(work.getStatus())) {
 				bruiService.switchPage("阶段首页（执行）", work.get_id().toHexString());
+			} else if(ProjectStatus.Closing.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（收尾）", work.get_id().toHexString());
 			}
 		}
 	}
