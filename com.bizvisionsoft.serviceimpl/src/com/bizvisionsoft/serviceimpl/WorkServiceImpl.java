@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.ResourceUsage;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -583,5 +584,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////
 		// 须检查的信息
 		return new ArrayList<Result>();
+	}
+
+	@Override
+	public ResourceUsage addResource(ResourceUsage res) {
+		return insert(res, ResourceUsage.class);
 	}
 }

@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.ResourceUsage;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -233,11 +234,16 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
-
 	@GET
 	@Path("/_id/{_id}/action/closestage/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> closeStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@POST
+	@Path("/resource/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ResourceUsage addResource(ResourceUsage res);
 
 }

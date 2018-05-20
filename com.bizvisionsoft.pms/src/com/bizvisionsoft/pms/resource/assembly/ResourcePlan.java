@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.resource.assembly;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -23,7 +24,11 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ResourceUsage;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ResourcePlan {
 
@@ -103,15 +108,22 @@ public class ResourcePlan {
 
 		// 弹出menu
 		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			System.out.println("选择了人力资源");
+			addResource("分配人力资源编辑器");
 			return false;
 		}).handleActionExecute("eq", a -> {
-			System.out.println("选择了设备资源");
+			addResource("分配设备资源编辑器");
 			return false;
 		}).handleActionExecute("tr", a -> {
-			System.out.println("选择了资源类型");
+			addResource("分配资源类型编辑器");
 			return false;
 		}).open();
+	}
+
+	private void addResource(String editorId) {
+		Editor.open(editorId, context, new ResourceUsage().setWork_id(work.get_id()), (t, r) -> {
+			ResourceUsage res = Services.get(WorkService.class).addResource(r);
+			grid.insert(res);
+		});
 	}
 
 	private void select(Work work) {
@@ -120,7 +132,7 @@ public class ResourcePlan {
 		}
 		this.work = work;
 		// 查询
-//		 grid.setViewerInput(input);
+		grid.setViewerInput(new ArrayList<ResourceUsage>());
 	}
 
 }
