@@ -29,6 +29,7 @@ public class User {
 	private String userId;
 
 	@ImageURL({ "userId", "组织角色/id", "资源类型/id" })
+	@Exclude
 	private String logo = "/img/user_c.svg";
 
 	@ReadValue

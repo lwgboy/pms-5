@@ -32,6 +32,7 @@ public class Equipment {
 	private String id;
 	
 	@ImageURL("id")
+	@Exclude
 	private String logo = "/img/equipment_c.svg";
 	
 	@ReadValue
