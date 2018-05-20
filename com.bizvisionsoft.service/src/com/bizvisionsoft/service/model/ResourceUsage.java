@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -18,47 +21,74 @@ public class ResourceUsage {
 
 	@ReadValue
 	@WriteValue
+	@Persistence
 	private ObjectId work_id;
 
 	@ReadValue
 	@WriteValue
-	private String usedTypedResId;
+	@SetValue
+	private String type;
 
 	@ReadValue
 	@WriteValue
+	@SetValue
+	private String name;
+
+	@ReadValue
+	@WriteValue
+	@SetValue
+	private String id;
+
+	@Persistence
 	private String usedHumanResId;
 
-	@ReadValue
-	@WriteValue
+	@Persistence
 	private String usedEquipResId;
 
-	@ReadValue("id")
-	private String getId() {
-		if (usedHumanResId != null)
-			return usedHumanResId;
-		if (usedEquipResId != null)
-			return usedEquipResId;
-		if (usedTypedResId != null)
-			return usedTypedResId;
-		return "";
+	@Persistence
+	private String usedTypedResId;
+
+	@SetValue
+	private ResourceType resType;
+
+	@ReadValue("pricingModel")
+	private String getPricingModel() {
+		return resType.getPricingModel();
 	}
 
-	@ReadValue("name")
-	private String getName() {
-		return "";
+	@ReadValue("basicRate")
+	private double getBasicRate() {
+		return resType.getBasicRate();
 	}
-	
+
+	@ReadValue("overtimeRate")
+	private double getOvertimeRate() {
+		return resType.getOvertimeRate();
+	}
+
 	@WriteValue("usedHumanRes")
-	public void setHumanResource(User hr) {
-		this.usedHumanResId = Optional.ofNullable(hr).map(h -> h.getUserId()).orElse(null);
+	public void setHumanResource(User res) {
+		usedHumanResId = Optional.ofNullable(res).map(h -> h.getUserId()).orElse(null);
+		id = usedHumanResId;
+		type = "hr";
 	}
-	
+
+	@WriteValue("usedEquipRes")
+	public void setEquipResource(Equipment res) {
+		usedEquipResId = Optional.ofNullable(res).map(h -> h.getId()).orElse(null);
+		id = usedEquipResId;
+		type = "equipment";
+	}
+
+	@WriteValue("usedTypedRes")
+	public void setTypedResource(ResourceType res) {
+		usedTypedResId = Optional.ofNullable(res).map(h -> h.getId()).orElse(null);
+		id = usedTypedResId;
+		type = "resourceType";
+	}
 
 	@ReadValue
 	private Integer planBasicQty;
-
-	@ReadValue
-	private Integer planOverTimeQty;
 
 	@WriteValue("planBasicQty")
 	private void set_planBasicQty(String _planBasicQty) {
@@ -73,6 +103,9 @@ public class ResourceUsage {
 		}
 	}
 
+	@ReadValue
+	private Integer planOverTimeQty;
+
 	@WriteValue("planOverTimeQty")
 	private void set_planOverTimeQty(String _planOverTimeQty) {
 		if (_planOverTimeQty.isEmpty()) {
@@ -85,16 +118,33 @@ public class ResourceUsage {
 			}
 		}
 	}
-	
+
+	@ReadValue
+	@WriteValue
+	private Double overtimeRate;
+
+	@ReadValue("planAmount")
+	private Double getPlanAmount() {
+		return getBasicRate() * planBasicQty + getOvertimeRate() * planOverTimeQty;
+	}
+
 	@Override
 	@Label
 	public String toString() {
-		return getName() + " [" + getId() + "]";
+		return name + " [" + id + "]";
 	}
+
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	private String typeName = "ืสิด";
 
 	public ResourceUsage setWork_id(ObjectId work_id) {
 		this.work_id = work_id;
 		return this;
+	}
+
+	public ObjectId get_id() {
+		return _id;
 	}
 
 }

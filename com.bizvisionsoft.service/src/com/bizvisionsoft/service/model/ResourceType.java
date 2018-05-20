@@ -52,7 +52,7 @@ public class ResourceType {
 
 	/** 计价方式 10 Y **/
 	@WriteValue
-	@ReadValue("资源类型编辑器/pricingModel")
+	@ReadValue
 	private String pricingModel;
 
 	/** 标准费率(元) Y **/
@@ -79,16 +79,6 @@ public class ResourceType {
 		} catch (Exception e) {
 			throw new RuntimeException("加班费率字段只能输入数值");
 		}
-	}
-
-	@ReadValue("资源类型/pricingModel")
-	private String getPricingModelText() {
-		if ("byHour".equals(pricingModel)) {
-			return "按每小时计费";
-		} else if ("byTimes".equals(pricingModel)) {
-			return "按使用次数计费";
-		}
-		return "";
 	}
 
 	@Override
@@ -125,4 +115,25 @@ public class ResourceType {
 	
 	@Behavior({"资源类型/添加资源","资源类型/编辑资源类型","资源类型/删除资源类型"})
 	public boolean enabledBehavior = true;
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getPricingModel() {
+		return pricingModel;
+	}
+	
+	
+	public double getBasicRate() {
+		return basicRate;
+	}
+	
+	public double getOvertimeRate() {
+		return overtimeRate;
+	}
 }

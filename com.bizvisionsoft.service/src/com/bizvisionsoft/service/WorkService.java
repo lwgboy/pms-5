@@ -246,4 +246,11 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public ResourceUsage addResource(ResourceUsage res);
 
+	
+	@POST
+	@Path("/_id/{_id}/resource/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ResourceUsage> listResource(@PathParam("_id")  ObjectId _id);
+
 }

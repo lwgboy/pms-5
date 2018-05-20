@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.resource.dataset;
+package com.bizvisionsoft.pms.resource;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class ResourceSelector {
+public class ResourceSelectorDS {
 
 	@Inject
 	private BruiAssemblyContext context;

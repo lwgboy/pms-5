@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -588,6 +589,66 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public ResourceUsage addResource(ResourceUsage res) {
-		return insert(res, ResourceUsage.class);
+		ResourceUsage r = insert(res, ResourceUsage.class);
+		return queryResourceUsage(new Document("_id", r.get_id())).get(0);
+	}
+
+	@Override
+	public List<ResourceUsage> listResource(ObjectId _id) {
+		Document match = new Document("work_id", _id);
+		return queryResourceUsage(match);
+	}
+
+	private List<ResourceUsage> queryResourceUsage(Document match) {
+		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", match),
+
+				new Document("$lookup",
+						new Document("from", "user").append("localField", "usedHumanResId")
+								.append("foreignField", "userId").append("as", "user")),
+				new Document("$unwind", new Document("path", "$user").append("preserveNullAndEmptyArrays", true)),
+
+				new Document("$lookup",
+						new Document("from", "equipment").append("localField", "usedEquipResId")
+								.append("foreignField", "id").append("as", "equipment")),
+				new Document("$unwind", new Document("path", "$equipment").append("preserveNullAndEmptyArrays", true)),
+
+				new Document("$lookup",
+						new Document("from", "resourceType").append("localField", "usedTypedResId")
+								.append("foreignField", "id").append("as", "resourceType")),
+				new Document("$unwind",
+						new Document("path", "$resourceType").append("preserveNullAndEmptyArrays", true)),
+
+				new Document("$addFields", new Document("type", new Document("$cond",
+						Arrays.asList("$user", "人力资源", new Document("$cond", Arrays.asList("$equipment", "设备设施",
+								new Document("$cond", Arrays.asList("resourceType", "资源类型", new BsonNull())))))))
+										.append("resType_id", new Document("$cond", Arrays.asList(
+												"$user.resourceType_id", "$user.resourceType_id",
+												new Document("$cond", Arrays.asList("$equipment.resourceType_id",
+														"$equipment.resourceType_id",
+														new Document().append("$cond",
+																Arrays.asList("$resourceType._id", "$resourceType._id",
+																		new BsonNull())))))))
+										.append("name", new Document("$cond", Arrays.asList("$user.name", "$user.name",
+												new Document("$cond", Arrays.asList("$equipment.name",
+														"$equipment.name",
+														new Document().append("$cond",
+																Arrays.asList("$resourceType.name",
+																		"$resourceType.name", new BsonNull())))))))
+										.append("id", new Document("$cond", Arrays.asList("$usedHumanResId",
+												"$usedHumanResId",
+												new Document("$cond",
+														Arrays.asList("$usedEquipResId", "$usedEquipResId",
+																new Document("$cond", Arrays.asList("$usedTypedResId",
+																		"$usedTypedResId", new BsonNull())))))))),
+
+				new Document("$lookup",
+						new Document("from", "resourceType").append("localField", "resType_id")
+								.append("foreignField", "_id").append("as", "resType")),
+				new Document("$unwind", new Document("path", "$resType").append("preserveNullAndEmptyArrays", true)),
+
+				new Document("$project", new Document("resourceType", false).append("resType_id", false)
+						.append("user", false).append("equipment", false)));
+
+		return c(ResourceUsage.class).aggregate(pipeline).into(new ArrayList<ResourceUsage>());
 	}
 }

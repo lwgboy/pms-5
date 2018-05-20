@@ -1,7 +1,7 @@
-package com.bizvisionsoft.pms.resource.assembly;
+package com.bizvisionsoft.pms.resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -30,7 +30,7 @@ import com.bizvisionsoft.service.model.ResourceUsage;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ResourcePlan {
+public class ResourcePlanASM {
 
 	@Inject
 	private IBruiService brui;
@@ -84,6 +84,14 @@ public class ResourcePlan {
 				allocateResource();
 			}
 		});
+		
+		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
+			Work work = (Work) ((GanttEvent) l).task;
+			if(work!=null && !work.isSummary()) {
+				allocateResource();
+			}
+		});
+
 	}
 
 	private void allocateResource() {
@@ -132,7 +140,8 @@ public class ResourcePlan {
 		}
 		this.work = work;
 		// ≤È—Ø
-		grid.setViewerInput(new ArrayList<ResourceUsage>());
+		List<ResourceUsage> input = Services.get(WorkService.class).listResource(work.get_id());
+		grid.setViewerInput(input);
 	}
 
 }
