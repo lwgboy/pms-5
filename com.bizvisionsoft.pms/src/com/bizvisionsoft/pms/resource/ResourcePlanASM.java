@@ -26,7 +26,7 @@ import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ResourceUsage;
+import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -65,6 +65,7 @@ public class ResourcePlanASM {
 		fd.right = new FormAttachment(100, -12);
 		fd.bottom = new FormAttachment(100, -12);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
+		
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
 		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表"))
@@ -128,8 +129,8 @@ public class ResourcePlanASM {
 	}
 
 	private void addResource(String editorId) {
-		Editor.open(editorId, context, new ResourceUsage().setWork_id(work.get_id()), (t, r) -> {
-			ResourceUsage res = Services.get(WorkService.class).addResource(r);
+		Editor.open(editorId, context, new ResourcePlan().setWork_id(work.get_id()), (t, r) -> {
+			ResourcePlan res = Services.get(WorkService.class).addResource(r);
 			grid.insert(res);
 		});
 	}
@@ -140,7 +141,7 @@ public class ResourcePlanASM {
 		}
 		this.work = work;
 		// 查询
-		List<ResourceUsage> input = Services.get(WorkService.class).listResource(work.get_id());
+		List<ResourcePlan> input = Services.get(WorkService.class).listResource(work.get_id());
 		grid.setViewerInput(input);
 	}
 

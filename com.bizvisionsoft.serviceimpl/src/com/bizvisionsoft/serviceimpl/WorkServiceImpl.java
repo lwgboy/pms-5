@@ -14,7 +14,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
-import com.bizvisionsoft.service.model.ResourceUsage;
+import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -588,18 +588,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public ResourceUsage addResource(ResourceUsage res) {
-		ResourceUsage r = insert(res, ResourceUsage.class);
+	public ResourcePlan addResource(ResourcePlan res) {
+		ResourcePlan r = insert(res, ResourcePlan.class);
 		return queryResourceUsage(new Document("_id", r.get_id())).get(0);
 	}
 
 	@Override
-	public List<ResourceUsage> listResource(ObjectId _id) {
+	public List<ResourcePlan> listResource(ObjectId _id) {
 		Document match = new Document("work_id", _id);
 		return queryResourceUsage(match);
 	}
 
-	private List<ResourceUsage> queryResourceUsage(Document match) {
+	private List<ResourcePlan> queryResourceUsage(Document match) {
 		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", match),
 
 				new Document("$lookup",
@@ -646,9 +646,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 								.append("foreignField", "_id").append("as", "resType")),
 				new Document("$unwind", new Document("path", "$resType").append("preserveNullAndEmptyArrays", true)),
 
-				new Document("$project", new Document("resourceType", false).append("resType_id", false)
-						.append("user", false).append("equipment", false)));
+				new Document("$project",
+						new Document("resourceType", false).append("resType_id", false).append("user", false)
+								.append("equipment", false)),
 
-		return c(ResourceUsage.class).aggregate(pipeline).into(new ArrayList<ResourceUsage>());
+				new Document("$sort", new Document("type", 1).append("id", 1)));
+
+		return c(ResourcePlan.class).aggregate(pipeline).into(new ArrayList<ResourcePlan>());
 	}
 }

@@ -5078,7 +5078,7 @@
                 "heightHint": -1
               },
               {
-                "id": "162bd1b7bb3",
+                "id": "1632e5a7502",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -21688,7 +21688,7 @@
         "folderId": "1636e54a6d9",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
+        "gridMarkupEnabled": true,
         "gridLineVisiable": true,
         "gridMultiSelection": false,
         "gridHeaderVisiable": true,
@@ -21702,9 +21702,9 @@
         "gridPageControl": false,
         "columns": [
           {
-            "id": "1637e0d052b",
-            "name": "type",
-            "text": "资源类型",
+            "id": "1637bd12ba0",
+            "name": "id",
+            "text": "资源编号",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -21721,9 +21721,9 @@
             "noToggleGridColumnGroup": false
           },
           {
-            "id": "1637bd12ba0",
-            "name": "id",
-            "text": "资源编号",
+            "id": "1637e0d052b",
+            "name": "type",
+            "text": "资源类型",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -21900,6 +21900,7 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "#,###.0",
                 "sort": 0,
                 "hide": false,
                 "element": false,

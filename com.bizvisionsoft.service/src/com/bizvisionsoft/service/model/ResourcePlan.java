@@ -4,16 +4,16 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("resourceUsage")
-public class ResourceUsage {
+@PersistenceCollection("resourcePlan")
+public class ResourcePlan {
 
 	@ReadValue
 	@WriteValue
@@ -24,7 +24,7 @@ public class ResourceUsage {
 	@Persistence
 	private ObjectId work_id;
 
-	@ReadValue
+	@ReadValue({ "type", ReadValue.TYPE })
 	@WriteValue
 	@SetValue
 	private String type;
@@ -81,10 +81,17 @@ public class ResourceUsage {
 	}
 
 	@WriteValue("usedTypedRes")
-	public void setTypedResource(ResourceType res) {
-		usedTypedResId = Optional.ofNullable(res).map(h -> h.getId()).orElse(null);
-		id = usedTypedResId;
-		type = "resourceType";
+	public void setTypedResource(Object res) {
+		if (res instanceof User) {
+			setHumanResource((User) res);
+		} else if (res instanceof Equipment) {
+			setEquipResource((Equipment) res);
+		} else if (res instanceof ResourceType) {
+			usedTypedResId = Optional.ofNullable((ResourceType) res).map(h -> h.getId()).orElse(null);
+			id = usedTypedResId;
+			type = "resourceType";
+		}
+
 	}
 
 	@ReadValue
@@ -134,11 +141,16 @@ public class ResourceUsage {
 		return name + " [" + id + "]";
 	}
 
-	@ReadValue(ReadValue.TYPE)
-	@Exclude
-	private String typeName = "资源";
+	@ImageURL("id")
+	private String getLogo() {
+		if ("人力资源".equals(type))
+			return "/img/user_c.svg";
+		else if ("设备设施".equals(type))
+			return "/img/equipment_c.svg";
+		return "/img/resource_c.svg";
+	}
 
-	public ResourceUsage setWork_id(ObjectId work_id) {
+	public ResourcePlan setWork_id(ObjectId work_id) {
 		this.work_id = work_id;
 		return this;
 	}
