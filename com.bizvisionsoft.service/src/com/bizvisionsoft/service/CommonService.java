@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -335,4 +336,36 @@ public interface CommonService {
 	@DataSet("视图和工作包列表/" + DataSet.UPDATE)
 	public long updateTrackView(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/rbs/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("RBS/" + DataSet.LIST)
+	public List<RBSItem> getRBSItem();
+
+	@POST
+	@Path("/rbs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("RBS/" + DataSet.INSERT)
+	public RBSItem insertRBSItem(@ServiceParam(ServiceParam.OBJECT) RBSItem item);
+
+	@DELETE
+	@Path("/rbs/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("RBS/" + DataSet.DELETE)
+	public long deleteRBSItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/rbs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("RBS/" + DataSet.UPDATE)
+	public long updateRBSItem(BasicDBObject filterAndUpdate);
+
 }
