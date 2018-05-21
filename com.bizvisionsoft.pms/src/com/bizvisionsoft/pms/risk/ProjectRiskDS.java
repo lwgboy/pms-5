@@ -49,16 +49,19 @@ public class ProjectRiskDS {
 		filter.append("project_id", project_id).append("parent_id", null);
 		return Services.get(RiskService.class).listRBSItem(condition);
 	}
-	
+
 	@DataSet(DataSet.COUNT)
-	public long countRootRBSItem(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+	public long countRootRBSItem(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
 		if (filter == null) {
 			filter = new BasicDBObject();
-			condition.append("filter", filter);
 		}
 		filter.append("project_id", project_id).append("parent_id", null);
 		return Services.get(RiskService.class).countRBSItem(filter);
+	}
+
+	@DataSet(DataSet.INSERT)
+	public RBSItem insertRBSItem(@ServiceParam(ServiceParam.OBJECT) RBSItem item) {
+		return Services.get(RiskService.class).insertRBSItem(item);
 	}
 
 }

@@ -28,28 +28,28 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.LIST)
-	public List<RBSType> getRBSItem();
+	public List<RBSType> getRBSType();
 
 	@POST
 	@Path("/type/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.INSERT)
-	public RBSType insertRBSItem(@ServiceParam(ServiceParam.OBJECT) RBSType item);
+	public RBSType insertRBSType(@ServiceParam(ServiceParam.OBJECT) RBSType item);
 
 	@DELETE
 	@Path("/type/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.DELETE)
-	public long deleteRBSItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRBSType(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/type/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.UPDATE)
-	public long updateRBSItem(BasicDBObject filterAndUpdate);
+	public long updateRBSType(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/rbs/ds")
@@ -62,5 +62,11 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countRBSItem(BasicDBObject filter);
+
+	@POST
+	@Path("/rbs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public RBSItem insertRBSItem(RBSItem item);
 
 }
