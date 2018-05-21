@@ -52,9 +52,9 @@ public class WorkPackagePlan {
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
 		String text = "¹¤×÷°ü: "+work;
-		if (packageSettings != null && packageSettings.size() == 1) {
-			text +=  "-"+packageSettings.get(0).getName();
-		}
+//		if (packageSettings != null && packageSettings.size() == 1) {
+//			text +=  "-"+packageSettings.get(0).getName();
+//		}
 
 		bar.setText(text);
 		bar.setActions(context.getAssembly().getActions());

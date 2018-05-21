@@ -33,6 +33,10 @@ public class WorkPackage {
 	@WriteValue
 	private ObjectId _id;
 
+	public ObjectId get_id() {
+		return _id;
+	}
+
 	/**
 	 * 工作包的名称，与TrackView名称一致
 	 */
@@ -117,6 +121,17 @@ public class WorkPackage {
 			throw new RuntimeException("请输入合法的数字");
 		}
 	}
+
+	@ReadValue
+	private Double completeQty;
+
+	@ReadValue("residualQty")
+	private Double getResidualQty() {
+		return (planQty != null ? planQty : 0) - (completeQty != null ? completeQty : 0);
+	}
+
+	@ReadValue
+	private Date updateTime;
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

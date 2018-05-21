@@ -783,17 +783,17 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return planFinish;
 	}
 
-	@Behavior("我的工作/指派")
+	@Behavior("指派")
 	private boolean behaviourAssigner(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userid) {
 		return userid.equals(assignerId);
 	}
 
-	@Behavior("我的工作/开始工作")
+	@Behavior("开始工作")
 	private boolean behaviourStart() {
 		return actualStart == null;
 	}
 
-	@Behavior("我的工作/完成工作")
+	@Behavior("完成工作")
 	private boolean behaviourFinish() {
 		return actualStart != null;
 	}
