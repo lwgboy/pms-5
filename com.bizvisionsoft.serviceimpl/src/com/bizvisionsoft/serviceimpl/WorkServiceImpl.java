@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -618,28 +617,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$unwind",
 						new Document("path", "$resourceType").append("preserveNullAndEmptyArrays", true)),
 
-				new Document("$addFields", new Document("type", new Document("$cond",
-						Arrays.asList("$user", "人力资源", new Document("$cond", Arrays.asList("$equipment", "设备设施",
-								new Document("$cond", Arrays.asList("resourceType", "资源类型", new BsonNull())))))))
+				new Document("$addFields",
+						new Document("type", new Document("$cond", Arrays.asList("$user", "人力资源",
+								new Document("$cond", Arrays.asList("$equipment", "设备设施", "资源类型")))))
+
 										.append("resType_id", new Document("$cond", Arrays.asList(
 												"$user.resourceType_id", "$user.resourceType_id",
-												new Document("$cond", Arrays.asList("$equipment.resourceType_id",
-														"$equipment.resourceType_id",
-														new Document().append("$cond",
-																Arrays.asList("$resourceType._id", "$resourceType._id",
-																		new BsonNull())))))))
-										.append("name", new Document("$cond", Arrays.asList("$user.name", "$user.name",
-												new Document("$cond", Arrays.asList("$equipment.name",
-														"$equipment.name",
-														new Document().append("$cond",
-																Arrays.asList("$resourceType.name",
-																		"$resourceType.name", new BsonNull())))))))
-										.append("id", new Document("$cond", Arrays.asList("$usedHumanResId",
-												"$usedHumanResId",
 												new Document("$cond",
-														Arrays.asList("$usedEquipResId", "$usedEquipResId",
-																new Document("$cond", Arrays.asList("$usedTypedResId",
-																		"$usedTypedResId", new BsonNull())))))))),
+														Arrays.asList("$equipment.resourceType_id",
+																"$equipment.resourceType_id", "$resourceType._id")))))
+
+										.append("name",
+												new Document("$cond",
+														Arrays.asList("$user.name", "$user.name",
+																new Document("$cond", Arrays.asList("$equipment.name",
+																		"$equipment.name", "$resourceType.name")))))
+
+										.append("id",
+												new Document("$cond",
+														Arrays.asList("$usedHumanResId", "$usedHumanResId",
+																new Document("$cond", Arrays.asList("$usedEquipResId",
+																		"$usedEquipResId", "$usedTypedResId")))))),
 
 				new Document("$lookup",
 						new Document("from", "resourceType").append("localField", "resType_id")
