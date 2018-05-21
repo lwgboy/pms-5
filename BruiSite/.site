@@ -2483,7 +2483,7 @@
           {
             "id": "1631b4793f8",
             "name": "½×¶ÎÔ¤Ëã",
-            "switchContentToAssemblyId": "16362425e75",
+            "switchContentToAssemblyId": "162faeee5d8",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -2750,12 +2750,13 @@
               {
                 "id": "16324c5ecd3",
                 "name": "½×¶ÎÔ¤Ëã",
+                "switchContentToAssemblyId": "162faeee5d8",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized"
+                "type": "switch"
               },
               {
                 "id": "16324c5f1a2",
@@ -3084,7 +3085,7 @@
               {
                 "id": "96324c5ecd3",
                 "name": "½×¶ÎÔ¤Ëã",
-                "switchContentToAssemblyId": "16372045263",
+                "switchContentToAssemblyId": "16372176e94",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -3401,7 +3402,7 @@
               {
                 "id": "99324c5ecd3",
                 "name": "½×¶ÎÔ¤Ëã",
-                "switchContentToAssemblyId": "16372045263",
+                "switchContentToAssemblyId": "16372176e94",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -20591,7 +20592,7 @@
             "name": "±àÖÆ½×¶ÎÔ¤Ëã",
             "text": "±àÖÆ½×¶ÎÔ¤Ëã",
             "image": "/img/budget_c.svg",
-            "switchContentToAssemblyId": "16362425e75",
+            "switchContentToAssemblyId": "162faeee5d8",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -20604,13 +20605,15 @@
             "name": "×é½¨½×¶ÎÍÅ¶Ó",
             "text": "×é½¨½×¶ÎÍÅ¶Ó",
             "image": "/img/org_c.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.OpenOBSScopeRootDiagram",
             "switchContentToAssemblyId": "162e10dc2e4",
             "openContent": true,
             "propagate": false,
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "customized"
           },
           {
             "id": "1637188d16a",

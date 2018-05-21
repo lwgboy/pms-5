@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -44,9 +45,13 @@ public class BudgetSubject extends BudgetGrid {
 		setContext(context);
 		setConfig(context.getAssembly());
 		setBruiService(bruiService);
-		cbsItem = (CBSItem) context.getParentContext().getInput();
-		accountBudget = Services.get(CBSService.class).getSubjectBudget(cbsItem.get_id());
 		scope = (ICBSScope) context.getRootInput();
+		cbsItem = (CBSItem) context.getParentContext().getInput();
+		if(cbsItem == null) {
+			ObjectId cbs_id = scope.getCBS_id();
+			cbsItem =  Services.get(CBSService.class).get(cbs_id);
+		}
+		accountBudget = Services.get(CBSService.class).getSubjectBudget(cbsItem.get_id());
 
 		super.init();
 	}

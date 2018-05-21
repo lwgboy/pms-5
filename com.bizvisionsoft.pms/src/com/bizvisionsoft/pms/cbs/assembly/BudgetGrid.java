@@ -19,7 +19,6 @@ import com.bizvisionsoft.bruiengine.session.UserSession;
 
 public abstract class BudgetGrid extends GridPart {
 
-
 	@Override
 	protected GridTreeViewer createGridViewer(Composite parent) {
 		GridTreeViewer viewer = new GridTreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -58,7 +57,6 @@ public abstract class BudgetGrid extends GridPart {
 		c.setMoveable(false);
 		c.setResizeable(true);
 		createColumn(grid, c).getColumn().setFooterText("CBS×ÜÔ¤Ëã");
-		
 
 		c = new Column();
 		c.setName("scopename");
@@ -122,12 +120,12 @@ public abstract class BudgetGrid extends GridPart {
 					vcol.setLabelProvider(new ColumnLabelProvider() {
 						@Override
 						public String getText(Object element) {
-							return getBudgetYearSummaryText(element,ySumCol.getName());
+							return getBudgetYearSummaryText(element, ySumCol.getName());
 						}
 
 						@Override
 						public Color getForeground(Object element) {
-							return getNumberColor( element);
+							return getNumberColor(element);
 						}
 					});
 					vcol.getColumn().setFooterText(getBudgetYearSummaryFootText(ySumCol.getName()));
@@ -155,7 +153,7 @@ public abstract class BudgetGrid extends GridPart {
 			vcol.setLabelProvider(new ColumnLabelProvider() {
 				@Override
 				public String getText(Object element) {
-					return getBudgetText(element,monthCol.getName());
+					return getBudgetText(element, monthCol.getName());
 				}
 
 				@Override
@@ -182,7 +180,11 @@ public abstract class BudgetGrid extends GridPart {
 		return "";
 	}
 
-	protected abstract String getBudgetText(Object element, String name) ;
+	public void expandToLevel(Object elementOrTreePath, int level) {
+		viewer.expandToLevel(elementOrTreePath, level);
+	}
+
+	protected abstract String getBudgetText(Object element, String name);
 
 	protected abstract String getBudgetYearSummaryText(Object element, String name);
 
@@ -190,6 +192,6 @@ public abstract class BudgetGrid extends GridPart {
 
 	protected abstract Date[] getRange();
 
-	protected abstract Color getNumberColor(Object item) ;
+	protected abstract Color getNumberColor(Object item);
 
 }
