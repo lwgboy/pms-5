@@ -69,15 +69,11 @@ public class ResourcePlan {
 	@WriteValue("usedHumanRes")
 	public void setHumanResource(User res) {
 		usedHumanResId = Optional.ofNullable(res).map(h -> h.getUserId()).orElse(null);
-		id = usedHumanResId;
-		type = "hr";
 	}
 
 	@WriteValue("usedEquipRes")
 	public void setEquipResource(Equipment res) {
 		usedEquipResId = Optional.ofNullable(res).map(h -> h.getId()).orElse(null);
-		id = usedEquipResId;
-		type = "equipment";
 	}
 
 	@WriteValue("usedTypedRes")
@@ -88,8 +84,6 @@ public class ResourcePlan {
 			setEquipResource((Equipment) res);
 		} else if (res instanceof ResourceType) {
 			usedTypedResId = Optional.ofNullable((ResourceType) res).map(h -> h.getId()).orElse(null);
-			id = usedTypedResId;
-			type = "resourceType";
 		}
 
 	}
@@ -125,10 +119,6 @@ public class ResourcePlan {
 			}
 		}
 	}
-
-	@ReadValue
-	@WriteValue
-	private Double overtimeRate;
 
 	@ReadValue("planAmount")
 	private Double getPlanAmount() {
