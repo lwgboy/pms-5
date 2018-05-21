@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
-import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -78,7 +78,7 @@ public class RBSItem {
 	@ReadValue
 	private double probability;
 
-	@WriteValue
+	@WriteValue("probability")
 	private void setProbability(String _probability) {
 		probability = Util.str_double(_probability, "发生概率影响必须输入浮点数。");
 	}
@@ -105,7 +105,7 @@ public class RBSItem {
 		if (timeInf > 0) {
 			return "+" + timeInf;
 		} else if (timeInf < 0) {
-			return "-" + timeInf;
+			return "" + timeInf;
 		} else {
 			return "";
 		}
@@ -126,7 +126,7 @@ public class RBSItem {
 		if (costInf > 0) {
 			return "+" + costInf;
 		} else if (costInf < 0) {
-			return "-" + costInf;
+			return "" + costInf;
 		} else {
 			return "";
 		}
@@ -148,13 +148,6 @@ public class RBSItem {
 	private double infValue;
 
 	/**
-	 * 风险关键指数
-	 */
-	@ReadValue
-	@SetValue
-	private double rci;
-
-	/**
 	 * 预期发生时间
 	 */
 	@ReadValue
@@ -164,9 +157,21 @@ public class RBSItem {
 	/**
 	 * 临近性
 	 */
-	@ReadValue
-	@SetValue
-	private String urgency;
+	@ReadValue("urgency")
+	private String getUrgency() {
+		long l = (forecast.getTime() - Calendar.getInstance().getTimeInMillis()) / (24 * 60 * 60 * 1000);
+		if (l > 60) {
+			return "远期";
+		} else if (l > 30) {
+			return "中期";
+		} else if (l > 7) {
+			return "近期";
+		} else if (l > 0) {
+			return "临近";
+		} else {
+			return "";
+		}
+	}
 
 	/**
 	 * 可探测性级别
@@ -209,10 +214,19 @@ public class RBSItem {
 		this.project_id = project_id;
 		return this;
 	}
+	
+	public RBSItem setParent_id(ObjectId parent_id) {
+		this.parent_id = parent_id;
+		return this;
+	}
 
 	public RBSItem setIndex(int index) {
 		this.index = index;
 		return this;
+	}
+
+	public ObjectId get_id() {
+		return _id;
 	}
 
 }

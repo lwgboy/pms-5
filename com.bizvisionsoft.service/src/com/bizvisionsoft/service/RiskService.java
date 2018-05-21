@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
+import com.bizvisionsoft.service.model.RiskEffect;
 import com.mongodb.BasicDBObject;
 
 @Path("/risk")
@@ -68,5 +69,23 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public RBSItem insertRBSItem(RBSItem item);
+
+	@DELETE
+	@Path("/rbs/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteRBSItem(@PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/rbs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateRBSItem(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/effect/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public RiskEffect addRiskEffect(RiskEffect re);
 
 }

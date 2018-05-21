@@ -39,6 +39,12 @@ public class BasicServiceImpl {
 		long cnt = updateMany.getModifiedCount();
 		return cnt;
 	}
+	
+	@SuppressWarnings("unchecked")
+	protected <T> T insert(T obj) {
+		c((Class<T>)obj.getClass()).insertOne(obj);
+		return obj;
+	}
 
 	protected <T> T insert(T obj, Class<T> clazz) {
 		c(clazz).insertOne(obj);

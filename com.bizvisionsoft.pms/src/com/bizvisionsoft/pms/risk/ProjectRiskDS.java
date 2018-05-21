@@ -46,6 +46,7 @@ public class ProjectRiskDS {
 			filter = new BasicDBObject();
 			condition.append("filter", filter);
 		}
+		condition.append("sort", new BasicDBObject("rbsType.id",1).append("index", 1));
 		filter.append("project_id", project_id).append("parent_id", null);
 		return Services.get(RiskService.class).listRBSItem(condition);
 	}
@@ -62,6 +63,16 @@ public class ProjectRiskDS {
 	@DataSet(DataSet.INSERT)
 	public RBSItem insertRBSItem(@ServiceParam(ServiceParam.OBJECT) RBSItem item) {
 		return Services.get(RiskService.class).insertRBSItem(item);
+	}
+	
+	@DataSet(DataSet.DELETE)
+	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
+		return Services.get(RiskService.class).deleteRBSItem(_id);
+	}
+
+	@DataSet(DataSet.UPDATE)
+	private long update(BasicDBObject filterAndUpdate) {
+		return Services.get(RiskService.class).updateRBSItem(filterAndUpdate);
 	}
 
 }
