@@ -18757,6 +18757,7 @@
             "expanded": false,
             "columns": [],
             "markupEnabled": false,
+            "format": "yyyy-MM-dd",
             "sort": 0,
             "hide": false,
             "element": false,
@@ -18988,7 +18989,7 @@
                 "forceText": true,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               },
               {
@@ -18996,12 +18997,14 @@
                 "name": "开始工作",
                 "text": "开始",
                 "image": "/img/start_w.svg",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.action.StartWork",
                 "openContent": false,
                 "propagate": false,
                 "forceText": true,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               },
               {
@@ -19009,12 +19012,14 @@
                 "name": "完成工作",
                 "text": "完成",
                 "image": "/img/finish_w.svg",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.action.FinishWork",
                 "openContent": false,
                 "propagate": false,
                 "forceText": true,
                 "style": "normal",
                 "editorAssemblyEditable": false,
-                "objectBehavier": false,
+                "objectBehavier": true,
                 "type": "customized"
               },
               {
