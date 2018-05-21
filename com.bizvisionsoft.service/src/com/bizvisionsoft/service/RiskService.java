@@ -14,12 +14,13 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
 import com.mongodb.BasicDBObject;
 
 @Path("/risk")
 public interface RiskService {
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -49,5 +50,17 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBSÀà±ð/" + DataSet.UPDATE)
 	public long updateRBSItem(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/rbs/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<RBSItem> listRBSItem(BasicDBObject condition);
+
+	@POST
+	@Path("/rbs/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countRBSItem(BasicDBObject filter);
 
 }

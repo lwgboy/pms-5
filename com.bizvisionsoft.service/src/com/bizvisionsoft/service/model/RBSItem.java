@@ -1,14 +1,21 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.RiskService;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.datatools.Query;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("rbsItem")
 public class RBSItem {
@@ -80,21 +87,35 @@ public class RBSItem {
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer timeInf;
+	private int timeInf;
 
 	/**
 	 * 成本影响（万元）
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer costInf;
+	private int costInf;
 
 	/**
 	 * 质量影响（等级）
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer qtyInf;
+	private int qtyInf;
+
+	/**
+	 * 量值
+	 */
+	@ReadValue
+	@WriteValue
+	private double infValue;
+
+	/**
+	 * 风险关键指数
+	 */
+	@ReadValue
+	@SetValue
+	private double rci;
 
 	/**
 	 * 预期发生时间
@@ -104,11 +125,18 @@ public class RBSItem {
 	private Date forecast;
 
 	/**
+	 * 临近性
+	 */
+	@ReadValue
+	@SetValue
+	private int urgency;
+
+	/**
 	 * 可探测性级别
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer detectable;
+	private int detectable;
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
@@ -118,5 +146,17 @@ public class RBSItem {
 	@Label
 	public String toString() {
 		return name + " [" + id + "]";
+	}
+
+	@Structure({ "项目风险清单/list" })
+	private List<RBSItem> listSecondryRisks() {
+		return ServicesLoader.get(RiskService.class).listRBSItem(
+				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
+	}
+
+	@Structure({ "项目风险清单/count" })
+	private long countSecondryRisks() {
+		return ServicesLoader.get(RiskService.class)
+				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
 	}
 }
