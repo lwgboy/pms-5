@@ -62,7 +62,16 @@ public class WorkPackage {
 	@Override
 	@Label
 	public String toString() {
-		return name == null ? "基本工作包" : name;
+		String text = "";
+		if (matDesc != null) {
+			text += matDesc;
+		}
+
+		if (matId != null) {
+			text += "[" + matId + "]";
+		}
+
+		return name == null ? "基本工作包" : text + " " + name;
 	}
 
 	@ReadValue
@@ -132,6 +141,46 @@ public class WorkPackage {
 
 	@ReadValue
 	private Date updateTime;
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 检验使用的字段
+
+	@ReadValue
+	private Double qualifiedQty;
+
+	@ReadValue("qualifiedRate")
+	private Double getQualifiedRate() {
+		if (completeQty != null && completeQty != 0d) {
+			return (qualifiedQty != null ? qualifiedQty : 0) / completeQty * 100d;
+		}
+		return 0d;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 设计使用的字段
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String id;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String planStatus;
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String verNo;
+
+	@ReadValue
+	@WriteValue
+	private String completeStatus;
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

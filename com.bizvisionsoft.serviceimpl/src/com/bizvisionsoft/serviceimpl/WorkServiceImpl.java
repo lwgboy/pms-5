@@ -369,9 +369,34 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.lookup("workPackageProgress", "_id", "package_id", "progress"));
 		pipeline.add(Aggregates.addFields(
 				Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
-						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")))));
-
+						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")),
+						new Field<Bson>("qualifiedQty", new BasicDBObject("$max", "$progress.qualifiedQty")))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+		pipeline.add(
+				new BasicDBObject("$lookup",
+						new BasicDBObject("from", "workPackageProgress")
+								.append("let",
+										new BasicDBObject("pid", "$_id").append("pupdateTime", "$updateTime"))
+								.append("pipeline",
+										Arrays.asList(
+												new BasicDBObject(
+														"$match",
+														new BasicDBObject("$expr",
+																new BasicDBObject(
+																		"$and",
+																		Arrays.asList(
+																				new BasicDBObject("$eq", Arrays.asList(
+																						"$package_id", "$$pid")),
+																				new BasicDBObject("$eq",
+																						Arrays.asList("$updateTime",
+																								"$$pupdateTime")))))),
+												new BasicDBObject("$project",
+														new BasicDBObject("completeStatus", true))))
+								.append("as", "progress1")));
+		pipeline.add(Aggregates.unwind("$progress1"));
+		pipeline.add(Aggregates.addFields(new Field<String>("completeStatus", "$progress1.completeStatus")));
+		pipeline.add(Aggregates.project(new BasicDBObject("progress1", false)));
+
 	}
 
 	@Override
@@ -387,6 +412,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long deleteWorkPackage(ObjectId _id) {
 		return delete(_id, WorkPackage.class);
+	}
+
+	@Override
+	public long updateWorkPackage(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, WorkPackage.class);
 	}
 
 	public List<Result> distributeWorkPlan(ObjectId _id, String distributeBy) {

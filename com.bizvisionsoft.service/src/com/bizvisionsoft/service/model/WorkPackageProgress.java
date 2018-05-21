@@ -14,7 +14,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("workPackageProgress")
 public class WorkPackageProgress {
-	
 
 	@Persistence
 	public ObjectId _id;
@@ -36,13 +35,13 @@ public class WorkPackageProgress {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 采购使用的字段，不排除其他视图使用
+	// 采购使用的字段
 	@Persistence
 	@ReadValue
 	private Double completeQty;
 
 	@WriteValue("completeQty")
-	private void setPlanQty(String _completeQty) {
+	private void setCompleteQty(String _completeQty) {
 		try {
 			completeQty = Double.parseDouble(_completeQty);
 		} catch (Exception e) {
@@ -54,6 +53,64 @@ public class WorkPackageProgress {
 	@ReadValue
 	@WriteValue
 	private Date time;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 生产使用的字段
+	@Persistence
+	@ReadValue
+	private Double blsl;
+
+	@WriteValue("blsl")
+	private void setBLSL(String _blsl) {
+		try {
+			blsl = Double.parseDouble(_blsl);
+		} catch (Exception e) {
+			throw new RuntimeException("请输入合法的数字");
+		}
+	}
+	
+	@Persistence
+	@ReadValue
+	private Double jysl;
+
+	@WriteValue("jysl")
+	private void setJYSL(String _jysl) {
+		try {
+			jysl = Double.parseDouble(_jysl);
+		} catch (Exception e) {
+			throw new RuntimeException("请输入合法的数字");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 检验使用的字段
+	@Persistence
+	@ReadValue
+	private Double qualifiedQty;
+
+	@WriteValue("qualifiedQty")
+	private void setQualifiedQty(String _qualifiedQty) {
+		try {
+			qualifiedQty = Double.parseDouble(_qualifiedQty);
+		} catch (Exception e) {
+			throw new RuntimeException("请输入合法的数字");
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 设计使用的字段
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private String completeStatus;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

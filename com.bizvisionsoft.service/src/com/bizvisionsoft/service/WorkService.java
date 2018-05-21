@@ -205,6 +205,12 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public long deleteWorkPackage(@PathParam("_id") ObjectId _id);
 
+	@PUT
+	@Path("/package/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateWorkPackage(BasicDBObject filterAndUpdate);
+
 	@POST
 	@Path("/userid/{userid}/deptuserwork/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -247,12 +253,11 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public ResourcePlan addResource(ResourcePlan res);
 
-	
 	@POST
 	@Path("/_id/{_id}/resource/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ResourcePlan> listResource(@PathParam("_id")  ObjectId _id);
+	public List<ResourcePlan> listResource(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/packageprogress/")

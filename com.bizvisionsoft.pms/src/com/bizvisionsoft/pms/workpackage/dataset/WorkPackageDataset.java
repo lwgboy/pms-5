@@ -42,6 +42,11 @@ public class WorkPackageDataset {
 		return Services.get(WorkService.class).deleteWorkPackage(_id);
 	}
 
+	@DataSet(DataSet.UPDATE)
+	private long update(BasicDBObject filterAndUpdate) {
+		return Services.get(WorkService.class).updateWorkPackage(filterAndUpdate);
+	}
+
 	@DataSet(DataSet.LIST)
 	private List<WorkPackage> listBasic(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			ObjectId work_id) {
