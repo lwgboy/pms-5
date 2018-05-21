@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
+import com.bizvisionsoft.service.model.Result;
 import com.mongodb.BasicDBObject;
 
 @Path("/cbs")
@@ -103,7 +104,7 @@ public interface CBSService {
 	@Path("/_id/{_id}/calculation/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public CBSItem calculationBudget(@PathParam("_id") ObjectId _id);
+	public Result calculationBudget(@PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/_id/{_id}/addcbsbystage/{project_id}")

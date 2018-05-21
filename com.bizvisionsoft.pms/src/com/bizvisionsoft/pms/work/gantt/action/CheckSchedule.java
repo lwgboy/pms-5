@@ -28,7 +28,7 @@ public class CheckSchedule {
 				Boolean checkManageItem = true;
 				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
-				if (Result.CODE_SUCCESS == result.code) {
+				if (Result.CODE_WORK_SUCCESS == result.code) {
 					MessageDialog.openInformation(bruiService.getCurrentShell(), "检查结果", result.message);
 				} else {
 					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果", result.message);

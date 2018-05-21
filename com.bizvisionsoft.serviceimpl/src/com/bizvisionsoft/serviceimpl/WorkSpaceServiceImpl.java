@@ -287,7 +287,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("worklinks").insertMany(worklinks);
 		}
 
-		if (Result.CODE_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
+		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
 			return Result.checkoutSuccess("已成功提交。");
 		} else {
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
@@ -300,7 +300,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			return Result.checkoutError("撤销失败。", Result.CODE_ERROR);
 		}
 
-		if (Result.CODE_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
+		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
 			return Result.checkoutSuccess("已成功撤销。");
 		} else {
 			return Result.checkoutError("撤销失败。", Result.CODE_ERROR);
