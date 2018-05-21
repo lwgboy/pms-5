@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
