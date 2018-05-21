@@ -24,7 +24,7 @@ public class AddCBSItemByStage {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		Object rootInput = context.getRootInput();
-		if(rootInput instanceof Project) {
+		if (rootInput instanceof Project) {
 			Project project = (Project) rootInput;
 			List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
 					project.get_id());
@@ -32,6 +32,7 @@ public class AddCBSItemByStage {
 			CBSItem cbsRoot = (CBSItem) budgetCBS.getViewerInput().get(0);
 			cbsRoot.addChild(cbsItems);
 			budgetCBS.refresh(cbsRoot);
+			budgetCBS.expandToLevel(cbsRoot, -1);
 		}
 	}
 }

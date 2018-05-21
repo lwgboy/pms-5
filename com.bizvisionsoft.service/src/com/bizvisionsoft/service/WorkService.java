@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
+import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
@@ -252,5 +253,35 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourcePlan> listResource(@PathParam("_id")  ObjectId _id);
+
+	@POST
+	@Path("/packageprogress/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkPackageProgress insertWorkPackageProgress(WorkPackageProgress wpp);
+
+	@DELETE
+	@Path("/packageprogress/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteWorkPackageProgress(ObjectId _id);
+
+	@POST
+	@Path("/packageprogress/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition);
+
+	@POST
+	@Path("/packageprogress/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkPackageProgress(BasicDBObject filter);
+
+	@PUT
+	@Path("/packageprogress/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateWorkPackageProgress(BasicDBObject filterAndUpdate);
 
 }

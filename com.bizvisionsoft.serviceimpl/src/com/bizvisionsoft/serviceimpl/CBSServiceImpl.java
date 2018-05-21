@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
@@ -238,7 +240,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public CBSItem calculationBudget(ObjectId _id) {
+	public Result calculationBudget(ObjectId _id) {
+		Double totalBudget = 0.0;
 		List<CBSSubject> subjectBudget = getSubjectBudget(_id);
 		Map<String, Double> cbsPeriodMap = new HashMap<String, Double>();
 		for (CBSSubject cbsSubject : subjectBudget) {
@@ -246,8 +249,18 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			Double budget = cbsPeriodMap.get(id);
 			cbsPeriodMap.put(id,
 					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0) + (budget != null ? budget : 0));
+			totalBudget += (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0);
 		}
-		c(CBSPeriod.class).deleteMany(new BasicDBObject("cbsItem_id", _id));
+
+		Document doc = c("cbsPeriod").aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("cbsItem_id", _id)),
+				Aggregates.group(new BasicDBObject("_id", "$cbsItem_id").append("totalBudget",
+						new BasicDBObject("$sum", "$budget")))))
+				.first();
+		if (doc != null && totalBudget != doc.getDouble("totalBudget")) {
+			return Result.cbsError("分配科目预算与预算总额不一致", Result.CODE_CBS_DEFF_BUDGET);
+		}
+
+		c("cbsPeriod").deleteMany(new BasicDBObject("cbsItem_id", _id));
 
 		List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
 		for (String id : cbsPeriodMap.keySet()) {
@@ -259,7 +272,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		}
 		c(CBSPeriod.class).insertMany(cbsPeriods);
 
-		return get(_id);
+		return Result.cbsSuccess("提交预算成功").setResultDate(get(_id));
 	}
 
 	@Override
@@ -281,7 +294,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			}
 			c(CBSItem.class).insertMany(cbsItemList);
 		}
-		return query(new BasicDBObject("_id",new BasicDBObject("$in",cbsItemIdList))).into(new ArrayList<CBSItem>());
+		return query(new BasicDBObject("_id", new BasicDBObject("$in", cbsItemIdList))).into(new ArrayList<CBSItem>());
 	}
 
 }

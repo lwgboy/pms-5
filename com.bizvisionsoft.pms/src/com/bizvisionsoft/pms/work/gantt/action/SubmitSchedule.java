@@ -29,10 +29,10 @@ public class SubmitSchedule {
 				Boolean checkManageItem = true;
 				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
-				if (Result.CODE_SUCCESS == result.code) {
+				if (Result.CODE_WORK_SUCCESS == result.code) {
 					result = Services.get(WorkSpaceService.class).checkin(workspace);
 
-					if (Result.CODE_SUCCESS == result.code) {
+					if (Result.CODE_WORK_SUCCESS == result.code) {
 						MessageDialog.openFinished(brui.getCurrentShell(), "提交计划", result.message);
 						brui.switchContent("项目甘特图", null);
 					}

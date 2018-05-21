@@ -26,7 +26,7 @@ public class CancelSchedule {
 			if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "撤销编辑", "请确认撤销当前编辑。")) {
 				Workspace workspace = rootInput.getWorkspace();
 				Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
-				if (Result.CODE_SUCCESS == result.code) {
+				if (Result.CODE_WORK_SUCCESS == result.code) {
 					MessageDialog.openFinished(bruiService.getCurrentShell(), "撤销编辑", "当前计划的修改内容已成功撤销。");
 					bruiService.switchContent("项目甘特图", null);
 				}

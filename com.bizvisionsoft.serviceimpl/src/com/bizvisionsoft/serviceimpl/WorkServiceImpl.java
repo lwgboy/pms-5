@@ -18,6 +18,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
+import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -264,7 +265,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", null).append("distributed", true),
+						.append("summary", false).append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true)),
 				filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
 	}
 
@@ -278,6 +280,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		filter.put("distributed", true);
 		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
 				new BasicDBObject("assignerId", userid) });
+		filter.put("stage", new BasicDBObject("$ne", true));
 		return count(filter, Work.class);
 	}
 
@@ -289,7 +292,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return queryWork(skip, limit, new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null)),
+						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
+						.append("stage", new BasicDBObject("$ne", true)),
 				filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
 	}
 
@@ -305,6 +309,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		filter.put("distributed", true);
 		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
 				new BasicDBObject("assignerId", userid) });
+		filter.put("stage", new BasicDBObject("$ne", true));
 
 		return count(filter, Work.class);
 	}
@@ -354,8 +359,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
+		appendProgress(pipeline);
+
 		AggregateIterable<WorkPackage> iterable = c(WorkPackage.class).aggregate(pipeline);
 		return iterable.into(new ArrayList<WorkPackage>());
+	}
+
+	private void appendProgress(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("workPackageProgress", "_id", "package_id", "progress"));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
+						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")))));
+
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
 	@Override
@@ -651,5 +667,49 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$sort", new Document("type", 1).append("id", 1)));
 
 		return c(ResourcePlan.class).aggregate(pipeline).into(new ArrayList<ResourcePlan>());
+	}
+
+	@Override
+	public WorkPackageProgress insertWorkPackageProgress(WorkPackageProgress wpp) {
+		return insert(wpp.setUpdateTime(new Date()), WorkPackageProgress.class);
+	}
+
+	@Override
+	public long deleteWorkPackageProgress(ObjectId _id) {
+		return delete(_id, WorkPackageProgress.class);
+	}
+
+	@Override
+	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		AggregateIterable<WorkPackageProgress> iterable = c(WorkPackageProgress.class).aggregate(pipeline);
+		return iterable.into(new ArrayList<WorkPackageProgress>());
+	}
+
+	@Override
+	public long countWorkPackageProgress(BasicDBObject filter) {
+		return count(filter, WorkPackageProgress.class);
+	}
+
+	@Override
+	public long updateWorkPackageProgress(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, WorkPackageProgress.class);
 	}
 }

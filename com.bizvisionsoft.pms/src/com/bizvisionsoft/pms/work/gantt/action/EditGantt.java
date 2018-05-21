@@ -13,6 +13,7 @@ import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class EditGantt {
 
@@ -33,16 +34,17 @@ public class EditGantt {
 					// 开发检出服务，名称：checkoutSchedulePlan，参数要考虑如下：
 					Result result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 							false);
-					if (Result.CODE_SUCCESS == result.code) {
+					if (Result.CODE_WORK_SUCCESS == result.code) {
 						brui.switchContent("项目甘特图（编辑）", workspace);
 					} else if (Result.CODE_HASCHECKOUTSUB == result.code) {
+						BasicDBObject dbo = (BasicDBObject) result.data;
 						if (MessageDialog.openConfirm(brui.getCurrentShell(), "提示",
-								"本计划中的  <b style='color: red;'>" + result.data.getString("name")
-										+ "</b>  工作正在由   <b style='color: red;'>" + result.data.getString("username")
+								"本计划中的  <b style='color: red;'>" + dbo.getString("name")
+										+ "</b>  工作正在由   <b style='color: red;'>" + dbo.getString("username")
 										+ "</b>  进行计划编辑。" + "继续需编辑本计划，将撤销该用户未提交的计划。")) {
 							result = Services.get(WorkSpaceService.class).checkout(workspace, brui.getCurrentUserId(),
 									true);
-							if (Result.CODE_SUCCESS == result.code) {
+							if (Result.CODE_WORK_SUCCESS == result.code) {
 								brui.switchContent("项目甘特图（编辑）", workspace);
 							}
 						}
