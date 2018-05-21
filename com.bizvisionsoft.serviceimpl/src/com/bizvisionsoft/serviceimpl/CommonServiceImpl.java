@@ -16,7 +16,6 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
-import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -308,26 +307,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long updateTrackView(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, TrackView.class);
-	}
-
-	@Override
-	public List<RBSItem> getRBSItem() {
-		return c(RBSItem.class).find().into(new ArrayList<RBSItem>());
-	}
-
-	@Override
-	public RBSItem insertRBSItem(RBSItem item) {
-		return insert(item, RBSItem.class);
-	}
-
-	@Override
-	public long deleteRBSItem(ObjectId _id) {
-		return delete(_id, RBSItem.class);
-	}
-
-	@Override
-	public long updateRBSItem(BasicDBObject fu) {
-		return update(fu, RBSItem.class);
 	}
 
 }
