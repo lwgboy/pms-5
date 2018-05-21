@@ -9,9 +9,9 @@ public class Util {
 
 	public static final String DATE_FORMAT_JS_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
 
-	public static final String DATE_FORMAT_DATE= "yyyy-MM-dd";
-	
-	public static final String DATE_FORMAT_TIME= "HH:mm";
+	public static final String DATE_FORMAT_DATE = "yyyy-MM-dd";
+
+	public static final String DATE_FORMAT_TIME = "HH:mm";
 
 	public static Date str_date(String str) {
 		if (str == null)
@@ -24,17 +24,39 @@ public class Util {
 			return null;
 		}
 	}
-	
+
 	public static boolean equals(Object v1, Object v2) {
 		return v1 != null && v1.equals(v2) || v1 == null && v2 == null;
 	}
-	
+
 	public static boolean isEmptyOrNull(String s) {
 		return s == null || s.isEmpty();
 	}
 
 	public static boolean isEmptyOrNull(List<?> s) {
 		return s == null || s.isEmpty();
+	}
+
+	public static int str_int(String text, String message) {
+		if (isEmptyOrNull(text)) {
+			return 0;
+		}
+		try {
+			return Integer.parseInt(text.trim());
+		} catch (Exception e) {
+			throw new RuntimeException(message);
+		}
+	}
+
+	public static double str_double(String text, String message) {
+		if (isEmptyOrNull(text)) {
+			return 0d;
+		}
+		try {
+			return Double.parseDouble(text.trim());
+		} catch (Exception e) {
+			throw new RuntimeException(message);
+		}
 	}
 
 }

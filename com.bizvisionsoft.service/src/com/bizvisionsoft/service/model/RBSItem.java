@@ -1,14 +1,22 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.RiskService;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.tools.Util;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("rbsItem")
 public class RBSItem {
@@ -29,9 +37,12 @@ public class RBSItem {
 	private ObjectId parent_id;
 
 	/** 编号 Y **/
-	@ReadValue
-	@WriteValue
-	private String id;
+	private int index;
+
+	@ReadValue("id")
+	private String getId() {
+		return getRbsType().getId() + "." + String.format("%03d", index);
+	}
 
 	/**
 	 * 风险名称
@@ -65,8 +76,12 @@ public class RBSItem {
 	 * 发生概率
 	 */
 	@ReadValue
-	@WriteValue
 	private double probability;
+
+	@WriteValue
+	private void setProbability(String _probability) {
+		probability = Util.str_double(_probability, "发生概率影响必须输入浮点数。");
+	}
 
 	/**
 	 * 后果描述
@@ -78,23 +93,66 @@ public class RBSItem {
 	/**
 	 * 工期影响（天）
 	 */
-	@ReadValue
-	@WriteValue
-	private Integer timeInf;
+	private int timeInf;
+
+	@WriteValue("timeInf")
+	private void setTimeInf(String _timeInf) {
+		timeInf = Util.str_int(_timeInf, "工期影响必须输入整数。");
+	}
+
+	@ReadValue("timeInf")
+	private String getTimeInf() {
+		if (timeInf > 0) {
+			return "+" + timeInf;
+		} else if (timeInf < 0) {
+			return "-" + timeInf;
+		} else {
+			return "";
+		}
+	}
 
 	/**
 	 * 成本影响（万元）
 	 */
-	@ReadValue
-	@WriteValue
-	private Integer costInf;
+	private double costInf;
+
+	@WriteValue("costInf")
+	private void setCostInf(String _timeInf) {
+		costInf = Util.str_double(_timeInf, "成本影响必须输入数值。");
+	}
+
+	@ReadValue("costInf")
+	private String getCostInf() {
+		if (costInf > 0) {
+			return "+" + costInf;
+		} else if (costInf < 0) {
+			return "-" + costInf;
+		} else {
+			return "";
+		}
+	}
 
 	/**
 	 * 质量影响（等级）
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer qtyInf;
+	private String qtyInf;
+
+	/**
+	 * 量值
+	 */
+	@ReadValue
+	@WriteValue
+	@Exclude
+	private double infValue;
+
+	/**
+	 * 风险关键指数
+	 */
+	@ReadValue
+	@SetValue
+	private double rci;
 
 	/**
 	 * 预期发生时间
@@ -104,11 +162,18 @@ public class RBSItem {
 	private Date forecast;
 
 	/**
+	 * 临近性
+	 */
+	@ReadValue
+	@SetValue
+	private String urgency;
+
+	/**
 	 * 可探测性级别
 	 */
 	@ReadValue
 	@WriteValue
-	private Integer detectable;
+	private String detectable;
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
@@ -117,6 +182,37 @@ public class RBSItem {
 	@Override
 	@Label
 	public String toString() {
-		return name + " [" + id + "]";
+		return name + " [" + getId() + "]";
 	}
+
+	@Structure({ "项目风险清单/list" })
+	private List<RBSItem> listSecondryRisks() {
+		return ServicesLoader.get(RiskService.class).listRBSItem(
+				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
+	}
+
+	@Structure({ "项目风险清单/count" })
+	private long countSecondryRisks() {
+		return ServicesLoader.get(RiskService.class)
+				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
+	}
+
+	public RBSType getRbsType() {
+		return rbsType;
+	}
+
+	public ObjectId getProject_id() {
+		return project_id;
+	}
+
+	public RBSItem setProject_id(ObjectId project_id) {
+		this.project_id = project_id;
+		return this;
+	}
+
+	public RBSItem setIndex(int index) {
+		this.index = index;
+		return this;
+	}
+
 }
