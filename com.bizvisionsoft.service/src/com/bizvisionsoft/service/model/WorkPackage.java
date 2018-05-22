@@ -14,6 +14,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("workPackage")
 public class WorkPackage {
@@ -76,7 +77,6 @@ public class WorkPackage {
 
 	@ReadValue
 	@WriteValue
-	@Persistence
 	private String chargerId;
 
 	@SetValue
@@ -120,23 +120,19 @@ public class WorkPackage {
 	private String unit;
 
 	@ReadValue
-	private Double planQty;
+	private double planQty;
 
 	@WriteValue("planQty")
 	private void setPlanQty(String _planQty) {
-		try {
-			planQty = Double.parseDouble(_planQty);
-		} catch (Exception e) {
-			throw new RuntimeException("请输入合法的数字");
-		}
+		planQty = Util.str_double(_planQty, "计划数量要求为数值。");
 	}
 
 	@ReadValue
-	private Double completeQty;
+	private double completeQty;
 
-	@ReadValue("residualQty")
-	private Double getResidualQty() {
-		return (planQty != null ? planQty : 0) - (completeQty != null ? completeQty : 0);
+	@ReadValue("requiredQty")
+	private double getRequiredQty() {
+		return planQty - completeQty;
 	}
 
 	@ReadValue
@@ -147,14 +143,14 @@ public class WorkPackage {
 	// 检验使用的字段
 
 	@ReadValue
-	private Double qualifiedQty;
+	private double qualifiedQty;
 
 	@ReadValue("qualifiedRate")
 	private Double getQualifiedRate() {
-		if (completeQty != null && completeQty != 0d) {
-			return (qualifiedQty != null ? qualifiedQty : 0) / completeQty * 100d;
+		if (completeQty != 0d) {
+			return qualifiedQty / completeQty * 100d;
 		}
-		return 0d;
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,23 +159,23 @@ public class WorkPackage {
 	// 设计使用的字段
 	@ReadValue
 	@WriteValue
-	@Persistence
 	private String id;
 
 	@ReadValue
 	@WriteValue
-	@Persistence
 	private String planStatus;
-	
+
 	@ReadValue
 	@WriteValue
-	@Persistence
 	private String verNo;
 
 	@ReadValue
 	@WriteValue
 	private String completeStatus;
 
+	@ReadValue
+	@WriteValue
+	private String documentType;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

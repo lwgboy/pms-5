@@ -431,7 +431,20 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private Float progress;
+	private double progress;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工期完成率 百分比
+	@ReadValue("dar")
+	private Double getDAR() {
+		if (planDuration != 0) {
+			return 1d * actualDuration / planDuration;
+		}
+		return null;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,5 +810,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private boolean behaviourFinish() {
 		return actualStart != null;
 	}
+
+	@Behavior("打开工作包")
+	private boolean behaviourOpenWorkPackage() {
+		return true;
+	}
+
+	@ReadValue
+	@SetValue
+	public TrackView scheduleMonitoring;
 
 }
