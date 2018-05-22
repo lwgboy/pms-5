@@ -22,7 +22,7 @@ public class CreateSubRBSItemACT {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(c -> {
 			Project project = (Project) context.getRootInput();
-			Editor.open("RBSItem±à¼­Æ÷", context,
+			Editor.open("·çÏÕÏî±à¼­Æ÷", context,
 					new RBSItem().setProject_id(project.get_id()).setParent_id(((RBSItem) c).get_id()), (r, o) -> {
 						GridPart grid = (GridPart) context.getContent();
 						grid.doCreateSubItem(c, o);

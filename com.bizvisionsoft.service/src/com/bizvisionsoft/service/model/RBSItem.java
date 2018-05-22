@@ -2,13 +2,16 @@ package com.bizvisionsoft.service.model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
+import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -160,17 +163,7 @@ public class RBSItem {
 	@ReadValue("urgency")
 	private String getUrgency() {
 		long l = (forecast.getTime() - Calendar.getInstance().getTimeInMillis()) / (24 * 60 * 60 * 1000);
-		if (l > 60) {
-			return "远期";
-		} else if (l > 30) {
-			return "中期";
-		} else if (l > 7) {
-			return "近期";
-		} else if (l > 0) {
-			return "临近";
-		} else {
-			return "";
-		}
+		return ServicesLoader.get(RiskService.class).getUrgencyText(l);
 	}
 
 	/**
@@ -179,6 +172,14 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String detectable;
+
+	/**
+	 * 风险序数 rci x 概率
+	 */
+	@ReadValue("rci")
+	private double getRCI() {
+		return infValue * probability;
+	}
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
@@ -202,6 +203,21 @@ public class RBSItem {
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
 	}
 
+	@ReadOptions("qtyInf")
+	private Map<String, Object> getQuanlityInfIndOption() {
+		Map<String, Object> res = new LinkedHashMap<String, Object>();
+		ServicesLoader.get(RiskService.class).listRiskQuanlityInfInd().forEach(qii -> res.put(qii.text, qii.value));
+		return res;
+	}
+	
+	@ReadOptions("detectable")
+	private Map<String, Object> getDetectableIndOption() {
+		Map<String, Object> res = new LinkedHashMap<String, Object>();
+		ServicesLoader.get(RiskService.class).listRiskDetectionInd().forEach(qii -> res.put(qii.text, qii.value));
+		return res;
+	}
+
+
 	public RBSType getRbsType() {
 		return rbsType;
 	}
@@ -214,7 +230,7 @@ public class RBSItem {
 		this.project_id = project_id;
 		return this;
 	}
-	
+
 	public RBSItem setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
