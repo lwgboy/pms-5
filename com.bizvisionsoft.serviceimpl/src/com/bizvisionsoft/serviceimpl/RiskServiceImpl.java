@@ -9,16 +9,19 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RiskService;
+import com.bizvisionsoft.service.model.DetectionInd;
+import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.result.DeleteResult;
 
 public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
-	public List<RBSType> getRBSType() {
+	public List<RBSType> listRBSType() {
 		return c(RBSType.class).find().into(new ArrayList<RBSType>());
 	}
 
@@ -78,6 +81,79 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public RiskEffect addRiskEffect(RiskEffect re) {
 		return insert(re);
+	}
+
+	@Override
+	public List<RiskUrgencyInd> listRiskUrgencyInd() {
+		return c(RiskUrgencyInd.class).find().into(new ArrayList<RiskUrgencyInd>());
+	}
+
+	@Override
+	public RiskUrgencyInd insertRiskUrgencyInd(RiskUrgencyInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteRiskUrgencyInd(ObjectId _id) {
+		return delete(_id, RiskUrgencyInd.class);
+	}
+
+	@Override
+	public long updateRiskUrgencyInd(BasicDBObject fu) {
+		return update(fu, RiskUrgencyInd.class);
+	}
+
+	@Override
+	public String getUrgencyText(long days) {
+		String text = c("riskUrInd").distinct("text",
+				new BasicDBObject("min", new BasicDBObject("$lt", days)).append("max", new BasicDBObject("$gte", days)),
+				String.class).first();
+		if (text != null) {
+			return text;
+		} else {
+			return "";
+		}
+	}
+
+	@Override
+	public List<QuanlityInfInd> listRiskQuanlityInfInd() {
+		return c(QuanlityInfInd.class).find().sort(new BasicDBObject("_id",1)).into(new ArrayList<QuanlityInfInd>());
+	}
+
+	@Override
+	public QuanlityInfInd insertRiskQuanlityInfInd(QuanlityInfInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteRiskQuanlityInfInd(ObjectId _id) {
+		return delete(_id, QuanlityInfInd.class);
+	}
+
+	@Override
+	public long updateRiskQuanlityInfInd(BasicDBObject fu) {
+		return update(fu, QuanlityInfInd.class);
+
+	}
+
+	@Override
+	public List<DetectionInd> listRiskDetectionInd() {
+		return c(DetectionInd.class).find().sort(new BasicDBObject("_id",1)).into(new ArrayList<DetectionInd>());
+	}
+
+	@Override
+	public DetectionInd insertRiskDetectionInd(DetectionInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteRiskDetectionInd(ObjectId _id) {
+		return delete(_id, DetectionInd.class);
+	}
+
+	@Override
+	public long updateRiskDetectionInd(BasicDBObject fu) {
+		return update(fu, DetectionInd.class);
 	}
 
 }
