@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.work.assembly;
 
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -15,7 +14,6 @@ import org.eclipse.swt.widgets.TabItem;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
-import com.bizvisionsoft.bruiengine.BruiActionEngine;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -51,10 +49,10 @@ public class WorkPackagePlan {
 		closeAction.setImage("/img/close.svg");
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
-		String text = "工作包: "+work;
-//		if (packageSettings != null && packageSettings.size() == 1) {
-//			text +=  "-"+packageSettings.get(0).getName();
-//		}
+		String text = "工作包: " + work;
+		// if (packageSettings != null && packageSettings.size() == 1) {
+		// text += "-"+packageSettings.get(0).getName();
+		// }
 
 		bar.setText(text);
 		bar.setActions(context.getAssembly().getActions());
@@ -79,14 +77,7 @@ public class WorkPackagePlan {
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			} else {
-				UserSession.bruiToolkit().runAction(action, brui, context);
-
-				try {
-					BruiActionEngine.create(action, brui).invokeExecute(e, currentContext);
-				} catch (Exception e2) {
-					e2.printStackTrace();
-					MessageDialog.openError(brui.getCurrentShell(), "系统错误", e2.getMessage());
-				}
+				UserSession.bruiToolkit().runAction(action,e, brui, currentContext);
 			}
 		});
 

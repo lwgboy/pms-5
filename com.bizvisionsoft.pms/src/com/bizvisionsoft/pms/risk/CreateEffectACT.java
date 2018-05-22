@@ -22,16 +22,16 @@ public class CreateEffectACT {
 
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+			@MethodParam(Execute.PARAM_ACTION) Action action, @MethodParam(Execute.PARAM_EVENT) Event event) {
 		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id());
 		context.selected(c -> {
 			re.setRBSItem_id(((RBSItem) c).get_id());
 			boolean positive = false;
 			String title = "";
-			if ("添加正面影响的工作".equals(((Action) event.data).getName())) {
+			if ("添加正面影响的工作".equals(action.getName())) {
 				positive = true;
 				title = "正面影响";
-			} else if ("添加负面影响的工作".equals(((Action) event.data).getName())) {
+			} else if ("添加负面影响的工作".equals(action.getName())) {
 				positive = false;
 				title = "负面影响";
 			}

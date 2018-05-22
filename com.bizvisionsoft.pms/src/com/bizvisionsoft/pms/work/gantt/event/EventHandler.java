@@ -60,7 +60,7 @@ public class EventHandler {
 		// É¾³ýLink action
 		Action deleteAction = new Action();
 		deleteAction.setName("É¾³ýlink");
-		deleteAction.setText("±à¼­");
+		deleteAction.setText("É¾³ý");
 		deleteAction.setImage("/img/minus_w.svg");
 		deleteAction.setBundleId("com.bizvisionsoft.pms");
 		deleteAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.DeleteLink");
