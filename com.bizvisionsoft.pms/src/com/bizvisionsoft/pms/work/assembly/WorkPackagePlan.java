@@ -79,6 +79,8 @@ public class WorkPackagePlan {
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			} else {
+				UserSession.bruiToolkit().runAction(action, brui, context);
+
 				try {
 					BruiActionEngine.create(action, brui).invokeExecute(e, currentContext);
 				} catch (Exception e2) {

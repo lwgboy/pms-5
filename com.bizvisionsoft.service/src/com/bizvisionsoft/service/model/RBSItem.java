@@ -179,6 +179,14 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String detectable;
+	
+	/**
+	 * ·çÏÕĞòÊı rci x ¸ÅÂÊ 
+	 */
+	@ReadValue("rci")
+	private double getRCI() {
+		return infValue * probability;
+	}
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
