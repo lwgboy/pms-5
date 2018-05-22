@@ -1,7 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
@@ -33,6 +31,12 @@ public class WorkPackageProgress {
 		this.updateTime = updateTime;
 		return this;
 	}
+
+	@Persistence
+	@ReadValue
+	@WriteValue
+	@Label
+	private String description;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 采购使用的字段
@@ -114,13 +118,4 @@ public class WorkPackageProgress {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Label
-	public String getText() {
-		if (time != null) {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			return df.format(time);
-		}
-
-		return "";
-	}
 }
