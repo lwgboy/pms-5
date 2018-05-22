@@ -26,6 +26,7 @@ import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
@@ -393,7 +394,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 												new BasicDBObject("$project",
 														new BasicDBObject("completeStatus", true))))
 								.append("as", "progress1")));
-		pipeline.add(Aggregates.unwind("$progress1"));
+		pipeline.add(Aggregates.unwind("$progress1", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 		pipeline.add(Aggregates.addFields(new Field<String>("completeStatus", "$progress1.completeStatus")));
 		pipeline.add(Aggregates.project(new BasicDBObject("progress1", false)));
 
