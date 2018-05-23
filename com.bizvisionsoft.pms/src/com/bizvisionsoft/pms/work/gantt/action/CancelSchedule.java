@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.work.gantt.action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -27,7 +28,7 @@ public class CancelSchedule {
 				Workspace workspace = rootInput.getWorkspace();
 				Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
 				if (Result.CODE_WORK_SUCCESS == result.code) {
-					MessageDialog.openFinished(bruiService.getCurrentShell(), "撤销编辑", "当前计划的修改内容已成功撤销。");
+					Layer.message("当前计划的修改内容已成功撤销。");
 					bruiService.switchContent("项目甘特图", null);
 				}
 			}

@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -35,7 +36,7 @@ public class StartWork {
 			}
 			List<Result> result = Services.get(WorkService.class).startWork(work.get_id());
 			if (result.isEmpty()) {
-				MessageDialog.openInformation(shell, "启动工作", "工作启动完成。");
+				Layer.message("工作已启动。");
 				Work t = Services.get(WorkService.class).getWork(work.get_id());
 				GridPart grid = (GridPart) context.getContent();
 				grid.replaceItem(elem, t);

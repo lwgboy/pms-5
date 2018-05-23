@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -35,7 +36,7 @@ public class FinishWork {
 			}
 			List<Result> result = Services.get(WorkService.class).finishWork(work.get_id());
 			if (result.isEmpty()) {
-				MessageDialog.openInformation(shell, "完成工作", "工作已完成。");
+				Layer.message("工作已完成。");
 				GridPart grid = (GridPart) context.getContent();
 				grid.remove(elem);
 			}
