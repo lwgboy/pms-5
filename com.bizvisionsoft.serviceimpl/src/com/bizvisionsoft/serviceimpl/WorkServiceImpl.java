@@ -15,6 +15,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -66,10 +67,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	private void appendProject(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		List<Field<?>> fields = new ArrayList<Field<?>>();
-		fields.add(new Field<String>("projectName", "$project.name"));
-		fields.add(new Field<String>("projectNumber", "$project.id"));
-		pipeline.add(Aggregates.addFields(fields));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
@@ -712,26 +711,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		Integer skip = (Integer) condition.get("skip");
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		Integer limit = (Integer) condition.get("limit");
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		AggregateIterable<WorkPackageProgress> iterable = c(WorkPackageProgress.class).aggregate(pipeline);
-		return iterable.into(new ArrayList<WorkPackageProgress>());
+		return createDataSet(condition, WorkPackageProgress.class);
 	}
 
 	@Override
@@ -742,5 +722,106 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long updateWorkPackageProgress(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, WorkPackageProgress.class);
+	}
+
+	@Override
+	public List<TrackView> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("project_id", project_id)));
+		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
+		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
+		pipeline.add(new Document().append("$addFields",
+				new Document().append("scheduleMonitoring", "$workPackageSetting")));
+		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
+		appendProject(pipeline);
+		pipeline.add(new Document().append("$group", new Document().append("_id", "$scheduleMonitoring")
+				.append("children", new Document().append("$push", "$$ROOT"))));
+		pipeline.add(new Document().append("$replaceRoot", new Document().append("newRoot",
+				new Document().append("$mergeObjects", Arrays.asList("$$ROOT", "$_id")))));
+
+		return c("work", TrackView.class).aggregate(pipeline).into(new ArrayList<TrackView>());
+	}
+
+	@Override
+	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
+		return c("work")
+				.count(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
+	}
+
+	@Override
+	public List<TrackView> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
+		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", items))));
+		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
+		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
+		pipeline.add(new Document().append("$addFields",
+				new Document().append("scheduleMonitoring", "$workPackageSetting")));
+		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
+		appendProject(pipeline);
+		pipeline.add(new Document().append("$group", new Document().append("_id", "$scheduleMonitoring")
+				.append("children", new Document().append("$push", "$$ROOT"))));
+		pipeline.add(new Document().append("$replaceRoot", new Document().append("newRoot",
+				new Document().append("$mergeObjects", Arrays.asList("$$ROOT", "$_id")))));
+
+		return c("work", TrackView.class).aggregate(pipeline).into(new ArrayList<TrackView>());
+	}
+
+	@Override
+	public long countWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
+		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
+		return c("work").count(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id",
+				new BasicDBObject("$in", items)));
+	}
+
+	@Override
+	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
+		List<ObjectId> items = getProject_id(userid);
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("project_id", new Document("$in", items)).append("summary", false)
+				.append("actualFinish", null).append("distributed", true)
+				.append("stage", new BasicDBObject("$ne", true))));
+		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
+		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
+		pipeline.add(new Document().append("$addFields",
+				new Document().append("scheduleMonitoring", "$workPackageSetting")));
+		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
+		appendProject(pipeline);
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new Document("planFinish", 1)));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+	}
+
+	private List<ObjectId> getProject_id(String userid) {
+		// TODO 获取具有访问权限的项目，暂时使用的是作为项目经理的项目
+		return c("project").distinct("_id", new BasicDBObject("pmId", userid), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+	}
+
+	@Override
+	public long countWorkPackageForSchedule(BasicDBObject filter, String userid, String catagory) {
+		List<ObjectId> items = getProject_id(userid);
+		if (filter == null)
+			filter = new BasicDBObject();
+		return c("work").count(filter.append("workPackageSetting.catagory", catagory).append("project_id",
+				new BasicDBObject("$in", items)));
 	}
 }

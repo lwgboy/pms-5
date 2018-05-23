@@ -17,6 +17,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -187,7 +188,7 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
 
-	@POST
+	@GET
 	@Path("/package/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -277,7 +278,7 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition);
 
-	@POST
+	@GET
 	@Path("/packageprogress/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -288,5 +289,46 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkPackageProgress(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/track/project/{project_id}/{catagory}/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<TrackView> listWorkPackageForScheduleInProject(@PathParam("project_id") ObjectId project_id,
+			@PathParam("catagory") String catagory);
+
+	@GET
+	@Path("/track/project/{project_id}/{catagory}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkPackageForScheduleInProject(@PathParam("project_id") ObjectId project_id,
+			@PathParam("catagory") String catagory);
+
+	@POST
+	@Path("/track/stage/{stage_id}/{catagory}/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<TrackView> listWorkPackageForScheduleInStage(@PathParam("stage_id") ObjectId stage_id,
+			@PathParam("catagory") String catagory);
+
+	@GET
+	@Path("/track/stage/{stage_id}/{catagory}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkPackageForScheduleInStage(@PathParam("stage_id") ObjectId stage_id,
+			@PathParam("catagory") String catagory);
+
+	@POST
+	@Path("/track/{userid}/{catagory}/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> listWorkPackageForSchedule(BasicDBObject condition,@PathParam("userid") String userid,
+			@PathParam("catagory") String catagory);
+
+	@GET
+	@Path("/track/{userid}/{catagory}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkPackageForSchedule(BasicDBObject filter,@PathParam("userid") String userid, @PathParam("catagory") String catagory);
 
 }
