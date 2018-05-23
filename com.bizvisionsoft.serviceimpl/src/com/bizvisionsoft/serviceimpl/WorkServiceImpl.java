@@ -638,24 +638,100 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long updateResourcePlan(BasicDBObject filterAndUpdate) {
-		//TODO 更新工作的计划工期
-		
-		return update(filterAndUpdate, ResourcePlan.class);
+		Bson bson = (Bson) filterAndUpdate.get("filter");
+		ObjectId work_id = c("resourcePlan").distinct("work_id", bson, ObjectId.class).first();
+		long update = update(filterAndUpdate, ResourcePlan.class);
+		updateWorkPlanWorks(work_id);
+		return update;
 	}
 
 	@Override
 	public long deleteResourcePlan(ObjectId _id) {
-		//TODO 更新工作的计划工期
-		
-		return delete(_id, ResourcePlan.class);
+		ObjectId work_id = c("resourcePlan").distinct("work_id", new Document("_id", _id), ObjectId.class).first();
+		long delete = delete(_id, ResourcePlan.class);
+		updateWorkPlanWorks(work_id);
+		return delete;
 	}
 
 	@Override
 	public ResourcePlan addResourcePlan(ResourcePlan res) {
-		//TODO 更新工作的计划工期
-		
+		ObjectId work_id = res.getWork_id();
+		updateWorkPlanWorks(work_id);
+
 		ResourcePlan r = insert(res, ResourcePlan.class);
 		return queryResourceUsage(new Document("_id", r.get_id())).get(0);
+	}
+
+	private void updateWorkPlanWorks(ObjectId work_id) {
+		if (work_id != null) {
+			List<? extends Bson> pipeline = Arrays.asList(
+					new Document().append("$match", new Document().append("work_id", work_id)),
+					new Document().append("$lookup",
+							new Document().append("from", "user").append("localField", "usedHumanResId")
+									.append("foreignField", "userId").append("as", "user")),
+					new Document().append("$unwind",
+							new Document().append("path", "$user").append("preserveNullAndEmptyArrays", true)),
+					new Document().append("$lookup",
+							new Document().append("from", "equipment").append("localField", "usedEquipResId")
+									.append("foreignField", "id").append("as", "equipment")),
+					new Document().append("$unwind",
+							new Document().append("path", "$equipment").append("preserveNullAndEmptyArrays", true)),
+					new Document().append("$lookup",
+							new Document().append("from", "resourceType").append("localField", "usedTypedResId")
+									.append("foreignField", "id").append("as", "resourceType")),
+					new Document().append("$unwind",
+							new Document().append("path", "$resourceType").append("preserveNullAndEmptyArrays", true)),
+					new Document().append("$addFields",
+							new Document().append("resType_id", new Document().append("$cond",
+									Arrays.asList("$user.resourceType_id", "$user.resourceType_id",
+											new Document().append("$cond",
+													Arrays.asList("$equipment.resourceType_id",
+															"$equipment.resourceType_id", "$resourceType._id")))))),
+					new Document().append("$project",
+							new Document().append("user", false).append("equipment", false).append("resourceType",
+									false)),
+					new Document().append("$lookup",
+							new Document().append("from", "resourceType").append("localField", "resType_id")
+									.append("foreignField", "_id").append("as", "resType")),
+					new Document().append("$unwind", "$resType"),
+					new Document().append("$addFields", new Document().append("pricingModel", "$resType.pricingModel")),
+					new Document().append("$project",
+							new Document().append("pricingModel", true).append("planQty",
+									new Document().append("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
+					new Document().append("$group", new Document().append("_id", "$pricingModel").append("planWorks",
+							new Document().append("$sum", "$planQty"))));
+
+			Document doc = c("resourcePlan").aggregate(pipeline).first();
+
+			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+			updateWorkParentPlanWorks(work);
+		}
+	}
+
+	private void updateWorkParentPlanWorks(Work work) {
+		ObjectId parent_id = work.getParent_id();
+		if (parent_id != null) {
+			List<? extends Bson> pipeline = Arrays.asList(
+					new Document().append("$match", new Document().append("parent_id", parent_id)),
+					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
+							new Document().append("$sum", "$planWorks"))));
+			Document doc = c("work").aggregate(pipeline).first();
+
+			Work parentWork = c(Work.class).findOneAndUpdate(new Document("_id", parent_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+			updateWorkParentPlanWorks(parentWork);
+		} else {
+			ObjectId project_id = work.getProject_id();
+			List<? extends Bson> pipeline = Arrays.asList(
+					new Document().append("$match",
+							new Document().append("parent_id", null).append("project_id", project_id)),
+					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
+							new Document().append("$sum", "$planWorks"))));
+			Document doc = c("work").aggregate(pipeline).first();
+			c("project").updateOne(new Document("_id", project_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+		}
 	}
 
 	@Override

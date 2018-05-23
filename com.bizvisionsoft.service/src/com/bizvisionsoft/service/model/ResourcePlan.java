@@ -23,6 +23,10 @@ public class ResourcePlan {
 	@WriteValue
 	@Persistence
 	private ObjectId work_id;
+	
+	public ObjectId getWork_id() {
+		return work_id;
+	}
 
 	@ReadValue({ "type", ReadValue.TYPE })
 	@WriteValue
