@@ -3,7 +3,6 @@ package com.bizvisionsoft.pms.resource;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;

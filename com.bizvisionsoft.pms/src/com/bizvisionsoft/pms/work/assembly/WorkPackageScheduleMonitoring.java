@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.work.assembly;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -74,12 +73,7 @@ public class WorkPackageScheduleMonitoring {
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			} else {
-				try {
-					BruiActionEngine.create(action, brui).invokeExecute(action ,e, currentContext);
-				} catch (Exception e2) {
-					e2.printStackTrace();
-					MessageDialog.openError(brui.getCurrentShell(), "ÏµÍ³´íÎó", e2.getMessage());
-				}
+				BruiActionEngine.execute(action, e, currentContext, brui);
 			}
 		});
 

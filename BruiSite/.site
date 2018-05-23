@@ -600,7 +600,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "customized"
               },
               {
                 "id": "161989cbe38",
