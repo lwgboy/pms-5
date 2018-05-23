@@ -75,7 +75,7 @@ public class WorkPackageScheduleMonitoring {
 				brui.closeCurrentContent();
 			} else {
 				try {
-					BruiActionEngine.create(action, brui).invokeExecute(e, currentContext);
+					BruiActionEngine.create(action, brui).invokeExecute(action ,e, currentContext);
 				} catch (Exception e2) {
 					e2.printStackTrace();
 					MessageDialog.openError(brui.getCurrentShell(), "ÏµÍ³´íÎó", e2.getMessage());
