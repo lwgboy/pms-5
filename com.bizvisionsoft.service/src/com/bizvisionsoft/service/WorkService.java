@@ -249,16 +249,28 @@ public interface WorkService {
 	public List<Result> closeStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
 	@POST
-	@Path("/resource/")
+	@Path("/resourceplan/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ResourcePlan addResource(ResourcePlan res);
+	public ResourcePlan addResourcePlan(ResourcePlan res);
+
+	@PUT
+	@Path("/resourceplan/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateResourcePlan(BasicDBObject filterAndUpdate);
+
+	@DELETE
+	@Path("/resourceplan/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteResourcePlan(@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/_id/{_id}/resource/ds")
+	@Path("/_id/{_id}/resourceplan/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ResourcePlan> listResource(@PathParam("_id") ObjectId _id);
+	public List<ResourcePlan> listResourcePlan(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/packageprogress/")
@@ -322,13 +334,14 @@ public interface WorkService {
 	@Path("/track/{userid}/{catagory}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Work> listWorkPackageForSchedule(BasicDBObject condition,@PathParam("userid") String userid,
+	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, @PathParam("userid") String userid,
 			@PathParam("catagory") String catagory);
 
 	@GET
 	@Path("/track/{userid}/{catagory}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countWorkPackageForSchedule(BasicDBObject filter,@PathParam("userid") String userid, @PathParam("catagory") String catagory);
+	public long countWorkPackageForSchedule(BasicDBObject filter, @PathParam("userid") String userid,
+			@PathParam("catagory") String catagory);
 
 }

@@ -47,9 +47,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendProject(pipeline);
 
 		appendOverdue(pipeline);
-		
+
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
-		
+
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		if (filter != null)
@@ -637,13 +637,29 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public ResourcePlan addResource(ResourcePlan res) {
+	public long updateResourcePlan(BasicDBObject filterAndUpdate) {
+		//TODO 更新工作的计划工期
+		
+		return update(filterAndUpdate, ResourcePlan.class);
+	}
+
+	@Override
+	public long deleteResourcePlan(ObjectId _id) {
+		//TODO 更新工作的计划工期
+		
+		return delete(_id, ResourcePlan.class);
+	}
+
+	@Override
+	public ResourcePlan addResourcePlan(ResourcePlan res) {
+		//TODO 更新工作的计划工期
+		
 		ResourcePlan r = insert(res, ResourcePlan.class);
 		return queryResourceUsage(new Document("_id", r.get_id())).get(0);
 	}
 
 	@Override
-	public List<ResourcePlan> listResource(ObjectId _id) {
+	public List<ResourcePlan> listResourcePlan(ObjectId _id) {
 		Document match = new Document("work_id", _id);
 		return queryResourceUsage(match);
 	}

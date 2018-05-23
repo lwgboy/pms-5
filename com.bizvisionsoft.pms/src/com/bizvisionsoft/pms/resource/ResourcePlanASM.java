@@ -130,7 +130,7 @@ public class ResourcePlanASM {
 
 	private void addResource(String editorId) {
 		Editor.open(editorId, context, new ResourcePlan().setWork_id(work.get_id()), (t, r) -> {
-			ResourcePlan res = Services.get(WorkService.class).addResource(r);
+			ResourcePlan res = Services.get(WorkService.class).addResourcePlan(r);
 			grid.insert(res);
 		});
 	}
@@ -141,7 +141,7 @@ public class ResourcePlanASM {
 		}
 		this.work = work;
 		// ≤È—Ø
-		List<ResourcePlan> input = Services.get(WorkService.class).listResource(work.get_id());
+		List<ResourcePlan> input = Services.get(WorkService.class).listResourcePlan(work.get_id());
 		grid.setViewerInput(input);
 	}
 
