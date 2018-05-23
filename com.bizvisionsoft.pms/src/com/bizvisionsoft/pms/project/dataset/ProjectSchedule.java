@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class ProjectSchedule {
 
@@ -38,8 +39,8 @@ public class ProjectSchedule {
 	private long countStage(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id) {
 		return Services.get(ProjectService.class).countStage(parent_id);
 	}
-	
-	@DataSet("项目进度计划表/list")
+
+	@DataSet({"项目进度计划表/list","总体进度监控/list"})
 	private List<Work> listRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).listProjectRootTask(((Project) input).get_id());
@@ -51,7 +52,7 @@ public class ProjectSchedule {
 		}
 	}
 
-	@DataSet("项目进度计划表/count")
+	@DataSet({"项目进度计划表/count","总体进度监控/count"})
 	private long countRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).countProjectRootTask(((Project) input).get_id());
@@ -62,6 +63,11 @@ public class ProjectSchedule {
 			return 0l;
 		}
 
+	}
+
+	@DataSet("项目进度计划表/" + DataSet.UPDATE)
+	private long update(BasicDBObject filterAndUpdate) {
+		return Services.get(WorkService.class).updateWork(filterAndUpdate);
 	}
 
 }

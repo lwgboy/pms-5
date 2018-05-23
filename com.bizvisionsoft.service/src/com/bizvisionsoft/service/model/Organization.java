@@ -31,6 +31,10 @@ public class Organization {
 	@WriteValue
 	private String id;
 
+	public String getId() {
+		return id;
+	}
+
 	/**
 	 * 上级组织
 	 */
@@ -42,7 +46,7 @@ public class Organization {
 		return Optional.ofNullable(this.parent_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
 				.orElse(null);
 	}
-	
+
 	/**
 	 * 所属项目
 	 */
@@ -120,7 +124,7 @@ public class Organization {
 	public String toString() {
 		return fullName == null ? "" : fullName;
 	}
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "组织";

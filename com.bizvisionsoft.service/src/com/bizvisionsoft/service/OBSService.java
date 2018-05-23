@@ -22,6 +22,13 @@ import com.mongodb.BasicDBObject;
 @Path("/obs")
 public interface OBSService {
 
+
+	@POST
+	@Path("/nextobsseq")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public int nextOBSSeq(BasicDBObject condition);
+
 	@POST
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")

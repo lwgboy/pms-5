@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.tools.Util;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obs")
 public class OBSItem {
@@ -104,9 +105,17 @@ public class OBSItem {
 	@ReadValue
 	private Integer seq;
 
-	@WriteValue("seq")
-	public void writeSeq(String _seq) {
-		seq = Integer.parseInt(_seq);
+	/**
+	 * 生成本层的顺序号
+	 * 
+	 * @param scope_id
+	 * @param parent_id
+	 * @return
+	 */
+	public OBSItem generateSeq() {
+		seq = ServicesLoader.get(OBSService.class)
+				.nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
+		return this;
 	}
 
 	private ObjectId org_id;
@@ -225,7 +234,7 @@ public class OBSItem {
 		return null;
 	}
 
-	@ReadValue({"组织结构图/title","组织结构图（查看）/title"})
+	@ReadValue({ "组织结构图/title", "组织结构图（查看）/title" })
 	public String getDiagramTitle() {
 		int type = getDiagramItemType();
 		if (TYPE_CHARGER_ITEM == type || TYPE_TEAM_ITEM == type) {
@@ -250,12 +259,12 @@ public class OBSItem {
 		return TYPE_TEAM_ITEM;
 	}
 
-	@ReadValue({"组织结构图/id","组织结构图（查看）/id"})
+	@ReadValue({ "组织结构图/id", "组织结构图（查看）/id" })
 	public String getDiagramId() {
 		return _id.toHexString();
 	}
 
-	@ReadValue({"组织结构图/text","组织结构图（查看）/text"})
+	@ReadValue({ "组织结构图/text", "组织结构图（查看）/text" })
 	public String getDiagramText() {
 		int type = getDiagramItemType();
 		if (TYPE_CHARGER_ITEM == type) {
@@ -269,12 +278,12 @@ public class OBSItem {
 
 	}
 
-	@ReadValue({"组织结构图/parent","组织结构图（查看）/parent"})
+	@ReadValue({ "组织结构图/parent", "组织结构图（查看）/parent" })
 	public String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
-	@ReadValue({"组织结构图/img","组织结构图（查看）/img"})
+	@ReadValue({ "组织结构图/img", "组织结构图（查看）/img" })
 	public String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);

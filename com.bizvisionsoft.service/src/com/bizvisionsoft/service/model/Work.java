@@ -427,6 +427,27 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工时, 需要保存
+	@SetValue
+	@ReadValue
+	private double planWorks;
+
+	@GetValue("planWorks")
+	public double getPlanWorks() {
+		return planWorks;
+	}
+
+	@SetValue
+	@ReadValue
+	private double actualWorks;
+
+	@GetValue("actualWorks")
+	public double getActualWorks() {
+		return actualWorks;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 完成百分比
 	@ReadValue
 	@WriteValue
@@ -439,6 +460,28 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	// 工期完成率 百分比
 	@ReadValue("dar")
 	private Double getDAR() {
+		if (planDuration != 0) {
+			return 1d * actualDuration / planDuration;
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工作量完成率 百分比
+	@ReadValue("war")
+	private Double getWAR() {
+		if (planWorks != 0) {
+			return 1d * actualWorks / planWorks;
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工时完成率 百分比
+	@ReadValue("sar")
+	private Double getSAR() {
 		if (planDuration != 0) {
 			return 1d * actualDuration / planDuration;
 		}
@@ -603,6 +646,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return workPackageSetting;
 	}
 
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private List<String> certificates;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	private ObjectId cbs_id;
@@ -611,12 +658,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure("项目进度计划表/list")
+	@Structure({ "项目进度计划表/list", "总体进度监控/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure("项目进度计划表/count")
+	@Structure({ "项目进度计划表/count", "总体进度监控/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
@@ -811,9 +858,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return actualStart != null;
 	}
 
-	@Behavior("打开工作包")
+	@Behavior({ "打开工作包", "编辑负责人和工作包" })
 	private boolean behaviourOpenWorkPackage() {
-		return true;
+		return !stage;
 	}
 
 	@ReadValue

@@ -21,10 +21,6 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
-import com.mongodb.client.model.ReturnDocument;
-import com.mongodb.client.model.Updates;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -284,9 +280,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public int generateCode(String name, String key) {
-		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
-				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
-		return doc.getInteger("value");
+		return super.generateCode(name, key);
 	}
 
 	@Override

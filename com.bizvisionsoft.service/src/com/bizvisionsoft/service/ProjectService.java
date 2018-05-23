@@ -149,4 +149,11 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> closeProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+
+	@POST
+	@Path("/genworkorder/{catalog}/{parentproject_id}/{impunit_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String generateWorkOrder(@PathParam("catalog") String catalog,
+			@PathParam("parentproject_id") ObjectId parentproject_id, @PathParam("impunit_id") ObjectId impunit_id);
 }

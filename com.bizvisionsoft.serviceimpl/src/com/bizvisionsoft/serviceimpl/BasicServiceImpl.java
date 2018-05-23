@@ -12,8 +12,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 
 public class BasicServiceImpl {
@@ -214,6 +218,12 @@ public class BasicServiceImpl {
 			return 5;
 		}
 		return null;
+	}
+	
+	protected int generateCode(String name, String key) {
+		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
+				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
+		return doc.getInteger("value");
 	}
 
 }
