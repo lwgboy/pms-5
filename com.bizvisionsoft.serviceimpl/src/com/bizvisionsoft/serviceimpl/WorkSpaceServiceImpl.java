@@ -210,7 +210,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.unwind("$work"));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE)
+		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE).append("name", Boolean.TRUE)
 				.append("wpf", new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))
 				.append("ppf", new BasicDBObject("$gt", new String[] { "$planFinish", "$project.planFinish" }))));
 		// 查询不满足条件的节点数量
@@ -219,7 +219,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						new BasicDBObject("stage", Boolean.FALSE).append("wpf", Boolean.TRUE) })));
 		WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
 		if (workInfo != null) {
-			return Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+			 Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+			 result.setResultDate(workInfo.toString());
+			 return result;
 		}
 
 		// 返回检查结果

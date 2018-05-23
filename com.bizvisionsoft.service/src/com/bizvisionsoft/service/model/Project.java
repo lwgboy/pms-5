@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -28,6 +29,8 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.sn.ProjectGenerator;
+import com.bizvisionsoft.service.sn.WorkOrderGenerator;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -56,8 +59,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Label(Label.ID_LABEL)
 	@WriteValue
 	@Persistence
+	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
-	
+
 	@Override
 	public String getProjectNumber() {
 		return id;
@@ -69,6 +73,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
+	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String workOrder;
 
 	/**
@@ -107,7 +112,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	@Label(Label.NAME_LABEL)
 	private String name;
-	
+
 	@Override
 	public String getProjectName() {
 		return name;
@@ -128,6 +133,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String catalog;
+
+	public String getCatalog() {
+		return catalog;
+	}
 
 	/**
 	 * 项目等级 A, B, C
@@ -320,6 +329,14 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private List<String> area;
+
+	/**
+	 * 客户
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customer;
 
 	@WriteValue("eps_or_projectset_id")
 	public void setEPSorProjectSet(Object element) {

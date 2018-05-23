@@ -42,9 +42,9 @@ public class ScheduleMonitoringDateset {
 		}
 	}
 
-	@DataSet("设计进度监控/" + DataSet.LIST)
+	@DataSet("研发进度监控/" + DataSet.LIST)
 	public List<TrackView> listDesign() {
-		String catagory = "设计";
+		String catagory = "研发";
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {
@@ -54,9 +54,9 @@ public class ScheduleMonitoringDateset {
 		}
 	}
 
-	@DataSet("设计进度监控/" + DataSet.COUNT)
+	@DataSet("研发进度监控/" + DataSet.COUNT)
 	public long countDesign() {
-		String catagory = "设计";
+		String catagory = "研发";
 		if (project != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {

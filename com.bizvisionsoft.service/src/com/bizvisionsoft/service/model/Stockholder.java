@@ -45,6 +45,10 @@ public class Stockholder {
 
 	@ReadValue
 	@WriteValue
+	private String address;
+
+	@ReadValue
+	@WriteValue
 	private ObjectId project_id;
 
 	public Stockholder setProject_id(ObjectId project_id) {

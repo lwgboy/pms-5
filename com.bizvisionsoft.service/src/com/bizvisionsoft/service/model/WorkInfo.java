@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -631,6 +632,11 @@ public class WorkInfo {
 	@Persistence
 	private Float progress;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<TrackView> workPackageSetting;
 
 	@Behavior({ "项目甘特图（编辑）/创建子任务" })
 	private boolean behaviourAddTask() {

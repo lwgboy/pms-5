@@ -38,9 +38,9 @@ public class TrackView {
 		return name;
 	}
 
-	@ReadValue
-	@WriteValue
-	private String viewAssembly;
+//	@ReadValue
+//	@WriteValue
+//	private String viewAssembly;
 
 	@ReadValue
 	@WriteValue
@@ -71,13 +71,13 @@ public class TrackView {
 		return catagory + "/" + name;
 	}
 
-	@Structure({ "设计进度监控/" + DataSet.LIST, "采购计划监控/" + DataSet.LIST, "采购计划监控（项目管理）/" + DataSet.LIST,
+	@Structure({ "研发进度监控/" + DataSet.LIST, "采购计划监控/" + DataSet.LIST, "采购计划监控（项目管理）/" + DataSet.LIST,
 			"生产计划监控/" + DataSet.LIST, "生产计划监控（项目管理）/" + DataSet.LIST, "检验进度监控/" + DataSet.LIST })
 	public List<Work> listWorkList() {
 		return children;
 	}
 
-	@Structure({ "设计进度监控/" + DataSet.COUNT, "采购计划监控/" + DataSet.COUNT, "采购计划监控（项目管理）/" + DataSet.COUNT,
+	@Structure({ "研发进度监控/" + DataSet.COUNT, "采购计划监控/" + DataSet.COUNT, "采购计划监控（项目管理）/" + DataSet.COUNT,
 			"生产计划监控（项目管理）/" + DataSet.COUNT, "生产计划监控/" + DataSet.COUNT, "检验进度监控/" + DataSet.COUNT })
 	public long countWorkList() {
 		return children.size();
