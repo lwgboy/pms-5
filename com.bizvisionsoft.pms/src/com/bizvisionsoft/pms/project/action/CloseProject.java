@@ -28,7 +28,7 @@ public class CloseProject {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "关闭项目",
-				"请确认关闭项目" + project + "。\n系统将记录现在时刻为项目关闭时间，并向项目组成员发出关闭通知。");
+				"请确认关闭项目" + project + "。\n项目关闭后，将不再接受财务数据的提交，文档的补充和修改。并将记录现在时刻为项目关闭时间，并向项目组成员发出关闭通知。");
 		if (!ok) {
 			return;
 		}
