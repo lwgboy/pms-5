@@ -34,18 +34,18 @@ public class DistributeProjectPlan {
 			// 如果项目是按阶段推进的
 			if (project.isStageEnable()) {
 				Shell s = brui.getCurrentShell();
-				boolean ok = MessageDialog.openConfirm(s, "下达项目阶段计划",
-						"请确认下达项目" + project + "当前的阶段计划。</p>系统将通知各阶段负责人依照本计划制定详细计划。</p>[提示]未确定负责人的阶段，可在确定后再下达计划。");
+				boolean ok = MessageDialog.openConfirm(s, "下达项目计划",
+						"请确认下达项目" + project + "当前计划。</p>系统将通知各阶段负责人依照本计划制定详细计划。</p>[提示]未确定负责人的阶段，可在确定后再下达计划。");
 				if (!ok) {
 					return;
 				}
 				List<Result> result = Services.get(ProjectService.class).distributeProjectPlan(project.get_id(),
 						brui.getCurrentUserId());
 				if (result.isEmpty()) {
-					Layer.message("项目阶段计划已下达。");
+					Layer.message("项目计划已下达。");
 				} else {
 					// TODO 显示多条错误信息的通用方法
-					MessageDialog.openError(s, "下达项目阶段计划", "项目阶段计划下达失败。</p>" + result.get(0).message);
+					MessageDialog.openError(s, "下达项目计划", "项目计划下达失败。</p>" + result.get(0).message);
 				}
 			} else {
 				// TODO 不是按阶段推进的下达
@@ -62,7 +62,7 @@ public class DistributeProjectPlan {
 			List<Result> result = Services.get(WorkService.class).distributeWorkPlan(work.get_id(),
 					brui.getCurrentUserId());
 			if (result.isEmpty()) {
-				Layer.message("项目阶段计划已下达。");
+				Layer.message("阶段计划已下达。");
 			} else {
 				// TODO 显示多条错误信息的通用方法
 				MessageDialog.openError(s, "下达阶段计划", "阶段计划下达失败。</p>" + result.get(0).message);

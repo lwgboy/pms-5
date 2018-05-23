@@ -26,7 +26,7 @@ public class SubminBudgetSubject {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		CBSItem cbsItem = (CBSItem) context.getInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "提交科目预算", "请确认提交预算" + cbsItem + "。。");
+		boolean ok = MessageDialog.openConfirm(shell, "提交科目预算", "请确认提交预算" + cbsItem + "。");
 		if (!ok) {
 			return;
 		}
