@@ -1,9 +1,11 @@
 package com.bizvisionsoft.demo.rsclient;
 
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.service.UISession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -11,6 +13,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -80,6 +83,16 @@ public class CarouselDemo {
 		Button btn = new Button(container, SWT.PUSH);
 		btn.setData(RWT.CUSTOM_VARIANT, BruiToolkit.CSS_NORMAL);
 		btn.setText("确定");
+		btn.addListener(SWT.Selection, e->{
+			runWithIndicator(e.display,new Runnable() {
+
+				@Override
+				public void run() {
+					
+				}
+				
+			});
+		});
 		fd = new FormData();
 		btn.setLayoutData(fd);
 		fd.left = new FormAttachment(0, 16);
@@ -111,6 +124,9 @@ public class CarouselDemo {
 		container = carousel.addPage(new Composite(carousel, SWT.NONE));
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(ModelLoader.site.getAssemblyByName("用户管理"));
 		brui.init(new IServiceWithId[] { bruiService, new BruiAssemblyContext().setEngine(brui) }).createUI(container);
+	}
+
+	private void runWithIndicator(Display display, Runnable runnable) {
 	}
 
 }
