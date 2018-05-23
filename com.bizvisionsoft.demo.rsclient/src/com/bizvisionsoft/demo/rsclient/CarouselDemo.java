@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.bizivisionsoft.widgets.carousel.Carousel;
+import com.bizivisionsoft.widgets.util.WidgetToolkit;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.GetContainer;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -84,14 +85,7 @@ public class CarouselDemo {
 		btn.setData(RWT.CUSTOM_VARIANT, BruiToolkit.CSS_NORMAL);
 		btn.setText("确定");
 		btn.addListener(SWT.Selection, e->{
-			runWithIndicator(e.display,new Runnable() {
-
-				@Override
-				public void run() {
-					
-				}
-				
-			});
+			WidgetToolkit.showMessage("预算已成功分配到阶段。<p>啊士大夫萨芬。</div>");
 		});
 		fd = new FormData();
 		btn.setLayoutData(fd);
@@ -126,7 +120,5 @@ public class CarouselDemo {
 		brui.init(new IServiceWithId[] { bruiService, new BruiAssemblyContext().setEngine(brui) }).createUI(container);
 	}
 
-	private void runWithIndicator(Display display, Runnable runnable) {
-	}
 
 }
