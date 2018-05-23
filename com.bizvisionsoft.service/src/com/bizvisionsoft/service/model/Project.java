@@ -89,6 +89,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@Persistence
 	private ObjectId parentProject_id;
+	
+	public ObjectId getParentProject_id() {
+		return parentProject_id;
+	}
 
 	/**
 	 * WBS上级Id
@@ -275,6 +279,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
 	private String impUnitOrgFullName;
+	
+	public ObjectId getImpUnit_id() {
+		return impUnit_id;
+	}
 
 	@WriteValue("impUnit") // 编辑器用
 	public void setOrganization(Organization org) {

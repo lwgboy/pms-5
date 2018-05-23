@@ -2,7 +2,9 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -52,7 +54,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	}
 
 	private List<ObjectId> getDesentOBSItem(List<ObjectId> ids) {
-		return  getDesentItems(ids, "obs", "parent_id");
+		return getDesentItems(ids, "obs", "parent_id");
 	}
 
 	@Override
@@ -121,6 +123,13 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			}
 			return new UserServiceImpl().count(filter);
 		}
+	}
+
+	@Override
+	public int nextOBSSeq(BasicDBObject condition) {
+		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1))
+				.projection(new BasicDBObject("seq", 1)).first();
+		return Optional.ofNullable(doc).map(d -> d.getInteger("seq", 0)).orElse(0) + 1;
 	}
 
 }
