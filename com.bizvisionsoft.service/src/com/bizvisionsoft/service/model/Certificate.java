@@ -31,5 +31,4 @@ public class Certificate {
 	@WriteValue
 	private String scope;
 
-
 }

@@ -18,7 +18,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class DistributeProjectPlan {
+public class DistributeProjectAndStagePlan {
 
 	@Inject
 	private IBruiService brui;

@@ -47,6 +47,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendProject(pipeline);
 
 		appendOverdue(pipeline);
+		
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+		
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
