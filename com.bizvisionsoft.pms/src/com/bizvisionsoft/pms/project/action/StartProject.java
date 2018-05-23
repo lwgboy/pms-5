@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -34,7 +35,7 @@ public class StartProject {
 		List<Result> result = Services.get(ProjectService.class).startProject(project.get_id(),
 				brui.getCurrentUserId());
 		if (result.isEmpty()) {
-			MessageDialog.openInformation(shell, "启动项目", "项目启动完成。");
+			Layer.message("项目已启动。");
 			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法

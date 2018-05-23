@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.work.gantt.action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -37,7 +38,7 @@ public class SubmitSchedule {
 						result = Services.get(WorkSpaceService.class).checkin(workspace);
 
 						if (Result.CODE_WORK_SUCCESS == result.code) {
-							MessageDialog.openFinished(brui.getCurrentShell(), "提交计划", result.message);
+							Layer.message(result.message);
 							brui.switchContent("项目甘特图", null);
 						}
 					} else {

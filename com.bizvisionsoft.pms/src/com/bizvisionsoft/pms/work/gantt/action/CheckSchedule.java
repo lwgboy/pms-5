@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.work.gantt.action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -33,7 +34,7 @@ public class CheckSchedule {
 				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 				if (Result.CODE_WORK_SUCCESS == result.code) {
-					MessageDialog.openInformation(bruiService.getCurrentShell(), "检查结果", result.message);
+					Layer.message(result.message);
 				} else {
 					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
 							"管理节点 <b style='color:red;'>" + result.data + "</b> 完成时间超过限定。");

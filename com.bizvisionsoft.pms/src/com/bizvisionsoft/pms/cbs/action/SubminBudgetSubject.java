@@ -4,6 +4,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -34,7 +35,7 @@ public class SubminBudgetSubject {
 		if (result.code == Result.CODE_CBS_SUCCESS) {
 			CBSItem newCBSItem = (CBSItem) result.data;
 			AUtil.simpleCopy(newCBSItem, cbsItem);
-			MessageDialog.openInformation(shell, "提交科目预算", "科目预算提交完成。");
+			Layer.message("科目预算已提交。");
 		} else {
 			MessageDialog.openError(shell, "提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");
 		}

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizivisionsoft.widgets.gantt.GanttEventCode;
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
@@ -76,10 +77,10 @@ public class ResourcePlanASM {
 		bar.addListener(SWT.Selection, l -> {
 			if ("分配资源".equals(((Action) l.data).getName())) {
 				if (this.work == null) {
-					MessageDialog.openInformation(parent.getShell(), "分配资源", "请先选择将要分配资源的工作。");
+					Layer.message("请先选择将要分配资源的工作。");
 					return;
 				} else if (this.work.isSummary()) {
-					MessageDialog.openInformation(parent.getShell(), "分配资源", "无需对总成型工作分配资源。");
+					Layer.message("无需对总成型工作分配资源。");
 					return;
 				}
 				allocateResource();

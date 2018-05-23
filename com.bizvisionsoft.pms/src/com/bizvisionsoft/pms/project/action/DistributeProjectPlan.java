@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -41,7 +42,7 @@ public class DistributeProjectPlan {
 				List<Result> result = Services.get(ProjectService.class).distributeProjectPlan(project.get_id(),
 						brui.getCurrentUserId());
 				if (result.isEmpty()) {
-					MessageDialog.openInformation(s, "下达项目阶段计划", "项目阶段计划下达完成。");
+					Layer.message("项目阶段计划已下达。");
 				} else {
 					// TODO 显示多条错误信息的通用方法
 					MessageDialog.openError(s, "下达项目阶段计划", "项目阶段计划下达失败。</p>" + result.get(0).message);
@@ -61,7 +62,7 @@ public class DistributeProjectPlan {
 			List<Result> result = Services.get(WorkService.class).distributeWorkPlan(work.get_id(),
 					brui.getCurrentUserId());
 			if (result.isEmpty()) {
-				MessageDialog.openInformation(s, "下达阶段计划", "阶段计划下达完成。");
+				Layer.message("项目阶段计划已下达。");
 			} else {
 				// TODO 显示多条错误信息的通用方法
 				MessageDialog.openError(s, "下达阶段计划", "阶段计划下达失败。</p>" + result.get(0).message);

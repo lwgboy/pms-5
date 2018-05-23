@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -34,8 +35,7 @@ public class CloseStage {
 		}
 		List<Result> result = Services.get(WorkService.class).closeStage(stage.get_id(), brui.getCurrentUserId());
 		if (result.isEmpty()) {
-			MessageDialog.openInformation(shell, "关闭阶段", "阶段关闭完成。");
-
+			Layer.message("阶段已关闭。");
 			brui.switchPage("阶段首页（关闭）", ((Work) stage).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法
