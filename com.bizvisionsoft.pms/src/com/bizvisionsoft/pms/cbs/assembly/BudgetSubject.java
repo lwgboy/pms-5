@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -47,18 +48,25 @@ public class BudgetSubject extends BudgetGrid {
 		setBruiService(bruiService);
 		scope = (ICBSScope) context.getRootInput();
 		cbsItem = (CBSItem) context.getParentContext().getInput();
-		if(cbsItem == null) {
+		if (cbsItem == null) {
 			ObjectId cbs_id = scope.getCBS_id();
-			cbsItem =  Services.get(CBSService.class).get(cbs_id);
+			if (cbs_id != null) {
+				cbsItem = Services.get(CBSService.class).get(cbs_id);
+			}
 		}
-		accountBudget = Services.get(CBSService.class).getSubjectBudget(cbsItem.get_id());
-
+		if (cbsItem != null) {
+			accountBudget = Services.get(CBSService.class).getSubjectBudget(cbsItem.get_id());
+		}
 		super.init();
 	}
 
 	@CreateUI
 	public void createUI(Composite parent) {
-		super.createUI(parent);
+		if (cbsItem != null) {
+			super.createUI(parent);
+		} else {
+			MessageDialog.openError(bruiService.getCurrentShell(), "编辑预算科目", "未创建成本项或未为成本项分配预算科目，无法进行科目预算。");
+		}
 	}
 
 	@Override

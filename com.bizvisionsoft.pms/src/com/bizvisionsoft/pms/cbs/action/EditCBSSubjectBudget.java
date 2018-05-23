@@ -24,17 +24,21 @@ public class EditCBSSubjectBudget {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		context.selected(parent -> {
-			CBSItem cbs = (CBSItem)context.getInput();
-			AccountItem account = (AccountItem)parent;
-			
-			CBSSubject period = new CBSSubject()
-					.setCBSItem_id(cbs.get_id()).setSubjectNumber(account.getId());
-			
+			AccountItem account = (AccountItem) parent;
+			CBSSubject period;
+			CBSItem cbs = (CBSItem) context.getInput();
+			if (cbs == null) {
+				ICBSScope rootInput = (ICBSScope) context.getRootInput();
+				period = new CBSSubject().setCBSItem_id(rootInput.getCBS_id()).setSubjectNumber(account.getId());
+			} else {
+				period = new CBSSubject().setCBSItem_id(cbs.get_id()).setSubjectNumber(account.getId());
+			}
+
 			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("期间预算编辑器", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
 				BudgetSubject grid = (BudgetSubject) context.getContent();
-				grid.updateCBSSubjectBudget(account,o);
+				grid.updateCBSSubjectBudget(account, o);
 			});
 
 		});
