@@ -5,6 +5,8 @@ import org.eclipse.swt.widgets.Event;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.IWBSScope;
@@ -16,19 +18,22 @@ public class OpenGantt {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_ACTION) Action action, @MethodParam(Execute.PARAM_EVENT) Event event) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
-		if (rootInput != null) {
-			Workspace workspace = rootInput.getWorkspace();
-			if (workspace != null) {
-				if (brui.getCurrentUserId().equals(workspace.getCheckoutBy())) {
-					brui.switchContent("项目甘特图（编辑）", null);
-					return;
-				}
-			}
+		Assembly config;
+		Workspace workspace = rootInput.getWorkspace();
+		if (workspace != null && brui.getCurrentUserId().equals(workspace.getCheckoutBy())) {
+			config = brui.getAssembly("项目甘特图（编辑）");
+		} else {
+			config = brui.getAssembly("项目甘特图");
 		}
-		brui.switchContent("项目甘特图", null);
+
+		if (action.isOpenContent()) {
+			brui.openContent(config, null);
+		} else {
+			brui.switchContent(config, null);
+		}
 	}
 
 }
