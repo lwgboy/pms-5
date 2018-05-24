@@ -21,10 +21,10 @@ public class CreateOBSItemSelectRole extends AbstractCreateOBSItem {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		context.selected(em -> {
 
-			String message = Optional.ofNullable(AUtil.readType(em)).orElse("");
-			message = "选择角色添加到" + message + "下级";
-			String editor = "OBS节点编辑器（选择系统角色）";
-			open(context, em, message, editor);
+			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
+			message = "添加角色到" + message;
+			String editor = "OBS节点编辑器（角色）";
+			open(context, em, message, editor,true);
 
 		});
 	}

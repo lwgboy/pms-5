@@ -13,7 +13,6 @@ import com.bizvisionsoft.bruiengine.assembly.IStructuredDataPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.model.IOBSScope;
 import com.bizvisionsoft.service.model.OBSItem;
 
 public class EditOBSItem {
@@ -25,9 +24,13 @@ public class EditOBSItem {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		context.selected(em -> {
-			String editName = isRootOBSItem(em, context.getRootInput()) ? "OBS根编辑器" : "OBS节点编辑器（修改用）";
-			Assembly assembly = bruiService.getAssembly(editName);
-			String message = "编辑 " + Optional.ofNullable(AUtil.readTypeAndLabel(em)).orElse("");
+			Assembly assembly;
+			if(((OBSItem)em).isRole()) {
+				assembly = bruiService.getAssembly("OBS节点编辑器（角色）");
+			}else {
+				assembly = bruiService.getAssembly("OBS节点编辑器（团队）");
+			}
+			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 
 			Editor<Object> editor = new Editor<Object>(assembly, context).setEditable(true).setTitle(message)
 					.setInput(false, em);
@@ -41,11 +44,6 @@ public class EditOBSItem {
 
 		});
 
-	}
-
-	private boolean isRootOBSItem(Object em, Object input) {
-		return em instanceof OBSItem && input instanceof IOBSScope
-				&& ((OBSItem) em).get_id().equals(((IOBSScope) input).getOBS_id());
 	}
 
 }
