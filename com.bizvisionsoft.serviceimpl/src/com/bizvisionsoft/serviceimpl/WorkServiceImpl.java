@@ -807,7 +807,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition) {
-		return createDataSet(condition, WorkPackageProgress.class);
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$lookup", new Document().append("from", "workPackage")
+				.append("localField", "package_id").append("foreignField", "_id").append("as", "workpackage")));
+		pipeline.add(new Document("$unwind", "$workpackage"));
+		pipeline.add(new Document("$addFields", new Document().append("unit", "$workpackage.unit")));
+		pipeline.add(new Document("$project", new Document().append("workpackage", false)));
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c(WorkPackageProgress.class).aggregate(pipeline).into(new ArrayList<WorkPackageProgress>());
 	}
 
 	@Override
