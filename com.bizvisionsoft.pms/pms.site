@@ -4444,23 +4444,9 @@
         "fields": [
           {
             "id": "162381fae60",
-            "name": "基本信息",
+            "name": "基本条件",
             "type": "标签页",
             "formFields": [
-              {
-                "id": "16238207747",
-                "name": "fullName",
-                "text": "全称",
-                "type": "文本输入框（查询）",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": false,
-                "textLimit": 0,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              },
               {
                 "id": "162381fe5eb",
                 "name": "name",
@@ -4491,7 +4477,8 @@
             "formFields": [
               {
                 "id": "1623821028e",
-                "name": "类型",
+                "name": "type",
+                "text": "类型",
                 "type": "下拉选择框（查询）",
                 "formFields": [],
                 "hasInfoLabel": false,
@@ -10930,44 +10917,30 @@
         "gridPageControl": false,
         "fields": [
           {
-            "id": "162f0af3540",
-            "name": "新字段7",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "162c49c1b1e",
-                "name": "id",
-                "text": "编号",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 0,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              },
-              {
-                "id": "162c46185f6",
-                "name": "name",
-                "text": "资源类别名称",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 25,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              }
-            ],
+            "id": "162c49c1b1e",
+            "name": "id",
+            "text": "编号",
+            "type": "单行文本框",
+            "formFields": [],
             "hasInfoLabel": false,
             "textPasswordStyle": false,
             "readOnly": false,
-            "required": false,
+            "required": true,
             "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "162c46185f6",
+            "name": "name",
+            "text": "资源类别名称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 25,
             "maxFileSize": 0,
             "timeLimit": 0
           },
@@ -11016,7 +10989,7 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": true
       },
       {
         "id": "162c74b68d7",
@@ -12499,6 +12472,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridAutoColumnWidth": false,
+        "actions": [],
         "rowActions": [
           {
             "id": "162d2148ece",
@@ -13583,46 +13557,32 @@
             "timeLimit": 0
           },
           {
-            "id": "162f0adf544",
-            "name": "新字段5",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "162bd20048c",
-                "name": "id",
-                "text": "编号",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 0,
-                "optionValue": "国家#行业#公司",
-                "optionText": "国家#行业#公司",
-                "radioStyle": "横向分段（默认）",
-                "maxFileSize": 0,
-                "timeLimit": 0
-              },
-              {
-                "id": "162bd1ff051",
-                "name": "name",
-                "text": "名称",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 0,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              }
-            ],
+            "id": "162bd20048c",
+            "name": "id",
+            "text": "编号",
+            "type": "单行文本框",
+            "formFields": [],
             "hasInfoLabel": false,
             "textPasswordStyle": false,
             "readOnly": false,
-            "required": false,
+            "required": true,
+            "textLimit": 0,
+            "optionValue": "国家#行业#公司",
+            "optionText": "国家#行业#公司",
+            "radioStyle": "横向分段（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "162bd1ff051",
+            "name": "name",
+            "text": "名称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
             "textLimit": 0,
             "maxFileSize": 0,
             "timeLimit": 0
@@ -14729,44 +14689,30 @@
         "gridPageControl": false,
         "fields": [
           {
-            "id": "162f0aea3e7",
-            "name": "新字段6",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "162c49c1b1e",
-                "name": "id",
-                "text": "科目代码",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 0,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              },
-              {
-                "id": "162c46185f6",
-                "name": "name",
-                "text": "科目名称",
-                "type": "单行文本框",
-                "formFields": [],
-                "hasInfoLabel": false,
-                "textPasswordStyle": false,
-                "readOnly": false,
-                "required": true,
-                "textLimit": 25,
-                "maxFileSize": 0,
-                "timeLimit": 0
-              }
-            ],
+            "id": "162c49c1b1e",
+            "name": "id",
+            "text": "科目代码",
+            "type": "单行文本框",
+            "formFields": [],
             "hasInfoLabel": false,
             "textPasswordStyle": false,
             "readOnly": false,
-            "required": false,
+            "required": true,
             "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "162c46185f6",
+            "name": "name",
+            "text": "科目名称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 25,
             "maxFileSize": 0,
             "timeLimit": 0
           },
