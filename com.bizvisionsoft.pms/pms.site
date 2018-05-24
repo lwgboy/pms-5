@@ -12584,7 +12584,7 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，制定总体的进度计划，编制项目预算，组建项目的初始团队。\u003c/div\u003e\n",
-        "actionPanelColumnCount": 3,
+        "actionPanelColumnCount": 5,
         "smallEditor": false
       },
       {
@@ -24977,25 +24977,6 @@
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
         "columns": [
           {
-            "id": "16381c4ccab",
-            "name": "id",
-            "text": "编号",
-            "alignment": 16384,
-            "width": 80,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
             "id": "1636bd98aa7",
             "name": "description",
             "text": "描述",
@@ -25020,25 +25001,6 @@
             "text": "成果类型",
             "alignment": 16777216,
             "width": 160,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
-            "id": "16381c73821",
-            "name": "verNo",
-            "text": "版本",
-            "alignment": 16384,
-            "width": 80,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -25272,20 +25234,6 @@
         "gridPageControl": false,
         "fields": [
           {
-            "id": "1636c464925",
-            "name": "id",
-            "text": "编号",
-            "type": "单行文本框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": true,
-            "textLimit": 0,
-            "maxFileSize": 0,
-            "timeLimit": 0
-          },
-          {
             "id": "1636cd4d4c0",
             "name": "description",
             "text": "描述",
@@ -25317,7 +25265,7 @@
           {
             "id": "16381ccfab2",
             "name": "planStatus",
-            "text": "状态",
+            "text": "要求状态",
             "type": "单行文本框",
             "formFields": [],
             "hasInfoLabel": false,
