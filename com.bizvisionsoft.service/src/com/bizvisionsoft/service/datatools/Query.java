@@ -24,6 +24,11 @@ public class Query {
 		result.append("filter", object);
 		return this;
 	}
+	
+	public Query sort(Object object) {
+		result.append("sort", object);
+		return this;
+	}
 
 	public BasicDBObject bson() {
 		return result;
