@@ -1519,6 +1519,7 @@
           {
             "id": "16370fa7c16",
             "name": "资源计划",
+            "switchContentToAssemblyId": "16370ff5184",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -1543,6 +1544,30 @@
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "children": [
+              {
+                "id": "16391051314",
+                "name": "项目风险清单",
+                "text": "项目风险清单",
+                "switchContentToAssemblyId": "16380a1c169",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163910518b0",
+                "name": "风险应对计划",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
