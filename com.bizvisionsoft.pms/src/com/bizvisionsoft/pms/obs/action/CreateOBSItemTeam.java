@@ -21,9 +21,9 @@ public class CreateOBSItemTeam extends AbstractCreateOBSItem {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		context.selected(em -> {
 
-			String message = Optional.ofNullable(AUtil.readType(em)).orElse("");
+			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 			message = "创建" + message + "下级团队";
-			open(context, em, message, "OBS节点编辑器（团队用）");
+			open(context, em, message, "OBS节点编辑器（团队）",false);
 
 		});
 	}

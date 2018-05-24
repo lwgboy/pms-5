@@ -71,14 +71,19 @@ public class OBSItem {
 		return txt;
 	}
 
-	@Behavior({ "选择角色", "创建角色", "创建团队", "编辑" })
+	@Behavior({ "添加角色", "创建团队" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
 
-	@Behavior({ "删除" })
+	@Behavior({ "删除", "编辑" })
 	public boolean behaviorEditOrDeleteItem() {
-		return parent_id != null;// 根节点
+		return !scopeRoot;
+	}
+	
+	@Behavior({ "成员" })
+	public boolean behaviorHasMember() {
+		return !isRole;
 	}
 
 	@ReadValue(ReadValue.TYPE)
@@ -192,6 +197,8 @@ public class OBSItem {
 
 	private boolean scopeRoot;
 
+	private boolean isRole;
+
 	@Structure("项目团队/list")
 	public List<OBSItem> listSubOBSItem() {
 		return ServicesLoader.get(OBSService.class).getSubOBSItem(_id);
@@ -268,7 +275,11 @@ public class OBSItem {
 	public String getDiagramText() {
 		int type = getDiagramItemType();
 		if (TYPE_CHARGER_ITEM == type) {
-			return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
+			if (Util.isEmptyOrNull(roleName)) {
+				return managerInfo.substring(0, managerInfo.indexOf("["));
+			} else {
+				return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
+			}
 		} else if (TYPE_ROLE_ITEM == type) {
 			return managerInfo.substring(0, managerInfo.indexOf("["));
 		} else if (TYPE_TEAM_ITEM == type) {
@@ -350,6 +361,15 @@ public class OBSItem {
 
 	public ObjectId getOrg_id() {
 		return org_id;
+	}
+
+	public OBSItem setIsRole(boolean isRole) {
+		this.isRole = isRole;
+		return this;
+	}
+
+	public boolean isRole() {
+		return isRole;
 	}
 
 }
