@@ -51,7 +51,7 @@ public class WorkPackageScheduleMonitoring {
 		// }
 
 		bar.setText(text);
-		bar.setActions(context.getAssembly().getActions());
+		// bar.setActions(context.getAssembly().getActions());
 
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -83,13 +83,13 @@ public class WorkPackageScheduleMonitoring {
 	private void createContent(Composite parent) {
 		if (packageSettings == null) {
 			parent.setLayout(new FillLayout());
-			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
+			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("跟踪工作包-基本"))
 					.setServices(brui).create();
 			this.currentContext = c.getContext();
 		} else {
 			parent.setLayout(new FillLayout());
 			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(packageSettings)
-					.setAssembly(brui.getAssembly(packageSettings.getPackageAssembly())).setServices(brui).create();
+					.setAssembly(brui.getAssembly(packageSettings.getViewAssembly())).setServices(brui).create();
 			this.currentContext = c.getContext();
 		}
 	}
