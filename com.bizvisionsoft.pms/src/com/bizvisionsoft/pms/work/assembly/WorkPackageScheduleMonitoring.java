@@ -89,7 +89,7 @@ public class WorkPackageScheduleMonitoring {
 	private void createContent(Composite parent) {
 		if (Util.isEmptyOrNull(packageSetting)) {
 			parent.setLayout(new FillLayout());
-			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
+			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("跟踪工作包-基本"))
 					.setServices(brui).create();
 			this.currentContext = c.getContext();
 		} else if (packageSetting.size() == 1) {
