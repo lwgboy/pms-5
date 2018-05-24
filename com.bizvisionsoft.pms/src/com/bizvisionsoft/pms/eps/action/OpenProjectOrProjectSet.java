@@ -29,6 +29,8 @@ public class OpenProjectOrProjectSet {
 					bruiService.switchPage("项目首页（执行）", ((Project) em).get_id().toHexString());
 				} else if (ProjectStatus.Closing.equals(((Project) em).getStatus())) {
 					bruiService.switchPage("项目首页（收尾）", ((Project) em).get_id().toHexString());
+				}else if (ProjectStatus.Closed.equals(((Project) em).getStatus())) {
+					bruiService.switchPage("项目首页（关闭）", ((Project) em).get_id().toHexString());
 				}
 			}
 		});

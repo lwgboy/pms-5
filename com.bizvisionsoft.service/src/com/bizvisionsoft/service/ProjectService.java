@@ -91,7 +91,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/stockholder/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目干系人/list")
+	@DataSet({ "项目干系人/list", "项目干系人（查看）/list" })
 	public List<Stockholder> getStockholders(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
@@ -99,7 +99,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/stockholder/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目干系人/count")
+	@DataSet({ "项目干系人/count", "项目干系人（查看）/count" })
 	public long countStockholders(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 

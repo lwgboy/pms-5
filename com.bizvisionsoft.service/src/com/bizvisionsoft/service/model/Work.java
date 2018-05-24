@@ -658,12 +658,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure({ "项目进度计划表/list", "总体进度监控/list" })
+	@Structure({ "项目进度计划表/list", "项目进度计划表（查看）/list", "总体进度监控/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure({ "项目进度计划表/count", "总体进度监控/count" })
+	@Structure({ "项目进度计划表/count", "项目进度计划表（查看）/count", "总体进度监控/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
