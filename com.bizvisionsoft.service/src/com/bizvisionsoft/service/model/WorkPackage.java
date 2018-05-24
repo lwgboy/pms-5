@@ -71,8 +71,16 @@ public class WorkPackage {
 		if (matId != null) {
 			text += "[" + matId + "]";
 		}
+		
+		if(description != null) {
+			text += description;
+		}
+		
+		if(id != null) {
+			text += "[" + id + "]";
+		}
 
-		return name == null ? "基本工作包" : text + " " + name;
+		return text;
 	}
 
 	@ReadValue
