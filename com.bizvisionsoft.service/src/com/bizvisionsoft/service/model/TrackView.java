@@ -38,9 +38,13 @@ public class TrackView {
 		return name;
 	}
 
-//	@ReadValue
-//	@WriteValue
-//	private String viewAssembly;
+	@ReadValue
+	@WriteValue
+	private String viewAssembly;
+
+	public String getViewAssembly() {
+		return viewAssembly;
+	}
 
 	@ReadValue
 	@WriteValue
