@@ -154,9 +154,22 @@ public class BudgetSubject extends BudgetGrid {
 		}
 		Double summary = 0d;
 		if (children.isEmpty()) {
-			summary = accountBudget.stream().filter(
+			// summary = accountBudget.stream().filter(
+			// s -> s.getSubjectNumber().equals(((AccountItem) item).getId()) &&
+			// s.getId().startsWith(year))
+			// .forEach(u -> u.getBudget()).orElse(0d);
+
+			List<Double> summarys = new ArrayList<Double>();
+			accountBudget.stream().filter(
 					s -> s.getSubjectNumber().equals(((AccountItem) item).getId()) && s.getId().startsWith(year))
-					.findFirst().map(u -> u.getBudget()).orElse(0d);
+					.forEach(c -> {
+						summarys.add(c.getBudget());
+					});
+			for (Double d : summarys) {
+				if (d != null) {
+					summary += d.doubleValue();
+				}
+			}
 		} else {
 			for (Iterator<AccountItem> iterator = children.iterator(); iterator.hasNext();) {
 				AccountItem child = (AccountItem) iterator.next();
@@ -175,8 +188,15 @@ public class BudgetSubject extends BudgetGrid {
 		}
 		Double summary = 0d;
 		if (children.isEmpty()) {
-			summary = accountBudget.stream().filter(s -> s.getSubjectNumber().equals(((AccountItem) item).getId()))
-					.findFirst().map(u -> u.getBudget()).orElse(0d);
+			List<Double> summarys = new ArrayList<Double>();
+			accountBudget.stream().filter(s -> s.getSubjectNumber().equals(((AccountItem) item).getId())).forEach(c -> {
+				summarys.add(c.getBudget());
+			});
+			for (Double d : summarys) {
+				if (d != null) {
+					summary += d.doubleValue();
+				}
+			}
 		} else {
 			for (Iterator<AccountItem> iterator = children.iterator(); iterator.hasNext();) {
 				AccountItem child = (AccountItem) iterator.next();

@@ -21,7 +21,7 @@ public class CBSSubject {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
-	
+
 	@ReadValue
 	@WriteValue
 	private String subjectNumber;
@@ -80,9 +80,10 @@ public class CBSSubject {
 		this.cbsItem_id = cbsItem_id;
 		return this;
 	}
-	
+
 	/**
 	 * 期间
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -90,11 +91,12 @@ public class CBSSubject {
 		this.id = id;
 		return this;
 	}
-	
+
 	/**
 	 * 科目号
+	 * 
 	 * @param subjectNumber
-	 * @return 
+	 * @return
 	 */
 	public CBSSubject setSubjectNumber(String subjectNumber) {
 		this.subjectNumber = subjectNumber;
@@ -143,11 +145,46 @@ public class CBSSubject {
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getSubjectNumber() {
 		return subjectNumber;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cbsItem_id == null) ? 0 : cbsItem_id.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((subjectNumber == null) ? 0 : subjectNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CBSSubject other = (CBSSubject) obj;
+		if (cbsItem_id == null) {
+			if (other.cbsItem_id != null)
+				return false;
+		} else if (!cbsItem_id.equals(other.cbsItem_id))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (subjectNumber == null) {
+			if (other.subjectNumber != null)
+				return false;
+		} else if (!subjectNumber.equals(other.subjectNumber))
+			return false;
+		return true;
+	}
 
 }
