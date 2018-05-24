@@ -25272,20 +25272,6 @@
         "gridPageControl": false,
         "fields": [
           {
-            "id": "1636c464925",
-            "name": "id",
-            "text": "编号",
-            "type": "单行文本框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": true,
-            "textLimit": 0,
-            "maxFileSize": 0,
-            "timeLimit": 0
-          },
-          {
             "id": "1636cd4d4c0",
             "name": "description",
             "text": "描述",
@@ -25317,7 +25303,7 @@
           {
             "id": "16381ccfab2",
             "name": "planStatus",
-            "text": "状态",
+            "text": "要求状态",
             "type": "单行文本框",
             "formFields": [],
             "hasInfoLabel": false,
