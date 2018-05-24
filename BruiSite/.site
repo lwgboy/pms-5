@@ -12582,7 +12582,7 @@
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
-        "message": "项目已成功创建，完善以下信息后可启动项目",
+        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，制定总体的进度计划，编制项目预算，组建项目的初始团队。\u003c/div\u003e\n",
         "actionPanelColumnCount": 3,
         "smallEditor": false
       },
