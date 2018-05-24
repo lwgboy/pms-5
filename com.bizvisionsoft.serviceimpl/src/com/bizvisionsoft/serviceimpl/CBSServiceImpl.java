@@ -248,15 +248,17 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			String id = cbsSubject.getId();
 			Double budget = cbsPeriodMap.get(id);
 			cbsPeriodMap.put(id,
-					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0) + (budget != null ? budget : 0));
-			totalBudget += (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0);
+					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d) + (budget != null ? budget : 0d));
+			totalBudget += (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d);
 		}
 
-		Document doc = c("cbsPeriod").aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("cbsItem_id", _id)),
-				Aggregates.group(new BasicDBObject("_id", "$cbsItem_id").append("totalBudget",
-						new BasicDBObject("$sum", "$budget")))))
-				.first();
-		if (doc != null && totalBudget != doc.getDouble("totalBudget")) {
+		List<Document> pipeline = Arrays.asList(
+				new Document().append("$match", new Document().append("cbsItem_id", _id)),
+				new Document().append("$group", new Document().append("_id", "$cbsItem_id").append("totalBudget",
+						new Document().append("$sum", "$budget"))));
+		Document doc = c("cbsPeriod").aggregate(pipeline).first();
+
+		if (doc != null && totalBudget.doubleValue() != doc.getDouble("totalBudget").doubleValue()) {
 			return Result.cbsError("分配科目预算与预算总额不一致", Result.CODE_CBS_DEFF_BUDGET);
 		}
 
@@ -272,7 +274,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		}
 		c(CBSPeriod.class).insertMany(cbsPeriods);
 
-		return Result.cbsSuccess("提交预算成功").setResultDate(get(_id));
+		return Result.cbsSuccess("提交预算成功");
 	}
 
 	@Override
