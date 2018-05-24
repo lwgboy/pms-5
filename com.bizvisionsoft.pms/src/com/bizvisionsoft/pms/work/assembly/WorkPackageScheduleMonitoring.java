@@ -1,11 +1,16 @@
 package com.bizvisionsoft.pms.work.assembly;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -16,6 +21,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 
@@ -31,13 +37,16 @@ public class WorkPackageScheduleMonitoring {
 
 	private BruiAssemblyContext currentContext;
 
-	private TrackView packageSettings;
+	private List<TrackView> packageSetting;
 
 	@CreateUI
 	public void createUI(Composite parent) {
 		work = (Work) context.getInput();
-		packageSettings = work.scheduleMonitoring;
-
+		if (work.scheduleMonitoring != null) {
+			packageSetting = Arrays.asList(work.scheduleMonitoring);
+		} else {
+			packageSetting = work.getWorkPackageSetting();
+		}
 		parent.setLayout(new FormLayout());
 
 		Action closeAction = new Action();
@@ -46,9 +55,6 @@ public class WorkPackageScheduleMonitoring {
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
 		String text = "工作包: " + work;
-		// if (packageSettings != null && packageSettings.size() == 1) {
-		// text += "-"+packageSettings.get(0).getName();
-		// }
 
 		bar.setText(text);
 		// bar.setActions(context.getAssembly().getActions());
@@ -81,16 +87,44 @@ public class WorkPackageScheduleMonitoring {
 	}
 
 	private void createContent(Composite parent) {
-		if (packageSettings == null) {
+		if (Util.isEmptyOrNull(packageSetting)) {
 			parent.setLayout(new FillLayout());
-			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("跟踪工作包-基本"))
+			AssemblyContainer c = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
 					.setServices(brui).create();
 			this.currentContext = c.getContext();
-		} else {
+		} else if (packageSetting.size() == 1) {
 			parent.setLayout(new FillLayout());
-			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(packageSettings)
-					.setAssembly(brui.getAssembly(packageSettings.getViewAssembly())).setServices(brui).create();
+			TrackView tv = packageSetting.get(0);
+			AssemblyContainer c = new AssemblyContainer(parent, context).setInput(tv)
+					.setAssembly(brui.getAssembly(tv.getViewAssembly())).setServices(brui).create();
 			this.currentContext = c.getContext();
+		} else {
+			FillLayout layout = new FillLayout();
+			layout.marginHeight = 16;
+			layout.marginWidth = 16;
+			parent.setLayout(layout);
+			TabFolder folder = new TabFolder(parent, SWT.TOP | SWT.BORDER);
+			packageSetting.forEach(setting -> {
+				String id = setting.getViewAssembly();
+				TabItem item = new TabItem(folder, SWT.NONE);
+				item.setText(setting.getName());
+				Composite pageContent = new Composite(folder, SWT.NONE);
+				pageContent.setLayout(new FillLayout());
+				AssemblyContainer c = new AssemblyContainer(pageContent, context).setInput(setting)
+						.setAssembly(brui.getAssembly(id)).setServices(brui).create();
+				item.setData("context", c.getContext());
+				item.setControl(pageContent);
+			});
+			folder.addListener(SWT.Selection, e -> {
+				int idx = folder.getSelectionIndex();
+				if (idx != -1) {
+					this.currentContext = (BruiAssemblyContext) folder.getItem(idx).getData("context");
+				} else {
+					this.currentContext = null;
+				}
+			});
+			folder.setSelection(0);
+			this.currentContext = (BruiAssemblyContext) folder.getItem(0).getData("context");
 		}
 	}
 
