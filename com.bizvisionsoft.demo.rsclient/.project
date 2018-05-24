@@ -3,6 +3,7 @@
 	<name>com.bizvisionsoft.demo.rsclient</name>
 	<comment></comment>
 	<projects>
+		<project>BruiSite</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

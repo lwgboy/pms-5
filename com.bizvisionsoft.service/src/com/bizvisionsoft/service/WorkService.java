@@ -188,7 +188,7 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
 
-	@GET
+	@POST
 	@Path("/package/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -290,7 +290,7 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition);
 
-	@GET
+	@POST
 	@Path("/packageprogress/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -309,7 +309,7 @@ public interface WorkService {
 	public List<TrackView> listWorkPackageForScheduleInProject(@PathParam("project_id") ObjectId project_id,
 			@PathParam("catagory") String catagory);
 
-	@GET
+	@POST
 	@Path("/track/project/{project_id}/{catagory}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -323,7 +323,7 @@ public interface WorkService {
 	public List<TrackView> listWorkPackageForScheduleInStage(@PathParam("stage_id") ObjectId stage_id,
 			@PathParam("catagory") String catagory);
 
-	@GET
+	@POST
 	@Path("/track/stage/{stage_id}/{catagory}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -337,7 +337,7 @@ public interface WorkService {
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, @PathParam("userid") String userid,
 			@PathParam("catagory") String catagory);
 
-	@GET
+	@POST
 	@Path("/track/{userid}/{catagory}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
