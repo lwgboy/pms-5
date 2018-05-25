@@ -405,11 +405,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				planFinishCal.setTime(planFinish);
 				planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
 
-				while (planFinishCal.getTime().before(planFinishCal.getTime())) {
-					if (checkDayIsWorkingDay(planFinishCal, resTypeId)) {
-						String id = "" + planFinishCal.get(Calendar.YEAR);
-						id += String.format("%02d", planFinishCal.get(Calendar.MONTH) + 1);
-						id += String.format("%02d", planFinishCal.get(Calendar.DAY_OF_MONTH));
+				while (planStartCal.getTime().before(planFinishCal.getTime())) {
+					if (checkDayIsWorkingDay(planStartCal, resTypeId)) {
+						String id = "" + planStartCal.get(Calendar.YEAR);
+						id += String.format("%02d", planStartCal.get(Calendar.MONTH) + 1);
+						id += String.format("%02d", planStartCal.get(Calendar.DAY_OF_MONTH));
 
 						ResourcePlan res = new ResourcePlan().setWork_id(d.getObjectId("work_id"))
 								.setUsedEquipResId(d.getString("usedEquipResId"))
@@ -420,7 +420,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 						documents.add(res);
 					}
-					planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+					planStartCal.add(Calendar.DAY_OF_MONTH, 1);
 				}
 			}
 		});
