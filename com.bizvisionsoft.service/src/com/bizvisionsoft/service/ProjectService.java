@@ -110,20 +110,36 @@ public interface ProjectService {
 	public Stockholder insertStockholder(Stockholder c);
 
 	@POST
-	@Path("/userid/{userid}/ds")
+	@Path("/pm/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的项目/list")
-	public List<Project> getPMProject(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+	public List<Project> listManagedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/count")
+	@Path("/pm/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的项目/count")
-	public long countPMProject(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+	public long countManagedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	
+	
+	@POST
+	@Path("/member/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list" })
+	public List<Project> listParticipatedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/{userid}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count" })
+	public long countParticipatedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
 
 	@DELETE
 	@Path("/id/{_id}")

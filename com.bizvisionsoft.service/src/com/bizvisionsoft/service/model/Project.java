@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.OrganizationService;
@@ -89,7 +91,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@Persistence
 	private ObjectId parentProject_id;
-	
+
 	public ObjectId getParentProject_id() {
 		return parentProject_id;
 	}
@@ -267,6 +269,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private User getPM() {
 		return Optional.ofNullable(pmId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,7 +282,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
 	private String impUnitOrgFullName;
-	
+
 	public ObjectId getImpUnit_id() {
 		return impUnit_id;
 	}
@@ -387,20 +390,30 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Exclude
 	private String typeName = "项目";
 
-	@Behavior({ "EPS浏览/打开", "我的项目/打开" }) // 控制action
+	@Structure("我的项目（首页小组件）/list")
+	private List<ProjectBoardInfo> getProjectBoardInfo() {
+		return Arrays.asList(new ProjectBoardInfo().setProject(this));
+	}
+
+	@Structure("我的项目（首页小组件）/count")
+	private long countProjectBoardInfo() {
+		return 1;
+	}
+
+	@Behavior("EPS浏览/打开") // 控制action
 	private boolean enableOpen() {
 		return true;// TODO 考虑权限
 	}
 
-	@Behavior("我的项目/编辑项目") // 控制action
-	private boolean enableEdit() {
-		return true;// TODO 考虑权限
-	}
-
-	@Behavior("我的项目/删除项目") // 控制action
-	private boolean enableDelete() {
-		return true;// TODO 考虑权限
-	}
+	// @Behavior("我的项目/编辑项目") // 控制action
+	// private boolean enableEdit() {
+	// return true;// TODO 考虑权限
+	// }
+	//
+	// @Behavior("我的项目/删除项目") // 控制action
+	// private boolean enableDelete() {
+	// return true;// TODO 考虑权限
+	// }
 
 	@Persistence
 	private CreationInfo creationInfo;
@@ -561,6 +574,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Override
 	public List<Work> createGanttTaskDataSet() {
 		return ServicesLoader.get(WorkService.class).createProjectTaskDataSet(_id);
+	}
+
+	public String getPmInfo() {
+		return pmInfo;
 	}
 
 }

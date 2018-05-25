@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -107,6 +108,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	private List<Project> query(Integer skip, Integer limit, BasicDBObject filter) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
+		appendQueryPipeline(skip, limit, filter, pipeline);
+
+		List<Project> result = new ArrayList<Project>();
+		c(Project.class).aggregate(pipeline).into(result);
+		return result;
+
+	}
+
+	private void appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, List<Bson> pipeline) {
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 
@@ -123,11 +133,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendUserInfo(pipeline, "pmId", "pmInfo");
 
 		appendStage(pipeline, "stage_id", "stage");
-
-		List<Project> result = new ArrayList<Project>();
-		c(Project.class).aggregate(pipeline).into(result);
-		return result;
-
 	}
 
 	@Override
@@ -245,7 +250,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Project> getPMProject(BasicDBObject condition, String userid) {
+	public List<Project> listManagedProjects(BasicDBObject condition, String userid) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -255,16 +260,73 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		filter.put("pmId", userid);
 		return query(skip, limit, filter);
-
 	}
 
 	@Override
-	public long countPMProject(BasicDBObject filter, String userid) {
+	public long countManagedProjects(BasicDBObject filter, String userid) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.put("pmId", userid);
 		return count(filter, Project.class);
+	}
+
+	@Override
+	public List<Project> listParticipatedProjects(BasicDBObject condition, String userId) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		appendParticipatedProjectQuery(userId, pipeline);
+
+		appendQueryPipeline(skip, limit, filter, pipeline);
+
+		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+	}
+
+	private void appendParticipatedProjectQuery(String userId, List<Bson> pipeline) {
+		pipeline.add(new Document("$match",
+				new Document("$or", Arrays.asList(new Document("member", userId), new Document("managerId", userId)))));
+
+		pipeline.add(new Document("$lookup", new Document("from", "work").append("localField", "scope_id")
+				.append("foreignField", "_id").append("as", "work")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "scope_id")
+				.append("foreignField", "_id").append("as", "project")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "work.project_id")
+				.append("foreignField", "_id").append("as", "project2")));
+
+		pipeline.add(
+				new Document("$unwind", new Document("path", "$project").append("preserveNullAndEmptyArrays", true)));
+
+		pipeline.add(
+				new Document("$unwind", new Document("path", "$project2").append("preserveNullAndEmptyArrays", true)));
+
+		pipeline.add(
+				new Document("$addFields", new Document("project_id", new Document("$cond", Arrays.asList("$project",
+						"$project._id", new Document("$cond", Arrays.asList("$project2", "$project2._id", null)))))));
+
+		pipeline.add(new Document("$group", new Document("_id", "$project_id")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
+				.append("foreignField", "_id").append("as", "project")));
+
+		pipeline.add(new Document("$replaceRoot",
+				new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
+	}
+
+	@Override
+	public long countParticipatedProjects(BasicDBObject filter, String userId) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		appendParticipatedProjectQuery(userId, pipeline);
+
+		pipeline.add(new Document("$match", filter));
+
+		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
@@ -397,4 +459,5 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		return workOrder;
 	}
+
 }

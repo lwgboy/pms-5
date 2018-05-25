@@ -129,7 +129,7 @@ public class BasicServiceImpl {
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
 	}
 
-	protected void appendStage(ArrayList<Bson> pipeline, String inputField, String outputField) {
+	protected void appendStage(List<Bson> pipeline, String inputField, String outputField) {
 		pipeline.add(Aggregates.lookup("work", inputField, "_id", outputField));
 
 		pipeline.add(Aggregates.unwind("$" + outputField, new UnwindOptions().preserveNullAndEmptyArrays(true)));

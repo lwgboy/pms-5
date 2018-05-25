@@ -670,11 +670,31 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Persistence
 	private List<String> viewId;
-
+	
 	public List<String> getViewId() {
 		return viewId;
 	}
 
+	@Persistence
+	private Date startOn;
+	
+	@Persistence
+	private String startBy;
+	
+	@Persistence
+	private Date finishOn;
+	
+	@Persistence
+	private String finishBy;
+	
+	public Date getStartOn() {
+		return startOn;
+	}
+	
+	public Date getFinishOn() {
+		return finishOn;
+	}
+	
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
@@ -866,5 +886,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@ReadValue
 	@SetValue
 	public TrackView scheduleMonitoring;
+	
+	
+	public Date getActualFinish() {
+		return actualFinish;
+	}
+	
+	public Date getActualStart() {
+		return actualStart;
+	}
 
 }

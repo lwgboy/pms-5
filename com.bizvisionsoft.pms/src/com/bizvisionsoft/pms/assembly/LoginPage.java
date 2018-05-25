@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.assembly;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -9,6 +8,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -61,7 +61,7 @@ public class LoginPage {
 			try {
 				login(tName.getText().trim(), tPassword.getText().trim());
 			} catch (Exception e1) {
-				MessageDialog.openError(bruiService.getCurrentShell(), "’Àªß—È÷§", e1.getMessage());
+				Layer.message(e1.getMessage(), Layer.ICON_CANCEL);
 			}
 		});
 	}
