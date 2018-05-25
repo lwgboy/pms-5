@@ -2,14 +2,20 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
+import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
@@ -219,9 +225,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						new BasicDBObject("stage", Boolean.FALSE).append("wpf", Boolean.TRUE) })));
 		WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
 		if (workInfo != null) {
-			 Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
-			 result.setResultDate(workInfo.toString());
-			 return result;
+			Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+			result.setResultDate(workInfo.toString());
+			return result;
 		}
 
 		// 返回检查结果
@@ -261,6 +267,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		// 根据删除集合删除Work
 		c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
 
+		// 根据删除集合删除资源计划
+		c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+
 		// 根据插入集合插入Work
 		if (insertIds.size() > 0) {
 			ArrayList<Document> insertDoc = c("workspace")
@@ -271,6 +280,81 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
 			Object _id = d.get("_id");
+			// 更新资源计划
+			Document doc = c("work").find(new BasicDBObject("_id", _id))
+					.projection(new BasicDBObject("planStart", 1).append("planFinish", 1)).first();
+			Date oldPlanStart = doc.getDate("planStart");
+			Date oldPlanFinish = doc.getDate("planFinish");
+			Date newPlanStart = d.getDate("planStart");
+			Date newPlanFinish = d.getDate("planFinish");
+			boolean updateWorkWorks = false;
+			List<String> deleteResourcePlan = new ArrayList<String>();
+
+			Map<Date, Date> addResourcePlanDateRange = new HashMap<Date, Date>();
+
+			if (oldPlanStart.before(newPlanStart)) {
+				// 如果原work计划开始时间早于新计划开始时间，则删除资源多余计划工时，并更新工作计划时间
+				Calendar oldPlanStartCal = Calendar.getInstance();
+				oldPlanStartCal.setTime(oldPlanStart);
+				while (oldPlanStartCal.getTime().before(newPlanStart)) {
+					String id = "" + oldPlanStartCal.get(Calendar.YEAR);
+					id += String.format("%02d", oldPlanStartCal.get(Calendar.MONTH) + 1);
+					id += String.format("%02d", oldPlanStartCal.get(Calendar.DAY_OF_MONTH));
+					deleteResourcePlan.add(id);
+					oldPlanStartCal.set(Calendar.DAY_OF_MONTH, 1);
+				}
+				updateWorkWorks = true;
+			} else if (oldPlanStart.after(newPlanStart)) {
+				// 如果原work计划开始时间完于新计划开始时间，则添加资源计划工时，并更新工作计划时间
+				Calendar oldPlanStartCal = Calendar.getInstance();
+				oldPlanStartCal.setTime(oldPlanStart);
+				oldPlanStartCal.add(Calendar.DAY_OF_MONTH, -1);
+				addResourcePlanDateRange.put(newPlanStart, oldPlanStartCal.getTime());
+				updateWorkWorks = true;
+			}
+
+			if (oldPlanFinish.before(newPlanFinish)) {
+				// 如果原work计划完成时间早于新计划完成时间，则添加资源计划工时，并更新工作计划时间
+				Calendar oldPlanFinishCal = Calendar.getInstance();
+				oldPlanFinishCal.setTime(oldPlanFinish);
+				oldPlanFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+				addResourcePlanDateRange.put(oldPlanFinish, newPlanFinish);
+				updateWorkWorks = true;
+			} else if (oldPlanFinish.after(newPlanFinish)) {
+				// 如果原work计划完成时间完于新计划完成时间，则删除资源多余计划工时，并更新工作计划时间
+
+				Calendar newPlanFinishCal = Calendar.getInstance();
+				newPlanFinishCal.setTime(newPlanFinish);
+
+				while (newPlanFinishCal.getTime().before(oldPlanFinish)) {
+					newPlanFinishCal.set(Calendar.DAY_OF_MONTH, 1);
+					String id = "" + newPlanFinishCal.get(Calendar.YEAR);
+					id += String.format("%02d", newPlanFinishCal.get(Calendar.MONTH) + 1);
+					id += String.format("%02d", newPlanFinishCal.get(Calendar.DAY_OF_MONTH));
+					deleteResourcePlan.add(id);
+				}
+
+				updateWorkWorks = true;
+			}
+
+			if (updateWorkWorks) {
+				if (deleteResourcePlan.size() > 0)
+					c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", _id).append("id",
+							new BasicDBObject("$in", deleteResourcePlan)));
+
+				if (addResourcePlanDateRange.size() > 0)
+					addResourcePlan((ObjectId) _id, addResourcePlanDateRange);
+
+				updateWorkPlanWorks((ObjectId) _id);
+			}
+
+			// TODO 实际工时的调整
+			// Date oldActualStart = doc.getDate("actualStart");
+			// Date oldActualFinish = doc.getDate("actualFinish");
+			// Date newActualStart = d.getDate("actualStart");
+			// Date newActualFinish = d.getDate("actualFinish");
+
+			// 更新Work
 			d.remove("_id");
 			d.remove("space_id");
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
@@ -293,6 +377,172 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			return Result.checkoutSuccess("已成功提交。");
 		} else {
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
+		}
+	}
+
+	private void addResourcePlan(ObjectId work_id, Map<Date, Date> addResourcePlanDateRange) {
+		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
+		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
+				new Document("$group",
+						new Document("_id", new Document("work_id", "$work_id").append("resTypeId", "$resTypeId")
+								.append("usedTypedResId", "$usedTypedResId").append("usedHumanResId", "$usedHumanResId")
+								.append("usedEquipResId", "$usedEquipResId"))),
+				new Document("$unwind", "$_id"),
+				new Document("$addFields", new Document("work_id", "$_id.work_id").append("resTypeId", "$_id.resTypeId")
+						.append("usedTypedResId", "$_id.usedTypedResId").append("usedHumanResId", "$_id.usedHumanResId")
+						.append("usedEquipResId", "$_id.usedEquipResId")));
+		c("resourcePlan").aggregate(pipeline).forEach((Document d) -> {
+			ObjectId resTypeId = d.getObjectId("resTypeId");
+			double works = getWorks(resTypeId);
+			Set<Date> keySet = addResourcePlanDateRange.keySet();
+			for (Date key : keySet) {
+				Date planStart = key;
+				Date planFinish = addResourcePlanDateRange.get(key);
+				Calendar planStartCal = Calendar.getInstance();
+				planStartCal.setTime(planStart);
+
+				Calendar planFinishCal = Calendar.getInstance();
+				planFinishCal.setTime(planFinish);
+				planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+
+				while (planFinishCal.getTime().before(planFinishCal.getTime())) {
+					if (checkDayIsWorkingDay(planFinishCal, resTypeId)) {
+						String id = "" + planFinishCal.get(Calendar.YEAR);
+						id += String.format("%02d", planFinishCal.get(Calendar.MONTH) + 1);
+						id += String.format("%02d", planFinishCal.get(Calendar.DAY_OF_MONTH));
+
+						ResourcePlan res = new ResourcePlan().setWork_id(d.getObjectId("work_id"))
+								.setUsedEquipResId(d.getString("usedEquipResId"))
+								.setUsedHumanResId(d.getString("usedHumanResId"))
+								.setUsedTypedResId(d.getString("usedTypedResId"));
+						res.setId(id);
+						res.setPlanBasicQty(works);
+
+						documents.add(res);
+					}
+					planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+				}
+			}
+		});
+
+		c(ResourcePlan.class).insertMany(documents);
+	}
+
+	private boolean checkDayIsWorkingDay(Calendar cal, ObjectId resId) {
+		List<? extends Bson> pipeline = Arrays
+				.asList(new Document("$lookup",
+						new Document("from", "resourceType").append("localField", "_id")
+								.append("foreignField", "cal_id").append("as", "resourceType")),
+						new Document("$unwind", "$resourceType"),
+						new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
+						new Document("$project", new Document("resourceType", false)),
+						new Document("$match", new Document("resTypeId", resId)), new Document("$unwind", "$workTime"),
+						new Document("$addFields", new Document("date", "$workTime.date")
+								.append("workingDay", "$workTime.workingDay").append("day", "$workTime.day")),
+						new Document("$project", new Document("workTime",
+								false)),
+						new Document()
+								.append("$unwind", new Document("path", "$day").append("preserveNullAndEmptyArrays",
+										true)),
+						new Document("$addFields", new Document().append("workdate",
+								new Document("$cond",
+										Arrays.asList(new Document("$eq", Arrays.asList("$date", cal.getTime())), true,
+												false)))
+								.append("workday", new Document("$eq", Arrays.asList("$day", getDateWeek(cal))))),
+						new Document("$project",
+								new Document("workdate", true).append("workday", true).append("workingDay", true)),
+						new Document("$match",
+								new Document("$or",
+										Arrays.asList(new Document("workdate", true), new Document("workday", true)))),
+						new Document("$sort", new Document("workdate", -1).append("workingDay", -1)));
+
+		Document doc = c("calendar").aggregate(pipeline).first();
+		if (doc != null) {
+			Boolean workdate = doc.getBoolean("workdate");
+			Boolean workday = doc.getBoolean("workday");
+			Boolean workingDay = doc.getBoolean("workingDay");
+			if (workdate) {
+				return workingDay;
+			} else {
+				return workday;
+			}
+		}
+		return false;
+	}
+
+	private String getDateWeek(Calendar cal) {
+		switch (cal.get(Calendar.DAY_OF_WEEK)) {
+		case 1:
+			return "周日";
+		case 2:
+			return "周一";
+		case 3:
+			return "周二";
+		case 4:
+			return "周三";
+		case 5:
+			return "周四";
+		case 6:
+			return "周五";
+		default:
+			return "周六";
+		}
+	}
+
+	private double getWorks(ObjectId resTypeId) {
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "resourceType").append("localField", "_id")
+								.append("foreignField", "cal_id").append("as", "resourceType")),
+				new Document("$unwind", "$resourceType"),
+				new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
+				new Document("$project", new Document("resourceType", false)),
+				new Document("$match", new Document("resTypeId", new ObjectId("5b04cc227fbf7437fc19985f"))),
+				new Document("$project", new Document("works", true)));
+		Double works = c("calendar").aggregate(pipeline).first().getDouble("works");
+		return Optional.ofNullable(works).orElse(0d);
+	}
+
+	private void updateWorkPlanWorks(ObjectId work_id) {
+		if (work_id != null) {
+			// TODO 修改计算方式
+			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
+					new Document("$addFields",
+							new Document("planQty",
+									new Document("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
+					new Document("$group",
+							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
+
+			Document doc = c("resourcePlan").aggregate(pipeline).first();
+
+			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+			updateWorkParentPlanWorks(work);
+		}
+	}
+
+	private void updateWorkParentPlanWorks(Work work) {
+		ObjectId parent_id = work.getParent_id();
+		if (parent_id != null) {
+			List<? extends Bson> pipeline = Arrays.asList(
+					new Document().append("$match", new Document().append("parent_id", parent_id)),
+					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
+							new Document().append("$sum", "$planWorks"))));
+			Document doc = c("work").aggregate(pipeline).first();
+
+			Work parentWork = c(Work.class).findOneAndUpdate(new Document("_id", parent_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+			updateWorkParentPlanWorks(parentWork);
+		} else {
+			ObjectId project_id = work.getProject_id();
+			List<? extends Bson> pipeline = Arrays.asList(
+					new Document().append("$match",
+							new Document().append("parent_id", null).append("project_id", project_id)),
+					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
+							new Document().append("$sum", "$planWorks"))));
+			Document doc = c("work").aggregate(pipeline).first();
+			c("project").updateOne(new Document("_id", project_id),
+					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
 		}
 	}
 

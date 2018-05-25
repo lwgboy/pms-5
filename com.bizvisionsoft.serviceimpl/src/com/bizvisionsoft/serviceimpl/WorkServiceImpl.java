@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -657,6 +659,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas) {
+		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
 		resas.forEach(resa -> {
 			double works = getWorks(resa.resTypeId);
@@ -664,13 +667,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					.projection(new Document("planStart", 1).append("planFinish", 1)).first();
 			Date planStart = doc.getDate("planStart");
 			Date planFinish = doc.getDate("planFinish");
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(planStart);
-			while (cal.getTime().before(planFinish)) {
-				if (checkDayIsWorkingDay(cal, resa.resTypeId)) {
-					String id = "" + cal.get(Calendar.YEAR);
-					id += String.format("%02d", cal.get(Calendar.MONTH) + 1);
-					id += String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+			Calendar planStartCal = Calendar.getInstance();
+			planStartCal.setTime(planStart);
+
+			Calendar planFinishCal = Calendar.getInstance();
+			planFinishCal.setTime(planFinish);
+			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+
+			while (planFinishCal.getTime().before(planFinishCal.getTime())) {
+				if (checkDayIsWorkingDay(planFinishCal, resa.resTypeId)) {
+					String id = "" + planFinishCal.get(Calendar.YEAR);
+					id += String.format("%02d", planFinishCal.get(Calendar.MONTH) + 1);
+					id += String.format("%02d", planFinishCal.get(Calendar.DAY_OF_MONTH));
 
 					ResourcePlan res = resa.getResourcePlan();
 					res.setId(id);
@@ -678,11 +686,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 					documents.add(res);
 				}
-				cal.add(Calendar.DAY_OF_MONTH, 1);
+				planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
 			}
+			workIds.add(resa.work_id);
 		});
 		c(ResourcePlan.class).insertMany(documents);
-		// updateWorkPlanWorks(work_id);
+		workIds.forEach(work_id -> {
+			updateWorkPlanWorks(work_id);
+		});
 
 		// ResourcePlan r = insert(res, ResourcePlan.class);
 		// queryResourceUsage(new Document("_id", r.get_id())).get(0);
@@ -768,7 +779,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	private void updateWorkPlanWorks(ObjectId work_id) {
 		if (work_id != null) {
 			// TODO 修改计算方式
-			List<? extends Bson> pipeline = Arrays.asList();
+			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
+					new Document("$addFields",
+							new Document("planQty",
+									new Document("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
+					new Document("$group",
+							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
 
 			Document doc = c("resourcePlan").aggregate(pipeline).first();
 
