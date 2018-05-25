@@ -324,7 +324,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendParticipatedProjectQuery(userId, pipeline);
 
-		pipeline.add(new Document("$match", filter));
+		if (filter != null)
+			pipeline.add(new Document("$match", filter));
 
 		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
@@ -459,5 +460,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		return workOrder;
 	}
+
 
 }

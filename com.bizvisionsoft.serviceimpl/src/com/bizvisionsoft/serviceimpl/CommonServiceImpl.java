@@ -1,5 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -306,6 +309,25 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long updateTrackView(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, TrackView.class);
+	}
+
+	@Override
+	public List<News> getRecentNews(ObjectId _id, int count) {
+		// TODO Auto-generated method stub
+		ArrayList<News> result = new ArrayList<News>();
+		try {
+			result.add(new News().setDate(new SimpleDateFormat("yyyyMMdd").parse("20180422"))
+					.setContent("样机试验结果满足了要求。样机开发完成。"));
+			result.add(new News().setDate(new SimpleDateFormat("yyyyMMdd").parse("20180310"))
+					.setContent("杨文韬下达了A模块结构研发，B模块结构研发等工作的计划。"));
+			result.add(new News().setDate(new SimpleDateFormat("yyyyMMdd").parse("20180210")).setContent("方案研发完成。"));
+			result.add(new News().setDate(new SimpleDateFormat("yyyyMMdd").parse("20180108"))
+					.setContent("因客户要求的变化，涉及到A模块多处研发更改，部分组件必须重新研发。杨文韬发起项目变更，预计项目将延期30天。"));
+			result.add(new News().setDate(new SimpleDateFormat("yyyyMMdd").parse("20171222"))
+					.setContent("样机完成结构力学试验，试验结果满足技术规格要求。有关试验机构已出具试验报告。"));
+		} catch (ParseException e) {
+		}
+		return result;
 	}
 
 }
