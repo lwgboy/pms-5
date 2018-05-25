@@ -23,7 +23,7 @@ public class ResourcePlan {
 	@WriteValue
 	@Persistence
 	private ObjectId work_id;
-	
+
 	public ObjectId getWork_id() {
 		return work_id;
 	}
@@ -41,7 +41,17 @@ public class ResourcePlan {
 	@ReadValue
 	@WriteValue
 	@SetValue
-	private String id;
+	private String resId;
+
+	@ReadValue("resIds")
+	public String getResIds() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(resId);
+		if (conflict) {
+			sb.append(" <span style=\"color: red;\">[冲突]</span> ");
+		}
+		return sb.toString();
+	}
 
 	@Persistence
 	private String usedHumanResId;
@@ -54,11 +64,6 @@ public class ResourcePlan {
 
 	@SetValue
 	private ResourceType resType;
-
-	@ReadValue("pricingModel")
-	private String getPricingModel() {
-		return resType.getPricingModel();
-	}
 
 	@ReadValue("basicRate")
 	private double getBasicRate() {
@@ -81,7 +86,7 @@ public class ResourcePlan {
 	}
 
 	@WriteValue("usedTypedRes")
-	public void setTypedResource(Object res) {
+	public ResourcePlan setTypedResource(Object res) {
 		if (res instanceof User) {
 			setHumanResource((User) res);
 		} else if (res instanceof Equipment) {
@@ -89,39 +94,51 @@ public class ResourcePlan {
 		} else if (res instanceof ResourceType) {
 			usedTypedResId = Optional.ofNullable((ResourceType) res).map(h -> h.getId()).orElse(null);
 		}
-
+		return this;
 	}
 
 	@ReadValue
-	private Integer planBasicQty;
+	private double planBasicQty;
+
+	public void setPlanBasicQty(double planBasicQty) {
+		this.planBasicQty = planBasicQty;
+	}
 
 	@WriteValue("planBasicQty")
 	private void set_planBasicQty(String _planBasicQty) {
-		if (_planBasicQty.isEmpty()) {
-			planBasicQty = 0;
-		} else {
-			try {
-				planBasicQty = Integer.parseInt(_planBasicQty);
-			} catch (Exception e) {
-				throw new RuntimeException("请输入整数类型的数量。");
-			}
+		double __planBasicQty;
+		try {
+			__planBasicQty = Double.parseDouble(_planBasicQty);
+		} catch (Exception e) {
+			throw new RuntimeException("输入类型错误。");
 		}
+		if (__planBasicQty < 0) {
+			throw new RuntimeException("计划标准用量需大于零。");
+		}
+		planBasicQty = __planBasicQty;
 	}
 
 	@ReadValue
-	private Integer planOverTimeQty;
+	private double planOverTimeQty;
+
+	@Persistence
+	private ObjectId resTypeId;
+
+	@Persistence
+	private String id;
 
 	@WriteValue("planOverTimeQty")
 	private void set_planOverTimeQty(String _planOverTimeQty) {
-		if (_planOverTimeQty.isEmpty()) {
-			planOverTimeQty = 0;
-		} else {
-			try {
-				planOverTimeQty = Integer.parseInt(_planOverTimeQty);
-			} catch (Exception e) {
-				throw new RuntimeException("请输入整数类型的数量。");
-			}
+		double __planOverTimeQtyBasicQty;
+		try {
+			__planOverTimeQtyBasicQty = Double.parseDouble(_planOverTimeQty);
+		} catch (Exception e) {
+			throw new RuntimeException("输入类型错误。");
 		}
+		if (__planOverTimeQtyBasicQty < 0) {
+			throw new RuntimeException("计划加班用量需大于零。");
+		}
+		planOverTimeQty = __planOverTimeQtyBasicQty;
 	}
 
 	@ReadValue("planAmount")
@@ -132,10 +149,13 @@ public class ResourcePlan {
 	@Override
 	@Label
 	public String toString() {
-		return name + " [" + id + "]";
+		return name + " [" + resId + "]";
 	}
 
-	@ImageURL("id")
+	@SetValue
+	private boolean conflict;
+
+	@ImageURL("resIds")
 	private String getLogo() {
 		if ("人力资源".equals(type))
 			return "/img/user_c.svg";
@@ -151,6 +171,30 @@ public class ResourcePlan {
 
 	public ObjectId get_id() {
 		return _id;
+	}
+
+	public ResourcePlan setUsedHumanResId(String usedHumanResId) {
+		this.usedHumanResId = usedHumanResId;
+		return this;
+	}
+
+	public ResourcePlan setUsedEquipResId(String usedEquipResId) {
+		this.usedEquipResId = usedEquipResId;
+		return this;
+	}
+
+	public ResourcePlan setUsedTypedResId(String usedTypedResId) {
+		this.usedTypedResId = usedTypedResId;
+		return this;
+	}
+
+	public ResourcePlan setResTypeId(ObjectId resTypeId) {
+		this.resTypeId = resTypeId;
+		return this;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

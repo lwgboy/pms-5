@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.resource;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -22,9 +21,7 @@ import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
-import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
-import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
@@ -65,7 +62,7 @@ public class ReadonlyResourcePlanASM {
 		fd.right = new FormAttachment(100, -12);
 		fd.bottom = new FormAttachment(100, -12);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
 		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表（查看）"))
@@ -82,57 +79,9 @@ public class ReadonlyResourcePlanASM {
 					Layer.message("无需对总成型工作分配资源。");
 					return;
 				}
-				allocateResource();
-			}
-		});
-		
-		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
-			Work work = (Work) ((GanttEvent) l).task;
-			if(work!=null && !work.isSummary()) {
-				allocateResource();
 			}
 		});
 
-	}
-
-	private void allocateResource() {
-		// 显示资源选择框
-		Action hrRes = new Action();
-		hrRes.setName("hr");
-		hrRes.setText("人力资源");
-		hrRes.setImage("/img/team_w.svg");
-		hrRes.setStyle("normal");
-
-		Action eqRes = new Action();
-		eqRes.setName("eq");
-		eqRes.setText("设备资源");
-		eqRes.setImage("/img/equipment_w.svg");
-		eqRes.setStyle("normal");
-
-		Action typedRes = new Action();
-		typedRes.setName("tr");
-		typedRes.setText("资源类型");
-		typedRes.setImage("/img/resource_w.svg");
-		typedRes.setStyle("info");
-
-		// 弹出menu
-		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("分配人力资源编辑器");
-			return false;
-		}).handleActionExecute("eq", a -> {
-			addResource("分配设备资源编辑器");
-			return false;
-		}).handleActionExecute("tr", a -> {
-			addResource("分配资源类型编辑器");
-			return false;
-		}).open();
-	}
-
-	private void addResource(String editorId) {
-		Editor.open(editorId, context, new ResourcePlan().setWork_id(work.get_id()), (t, r) -> {
-			ResourcePlan res = Services.get(WorkService.class).addResourcePlan(r);
-			grid.insert(res);
-		});
 	}
 
 	private void select(Work work) {
