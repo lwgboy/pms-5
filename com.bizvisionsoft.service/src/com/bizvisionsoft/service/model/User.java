@@ -18,7 +18,7 @@ import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection(value = "user")
-public class User {
+public class User implements IResourceAssignment {
 
 	@Persistence
 	private ObjectId _id;
@@ -44,7 +44,7 @@ public class User {
 	}
 
 	@Persistence
-	@ReadValue({"name","部门工作日程表/label"})
+	@ReadValue({ "name", "部门工作日程表/label" })
 	@WriteValue
 	private String name;
 
@@ -116,7 +116,7 @@ public class User {
 		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
 				.orElse(null);
 	}
-	
+
 	public ObjectId getOrganizationId() {
 		return organizationId;
 	}
@@ -142,13 +142,12 @@ public class User {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "用户";
-	
-	
+
 	@ReadValue("部门工作日程表/key")
 	private String getSectionKey() {
 		return userId;
 	}
-	
+
 	public boolean isActivated() {
 		return activated;
 	}
@@ -156,19 +155,28 @@ public class User {
 	public String getName() {
 		return name;
 	}
-	
+
 	public List<RemoteFile> getHeadPics() {
 		return headPics;
 	}
-	
+
 	public User setUserId(String userId) {
 		this.userId = userId;
 		return this;
 	}
-	
+
 	public User setName(String name) {
 		this.name = name;
 		return this;
+	}
+
+	@Override
+	public String getResourceId() {
+		return userId;
+	}
+
+	public ObjectId getResourceType_id() {
+		return resourceType_id;
 	}
 
 }

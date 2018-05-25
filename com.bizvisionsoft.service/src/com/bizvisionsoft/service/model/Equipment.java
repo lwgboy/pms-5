@@ -16,11 +16,11 @@ import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("equipment")
-public class Equipment {
-	
+public class Equipment implements IResourceAssignment {
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	//基本的一些字段
-	
+	// 基本的一些字段
+
 	/** 标识 Y **/
 	@ReadValue
 	@WriteValue
@@ -30,22 +30,22 @@ public class Equipment {
 	@ReadValue
 	@WriteValue
 	private String id;
-	
+
 	@ImageURL("id")
 	@Exclude
 	private String logo = "/img/equipment_c.svg";
-	
+
 	@ReadValue
 	@WriteValue
 	private String name;
-	
+
 	@ReadValue
 	@WriteValue
 	private String description;
-	
+
 	@Persistence("org_id")
 	private ObjectId organizationId;
-	
+
 	@SetValue
 	@ReadValue
 	private String orgFullName;
@@ -53,7 +53,7 @@ public class Equipment {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "设备设施";
-	
+
 	@WriteValue("organization ")
 	public void writeOrganization(Organization org) {
 		this.organizationId = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
@@ -64,7 +64,7 @@ public class Equipment {
 		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
 				.orElse(null);
 	}
-	
+
 	@Override
 	@Label
 	public String toString() {
@@ -80,13 +80,22 @@ public class Equipment {
 	public ObjectId get_id() {
 		return _id;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String getResourceId() {
+		return id;
+	}
+
+	public ObjectId getResourceType_id() {
+		return resourceType_id;
 	}
 
 }

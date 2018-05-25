@@ -166,8 +166,14 @@ public interface CommonService {
 	@Path("/cal/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("工作日历/" + DataSet.LIST)
+	@DataSet({ "工作日历/" + DataSet.LIST, "工作日历选择表格/" + DataSet.LIST })
 	public List<Calendar> getCalendars();
+
+	@GET
+	@Path("/cal/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Calendar getCalendar(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/cal/")
@@ -304,14 +310,13 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public int generateCode(@PathParam("name") String name, @PathParam("key") String key);
 
-	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@POST
 	@Path("/track/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"视图和工作包列表/" + DataSet.LIST,"视图和工作包选择器/"+ DataSet.LIST})
+	@DataSet({ "视图和工作包列表/" + DataSet.LIST, "视图和工作包选择器/" + DataSet.LIST })
 	public List<TrackView> getTrackView();
 
 	@POST

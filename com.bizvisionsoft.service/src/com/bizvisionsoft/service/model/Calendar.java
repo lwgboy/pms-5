@@ -50,8 +50,26 @@ public class Calendar {
 	@ReadValue
 	@WriteValue
 	private boolean global;
+	
+	@ReadValue
+	private double works;
+	
+	@WriteValue("works")
+	public void setWorks(String _works) {
+		double __works;
+		try {
+			__works = Double.parseDouble(_works);
+		} catch (Exception e) {
+			throw new RuntimeException("输入类型错误。");
+		}
+		if (__works <= 0) {
+			throw new RuntimeException("工作日每日工时需大于零。");
+		}
+		works = __works;
+	}
 
 	@Behavior({ "工作日历/添加", "工作日历/删除", "工作日历/编辑" })
+	@Exclude
 	private boolean behavior = true;
 
 	@Override

@@ -15,6 +15,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.ResourceActual;
+import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
@@ -252,7 +254,7 @@ public interface WorkService {
 	@Path("/resourceplan/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ResourcePlan addResourcePlan(ResourcePlan res);
+	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas);
 
 	@PUT
 	@Path("/resourceplan/")
@@ -343,5 +345,17 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkPackageForSchedule(BasicDBObject filter, @PathParam("userid") String userid,
 			@PathParam("catagory") String catagory);
+
+	@POST
+	@Path("/resourceactual/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ResourceActual> addResourceActual(ResourceAssignment resa);
+
+	@POST
+	@Path("/_id/{_id}/resourceactual/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ResourceActual> listResourceActual(@PathParam("_id") ObjectId _id);
 
 }

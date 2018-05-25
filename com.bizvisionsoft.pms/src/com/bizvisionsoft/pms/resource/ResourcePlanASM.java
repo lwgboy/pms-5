@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.resource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +25,9 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
-import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -65,7 +67,7 @@ public class ResourcePlanASM {
 		fd.right = new FormAttachment(100, -12);
 		fd.bottom = new FormAttachment(100, -12);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
 		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表"))
@@ -85,10 +87,10 @@ public class ResourcePlanASM {
 				allocateResource();
 			}
 		});
-		
+
 		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
 			Work work = (Work) ((GanttEvent) l).task;
-			if(work!=null && !work.isSummary()) {
+			if (work != null && !work.isSummary()) {
 				allocateResource();
 			}
 		});
@@ -117,21 +119,26 @@ public class ResourcePlanASM {
 
 		// 弹出menu
 		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("分配人力资源编辑器");
+			addResource("人力资源选择器");
 			return false;
 		}).handleActionExecute("eq", a -> {
-			addResource("分配设备资源编辑器");
+			addResource("设备设施选择器");
 			return false;
 		}).handleActionExecute("tr", a -> {
-			addResource("分配资源类型编辑器");
+			addResource("资源类型选择器");
 			return false;
 		}).open();
 	}
 
-	private void addResource(String editorId) {
-		Editor.open(editorId, context, new ResourcePlan().setWork_id(work.get_id()), (t, r) -> {
-			ResourcePlan res = Services.get(WorkService.class).addResourcePlan(r);
-			grid.insert(res);
+	private void addResource(String selectorId) {
+		Selector.open(selectorId, context, null, l -> {
+			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
+			l.forEach(o -> {
+				resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id()));
+			});
+			Services.get(WorkService.class).addResourcePlan(resa);
+			
+			grid.setViewerInput(Services.get(WorkService.class).listResourcePlan(work.get_id()));
 		});
 	}
 

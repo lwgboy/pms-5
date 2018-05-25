@@ -9,8 +9,8 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 
-@PersistenceCollection("resourcePlan")
-public class ResourcePlan {
+@PersistenceCollection("resourceActual")
+public class ResourceActual {
 
 	@ReadValue
 	private ObjectId _id;
@@ -35,16 +35,6 @@ public class ResourcePlan {
 	@SetValue
 	private String resId;
 
-	@ReadValue("resIds")
-	public String getResIds() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(resId);
-		if (conflict) {
-			sb.append(" <span style=\"color: red;\">[冲突]</span> ");
-		}
-		return sb.toString();
-	}
-
 	@Persistence
 	private String usedHumanResId;
 
@@ -68,13 +58,21 @@ public class ResourcePlan {
 	}
 
 	@ReadValue
+	private double actualBasicQty;
+
+	@ReadValue
+	@SetValue
 	private double planBasicQty;
 
-	public void setPlanBasicQty(double planBasicQty) {
-		this.planBasicQty = planBasicQty;
+	public void setActualBasicQty(double actualBasicQty) {
+		this.actualBasicQty = actualBasicQty;
 	}
 
 	@ReadValue
+	private double actualOverTimeQty;
+
+	@ReadValue
+	@SetValue
 	private double planOverTimeQty;
 
 	@Persistence
@@ -82,6 +80,11 @@ public class ResourcePlan {
 
 	@Persistence
 	private String id;
+
+	@ReadValue("actualAmount")
+	private Double getActualAmount() {
+		return getBasicRate() * actualBasicQty + getOvertimeRate() * actualOverTimeQty;
+	}
 
 	@ReadValue("planAmount")
 	private Double getPlanAmount() {
@@ -94,10 +97,7 @@ public class ResourcePlan {
 		return name + " [" + resId + "]";
 	}
 
-	@SetValue
-	private boolean conflict;
-
-	@ImageURL("resIds")
+	@ImageURL("resId")
 	private String getLogo() {
 		if ("人力资源".equals(type))
 			return "/img/user_c.svg";
@@ -106,7 +106,7 @@ public class ResourcePlan {
 		return "/img/resource_c.svg";
 	}
 
-	public ResourcePlan setWork_id(ObjectId work_id) {
+	public ResourceActual setWork_id(ObjectId work_id) {
 		this.work_id = work_id;
 		return this;
 	}
@@ -115,28 +115,48 @@ public class ResourcePlan {
 		return _id;
 	}
 
-	public ResourcePlan setUsedHumanResId(String usedHumanResId) {
+	public ResourceActual setUsedHumanResId(String usedHumanResId) {
 		this.usedHumanResId = usedHumanResId;
 		return this;
 	}
 
-	public ResourcePlan setUsedEquipResId(String usedEquipResId) {
+	public ResourceActual setUsedEquipResId(String usedEquipResId) {
 		this.usedEquipResId = usedEquipResId;
 		return this;
 	}
 
-	public ResourcePlan setUsedTypedResId(String usedTypedResId) {
+	public ResourceActual setUsedTypedResId(String usedTypedResId) {
 		this.usedTypedResId = usedTypedResId;
 		return this;
 	}
 
-	public ResourcePlan setResTypeId(ObjectId resTypeId) {
+	public ResourceActual setResTypeId(ObjectId resTypeId) {
 		this.resTypeId = resTypeId;
 		return this;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setActualOverTimeQty(double actualOverTimeQty) {
+		this.actualOverTimeQty = actualOverTimeQty;
+	}
+
+	public String getUsedHumanResId() {
+		return usedHumanResId;
+	}
+
+	public String getUsedEquipResId() {
+		return usedEquipResId;
+	}
+
+	public String getUsedTypedResId() {
+		return usedTypedResId;
+	}
+
+	public ObjectId getResTypeId() {
+		return resTypeId;
 	}
 
 }

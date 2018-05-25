@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -18,7 +19,7 @@ import com.bizvisionsoft.service.datatools.Query;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("resourceType")
-public class ResourceType {
+public class ResourceType implements IResourceAssignment {
 
 	public static final String TYPE_HR = "人力资源";
 	public static final String TYPE_ER = "设备设施";
@@ -51,9 +52,6 @@ public class ResourceType {
 	private String description;
 
 	/** 计价方式 10 Y **/
-	@WriteValue
-	@ReadValue
-	private String pricingModel;
 
 	/** 标准费率(元) Y **/
 	@ReadValue
@@ -98,42 +96,57 @@ public class ResourceType {
 	@Structure("list")
 	public List<?> getResource() {
 		if (TYPE_HR.equals(type))
-			return ServicesLoader.get(UserService.class).createDataSet(new Query().filter(new BasicDBObject("resourceType_id",_id)).bson());
+			return ServicesLoader.get(UserService.class)
+					.createDataSet(new Query().filter(new BasicDBObject("resourceType_id", _id)).bson());
 		else
 			return ServicesLoader.get(CommonService.class).getERResources(_id);
 
 	}
-	
+
 	@Structure("count")
 	public long countResource() {
 		if (TYPE_HR.equals(type))
-			return ServicesLoader.get(UserService.class).count(new BasicDBObject("resourceType_id",_id));
+			return ServicesLoader.get(UserService.class).count(new BasicDBObject("resourceType_id", _id));
 		else
 			return ServicesLoader.get(CommonService.class).countERResources(_id);
 
 	}
-	
-	@Behavior({"资源类型/添加资源","资源类型/编辑资源类型","资源类型/删除资源类型"})
+
+	@Behavior({ "资源类型/添加资源", "资源类型/编辑资源类型", "资源类型/删除资源类型" })
 	public boolean enabledBehavior = true;
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
-	public String getPricingModel() {
-		return pricingModel;
-	}
-	
-	
+
 	public double getBasicRate() {
 		return basicRate;
 	}
-	
+
 	public double getOvertimeRate() {
 		return overtimeRate;
 	}
+
+	@Override
+	public String getResourceId() {
+		return id;
+	}
+
+	private ObjectId cal_id;
+
+	@ReadValue("calendar")
+	public Calendar getCalendar() {
+		return Optional.ofNullable(cal_id).map(_id -> ServicesLoader.get(CommonService.class).getCalendar(_id))
+				.orElse(null);
+	}
+
+	@WriteValue("calendar")
+	public void setCalendar(Calendar calendar) {
+		this.cal_id = calendar.get_id();
+	}
+
 }

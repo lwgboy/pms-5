@@ -132,6 +132,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public Calendar getCalendar(ObjectId _id) {
+		return get(_id, Calendar.class);
+	}
+
+	@Override
 	public Calendar insertCalendar(Calendar obj) {
 		return insert(obj, Calendar.class);
 	}

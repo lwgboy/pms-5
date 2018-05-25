@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.resource;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -21,13 +22,16 @@ import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ResourcePlan;
+import com.bizvisionsoft.service.model.ResourceActual;
+import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ReadonlyResourcePlanASM {
+public class ResourceActualASM {
 
 	@Inject
 	private IBruiService brui;
@@ -45,7 +49,7 @@ public class ReadonlyResourcePlanASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源计划")
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源用量")
 				.setActions(context.getAssembly().getActions());
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -65,21 +69,70 @@ public class ReadonlyResourcePlanASM {
 
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
-		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表（查看）"))
+		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源用量表"))
 				.setServices(brui).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
 		bar.addListener(SWT.Selection, l -> {
-			if ("分配资源".equals(((Action) l.data).getName())) {
+			if ("添加资源用量".equals(((Action) l.data).getName())) {
 				if (this.work == null) {
-					Layer.message("请先选择将要分配资源的工作。");
+					Layer.message("请先选择将要添加资源用量的工作。");
 					return;
 				} else if (this.work.isSummary()) {
-					Layer.message("无需对总成型工作分配资源。");
+					Layer.message("无需对总成型工作添加资源用量。");
 					return;
 				}
+				allocateResource();
 			}
+		});
+
+		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
+			Work work = (Work) ((GanttEvent) l).task;
+			if (work != null && !work.isSummary()) {
+				allocateResource();
+			}
+		});
+
+	}
+
+	private void allocateResource() {
+		// 显示资源选择框
+		Action hrRes = new Action();
+		hrRes.setName("hr");
+		hrRes.setText("人力资源");
+		hrRes.setImage("/img/team_w.svg");
+		hrRes.setStyle("normal");
+
+		Action eqRes = new Action();
+		eqRes.setName("eq");
+		eqRes.setText("设备资源");
+		eqRes.setImage("/img/equipment_w.svg");
+		eqRes.setStyle("normal");
+
+		Action typedRes = new Action();
+		typedRes.setName("tr");
+		typedRes.setText("资源类型");
+		typedRes.setImage("/img/resource_w.svg");
+		typedRes.setStyle("info");
+
+		// 弹出menu
+		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+			addResource("添加人力资源编辑器");
+			return false;
+		}).handleActionExecute("eq", a -> {
+			addResource("添加设备资源编辑器");
+			return false;
+		}).handleActionExecute("tr", a -> {
+			addResource("添加资源类型编辑器");
+			return false;
+		}).open();
+	}
+
+	private void addResource(String editorId) {
+		Editor.open(editorId, context, new ResourceAssignment().setWork_id(work.get_id()), (t, r) -> {
+			Services.get(WorkService.class).addResourceActual(r);
+			grid.setViewerInput(Services.get(WorkService.class).listResourceActual(work.get_id()));
 		});
 
 	}
@@ -90,7 +143,7 @@ public class ReadonlyResourcePlanASM {
 		}
 		this.work = work;
 		// 查询
-		List<ResourcePlan> input = Services.get(WorkService.class).listResourcePlan(work.get_id());
+		List<ResourceActual> input = Services.get(WorkService.class).listResourceActual(work.get_id());
 		grid.setViewerInput(input);
 	}
 
