@@ -122,20 +122,20 @@ public class ProjectBoardRender {
 
 	private void renderContent(ViewerCell cell, Project pj) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int height = 32;// 顶和底间距
+//		int height = 32;// 顶和底间距
 		gridItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		StringBuffer sb = new StringBuffer();
 
 		// 如果项目有阶段，显示阶段状态。
 		if (pj.isStageEnable()) {
-			height += 46;
+//			height += 46;
 			sb.append(getProjectStageInfo(pj));
 		}
 
 		// 添加项目时间线
 		List<News> news = Services.get(CommonService.class).getRecentNews(pj.get_id(), 5);
 		if (news.size() > 0) {
-			height += 24;
+//			height += 24;
 			sb.append("<ul class='layui-timeline' style='margin-top:24px;margin-right:32px;'>");
 			for (int i = 0; i < news.size(); i++) {
 				sb.append("<li class='layui-timeline-item' style='padding-bottom:8px;'>");
@@ -145,14 +145,14 @@ public class ProjectBoardRender {
 						"<div class='layui-timeline-title' style='white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
 								+ news.get(i).getSummary() + "</div>");
 				sb.append("</div></li>");
-				height += 40;
+//				height += 40;
 			}
 			sb.append("</ul>");
 		}
 
 		// 添加指标
-		height += 46;
-		// TODO
+//		height += 46;
+		// TODO 计算指标
 		sb.append(
 				"<div style='margin-top:0px;width: 100%;display:inline-flex;justify-content:center;padding-right: 36px;'>");
 		sb.append(
@@ -163,7 +163,8 @@ public class ProjectBoardRender {
 				"<div class='brui_indicator warning' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>52.0%<br/>工期完成率</div>");
 		sb.append("</div>");
 
-		gridItem.setHeight(height);
+//		gridItem.setHeight(height);
+		gridItem.setHeight(352);
 		cell.setText(sb.toString());
 	}
 

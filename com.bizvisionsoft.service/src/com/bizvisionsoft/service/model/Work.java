@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -301,7 +302,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@ReadValue("fullName")
 	@GetValue("fullName")
-	private String getFullName() {
+	public String getFullName() {
 		if (fullName == null || fullName.trim().isEmpty()) {
 			fullName = text;
 		}
@@ -459,7 +460,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期完成率 百分比
 	@ReadValue("dar")
-	private Double getDAR() {
+	public Double getDAR() {
 		if (planDuration != 0) {
 			return 1d * actualDuration / planDuration;
 		}
@@ -470,7 +471,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工作量完成率 百分比
 	@ReadValue("war")
-	private Double getWAR() {
+	public Double getWAR() {
 		if (planWorks != 0) {
 			return 1d * actualWorks / planWorks;
 		}
@@ -481,7 +482,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工时完成率 百分比
 	@ReadValue("sar")
-	private Double getSAR() {
+	public Double getSAR() {
 		if (planDuration != 0) {
 			return 1d * actualDuration / planDuration;
 		}
@@ -610,6 +611,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getCharger() {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
+	
+	public String getChargerInfo() {
+		return chargerInfo;
+	}
 
 	@ReadValue("部门工作日程表/section_id")
 	private String getSectionId() {
@@ -634,7 +639,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getAssigner() {
 		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue
@@ -859,8 +864,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@SetValue
 	private String overdue;
 
-	public Date getPlanFinished() {
+	public Date getPlanFinish() {
 		return planFinish;
+	}
+	
+	public Date getPlanStart() {
+		return planStart;
 	}
 
 	@Behavior("指派")
@@ -888,6 +897,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	public TrackView scheduleMonitoring;
 	
 	
+	@Structure("我的待处理工作（首页小组件）/list")
+	private List<WorkBoardInfo> getWorkBoardInfo() {
+		return Arrays.asList(new WorkBoardInfo().setWork(this));
+	}
+
+	@Structure("我的待处理工作（首页小组件）/count")
+	private long countWorkBoardInfo() {
+		return 1;
+	}
+	
 	public Date getActualFinish() {
 		return actualFinish;
 	}
@@ -895,5 +914,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	public Date getActualStart() {
 		return actualStart;
 	}
+	
+	public String getAssignerId() {
+		return assignerId;
+	}
+	
 
 }

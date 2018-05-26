@@ -156,7 +156,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/processing/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的工作/list", "我的工作（日历牌）/list" })
+	@DataSet({ "我的工作/list", "我的工作（日历牌）/list", "我的待处理工作（首页小组件）/list" })
 	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -164,7 +164,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的工作/count")
+	@DataSet({ "我的工作/count", "我的待处理工作（首页小组件）/count" })
 	public long countProcessingWorkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
