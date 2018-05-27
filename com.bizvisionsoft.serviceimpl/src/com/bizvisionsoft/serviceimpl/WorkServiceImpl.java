@@ -673,7 +673,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 			Calendar planFinishCal = Calendar.getInstance();
 			planFinishCal.setTime(planFinish);
-			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+			// planFinishCal.add(Calendar.DAY_OF_MONTH, 1);//与甘特图保持一致，不计算尾部日期
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
 				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
@@ -925,8 +925,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						new Document("conflict",
 								new Document("$gt",
 										Arrays.asList(new Document("$sum", Arrays.asList("$resourceHumanPlan.planWorks",
-												"$resourceTypedPlan.planWorks", "$resourceEquipPlan.planWorks")),
-												8)))),
+												"$resourceTypedPlan.planWorks", "$resourceEquipPlan.planWorks")), 8)))),
 				new Document("$sort", new Document("conflict", -1)),
 				new Document("$group", new Document()
 						.append("_id", new Document("work_id", "$work_id").append("resTypeId", "$resTypeId")
