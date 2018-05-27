@@ -45,7 +45,7 @@ public class SidebarHeader {
 				.orElse(bruiService.getResourceURL("/img/user_g_60x60.png"));
 		pic.setText("<img alt='headpic' src='" + url + "' width=" + size + "px height=" + size + "px/>");
 		title.setText(
-				"<div style='color:white;margin-left:8px;margin-top:4px'><div style='font-size:16px;'>项目管理系统</div><div style='font-size:14px;'>BizVision PMS 2018</div></div>");
+				"<div style='color:white;margin-left:8px;margin-top:4px'><div style='font-size:16px;'>项目管理系统</div><div style='font-size:14px;'>BizVision PMS</div></div>");
 
 	}
 }

@@ -273,8 +273,27 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			condition.put("filter", filter = new BasicDBObject());
 		}
 		filter.put("receiver", userId);
-		condition.put("sort", new BasicDBObject("sendDate", -1));
-		return createDataSet(condition, Message.class);
+
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("sendDate", -1)));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
+		
+		appendUserInfo(pipeline, "receiver", "receiverInfo");
+		
+		return c(Message.class).aggregate(pipeline).into(new ArrayList<Message>());
 	}
 
 	@Override

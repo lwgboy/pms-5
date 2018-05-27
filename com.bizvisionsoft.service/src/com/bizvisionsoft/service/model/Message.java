@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("message")
 public class Message {
@@ -24,11 +25,25 @@ public class Message {
 	@ReadValue("是否已读")
 	private boolean read;
 
-	@ReadValue("发送者")
 	private String sender;
 
-	@ReadValue("接收者")
+	@ReadValue("发送者")
+	private String senderInfo;
+
+	private RemoteFile senderHeadPic;
+
+	@ReadValue("头像")
+	private String getSenderHeadImageURL() {
+		if (senderHeadPic != null) {
+			return senderHeadPic.getURL(ServicesLoader.url);
+		}
+		return null;
+	}
+
 	private String receiver;
+
+	@ReadValue("接收者")
+	private String receiverInfo;
 
 	@ReadValue("链接")
 	private String url;
