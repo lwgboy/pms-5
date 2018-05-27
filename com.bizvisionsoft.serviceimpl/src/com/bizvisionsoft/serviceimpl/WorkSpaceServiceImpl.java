@@ -261,14 +261,15 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		updateIds.addAll(workspaceIds);
 		updateIds.removeAll(insertIds);
 
-		// 根据删除集合删除Work
-		c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
-
-		// 根据删除集合删除资源计划
-		c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+		if (!deleteIds.isEmpty()) {
+			// 根据删除集合删除Work
+			c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
+			// 根据删除集合删除资源计划
+			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+		}
 
 		// 根据插入集合插入Work
-		if (insertIds.size() > 0) {
+		if (!insertIds.isEmpty()) {
 			ArrayList<Document> insertDoc = c("workspace")
 					.find(new BasicDBObject("_id", new BasicDBObject("$in", insertIds)))
 					.into(new ArrayList<Document>());
@@ -283,10 +284,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			// Date newActualFinish = d.getDate("actualFinish");
 
 			// 更新Work
+			Object _id = d.get("_id");
 			d.remove("_id");
 			d.remove("space_id");
 			d.append("distributed", false);
-			c("work").updateOne(new BasicDBObject("_id", d.get("_id")), new BasicDBObject("$set", d));
+			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 
 		});
 
@@ -310,22 +312,24 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			updateWorksId.add(d.getObjectId("work_id"));
 		});
 
-		c("resourcePlan").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteResourcePlanId)));
+		if (!deleteResourcePlanId.isEmpty()) {
+			c("resourcePlan").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteResourcePlanId)));
+		}
 
-		updateWorksId.forEach(_id -> {
-			updateWorkPlanWorks(_id);
-		});
+		updateWorksId.forEach(_id -> updateWorkPlanWorks(_id));
 
 		// 获取worklinksspace中的记录
 		List<Document> worklinks = c("worklinksspace").find(new BasicDBObject("space_id", workspace.getSpace_id()))
 				.into(new ArrayList<Document>());
 
 		// 删除worklinks中的记录
-		c("worklinks").deleteMany(new BasicDBObject("source", new BasicDBObject("$in", workIds)).append("target",
-				new BasicDBObject("$in", workIds)));
+		if (!workIds.isEmpty()) {
+			c("worklinks").deleteMany(new BasicDBObject("source", new BasicDBObject("$in", workIds)).append("target",
+					new BasicDBObject("$in", workIds)));
+		}
 
 		// 将获取的worklinksspace中的记录插入worklinks
-		if (worklinks.size() > 0) {
+		if (!worklinks.isEmpty()) {
 			c("worklinks").insertMany(worklinks);
 		}
 
@@ -346,10 +350,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 					new Document("$group",
 							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
 
-			Document doc = c("resourcePlan").aggregate(pipeline).first();
-
+			double planWorks = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
+					.map(d -> (Double) d.get("planWorks")).map(p -> p.doubleValue()).orElse(0d);
 			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+					new Document("$set", new Document("planWorks", planWorks)));
 			updateWorkParentPlanWorks(work);
 		}
 	}

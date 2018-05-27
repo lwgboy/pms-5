@@ -709,8 +709,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$project", new Document("resourceType", false)),
 				new Document("$match", new Document("resTypeId", new ObjectId("5b04cc227fbf7437fc19985f"))),
 				new Document("$project", new Document("works", true)));
-		Double works = c("calendar").aggregate(pipeline).first().getDouble("works");
-		return Optional.ofNullable(works).orElse(0d);
+		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("works"))
+				.map(w -> w.doubleValue()).orElse(0d);
 	}
 
 	private boolean checkDayIsWorkingDay(Calendar cal, ObjectId resId) {
@@ -926,7 +926,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 								new Document("$gt",
 										Arrays.asList(new Document("$sum", Arrays.asList("$resourceHumanPlan.planWorks",
 												"$resourceTypedPlan.planWorks", "$resourceEquipPlan.planWorks")),
-												24.0)))),
+												8)))),
 				new Document("$sort", new Document("conflict", -1)),
 				new Document("$group", new Document()
 						.append("_id", new Document("work_id", "$work_id").append("resTypeId", "$resTypeId")
@@ -982,7 +982,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 								.append("equipment", false)),
 
 				new Document("$sort", new Document("type", 1).append("resId", 1)));
-
 		return c(ResourcePlan.class).aggregate(pipeline).into(new ArrayList<ResourcePlan>());
 	}
 

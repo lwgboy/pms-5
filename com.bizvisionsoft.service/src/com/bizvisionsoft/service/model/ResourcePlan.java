@@ -42,7 +42,7 @@ public class ResourcePlan {
 		StringBuffer sb = new StringBuffer();
 		sb.append(resId);
 		if (conflict) {
-			sb.append(" <span style=\"color: red;\">[³åÍ»]</span> ");
+			sb.append(" <span class='layui-badge layui-bg-red'>³åÍ»</span> ");
 		}
 		return sb.toString();
 	}
