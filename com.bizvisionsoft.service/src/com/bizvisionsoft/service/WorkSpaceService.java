@@ -25,13 +25,13 @@ import com.mongodb.BasicDBObject;
 public interface WorkSpaceService {
 
 	@POST
-	@Path("/work/nextwbsidx")
+	@Path("/nextwbsidx")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public int nextWBSIndex(BasicDBObject condition);
 
 	@GET
-	@Path("/work/_id/{_id}")
+	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
@@ -85,13 +85,11 @@ public interface WorkSpaceService {
 	@Produces("application/json; charset=UTF-8")
 	public long deleteLink(@PathParam("_id") ObjectId _id);
 
-
-	@POST
+	@PUT
 	@Path("/checkout/{userId}/{cancelCheckoutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace,
-			@PathParam("userId") String userId,
+	public Result checkout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace, @PathParam("userId") String userId,
 			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
 
 	@POST
@@ -101,23 +99,22 @@ public interface WorkSpaceService {
 	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) Workspace workspace,
 			@PathParam("checkManageItem") Boolean checkManageItem);
 
-	@POST
+	@PUT
 	@Path("/checkin/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result checkin(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
 
-	@POST
+	@PUT
 	@Path("/cancelcheckout/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
 
-	
 	@POST
 	@Path("/compare/{root_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id")  ObjectId root_id);
+	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id") ObjectId root_id);
 
 }

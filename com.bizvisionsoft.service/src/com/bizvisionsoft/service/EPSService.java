@@ -27,13 +27,13 @@ public interface EPSService {
 	@Produces("application/json; charset=UTF-8")
 	public EPS get(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/_id/{_id}/eps")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<EPS> getSubEPS(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

@@ -4334,7 +4334,7 @@
                     "hasInfoLabel": false,
                     "textPasswordStyle": false,
                     "readOnly": false,
-                    "required": true,
+                    "required": false,
                     "textLimit": 24,
                     "textRestrict": "输入中包含非法字符",
                     "maxFileSize": 0,

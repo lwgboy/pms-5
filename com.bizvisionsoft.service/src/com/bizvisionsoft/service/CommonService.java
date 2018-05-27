@@ -112,13 +112,13 @@ public interface CommonService {
 	@DataSet("资源类型/" + DataSet.UPDATE)
 	public long updateResourceType(BasicDBObject filterAndUpdate);
 
-	@GET
+	@POST
 	@Path("/restype/{_id}/er")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Equipment> getERResources(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/restype/{_id}/er/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -253,26 +253,26 @@ public interface CommonService {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
-	@GET
+	@POST
 	@Path("/accountitem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "财务科目设置/" + DataSet.LIST })
 	public List<AccountItem> getAccoutItemRoot();
 
-	@GET
+	@POST
 	@Path("/accountitem/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutItemRoot();
 
-	@GET
+	@POST
 	@Path("/accountitem/parent/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<AccountItem> getAccoutItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/accountitem/parent/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -342,7 +342,7 @@ public interface CommonService {
 	public long updateTrackView(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	@GET
+	@POST
 	@Path("/_id/{_id}/news/{count}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

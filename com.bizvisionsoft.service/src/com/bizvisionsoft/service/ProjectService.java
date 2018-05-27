@@ -63,26 +63,26 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Date> getPlanDateRange(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/_id/{_id}/stage/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> listStage(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/_id/{_id}/stage/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countStage(@PathParam("_id") ObjectId _id);
 
-	@GET
-	@Path("/_id/{_id}/action/start/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/start/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> startProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
-	@GET
-	@Path("/_id/{_id}/action/distribute/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/distribute/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> distributeProjectPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
@@ -154,14 +154,14 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
 
-	@GET
-	@Path("/_id/{_id}/action/finish/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/finish/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
-	@GET
-	@Path("/_id/{_id}/action/close/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/close/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> closeProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);

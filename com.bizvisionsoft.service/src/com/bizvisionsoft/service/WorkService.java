@@ -92,32 +92,32 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public WorkLink getLink(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> listProjectRootTask(@PathParam("project_id") ObjectId project_id);
 
-	@GET
+	@POST
 	@Path("/project_id/{project_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countProjectRootTask(@PathParam("project_id") ObjectId project_id);
 
-	@GET
+	@POST
 	@Path("/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> listChildren(@PathParam("parent_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countChildren(@PathParam("parent_id") ObjectId parent_id);
 
-	@GET
-	@Path("/_id/{_id}/action/startstage/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/startstage/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> startStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
@@ -160,7 +160,7 @@ public interface WorkService {
 	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
-	@GET
+	@POST
 	@Path("/userid/{userid}/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -176,7 +176,7 @@ public interface WorkService {
 	public List<Work> createFinishedWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
-	@GET
+	@POST
 	@Path("/userid/{userid}/finished/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -220,32 +220,32 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
 
-	@GET
-	@Path("/_id/{_id}/action/distribute/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/distribute/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> distributeWorkPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
-	@GET
-	@Path("/_id/{_id}/action/startwork")
+	@PUT
+	@Path("/_id/{_id}/startwork")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> startWork(@PathParam("_id") ObjectId _id);
 
-	@GET
-	@Path("/_id/{_id}/action/finishwork")
+	@PUT
+	@Path("/_id/{_id}/finishwork")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishWork(@PathParam("_id") ObjectId _id);
 
-	@GET
-	@Path("/_id/{_id}/action/finishstage/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/finishstage/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
 
-	@GET
-	@Path("/_id/{_id}/action/closestage/{executeBy}")
+	@PUT
+	@Path("/_id/{_id}/closestage/{executeBy}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> closeStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);

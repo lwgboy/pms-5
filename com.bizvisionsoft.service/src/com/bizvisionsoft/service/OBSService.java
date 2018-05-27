@@ -35,7 +35,7 @@ public interface OBSService {
 	@Produces("application/json; charset=UTF-8")
 	public OBSItem insert(OBSItem item);
 
-	@GET
+	@POST
 	@Path("/scope/root/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -43,7 +43,7 @@ public interface OBSService {
 	public List<OBSItem> getScopeRootOBS(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
-	@GET
+	@POST
 	@Path("/scope/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -64,13 +64,13 @@ public interface OBSService {
 	@DataSet({ "项目团队/" + DataSet.DELETE, "组织结构图/" + DataSet.DELETE })
 	public void delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/{_id}/sub")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<OBSItem> getSubOBSItem(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
