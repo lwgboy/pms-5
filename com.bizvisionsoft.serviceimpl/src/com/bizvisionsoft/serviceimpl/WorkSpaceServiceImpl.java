@@ -2,10 +2,10 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -276,56 +276,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
-			Object _id = d.get("_id");
-			// 更新资源计划
-			Document doc = c("work").find(new BasicDBObject("_id", _id))
-					.projection(new BasicDBObject("planStart", 1).append("planFinish", 1)).first();
-			Date oldPlanStart = doc.getDate("planStart");
-			Date oldPlanFinish = doc.getDate("planFinish");
-			Date newPlanStart = d.getDate("planStart");
-			Date newPlanFinish = d.getDate("planFinish");
-			boolean updateWorkWorks = false;
-			List<String> deleteResourcePlan = new ArrayList<String>();
-
-			if (oldPlanStart.before(newPlanStart)) {
-				// 如果原work计划开始时间早于新计划开始时间，则删除资源多余计划工时，并更新工作计划时间
-				Calendar oldPlanStartCal = Calendar.getInstance();
-				oldPlanStartCal.setTime(oldPlanStart);
-				while (oldPlanStartCal.getTime().before(newPlanStart)) {
-					String id = "" + oldPlanStartCal.get(Calendar.YEAR);
-					id += String.format("%02d", oldPlanStartCal.get(Calendar.MONTH) + 1);
-					id += String.format("%02d", oldPlanStartCal.get(Calendar.DAY_OF_MONTH));
-					deleteResourcePlan.add(id);
-					oldPlanStartCal.add(Calendar.DAY_OF_MONTH, 1);
-				}
-				updateWorkWorks = true;
-			}
-
-			if (oldPlanFinish.after(newPlanFinish)) {
-				// 如果原work计划完成时间完于新计划完成时间，则删除资源多余计划工时，并更新工作计划时间
-
-				Calendar newPlanFinishCal = Calendar.getInstance();
-				newPlanFinishCal.setTime(newPlanFinish);
-
-				while (newPlanFinishCal.getTime().before(oldPlanFinish)) {
-					newPlanFinishCal.add(Calendar.DAY_OF_MONTH, 1);
-					String id = "" + newPlanFinishCal.get(Calendar.YEAR);
-					id += String.format("%02d", newPlanFinishCal.get(Calendar.MONTH) + 1);
-					id += String.format("%02d", newPlanFinishCal.get(Calendar.DAY_OF_MONTH));
-					deleteResourcePlan.add(id);
-				}
-
-				updateWorkWorks = true;
-			}
-
-			if (updateWorkWorks) {
-				if (deleteResourcePlan.size() > 0)
-					c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", _id).append("id",
-							new BasicDBObject("$in", deleteResourcePlan)));
-
-				updateWorkPlanWorks((ObjectId) _id);
-			}
-
 			// TODO 实际工时的调整
 			// Date oldActualStart = doc.getDate("actualStart");
 			// Date oldActualFinish = doc.getDate("actualFinish");
@@ -336,7 +286,34 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			d.remove("_id");
 			d.remove("space_id");
 			d.append("distributed", false);
-			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
+			c("work").updateOne(new BasicDBObject("_id", d.get("_id")), new BasicDBObject("$set", d));
+
+		});
+
+		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();
+		Set<ObjectId> updateWorksId = new HashSet<ObjectId>();
+
+		List<? extends Bson> pipeline = Arrays
+				.asList(new Document("$match", new Document("work_id", new Document("$in", updateIds))),
+						new Document("$lookup",
+								new Document("from", "workspace").append("localField", "work_id")
+										.append("foreignField", "_id").append("as", "workspace")),
+						new Document("$unwind", "$workspace"),
+						new Document("$addFields",
+								new Document("delete", new Document("$or",
+										Arrays.asList(new Document("$lt", Arrays.asList("$id", "$workspace.planStart")),
+												new Document("$gt", Arrays.asList("$id", "$workspace.planFinish")))))),
+						new Document("$match", new Document("delete", true)),
+						new Document("$project", new Document("_id", true).append("work_id", true)));
+		c("resourcePlan").aggregate(pipeline).forEach((Document d) -> {
+			deleteResourcePlanId.add(d.getObjectId("_id"));
+			updateWorksId.add(d.getObjectId("work_id"));
+		});
+
+		c("resourcePlan").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteResourcePlanId)));
+
+		updateWorksId.forEach(_id -> {
+			updateWorkPlanWorks(_id);
 		});
 
 		// 获取worklinksspace中的记录

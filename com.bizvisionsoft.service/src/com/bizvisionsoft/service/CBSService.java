@@ -30,7 +30,7 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	public CBSItem get(@PathParam("_id") ObjectId _id);
 
-	@GET
+	@POST
 	@Path("/scope/root/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -38,19 +38,19 @@ public interface CBSService {
 	public List<CBSItem> getScopeRoot(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
-	@GET
+	@POST
 	@Path("/{_id}/subcbs/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<CBSItem> getSubCBSItems(@PathParam("_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/{_id}/subcbs/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countSubCBSItems(@PathParam("_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/{_id}/subject/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

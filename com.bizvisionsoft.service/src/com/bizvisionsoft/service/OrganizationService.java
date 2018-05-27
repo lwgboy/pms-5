@@ -63,27 +63,27 @@ public interface OrganizationService {
 	@DataSet("组织角色/" + DataSet.UPDATE)
 	public long updateRole(BasicDBObject filterAndUpdate);
 
-	@GET
+	@POST
 	@Path("/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.LIST)
 	public List<Organization> getRoot();
 
-	@GET
+	@POST
 	@Path("/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.COUNT)
 	public long countRoot();
 
-	@GET
+	@POST
 	@Path("/sub/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Organization> getSub(@PathParam("_id") ObjectId parent_id);
 
-	@GET
+	@POST
 	@Path("/sub/count/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

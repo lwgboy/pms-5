@@ -677,12 +677,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
 				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-					String id = "" + planStartCal.get(Calendar.YEAR);
-					id += String.format("%02d", planStartCal.get(Calendar.MONTH) + 1);
-					id += String.format("%02d", planStartCal.get(Calendar.DAY_OF_MONTH));
 
 					ResourcePlan res = resa.getResourcePlan();
-					res.setId(id);
+					res.setId(planStartCal.getTime());
 					res.setPlanBasicQty(works);
 
 					documents.add(res);
@@ -1154,15 +1151,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		while (planStartCal.getTime().before(planFinishCal.getTime())) {
 			if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-				String id = "" + planStartCal.get(Calendar.YEAR);
-				id += String.format("%02d", planStartCal.get(Calendar.MONTH) + 1);
-				id += String.format("%02d", planStartCal.get(Calendar.DAY_OF_MONTH));
-
+				Date time = planStartCal.getTime();
 				ResourceActual res = resa.getResourceActual();
-				res.setId(id);
+				res.setId(time);
 				documents.add(res);
 
-				c(ResourceActual.class).deleteMany(new Document("id", id).append("work_id", res.getWork_id())
+				c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
 						.append("usedHumanResId", res.getUsedHumanResId())
 						.append("usedEquipResId", res.getUsedEquipResId())
 						.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));

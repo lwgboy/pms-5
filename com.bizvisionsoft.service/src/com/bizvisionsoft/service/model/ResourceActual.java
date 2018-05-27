@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
@@ -79,7 +81,7 @@ public class ResourceActual {
 	private ObjectId resTypeId;
 
 	@Persistence
-	private String id;
+	private Date id;
 
 	@ReadValue("actualAmount")
 	private Double getActualAmount() {
@@ -135,7 +137,7 @@ public class ResourceActual {
 		return this;
 	}
 
-	public void setId(String id) {
+	public void setId(Date id) {
 		this.id = id;
 	}
 
