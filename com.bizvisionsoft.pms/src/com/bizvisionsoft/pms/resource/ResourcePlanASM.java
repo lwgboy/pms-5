@@ -95,6 +95,16 @@ public class ResourcePlanASM {
 			}
 		});
 
+		grid.getViewer().getGrid().addListener(SWT.Selection, l -> {
+			if ("conflict".equals(l.text)) {
+				openResource((ResourcePlan) l.item.getData());
+			}
+		});
+
+	}
+
+	private void openResource(ResourcePlan rp) {
+		System.out.println(rp);
 	}
 
 	private void allocateResource() {
@@ -133,11 +143,9 @@ public class ResourcePlanASM {
 	private void addResource(String selectorId) {
 		Selector.open(selectorId, context, null, l -> {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
-			l.forEach(o -> {
-				resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id()));
-			});
+			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
 			Services.get(WorkService.class).addResourcePlan(resa);
-			
+
 			grid.setViewerInput(Services.get(WorkService.class).listResourcePlan(work.get_id()));
 		});
 	}

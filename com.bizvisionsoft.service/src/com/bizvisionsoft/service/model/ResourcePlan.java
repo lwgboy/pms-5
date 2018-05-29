@@ -10,11 +10,13 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("resourcePlan")
 public class ResourcePlan {
 
 	@ReadValue
+	@WriteValue
 	private ObjectId _id;
 
 	@ReadValue
@@ -37,24 +39,33 @@ public class ResourcePlan {
 	@SetValue
 	private String resId;
 
-	@ReadValue("resIds")
-	public String getResIds() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(resId);
-		if (conflict) {
-			sb.append(" <span class='layui-badge layui-bg-red'>³åÍ»</span> ");
-		}
-		return sb.toString();
+	@ReadValue("conflict")
+	private String getConflictIndentify() {
+		if (conflict)
+			return "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>³åÍ»</a>";
+		return "";
 	}
 
 	@Persistence
 	private String usedHumanResId;
 
+	public String getUsedEquipResId() {
+		return usedEquipResId;
+	}
+
 	@Persistence
 	private String usedEquipResId;
 
+	public String getUsedHumanResId() {
+		return usedHumanResId;
+	}
+
 	@Persistence
 	private String usedTypedResId;
+
+	public String getUsedTypedResId() {
+		return usedTypedResId;
+	}
 
 	@SetValue
 	private ResourceType resType;

@@ -23,14 +23,28 @@ public class ResourceDataset {
 	private long countResourcePlan() {
 		return 0;
 	}
-	
+
 	@DataSet(DataSet.UPDATE)
 	private long updateResourcePlan(BasicDBObject filterAndUpdate) {
 		return Services.get(WorkService.class).updateResourcePlan(filterAndUpdate);
 	}
-	
+
 	@DataSet(DataSet.DELETE)
-	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
-		return Services.get(WorkService.class).deleteResourcePlan(_id);
+	private long delete(@ServiceParam(ServiceParam.OBJECT) ResourcePlan rp) {
+		ObjectId work_id = rp.getWork_id();
+		String resId = rp.getUsedHumanResId();
+		if (resId != null) {
+			return Services.get(WorkService.class).deleteHumanResourcePlan(work_id, resId);
+		}
+		resId = rp.getUsedEquipResId();
+		if (resId != null) {
+			return Services.get(WorkService.class).deleteEquipmentResourcePlan(work_id, resId);
+		}
+		resId = rp.getUsedTypedResId();
+		if (resId != null) {
+			return Services.get(WorkService.class).deleteTypedResourcePlan(work_id, resId);
+		}
+
+		return 0;
 	}
 }

@@ -175,7 +175,7 @@ public class WorkInfo {
 	@Generator(name = Generator.DEFAULT_NAME, key = "work", generator = WorkGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String code;
 
-	@ReadValue
+	@ReadValue("code")
 	public String getCode() {
 		return code;
 	}

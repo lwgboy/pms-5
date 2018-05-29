@@ -263,11 +263,24 @@ public interface WorkService {
 	public long updateResourcePlan(BasicDBObject filterAndUpdate);
 
 	@DELETE
-	@Path("/resourceplan/{_id}")
+	@Path("/_id/{_id}/resourceplan/hr/{resId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteResourcePlan(@PathParam("_id") ObjectId _id);
+	public long deleteHumanResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String hrResId);
 
+	@DELETE
+	@Path("/_id/{_id}/resourceplan/eq/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteEquipmentResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String eqResId);
+	
+	@DELETE
+	@Path("/_id/{_id}/resourceplan/ty/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteTypedResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
+
+	
 	@POST
 	@Path("/_id/{_id}/resourceplan/ds")
 	@Consumes("application/json; charset=UTF-8")

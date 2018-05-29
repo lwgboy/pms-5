@@ -33,6 +33,7 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
@@ -651,11 +652,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public long deleteResourcePlan(ObjectId _id) {
-		ObjectId work_id = c("resourcePlan").distinct("work_id", new Document("_id", _id), ObjectId.class).first();
-		long delete = delete(_id, ResourcePlan.class);
+	public long deleteHumanResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlan")
+				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
 		updateWorkPlanWorks(work_id);
-		return delete;
+		return dr.getDeletedCount();
+	}
+
+	@Override
+	public long deleteEquipmentResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlan")
+				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		updateWorkPlanWorks(work_id);
+		return dr.getDeletedCount();
+	}
+
+	@Override
+	public long deleteTypedResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlan")
+				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		updateWorkPlanWorks(work_id);
+		return dr.getDeletedCount();
 	}
 
 	@Override
@@ -885,7 +902,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 																		.append("_id",
 																				new Document()
 																						.append("usedTypedResId",
-																								"@usedTypedResId")
+																								"$usedTypedResId")
 																						.append("id", "$id"))
 																		.append("planWorks",
 																				new Document("$sum", "$planWorks")))))
@@ -915,7 +932,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 																Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
 										new Document().append("$group", new Document()
 												.append("_id",
-														new Document().append("usedEquipResId", "@usedEquipResId")
+														new Document().append("usedEquipResId", "$usedEquipResId")
 																.append("id", "$id"))
 												.append("planWorks", new Document("$sum", "$planWorks")))))
 						.append("as", "resourceEquipPlan")),
