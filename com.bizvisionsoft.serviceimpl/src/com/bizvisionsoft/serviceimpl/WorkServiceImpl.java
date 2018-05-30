@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -1309,5 +1310,50 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$sort", new Document("type", 1).append("resId", 1)));
 
 		return c(ResourceActual.class).aggregate(pipeline).into(new ArrayList<ResourceActual>());
+	}
+
+	public List<WorkResourcePlanDetail> getWorkResourcePlanDetail(ResourcePlan resp) {
+		Document eq = new Document();
+		if (resp.getUsedHumanResId() != null)
+			eq.put("$eq", Arrays.asList("$usedHumanResId", resp.getUsedHumanResId()));
+		else if (resp.getUsedEquipResId() != null)
+			eq.put("$eq", Arrays.asList("$usedEquipResId", resp.getUsedEquipResId()));
+
+		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("_id", resp.getWork_id())),
+				new Document("$lookup", new Document("from", "resourcePlan")
+						.append("let", new Document("planStart", "$planStart").append("planFinish", "$planFinish"))
+						.append("pipeline",
+								Arrays.asList(new Document("$match", new Document("$expr", new Document("$and",
+										Arrays.asList(new Document("$gt", Arrays.asList("$id", "$$planStart")),
+												new Document("$lt", Arrays.asList("$id", "$$planFinish")), eq))))))
+						.append("as", "resourcePlan")),
+				new Document("$unwind", "$resourcePlan"),
+				new Document("$project",
+						new Document("_id", "$resourcePlan._id").append("work_id", "$resourcePlan.work_id")
+								.append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
+								.append("resTypeId", "$resourcePlan.resTypeId")
+								.append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
+								.append("id", "$resourcePlan.id").append("planBasicQty", "$resourcePlan.planBasicQty")),
+				new Document("$group",
+						new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
+				new Document("$lookup",
+						new Document("from", "work")
+								.append("localField", "_id").append("foreignField", "_id").append("as", "work")),
+				new Document("$unwind", "$work"),
+				new Document("$addFields",
+						new Document("project_id", "$work.project_id").append("planStart", "$work.planStart")
+								.append("planFinish", "$work.planFinish").append("name", "$work.name")
+								.append("actualStart", "$work.actualStart").append("actualFinish", "$work.actualFinish")
+								.append("id", "$work.code")),
+				new Document("$lookup",
+						new Document("from", "project").append("localField", "project_id").append("foreignField", "_id")
+								.append("as", "project")),
+				new Document("$unwind", "$project"),
+				new Document("$addFields",
+						new Document("projectId", "$project.id").append("projectName", "$project.name")),
+				new Document("$project", new Document("project", false).append("work", false)));
+
+		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
+				.into(new ArrayList<WorkResourcePlanDetail>());
 	}
 }
