@@ -94,6 +94,11 @@
                 "children": [],
                 "name": "资源用量",
                 "id": "16396e136be"
+              },
+              {
+                "children": [],
+                "name": "资源冲突",
+                "id": "163ae4a739d"
               }
             ],
             "name": "资源",
@@ -10350,7 +10355,7 @@
         "layout": [],
         "type": "grid",
         "stickerTitle": "资源类型管理",
-        "folderId": "16396e06a26",
+        "folderId": "162bd9ba3bf",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": true,
@@ -32934,12 +32939,13 @@
         "smallEditor": false
       },
       {
-        "id": "163aedd8b1e",
-        "name": "资源冲突",
+        "id": "163ae4ab439",
+        "name": "解决单一资源冲突",
+        "title": "解决资源冲突",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourcePlanConflict",
+        "className": "com.bizvisionsoft.pms.resource.SingleResourceConflictSolution",
         "layout": [],
-        "folderId": "16396e06a26",
+        "folderId": "163ae4a739d",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -32954,8 +32960,6 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
-        "gridDataSetBundleId": "com.bizvisionsoft.pms",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.ResourceDataset",
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],

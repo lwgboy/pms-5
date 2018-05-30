@@ -24,6 +24,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
@@ -370,5 +371,11 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourceActual> listResourceActual(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/resourcePlan/conflict/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan rp);
 
 }

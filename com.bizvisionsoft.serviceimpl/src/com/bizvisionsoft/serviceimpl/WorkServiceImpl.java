@@ -1312,7 +1312,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c(ResourceActual.class).aggregate(pipeline).into(new ArrayList<ResourceActual>());
 	}
 
-	public List<WorkResourcePlanDetail> getWorkResourcePlanDetail(ResourcePlan resp) {
+	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan resp) {
 		Document eq = new Document();
 		if (resp.getUsedHumanResId() != null)
 			eq.put("$eq", Arrays.asList("$usedHumanResId", resp.getUsedHumanResId()));

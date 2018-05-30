@@ -41,7 +41,7 @@ public class ResourcePlan {
 
 	@ReadValue("conflict")
 	private String getConflictIndentify() {
-		if (conflict)
+		if (conflict && (usedHumanResId != null || usedEquipResId != null))
 			return "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>³åÍ»</a>";
 		return "";
 	}
