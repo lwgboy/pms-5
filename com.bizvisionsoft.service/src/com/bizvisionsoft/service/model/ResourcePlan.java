@@ -152,4 +152,12 @@ public class ResourcePlan {
 		this.id = id;
 	}
 
+	public Date getId() {
+		return id;
+	}
+
+	public double getWorks() {
+		return planBasicQty + planOverTimeQty;
+	}
+
 }
