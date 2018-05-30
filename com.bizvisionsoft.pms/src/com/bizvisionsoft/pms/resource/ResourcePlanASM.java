@@ -97,15 +97,16 @@ public class ResourcePlanASM {
 
 		grid.getViewer().getGrid().addListener(SWT.Selection, l -> {
 			if ("conflict".equals(l.text)) {
-				openResource((ResourcePlan) l.item.getData());
+				openResourceConflict((ResourcePlan) l.item.getData());
 			}
 		});
 
 	}
 
-	private void openResource(ResourcePlan rp) {
-		System.out.println(rp);
+	private void openResourceConflict(ResourcePlan rp) {
+		brui.openContent(brui.getAssembly("解决单一资源冲突"), rp);
 	}
+	
 
 	private void allocateResource() {
 		// 显示资源选择框

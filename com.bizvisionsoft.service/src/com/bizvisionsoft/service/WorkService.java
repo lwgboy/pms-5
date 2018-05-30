@@ -371,4 +371,10 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourceActual> listResourceActual(@PathParam("_id") ObjectId _id);
 
+	@POST
+	@Path("/resourcePlan/conflict/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> listConflictWorks(ResourcePlan rp);
+
 }

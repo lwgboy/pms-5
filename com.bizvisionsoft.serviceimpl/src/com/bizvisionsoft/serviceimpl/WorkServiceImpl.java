@@ -1310,4 +1310,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return c(ResourceActual.class).aggregate(pipeline).into(new ArrayList<ResourceActual>());
 	}
+
+	@Override
+	public List<Work> listConflictWorks(ResourcePlan rp) {
+		String huResId = rp.getUsedHumanResId();
+		
+		return null;
+	}
 }
