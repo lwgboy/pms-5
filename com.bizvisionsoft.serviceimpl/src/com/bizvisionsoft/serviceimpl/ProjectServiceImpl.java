@@ -80,7 +80,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 			project = insert(input, Project.class);
 		}
-		return project;
+		
+		return get(project.get_id());
 	}
 
 	@Override
@@ -133,6 +134,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendUserInfo(pipeline, "pmId", "pmInfo");
 
 		appendStage(pipeline, "stage_id", "stage");
+		
+		appendLookupAndUnwind(pipeline, "projectSet", "projectSet_id", "projectSet");
+
+		appendLookupAndUnwind(pipeline, "eps", "eps_id", "eps");
+		
+		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
+
 	}
 
 	@Override
@@ -285,7 +293,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 	}
-
+	
+	
 	private void appendParticipatedProjectQuery(String userId, List<Bson> pipeline) {
 		pipeline.add(new Document("$match",
 				new Document("$or", Arrays.asList(new Document("member", userId), new Document("managerId", userId)))));

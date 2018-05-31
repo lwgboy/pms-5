@@ -116,6 +116,14 @@ public class BasicServiceImpl {
 		c(clazz).aggregate(pipeline).into(result);
 		return result;
 	}
+	
+	protected void appendLookupAndUnwind(List<Bson> pipeline, String from ,String field, String newField) {
+		pipeline.add(new Document("$lookup", new Document("from", from).append("localField", field)
+				.append("foreignField", "_id").append("as", newField)));
+		
+		pipeline.add(
+				new Document("$unwind", new Document("path", "$"+newField).append("preserveNullAndEmptyArrays", true)));
+	}
 
 	protected void appendOrgFullName(List<Bson> pipeline, String inputField, String outputField) {
 		String tempField = "_org_" + inputField;

@@ -317,7 +317,18 @@
         "id": "1637e5897d4"
       },
       {
-        "children": [],
+        "children": [
+          {
+            "children": [],
+            "name": "项目主页",
+            "id": "163b6fe6dac"
+          },
+          {
+            "children": [],
+            "name": "阶段主页",
+            "id": "163b6fecb60"
+          }
+        ],
         "name": "主页",
         "id": "1639583e46c"
       }
@@ -991,24 +1002,7 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [
-          {
-            "id": "16370fc36a6",
-            "name": "收尾",
-            "text": "收尾",
-            "description": "收尾",
-            "tooltips": "收尾",
-            "image": "/img/finish_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.FinishProject",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "1628dec0239",
@@ -1400,13 +1394,15 @@
           },
           {
             "id": "1628df3363b",
-            "name": "项目权限管理",
+            "name": "项目收尾",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.FinishProject",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ]
       },
@@ -1446,43 +1442,12 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [
-          {
-            "id": "1630010637f",
-            "name": "项目启动",
-            "text": "项目启动",
-            "description": "",
-            "tooltips": "项目启动",
-            "image": "/img/flag_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.StartProject",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1630019944c",
-            "name": "删除项目",
-            "text": "删除项目",
-            "description": "",
-            "tooltips": "删除项目",
-            "image": "/img/delete_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "162fff3b5e3",
-            "name": "项目概览",
-            "text": "项目概览",
+            "name": "快速启动",
+            "text": "快速启动",
             "switchContentToAssemblyId": "163399430d8",
             "openContent": false,
             "propagate": false,
@@ -1632,24 +1597,7 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [
-          {
-            "id": "96370fc36a6",
-            "name": "关闭",
-            "text": "关闭",
-            "description": "关闭",
-            "tooltips": "关闭",
-            "image": "/img/close.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.CloseProject",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "9628dec0239",
@@ -2040,13 +1988,15 @@
           },
           {
             "id": "9628df3363b",
-            "name": "项目权限管理",
+            "name": "项目关闭",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.CloseProject",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ]
       },
@@ -2464,16 +2414,6 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch"
-          },
-          {
-            "id": "9928df3363b",
-            "name": "项目权限管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           }
         ]
       },
@@ -2513,22 +2453,7 @@
         "enabled": true,
         "width": 240,
         "header": "1631b43cace",
-        "toolbarItems": [
-          {
-            "id": "16324b95334",
-            "name": "阶段启动",
-            "tooltips": "阶段启动",
-            "image": "/img/flag_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.stage.action.StartStage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "163718557cd",
@@ -2662,24 +2587,7 @@
         "enabled": true,
         "width": 240,
         "header": "1631b43cace",
-        "toolbarItems": [
-          {
-            "id": "16371180448",
-            "name": "收尾",
-            "text": "收尾",
-            "description": "收尾",
-            "tooltips": "收尾",
-            "image": "/img/finish_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.stage.action.FinishStage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "16324c595d5",
@@ -2930,6 +2838,18 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "163b7290cfc",
+            "name": "阶段收尾",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.stage.action.FinishStage",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ]
       },
@@ -2969,24 +2889,7 @@
         "enabled": true,
         "width": 240,
         "header": "1631b43cace",
-        "toolbarItems": [
-          {
-            "id": "96371180448",
-            "name": "关闭",
-            "text": "关闭",
-            "description": "关闭",
-            "tooltips": "关闭",
-            "image": "/img/close.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.stage.action.CloseStage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "96324c595d5",
@@ -3231,6 +3134,18 @@
                 "type": "switch"
               }
             ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163b72979e9",
+            "name": "阶段关闭",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.stage.action.CloseStage",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -10449,6 +10364,25 @@
             "noToggleGridColumnGroup": false
           },
           {
+            "id": "163b7384a5a",
+            "name": "calendar",
+            "text": "日历",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
             "id": "162c457e7ec",
             "name": "pricingModel",
             "text": "计价方式",
@@ -12482,11 +12416,11 @@
       },
       {
         "id": "162d1fc8443",
-        "name": "项目主页（创建状态）",
+        "name": "项目快速启动（创建状态）",
         "layout": [],
         "type": "actionpanel",
         "stickerTitle": "快速启动",
-        "folderId": "1626f3768bc",
+        "folderId": "163b6fe6dac",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -15333,7 +15267,7 @@
       },
       {
         "id": "16305720b4b",
-        "name": "项目基本信息",
+        "name": "项目主页",
         "layout": [
           {
             "id": "1630572e84f",
@@ -15401,7 +15335,7 @@
           }
         ],
         "stickerTitle": "项目",
-        "folderId": "1631b7d0058",
+        "folderId": "163b6fe6dac",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -15634,8 +15568,8 @@
       },
       {
         "id": "1631ac3637f",
-        "name": "阶段基本信息",
-        "title": "阶段基本信息",
+        "name": "阶段主页",
+        "title": "阶段主页",
         "layout": [
           {
             "id": "1631b09d447",
@@ -15669,7 +15603,7 @@
             ]
           }
         ],
-        "folderId": "1631ac2c36a",
+        "folderId": "163b6fecb60",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -17155,7 +17089,7 @@
       },
       {
         "id": "163399430d8",
-        "name": "项目基本信息（创建状态）",
+        "name": "项目主页（创建状态）",
         "layout": [
           {
             "id": "1630572e84f",
@@ -17167,7 +17101,7 @@
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
             "extendHorizontalSpace": false,
-            "extendVerticalSpace": true,
+            "extendVerticalSpace": false,
             "marginBottom": 0,
             "marginHeight": 0,
             "marginLeft": 0,
@@ -17212,7 +17146,7 @@
           }
         ],
         "stickerTitle": "项目",
-        "folderId": "1631b7d0058",
+        "folderId": "163b6fe6dac",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -19952,11 +19886,11 @@
       },
       {
         "id": "1637183ede1",
-        "name": "阶段主页（创建状态）",
+        "name": "阶段快速启动（创建状态）",
         "layout": [],
         "type": "actionpanel",
         "stickerTitle": "快速启动",
-        "folderId": "1631ac2c36a",
+        "folderId": "163b6fecb60",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -20043,7 +19977,7 @@
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
-        "message": "阶段已成功创建，完善以下信息后可启动阶段",
+        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e阶段已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动阶段以前，您还需要完善一些信息，制定阶段的进度计划，编制阶段预算，组建阶段的初始团队。\u003c/div\u003e\n",
         "actionPanelColumnCount": 3,
         "smallEditor": false
       },
@@ -20878,7 +20812,7 @@
       },
       {
         "id": "163723be22d",
-        "name": "项目基本信息（关闭状态）",
+        "name": "项目主页（关闭状态）",
         "layout": [
           {
             "id": "1630572e84f",
@@ -20946,7 +20880,7 @@
           }
         ],
         "stickerTitle": "项目",
-        "folderId": "1631b7d0058",
+        "folderId": "163b6fe6dac",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -20981,8 +20915,8 @@
       },
       {
         "id": "163723c27be",
-        "name": "阶段基本信息（创建状态）",
-        "title": "阶段基本信息",
+        "name": "阶段主页（创建状态）",
+        "title": "阶段主页",
         "layout": [
           {
             "id": "1631b09d447",
@@ -21016,7 +20950,7 @@
             ]
           }
         ],
-        "folderId": "1631ac2c36a",
+        "folderId": "163b6fecb60",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -21051,8 +20985,8 @@
       },
       {
         "id": "163723c3033",
-        "name": "阶段基本信息（关闭状态）",
-        "title": "阶段基本信息",
+        "name": "阶段主页（关闭状态）",
+        "title": "阶段主页",
         "layout": [
           {
             "id": "1631b09d447",
@@ -21086,7 +21020,7 @@
             ]
           }
         ],
-        "folderId": "1631ac2c36a",
+        "folderId": "163b6fecb60",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,

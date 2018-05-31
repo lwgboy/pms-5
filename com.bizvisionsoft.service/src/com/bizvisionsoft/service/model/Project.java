@@ -85,12 +85,20 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private ObjectId projectSet_id;
+	
+	@SetValue
+	@ReadValue
+	private ProjectSet projectSet;
 
 	/**
 	 * ∏∏œÓƒøId
 	 */
 	@Persistence
 	private ObjectId parentProject_id;
+	
+	@SetValue
+	@ReadValue
+	private Project parentProject;
 
 	public ObjectId getParentProject_id() {
 		return parentProject_id;
@@ -107,6 +115,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@Persistence
 	private ObjectId eps_id;
+	
+	@SetValue
+	@ReadValue
+	private EPS eps;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// √Ë ˆ Ù–‘
