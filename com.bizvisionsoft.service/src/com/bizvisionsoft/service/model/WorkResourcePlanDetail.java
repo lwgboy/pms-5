@@ -73,7 +73,9 @@ public class WorkResourcePlanDetail {
 			return false;
 		return true;
 	}
-	
-	
+
+	public Double getWorks(Date date) {
+		return children.stream().filter(i -> i.getId().equals(date)).findFirst().map(r -> r.getWorks()).orElse(null);
+	}
 
 }

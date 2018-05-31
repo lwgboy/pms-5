@@ -802,10 +802,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					new Document("$group",
 							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
 
-			Document doc = c("resourcePlan").aggregate(pipeline).first();
+			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
+					.map(d -> d.getDouble("planWorks")).map(p -> p.doubleValue()).orElse(0d);
 
 			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
+					new Document("$set", new Document("planWorks", works)));
 			updateWorkParentPlanWorks(work);
 		}
 	}
@@ -1324,16 +1325,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						.append("let", new Document("planStart", "$planStart").append("planFinish", "$planFinish"))
 						.append("pipeline",
 								Arrays.asList(new Document("$match", new Document("$expr", new Document("$and",
-										Arrays.asList(new Document("$gt", Arrays.asList("$id", "$$planStart")),
-												new Document("$lt", Arrays.asList("$id", "$$planFinish")), eq))))))
+										Arrays.asList(new Document("$gte", Arrays.asList("$id", "$$planStart")),
+												new Document("$lte", Arrays.asList("$id", "$$planFinish")), eq))))))
 						.append("as", "resourcePlan")),
 				new Document("$unwind", "$resourcePlan"),
-				new Document("$project",
-						new Document("_id", "$resourcePlan._id").append("work_id", "$resourcePlan.work_id")
-								.append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
-								.append("resTypeId", "$resourcePlan.resTypeId")
-								.append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
-								.append("id", "$resourcePlan.id").append("planBasicQty", "$resourcePlan.planBasicQty")),
+				new Document("$replaceRoot",new Document("newRoot","$resourcePlan")),
+//				new Document("$project",
+//						new Document("_id", "$resourcePlan._id").append("work_id", "$resourcePlan.work_id")
+//								.append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
+//								.append("resTypeId", "$resourcePlan.resTypeId")
+//								.append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
+//								.append("id", "$resourcePlan.id").append("planBasicQty", "$resourcePlan.planBasicQty")),
 				new Document("$group",
 						new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
 				new Document("$lookup",
@@ -1352,7 +1354,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$addFields",
 						new Document("projectId", "$project.id").append("projectName", "$project.name")),
 				new Document("$project", new Document("project", false).append("work", false)));
-
 		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
 				.into(new ArrayList<WorkResourcePlanDetail>());
 	}

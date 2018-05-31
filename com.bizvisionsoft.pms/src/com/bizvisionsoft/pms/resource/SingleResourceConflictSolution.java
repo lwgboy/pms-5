@@ -3,12 +3,15 @@ package com.bizvisionsoft.pms.resource;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -30,6 +33,8 @@ import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
@@ -48,7 +53,7 @@ public class SingleResourceConflictSolution {
 
 	private Calendar end;
 
-	private GridTreeViewer viewer;
+	private GridTableViewer viewer;
 
 	private List<WorkResourcePlanDetail> works;
 
@@ -104,7 +109,7 @@ public class SingleResourceConflictSolution {
 	}
 
 	private void createViewer(Composite parent) {
-		viewer = new GridTreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new GridTableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		Grid grid = viewer.getGrid();
 		grid.setHeaderVisible(true);
 		grid.setFooterVisible(false);
@@ -115,7 +120,7 @@ public class SingleResourceConflictSolution {
 		Column c = new Column();
 		c.setName("project");
 		c.setText("项目");
-		c.setWidth(160);
+		c.setWidth(240);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -124,7 +129,7 @@ public class SingleResourceConflictSolution {
 		c = new Column();
 		c.setName("work");
 		c.setText("工作");
-		c.setWidth(200);
+		c.setWidth(240);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -155,52 +160,14 @@ public class SingleResourceConflictSolution {
 			now.add(Calendar.DATE, 1);
 		}
 
-		viewer.setContentProvider(new ITreeContentProvider() {
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			}
-
-			@Override
-			public void dispose() {
-			}
-
-			@Override
-			public Object[] getElements(Object value) {
-				if (value instanceof List) {
-					return ((List<?>) value).toArray();
-				} else if (value instanceof Object[]) {
-					return (Object[]) value;
-				}
-				return new Object[0];
-			}
-
-			@Override
-			public Object[] getChildren(Object parentElement) {
-				if (parentElement instanceof List) {
-					return ((List<?>) parentElement).toArray();
-				} else if (parentElement instanceof Object[]) {
-					return (Object[]) parentElement;
-				}
-				return new Object[0];
-			}
-
-			@Override
-			public Object getParent(Object element) {
-				return null;
-			}
-
-			@Override
-			public boolean hasChildren(Object element) {
-				return false;
-			}
-		});
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
 
 	}
 
 	private void createDateColumn(Date now) {
-		GridColumn col = new GridColumn(viewer.getGrid(), SWT.NONE);
-		col.setText(new SimpleDateFormat("yy/M/d").format(now.getTime()));
-		col.setWidth(72);
+		GridColumn col = new GridColumn(viewer.getGrid(), SWT.CENTER);
+		col.setText(new SimpleDateFormat("M/d").format(now.getTime()));
+		col.setWidth(48);
 		col.setMoveable(false);
 		col.setResizeable(false);
 
@@ -208,24 +175,17 @@ public class SingleResourceConflictSolution {
 		vcol.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				for (ResourcePlan workRes : ((WorkResourcePlanDetail) element).children) {
-					if (now.equals(workRes.getId())) {
-						return "" + workRes.getWorks();
-					}
-				}
-				return "";
+				return Optional.ofNullable(((WorkResourcePlanDetail) element).getWorks(now)).map(d -> "" + d)
+						.orElse("");
 			}
 
 			@Override
 			public Color getBackground(Object element) {
-				// double workTime = 0;
-				// for (WorkResourcePlanDetail work : works) {
-				// if (!work.equals(element)) {
-				//
-				// }
-				// }
-
-				return null;
+				double workTime = 0;
+				Iterator<WorkResourcePlanDetail> iter = works.iterator();
+				while (iter.hasNext())
+					workTime += Optional.ofNullable(iter.next().getWorks(now)).orElse(0d);
+				return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
 			}
 		});
 	}
@@ -243,10 +203,9 @@ public class SingleResourceConflictSolution {
 			public String getText(Object element) {
 				String name = c.getName();
 				if ("project".equals(name)) {
-					return ((WorkResourcePlanDetail) element).projectName + "["
-							+ ((WorkResourcePlanDetail) element).projectId + "]";
+					return ((WorkResourcePlanDetail) element).projectName;
 				} else if ("work".equals(name)) {
-					return ((WorkResourcePlanDetail) element).name + "[" + ((WorkResourcePlanDetail) element).id + "]";
+					return ((WorkResourcePlanDetail) element).name;
 				} else if ("startDate".equals(name)) {
 					Date startDate;
 					if (((WorkResourcePlanDetail) element).actualStart != null) {
