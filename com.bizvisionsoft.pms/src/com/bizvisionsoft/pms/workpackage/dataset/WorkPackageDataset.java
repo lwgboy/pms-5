@@ -27,9 +27,13 @@ public class WorkPackageDataset {
 
 	private Work work;
 
+	private TrackView view;
+
 	@Init
 	private void init() {
-		work = (Work) context.getParentContext().getInput();
+		Object[] input = (Object[]) context.getParentContext().getInput();
+		work = (Work) input[0];
+		view = (TrackView) input[1];
 	}
 
 	@DataSet(DataSet.INSERT)
@@ -60,9 +64,8 @@ public class WorkPackageDataset {
 
 	private void appendFilter(BasicDBObject filter) {
 		filter.append("work_id", work.get_id());
-		TrackView tv = (TrackView) context.getInput();
-		if(tv!=null) {
-			filter.append("catagory", tv.getCatagory()).append("name", tv.getName());
+		if(view!=null) {
+			filter.append("catagory", view.getCatagory()).append("name", view.getName());
 		}else {
 			filter.append("catagory", null).append("name", null);
 		}

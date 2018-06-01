@@ -9,10 +9,7 @@ import java.util.Optional;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
-import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
@@ -41,7 +38,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class SingleResourceConflictSolution {
+public class SingleResourceConflictSolutionASM {
 
 	@Inject
 	private IBruiService brui;

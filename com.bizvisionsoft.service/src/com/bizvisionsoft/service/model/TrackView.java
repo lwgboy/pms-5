@@ -91,4 +91,9 @@ public class TrackView {
 	private boolean behaviourOpenWorkPackage() {
 		return false;
 	}
+	
+	public ObjectId get_id() {
+		return _id;
+	}
+	
 }

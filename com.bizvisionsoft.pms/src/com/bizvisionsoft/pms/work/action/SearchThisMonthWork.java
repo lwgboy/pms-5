@@ -30,7 +30,6 @@ public class SearchThisMonthWork {
 		cal.add(Calendar.MONTH, 1);
 		cal.add(Calendar.MILLISECOND, -1);
 		gridPart.doQuery(new BasicDBObject("planFinish",new BasicDBObject("$lt",cal.getTime())));
-		
 	}
 
 }

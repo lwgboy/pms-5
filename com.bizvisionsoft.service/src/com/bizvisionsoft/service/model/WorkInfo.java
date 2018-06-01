@@ -637,6 +637,14 @@ public class WorkInfo {
 	@WriteValue
 	@Persistence
 	private List<TrackView> workPackageSetting;
+	
+	public List<TrackView> getWorkPackageSetting() {
+		return workPackageSetting;
+	}
+	
+	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
+		this.workPackageSetting = workPackageSetting;
+	}
 
 	@Behavior({ "项目甘特图（编辑）/创建子任务" })
 	private boolean behaviourAddTask() {

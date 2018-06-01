@@ -887,9 +887,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return actualStart != null;
 	}
 
-	@Behavior({ "打开工作包", "编辑负责人和工作包" })
+	@Behavior("打开工作包" )
 	private boolean behaviourOpenWorkPackage() {
-		return !stage;
+		return !summary;
 	}
 
 	@ReadValue

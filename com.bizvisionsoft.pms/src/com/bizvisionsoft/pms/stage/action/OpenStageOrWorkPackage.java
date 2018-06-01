@@ -7,10 +7,11 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.work.action.OpenWorkPackage;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Work;
 
-public class OpenStageOrWorkPackage {
+public class OpenStageOrWorkPackage extends OpenWorkPackage{
 
 	@Inject
 	private IBruiService bruiService;
@@ -31,7 +32,7 @@ public class OpenStageOrWorkPackage {
 					bruiService.switchPage("阶段首页（关闭）", work.get_id().toHexString());
 				}
 			} else {
-				bruiService.openContent(bruiService.getAssembly("工作包跟踪"), work);
+				openWorkPackageMenu(work);
 			}
 
 		});
