@@ -43,7 +43,7 @@ public class SubmitSchedule {
 						}
 					} else {
 						MessageDialog.openError(brui.getCurrentShell(), "提交计划",
-								"管理节点 <b style='color:red;'>" + result.data + "</b> 完成时间超过限定。");
+								"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 					}
 				}
 			}
