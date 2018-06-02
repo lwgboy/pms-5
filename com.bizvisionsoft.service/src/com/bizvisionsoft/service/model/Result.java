@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.model;
 
+import com.mongodb.BasicDBObject;
+
 public class Result {
 
 	public static final int TYPE_ERROR = 0;
@@ -28,7 +30,7 @@ public class Result {
 
 	public int type;
 
-	public Object data;
+	public BasicDBObject data;
 
 	public static final Result updateFailure(String message) {
 		Result e = new Result();
@@ -54,7 +56,7 @@ public class Result {
 		return e;
 	}
 
-	public Result setResultDate(Object data) {
+	public Result setResultDate(BasicDBObject data) {
 		this.data = data;
 		return this;
 	}

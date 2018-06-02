@@ -477,7 +477,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		}
 		return null;
 	}
-
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工时完成率 百分比
@@ -497,15 +497,32 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Persistence
 	private boolean milestone;
 
+	@ImageURL("milestoneIcon")
+	private String getMilestoneIcon() {
+		if (milestone)
+			return "/img/milestone_c.svg";
+		return null;
+	}
+
 	@Persistence
 	private boolean summary;
 
 	@Persistence
+	@Behavior("进入阶段页面")
 	private boolean stage;
 
 	@Persistence
 	private boolean distributed;
-
+	
+	@ReadValue("distributeIcon")
+	private String getDistributedIcon() {
+		if (!distributed) {
+			return "<span class='layui-badge layui-bg-orange'>未下达</span>";
+		} else {
+			return "";
+		}
+	}
+	
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -553,6 +570,19 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 			return null;
 		}
 
+	}
+
+	@ReadValue("manageLevelHtml")
+	private String getManageLevelHtml() {
+		if ("level1_task".equals(barstyle)) {
+			return "<span class='layui-badge level1_task'>1</span>";
+		} else if ("level2_task".equals(barstyle)) {
+			return "<span class='layui-badge level2_task'>2</span>";
+		} else if ("level3_task".equals(barstyle)) {
+			return "<span class='layui-badge level3_task'>3</span>";
+		} else {
+			return "";
+		}
 	}
 
 	@SetValue("manageLevel")
@@ -612,6 +642,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 	
+	@ReadValue("chargerInfoWithDistributeIcon")
+	private String getChargerInfoWithIcon() {
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>"+chargerInfo + getDistributedIcon()+"</div>";
+	}
+
 	public String getChargerInfo() {
 		return chargerInfo;
 	}
@@ -639,7 +674,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getAssigner() {
 		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue
@@ -663,43 +698,43 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure({ "项目进度计划表/list", "项目进度计划表（查看）/list", "总体进度监控/list" })
+	@Structure("进度计划和监控/list")
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure({ "项目进度计划表/count", "项目进度计划表（查看）/count", "总体进度监控/count" })
+	@Structure("进度计划和监控/count")
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
 
 	@Persistence
 	private List<String> viewId;
-	
+
 	public List<String> getViewId() {
 		return viewId;
 	}
 
 	@Persistence
 	private Date startOn;
-	
+
 	@Persistence
 	private String startBy;
-	
+
 	@Persistence
 	private Date finishOn;
-	
+
 	@Persistence
 	private String finishBy;
-	
+
 	public Date getStartOn() {
 		return startOn;
 	}
-	
+
 	public Date getFinishOn() {
 		return finishOn;
 	}
-	
+
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
@@ -850,14 +885,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
-	@ImageURL("warningIcon")
+	@ReadValue("warningIcon")
 	private String getWarningIcon() {
 		if ("已超期".equals(overdue))
-			return "/img/redball.svg";
+			return "<span class='layui-badge'>超期</span>";
 		else if ("预警".equals(overdue))
-			return "/img/orangeball.svg";
+			return "<span class='layui-badge layui-bg-orange'>预警</span>";
 		else
-			return "/img/greenball.svg";
+			return null;
 	}
 
 	@ReadValue
@@ -867,7 +902,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	public Date getPlanFinish() {
 		return planFinish;
 	}
-	
+
 	public Date getPlanStart() {
 		return planStart;
 	}
@@ -887,16 +922,15 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return actualStart != null;
 	}
 
-	@Behavior("打开工作包" )
+	@Behavior("打开工作包")
 	private boolean behaviourOpenWorkPackage() {
-		return !summary;
+		return !summary && !stage;
 	}
-
+	
 	@ReadValue
 	@SetValue
 	public TrackView scheduleMonitoring;
-	
-	
+
 	@Structure("我的待处理工作（首页小组件）/list")
 	private List<WorkBoardInfo> getWorkBoardInfo() {
 		return Arrays.asList(new WorkBoardInfo().setWork(this));
@@ -906,18 +940,17 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private long countWorkBoardInfo() {
 		return 1;
 	}
-	
+
 	public Date getActualFinish() {
 		return actualFinish;
 	}
-	
+
 	public Date getActualStart() {
 		return actualStart;
 	}
-	
+
 	public String getAssignerId() {
 		return assignerId;
 	}
-	
 
 }

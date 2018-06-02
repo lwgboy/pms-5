@@ -101,7 +101,7 @@
               },
               {
                 "children": [],
-                "name": "总体进度监控",
+                "name": "进度计划和监控",
                 "id": "1638c2bd279"
               }
             ],
@@ -1193,8 +1193,8 @@
             "children": [
               {
                 "id": "1638b849d14",
-                "name": "总体进度监控",
-                "text": "总体进度监控",
+                "name": "进度计划和监控",
+                "text": "进度计划和监控",
                 "switchContentToAssemblyId": "1638c2c16a9",
                 "openContent": false,
                 "propagate": false,
@@ -28420,7 +28420,7 @@
       },
       {
         "id": "1638c2c16a9",
-        "name": "总体进度监控",
+        "name": "进度计划和监控",
         "layout": [],
         "type": "grid",
         "stickerTitle": "进度计划",

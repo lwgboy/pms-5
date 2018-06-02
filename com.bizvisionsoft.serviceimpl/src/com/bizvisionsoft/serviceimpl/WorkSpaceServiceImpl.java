@@ -222,9 +222,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						new BasicDBObject("stage", Boolean.FALSE).append("wpf", Boolean.TRUE) })));
 		WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
 		if (workInfo != null) {
-			Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
-			result.setResultDate(workInfo.toString());
-			return result;
+			return Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
 		}
 
 		// 返回检查结果

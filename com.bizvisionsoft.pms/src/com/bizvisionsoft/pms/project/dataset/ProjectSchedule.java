@@ -40,7 +40,7 @@ public class ProjectSchedule {
 		return Services.get(ProjectService.class).countStage(parent_id);
 	}
 
-	@DataSet({ "项目进度计划表/list", "项目进度计划表（查看）/list", "总体进度监控/list" })
+	@DataSet({ "项目进度计划表/list", "项目进度计划表（查看）/list", "进度计划和监控/list" })
 	private List<Work> listRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).listProjectRootTask(((Project) input).get_id());
@@ -52,7 +52,7 @@ public class ProjectSchedule {
 		}
 	}
 
-	@DataSet({ "项目进度计划表/count", "项目进度计划表（查看）/count", "总体进度监控/count" })
+	@DataSet({ "项目进度计划表/count", "项目进度计划表（查看）/count", "进度计划和监控/count" })
 	private long countRootTask(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
 			return Services.get(WorkService.class).countProjectRootTask(((Project) input).get_id());
