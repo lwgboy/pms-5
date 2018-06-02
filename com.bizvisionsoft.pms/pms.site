@@ -1093,8 +1093,8 @@
                 "type": "switch"
               },
               {
-                "id": "1628decc58a",
-                "name": "资源用量状况",
+                "id": "163c14c1fd6",
+                "name": "项目资源用量",
                 "switchContentToAssemblyId": "16396e1b1ae",
                 "openContent": false,
                 "propagate": false,
@@ -31111,7 +31111,7 @@
         "name": "解决单一资源冲突",
         "title": "解决资源冲突",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.SingleResourceConflictSolution",
+        "className": "com.bizvisionsoft.pms.resource.SingleResourceConflictSolutionASM",
         "layout": [],
         "folderId": "163ae4a739d",
         "gridAutoExpandLevel": 0,
