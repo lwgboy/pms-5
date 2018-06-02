@@ -292,6 +292,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Persistence("name")
 	@Label(Label.NAME_LABEL)
 	private String text;
+
+	@ReadValue("name")
+	private String getWorkNameHTML() {
+		if (stage) {
+			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
+					+ text + "</div>";
+			html += "<a href='openStage/' target='_rwt'><img src='rwt-resources/extres/img/open_c.svg' style='cursor:pointer;' width='20px' height='20px'/></a></div>";
+			return html;
+		} else {
+			return "<div>" + text + "</div>";
+		}
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -477,7 +489,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		}
 		return null;
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工时完成率 百分比
@@ -513,7 +525,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	@Persistence
 	private boolean distributed;
-	
+
 	@ReadValue("distributeIcon")
 	private String getDistributedIcon() {
 		if (!distributed) {
@@ -522,7 +534,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 			return "";
 		}
 	}
-	
+
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -641,10 +653,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private User getCharger() {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
-	
+
 	@ReadValue("chargerInfoWithDistributeIcon")
 	private String getChargerInfoWithIcon() {
-		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>"+chargerInfo + getDistributedIcon()+"</div>";
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + chargerInfo
+				+ getDistributedIcon() + "</div>";
 	}
 
 	public String getChargerInfo() {
@@ -926,7 +939,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	private boolean behaviourOpenWorkPackage() {
 		return !summary && !stage;
 	}
-	
+
 	@ReadValue
 	@SetValue
 	public TrackView scheduleMonitoring;

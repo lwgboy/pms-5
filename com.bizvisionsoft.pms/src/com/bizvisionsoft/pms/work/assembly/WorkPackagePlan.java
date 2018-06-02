@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -17,6 +18,7 @@ import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkPackage;
 
 public class WorkPackagePlan {
 
@@ -28,9 +30,9 @@ public class WorkPackagePlan {
 
 	private Work work;
 
-	private BruiAssemblyContext currentContext;
-
 	private TrackView view;
+
+	private GridPart grid;
 
 	@CreateUI
 	public void createUI(Composite parent) {
@@ -74,7 +76,7 @@ public class WorkPackagePlan {
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			} else {
-				UserSession.bruiToolkit().runAction(action, e, brui, currentContext);
+				UserSession.bruiToolkit().runAction(action, e, brui, context);
 			}
 		});
 
@@ -83,12 +85,18 @@ public class WorkPackagePlan {
 
 	private void createContent(Composite parent) {
 		parent.setLayout(new FillLayout());
+		BruiAssemblyContext gridContext;
 		if (view == null) {
-			new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create();
+			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create().getContext();
 		} else {
-			new AssemblyContainer(parent, context).setInput(view)
-					.setAssembly(brui.getAssembly(view.getPackageAssembly())).setServices(brui).create();
+			gridContext = new AssemblyContainer(parent, context).setInput(view)
+					.setAssembly(brui.getAssembly(view.getPackageAssembly())).setServices(brui).create().getContext();
 		}
+		grid = (GridPart) gridContext.getContent();
+	}
+
+	public void doCreate(Object parent, WorkPackage element) {
+		grid.doCreate(parent, element);
 	}
 
 }

@@ -53,7 +53,8 @@ public class OpenWorkPackage {
 		// 显示资源选择框
 		Action hrRes = new Action();
 		hrRes.setName(view.get_id().toHexString());
-		hrRes.setText(view.getCatagory() + "<br/>" + view.getName());
+		hrRes.setText("<div>"+view.getCatagory()+"</div><div style='width:120px;text-overflow:ellipsis;overflow: hidden;'>" + view.getName()+"</div>");
+		hrRes.setTooltips(view.getName());
 		hrRes.setStyle("normal");
 		return hrRes;
 	}
