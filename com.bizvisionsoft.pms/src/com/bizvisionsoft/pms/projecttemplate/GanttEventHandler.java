@@ -3,6 +3,9 @@ package com.bizvisionsoft.pms.projecttemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+import org.eclipse.jface.dialogs.MessageDialog;
+
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
@@ -13,9 +16,9 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.model.IWBSScope;
-import com.bizvisionsoft.service.model.WorkInfo;
-import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.WorkInTemplate;
+import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 
 public class GanttEventHandler {
 
@@ -25,17 +28,21 @@ public class GanttEventHandler {
 	@Inject
 	private IBruiService bruiService;
 
-	private IWBSScope wbsspace;
+	private ObjectId template_id;
+
+	private GanttPart ganttPart;
 
 	@Init
 	private void init() {
-		wbsspace = (IWBSScope) context.getRootInput();
+		template_id = context.getInput(ProjectTemplate.class, false).get_id();
+		ganttPart = (GanttPart) context.getContent();
 	}
 
-	@Listener({ "项目甘特图（编辑）/onTaskLinkBefore" })
+	@Listener({ "项目模板甘特图/onTaskLinkBefore" })
 	public void onTaskLinkBeforeBySpace(GanttEvent event) {
-		WorkLinkInfo input = WorkLinkInfo.newInstance(wbsspace.getProject_id()).setSource((WorkInfo) event.linkSource)
-				.setTarget((WorkInfo) event.linkTarget).setType(event.linkType);
+		WorkLinkInTemplate input = WorkLinkInTemplate.newInstance(template_id)
+				.setSource((WorkInTemplate) event.linkSource).setTarget((WorkInTemplate) event.linkTarget)
+				.setType(event.linkType);
 
 		Editor.open("工作搭接关系编辑器（1对1）", context, input, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
@@ -43,7 +50,7 @@ public class GanttEventHandler {
 		});
 	}
 
-	@Listener({ "项目甘特图（编辑）/onLinkDblClick" })
+	@Listener({ "项目模板甘特图/onLinkDblClick" })
 	public void onLinkDblClickBySpace(GanttEvent event) {
 		List<Action> actions = new ArrayList<Action>();
 		// 编辑Link action
@@ -51,8 +58,6 @@ public class GanttEventHandler {
 		editAction.setName("编辑link");
 		editAction.setText("编辑");
 		editAction.setImage("/img/edit_w.svg");
-		editAction.setBundleId("com.bizvisionsoft.pms");
-		editAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.EditLink");
 		editAction.setStyle("normal");
 		editAction.setType("customized");
 		actions.add(editAction);
@@ -62,31 +67,30 @@ public class GanttEventHandler {
 		deleteAction.setName("删除link");
 		deleteAction.setText("删除");
 		deleteAction.setImage("/img/minus_w.svg");
-		deleteAction.setBundleId("com.bizvisionsoft.pms");
-		deleteAction.setClassName("com.bizvisionsoft.pms.work.gantt.action.DeleteLink");
 		deleteAction.setStyle("warning");
 		actions.add(deleteAction);
 
 		// 弹出menu
 		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
-				.setActions(actions).setEvent(event).open();
+				.setActions(actions).setEvent(event).handleActionExecute("编辑link", t -> {
+					Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link,
+							(r, wi) -> ganttPart.updateLink(wi));
+					return false;
+				}).handleActionExecute("删除link", t -> {
+					if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
+						WorkLinkInTemplate link = (WorkLinkInTemplate) ((GanttEvent) event).link;
+						ganttPart.deleteLink(link.getId());
+					}
+					return false;
+				}).open();
 
 	}
 
-	@Listener({ "项目甘特图（编辑）/onTaskDblClick" })
+	@Listener({ "项目模板甘特图/onTaskDblClick" })
 	public void onTaskDblClickBySpace(GanttEvent event) {
-		String editor;
-		if (((WorkInfo) event.task).isStage()) {
-			editor = "甘特图阶段工作编辑器";
-		} else if (((WorkInfo) event.task).isSummary()) {
-			editor = "甘特图总成工作编辑器";
-		} else {
-			editor = "甘特图工作编辑器";
-		}
-		Editor.create(editor, context, event.task, false).setTitle(((WorkInfo) event.task).toString()).ok((r, wi) -> {
-			GanttPart content = (GanttPart) context.getContent();
-			content.updateTask(wi);
-		});
+		String editor = "项目模板工作编辑器";
+		Editor.create(editor, context, event.task, false).setTitle(((WorkInTemplate) event.task).toString())
+				.ok((r, wi) -> ganttPart.updateTask(wi));
 	}
 
 }

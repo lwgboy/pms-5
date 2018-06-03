@@ -12,12 +12,11 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.Util;
-import com.bizvisionsoft.service.WorkSpaceService;
+import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.IWBSScope;
-import com.bizvisionsoft.service.model.WorkInfo;
-import com.bizvisionsoft.service.model.WorkLinkInfo;
-import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.WorkInTemplate;
+import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -29,81 +28,60 @@ public class GanttDS {
 	@Inject
 	private IBruiService brui;
 
-	private WorkSpaceService workSpaceService;
+	private ProjectTemplateService service;
 
-	private Workspace workspace;
+	private ObjectId template_id;
 
 	@Init
 	private void init() {
-		workspace = ((IWBSScope) context.getRootInput()).getWorkspace();
-		workSpaceService = Services.get(WorkSpaceService.class);
+		service = Services.get(ProjectTemplateService.class);
+		template_id = context.getInput(ProjectTemplate.class,false).get_id();
 	}
 
 	@DataSet("data")
-	public List<WorkInfo> dataInSpace() {
-		return workSpaceService.createTaskDataSet(new BasicDBObject("space_id", workspace.getSpace_id()).append("_id",
-				new BasicDBObject("$ne", workspace.getWork_id())));
+	public List<WorkInTemplate> listWorks() {
+		return service.listWorks(template_id);
 	}
 
 	@DataSet("links")
-	public List<WorkLinkInfo> linksInSpace() {
-		return workSpaceService.createLinkDataSet(new BasicDBObject("space_id", workspace.getSpace_id()));
+	public List<WorkLinkInTemplate> listLinks() {
+		return service.listLinks(template_id);
 	}
 
-	// @DataSet({ "ÏîÄ¿¸ÊÌØÍ¼£¨±à¼­£©/initDateRange" })
-	// public Date[] initDateRangeBySpace() {
-	// return
-	// Services.get(ProjectService.class).getPlanDateRange(project_id).toArray(new
-	// Date[0]);
-	// }
-
 	@Listener("onAfterTaskAdd")
-	public void onAfterTaskAddInSpace(GanttEvent e) {
-		WorkInfo workInfo = (WorkInfo) e.task;
-		workInfo.setSpaceId(workspace.getSpace_id());
-		if (workInfo.getParent_id() == null && workspace.getWork_id() != null) {
-			workInfo.setParent_id(workspace.getWork_id());
-		}
-		workSpaceService.insertWork(workInfo);
-		System.out.println(e.text);
+	public void onAfterTaskAdd(GanttEvent e) {
+		WorkInTemplate work = (WorkInTemplate) e.task;
+		work.setTemplate_id(template_id);
+		service.insertWork(work);
 	}
 
 	@Listener({ "onAfterTaskUpdate", "onAfterTaskMove", "onAfterTaskResize", "onAfterTaskProgress" })
-	public void onAfterTaskUpdateInSpace(GanttEvent e) {
-		workSpaceService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson((WorkInfo) e.task, "_id")).bson());
+	public void onAfterTaskUpdate(GanttEvent e) {
+		service.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
+				.set(Util.getBson((WorkInTemplate) e.task, "_id")).bson());
 	}
 
 	@Listener("onAfterTaskDelete")
-	public void onAfterTaskDeleteInSpace(GanttEvent e) {
-		workSpaceService.deleteWork(new ObjectId(e.id));
-		System.out.println(e.text);
+	public void onAfterTaskDelete(GanttEvent e) {
+		service.deleteWork(new ObjectId(e.id));
 	}
 
 	@Listener("onAfterLinkAdd")
 	public void onAfterLinkAddInSpace(GanttEvent e) {
-		WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
-		workLinkInfo.setSpaceId(workspace.getSpace_id());
-		workSpaceService.insertLink(workLinkInfo);
-		System.out.println(e.text);
+		WorkLinkInTemplate link = (WorkLinkInTemplate) e.link;
+		link.setTemplate_id(template_id);
+		service.insertLink(link);
 	}
 
 	@Listener("onAfterLinkUpdate")
 	public void onAfterLinkUpdateInSpace(GanttEvent e) {
-		workSpaceService.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(Util.getBson((WorkLinkInfo) e.link, "_id")).bson());
-		System.out.println(e.text);
+		service.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
+				.set(Util.getBson((WorkLinkInTemplate) e.link, "_id")).bson());
 	}
 
 	@Listener("onAfterLinkDelete")
 	public void onAfterLinkDeleteInSpace(GanttEvent e) {
-		workSpaceService.deleteLink(new ObjectId(e.id));
-		System.out.println(e.text);
+		service.deleteLink(new ObjectId(e.id));
 	}
 
-	@Listener("onAfterAutoSchedule")
-	public void onAfterAutoScheduleInSpace(GanttEvent e) {
-
-		System.out.println("--------------------onAfterAutoSchedule--------------------");
-	}
 }

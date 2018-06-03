@@ -50,7 +50,7 @@ public class SidebarHeader4Work {
 		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:8px;' src='" + url + "' width=" + 32
 				+ "px height=" + 32 + "px/>");
 
-		Work input = (Work) context.getParentContext().getInput();
+		Work input = context.getParentContext().getInput(Work.class, false);
 		String pjName = Optional.ofNullable(input.getProject()).map(p -> p.getName()).orElse("");
 		title.setText(
 				"<div style='color:white;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"

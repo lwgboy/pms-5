@@ -19,6 +19,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
@@ -39,6 +40,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 				.registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
 				.registerTypeAdapter(Date.class, new DateAdapter())//
 				.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
+				.registerTypeAdapter(Document.class, new DocumentAdapter())//
 				.create();
 	}
 

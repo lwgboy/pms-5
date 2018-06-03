@@ -940,10 +940,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return !summary && !stage;
 	}
 
-	@ReadValue
-	@SetValue
-	public TrackView scheduleMonitoring;
-
 	@Structure("我的待处理工作（首页小组件）/list")
 	private List<WorkBoardInfo> getWorkBoardInfo() {
 		return Arrays.asList(new WorkBoardInfo().setWork(this));
