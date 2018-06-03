@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 
-public class EventHandler {
+public class GanttEventHandler {
 
 	@Inject
 	private BruiAssemblyContext context;

@@ -31340,7 +31340,7 @@
         "ganttGridWidthCalculate": true,
         "ganttGridWidth": 0,
         "eventHandlerBundleId": "com.bizvisionsoft.pms",
-        "eventHandlerClassName": "com.bizvisionsoft.pms.projecttemplate.EventHandler",
+        "eventHandlerClassName": "com.bizvisionsoft.pms.projecttemplate.GanttEventHandler",
         "headActions": [
           {
             "id": "1625087e381",
