@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.projecttemplate.action;
+package com.bizvisionsoft.pms.projecttemplate;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateProjectTemplate {
+public class CreateProjectTemplateACT {
 
 	@Inject
 	private IBruiService bruiService;
