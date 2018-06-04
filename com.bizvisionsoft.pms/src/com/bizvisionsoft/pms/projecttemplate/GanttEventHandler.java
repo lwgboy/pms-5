@@ -34,7 +34,7 @@ public class GanttEventHandler {
 
 	@Init
 	private void init() {
-		template_id = context.getInput(ProjectTemplate.class, false).get_id();
+		template_id = context.getRootInput(ProjectTemplate.class, false).get_id();
 		ganttPart = (GanttPart) context.getContent();
 	}
 
