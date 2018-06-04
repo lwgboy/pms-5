@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
@@ -108,4 +109,44 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	public int nextWBSIndex(BasicDBObject append);
 
+	@POST
+	@Path("/nextobsseq")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public int nextOBSSeq(BasicDBObject condition);
+	
+	@POST
+	@Path("/id/{_id}/obs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板组织结构图/list")
+	public List<OBSInTemplate> getOBSTemplate(
+			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+
+	@GET
+	@Path("/id/{_id}/hasOBS")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean hasOBS(@PathParam("_id") ObjectId _id);
+	
+	@POST
+	@Path("/id/{_id}/obs/root")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public OBSInTemplate createRootOBS(@PathParam("_id") ObjectId _id);
+
+	
+	@POST
+	@Path("/obs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public OBSInTemplate insertOBSItem(OBSInTemplate t);
+	
+	@PUT
+	@Path("/obs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板组织结构图/" + DataSet.UPDATE)
+	public long update(BasicDBObject fu);
+	
 }
