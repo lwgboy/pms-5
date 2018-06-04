@@ -3429,6 +3429,121 @@
       "checkLogin": false,
       "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.WorkService"
+    },
+    {
+      "typeName": "页面",
+      "id": "163c92214c7",
+      "name": "项目模板",
+      "title": "项目模板",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": true,
+        "width": 240,
+        "header": "1628e1d1914",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "163c9405fea",
+            "name": "快速设置",
+            "switchContentToAssemblyId": "163c925f0d5",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c9237b01",
+            "name": "WBS和进度计划",
+            "text": "WBS和进度计划",
+            "switchContentToAssemblyId": "163c31c8328",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c9240bb3",
+            "name": "组织结构",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c924a226",
+            "name": "分配资源",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c939e5db",
+            "name": "分配角色",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163c92520b2",
+            "name": "工作包设置",
+            "text": "工作包设置",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c92dd1f1",
+            "name": "可用性设置",
+            "text": "可用性设置",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ]
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "163c925f0d5",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectTemplateService"
     }
   ],
   "assyLib": {
@@ -7569,7 +7684,7 @@
         "type": "grid",
         "stickerTitle": "项目模板管理",
         "folderId": "162bd9f0190",
-        "gridAutoExpandLevel": 0,
+        "gridAutoExpandLevel": 2,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
         "gridLineVisiable": true,
@@ -7699,7 +7814,7 @@
             "name": "打开项目模板",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplate",
+            "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplateACT",
             "switchContentToAssemblyId": "163c31c8328",
             "openContent": true,
             "propagate": false,
@@ -7707,7 +7822,8 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
-            "type": "switch"
+            "type": "customized",
+            "openPageName": "项目模板"
           }
         ],
         "borderTop": false,
@@ -31528,6 +31644,138 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true
+      },
+      {
+        "id": "163c925f0d5",
+        "name": "项目模板操作面板",
+        "layout": [],
+        "type": "actionpanel",
+        "stickerTitle": "快速设置",
+        "folderId": "162bd9f0190",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "162d214c4ef",
+            "name": "进度计划",
+            "text": "进度计划",
+            "description": "WBS结构和参考工期",
+            "tooltips": "WBS结构和参考工期",
+            "image": "/img/calendar_c.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "",
+            "switchContentToAssemblyId": "163c31c8328",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "162d214ceb1",
+            "name": "组织结构",
+            "text": "组织结构",
+            "description": "制定项目组织结构",
+            "tooltips": "制定项目组织结构",
+            "image": "/img/org_c.svg",
+            "switchContentToAssemblyId": "162e10dc2e4",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "163c9357e33",
+            "name": "分配角色",
+            "text": "分配角色",
+            "description": "指定工作负责角色",
+            "tooltips": "指定工作负责角色",
+            "image": "/img/appointment_c.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "162d214c96c",
+            "name": "分配资源",
+            "text": "分配资源",
+            "description": "为工作分配资源分配",
+            "tooltips": "分配资源到工作",
+            "image": "/img/equipment_c.svg",
+            "switchContentToAssemblyId": "162ec7a411c",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "162d214dabc",
+            "name": "工作包设置",
+            "text": "工作包设置",
+            "description": "通过指定工作包类型设定工作交付要求",
+            "tooltips": "设定工作交付要求",
+            "image": "/img/workpackage_c.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.StartProject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163c9307936",
+            "name": "可用性设置",
+            "text": "可用性设置",
+            "description": "设置本模板适用的项目类型等",
+            "tooltips": "设置适用的条件",
+            "image": "/img/setting_c.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目模板已成功创建\u003c/div\u003e\n\u003cdiv\u003e您可以对项目模板进行以下设置。\u003c/div\u003e\n",
+        "actionPanelColumnCount": 5,
+        "smallEditor": false
       }
     ]
   }

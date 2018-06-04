@@ -35,7 +35,7 @@ public class GanttDS {
 	@Init
 	private void init() {
 		service = Services.get(ProjectTemplateService.class);
-		template_id = context.getInput(ProjectTemplate.class,false).get_id();
+		template_id = context.getRootInput(ProjectTemplate.class,false).get_id();
 	}
 
 	@DataSet("data")
