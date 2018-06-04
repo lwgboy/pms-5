@@ -55,7 +55,7 @@ public class BudgetSubject extends BudgetGrid {
 			}
 		}
 		if (cbsItem != null) {
-			accountBudget = Services.get(CBSService.class).getSubjectBudget(cbsItem.get_id());
+			accountBudget = Services.get(CBSService.class).getCBSSubject(cbsItem.get_id());
 		}
 		super.init();
 	}

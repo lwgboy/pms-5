@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +68,10 @@ public class CBSItem {
 	@Persistence
 	@ReadValue
 	private String scopename;
+
+	@ReadValue
+	@SetValue
+	public String scopeId;
 
 	@Behavior({ "CBS/编辑和设定" })
 	private boolean behaviourAdd(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
@@ -143,6 +148,37 @@ public class CBSItem {
 	@Structure({ "CBS/count", "CBS（查看）/count" })
 	public long countSubCBSItems() {
 		return children.size();
+	}
+
+	@Structure({ "项目成本管理/list" })
+	public List<Object> listSubCBSItemsAndSubjects() {
+		List<Object> result = new ArrayList<Object>(children);
+
+		if (result.size() == 0) {
+			if (subjects == null) {
+				subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
+			}
+			List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
+			subjects.forEach(s -> {
+				cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
+
+			});
+			result.addAll(cbsSubjects);
+		}
+		return result;
+	}
+
+	@Structure({ "项目成本管理/count" })
+	public long countSubCBSItemsAndSubjects() {
+		long result = children.size();
+		if (result == 0) {
+			if (subjects == null) {
+				result += ServicesLoader.get(CommonService.class).countAccoutItemRoot();
+			} else {
+				result += subjects.size();
+			}
+		}
+		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,6 +274,71 @@ public class CBSItem {
 		}
 		return summary;
 
+	}
+
+	@Exclude
+	private List<CBSSubject> cbsSubjects;
+
+	public Double getCostSummary() {
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
+			Iterator<CBSItem> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getCostSummary();
+			}
+		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+			}
+		}
+		return summary;
+	}
+
+	public List<CBSSubject> listCBSSubjects() {
+		if (cbsSubjects == null) {
+			cbsSubjects = ServicesLoader.get(CBSService.class).getCBSSubject(_id);
+		}
+		return cbsSubjects;
+	}
+
+	public Double getCost(String period) {
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
+			Iterator<CBSItem> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getCost(period);
+			}
+		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				if (period.equals(cbsSubject.getId())) {
+					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+				}
+			}
+		}
+		return summary;
+	}
+
+	public Double getCost(String startPeriod, String endPeriod) {
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
+			Iterator<CBSItem> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getCost(startPeriod, endPeriod);
+			}
+		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+				}
+			}
+		}
+		return summary;
 	}
 
 	public static CBSItem getInstance(CBSItem parent) {

@@ -348,5 +348,11 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public List<News> getRecentNews(@PathParam("_id") ObjectId _id, @PathParam("count") int count);
 
+	@GET
+	@Path("/currentcbsperiod")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public java.util.Calendar getCurrentCBSPeriod();
+
 
 }
