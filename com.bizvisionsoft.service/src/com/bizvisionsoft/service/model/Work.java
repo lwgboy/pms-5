@@ -293,7 +293,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Label(Label.NAME_LABEL)
 	private String text;
 
-	@ReadValue("name")
+	@ReadValue("进度计划和监控/name")
 	private String getWorkNameHTML() {
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
@@ -526,7 +526,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@Persistence
 	private boolean distributed;
 
-	@ReadValue("distributeIcon")
+	@ReadValue("进度计划和监控/distributeIcon")
 	private String getDistributedIcon() {
 		if (!distributed) {
 			return "<span class='layui-badge layui-bg-orange'>未下达</span>";
@@ -584,14 +584,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 
 	}
 
-	@ReadValue("manageLevelHtml")
+	@ReadValue("进度计划和监控/manageLevelHtml")
 	private String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
 			return "<span class='layui-badge level1_task'>1</span>";
 		} else if ("level2_task".equals(barstyle)) {
 			return "<span class='layui-badge level2_task'>2</span>";
 		} else if ("level3_task".equals(barstyle)) {
-			return "<span class='layui-badge level3_task'>3</span>";
+			return "<span class='layui-badge layui-bg-green'>3</span>";
 		} else {
 			return "";
 		}
@@ -654,7 +654,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 
-	@ReadValue("chargerInfoWithDistributeIcon")
+	@ReadValue("进度计划和监控/chargerInfoWithDistributeIcon")
 	private String getChargerInfoWithIcon() {
 		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + chargerInfo
 				+ getDistributedIcon() + "</div>";
@@ -898,7 +898,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
-	@ReadValue("warningIcon")
+	@ReadValue("进度计划和监控/warningIcon")
 	private String getWarningIcon() {
 		if ("已超期".equals(overdue))
 			return "<span class='layui-badge'>超期</span>";

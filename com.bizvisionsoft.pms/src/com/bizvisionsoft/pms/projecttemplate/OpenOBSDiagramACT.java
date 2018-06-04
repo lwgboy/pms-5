@@ -31,7 +31,7 @@ public class OpenOBSDiagramACT {
 			Services.get(ProjectTemplateService.class).createRootOBS(pjtId);
 		}
 
-		brui.switchContent(brui.getAssembly("项目模板组织结构图"), projectTemplate);
+		brui.openContent(brui.getAssembly("项目模板组织结构图"), projectTemplate);
 	}
 
 }

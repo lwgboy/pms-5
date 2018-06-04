@@ -10,8 +10,11 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Strict;
+import com.bizvisionsoft.annotations.md.service.Behavior;
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -91,10 +94,6 @@ public class WorkInTemplate {
 	@ReadValue
 	@Persistence
 	private String wbsCode;
-
-	public String getWBSCode() {
-		return wbsCode;
-	}
 
 	private WorkInTemplate setWBSCode(String parentWBSCode) {
 		if (parentWBSCode != null) {
@@ -307,6 +306,52 @@ public class WorkInTemplate {
 	@Persistence
 	private List<String> viewId;
 
+	@ReadValue("项目模板WBS/wpsText")
+	private String getWorkPackageSettingText() {
+		if (Util.isEmptyOrNull(workPackageSetting)) {
+			return "";
+		} else {
+			StringBuffer sb = new StringBuffer();
+			workPackageSetting.forEach(tv -> sb.append(tv.getCatagory() + ":" + tv.getName()+" "));
+			return sb.toString().trim();
+		}
+	}
+
+	@ReadValue("项目模板WBS/manageLevelHtml")
+	private String getManageLevelHtml() {
+		if ("level1_task".equals(barstyle)) {
+			return "<span class='layui-badge level1_task'>1</span>";
+		} else if ("level2_task".equals(barstyle)) {
+			return "<span class='layui-badge level2_task'>2</span>";
+		} else if ("level3_task".equals(barstyle)) {
+			return "<span class='layui-badge layui-bg-green'>3</span>";
+		} else {
+			return "";
+		}
+	}
+
+	@ImageURL("项目模板WBS/milestoneIcon")
+	private String getMilestoneIcon() {
+		if (milestone)
+			return "/img/milestone_c.svg";
+		return null;
+	}
+
+	@Structure("项目模板WBS/list")
+	private List<WorkInTemplate> listChildren() {
+		return ServicesLoader.get(ProjectTemplateService.class).listWBSChildren(_id);
+	}
+
+	@Structure("项目模板WBS/count")
+	private long countChildren() {
+		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id);
+	}
+	
+	@Behavior("编辑工作包")
+	private boolean behaviourEditWPS() {
+		return !summary && !stage;
+	}
+
 	public WorkInTemplate setIndex(int index) {
 		this.index = index;
 		return this;
@@ -336,7 +381,8 @@ public class WorkInTemplate {
 	}
 
 	public static WorkInTemplate newInstance(ProjectTemplate template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).generateIndex();
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).generateIndex()
+				.setWBSCode(null);
 	}
 
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {

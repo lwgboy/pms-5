@@ -9,6 +9,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProjectTemplateService;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.ProjectTemplate;
@@ -147,5 +148,29 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	public long update(BasicDBObject fu) {
 		return update(fu, OBSInTemplate.class);
 	}
+
+	@Override
+	public List<WorkInTemplate> listWBSRoot(ObjectId template_id) {
+		return createDataSet(new Query().filter(new BasicDBObject("template_id", template_id).append("parent_id", null))
+				.sort(new BasicDBObject("index", 1)).bson(), WorkInTemplate.class);
+	}
+	
+	@Override
+	public long countWBSRoot(ObjectId template_id) {
+		return count(new BasicDBObject("template_id", template_id).append("parent_id", null), "workInTemplate");
+	}
+
+	@Override
+	public List<WorkInTemplate> listWBSChildren(ObjectId parent_id) {
+		return createDataSet(new Query().filter(new BasicDBObject("parent_id", parent_id))
+				.sort(new BasicDBObject("index", 1)).bson(), WorkInTemplate.class);
+	}
+
+	@Override
+	public long countWBSChildren(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "workInTemplate");
+	}
+
+
 
 }

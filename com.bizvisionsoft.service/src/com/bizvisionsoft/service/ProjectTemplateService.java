@@ -77,6 +77,7 @@ public interface ProjectTemplateService {
 	@Path("/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板WBS/" + DataSet.UPDATE)
 	public long updateWork(BasicDBObject bson);
 
 	@DELETE
@@ -114,7 +115,7 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public int nextOBSSeq(BasicDBObject condition);
-	
+
 	@POST
 	@Path("/id/{_id}/obs/")
 	@Consumes("application/json; charset=UTF-8")
@@ -128,25 +129,52 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public boolean hasOBS(@PathParam("_id") ObjectId _id);
-	
+
 	@POST
 	@Path("/id/{_id}/obs/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public OBSInTemplate createRootOBS(@PathParam("_id") ObjectId _id);
 
-	
 	@POST
 	@Path("/obs/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public OBSInTemplate insertOBSItem(OBSInTemplate t);
-	
+
 	@PUT
 	@Path("/obs/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板组织结构图/" + DataSet.UPDATE)
 	public long update(BasicDBObject fu);
+
+	@POST
+	@Path("/_id/{_id}/wbs/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板WBS/"+DataSet.LIST)
+	public List<WorkInTemplate> listWBSRoot(
+			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 	
+	@POST
+	@Path("/_id/{_id}/wbs/root/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板WBS/"+DataSet.COUNT)
+	public long countWBSRoot(
+			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+
+	@POST
+	@Path("/parent_id/{parent_id}/wbs/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkInTemplate> listWBSChildren(@PathParam("parent_id") ObjectId parent_id);
+	
+	@POST
+	@Path("/parent_id/{parent_id}/wbs/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWBSChildren(@PathParam("parent_id") ObjectId parent_id);
+
 }
