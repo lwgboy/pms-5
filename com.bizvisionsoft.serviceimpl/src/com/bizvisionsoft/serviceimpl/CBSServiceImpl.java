@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
@@ -188,8 +189,14 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public List<CBSSubject> getSubjectBudget(ObjectId cbs_id) {
+	public List<CBSSubject> getCBSSubject(ObjectId cbs_id) {
 		return c(CBSSubject.class).find(new BasicDBObject("cbsItem_id", cbs_id)).into(new ArrayList<CBSSubject>());
+	}
+
+	@Override
+	public List<CBSSubject> getCBSSubjectByNumber(ObjectId cbs_id, String number) {
+		return c(CBSSubject.class).find(new BasicDBObject("cbsItem_id", cbs_id).append("subjectNumber", number))
+				.into(new ArrayList<CBSSubject>());
 	}
 
 	@Override
@@ -242,7 +249,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Result calculationBudget(ObjectId _id) {
 		Double totalBudget = 0.0;
-		List<CBSSubject> subjectBudget = getSubjectBudget(_id);
+		List<CBSSubject> subjectBudget = getCBSSubject(_id);
 		Map<String, Double> cbsPeriodMap = new HashMap<String, Double>();
 		for (CBSSubject cbsSubject : subjectBudget) {
 			String id = cbsSubject.getId();
@@ -297,6 +304,56 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			c(CBSItem.class).insertMany(cbsItemList);
 		}
 		return query(new BasicDBObject("_id", new BasicDBObject("$in", cbsItemIdList))).into(new ArrayList<CBSItem>());
+	}
+
+	@Override
+	public List<CBSItem> listProjectCost(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
+				.append("foreignField", "cbs_id").append("as", "project")));
+		pipeline.add(new Document("$unwind", "$project"));
+		pipeline.add(Aggregates.addFields(new Field<String>("scopeId", "$project.id")));
+		pipeline.add(new Document("$match", new Document("project.status", new Document("$nin",
+				Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated)))));
+
+		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
+
+		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("children", new BasicDBObject("$map",
+				new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
+
+		pipeline.add(Aggregates.project(new BasicDBObject("_period", false).append("_budget", false)
+				.append("_children", false).append("project", false)));
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>());
+	}
+
+	@Override
+	public long countProjectCost(BasicDBObject filter) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
+				.append("foreignField", "cbs_id").append("as", "project")));
+		pipeline.add(new Document("$unwind", "$project"));
+		pipeline.add(new Document("$match", new Document("project.status", new Document("$nin",
+				Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated)))));
+		pipeline.add(new Document("$project", new Document("project", false)));
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		return c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>()).size();
 	}
 
 }

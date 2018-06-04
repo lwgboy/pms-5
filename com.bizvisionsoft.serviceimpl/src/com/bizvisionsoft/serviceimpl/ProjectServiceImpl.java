@@ -11,6 +11,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -80,7 +81,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 			project = insert(input, Project.class);
 		}
-		
+
 		return get(project.get_id());
 	}
 
@@ -134,11 +135,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendUserInfo(pipeline, "pmId", "pmInfo");
 
 		appendStage(pipeline, "stage_id", "stage");
-		
+
 		appendLookupAndUnwind(pipeline, "projectSet", "projectSet_id", "projectSet");
 
 		appendLookupAndUnwind(pipeline, "eps", "eps_id", "eps");
-		
+
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
 	}
@@ -293,8 +294,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 	}
-	
-	
+
 	private void appendParticipatedProjectQuery(String userId, List<Bson> pipeline) {
 		pipeline.add(new Document("$match",
 				new Document("$or", Arrays.asList(new Document("member", userId), new Document("managerId", userId)))));
@@ -457,11 +457,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					.distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode("ids", "projectno" + workorders[1]);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + workorders[1]);
 			workOrder += "-" + String.format("%02d", index);
 
 		} else {
-			int index = generateCode("ids", "projectno" + year);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);
 			workOrder += "-" + String.format("%02d", index);
 		}
 
@@ -469,6 +469,4 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		return workOrder;
 	}
-
-
 }

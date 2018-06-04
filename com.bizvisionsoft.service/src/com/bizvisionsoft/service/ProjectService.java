@@ -122,8 +122,7 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public long countManagedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
-	
+
 	@POST
 	@Path("/member/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -139,7 +138,6 @@ public interface ProjectService {
 	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count" })
 	public long countParticipatedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-
 
 	@DELETE
 	@Path("/id/{_id}")
@@ -172,6 +170,5 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public String generateWorkOrder(@PathParam("catalog") String catalog,
 			@PathParam("parentproject_id") ObjectId parentproject_id, @PathParam("impunit_id") ObjectId impunit_id);
-
 
 }

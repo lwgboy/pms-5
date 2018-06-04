@@ -113,4 +113,8 @@ public class AccountItem implements Comparable<AccountItem> {
 		return id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 }

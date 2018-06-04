@@ -3,6 +3,8 @@ package com.bizvisionsoft.serviceimpl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -290,9 +293,9 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			pipeline.add(Aggregates.limit(limit));
 
 		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
-		
+
 		appendUserInfo(pipeline, "receiver", "receiverInfo");
-		
+
 		return c(Message.class).aggregate(pipeline).into(new ArrayList<Message>());
 	}
 
@@ -347,6 +350,24 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		} catch (ParseException e) {
 		}
 		return result;
+	}
+
+	@Override
+	public java.util.Calendar getCurrentCBSPeriod() {
+		Document doc = c("project")
+				.find(new Document("status",
+						new Document("$nin",
+								Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated))))
+				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.add(java.util.Calendar.MONTH, -1);
+		if (doc != null) {
+			Date settlementDate = doc.getDate("settlementDate");
+			if (settlementDate != null) {
+				cal.setTime(settlementDate);
+			}
+		}
+		return cal;
 	}
 
 }
