@@ -17,43 +17,19 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CommonService;
-import com.bizvisionsoft.service.OBSService;
-import com.bizvisionsoft.service.OrganizationService;
+import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
-@PersistenceCollection("obs")
-public class OBSItem {
-
-	@Exclude
-	public static final String ID_PM = "PM";
-
-	@Exclude
-	public static final String NAME_PM = "项目经理";
-
-	@Exclude
-	public static final String ID_CHARGER = "WM";
-
-	@Exclude
-	public static final String NAME_CHARGER = "负责人";
-
-	@Exclude
-	public static final int TYPE_CHARGER_ITEM = 0;
-
-	@Exclude
-	public static final int TYPE_ROLE_ITEM = 1;
-
-	@Exclude
-	public static final int TYPE_TEAM_ITEM = 2;
+@PersistenceCollection("obsInTemplate")
+public class OBSInTemplate {
 
 	@Override
 	@Label
-	@ReadValue("项目团队/label")
 	public String toString() {
 		String txt = "";
 		if (name != null && !name.isEmpty())
@@ -80,7 +56,7 @@ public class OBSItem {
 	public boolean behaviorEditOrDeleteItem() {
 		return !scopeRoot;
 	}
-	
+
 	@Behavior({ "成员" })
 	public boolean behaviorHasMember() {
 		return !isRole;
@@ -88,7 +64,7 @@ public class OBSItem {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private final String typeName = "项目团队";
+	private final String typeName = "项目模板团队";
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@ReadValue
@@ -117,23 +93,10 @@ public class OBSItem {
 	 * @param parent_id
 	 * @return
 	 */
-	public OBSItem generateSeq() {
-		seq = ServicesLoader.get(OBSService.class)
+	public OBSInTemplate generateSeq() {
+		seq = ServicesLoader.get(ProjectTemplateService.class)
 				.nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
 		return this;
-	}
-
-	private ObjectId org_id;
-
-	@WriteValue("organization ")
-	public void setOrganization(Organization org) {
-		this.org_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
-	}
-
-	@ReadValue("organization ")
-	public Organization getOrganization() {
-		return Optional.ofNullable(org_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
-				.orElse(null);
 	}
 
 	@Persistence
@@ -189,8 +152,18 @@ public class OBSItem {
 	@WriteValue
 	@SetValue
 	private String roleId;
+	
+	
+	@ReadValue("项目模板组织结构图/title")
+	private String getTitle() {
+		if(Util.isEmptyOrNull(name)) {
+			return roleId;
+		}else {
+			return name;
+		}
+	}
 
-	@ReadValue
+	@ReadValue({ "项目模板组织结构图/text","roleName" })
 	@WriteValue
 	@SetValue
 	private String roleName;
@@ -198,16 +171,6 @@ public class OBSItem {
 	private boolean scopeRoot;
 
 	private boolean isRole;
-
-	@Structure("项目团队/list")
-	public List<OBSItem> listSubOBSItem() {
-		return ServicesLoader.get(OBSService.class).getSubOBSItem(_id);
-	}
-
-	@Structure("项目团队/count")
-	public long countSubOBSItem() {
-		return ServicesLoader.get(OBSService.class).countSubOBSItem(_id);
-	}
 
 	@ReadOptions("selectedRole")
 	public Map<String, String> getSystemOBSRole() {
@@ -241,60 +204,17 @@ public class OBSItem {
 		return null;
 	}
 
-	@ReadValue({ "组织结构图/title", "组织结构图（查看）/title" })
-	public String getDiagramTitle() {
-		int type = getDiagramItemType();
-		if (TYPE_CHARGER_ITEM == type || TYPE_TEAM_ITEM == type) {
-			return name;
-		} else if (TYPE_ROLE_ITEM == type) {
-			return roleName;
-		}
-		return " ";
-	}
-
-	private int getDiagramItemType() {
-		// 有名称，有负责角色，有负责角色名称，有指定人的:例如：某某阶段团队，项目经理，张三
-		if (!Util.isEmptyOrNull(name) && roleId != null && managerId != null)
-			return TYPE_CHARGER_ITEM;
-		// 无名称，有负责角色，有负责角色名称，有指定人的:例如：财务经理，李四
-		if (Util.isEmptyOrNull(name) && roleId != null && managerId != null)
-			return TYPE_ROLE_ITEM;
-		// 有名称，没有角色也没有管理者的例如：某某团队
-		if (!Util.isEmptyOrNull(name) && roleId == null && managerId == null)
-			return TYPE_TEAM_ITEM;
-
-		return TYPE_TEAM_ITEM;
-	}
-
-	@ReadValue({ "组织结构图/id", "组织结构图（查看）/id" })
+	@ReadValue({ "项目模板组织结构图/id" })
 	public String getDiagramId() {
 		return _id.toHexString();
 	}
 
-	@ReadValue({ "组织结构图/text", "组织结构图（查看）/text" })
-	public String getDiagramText() {
-		int type = getDiagramItemType();
-		if (TYPE_CHARGER_ITEM == type) {
-			if (Util.isEmptyOrNull(roleName)) {
-				return managerInfo.substring(0, managerInfo.indexOf("["));
-			} else {
-				return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
-			}
-		} else if (TYPE_ROLE_ITEM == type) {
-			return managerInfo.substring(0, managerInfo.indexOf("["));
-		} else if (TYPE_TEAM_ITEM == type) {
-			return "小组";
-		}
-		return " ";
-
-	}
-
-	@ReadValue({ "组织结构图/parent", "组织结构图（查看）/parent" })
+	@ReadValue("项目模板组织结构图/parent")
 	public String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
-	@ReadValue({ "组织结构图/img", "组织结构图（查看）/img" })
+	@ReadValue("项目模板组织结构图/img")
 	public String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);
@@ -307,27 +227,27 @@ public class OBSItem {
 		return "";
 	}
 
-	public OBSItem setRoleId(String roleId) {
+	public OBSInTemplate setRoleId(String roleId) {
 		this.roleId = roleId;
 		return this;
 	}
 
-	public OBSItem setRoleName(String roleName) {
+	public OBSInTemplate setRoleName(String roleName) {
 		this.roleName = roleName;
 		return this;
 	}
 
-	public OBSItem setManagerId(String managerId) {
+	public OBSInTemplate setManagerId(String managerId) {
 		this.managerId = managerId;
 		return this;
 	}
 
-	public OBSItem setName(String name) {
+	public OBSInTemplate setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public OBSItem setParent_id(ObjectId parent_id) {
+	public OBSInTemplate setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
 	}
@@ -336,17 +256,17 @@ public class OBSItem {
 		return _id;
 	}
 
-	public OBSItem set_id(ObjectId _id) {
+	public OBSInTemplate set_id(ObjectId _id) {
 		this._id = _id;
 		return this;
 	}
 
-	public OBSItem setScope_id(ObjectId scope_id) {
+	public OBSInTemplate setScope_id(ObjectId scope_id) {
 		this.scope_id = scope_id;
 		return this;
 	}
 
-	public OBSItem setScopeRoot(boolean scopeRoot) {
+	public OBSInTemplate setScopeRoot(boolean scopeRoot) {
 		this.scopeRoot = scopeRoot;
 		return this;
 	}
@@ -359,11 +279,7 @@ public class OBSItem {
 		return scope_id;
 	}
 
-	public ObjectId getOrg_id() {
-		return org_id;
-	}
-
-	public OBSItem setIsRole(boolean isRole) {
+	public OBSInTemplate setIsRole(boolean isRole) {
 		this.isRole = isRole;
 		return this;
 	}

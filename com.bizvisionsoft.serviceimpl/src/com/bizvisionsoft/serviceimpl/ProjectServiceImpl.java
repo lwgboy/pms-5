@@ -64,7 +64,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					.setRoleName(OBSItem.NAME_PM)// 设置该组织节点的名称
 					.setManagerId(project.getPmId()) // 设置该组织节点的角色对应的人
 					.setScopeRoot(true);// 区分这个节点是范围内的根节点
-			new OBSServiceImpl().insert(obsRoot);// 插入记录
+			insert(obsRoot, OBSItem.class);
 
 			/////////////////////////////////////////////////////////////////////////////
 			// 2. 财务科目初始化
@@ -74,8 +74,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			cbsRoot.setParent_id(cbsParent_id);//
 			cbsRoot.setId(project.getId());
 			cbsRoot.setName(project.getName());
-			new CBSServiceImpl().insertCBSItem(cbsRoot);// 插入记录
-
+			insert(cbsRoot, CBSItem.class);
+			
 		} else {
 			// TODO 根据模板创建
 
