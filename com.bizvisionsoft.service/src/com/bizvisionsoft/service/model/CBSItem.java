@@ -153,7 +153,10 @@ public class CBSItem {
 
 	@Structure({ "项目成本管理/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
-		children.forEach(c -> c.parent = this);
+		children.forEach(c -> {
+			c.parent = this;
+			c.settlementDate = getNextSettlementDate();
+		});
 		List<Object> result = new ArrayList<Object>(children);
 
 		if (result.size() == 0) {

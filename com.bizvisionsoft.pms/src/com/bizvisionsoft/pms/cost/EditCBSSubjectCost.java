@@ -13,7 +13,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.CBSService;
-import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -28,8 +27,7 @@ public class EditCBSSubjectCost {
 		context.selected(em -> {
 			if (em instanceof CBSSubjectCost) {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) em;
-				CBSItem cbsItem = (CBSItem) context.getInput();
-				Date settlementDate = cbsItem.getNextSettlementDate();
+				Date settlementDate = ((CBSSubjectCost) em).getCbsItem().getNextSettlementDate();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(settlementDate);
 				String id = "" + cal.get(Calendar.YEAR);
