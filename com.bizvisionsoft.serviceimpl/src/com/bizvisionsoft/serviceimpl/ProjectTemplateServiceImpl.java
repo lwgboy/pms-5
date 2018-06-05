@@ -1,13 +1,8 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -25,6 +20,7 @@ import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.DeleteResult;
 
 public class ProjectTemplateServiceImpl extends BasicServiceImpl implements ProjectTemplateService {
 
@@ -155,8 +151,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWBSRoot(ObjectId template_id) {
-		List<? extends Bson> pipeline = new JQ("获得项目模板WBS根节点").set("template_id", template_id)
-				.set("parent_id", null).buildArray();
+		List<? extends Bson> pipeline = new JQ("获得项目模板WBS根节点").set("template_id", template_id).set("parent_id", null)
+				.buildArray();
 		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
 
@@ -183,117 +179,42 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<ResourcePlanInTemplate> addResourcePlan(List<ResourceAssignment> resas) {
-		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlanInTemplate> documents = new ArrayList<ResourcePlanInTemplate>();
-		resas.forEach(resa -> {
-			double works = getWorkingHoursPerDay(resa.resTypeId);
-			Document doc = c("workInTemplate").find(new Document("_id", resa.work_id))
-					.projection(new Document("planStart", 1).append("planFinish", 1)).first();
-			Date planStart = doc.getDate("planStart");
-			Date planFinish = doc.getDate("planFinish");
-			Calendar planStartCal = Calendar.getInstance();
-			planStartCal.setTime(planStart);
-
-			Calendar planFinishCal = Calendar.getInstance();
-			planFinishCal.setTime(planFinish);
-			// planFinishCal.add(Calendar.DAY_OF_MONTH, 1);//与甘特图保持一致，不计算尾部日期
-
-			while (planStartCal.getTime().before(planFinishCal.getTime())) {
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-
-					ResourcePlanInTemplate res = resa.getResourcePlanInTemplate();
-					res.setId(planStartCal.getTime());
-					res.setPlanBasicQty(works);
-
-					documents.add(res);
-				}
-				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
-			}
-			workIds.add(resa.work_id);
-		});
+		resas.forEach(r -> documents.add(r.getResourcePlanInTemplate()));
 		c(ResourcePlanInTemplate.class).insertMany(documents);
-		workIds.forEach(work_id -> {
-			updateWorkPlanWorks(work_id);
-		});
-
-		// ResourcePlan r = insert(res, ResourcePlan.class);
-		// queryResourceUsage(new Document("_id", r.get_id())).get(0);
-
 		return documents;
 	}
 
 	@Override
 	public long updateResourcePlan(BasicDBObject filterAndUpdate) {
-		// TODO Auto-generated method stub
-		return 0;
+		return update(filterAndUpdate, ResourcePlan.class);
 	}
 
 	@Override
-	public long deleteHumanResourcePlan(ObjectId work_id, String hrResId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long deleteHumanResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlanInTemplate")
+				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
+		return dr.getDeletedCount();
 	}
 
 	@Override
-	public long deleteEquipmentResourcePlan(ObjectId work_id, String eqResId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long deleteEquipmentResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlanInTemplate")
+				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		return dr.getDeletedCount();
 	}
 
 	@Override
-	public long deleteTypedResourcePlan(ObjectId work_id, String tyResId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long deleteTypedResourcePlan(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourcePlanInTemplate")
+				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		return dr.getDeletedCount();
 	}
 
 	@Override
 	public List<ResourcePlanInTemplate> listResourcePlan(ObjectId _id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	private void updateWorkPlanWorks(ObjectId work_id) {
-		if (work_id != null) {
-			// TODO 修改计算方式
-			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
-					new Document("$addFields",
-							new Document("planQty",
-									new Document("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
-					new Document("$group",
-							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
 
-			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
-					.map(d -> d.getDouble("planWorks")).map(p -> p.doubleValue()).orElse(0d);
-
-			WorkInTemplate work = c(WorkInTemplate.class).findOneAndUpdate(new Document("_id", work_id),
-					new Document("$set", new Document("planWorks", works)));
-			updateWorkParentPlanWorks(work);
-		}
-	}
-	
-	private void updateWorkParentPlanWorks(WorkInTemplate work) {
-//		ObjectId parent_id = work.getParent_id();
-//		if (parent_id != null) {
-//			List<? extends Bson> pipeline = Arrays.asList(
-//					new Document().append("$match", new Document().append("parent_id", parent_id)),
-//					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-//							new Document().append("$sum", "$planWorks"))));
-//			Document doc = c("work").aggregate(pipeline).first();
-//
-//			WorkInTemplate parentWork = c(WorkInTemplate.class).findOneAndUpdate(new Document("_id", parent_id),
-//					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
-//			updateWorkParentPlanWorks(parentWork);
-//		} else {
-//			ObjectId project_id = work.getProject_id();
-//			List<? extends Bson> pipeline = Arrays.asList(
-//					new Document().append("$match",
-//							new Document().append("parent_id", null).append("project_id", project_id)),
-//					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-//							new Document().append("$sum", "$planWorks"))));
-//			Document doc = c("work").aggregate(pipeline).first();
-//			c("project").updateOne(new Document("_id", project_id),
-//					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
-//		}
+		return new ArrayList<ResourcePlanInTemplate>();
 	}
 
 }
