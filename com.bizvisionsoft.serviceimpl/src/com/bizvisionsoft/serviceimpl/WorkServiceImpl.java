@@ -716,7 +716,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return documents;
 	}
-	
+
 	public static void main(String[] args) {
 		List<? extends Bson> pipeline = Arrays
 				.asList(new Document("$lookup",
@@ -725,26 +725,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						new Document("$unwind", "$resourceType"),
 						new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
 						new Document("$project", new Document("resourceType", false)),
-						new Document("$match", new Document("resTypeId", "<resTypeId>")), new Document("$unwind", "$workTime"),
+						new Document("$match", new Document("resTypeId", "<resTypeId>")),
+						new Document("$unwind", "$workTime"),
 						new Document("$addFields", new Document("date", "$workTime.date")
 								.append("workingDay", "$workTime.workingDay").append("day", "$workTime.day")),
-						new Document("$project", new Document("workTime",
-								false)),
+						new Document("$project", new Document("workTime", false)),
 						new Document()
 								.append("$unwind", new Document("path", "$day").append("preserveNullAndEmptyArrays",
 										true)),
-						new Document("$addFields", new Document().append("workdate",
-								new Document("$cond",
-										Arrays.asList(new Document("$eq", Arrays.asList("$date", "<date>")), true,
-												false)))
-								.append("workday", new Document("$eq", Arrays.asList("$day", "<week>")))),
+						new Document("$addFields",
+								new Document()
+										.append("workdate", new Document("$cond",
+												Arrays.asList(new Document("$eq", Arrays.asList("$date", "<date>")),
+														true, false)))
+										.append("workday", new Document("$eq", Arrays.asList("$day", "<week>")))),
 						new Document("$project",
 								new Document("workdate", true).append("workday", true).append("workingDay", true)),
 						new Document("$match",
 								new Document("$or",
 										Arrays.asList(new Document("workdate", true), new Document("workday", true)))),
 						new Document("$sort", new Document("workdate", -1).append("workingDay", -1)));
-		System.out.println(new Document("q",pipeline).toJson());
+		System.out.println(new Document("q", pipeline).toJson());
 	}
 
 	private void updateWorkPlanWorks(ObjectId work_id) {
@@ -760,34 +761,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
 					.map(d -> d.getDouble("planWorks")).map(p -> p.doubleValue()).orElse(0d);
 
-			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
+			c(Work.class).updateOne(new Document("_id", work_id),
 					new Document("$set", new Document("planWorks", works)));
-			updateWorkParentPlanWorks(work);
-		}
-	}
-
-	private void updateWorkParentPlanWorks(Work work) {
-		ObjectId parent_id = work.getParent_id();
-		if (parent_id != null) {
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match", new Document().append("parent_id", parent_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-
-			Work parentWork = c(Work.class).findOneAndUpdate(new Document("_id", parent_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
-			updateWorkParentPlanWorks(parentWork);
-		} else {
-			ObjectId project_id = work.getProject_id();
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match",
-							new Document().append("parent_id", null).append("project_id", project_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-			c("project").updateOne(new Document("_id", project_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
 		}
 	}
 
@@ -1284,13 +1259,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 												new Document("$lte", Arrays.asList("$id", "$$planFinish")), eq))))))
 						.append("as", "resourcePlan")),
 				new Document("$unwind", "$resourcePlan"),
-				new Document("$replaceRoot",new Document("newRoot","$resourcePlan")),
-//				new Document("$project",
-//						new Document("_id", "$resourcePlan._id").append("work_id", "$resourcePlan.work_id")
-//								.append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
-//								.append("resTypeId", "$resourcePlan.resTypeId")
-//								.append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
-//								.append("id", "$resourcePlan.id").append("planBasicQty", "$resourcePlan.planBasicQty")),
+				new Document("$replaceRoot", new Document("newRoot", "$resourcePlan")),
+				// new Document("$project",
+				// new Document("_id", "$resourcePlan._id").append("work_id",
+				// "$resourcePlan.work_id")
+				// .append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
+				// .append("resTypeId", "$resourcePlan.resTypeId")
+				// .append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
+				// .append("id", "$resourcePlan.id").append("planBasicQty",
+				// "$resourcePlan.planBasicQty")),
 				new Document("$group",
 						new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
 				new Document("$lookup",
