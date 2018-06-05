@@ -145,7 +145,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public long update(BasicDBObject fu) {
+	public long updateOBSItem(BasicDBObject fu) {
 		return update(fu, OBSInTemplate.class);
 	}
 
@@ -215,6 +215,24 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	public List<ResourcePlanInTemplate> listResourcePlan(ObjectId _id) {
 		return c(ResourcePlanInTemplate.class).aggregate(new JQ("查询模板工作的资源").set("work_id", _id).buildArray())
 				.into(new ArrayList<ResourcePlanInTemplate>());
+	}
+
+	@Override
+	public long delete(ObjectId _id) {
+		ArrayList<ObjectId> ids = c("workInTemplate").distinct("_id", new Document("template_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		c("resourcePlanInTemplate").deleteMany(new Document("work_id", new Document("$in", ids)));
+		c("worklinkInTemplate").deleteMany(new Document("template_id", _id));
+		c("workInTemplate").deleteMany(new Document("template_id", _id));
+		c("obsInTemplate").deleteMany(new Document("scope_id", _id));
+		DeleteResult rs = c("projectTemplate").deleteOne(new Document("_id", _id));
+		return rs.getDeletedCount();
+	}
+
+	@Override
+	public void setEnabled(ObjectId _id, boolean enabled) {
+		c("projectTemplate").updateOne(new Document("_id", _id),
+				new Document("$set", new Document("enabled", enabled)));
 	}
 
 }

@@ -41,6 +41,10 @@ public class ProjectTemplate {
 	@Persistence
 	private String id;
 
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private boolean enabled;
 
 	/**
 	 * EPS节点Id
@@ -66,13 +70,10 @@ public class ProjectTemplate {
 	@WriteValue
 	@Persistence
 	private String description;
-	
-	
+
 	@Behavior("项目模板管理/打开项目模板") // 控制action
 	@Exclude // 不用持久化
 	private boolean enableOpenProjectTemplate = true;
-
-	
 
 	public ObjectId get_id() {
 		return _id;
@@ -81,21 +82,28 @@ public class ProjectTemplate {
 	public void set_id(ObjectId _id) {
 		this._id = _id;
 	}
-	
+
 	public void setEps_id(ObjectId eps_id) {
 		this.eps_id = eps_id;
 	}
 
-	
 	@Override
 	@Label
 	public String toString() {
 		return name + " [" + id + "]";
 	}
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "项目模板";
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public ProjectTemplate setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		return this;
+	}
 
 }
