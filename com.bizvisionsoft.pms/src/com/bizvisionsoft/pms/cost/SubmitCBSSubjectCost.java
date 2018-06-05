@@ -16,6 +16,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -26,24 +27,45 @@ public class SubmitCBSSubjectCost {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		//TODO 判断当前时间与期间相同无法提交
-		
-		
-		CBSItem cbsItem = (CBSItem) context.getInput();
-		Date settlementDate = cbsItem.getSettlementDate();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(settlementDate);
-		String id = "" + cal.get(Calendar.YEAR);
-		id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
-		if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交期间成本", "请确认提交当前期间（" + cal.get(Calendar.YEAR) + "年"
-				+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本。\n提交后将无法修改该期间的成本数据。")) {
-			List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cbsItem.getScope_id(), id);
-			if (result.isEmpty()) {
-				Layer.message("已完成当前期间（" + id + "）的成本提交。");
-				GridPart grid = (GridPart) context.getContent();
-				grid.refreshAll();
-				grid.getViewer().expandAll();
+		Object input = context.getInput();
+		if (input == null) {
+			input = context.getRootInput();
+			if (input instanceof ICBSScope) {
+				ICBSScope icbsScope = (ICBSScope) input;
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+			}
+		}
+		if (input instanceof CBSItem) {
+			CBSItem cbsItem = (CBSItem) input;
+			Date settlementDate = cbsItem.getNextSettlementDate();
+			Calendar cal = Calendar.getInstance();
+			int newYear = cal.get(Calendar.YEAR);
+			int newMonth = cal.get(Calendar.MONTH);
+			cal.setTime(settlementDate);
+			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
+				cal.add(Calendar.MONTH, -1);
+				Layer.message(
+						"禁止重复提交期间（" + cal.get(Calendar.YEAR) + "年"
+								+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）成本。",
+						Layer.ICON_CANCEL);
+				return;
+			}
+			String id = "" + cal.get(Calendar.YEAR);
+			id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
+			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交期间成本",
+					"请确认提交当前期间（" + cal.get(Calendar.YEAR) + "年"
+							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月"
+							+ "）的成本。\n提交后将无法修改该期间的成本数据。")) {
+				List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cbsItem.getScope_id(), id);
+				if (result.isEmpty()) {
+					Layer.message("已完成当前期间（" + cal.get(Calendar.YEAR) + "年"
+							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本提交。");
+					GridPart grid = (GridPart) context.getContent();
+					grid.refreshAll();
+					grid.getViewer().expandAll();
+				}
 			}
 		}
 	}
+
 }

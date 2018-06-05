@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -716,7 +717,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return documents;
 	}
-	
+
 	private void updateWorkPlanWorks(ObjectId work_id) {
 		if (work_id != null) {
 			// TODO 修改计算方式
@@ -730,34 +731,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
 					.map(d -> d.getDouble("planWorks")).map(p -> p.doubleValue()).orElse(0d);
 
-			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
+			c(Work.class).updateOne(new Document("_id", work_id),
 					new Document("$set", new Document("planWorks", works)));
-			updateWorkParentPlanWorks(work);
-		}
-	}
-
-	private void updateWorkParentPlanWorks(Work work) {
-		ObjectId parent_id = work.getParent_id();
-		if (parent_id != null) {
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match", new Document().append("parent_id", parent_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-
-			Work parentWork = c(Work.class).findOneAndUpdate(new Document("_id", parent_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
-			updateWorkParentPlanWorks(parentWork);
-		} else {
-			ObjectId project_id = work.getProject_id();
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match",
-							new Document().append("parent_id", null).append("project_id", project_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-			c("project").updateOne(new Document("_id", project_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
 		}
 	}
 
@@ -766,7 +741,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Document match = new Document("work_id", _id);
 		return queryResourceUsage(match);
 	}
-	
+
 	private List<ResourcePlan> queryResourceUsage(Document match) {
 
 		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", match),
@@ -1254,13 +1229,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 												new Document("$lte", Arrays.asList("$id", "$$planFinish")), eq))))))
 						.append("as", "resourcePlan")),
 				new Document("$unwind", "$resourcePlan"),
-				new Document("$replaceRoot",new Document("newRoot","$resourcePlan")),
-//				new Document("$project",
-//						new Document("_id", "$resourcePlan._id").append("work_id", "$resourcePlan.work_id")
-//								.append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
-//								.append("resTypeId", "$resourcePlan.resTypeId")
-//								.append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
-//								.append("id", "$resourcePlan.id").append("planBasicQty", "$resourcePlan.planBasicQty")),
+				new Document("$replaceRoot", new Document("newRoot", "$resourcePlan")),
+				// new Document("$project",
+				// new Document("_id", "$resourcePlan._id").append("work_id",
+				// "$resourcePlan.work_id")
+				// .append("usedHumanResId_id", "$resourcePlan.usedHumanResId_id")
+				// .append("resTypeId", "$resourcePlan.resTypeId")
+				// .append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
+				// .append("id", "$resourcePlan.id").append("planBasicQty",
+				// "$resourcePlan.planBasicQty")),
 				new Document("$group",
 						new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
 				new Document("$lookup",
@@ -1281,5 +1258,31 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$project", new Document("project", false).append("work", false)));
 		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
 				.into(new ArrayList<WorkResourcePlanDetail>());
+	}
+
+	@Override
+	public double getPlanWorks(String wbscode) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number)doc.get("planWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
+	}
+
+	@Override
+	public double getActualWorks(String wbscode) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number)doc.get("actualWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
 	}
 }

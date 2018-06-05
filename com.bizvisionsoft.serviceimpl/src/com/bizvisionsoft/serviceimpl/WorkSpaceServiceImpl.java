@@ -352,34 +352,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 			double planWorks = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
 					.map(d -> (Double) d.get("planWorks")).map(p -> p.doubleValue()).orElse(0d);
-			Work work = c(Work.class).findOneAndUpdate(new Document("_id", work_id),
+			c(Work.class).updateOne(new Document("_id", work_id),
 					new Document("$set", new Document("planWorks", planWorks)));
-			updateWorkParentPlanWorks(work);
-		}
-	}
-
-	private void updateWorkParentPlanWorks(Work work) {
-		ObjectId parent_id = work.getParent_id();
-		if (parent_id != null) {
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match", new Document().append("parent_id", parent_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-
-			Work parentWork = c(Work.class).findOneAndUpdate(new Document("_id", parent_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
-			updateWorkParentPlanWorks(parentWork);
-		} else {
-			ObjectId project_id = work.getProject_id();
-			List<? extends Bson> pipeline = Arrays.asList(
-					new Document().append("$match",
-							new Document().append("parent_id", null).append("project_id", project_id)),
-					new Document().append("$group", new Document().append("_id", "parent_id").append("planWorks",
-							new Document().append("$sum", "$planWorks"))));
-			Document doc = c("work").aggregate(pipeline).first();
-			c("project").updateOne(new Document("_id", project_id),
-					new Document("$set", new Document("planWorks", doc.get("planWorks"))));
 		}
 	}
 

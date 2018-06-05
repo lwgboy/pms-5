@@ -442,20 +442,26 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工时, 需要保存
 	@SetValue
-	@ReadValue
 	private double planWorks;
 
+	@ReadValue("planWorks")
 	@GetValue("planWorks")
 	public double getPlanWorks() {
+		if(summary) {
+			return ServicesLoader.get(WorkService.class).getPlanWorks(wbsCode);
+		}
 		return planWorks;
 	}
 
 	@SetValue
-	@ReadValue
 	private double actualWorks;
 
+	@ReadValue("actualWorks")
 	@GetValue("actualWorks")
 	public double getActualWorks() {
+		if(summary) {
+			return ServicesLoader.get(WorkService.class).getActualWorks(wbsCode);
+		}
 		return actualWorks;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,8 +490,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	// 工作量完成率 百分比
 	@ReadValue("war")
 	public Double getWAR() {
-		if (planWorks != 0) {
-			return 1d * actualWorks / planWorks;
+		if (getPlanWorks() != 0) {
+			return 1d * getActualWorks() / getPlanWorks();
 		}
 		return null;
 	}

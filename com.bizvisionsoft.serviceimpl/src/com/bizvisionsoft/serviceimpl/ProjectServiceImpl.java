@@ -75,7 +75,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			cbsRoot.setId(project.getId());
 			cbsRoot.setName(project.getName());
 			insert(cbsRoot, CBSItem.class);
-			
+
 		} else {
 			// TODO 根据模板创建
 
@@ -468,5 +468,31 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		workOrder += "-" + String.format("%04d", year);
 
 		return workOrder;
+	}
+
+	@Override
+	public double getPlanWorks(ObjectId _id) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("project_id", _id).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number) doc.get("planWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
+	}
+
+	@Override
+	public double getActualWorks(ObjectId _id) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("project_id", _id).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number)doc.get("actualWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
 	}
 }
