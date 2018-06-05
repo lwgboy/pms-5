@@ -33285,7 +33285,7 @@
         "smallEditor": false,
         "addToParentContext": false
       },
-      {
+     {
         "id": "163cf25e6cf",
         "name": "期间成本编辑器",
         "title": "期间成本",
@@ -33340,6 +33340,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "addToParentContext": false
       }
     ]
   }

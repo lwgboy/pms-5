@@ -717,37 +717,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return documents;
 	}
 
-	public static void main(String[] args) {
-		List<? extends Bson> pipeline = Arrays
-				.asList(new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "_id")
-								.append("foreignField", "cal_id").append("as", "resourceType")),
-						new Document("$unwind", "$resourceType"),
-						new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
-						new Document("$project", new Document("resourceType", false)),
-						new Document("$match", new Document("resTypeId", "<resTypeId>")),
-						new Document("$unwind", "$workTime"),
-						new Document("$addFields", new Document("date", "$workTime.date")
-								.append("workingDay", "$workTime.workingDay").append("day", "$workTime.day")),
-						new Document("$project", new Document("workTime", false)),
-						new Document()
-								.append("$unwind", new Document("path", "$day").append("preserveNullAndEmptyArrays",
-										true)),
-						new Document("$addFields",
-								new Document()
-										.append("workdate", new Document("$cond",
-												Arrays.asList(new Document("$eq", Arrays.asList("$date", "<date>")),
-														true, false)))
-										.append("workday", new Document("$eq", Arrays.asList("$day", "<week>")))),
-						new Document("$project",
-								new Document("workdate", true).append("workday", true).append("workingDay", true)),
-						new Document("$match",
-								new Document("$or",
-										Arrays.asList(new Document("workdate", true), new Document("workday", true)))),
-						new Document("$sort", new Document("workdate", -1).append("workingDay", -1)));
-		System.out.println(new Document("q", pipeline).toJson());
-	}
-
 	private void updateWorkPlanWorks(ObjectId work_id) {
 		if (work_id != null) {
 			// TODO 修改计算方式
