@@ -1,7 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.Date;
-
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
@@ -10,22 +8,16 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("resourcePlan")
+@PersistenceCollection("resourcePlanInTemplate")
 public class ResourcePlanInTemplate {
 
-	@ReadValue
-	@WriteValue
+	@Persistence
 	private ObjectId _id;
 
-	@ReadValue
 	@Persistence
 	private ObjectId work_id;
 
-	public ObjectId getWork_id() {
-		return work_id;
-	}
 
 	@ReadValue({ "type", ReadValue.TYPE })
 	@SetValue
@@ -42,57 +34,15 @@ public class ResourcePlanInTemplate {
 	@Persistence
 	private String usedHumanResId;
 
-	public String getUsedEquipResId() {
-		return usedEquipResId;
-	}
-
 	@Persistence
 	private String usedEquipResId;
-
-	public String getUsedHumanResId() {
-		return usedHumanResId;
-	}
 
 	@Persistence
 	private String usedTypedResId;
 
-	public String getUsedTypedResId() {
-		return usedTypedResId;
-	}
-
-	@SetValue
-	private ResourceType resType;
-
-	@ReadValue("basicRate")
-	private double getBasicRate() {
-		return resType.getBasicRate();
-	}
-
-	@ReadValue("overtimeRate")
-	private double getOvertimeRate() {
-		return resType.getOvertimeRate();
-	}
-
-	@ReadValue
-	private double planBasicQty;
-
-	public void setPlanBasicQty(double planBasicQty) {
-		this.planBasicQty = planBasicQty;
-	}
-
-	@ReadValue
-	private double planOverTimeQty;
-
 	@Persistence
 	private ObjectId resTypeId;
 
-	@Persistence
-	private Date id;
-
-	@ReadValue("planAmount")
-	private Double getPlanAmount() {
-		return getBasicRate() * planBasicQty + getOvertimeRate() * planOverTimeQty;
-	}
 
 	@Override
 	@Label
@@ -100,10 +50,7 @@ public class ResourcePlanInTemplate {
 		return name + " [" + resId + "]";
 	}
 
-	@SetValue
-	private boolean conflict;
-
-	@ImageURL("resIds")
+	@ImageURL("resId")
 	private String getLogo() {
 		if ("人力资源".equals(type))
 			return "/img/user_c.svg";
@@ -141,16 +88,20 @@ public class ResourcePlanInTemplate {
 		return this;
 	}
 
-	public void setId(Date id) {
-		this.id = id;
+	public String getUsedEquipResId() {
+		return usedEquipResId;
 	}
-
-	public Date getId() {
-		return id;
+	
+	public String getUsedHumanResId() {
+		return usedHumanResId;
 	}
-
-	public double getWorks() {
-		return planBasicQty + planOverTimeQty;
+	
+	public String getUsedTypedResId() {
+		return usedTypedResId;
+	}
+	
+	public ObjectId getWork_id() {
+		return work_id;
 	}
 
 }

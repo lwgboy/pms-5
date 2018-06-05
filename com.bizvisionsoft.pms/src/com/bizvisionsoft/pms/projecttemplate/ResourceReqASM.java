@@ -27,6 +27,7 @@ import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
+import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -48,7 +49,7 @@ public class ResourceReqASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源计划")
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源需求")
 				.setActions(context.getAssembly().getActions());
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -66,12 +67,13 @@ public class ResourceReqASM {
 		fd.bottom = new FormAttachment(100, -12);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
 
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板甘特图"))
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板甘特图（用于资源分配）"))
 				.setServices(brui).create().getContext().getContent();
 		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板资源分配表"))
 				.setServices(brui).create().getContext().getContent();
 		// 侦听gantt的selection
-		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((WorkInTemplate) ((GanttEvent) l).task));
+		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(),
+				l -> select((WorkInTemplate) ((GanttEvent) l).task));
 
 		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
 			WorkInTemplate work = (WorkInTemplate) ((GanttEvent) l).task;
@@ -81,7 +83,6 @@ public class ResourceReqASM {
 		});
 
 	}
-
 
 	private void allocateResource() {
 		// 显示资源选择框
@@ -122,7 +123,9 @@ public class ResourceReqASM {
 			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
 			Services.get(ProjectTemplateService.class).addResourcePlan(resa);
 
-			grid.setViewerInput(Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id()));
+			List<ResourcePlanInTemplate> input = Services.get(ProjectTemplateService.class)
+					.listResourcePlan(work.get_id());
+			grid.setViewerInput(input);
 		});
 	}
 
@@ -132,7 +135,8 @@ public class ResourceReqASM {
 		}
 		this.work = work;
 		// 查询
-		grid.setViewerInput(Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id()));
+		List<ResourcePlanInTemplate> input = Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id());
+		grid.setViewerInput(input);
 	}
 
 }

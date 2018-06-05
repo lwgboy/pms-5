@@ -21,7 +21,10 @@ import com.mongodb.BasicDBObject;
 @PersistenceCollection("resourceType")
 public class ResourceType implements IResourceAssignment {
 
+	@Exclude
 	public static final String TYPE_HR = "人力资源";
+	
+	@Exclude
 	public static final String TYPE_ER = "设备设施";
 
 	/** 标识 Y **/

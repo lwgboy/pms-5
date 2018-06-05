@@ -213,8 +213,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<ResourcePlanInTemplate> listResourcePlan(ObjectId _id) {
-
-		return new ArrayList<ResourcePlanInTemplate>();
+		return c(ResourcePlanInTemplate.class).aggregate(new JQ("查询模板工作的资源").set("work_id", _id).buildArray())
+				.into(new ArrayList<ResourcePlanInTemplate>());
 	}
 
 }
