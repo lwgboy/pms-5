@@ -143,7 +143,7 @@ public interface CBSService {
 	@Path("/settlementdate/{scope_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Date getSettlementDate(@PathParam("scope_id") ObjectId scope_id);
+	public Date getNextSettlementDate(@PathParam("scope_id") ObjectId scope_id);
 
 	@PUT
 	@Path("/submitcost/{scope_id}/{id}")

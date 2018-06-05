@@ -29,7 +29,7 @@ public class EditCBSSubjectCost {
 			if (em instanceof CBSSubjectCost) {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) em;
 				CBSItem cbsItem = (CBSItem) context.getInput();
-				Date settlementDate = cbsItem.getSettlementDate();
+				Date settlementDate = cbsItem.getNextSettlementDate();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(settlementDate);
 				String id = "" + cal.get(Calendar.YEAR);

@@ -378,20 +378,23 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Date getSettlementDate(ObjectId scope_id) {
+	public Date getNextSettlementDate(ObjectId scope_id) {
 		Document workDoc = c("work").find(new Document("_id", scope_id)).projection(new Document("project_id", 1))
 				.first();
 		if (workDoc != null) {
 			scope_id = workDoc.getObjectId("project_id");
 		}
-		Document doc = c("project").find(new Document("_id", scope_id)).projection(new Document("settlementDate", 1))
-				.first();
+		Document doc = c("project").find(new Document("_id", scope_id))
+				.projection(new Document("settlementDate", 1).append("actualStart", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
-		cal.add(java.util.Calendar.MONTH, -1);
 		if (doc != null) {
 			Date settlementDate = doc.getDate("settlementDate");
+			Date actualStart = doc.getDate("actualStart");
 			if (settlementDate != null) {
 				cal.setTime(settlementDate);
+				cal.add(java.util.Calendar.MONTH, 1);
+			} else if (actualStart != null) {
+				cal.setTime(actualStart);
 			}
 		}
 		return cal.getTime();

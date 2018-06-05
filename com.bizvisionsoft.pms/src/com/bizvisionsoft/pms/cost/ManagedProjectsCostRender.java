@@ -34,21 +34,26 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 
 	@Init
 	private void init() {
-		// TODO 展开区间与当前时间的判断
-		
+		Calendar currentCBSPeriod = Calendar.getInstance();
 		Date date = null;
 		Object input = context.getInput();
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
-				date =cbsItem.getSettlementDate();
+				date = cbsItem.getNextSettlementDate();
+				int newYear = currentCBSPeriod.get(Calendar.YEAR);
+				int newMonth = currentCBSPeriod.get(Calendar.MONTH);
+				currentCBSPeriod.setTime(date);
+				if (currentCBSPeriod.get(Calendar.YEAR) == newYear
+						&& currentCBSPeriod.get(Calendar.MONTH) == newMonth) {
+					currentCBSPeriod.add(Calendar.MONTH, -1);
+				}
 			}
 		}
-		if (result == null) {
+		if (date == null) {
 			date = Services.get(CommonService.class).getCurrentCBSPeriod();
+			currentCBSPeriod.setTime(date);
 		}
-		Calendar currentCBSPeriod = Calendar.getInstance();
-		currentCBSPeriod.setTime(date);
 		result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
 	}

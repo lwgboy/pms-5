@@ -404,9 +404,9 @@ public class CBSItem {
 		this.parent = parent;
 	}
 
-	public Date getSettlementDate() {
+	public Date getNextSettlementDate() {
 		if (settlementDate == null) {
-			settlementDate = ServicesLoader.get(CBSService.class).getSettlementDate(scope_id);
+			settlementDate = ServicesLoader.get(CBSService.class).getNextSettlementDate(scope_id);
 		}
 		return settlementDate;
 	}

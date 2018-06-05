@@ -1,7 +1,9 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +11,7 @@ import java.util.Optional;
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -134,9 +137,19 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 	}
 
 	@Behavior("项目成本管理/编辑成本")
-	private boolean behaviourEdit() {
-		//TODO 判断编辑期间与当前期间相同无法提交
-		
+	private boolean behaviourEdit(@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT) Object input) {
+		if(input instanceof CBSItem) {
+			CBSItem cbs = (CBSItem) input;
+			Calendar cal = Calendar.getInstance();
+			Date date = cbs.getNextSettlementDate();
+			int newYear = cal.get(Calendar.YEAR);
+			int newMonth = cal.get(Calendar.MONTH);
+			cal.setTime(date);
+			if (cal.get(Calendar.YEAR) == newYear
+					&& cal.get(Calendar.MONTH) == newMonth) {
+				return false;
+			}
+		}
 		return children.size() == 0;
 	}
 
