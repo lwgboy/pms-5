@@ -277,9 +277,7 @@ public class WorkInTemplate {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue("open")
-	public Boolean getOpen() {
-		return true;
-	}
+	private boolean ganttOpen = true;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,16 +301,13 @@ public class WorkInTemplate {
 	@WriteValue
 	private List<String> certificates;
 
-	@Persistence
-	private List<String> viewId;
-
 	@ReadValue("项目模板WBS/wpsText")
 	private String getWorkPackageSettingText() {
 		if (Util.isEmptyOrNull(workPackageSetting)) {
 			return "";
 		} else {
 			StringBuffer sb = new StringBuffer();
-			workPackageSetting.forEach(tv -> sb.append(tv.getCatagory() + ":" + tv.getName()+" "));
+			workPackageSetting.forEach(tv -> sb.append(tv.getCatagory() + ":" + tv.getName() + " "));
 			return sb.toString().trim();
 		}
 	}
@@ -346,10 +341,49 @@ public class WorkInTemplate {
 	private long countChildren() {
 		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id);
 	}
-	
+
 	@Behavior("编辑工作包")
 	private boolean behaviourEditWPS() {
 		return !summary && !stage;
+	}
+
+	@ReadValue
+	@SetValue
+	private OBSInTemplate chargerRole;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String chargerRoleId;
+
+	@WriteValue("chargerRole")
+	private void setChargerRole(OBSInTemplate obsItem) {
+		chargerRole = obsItem;
+		if (obsItem == null) {
+			chargerRoleId = null;
+		} else {
+			chargerRoleId = obsItem.getId();
+		}
+	}
+
+	@ReadValue
+	@SetValue
+	private OBSInTemplate assignerRole;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String assignerRoleId;
+	
+
+	@WriteValue("assignerRole")
+	private void setAssignerRole(OBSInTemplate obsItem) {
+		assignerRole = obsItem;
+		if (obsItem == null) {
+			assignerRoleId = null;
+		} else {
+			assignerRoleId = obsItem.getId();
+		}
 	}
 
 	public WorkInTemplate setIndex(int index) {
