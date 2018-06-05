@@ -681,7 +681,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
 		resas.forEach(resa -> {
-			double works = getWorks(resa.resTypeId);
+			double works = getWorkingHoursPerDay(resa.resTypeId);
 			Document doc = c("work").find(new Document("_id", resa.work_id))
 					.projection(new Document("planStart", 1).append("planFinish", 1)).first();
 			Date planStart = doc.getDate("planStart");
@@ -716,22 +716,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return documents;
 	}
-
-	private double getWorks(ObjectId resTypeId) {
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "_id")
-								.append("foreignField", "cal_id").append("as", "resourceType")),
-				new Document("$unwind", "$resourceType"),
-				new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
-				new Document("$project", new Document("resourceType", false)),
-				new Document("$match", new Document("resTypeId", new ObjectId("5b04cc227fbf7437fc19985f"))),
-				new Document("$project", new Document("works", true)));
-		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("works"))
-				.map(w -> w.doubleValue()).orElse(0d);
-	}
-
-	private boolean checkDayIsWorkingDay(Calendar cal, ObjectId resId) {
+	
+	public static void main(String[] args) {
 		List<? extends Bson> pipeline = Arrays
 				.asList(new Document("$lookup",
 						new Document("from", "resourceType").append("localField", "_id")
@@ -739,7 +725,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						new Document("$unwind", "$resourceType"),
 						new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
 						new Document("$project", new Document("resourceType", false)),
-						new Document("$match", new Document("resTypeId", resId)), new Document("$unwind", "$workTime"),
+						new Document("$match", new Document("resTypeId", "<resTypeId>")), new Document("$unwind", "$workTime"),
 						new Document("$addFields", new Document("date", "$workTime.date")
 								.append("workingDay", "$workTime.workingDay").append("day", "$workTime.day")),
 						new Document("$project", new Document("workTime",
@@ -749,47 +735,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 										true)),
 						new Document("$addFields", new Document().append("workdate",
 								new Document("$cond",
-										Arrays.asList(new Document("$eq", Arrays.asList("$date", cal.getTime())), true,
+										Arrays.asList(new Document("$eq", Arrays.asList("$date", "<date>")), true,
 												false)))
-								.append("workday", new Document("$eq", Arrays.asList("$day", getDateWeek(cal))))),
+								.append("workday", new Document("$eq", Arrays.asList("$day", "<week>")))),
 						new Document("$project",
 								new Document("workdate", true).append("workday", true).append("workingDay", true)),
 						new Document("$match",
 								new Document("$or",
 										Arrays.asList(new Document("workdate", true), new Document("workday", true)))),
 						new Document("$sort", new Document("workdate", -1).append("workingDay", -1)));
-
-		Document doc = c("calendar").aggregate(pipeline).first();
-		if (doc != null) {
-			Boolean workdate = doc.getBoolean("workdate");
-			Boolean workday = doc.getBoolean("workday");
-			Boolean workingDay = doc.getBoolean("workingDay");
-			if (workdate) {
-				return workingDay;
-			} else {
-				return workday;
-			}
-		}
-		return false;
-	}
-
-	private String getDateWeek(Calendar cal) {
-		switch (cal.get(Calendar.DAY_OF_WEEK)) {
-		case 1:
-			return "周日";
-		case 2:
-			return "周一";
-		case 3:
-			return "周二";
-		case 4:
-			return "周三";
-		case 5:
-			return "周四";
-		case 6:
-			return "周五";
-		default:
-			return "周六";
-		}
+		System.out.println(new Document("q",pipeline).toJson());
 	}
 
 	private void updateWorkPlanWorks(ObjectId work_id) {

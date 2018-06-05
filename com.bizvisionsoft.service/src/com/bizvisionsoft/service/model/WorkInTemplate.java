@@ -445,4 +445,8 @@ public class WorkInTemplate {
 		this.workPackageSetting = workPackageSetting;
 	}
 
+	public boolean isSummary() {
+		return summary;
+	}
+
 }

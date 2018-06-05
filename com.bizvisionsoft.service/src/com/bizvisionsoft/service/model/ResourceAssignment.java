@@ -66,6 +66,11 @@ public class ResourceAssignment {
 				.setUsedEquipResId(usedEquipResId).setUsedTypedResId(usedTypedResId).setResTypeId(resTypeId);
 	}
 
+	public ResourcePlanInTemplate getResourcePlanInTemplate() {
+		return new ResourcePlanInTemplate().setWork_id(work_id).setUsedHumanResId(usedHumanResId)
+				.setUsedEquipResId(usedEquipResId).setUsedTypedResId(usedTypedResId).setResTypeId(resTypeId);
+	}
+
 	@ReadValue
 	public double actualBasicQty;
 
