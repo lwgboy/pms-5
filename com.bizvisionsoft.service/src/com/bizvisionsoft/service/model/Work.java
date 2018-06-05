@@ -448,7 +448,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@GetValue("planWorks")
 	public double getPlanWorks() {
 		if(summary) {
-			
+			return ServicesLoader.get(WorkService.class).getPlanWorks(wbsCode);
 		}
 		return planWorks;
 	}
@@ -460,7 +460,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope {
 	@GetValue("actualWorks")
 	public double getActualWorks() {
 		if(summary) {
-			
+			return ServicesLoader.get(WorkService.class).getActualWorks(wbsCode);
 		}
 		return actualWorks;
 	}

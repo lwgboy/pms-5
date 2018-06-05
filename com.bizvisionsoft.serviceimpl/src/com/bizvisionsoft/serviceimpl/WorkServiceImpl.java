@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -1257,5 +1258,31 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$project", new Document("project", false).append("work", false)));
 		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
 				.into(new ArrayList<WorkResourcePlanDetail>());
+	}
+
+	@Override
+	public double getPlanWorks(String wbscode) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number)doc.get("planWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
+	}
+
+	@Override
+	public double getActualWorks(String wbscode) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(new Document("$group",
+				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
+		Document doc = c("work").aggregate(pipeline).first();
+		if (doc != null) {
+			return Optional.ofNullable(((Number)doc.get("actualWorks")).doubleValue()).orElse(0d);
+		}
+		return 0;
 	}
 }

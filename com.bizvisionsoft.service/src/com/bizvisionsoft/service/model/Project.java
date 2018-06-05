@@ -85,7 +85,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private ObjectId projectSet_id;
-	
+
 	@SetValue
 	@ReadValue
 	private ProjectSet projectSet;
@@ -95,7 +95,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@Persistence
 	private ObjectId parentProject_id;
-	
+
 	@SetValue
 	@ReadValue
 	private Project parentProject;
@@ -115,7 +115,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 */
 	@Persistence
 	private ObjectId eps_id;
-	
+
 	@SetValue
 	@ReadValue
 	private EPS eps;
@@ -204,10 +204,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	/**
 	 * 计划工时
 	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private Integer planWorks;
+	@ReadValue("planWorks")
+	private double getPlanWorks() {
+		return ServicesLoader.get(ProjectService.class).getPlanWorks(_id);
+	}
 
 	/**
 	 * 实际开始
@@ -236,10 +236,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	/**
 	 * 计划工时 //TODO 计划工时的计算
 	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private Integer actualWorks;
+	@ReadValue("actualWorks")
+	private double getActualWorks() {
+		return ServicesLoader.get(ProjectService.class).getActualWorks(_id);
+	}
 
 	/**
 	 * 启用阶段管理
@@ -310,7 +310,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 				.orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@ReadValue
 	@SetValue
 	private Date settlementDate;
