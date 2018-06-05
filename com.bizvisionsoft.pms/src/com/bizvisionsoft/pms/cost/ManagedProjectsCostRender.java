@@ -17,9 +17,11 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
+import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ManagedProjectsCostRender extends GridPartDefaultRender {
@@ -37,6 +39,13 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 		Calendar currentCBSPeriod = Calendar.getInstance();
 		Date date = null;
 		Object input = context.getInput();
+		if(input == null) {
+			Object rootInput = context.getRootInput();
+			if(rootInput instanceof ICBSScope) {
+				ICBSScope icbsScope = (ICBSScope) rootInput;
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+			}
+		}
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
