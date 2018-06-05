@@ -117,11 +117,19 @@ public interface ProjectTemplateService {
 	public int nextOBSSeq(BasicDBObject condition);
 
 	@POST
-	@Path("/id/{_id}/obs/")
+	@Path("/id/{_id}/obs/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板组织结构图/list")
 	public List<OBSInTemplate> getOBSTemplate(
+			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+	
+	@POST
+	@Path("/id/{_id}/obs/role/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("OBS模板节点选择器/list")
+	public List<OBSInTemplate> getOBSRoleTemplate(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@GET

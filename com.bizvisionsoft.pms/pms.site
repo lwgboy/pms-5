@@ -214,7 +214,28 @@
             "id": "162bd9e9635"
           },
           {
-            "children": [],
+            "children": [
+              {
+                "children": [],
+                "name": "OBS模板",
+                "id": "163cd3e0d4c"
+              },
+              {
+                "children": [],
+                "name": "WBS模板",
+                "id": "163cd3ebfd0"
+              },
+              {
+                "children": [],
+                "name": "工作包",
+                "id": "163cd3feba0"
+              },
+              {
+                "children": [],
+                "name": "可用性设置",
+                "id": "163cd40bfde"
+              }
+            ],
             "name": "项目模板管理",
             "id": "162bd9f0190"
           },
@@ -3636,7 +3657,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16187d39041",
@@ -3674,7 +3696,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "161a9e24569",
@@ -3744,7 +3767,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "161a9e3beea",
@@ -3837,7 +3861,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "161a9e42e12",
@@ -3876,7 +3901,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "161af6005c2",
@@ -3915,7 +3941,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "161db822d98",
@@ -4242,7 +4269,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16203c462f5",
@@ -4491,7 +4519,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1621d403c8b",
@@ -4667,7 +4696,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16223082788",
@@ -4730,7 +4760,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162397a145d",
@@ -4800,7 +4831,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162397b7192",
@@ -4839,7 +4871,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1623cfba842",
@@ -4909,7 +4942,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1623cfc4874",
@@ -4947,7 +4981,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1623cfcd0b7",
@@ -5017,7 +5052,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1623cfd1a4e",
@@ -5057,7 +5093,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1623cfdd178",
@@ -5159,7 +5196,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162413c9025",
@@ -5229,7 +5267,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162413cf382",
@@ -5267,7 +5306,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1624b9e7f70",
@@ -5671,7 +5711,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1626b1d80dc",
@@ -6069,7 +6110,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1626f9d096e",
@@ -6278,7 +6320,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16270130745",
@@ -6374,7 +6417,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16275cba497",
@@ -6823,7 +6867,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162847f1b05",
@@ -6919,7 +6964,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1628add9f2c",
@@ -7037,7 +7083,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1628e1d1914",
@@ -7077,7 +7124,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1628f2f73ab",
@@ -7260,7 +7308,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1628fc969a5",
@@ -7424,7 +7473,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1629e37338a",
@@ -7524,7 +7574,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162b2bd3dff",
@@ -7580,7 +7631,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162b3758572",
@@ -7725,7 +7777,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162b3910923",
@@ -7889,7 +7942,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162b3c7c903",
@@ -8125,7 +8179,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162b75519b0",
@@ -8266,7 +8321,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162b7bb8236",
@@ -8393,7 +8449,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162b834b167",
@@ -8640,7 +8697,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162b988d8d5",
@@ -8677,7 +8735,8 @@
         "selectorGridAssemblyId": "162ba875640",
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162ba875640",
@@ -8840,7 +8899,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bca49f7c",
@@ -9088,7 +9148,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id#headPics",
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bca813e1",
@@ -9443,7 +9504,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bcc9cbc1",
@@ -9663,7 +9725,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id#headPics",
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bcd47030",
@@ -9731,7 +9794,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162bd19922a",
@@ -9816,7 +9880,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162bd1b7bb3",
@@ -9966,7 +10031,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bd6340f5",
@@ -10028,7 +10094,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162bda0c55c",
@@ -10110,7 +10177,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162c10e1449",
@@ -10271,7 +10339,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c12b0afa",
@@ -10367,7 +10436,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162c4579eee",
@@ -10640,7 +10710,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c46151c9",
@@ -10783,7 +10854,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162c739fac5",
@@ -10946,7 +11018,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c73bfbcc",
@@ -11043,7 +11116,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162c74b68d7",
@@ -11080,7 +11154,8 @@
         "selectorGridAssemblyId": "162c74cd862",
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c74cd862",
@@ -11218,7 +11293,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c98182da",
@@ -11363,7 +11439,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c9948c11",
@@ -11404,7 +11481,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c9ed9eed",
@@ -11616,7 +11694,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162c9f73fa4",
@@ -11718,7 +11797,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162ca15931b",
@@ -11930,7 +12010,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162cc7c2985",
@@ -12130,7 +12211,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162cc7d74e1",
@@ -12271,7 +12353,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162ccb550ac",
@@ -12517,7 +12600,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162d1fc8443",
@@ -12628,7 +12712,8 @@
         "selectorMultiSelection": false,
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，制定总体的进度计划，编制项目预算，组建项目的初始团队。\u003c/div\u003e\n",
         "actionPanelColumnCount": 5,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162d2bfa73e",
@@ -12998,7 +13083,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162d7e505eb",
@@ -13089,7 +13175,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162dbff5e91",
@@ -13188,7 +13275,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162dc3fab0c",
@@ -13357,7 +13445,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162dc40bd28",
@@ -13457,7 +13546,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162dcc76808",
@@ -13685,7 +13775,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162dd6cb668",
@@ -13753,7 +13844,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162dd95b76b",
@@ -13971,7 +14063,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162e10dc2e4",
@@ -14087,7 +14180,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162e59bc8f7",
@@ -14248,7 +14342,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162e5aa73b9",
@@ -14330,7 +14425,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162ec2b8570",
@@ -14491,7 +14587,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162ec7a411c",
@@ -14577,7 +14674,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162ed80cc9d",
@@ -14645,7 +14743,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162ee6c543e",
@@ -14716,7 +14815,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "162fa5009ed",
@@ -14774,7 +14874,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162faeee5d8",
@@ -14860,7 +14961,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "162ff4cd460",
@@ -14959,7 +15061,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16305416779",
@@ -15234,7 +15337,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163056fb075",
@@ -15410,7 +15514,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16305720b4b",
@@ -15513,7 +15618,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1630607a1fb",
@@ -15711,7 +15817,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1631ac3637f",
@@ -15781,7 +15888,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1631b43cace",
@@ -15821,7 +15929,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1631b7ee056",
@@ -16182,7 +16291,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1631b96864a",
@@ -16219,7 +16329,8 @@
         "selectorGridAssemblyId": "1631b9723c5",
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1631b9723c5",
@@ -16319,7 +16430,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1632b6942a0",
@@ -16584,7 +16696,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1632b8968e4",
@@ -16735,7 +16848,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1632e5a7502",
@@ -17176,7 +17290,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1632fd854c1",
@@ -17213,7 +17328,8 @@
         "selectorGridAssemblyId": "1632fd8c5dc",
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1632fd8c5dc",
@@ -17313,7 +17429,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16338ca0777",
@@ -17351,7 +17468,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163399430d8",
@@ -17443,7 +17561,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1633ee05a77",
@@ -17747,7 +17866,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16343e4a715",
@@ -17787,7 +17907,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
-        "schedulerType": "scheduler"
+        "schedulerType": "scheduler",
+        "addToParentContext": false
       },
       {
         "id": "1635c2a9c42",
@@ -17850,7 +17971,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1635d7d0d35",
@@ -17891,7 +18013,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
-        "schedulerType": "timeline"
+        "schedulerType": "timeline",
+        "addToParentContext": false
       },
       {
         "id": "163622866dc",
@@ -18079,7 +18202,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1636229c4a5",
@@ -18190,7 +18314,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16362425e75",
@@ -18261,7 +18386,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163624f036e",
@@ -18694,7 +18820,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163673074e6",
@@ -19106,7 +19233,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16367155906",
@@ -19163,7 +19291,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16368910aaa",
@@ -19220,7 +19349,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "workPackageSetting",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16368fa3a97",
@@ -19319,7 +19449,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1636bd8162a",
@@ -19463,7 +19594,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1636c45719a",
@@ -19531,7 +19663,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1636cadb0c3",
@@ -19830,7 +19963,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1636cd41587",
@@ -19941,7 +20075,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1636e54cc45",
@@ -20066,7 +20201,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16370ff5184",
@@ -20120,7 +20256,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637183ede1",
@@ -20217,7 +20354,8 @@
         "selectorMultiSelection": false,
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e阶段已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动阶段以前，您还需要完善一些信息，制定阶段的进度计划，编制阶段预算，组建阶段的初始团队。\u003c/div\u003e\n",
         "actionPanelColumnCount": 3,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16371c338b9",
@@ -20288,7 +20426,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16371ebbf89",
@@ -20535,7 +20674,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16372045263",
@@ -20606,7 +20746,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163720498db",
@@ -20664,7 +20805,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637206cd62",
@@ -20863,7 +21005,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16372176e94",
@@ -20934,7 +21077,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163721778d4",
@@ -20975,7 +21119,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163722a9d18",
@@ -21046,7 +21191,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163723be22d",
@@ -21149,7 +21295,8 @@
         "displayRootInputLabelInTitlebar": true,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163723c27be",
@@ -21219,7 +21366,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163723c3033",
@@ -21289,7 +21437,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637bd0dcd4",
@@ -21571,7 +21720,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637ce87d72",
@@ -21713,7 +21863,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1637d1c06b1",
@@ -21855,7 +22006,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1637d1c3f4d",
@@ -21997,7 +22149,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1637d486d64",
@@ -22160,7 +22313,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637e58c81b",
@@ -22369,7 +22523,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1637e5acb43",
@@ -22450,7 +22605,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16380a1c169",
@@ -22870,7 +23026,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16380bfc21f",
@@ -23103,7 +23260,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16380c97d72",
@@ -23250,7 +23408,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16380df0b77",
@@ -23333,7 +23492,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163812c1f16",
@@ -23632,7 +23792,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16381485e7d",
@@ -23743,7 +23904,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16381499349",
@@ -23928,7 +24090,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16381614ec7",
@@ -24041,7 +24204,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1638191f3a4",
@@ -24378,7 +24542,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163819946c4",
@@ -24489,7 +24654,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1638199d0ec",
@@ -24655,7 +24821,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163819dcd5f",
@@ -24753,7 +24920,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16381c3cf38",
@@ -25013,7 +25181,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16381ca6c93",
@@ -25110,7 +25279,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16381cb2479",
@@ -25257,7 +25427,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16381f8011c",
@@ -25340,7 +25511,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163830ca3ce",
@@ -25452,7 +25624,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163868653d9",
@@ -25594,7 +25767,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163868971b2",
@@ -25662,7 +25836,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "16386c1cbfb",
@@ -25785,7 +25960,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386c44e87",
@@ -25852,7 +26028,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163856055de",
@@ -26223,7 +26400,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163869a1e8b",
@@ -26594,7 +26772,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386a04541",
@@ -26965,7 +27144,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386a3a9c9",
@@ -27336,7 +27516,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386aa8485",
@@ -27787,7 +27968,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386aa8c2a",
@@ -28238,7 +28420,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16386db45c3",
@@ -28361,7 +28544,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "1638b3952da",
@@ -28430,7 +28614,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1638c13db9e",
@@ -28602,7 +28787,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "workPackageSetting#certificates#chargerId#assignerId",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "1638c2c16a9",
@@ -29074,7 +29260,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16390ca5f18",
@@ -29288,7 +29475,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16390ce5577",
@@ -29508,7 +29696,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16390d02c3a",
@@ -29549,7 +29738,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16390d36467",
@@ -29785,7 +29975,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16390d46af6",
@@ -30100,7 +30291,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163910d6e9d",
@@ -30217,7 +30409,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163957f842a",
@@ -30295,7 +30488,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163958383b0",
@@ -30428,7 +30622,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16394e5432f",
@@ -30465,7 +30660,8 @@
         "selectorGridAssemblyId": "1637d486d64",
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16394e82f67",
@@ -30502,7 +30698,8 @@
         "selectorGridAssemblyId": "162c4579eee",
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163959c974a",
@@ -30640,7 +30837,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16396e1b1ae",
@@ -30694,7 +30892,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16396fda373",
@@ -31035,7 +31234,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "16399f2c7e5",
@@ -31113,7 +31313,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163aab2282b",
@@ -31271,7 +31472,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163ae4ab439",
@@ -31311,7 +31513,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c31c8328",
@@ -31320,7 +31523,7 @@
         "layout": [],
         "type": "gantt",
         "stickerTitle": "计划模板",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3ebfd0",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -31559,7 +31762,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c6247d94",
@@ -31568,7 +31772,7 @@
         "description": "用于项目模板甘特图创建和编辑",
         "layout": [],
         "type": "editor",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3ebfd0",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -31693,7 +31897,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163c8e56ef0",
@@ -31846,7 +32051,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c9c4a0c4",
@@ -31928,7 +32134,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163c9ec9fc8",
@@ -32100,7 +32307,8 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c925f0d5",
@@ -32235,7 +32443,8 @@
         "selectorMultiSelection": false,
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目模板已成功创建\u003c/div\u003e\n\u003cdiv\u003e您可以对项目模板进行以下设置。\u003c/div\u003e\n",
         "actionPanelColumnCount": 5,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c974f145",
@@ -32243,7 +32452,7 @@
         "layout": [],
         "type": "tree",
         "stickerTitle": "组织结构模板",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3e0d4c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -32336,14 +32545,15 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
       },
       {
         "id": "163c9d53d9b",
         "name": "OBS模板节点编辑器（角色）",
         "layout": [],
         "type": "editor",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3e0d4c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -32404,14 +32614,15 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163c9ed4a9d",
         "name": "OBS模板节点编辑器（团队）",
         "layout": [],
         "type": "editor",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3e0d4c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -32503,7 +32714,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
-        "smallEditor": true
+        "smallEditor": true,
+        "addToParentContext": false
       },
       {
         "id": "163ca3d007f",
@@ -32512,7 +32724,7 @@
         "layout": [],
         "type": "grid",
         "stickerTitle": "WBS模板",
-        "folderId": "162bd9f0190",
+        "folderId": "163cd3feba0",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": true,
@@ -32608,6 +32820,44 @@
             "noToggleGridColumnGroup": false
           },
           {
+            "id": "163cd4e8472",
+            "name": "chargerRole",
+            "text": "负责人角色",
+            "alignment": 16384,
+            "width": 200,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163cd500184",
+            "name": "assignerRole",
+            "text": "指派者角色",
+            "alignment": 16384,
+            "width": 200,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
             "id": "1631b8556a6",
             "name": "planDuration",
             "text": "工期",
@@ -32682,6 +32932,18 @@
             "editorAssemblyEditable": true,
             "objectBehavier": true,
             "type": "edit"
+          },
+          {
+            "id": "163cd53e8d1",
+            "name": "角色",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "editorAssemblyId": "163cd548b8e",
+            "editorAssemblyEditable": true,
+            "objectBehavier": false,
+            "type": "edit"
           }
         ],
         "queryBuilderClass": "",
@@ -32698,7 +32960,160 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "smallEditor": false
+        "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163cd548b8e",
+        "name": "项目模板工作分配角色",
+        "title": "分配角色",
+        "layout": [],
+        "type": "editor",
+        "folderId": "163cd3feba0",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "fields": [
+          {
+            "id": "163cd606078",
+            "name": "chargerRole",
+            "text": "负责人角色",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "163cd649d22",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163cd609730",
+            "name": "assignerRole",
+            "text": "指派人角色",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "163cd649d22",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "nullValueAllowedFields": "",
+        "smallEditor": true,
+        "addToParentContext": true
+      },
+      {
+        "id": "163cd649d22",
+        "name": "OBS模板节点选择器",
+        "layout": [],
+        "type": "grid",
+        "folderId": "163cd3e0d4c",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+        "columns": [
+          {
+            "id": "163cd669786",
+            "name": "roleId",
+            "text": "角色编号",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163cd688722",
+            "name": "roleName",
+            "text": "角色名称",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false
       }
     ]
   }

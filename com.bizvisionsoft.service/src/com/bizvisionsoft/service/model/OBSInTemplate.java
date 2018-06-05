@@ -205,17 +205,17 @@ public class OBSInTemplate {
 	}
 
 	@ReadValue({ "项目模板组织结构图/id" })
-	public String getDiagramId() {
+	private String getDiagramId() {
 		return _id.toHexString();
 	}
 
 	@ReadValue("项目模板组织结构图/parent")
-	public String getDiagramParent() {
+	private String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
 	@ReadValue("项目模板组织结构图/img")
-	public String getDiagramImage() {
+	private String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);
 		} else if (roleId != null) {

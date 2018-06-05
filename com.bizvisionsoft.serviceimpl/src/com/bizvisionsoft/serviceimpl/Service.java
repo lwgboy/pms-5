@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,10 +17,11 @@ import org.osgi.framework.BundleContext;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
-import com.mongodb.ServerAddress;
 import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -30,6 +32,12 @@ public class Service implements BundleActivator {
 	private static MongoDatabase database;
 
 	private MongoClient mongo;
+
+	private boolean loadJSQueryAtInit;
+
+	private boolean forceReloadJSQuery;
+
+	public static File queryFolder;
 
 	static BundleContext getContext() {
 		return context;
@@ -43,11 +51,27 @@ public class Service implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Service.context = bundleContext;
+		String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
+		loadDatabase(filePath);
 
+		loadQuery(filePath);
+	}
+
+	private void loadQuery(String filePath) {
+		queryFolder = new File(new File(filePath).getParent() + "/query");
+		loadJSQueryAtInit = "init".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+		if (loadJSQueryAtInit) {
+			JQ.reloadJS();
+		}
+		
+		JQ.forceReloadJSQuery = "force".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+		
+	}
+
+	private void loadDatabase(String filePath) {
 		InputStream is = null;
 		FileInputStream fis = null;
 		try {
-			String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
 			fis = new FileInputStream(filePath); // $NON-NLS-1$
 			is = new BufferedInputStream(fis);
 			Properties props = new Properties();
@@ -56,6 +80,7 @@ public class Service implements BundleActivator {
 			mongo = createMongoClient(props);
 			String dbname = props.getProperty("db.name"); //$NON-NLS-1$
 			database = mongo.getDatabase(dbname).withCodecRegistry(getCodecRegistry());
+
 		} catch (Exception e) {
 		} finally {
 			if (fis != null)
@@ -70,7 +95,6 @@ public class Service implements BundleActivator {
 				} catch (IOException e) {
 				}
 		}
-
 	}
 
 	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
@@ -136,7 +160,7 @@ public class Service implements BundleActivator {
 	public static <T> MongoCollection<T> col(Class<T> clazz) {
 		return database.getCollection(clazz.getAnnotation(PersistenceCollection.class).value(), clazz);
 	}
-	
+
 	public static MongoCollection<Document> col(String name) {
 		return database.getCollection(name);
 	}

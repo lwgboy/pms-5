@@ -9,12 +9,12 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProjectTemplateService;
-import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -103,22 +103,41 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSInTemplate> getOBSTemplate(ObjectId template_id) {
-		List<ObjectId> parentIds = c("obsInTemplate")
-				.distinct("_id", new BasicDBObject("scope_id", template_id), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
-		List<ObjectId> ids = getDesentItems(parentIds, "obsInTemplate", "parent_id");
-		return query(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
+		return queryOBSTemplate(new BasicDBObject("scope_id", template_id));
 	}
 
-	private List<OBSInTemplate> query(BasicDBObject match) {
-		ArrayList<OBSInTemplate> result = new ArrayList<OBSInTemplate>();
+	private List<OBSInTemplate> queryOBSTemplate(BasicDBObject match) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(match));
 
 		appendUserInfoAndHeadPic(pipeline, "managerId", "managerInfo", "managerHeadPic");
+
 		appendSortBy(pipeline, "seq", 1);
-		c(OBSInTemplate.class).aggregate(pipeline).into(result);
-		return result;
+
+		return c(OBSInTemplate.class).aggregate(pipeline).into(new ArrayList<OBSInTemplate>());
+	}
+
+	private void appendRoleInfo(List<Bson> pipeline, String inputField, String outputField) {
+		pipeline.add(
+				new BasicDBObject("$lookup",
+						new BasicDBObject("from", "obsInTemplate")
+								.append("let",
+										new BasicDBObject("template_id", "$template_id").append("roleId",
+												"$" + inputField))
+								.append("pipeline",
+										new BasicDBObject[] { new BasicDBObject("$match",
+												new BasicDBObject("$expr",
+														new BasicDBObject("$and",
+																new BasicDBObject[] {
+																		new BasicDBObject("$eq",
+																				new String[] { "$scope_id",
+																						"$$template_id" }),
+																		new BasicDBObject("$eq",
+																				new String[] { "$roleId",
+																						"$$roleId" }) }))) })
+								.append("as", outputField)));
+		pipeline.add(new BasicDBObject("$unwind",
+				new BasicDBObject("path", "$" + outputField).append("preserveNullAndEmptyArrays", true)));
 	}
 
 	@Override
@@ -151,10 +170,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWBSRoot(ObjectId template_id) {
-		return createDataSet(new Query().filter(new BasicDBObject("template_id", template_id).append("parent_id", null))
-				.sort(new BasicDBObject("index", 1)).bson(), WorkInTemplate.class);
+		List<? extends Bson> pipeline = new JQ("获得项目模板WBS根节点").set("template_id", template_id)
+				.set("parent_id", null).buildArray();
+		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
-	
+
 	@Override
 	public long countWBSRoot(ObjectId template_id) {
 		return count(new BasicDBObject("template_id", template_id).append("parent_id", null), "workInTemplate");
@@ -162,8 +182,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWBSChildren(ObjectId parent_id) {
-		return createDataSet(new Query().filter(new BasicDBObject("parent_id", parent_id))
-				.sort(new BasicDBObject("index", 1)).bson(), WorkInTemplate.class);
+		List<? extends Bson> pipeline = new JQ("获得项目模板WBS下级节点").set("parent_id", parent_id).buildArray();
+		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
 
 	@Override
@@ -171,6 +191,9 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		return count(new BasicDBObject("parent_id", parent_id), "workInTemplate");
 	}
 
-
+	@Override
+	public List<OBSInTemplate> getOBSRoleTemplate(ObjectId template_id) {
+		return queryOBSTemplate(new BasicDBObject("scope_id", template_id).append("isRole", true));
+	}
 
 }
