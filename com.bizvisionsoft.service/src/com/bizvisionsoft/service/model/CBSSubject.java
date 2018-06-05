@@ -27,7 +27,6 @@ public class CBSSubject {
 	private String subjectNumber;
 
 	@ReadValue
-	@WriteValue
 	private Double cost;
 
 	@ReadValue
@@ -70,10 +69,26 @@ public class CBSSubject {
 		} catch (Exception e) {
 			throw new RuntimeException("输入类型错误。");
 		}
-		if (__budget <= 0) {
-			throw new RuntimeException("预算金额需大于零。");
+		if (__budget < 0) {
+			throw new RuntimeException("预算金额需大于等于零。");
 		}
 		budget = __budget;
+	}
+	
+
+
+	@WriteValue("期间成本编辑器/cost")
+	public void writeCost(String _cost) {
+		double __cost;
+		try {
+			__cost = Double.parseDouble(_cost);
+		} catch (Exception e) {
+			throw new RuntimeException("输入类型错误。");
+		}
+		if (__cost < 0) {
+			throw new RuntimeException("成本金额需大于等于零。");
+		}
+		cost = __cost;
 	}
 
 	public CBSSubject setCBSItem_id(ObjectId cbsItem_id) {
@@ -185,6 +200,10 @@ public class CBSSubject {
 		} else if (!subjectNumber.equals(other.subjectNumber))
 			return false;
 		return true;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -352,7 +353,7 @@ public interface CommonService {
 	@Path("/currentcbsperiod")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public java.util.Calendar getCurrentCBSPeriod();
+	public Date getCurrentCBSPeriod();
 
 
 }

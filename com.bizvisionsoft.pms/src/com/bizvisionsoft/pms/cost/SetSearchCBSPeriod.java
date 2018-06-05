@@ -38,20 +38,30 @@ public class SetSearchCBSPeriod {
 			IBruiContext bruiContext = context.getChildContextByAssemblyName("成本管理");
 			GridPart content = (GridPart) bruiContext.getContent();
 			GridTreeViewer viewer = content.getViewer();
-			GridColumn column = viewer.getGrid().getColumn(viewer.getGrid().getColumnCount() - 1);
-			if (startPeriod.equals(endPeriod)) {
-				column.setText(startPeriod);
-			} else {
-				column.setText(startPeriod + "-" + endPeriod);
-			}
+			GridColumn[] columns = viewer.getGrid().getColumns();
+			for (GridColumn column : columns) {
+				if ("periodCost".equals(column.getData("name"))) {
+					if (startPeriod.equals(endPeriod)) {
+						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6) );
+					} else {
+						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6)  + "-"
+								+ endPeriod.substring(0, 4) + "/" + endPeriod.substring(4, 6) );
+					}
 
-			GridViewerColumn vcol = new GridViewerColumn(viewer, column);
-			vcol.setLabelProvider(new ColumnLabelProvider() {
-				@Override
-				public String getText(Object element) {
-					return "" + ((CBSItem) element).getCost(startPeriod, endPeriod);
+					GridViewerColumn vcol = new GridViewerColumn(viewer, column);
+					vcol.setLabelProvider(new ColumnLabelProvider() {
+						@Override
+						public String getText(Object element) {
+							if (element instanceof CBSItem) {
+								return "" + ((CBSItem) element).getCost(startPeriod, endPeriod);
+							}
+							return "";
+						}
+					});
 				}
-			});
+
+				System.out.println();
+			}
 			viewer.refresh(true);
 		}
 	}
