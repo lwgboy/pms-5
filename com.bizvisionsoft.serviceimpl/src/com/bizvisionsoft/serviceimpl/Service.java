@@ -35,8 +35,6 @@ public class Service implements BundleActivator {
 
 	private boolean loadJSQueryAtInit;
 
-	private boolean forceReloadJSQuery;
-
 	public static File queryFolder;
 
 	static BundleContext getContext() {

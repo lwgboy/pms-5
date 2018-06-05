@@ -117,29 +117,6 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		return c(OBSInTemplate.class).aggregate(pipeline).into(new ArrayList<OBSInTemplate>());
 	}
 
-	private void appendRoleInfo(List<Bson> pipeline, String inputField, String outputField) {
-		pipeline.add(
-				new BasicDBObject("$lookup",
-						new BasicDBObject("from", "obsInTemplate")
-								.append("let",
-										new BasicDBObject("template_id", "$template_id").append("roleId",
-												"$" + inputField))
-								.append("pipeline",
-										new BasicDBObject[] { new BasicDBObject("$match",
-												new BasicDBObject("$expr",
-														new BasicDBObject("$and",
-																new BasicDBObject[] {
-																		new BasicDBObject("$eq",
-																				new String[] { "$scope_id",
-																						"$$template_id" }),
-																		new BasicDBObject("$eq",
-																				new String[] { "$roleId",
-																						"$$roleId" }) }))) })
-								.append("as", outputField)));
-		pipeline.add(new BasicDBObject("$unwind",
-				new BasicDBObject("path", "$" + outputField).append("preserveNullAndEmptyArrays", true)));
-	}
-
 	@Override
 	public boolean hasOBS(ObjectId _id) {
 		return c("obsInTemplate").count(new BasicDBObject("scope_id", _id)) > 0;
