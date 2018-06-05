@@ -31804,8 +31804,8 @@
         "actions": [
           {
             "id": "163c99b00f2",
-            "name": "设置成本期间",
-            "text": "设置成本期间",
+            "name": "查询成本期间",
+            "text": "查询成本期间",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cost.SetSearchCBSPeriod",
             "openContent": false,
@@ -32055,29 +32055,14 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "163c99b00f2",
-            "name": "设置成本期间",
-            "text": "设置成本期间",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "163c9dcf614",
             "name": "编辑成本",
             "image": "/img/edit_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "",
+            "className": "com.bizvisionsoft.pms.cost.EditCBSSubjectCost",
             "openContent": false,
             "propagate": false,
             "forceText": false,

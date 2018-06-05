@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -55,12 +56,13 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<CBSSubject> getCBSSubject(@PathParam("_id") ObjectId cbs_id);
-	
+
 	@POST
 	@Path("/{_id}/subject/{number}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<CBSSubject> getCBSSubjectByNumber(@PathParam("_id") ObjectId cbs_id,@PathParam("number") String number);
+	public List<CBSSubject> getCBSSubjectByNumber(@PathParam("_id") ObjectId cbs_id,
+			@PathParam("number") String number);
 
 	@POST
 	@Path("/")
@@ -130,4 +132,11 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countProjectCost(BasicDBObject filter);
+
+	@GET
+	@Path("settlementdate/{scope_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Date getSettlementDate(@PathParam("scope_id") ObjectId scope_id);
+
 }

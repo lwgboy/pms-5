@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -354,6 +355,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.match(filter));
 
 		return c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>()).size();
+	}
+
+	@Override
+	public Date getSettlementDate(ObjectId scope_id) {
+		c("work").find(new Document("_id",scope_id)).projection(new Document("project_id",1)).first();
+		return null;
 	}
 
 }

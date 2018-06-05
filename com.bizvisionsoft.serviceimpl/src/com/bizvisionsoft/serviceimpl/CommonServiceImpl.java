@@ -353,7 +353,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public java.util.Calendar getCurrentCBSPeriod() {
+	public Date getCurrentCBSPeriod() {
 		Document doc = c("project")
 				.find(new Document("status",
 						new Document("$nin",
@@ -367,7 +367,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 				cal.setTime(settlementDate);
 			}
 		}
-		return cal;
+		return cal.getTime();
 	}
 
 }
