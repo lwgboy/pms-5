@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
@@ -179,6 +181,24 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		} else {
 			c("cbsSubject").updateOne(filter,
 					new Document("$set", new Document("budget", Optional.ofNullable(o.getBudget()).orElse(0d))));
+		}
+
+		return get(_id, CBSSubject.class);
+	}
+
+	@Override
+	public CBSSubject upsertCBSSubjectCost(CBSSubject o) {
+		Document filter = new Document("cbsItem_id", o.getCbsItem_id()).append("id", o.getId()).append("subjectNumber",
+				o.getSubjectNumber());
+		ObjectId _id = Optional.ofNullable(c("cbsSubject").find(filter).first()).map(d -> d.getObjectId("_id"))
+				.orElse(null);
+		if (_id == null) {
+			_id = new ObjectId();
+			c("cbsSubject")
+					.insertOne(filter.append("_id", _id).append("cost", Optional.ofNullable(o.getCost()).orElse(0d)));
+		} else {
+			c("cbsSubject").updateOne(filter,
+					new Document("$set", new Document("cost", Optional.ofNullable(o.getCost()).orElse(0d))));
 		}
 
 		return get(_id, CBSSubject.class);
@@ -359,8 +379,42 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public Date getSettlementDate(ObjectId scope_id) {
-		c("work").find(new Document("_id",scope_id)).projection(new Document("project_id",1)).first();
-		return null;
+		Document workDoc = c("work").find(new Document("_id", scope_id)).projection(new Document("project_id", 1))
+				.first();
+		if (workDoc != null) {
+			scope_id = workDoc.getObjectId("project_id");
+		}
+		Document doc = c("project").find(new Document("_id", scope_id)).projection(new Document("settlementDate", 1))
+				.first();
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.add(java.util.Calendar.MONTH, -1);
+		if (doc != null) {
+			Date settlementDate = doc.getDate("settlementDate");
+			if (settlementDate != null) {
+				cal.setTime(settlementDate);
+			}
+		}
+		return cal.getTime();
+	}
+
+	@Override
+	public List<Result> submitCBSSubjectCost(ObjectId scope_id, String id) {
+		List<Result> result = submitCBSSubjectCostCheck(scope_id, id);
+		if (!result.isEmpty()) {
+			return result;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.parseInt(id.substring(0, 4)));
+		cal.set(Calendar.MONTH, Integer.parseInt(id.substring(4, 6)));
+		// 修改项目结算时间
+		c(Project.class).updateOne(new BasicDBObject("_id", scope_id),
+				new BasicDBObject("$set", new BasicDBObject("settlementDate", cal.getTime())));
+
+		return result;
+	}
+
+	private List<Result> submitCBSSubjectCostCheck(ObjectId scope_id, String id) {
+		return new ArrayList<Result>();
 	}
 
 }

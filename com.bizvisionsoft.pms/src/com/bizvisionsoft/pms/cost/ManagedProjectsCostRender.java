@@ -17,7 +17,6 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
@@ -35,12 +34,14 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 
 	@Init
 	private void init() {
+		// TODO 展开区间与当前时间的判断
+		
 		Date date = null;
 		Object input = context.getInput();
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
-				date = Services.get(CBSService.class).getSettlementDate(cbsItem.getScope_id());
+				date =cbsItem.getSettlementDate();
 			}
 		}
 		if (result == null) {

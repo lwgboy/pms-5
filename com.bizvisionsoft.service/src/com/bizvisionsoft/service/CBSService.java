@@ -90,10 +90,16 @@ public interface CBSService {
 	public ObjectId updateCBSPeriodBudget(CBSPeriod o);
 
 	@PUT
-	@Path("/subject/")
+	@Path("/subject/budget/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public CBSSubject upsertCBSSubjectBudget(CBSSubject o);
+
+	@PUT
+	@Path("/subject/cost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CBSSubject upsertCBSSubjectCost(CBSSubject o);
 
 	@PUT
 	@Path("/_id/{_id}/allocate/{scope_id}/{scopename}")
@@ -134,9 +140,15 @@ public interface CBSService {
 	public long countProjectCost(BasicDBObject filter);
 
 	@GET
-	@Path("settlementdate/{scope_id}")
+	@Path("/settlementdate/{scope_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Date getSettlementDate(@PathParam("scope_id") ObjectId scope_id);
+
+	@PUT
+	@Path("/submitcost/{scope_id}/{id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> submitCBSSubjectCost(@PathParam("scope_id")ObjectId scope_id,@PathParam("id") String id);
 
 }

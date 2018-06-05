@@ -32262,7 +32262,22 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "163cf6517ba",
+            "name": "提交期间成本",
+            "text": "提交期间成本",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.cost.SubmitCBSSubjectCost",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "163c9dcf614",
@@ -33098,6 +33113,63 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163cf25e6cf",
+        "name": "期间成本编辑器",
+        "title": "期间成本",
+        "layout": [],
+        "type": "editor",
+        "folderId": "163c8e527aa",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "fields": [
+          {
+            "id": "162c46185f6",
+            "name": "cost",
+            "text": "金额",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textMessage": "人民币 万元",
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 25,
+            "textRestrict": "浮点",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": true,
         "addToParentContext": false
       }
     ]

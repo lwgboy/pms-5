@@ -36,9 +36,9 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		this.id = accountItem.getId();
 		this.name = accountItem.getName();
 
-		accountItem.listSubAccountItems().forEach(a -> {
+		for (AccountItem a : accountItem.listSubAccountItems()) {
 			children.add(new CBSSubjectCost().setCBSItem(cbsItem).setParent(this).setAccountItem(a));
-		});
+		}
 
 		return this;
 	}
@@ -135,7 +135,44 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 
 	@Behavior("项目成本管理/编辑成本")
 	private boolean behaviourEdit() {
+		//TODO 判断编辑期间与当前期间相同无法提交
+		
 		return children.size() == 0;
+	}
+
+	public CBSSubject getCBSSubjects(String id) {
+		for (CBSSubject s : listCBSSubjects()) {
+			if (id.equals(s.getId())) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	public CBSItem getCbsItem() {
+		return cbsItem;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void updateCBSSubjects(CBSSubject cbsSubject) {
+		if (parent != null) {
+			parent.updateCBSSubjects(cbsSubject);
+		}
+		cbsItem.updateCBSSubjects(cbsSubject);
+		boolean update = false;
+		for (CBSSubject cbss : listCBSSubjects()) {
+			if (cbsSubject.getId().equals(cbss.getId()) && cbsSubject.getCbsItem_id().equals(cbss.getCbsItem_id())
+					&& cbsSubject.getSubjectNumber().equals(cbss.getSubjectNumber())) {
+				update = true;
+				cbss.setCost(cbss.getCost());
+			}
+		}
+		if (!update) {
+			cbsSubjects.add(cbsSubject);
+		}
 	}
 
 }

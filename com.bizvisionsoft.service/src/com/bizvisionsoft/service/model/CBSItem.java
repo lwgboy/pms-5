@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -152,6 +153,7 @@ public class CBSItem {
 
 	@Structure({ "项目成本管理/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
+		children.forEach(c -> c.parent = this);
 		List<Object> result = new ArrayList<Object>(children);
 
 		if (result.size() == 0) {
@@ -279,6 +281,9 @@ public class CBSItem {
 	@Exclude
 	private List<CBSSubject> cbsSubjects;
 
+	@Exclude
+	private Date settlementDate;
+
 	public Double getCostSummary() {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
@@ -397,6 +402,30 @@ public class CBSItem {
 
 	public void setParent(CBSItem parent) {
 		this.parent = parent;
+	}
+
+	public Date getSettlementDate() {
+		if (settlementDate == null) {
+			settlementDate = ServicesLoader.get(CBSService.class).getSettlementDate(scope_id);
+		}
+		return settlementDate;
+	}
+
+	public void updateCBSSubjects(CBSSubject cbsSubject) {
+		if (parent != null) {
+			parent.updateCBSSubjects(cbsSubject);
+		}
+		boolean update = false;
+		for (CBSSubject cbss : listCBSSubjects()) {
+			if (cbsSubject.getId().equals(cbss.getId()) && cbsSubject.getCbsItem_id().equals(cbss.getCbsItem_id())
+					&& cbsSubject.getSubjectNumber().equals(cbss.getSubjectNumber())) {
+				update = true;
+				cbss.setCost(cbsSubject.getCost());
+			}
+		}
+		if (!update && cbsSubjects.size() > 0) {
+			cbsSubjects.add(cbsSubject);
+		}
 	}
 
 }
