@@ -17,6 +17,8 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.ResourceAssignment;
+import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.mongodb.BasicDBObject;
@@ -184,5 +186,42 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countWBSChildren(@PathParam("parent_id") ObjectId parent_id);
+	
+	@POST
+	@Path("/resourceplan/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ResourcePlanInTemplate> addResourcePlan(List<ResourceAssignment> resas);
+
+	@PUT
+	@Path("/resourceplan/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateResourcePlan(BasicDBObject filterAndUpdate);
+
+	@DELETE
+	@Path("/_id/{_id}/resourceplan/hr/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteHumanResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String hrResId);
+
+	@DELETE
+	@Path("/_id/{_id}/resourceplan/eq/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteEquipmentResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String eqResId);
+	
+	@DELETE
+	@Path("/_id/{_id}/resourceplan/ty/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteTypedResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
+
+	
+	@POST
+	@Path("/_id/{_id}/resourceplan/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ResourcePlanInTemplate> listResourcePlan(@PathParam("_id") ObjectId _id);
 
 }

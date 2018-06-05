@@ -1,0 +1,138 @@
+package com.bizvisionsoft.pms.projecttemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Composite;
+
+import com.bizivisionsoft.widgets.gantt.GanttEvent;
+import com.bizivisionsoft.widgets.gantt.GanttEventCode;
+import com.bizvisionsoft.annotations.ui.common.CreateUI;
+import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruiengine.assembly.GanttPart;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
+import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
+import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.ui.ActionMenu;
+import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Selector;
+import com.bizvisionsoft.service.ProjectTemplateService;
+import com.bizvisionsoft.service.model.ResourceAssignment;
+import com.bizvisionsoft.service.model.WorkInTemplate;
+import com.bizvisionsoft.serviceconsumer.Services;
+
+public class ResourceReqASM {
+
+	@Inject
+	private IBruiService brui;
+
+	@Inject
+	private BruiAssemblyContext context;
+
+	private GanttPart gantt;
+
+	private GridPart grid;
+
+	private WorkInTemplate work;
+
+	@CreateUI
+	public void createUI(Composite parent) {
+		parent.setLayout(new FormLayout());
+
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源计划")
+				.setActions(context.getAssembly().getActions());
+		FormData fd = new FormData();
+		bar.setLayoutData(fd);
+		fd.left = new FormAttachment(0);
+		fd.top = new FormAttachment(0);
+		fd.right = new FormAttachment(100);
+		fd.height = 48;
+
+		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
+		fd = new FormData();
+		content.setLayoutData(fd);
+		fd.left = new FormAttachment(0, 12);
+		fd.top = new FormAttachment(bar, 12);
+		fd.right = new FormAttachment(100, -12);
+		fd.bottom = new FormAttachment(100, -12);
+		content.setLayout(new FillLayout(SWT.VERTICAL));
+
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板甘特图"))
+				.setServices(brui).create().getContext().getContent();
+		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板资源分配表"))
+				.setServices(brui).create().getContext().getContent();
+		// 侦听gantt的selection
+		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((WorkInTemplate) ((GanttEvent) l).task));
+
+		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
+			WorkInTemplate work = (WorkInTemplate) ((GanttEvent) l).task;
+			if (work != null && !work.isSummary()) {
+				allocateResource();
+			}
+		});
+
+	}
+
+
+	private void allocateResource() {
+		// 显示资源选择框
+		Action hrRes = new Action();
+		hrRes.setName("hr");
+		hrRes.setText("人力资源");
+		hrRes.setImage("/img/team_w.svg");
+		hrRes.setStyle("normal");
+
+		Action eqRes = new Action();
+		eqRes.setName("eq");
+		eqRes.setText("设备资源");
+		eqRes.setImage("/img/equipment_w.svg");
+		eqRes.setStyle("normal");
+
+		Action typedRes = new Action();
+		typedRes.setName("tr");
+		typedRes.setText("资源类型");
+		typedRes.setImage("/img/resource_w.svg");
+		typedRes.setStyle("info");
+
+		// 弹出menu
+		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+			addResource("人力资源选择器");
+			return false;
+		}).handleActionExecute("eq", a -> {
+			addResource("设备设施选择器");
+			return false;
+		}).handleActionExecute("tr", a -> {
+			addResource("资源类型选择器");
+			return false;
+		}).open();
+	}
+
+	private void addResource(String selectorId) {
+		Selector.open(selectorId, context, null, l -> {
+			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
+			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
+			Services.get(ProjectTemplateService.class).addResourcePlan(resa);
+
+			grid.setViewerInput(Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id()));
+		});
+	}
+
+	private void select(WorkInTemplate work) {
+		if (this.work != null && this.work.get_id().equals(work.get_id())) {
+			return;
+		}
+		this.work = work;
+		// 查询
+		grid.setViewerInput(Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id()));
+	}
+
+}

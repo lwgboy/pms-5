@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
@@ -43,10 +45,10 @@ public class BasicServiceImpl {
 		long cnt = updateMany.getModifiedCount();
 		return cnt;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected <T> T insert(T obj) {
-		c((Class<T>)obj.getClass()).insertOne(obj);
+		c((Class<T>) obj.getClass()).insertOne(obj);
 		return obj;
 	}
 
@@ -116,13 +118,13 @@ public class BasicServiceImpl {
 		c(clazz).aggregate(pipeline).into(result);
 		return result;
 	}
-	
-	protected void appendLookupAndUnwind(List<Bson> pipeline, String from ,String field, String newField) {
+
+	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField) {
 		pipeline.add(new Document("$lookup", new Document("from", from).append("localField", field)
 				.append("foreignField", "_id").append("as", newField)));
-		
-		pipeline.add(
-				new Document("$unwind", new Document("path", "$"+newField).append("preserveNullAndEmptyArrays", true)));
+
+		pipeline.add(new Document("$unwind",
+				new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", true)));
 	}
 
 	protected void appendOrgFullName(List<Bson> pipeline, String inputField, String outputField) {
@@ -227,11 +229,100 @@ public class BasicServiceImpl {
 		}
 		return null;
 	}
-	
+
 	protected int generateCode(String name, String key) {
 		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("value");
+	}
+
+	public double getWorkingHoursPerDay(ObjectId resTypeId) {
+		// List<? extends Bson> pipeline = Arrays.asList(
+		// new Document("$lookup",
+		// new Document("from", "resourceType").append("localField", "_id")
+		// .append("foreignField", "cal_id").append("as", "resourceType")),
+		// new Document("$unwind", "$resourceType"),
+		// new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
+		// new Document("$project", new Document("resourceType", false)),
+		// new Document("$match", new Document("resTypeId", resTypeId)),
+		// new Document("$project", new Document("works", true)));
+
+		List<? extends Bson> pipeline = new JQ("获得资源类别每天工作小时数").set("resTypeId", resTypeId).buildArray();
+		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("works"))
+				.map(w -> w.doubleValue()).orElse(0d);
+	}
+
+	public boolean checkDayIsWorkingDay(Calendar cal, ObjectId resTypeId) {
+
+		// List<? extends Bson> pipeline = Arrays
+		// .asList(new Document("$lookup",
+		// new Document("from", "resourceType").append("localField", "_id")
+		// .append("foreignField", "cal_id").append("as", "resourceType")),
+		// new Document("$unwind", "$resourceType"),
+		// new Document("$addFields", new Document("resTypeId", "$resourceType._id")),
+		// new Document("$project", new Document("resourceType", false)),
+		// new Document("$match", new Document("resTypeId", resId)), new
+		// Document("$unwind", "$workTime"),
+		// new Document("$addFields", new Document("date", "$workTime.date")
+		// .append("workingDay", "$workTime.workingDay").append("day",
+		// "$workTime.day")),
+		// new Document("$project", new Document("workTime",
+		// false)),
+		// new Document()
+		// .append("$unwind", new Document("path",
+		// "$day").append("preserveNullAndEmptyArrays",
+		// true)),
+		// new Document("$addFields", new Document().append("workdate",
+		// new Document("$cond",
+		// Arrays.asList(new Document("$eq", Arrays.asList("$date", cal.getTime())),
+		// true,
+		// false)))
+		// .append("workday", new Document("$eq", Arrays.asList("$day",
+		// getDateWeek(cal))))),
+		// new Document("$project",
+		// new Document("workdate", true).append("workday", true).append("workingDay",
+		// true)),
+		// new Document("$match",
+		// new Document("$or",
+		// Arrays.asList(new Document("workdate", true), new Document("workday",
+		// true)))),
+		// new Document("$sort", new Document("workdate", -1).append("workingDay",
+		// -1)));
+
+		List<? extends Bson> pipeline = new JQ("检验某资源类别某天是否工作日").set("resTypeId", resTypeId)
+				.set("week", getDateWeek(cal)).set("date", cal.getTime()).buildArray();
+
+		Document doc = c("calendar").aggregate(pipeline).first();
+		if (doc != null) {
+			Boolean workdate = doc.getBoolean("workdate");
+			Boolean workday = doc.getBoolean("workday");
+			Boolean workingDay = doc.getBoolean("workingDay");
+			if (workdate) {
+				return workingDay;
+			} else {
+				return workday;
+			}
+		}
+		return false;
+	}
+
+	public String getDateWeek(Calendar cal) {
+		switch (cal.get(Calendar.DAY_OF_WEEK)) {
+		case 1:
+			return "周日";
+		case 2:
+			return "周一";
+		case 3:
+			return "周二";
+		case 4:
+			return "周三";
+		case 5:
+			return "周四";
+		case 6:
+			return "周五";
+		default:
+			return "周六";
+		}
 	}
 
 }
