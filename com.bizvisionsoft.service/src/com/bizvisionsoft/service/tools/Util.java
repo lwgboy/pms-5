@@ -66,7 +66,7 @@ public class Util {
 
 	public static String getText(InputStream is) throws IOException {
 		StringBuffer buffer = new StringBuffer();
-		InputStreamReader isr = new InputStreamReader(is, "GBK"); //$NON-NLS-1$
+		InputStreamReader isr = new InputStreamReader(is, "utf-8"); //$NON-NLS-1$
 		Reader in = new BufferedReader(isr);
 		int i;
 		while ((i = in.read()) > -1) {

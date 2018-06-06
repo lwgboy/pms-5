@@ -40,13 +40,13 @@ public class JQ {
 		return this;
 	}
 
-	public List<? extends Bson> buildArray() {
+	public List<? extends Bson> array() {
 		String js = readJS(queryName);
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters(ba);
 	}
 
-	public Document buildDocument() {
+	public Document doc() {
 		String js = readJS(queryName);
 		BsonDocument doc = BsonDocument.parse(js);
 		return inputDocumentParameters(doc);
