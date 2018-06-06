@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -101,17 +99,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 												.append("planWorks", new Document("$sum", "$planWorks")))))
 						.append("as", "workTime")),
 				new Document("$unwind", new Document("path", "$workTime").append("preserveNullAndEmptyArrays", true)),
-				new Document().append("$addFields", new Document("summaryActualWorks", "$workTime.actualWorks")
-						.append("summaryPlanWorks", "$workTime.planWorks")),
+				new Document()
+						.append("$addFields",
+								new Document("summaryActualWorks", "$workTime.actualWorks").append("summaryPlanWorks",
+										"$workTime.planWorks")),
 				new Document("$project", new Document("workTime", false))));
 
-	}
-
-	public static void main(String[] args) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.lookup("aaa", "bbb", "ccc", "ddd"));
-		System.out.println(
-				new Document("q", pipeline).toBsonDocument(BsonDocument.class, CodexProvider.getRegistry()).toJson());
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
