@@ -1261,27 +1261,29 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public double getPlanWorks(String wbscode) {
+	public double getPlanWorks(String wbscode, ObjectId project_id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)
+				.append("project_id", project_id)));
 		pipeline.add(new Document("$group",
 				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
 		Document doc = c("work").aggregate(pipeline).first();
 		if (doc != null) {
-			return Optional.ofNullable(((Number)doc.get("planWorks")).doubleValue()).orElse(0d);
+			return Optional.ofNullable(((Number) doc.get("planWorks")).doubleValue()).orElse(0d);
 		}
 		return 0;
 	}
 
 	@Override
-	public double getActualWorks(String wbscode) {
+	public double getActualWorks(String wbscode, ObjectId project_id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)));
+		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)
+				.append("project_id", project_id)));
 		pipeline.add(new Document("$group",
 				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
 		Document doc = c("work").aggregate(pipeline).first();
 		if (doc != null) {
-			return Optional.ofNullable(((Number)doc.get("actualWorks")).doubleValue()).orElse(0d);
+			return Optional.ofNullable(((Number) doc.get("actualWorks")).doubleValue()).orElse(0d);
 		}
 		return 0;
 	}

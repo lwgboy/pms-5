@@ -24,6 +24,17 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 
 	@ReadValue
 	private String name;
+	
+
+	@ReadValue("scopeId")
+	public String getId() {
+		return id;
+	}
+
+	@ReadValue("scopename")
+	private String getName() {
+		return name;
+	}
 
 	private CBSSubjectCost parent;
 
@@ -69,6 +80,72 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 	@Exclude
 	private List<CBSSubject> cbsSubjects;
 
+	public List<CBSSubject> listCBSSubjects() {
+		if (cbsSubjects == null) {
+			cbsSubjects = ServicesLoader.get(CBSService.class).getAllSubCBSSubjectByNumber(cbsItem.get_id(), id);
+		}
+		return cbsSubjects;
+	}
+
+	public Double getBudgetSummary() {
+		Double summary = 0d;
+		if (children.size() > 0) {
+			Iterator<CBSSubjectCost> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getBudgetSummary();
+			}
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			}
+		}
+		return summary;
+	}
+
+	public Double getBudget(String period) {
+		Double summary = 0d;
+		if (children.size() > 0) {
+			Iterator<CBSSubjectCost> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getBudget(period);
+			}
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (period.equals(cbsSubject.getId())) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			}
+		}
+		return summary;
+	}
+
+	public Double getBudget(String startPeriod, String endPeriod) {
+		Double summary = 0d;
+		if (children.size() > 0) {
+			Iterator<CBSSubjectCost> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getBudget(startPeriod, endPeriod);
+			}
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			}
+		}
+		return summary;
+	}
+
 	public Double getCostSummary() {
 		Double summary = 0d;
 		if (children.size() > 0) {
@@ -85,13 +162,6 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 			}
 		}
 		return summary;
-	}
-
-	public List<CBSSubject> listCBSSubjects() {
-		if (cbsSubjects == null) {
-			cbsSubjects = ServicesLoader.get(CBSService.class).getCBSSubjectByNumber(cbsItem.get_id(), id);
-		}
-		return cbsSubjects;
 	}
 
 	public Double getCost(String period) {
@@ -135,6 +205,54 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
+	public Double getCARSummary() {
+		Double budgetSummary = getBudgetSummary();
+		if (budgetSummary != 0d) {
+			return 1d * getCostSummary() / budgetSummary;
+		}
+		return null;
+	}
+
+	public Double getCAR(String period) {
+		Double budget = getBudget(period);
+		if (budget != 0d) {
+			return 1d * getCost(period) / budget;
+		}
+		return null;
+	}
+
+	public Double getCAR(String startPeriod, String endPeriod) {
+		Double budget = getBudget(startPeriod, endPeriod);
+		if (budget != 0d) {
+			return 1d * getCost(startPeriod, endPeriod) / budget;
+		}
+		return null;
+	}
+
+	public Double getBudgetVarianceSummary() {
+		Double budgetSummary = getBudgetSummary();
+		if (budgetSummary != 0d) {
+			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
+		}
+		return null;
+	}
+
+	public Double getBudgetVariance(String period) {
+		Double budget = getBudget(period);
+		if (budget != 0d) {
+			return 1d * (getCost(period) - budget) / budget;
+		}
+		return null;
+	}
+
+	public Double getBudgetVariance(String startPeriod, String endPeriod) {
+		Double budget = getBudget(startPeriod, endPeriod);
+		if (budget != 0d) {
+			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
+		}
+		return null;
+	}
+
 	@Behavior("项目成本管理/编辑成本")
 	private boolean behaviourEdit() {
 		Calendar cal = Calendar.getInstance();
@@ -159,10 +277,6 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 
 	public CBSItem getCbsItem() {
 		return cbsItem;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public void updateCBSSubjects(CBSSubject cbsSubject) {

@@ -29,30 +29,35 @@ public class ManagedProjectsCostDS {
 	@Init
 	private void init() {
 		Object input = context.getInput();
+		// 从成本管理打开项目成本管理时，传入contextInput为CBSItem
 		if (input instanceof CBSItem) {
-			scope_id = ((CBSItem) input).get_id();
-			
+			scope_id = ((CBSItem) input).getScope_id();
+
 		} else {
-			if(input == null) {
+			// 项目、阶段打开项目成本管理时需从contextRootInput获取传入的参数
+			if (input == null) {
 				input = context.getRootInput();
 			}
-			ICBSScope cbsScope = (ICBSScope) input;
-			scope_id = cbsScope.getScope_id();
+			if (input != null) {
+				ICBSScope cbsScope = (ICBSScope) input;
+				scope_id = cbsScope.getScope_id();
+			}
 		}
 	}
 
-	@DataSet("成本管理/" + DataSet.LIST)
+	@DataSet({ "成本管理/" + DataSet.LIST, "预算成本对比分析/" + DataSet.LIST })
 	private List<CBSItem> listProject(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
 		return Services.get(CBSService.class).listProjectCost(condition);
 	}
 
-	@DataSet("成本管理/" + DataSet.COUNT)
+	@DataSet({ "成本管理/" + DataSet.COUNT, "预算成本对比分析/" + DataSet.COUNT })
 	private long countProject(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
 		return Services.get(CBSService.class).countProjectCost(filter);
 	}
 
-	@DataSet("项目成本管理/" + DataSet.LIST)
+	@DataSet({ "项目成本管理/" + DataSet.LIST, "项目预算成本对比分析/" + DataSet.LIST })
 	private List<CBSItem> listCBSItemCost() {
 		return Services.get(CBSService.class).getScopeRoot(scope_id);
 	}
+
 }
