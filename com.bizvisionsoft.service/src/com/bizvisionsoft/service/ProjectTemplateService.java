@@ -89,7 +89,7 @@ public interface ProjectTemplateService {
 	@Path("/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板WBS/" + DataSet.UPDATE)
+	@DataSet({ "项目模板WBS/" + DataSet.UPDATE, "项目模板WBS（分配角色）/" + DataSet.UPDATE })
 	public long updateWork(BasicDBObject bson);
 
 	@DELETE
@@ -173,7 +173,7 @@ public interface ProjectTemplateService {
 	@Path("/_id/{_id}/wbs/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板WBS/" + DataSet.LIST)
+	@DataSet({ "项目模板WBS/" + DataSet.LIST, "项目模板WBS（分配角色）/" + DataSet.LIST })
 	public List<WorkInTemplate> listWBSRoot(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
@@ -181,7 +181,7 @@ public interface ProjectTemplateService {
 	@Path("/_id/{_id}/wbs/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板WBS/" + DataSet.COUNT)
+	@DataSet({ "项目模板WBS/" + DataSet.COUNT, "项目模板WBS（分配角色）/" + DataSet.COUNT })
 	public long countWBSRoot(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 

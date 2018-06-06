@@ -76,19 +76,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return iterable;
 	}
 
-	private void appendProject(List<Bson> pipeline) {
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
-		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
-	}
-
-	private void appendWork(List<Bson> pipeline) {
-		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
-		pipeline.add(Aggregates.unwind("$work"));
-	}
-
 	private void appendOverdue(List<Bson> pipeline) {
 		int warningDay = (int) getSystemSetting(WARNING_DAY);
 		warningDay = warningDay * 24 * 60 * 60 * 1000;
@@ -349,13 +336,24 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition) {
+		return listWorkPackage(condition, "work");
+	}
+
+	@Override
+	public List<WorkPackage> listWorkInTemplatePackage(BasicDBObject condition) {
+		return listWorkPackage(condition, "workInTemplate");
+	}
+
+	private List<WorkPackage> listWorkPackage(BasicDBObject condition, String master) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 
-		appendWork(pipeline);
+		pipeline.add(Aggregates.lookup(master, "work_id", "_id", "work"));
+		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("deadline", new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 }))));
+		pipeline.add(Aggregates.project(new BasicDBObject("work", false)));
 
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort != null)
@@ -372,9 +370,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendProgress(pipeline);
-
-		AggregateIterable<WorkPackage> iterable = c(WorkPackage.class).aggregate(pipeline);
-		return iterable.into(new ArrayList<WorkPackage>());
+		
+		ArrayList<WorkPackage> result = c(WorkPackage.class).aggregate(pipeline).into(new ArrayList<WorkPackage>());
+		return result;
 	}
 
 	private void appendProgress(List<Bson> pipeline) {
@@ -1268,7 +1266,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
 		Document doc = c("work").aggregate(pipeline).first();
 		if (doc != null) {
-			return Optional.ofNullable(((Number)doc.get("planWorks")).doubleValue()).orElse(0d);
+			return Optional.ofNullable(((Number) doc.get("planWorks")).doubleValue()).orElse(0d);
 		}
 		return 0;
 	}
@@ -1281,7 +1279,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
 		Document doc = c("work").aggregate(pipeline).first();
 		if (doc != null) {
-			return Optional.ofNullable(((Number)doc.get("actualWorks")).doubleValue()).orElse(0d);
+			return Optional.ofNullable(((Number) doc.get("actualWorks")).doubleValue()).orElse(0d);
 		}
 		return 0;
 	}

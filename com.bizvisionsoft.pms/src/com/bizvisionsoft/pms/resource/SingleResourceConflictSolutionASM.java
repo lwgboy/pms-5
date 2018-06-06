@@ -58,11 +58,7 @@ public class SingleResourceConflictSolutionASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		Action closeAction = null;
-		closeAction = new Action();
-		closeAction.setName("close");
-		closeAction.setImage("/img/close.svg");
-		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null)
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null)
 				.setActions(context.getAssembly().getActions());
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);

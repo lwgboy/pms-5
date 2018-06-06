@@ -11,8 +11,8 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -25,14 +25,14 @@ public class WorkPackageDataset {
 	@Inject
 	private IBruiService brui;
 
-	private Work work;
+	private IWorkPackageMaster master;
 
 	private TrackView view;
 
 	@Init
 	private void init() {
 		Object[] input = (Object[]) context.getParentContext().getInput();
-		work = (Work) input[0];
+		master = (IWorkPackageMaster) input[0];
 		view = (TrackView) input[1];
 	}
 
@@ -52,18 +52,22 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.LIST)
-	private List<WorkPackage> listBasic(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	private List<WorkPackage> list(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		appendFilter(filter);
-		return Services.get(WorkService.class).listWorkPackage(condition);
+		if(master.isTemplate()) {
+			return Services.get(WorkService.class).listWorkInTemplatePackage(condition);
+		}else {
+			return Services.get(WorkService.class).listWorkPackage(condition);
+		}
 	}
 
 	private void appendFilter(BasicDBObject filter) {
-		filter.append("work_id", work.get_id());
+		filter.append("work_id", master.get_id());
 		if(view!=null) {
 			filter.append("catagory", view.getCatagory()).append("name", view.getName());
 		}else {
@@ -72,7 +76,7 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.COUNT)
-	private long countBasic(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}

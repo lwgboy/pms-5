@@ -17,7 +17,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 
 public class WorkPackagePlan {
@@ -28,7 +27,7 @@ public class WorkPackagePlan {
 	@Inject
 	private BruiAssemblyContext context;
 
-	private Work work;
+	private Object work;
 
 	private TrackView view;
 
@@ -37,7 +36,7 @@ public class WorkPackagePlan {
 	@CreateUI
 	public void createUI(Composite parent) {
 		Object[] input = (Object[]) context.getInput();
-		work = (Work) input[0];
+		work = input[0];
 		view = (TrackView) input[1];
 
 		parent.setLayout(new FormLayout());

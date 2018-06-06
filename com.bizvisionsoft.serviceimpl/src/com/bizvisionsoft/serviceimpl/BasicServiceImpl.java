@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -176,6 +177,19 @@ public class BasicServiceImpl {
 						new BasicDBObject("$arrayElemAt", new Object[] { "$" + tempField + ".headPics", 0 }))));
 
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
+	}
+	
+	protected void appendWork(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
+		pipeline.add(Aggregates.unwind("$work"));
+	}
+	
+	protected void appendProject(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
 	protected void appendSortBy(List<Bson> pipeline, String fieldName, int i) {
