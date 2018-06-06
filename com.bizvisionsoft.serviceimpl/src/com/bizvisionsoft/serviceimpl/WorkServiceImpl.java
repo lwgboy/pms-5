@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -59,6 +58,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendOverdue(pipeline);
 
+		appendWorkTime(pipeline);
+
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
@@ -78,10 +79,39 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}
+
+	private void appendWorkTime(List<Bson> pipeline) {
+		pipeline.addAll(Arrays.asList(
+				new Document("$lookup", new Document("from", "work")
+						.append("let",
+								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
+						.append("pipeline", Arrays.asList(
+								new Document("$match", new Document("$expr", new Document("$and",
+										Arrays.asList(new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
+												new Document("$eq", Arrays.asList(
+														new Document("$indexOfBytes",
+																Arrays.asList("$wbsCode",
+																		new Document("$concat",
+																				Arrays.asList("$$wbsCode", ".")))),
+														0.0)),
+												new Document("$eq", Arrays.asList("$summary", false)))))),
+								new Document("$group",
+										new Document("_id", null)
+												.append("actualWorks", new Document("$sum", "$actualWorks"))
+												.append("planWorks", new Document("$sum", "$planWorks")))))
+						.append("as", "workTime")),
+				new Document("$unwind", new Document("path", "$workTime").append("preserveNullAndEmptyArrays", true)),
+				new Document().append("$addFields", new Document("summaryActualWorks", "$workTime.actualWorks")
+						.append("summaryPlanWorks", "$workTime.planWorks")),
+				new Document("$project", new Document("workTime", false))));
+
+	}
+
 	public static void main(String[] args) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.lookup("aaa", "bbb", "ccc", "ddd"));
-		System.out.println(new Document("q",pipeline).toBsonDocument(BsonDocument.class, CodexProvider.getRegistry()).toJson());
+		System.out.println(
+				new Document("q", pipeline).toBsonDocument(BsonDocument.class, CodexProvider.getRegistry()).toJson());
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
@@ -992,33 +1022,5 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$project", new Document("project", false).append("work", false)));
 		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
 				.into(new ArrayList<WorkResourcePlanDetail>());
-	}
-
-	@Override
-	public double getPlanWorks(String wbscode, ObjectId project_id) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)
-				.append("project_id", project_id)));
-		pipeline.add(new Document("$group",
-				new Document("_id", null).append("planWorks", new Document("$sum", "$planWorks"))));
-		Document doc = c("work").aggregate(pipeline).first();
-		if (doc != null) {
-			return Optional.ofNullable(((Number) doc.get("planWorks")).doubleValue()).orElse(0d);
-		}
-		return 0;
-	}
-
-	@Override
-	public double getActualWorks(String wbscode, ObjectId project_id) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("wbsCode", Pattern.compile("1\\.")).append("summary", false)
-				.append("project_id", project_id)));
-		pipeline.add(new Document("$group",
-				new Document("_id", null).append("actualWorks", new Document("$sum", "$actualWorks"))));
-		Document doc = c("work").aggregate(pipeline).first();
-		if (doc != null) {
-			return Optional.ofNullable(((Number) doc.get("actualWorks")).doubleValue()).orElse(0d);
-		}
-		return 0;
 	}
 }

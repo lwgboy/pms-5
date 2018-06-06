@@ -204,9 +204,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	/**
 	 * 计划工时
 	 */
+	@SetValue
+	private double summaryPlanWorks;
+
 	@ReadValue("planWorks")
 	private double getPlanWorks() {
-		return ServicesLoader.get(ProjectService.class).getPlanWorks(_id);
+		return summaryPlanWorks;
 	}
 
 	/**
@@ -236,9 +239,13 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	/**
 	 * 计划工时 //TODO 计划工时的计算
 	 */
+
+	@SetValue
+	private double summaryActualWorks;
+	
 	@ReadValue("actualWorks")
 	private double getActualWorks() {
-		return ServicesLoader.get(ProjectService.class).getActualWorks(_id);
+		return summaryActualWorks;
 	}
 
 	/**
