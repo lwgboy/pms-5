@@ -10,10 +10,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -75,6 +77,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
+	}
+	public static void main(String[] args) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.lookup("aaa", "bbb", "ccc", "ddd"));
+		System.out.println(new Document("q",pipeline).toBsonDocument(BsonDocument.class, CodexProvider.getRegistry()).toJson());
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
