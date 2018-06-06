@@ -9,8 +9,10 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -19,10 +21,10 @@ import com.bizvisionsoft.service.tools.Util;
 @PersistenceCollection("workPackage")
 public class WorkPackage {
 
-	public static WorkPackage newInstance(Work work, TrackView tv) {
+	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv) {
 		WorkPackage wp = new WorkPackage();
 		wp.work_id = work.get_id();
-		wp.work = work;
+		wp.deadline = work.getPlanFinish();
 		if (tv != null) {
 			wp.catagory = tv.getCatagory();
 			wp.name = tv.getName();
@@ -33,6 +35,11 @@ public class WorkPackage {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
+
+	@Behavior("查看工作包进度")
+	public boolean behaviourOpenProgress(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
+		return !(root instanceof ProjectTemplate);
+	}
 
 	public ObjectId get_id() {
 		return _id;
@@ -71,12 +78,12 @@ public class WorkPackage {
 		if (matId != null) {
 			text += "[" + matId + "]";
 		}
-		
-		if(description != null) {
+
+		if (description != null) {
 			text += description;
 		}
-		
-		if(id != null) {
+
+		if (id != null) {
 			text += "[" + id + "]";
 		}
 
@@ -102,16 +109,12 @@ public class WorkPackage {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 
-	@SetValue
-	private Work work;
-
 	@Persistence
 	private ObjectId work_id;
 
-	@ReadValue("deadline")
-	private Date getDeadline() {
-		return work.getPlanFinish();
-	}
+	@ReadValue
+	@SetValue
+	private Date deadline;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 采购使用的字段，不排除其他视图使用

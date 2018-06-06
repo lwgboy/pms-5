@@ -23,7 +23,7 @@ import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("workInTemplate")
 @Strict
-public class WorkInTemplate {
+public class WorkInTemplate implements IWorkPackageMaster{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -301,7 +301,7 @@ public class WorkInTemplate {
 	@WriteValue
 	private List<String> certificates;
 
-	@ReadValue("项目模板WBS/wpsText")
+	@ReadValue({"项目模板WBS/wpsText","项目模板WBS（分配角色）/wpsText"})
 	private String getWorkPackageSettingText() {
 		if (Util.isEmptyOrNull(workPackageSetting)) {
 			return "";
@@ -312,7 +312,7 @@ public class WorkInTemplate {
 		}
 	}
 
-	@ReadValue("项目模板WBS/manageLevelHtml")
+	@ReadValue({"项目模板WBS/manageLevelHtml","项目模板WBS（分配角色）/manageLevelHtml"})
 	private String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
 			return "<span class='layui-badge level1_task'>1</span>";
@@ -325,26 +325,31 @@ public class WorkInTemplate {
 		}
 	}
 
-	@ImageURL("项目模板WBS/milestoneIcon")
+	@ImageURL({"项目模板WBS/milestoneIcon","项目模板WBS（分配角色）/milestoneIcon"})
 	private String getMilestoneIcon() {
 		if (milestone)
 			return "/img/milestone_c.svg";
 		return null;
 	}
 
-	@Structure("项目模板WBS/list")
+	@Structure({"项目模板WBS/list","项目模板WBS（分配角色）/list"})
 	private List<WorkInTemplate> listChildren() {
 		return ServicesLoader.get(ProjectTemplateService.class).listWBSChildren(_id);
 	}
 
-	@Structure("项目模板WBS/count")
+	@Structure({"项目模板WBS/count","项目模板WBS（分配角色）/count"})
 	private long countChildren() {
 		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id);
 	}
 
-	@Behavior("编辑工作包")
+	@Behavior("设定工作包类型")
 	private boolean behaviourEditWPS() {
 		return !summary && !stage;
+	}
+	
+	@Behavior("工作包")
+	private boolean behaviourOpenWorkpackagePlan() {
+		return !Util.isEmptyOrNull(workPackageSetting);
 	}
 
 	@ReadValue
@@ -357,7 +362,7 @@ public class WorkInTemplate {
 	private String chargerRoleId;
 
 	@WriteValue("chargerRole")
-	private void setChargerRole(OBSInTemplate obsItem) {
+	public void setChargerRole(OBSInTemplate obsItem) {
 		chargerRole = obsItem;
 		if (obsItem == null) {
 			chargerRoleId = null;
@@ -377,7 +382,7 @@ public class WorkInTemplate {
 	
 
 	@WriteValue("assignerRole")
-	private void setAssignerRole(OBSInTemplate obsItem) {
+	public void setAssignerRole(OBSInTemplate obsItem) {
 		assignerRole = obsItem;
 		if (obsItem == null) {
 			assignerRoleId = null;
@@ -447,6 +452,16 @@ public class WorkInTemplate {
 
 	public boolean isSummary() {
 		return summary;
+	}
+
+	@Override
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+
+	@Override
+	public boolean isTemplate() {
+		return true;
 	}
 
 }

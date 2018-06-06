@@ -152,7 +152,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public List<WorkInTemplate> listWBSRoot(ObjectId template_id) {
 		List<? extends Bson> pipeline = new JQ("获得项目模板WBS根节点").set("template_id", template_id).set("parent_id", null)
-				.buildArray();
+				.array();
 		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
 
@@ -163,7 +163,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWBSChildren(ObjectId parent_id) {
-		List<? extends Bson> pipeline = new JQ("获得项目模板WBS下级节点").set("parent_id", parent_id).buildArray();
+		List<? extends Bson> pipeline = new JQ("获得项目模板WBS下级节点").set("parent_id", parent_id).array();
 		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
 
@@ -213,7 +213,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<ResourcePlanInTemplate> listResourcePlan(ObjectId _id) {
-		return c(ResourcePlanInTemplate.class).aggregate(new JQ("查询模板工作的资源").set("work_id", _id).buildArray())
+		return c(ResourcePlanInTemplate.class).aggregate(new JQ("查询模板工作的资源").set("work_id", _id).array())
 				.into(new ArrayList<ResourcePlanInTemplate>());
 	}
 

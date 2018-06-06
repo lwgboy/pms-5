@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -177,6 +178,19 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
 	}
+	
+	protected void appendWork(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
+		pipeline.add(Aggregates.unwind("$work"));
+	}
+	
+	protected void appendProject(List<Bson> pipeline) {
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+	}
 
 	protected void appendSortBy(List<Bson> pipeline, String fieldName, int i) {
 		pipeline.add(Aggregates.sort(new BasicDBObject(fieldName, i)));
@@ -247,7 +261,7 @@ public class BasicServiceImpl {
 		// new Document("$match", new Document("resTypeId", resTypeId)),
 		// new Document("$project", new Document("works", true)));
 
-		List<? extends Bson> pipeline = new JQ("获得资源类别每天工作小时数").set("resTypeId", resTypeId).buildArray();
+		List<? extends Bson> pipeline = new JQ("获得资源类别每天工作小时数").set("resTypeId", resTypeId).array();
 		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("works"))
 				.map(w -> w.doubleValue()).orElse(0d);
 	}
@@ -290,7 +304,7 @@ public class BasicServiceImpl {
 		// -1)));
 
 		List<? extends Bson> pipeline = new JQ("检验某资源类别某天是否工作日").set("resTypeId", resTypeId)
-				.set("week", getDateWeek(cal)).set("date", cal.getTime()).buildArray();
+				.set("week", getDateWeek(cal)).set("date", cal.getTime()).array();
 
 		Document doc = c("calendar").aggregate(pipeline).first();
 		if (doc != null) {

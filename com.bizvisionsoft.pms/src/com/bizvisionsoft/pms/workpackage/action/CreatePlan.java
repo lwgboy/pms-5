@@ -11,8 +11,8 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.pms.work.assembly.WorkPackagePlan;
+import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 
 public class CreatePlan {
@@ -24,7 +24,7 @@ public class CreatePlan {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		
 		Object[] input = (Object[]) context.getInput();
-		Work work = (Work) input[0];
+		IWorkPackageMaster work = (IWorkPackageMaster) input[0];
 		TrackView tv = (TrackView) input[1];
 		
 		String editorId = Optional.ofNullable(tv).map(t -> t.getEditAssembly()).orElse("编辑工作包-基本");

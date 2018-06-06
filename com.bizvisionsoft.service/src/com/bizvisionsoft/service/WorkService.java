@@ -190,6 +190,12 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
+	
+	@POST
+	@Path("/templatepackage/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")	
+	List<WorkPackage> listWorkInTemplatePackage(BasicDBObject condition);
 
 	@POST
 	@Path("/package/count/")

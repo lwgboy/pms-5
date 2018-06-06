@@ -29,6 +29,7 @@ import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
@@ -74,19 +75,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
-	}
-
-	private void appendProject(List<Bson> pipeline) {
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
-		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
-	}
-
-	private void appendWork(List<Bson> pipeline) {
-		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
-		pipeline.add(Aggregates.unwind("$work"));
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
@@ -349,13 +337,25 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition) {
+		return listWorkPackage(condition, "work");
+	}
+
+	@Override
+	public List<WorkPackage> listWorkInTemplatePackage(BasicDBObject condition) {
+		return listWorkPackage(condition, "workInTemplate");
+	}
+
+	private List<WorkPackage> listWorkPackage(BasicDBObject condition, String master) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 
-		appendWork(pipeline);
+		pipeline.add(Aggregates.lookup(master, "work_id", "_id", "work"));
+		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("deadline",
+				new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 }))));
+		pipeline.add(Aggregates.project(new BasicDBObject("work", false)));
 
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort != null)
@@ -373,8 +373,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendProgress(pipeline);
 
-		AggregateIterable<WorkPackage> iterable = c(WorkPackage.class).aggregate(pipeline);
-		return iterable.into(new ArrayList<WorkPackage>());
+		ArrayList<WorkPackage> result = c(WorkPackage.class).aggregate(pipeline).into(new ArrayList<WorkPackage>());
+		return result;
 	}
 
 	private void appendProgress(List<Bson> pipeline) {
@@ -738,169 +738,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourcePlan> listResourcePlan(ObjectId _id) {
-		Document match = new Document("work_id", _id);
-		return queryResourceUsage(match);
-	}
-
-	private List<ResourcePlan> queryResourceUsage(Document match) {
-
-		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", match),
-
-				new Document().append("$lookup", new Document("from", "resourcePlan")
-						.append("let", new Document("usedHumanResId1", "$usedHumanResId").append("id1", "$id"))
-						.append("pipeline",
-								Arrays.asList(
-										new Document(
-												"$match",
-												new Document("$expr", new Document("$and",
-														Arrays.asList(
-																new Document(
-																		"$eq",
-																		Arrays.asList("$usedHumanResId",
-																				"$$usedHumanResId1")),
-																new Document("$eq", Arrays.asList("$id", "$$id1")))))),
-										new Document("$match",
-												new Document("usedHumanResId", new Document("$ne", null))),
-										new Document("$project",
-												new Document("usedHumanResId", true).append("id", true).append(
-														"planWorks",
-														new Document(
-																"$sum",
-																Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
-										new Document().append("$group", new Document()
-												.append("_id",
-														new Document().append("usedHumanResId", "$usedHumanResId")
-																.append("id", "$id"))
-												.append("planWorks", new Document("$sum", "$planWorks")))))
-						.append("as", "resourceHumanPlan")),
-				new Document("$unwind", new Document("path", "$resourceHumanPlan").append("preserveNullAndEmptyArrays",
-						true)),
-				new Document("$lookup",
-						new Document("from",
-								"resourcePlan")
-										.append("let",
-												new Document("usedTypedResId1", "$usedTypedResId").append("id1", "$id"))
-										.append("pipeline", Arrays.asList(
-												new Document("$match", new Document("$expr", new Document(
-														"$and",
-														Arrays.asList(
-																new Document(
-																		"$eq",
-																		Arrays.asList("$usedTypedResId",
-																				"$$usedTypedResId1")),
-																new Document("$eq", Arrays.asList("$id", "$$id1")))))),
-												new Document(
-														"$match",
-														new Document("usedTypedResId", new Document("$ne", null))),
-												new Document("$project",
-														new Document("usedTypedResId", true).append("id", true).append(
-																"planWorks",
-																new Document("$sum",
-																		Arrays.asList("$planBasicQty",
-																				"$planOverTimeQty")))),
-												new Document()
-														.append("$group",
-																new Document()
-																		.append("_id",
-																				new Document()
-																						.append("usedTypedResId",
-																								"$usedTypedResId")
-																						.append("id", "$id"))
-																		.append("planWorks",
-																				new Document("$sum", "$planWorks")))))
-										.append("as", "resourceTypedPlan")),
-				new Document("$unwind",
-						new Document("path", "$resourceTypedPlan").append("preserveNullAndEmptyArrays", true)),
-				new Document("$lookup", new Document("from", "resourcePlan")
-						.append("let", new Document("usedEquipResId1", "$usedEquipResId").append("id1", "$id"))
-						.append("pipeline",
-								Arrays.asList(
-										new Document(
-												"$match",
-												new Document("$expr", new Document("$and",
-														Arrays.asList(
-																new Document(
-																		"$eq",
-																		Arrays.asList("$usedEquipResId",
-																				"$$usedEquipResId1")),
-																new Document("$eq", Arrays.asList("$id", "$$id1")))))),
-										new Document("$match",
-												new Document("usedEquipResId", new Document("$ne", null))),
-										new Document("$project",
-												new Document("usedEquipResId", true).append("id", true).append(
-														"planWorks",
-														new Document(
-																"$sum",
-																Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
-										new Document().append("$group", new Document()
-												.append("_id",
-														new Document().append("usedEquipResId", "$usedEquipResId")
-																.append("id", "$id"))
-												.append("planWorks", new Document("$sum", "$planWorks")))))
-						.append("as", "resourceEquipPlan")),
-				new Document("$unwind",
-						new Document("path", "$resourceEquipPlan").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("conflict",
-								new Document("$gt",
-										Arrays.asList(new Document("$sum", Arrays.asList("$resourceHumanPlan.planWorks",
-												"$resourceTypedPlan.planWorks", "$resourceEquipPlan.planWorks")), 8)))),
-				new Document("$sort", new Document("conflict", -1)),
-				new Document("$group", new Document()
-						.append("_id", new Document("work_id", "$work_id").append("resTypeId", "$resTypeId")
-								.append("usedTypedResId", "$usedTypedResId").append("usedHumanResId", "$usedHumanResId")
-								.append("usedEquipResId", "$usedEquipResId"))
-						.append("planBasicQty", new Document("$sum", "$planBasicQty"))
-						.append("planOverTimeQty", new Document("$sum", "$planOverTimeQty"))
-						.append("conflict", new Document("$first", "$conflict"))),
-				new Document("$unwind", "$_id"),
-				new Document("$addFields", new Document("work_id", "$_id.work_id").append("resTypeId", "$_id.resTypeId")
-						.append("usedTypedResId", "$_id.usedTypedResId").append("usedHumanResId", "$_id.usedHumanResId")
-						.append("usedEquipResId", "$_id.usedEquipResId")),
-				new Document("$project", new Document("_id", false)),
-
-				new Document("$lookup",
-						new Document("from", "user").append("localField", "usedHumanResId")
-								.append("foreignField", "userId").append("as", "user")),
-				new Document("$unwind", new Document("path", "$user").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$lookup",
-						new Document("from", "equipment").append("localField", "usedEquipResId")
-								.append("foreignField", "id").append("as", "equipment")),
-				new Document("$unwind", new Document("path", "$equipment").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "usedTypedResId")
-								.append("foreignField", "id").append("as", "resourceType")),
-				new Document("$unwind",
-						new Document("path", "$resourceType").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$addFields",
-						new Document("type",
-								new Document("$cond", Arrays.asList("$user", "人力资源",
-										new Document("$cond", Arrays.asList("$equipment", "设备设施", "资源类型")))))
-
-												.append("name",
-														new Document("$cond", Arrays.asList("$user.name", "$user.name",
-																new Document("$cond", Arrays.asList("$equipment.name",
-																		"$equipment.name", "$resourceType.name")))))
-
-												.append("resId", new Document("$cond",
-														Arrays.asList("$usedHumanResId", "$usedHumanResId",
-																new Document("$cond", Arrays.asList("$usedEquipResId",
-																		"$usedEquipResId", "$usedTypedResId")))))),
-
-				new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "resTypeId")
-								.append("foreignField", "_id").append("as", "resType")),
-				new Document("$unwind", new Document("path", "$resType").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$project",
-						new Document("resourceType", false).append("resType_id", false).append("user", false)
-								.append("equipment", false)),
-
-				new Document("$sort", new Document("type", 1).append("resId", 1)));
-		return c(ResourcePlan.class).aggregate(pipeline).into(new ArrayList<ResourcePlan>());
+		return c(ResourcePlan.class).aggregate(new JQ("查询资源计划用量").set("match", new Document("work_id", _id)).array())
+				.into(new ArrayList<ResourcePlan>());
 	}
 
 	@Override
@@ -1097,120 +936,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourceActual> listResourceActual(ObjectId _id) {
-		Document match = new Document("work_id", _id);
-		return queryResourceActualUsage(match);
-	}
-
-	private List<ResourceActual> queryResourceActualUsage(Document match) {
-		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", match),
-				new Document("$group", new Document()
-						.append("_id",
-								new Document("work_id", "$work_id").append("usedEquipResId", "$usedEquipResId")
-										.append("usedHumanResId", "$usedHumanResId")
-										.append("usedTypedResId", "$usedTypedResId").append("resTypeId", "$resTypeId"))
-						.append("actualOverTimeQty", new Document("$sum", "$actualOverTimeQty"))
-						.append("actualBasicQty", new Document("$sum", "$actualBasicQty"))),
-				new Document("$addFields",
-						new Document("work_id", "$_id.work_id").append("usedEquipResId", "$_id.usedEquipResId")
-								.append("usedHumanResId", "$_id.usedHumanResId")
-								.append("usedTypedResId", "$_id.usedTypedResId").append("resTypeId", "$_id.resTypeId")),
-				new Document("$project", new Document("_id", false)),
-				new Document("$lookup",
-						new Document("from", "resourcePlan")
-								.append("let", new Document().append("work_id1", "$work_id")
-										.append("usedEquipResId1", "$usedEquipResId")
-										.append("usedHumanResId1", "$usedHumanResId")
-										.append("usedTypedResId1", "$usedTypedResId")
-										.append("resTypeId1", "$resTypeId"))
-								.append("pipeline",
-										Arrays.asList(
-												new Document("$match",
-														new Document("$expr",
-																new Document("$and",
-																		Arrays.asList(
-																				new Document("$eq",
-																						Arrays.asList("$work_id",
-																								"$$work_id1")),
-																				new Document("$eq",
-																						Arrays.asList("$usedEquipResId",
-																								"$$usedEquipResId1")),
-																				new Document("$eq",
-																						Arrays.asList("$usedHumanResId",
-																								"$$usedHumanResId1")),
-																				new Document("$eq",
-																						Arrays.asList("$usedTypedResId",
-																								"$$usedTypedResId1")),
-																				new Document("$eq",
-																						Arrays.asList("$resTypeId",
-																								"$$resTypeId1")))))),
-												new Document()
-														.append("$group",
-																new Document()
-																		.append("_id", new Document()
-																				.append("work_id", "$work_id")
-																				.append("usedEquipResId",
-																						"$usedEquipResId")
-																				.append("usedHumanResId",
-																						"$usedHumanResId")
-																				.append("usedTypedResId",
-																						"$usedTypedResId")
-																				.append("resTypeId", "$resTypeId"))
-																		.append("planOverTimeQty",
-																				new Document("$sum",
-																						"$planOverTimeQty"))
-																		.append("planBasicQty",
-																				new Document("$sum",
-																						"$planBasicQty")))))
-								.append("as", "resourcePlan")),
-				new Document("$unwind",
-						new Document("path", "$resourcePlan").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("planOverTimeQty", "$resourcePlan.planOverTimeQty").append("planBasicQty",
-								"$resourcePlan.planBasicQty")),
-
-				new Document("$lookup",
-						new Document("from", "user").append("localField", "usedHumanResId")
-								.append("foreignField", "userId").append("as", "user")),
-				new Document("$unwind", new Document("path", "$user").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$lookup",
-						new Document("from", "equipment").append("localField", "usedEquipResId")
-								.append("foreignField", "id").append("as", "equipment")),
-				new Document("$unwind", new Document("path", "$equipment").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "usedTypedResId")
-								.append("foreignField", "id").append("as", "resourceType")),
-				new Document("$unwind",
-						new Document("path", "$resourceType").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$addFields",
-						new Document("type",
-								new Document("$cond", Arrays.asList("$user", "人力资源",
-										new Document("$cond", Arrays.asList("$equipment", "设备设施", "资源类型")))))
-
-												.append("name",
-														new Document("$cond", Arrays.asList("$user.name", "$user.name",
-																new Document("$cond", Arrays.asList("$equipment.name",
-																		"$equipment.name", "$resourceType.name")))))
-
-												.append("resId", new Document("$cond",
-														Arrays.asList("$usedHumanResId", "$usedHumanResId",
-																new Document("$cond", Arrays.asList("$usedEquipResId",
-																		"$usedEquipResId", "$usedTypedResId")))))),
-
-				new Document("$lookup",
-						new Document("from", "resourceType").append("localField", "resTypeId")
-								.append("foreignField", "_id").append("as", "resType")),
-				new Document("$unwind", new Document("path", "$resType").append("preserveNullAndEmptyArrays", true)),
-
-				new Document("$project",
-						new Document("resourceType", false).append("resType_id", false).append("user", false)
-								.append("equipment", false)),
-
-				new Document("$sort", new Document("type", 1).append("resId", 1)));
-
-		return c(ResourceActual.class).aggregate(pipeline).into(new ArrayList<ResourceActual>());
+		return c(ResourceActual.class).aggregate(new JQ("查询资源实际用量").set("match", new Document("work_id", _id)).array())
+				.into(new ArrayList<>());
 	}
 
 	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan resp) {
