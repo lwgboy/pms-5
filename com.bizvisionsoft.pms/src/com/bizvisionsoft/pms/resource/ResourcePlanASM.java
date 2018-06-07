@@ -100,7 +100,7 @@ public class ResourcePlanASM {
 				openResourceConflict((ResourcePlan) l.item.getData());
 			}
 		});
-
+		Layer.message("双击任务添加资源");
 	}
 
 	private void openResourceConflict(ResourcePlan rp) {

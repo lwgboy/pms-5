@@ -27,7 +27,7 @@ public class UseTemplate {
 			Selector.open("项目模板选择器", context, null, l -> {
 				Services.get(ProjectTemplateService.class).useTemplate(((ProjectTemplate) l.get(0)).get_id(),
 						project.get_id(), brui.getCurrentUserId());
-				Layer.message("项目已更新。");
+				Layer.message("模板已套用到本项目。<br/>请编辑项目进度计划和团队。");
 			});
 
 		}

@@ -14137,7 +14137,22 @@
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "163d971ccb3",
+            "name": "分配工作",
+            "text": "分配工作",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.AssignToWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "162e1f767ff",
