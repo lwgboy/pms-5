@@ -39,14 +39,15 @@ public class EditCBSSubjectCost {
 					cbsSubject = new CBSSubject().setCBSItem_id(cbsSubjectCost.getCbsItem().get_id())
 							.setSubjectNumber(cbsSubjectCost.getId()).setId(id);
 				}
-				Editor.create("期间成本编辑器", context, cbsSubject, true).setTitle("科目期间成本").ok((r, o) -> {
-					CBSSubject newSubjectCost = Services.get(CBSService.class).upsertCBSSubjectCost(o);
-					// 更新CBSSubjectCost存储的CBSSubject
-					cbsSubjectCost.updateCBSSubjects(newSubjectCost);
-					GridPart grid = (GridPart) context.getContent();
-					grid.refreshAll();
-					grid.getViewer().expandAll();
-				});
+				Editor.create("期间成本编辑器", context, cbsSubject, true).setTitle("科目:" + cbsSubjectCost.getName() + " 期间 :"
+						+ cal.get(Calendar.YEAR) + "年" + (cal.get(java.util.Calendar.MONTH) + 1) + "月").ok((r, o) -> {
+							CBSSubject newSubjectCost = Services.get(CBSService.class).upsertCBSSubjectCost(o);
+							// 更新CBSSubjectCost存储的CBSSubject
+							cbsSubjectCost.updateCBSSubjects(newSubjectCost);
+							GridPart grid = (GridPart) context.getContent();
+							grid.refreshAll();
+							grid.getViewer().expandAll();
+						});
 			}
 		});
 	}

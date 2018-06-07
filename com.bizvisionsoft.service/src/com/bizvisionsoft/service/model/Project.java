@@ -23,6 +23,7 @@ import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
@@ -197,9 +198,14 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 * 计划工期
 	 **/
 	@ReadValue
-	@WriteValue
-	@Persistence
-	private Integer planDuration;
+	@GetValue("planDuration")
+	public int getPlanDuration() {
+		if (planFinish != null && planStart != null) {
+			return (int) ((planFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24));
+		} else {
+			return 0;
+		}
+	}
 
 	/**
 	 * 计划工时
@@ -229,12 +235,43 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private Date actualFinish;
 
 	/**
+	 * 启动时间
+	 */
+	@ReadValue
+	@SetValue
+	private Date startOn;
+
+	/**
+	 * 完工时间
+	 */
+	@ReadValue
+	@SetValue
+	private Date finishOn;
+
+	@ReadValue("start")
+	public Date getStart_date() {
+		return startOn;
+	}
+
+	@ReadValue("finish")
+	public Date getEnd_date() {
+		return finishOn;
+	}
+
+	/**
 	 * 计划工期 ///TODO 根据计划开始和完成自动计算
 	 */
 	@ReadValue
-	@WriteValue
-	@Persistence
-	private Integer actualDuration;
+	@GetValue("actualDuration")
+	public int getActualDuration() {
+		if (actualFinish != null && actualStart != null) {
+			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
+		} else if (actualFinish == null && actualStart != null) {
+			return (int) (((new Date()).getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
+		} else {
+			return 0;
+		}
+	}
 
 	/**
 	 * 计划工时 //TODO 计划工时的计算
@@ -242,7 +279,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@SetValue
 	private double summaryActualWorks;
-	
+
 	@ReadValue("actualWorks")
 	private double getActualWorks() {
 		return summaryActualWorks;
@@ -601,6 +638,78 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	public String getPmInfo() {
 		return pmInfo;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工期完成率 百分比
+	@ReadValue("dar")
+	public Object getDAR() {
+		int planDuration = getPlanDuration();
+		if (planDuration != 0) {
+			return 1d * getActualDuration() / planDuration;
+		}
+		return "N/A";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工作量完成率 百分比
+	@ReadValue("war")
+	public Object getWAR() {
+		if (getPlanWorks() != 0) {
+			return 1d * getActualWorks() / getPlanWorks();
+		}
+		return "N/A";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 工时完成率 百分比
+	@ReadValue("sar")
+	public Object getSAR() {
+		int planDuration = getPlanDuration();
+		if (planDuration != 0) {
+			return 1d * getActualDuration() / planDuration;
+		}
+		return "N/A";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private CBSItem cbsItem;
+
+	@ReadValue("cost")
+	public Double getCost() {
+		if (cbsItem == null) {
+			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+		}
+		return Optional.ofNullable(cbsItem.cbsSubjectCost).orElse(0d);
+	}
+
+	@ReadValue("budget")
+	public Double getBudget() {
+		if (cbsItem == null) {
+			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+		}
+		return Optional.ofNullable(cbsItem.cbsSubjectBudget).orElse(0d);
+	}
+
+	@ReadValue("car")
+	public Object getCAR() {
+		Double budget = getBudget();
+		if (budget != null && budget != 0) {
+			return getCost() / budget;
+		}
+		return "N/A";
+	}
+
+	@ReadValue("bdr")
+	public Object getBDR() {
+		Double budget = getBudget();
+		if (budget != null && budget != 0) {
+			return (getCost() - budget) / budget;
+		}
+		return "N/A";
 	}
 
 }

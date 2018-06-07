@@ -223,6 +223,32 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
+	public CBSItem getCBSItemCost(ObjectId _id) {
+		List<ObjectId> items = getDesentItems(Arrays.asList(_id), "cbs", "parent_id");
+
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "cbsSubject").append("let", new Document())
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr",
+																new Document("$in",
+																		Arrays.asList("$cbsItem_id", items)))),
+												new Document("$group",
+														new Document("_id", null)
+																.append("cost", new Document("$sum", "$cost"))
+																.append("budget", new Document("$sum", "$budget")))))
+								.append("as", "cbsSubject")),
+				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document("cbsSubjectBudget", "$cbsSubject.budget")
+						.append("cbsSubjectCost", "$cbsSubject.cost")),
+				new Document("$project", new Document("cbsSubject", false)));
+
+		return c(CBSItem.class).aggregate(pipeline).first();
+	}
+
+	@Override
 	public CBSItem allocateBudget(ObjectId _id, ObjectId scope_id, String scopename) {
 		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", scope_id),
 				new BasicDBObject("$set", new BasicDBObject("cbs_id", _id)));
@@ -341,7 +367,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		pipeline.add(new Document("$unwind", "$project"));
 		pipeline.add(Aggregates.addFields(new Field<String>("scopeId", "$project.id")));
 		pipeline.add(new Document("$match", new Document("project.status", new Document("$nin",
-				Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated)))));
+				Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed, ProjectStatus.Terminated)))));
 
 		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
 
@@ -361,6 +387,49 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.limit(limit));
 
 		return c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>());
+	}
+
+	@Override
+	public List<CBSItem> listProjectCostAnalysis(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
+				.append("foreignField", "cbs_id").append("as", "project")));
+		pipeline.add(new Document("$unwind", "$project"));
+		pipeline.add(Aggregates.addFields(new Field<String>("scopeId", "$project.id")));
+		pipeline.add(new Document("$match", new Document("project.status",
+				new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Terminated)))));
+
+		appendUserInfo(pipeline, "project.pmId", "scopeCharger");
+
+		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
+
+		pipeline.add(Aggregates.addFields(
+				new Field<BasicDBObject>("children",
+						new BasicDBObject("$map",
+								new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in",
+										"$$id"))),
+				new Field<String>("scopePlanStart", "$project.planStart"),
+				new Field<String>("scopePlanFinish", "$project.planFinish"),
+				new Field<String>("scopeStatus", "$project.status")));
+
+		pipeline.add(Aggregates.project(new BasicDBObject("_period", false).append("_budget", false)
+				.append("_children", false).append("project", false)));
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		ArrayList<CBSItem> into = c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>());
+		return into;
 	}
 
 	@Override
@@ -476,9 +545,25 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		option.append("legend",
 				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series",
-				Arrays.asList(new Document().append("name", "成本组成").append("type", "pie").append("data", data2)));
+		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
+				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}")
+						// .append("backgroundColor", "#eee").append("borderColor",
+						// "#aaa").append("borderWidth", 1)
+						// .append("borderRadius", 4)
+						.append("rich",
+								new Document("b",
+										new Document("color", "#747474").append("lineHeight", 22).append("align",
+												"center"))
+														.append("hr",
+																new Document("color", "#aaa").append("width", "100%")
+																		.append("borderWidth", 0.5).append("height", 0))
+														.append("per",
+																new Document("color", "#eee")
+																		.append("backgroundColor", "#334455")
+																		.append("padding", Arrays.asList(2, 4))
+																		.append("borderRadius", 2)))))
 
+				.append("data", data2)));
 		return option;
 	}
 

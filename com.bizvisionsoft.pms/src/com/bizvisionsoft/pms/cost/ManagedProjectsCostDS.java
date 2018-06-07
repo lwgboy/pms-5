@@ -45,9 +45,14 @@ public class ManagedProjectsCostDS {
 		}
 	}
 
-	@DataSet({ "成本管理/" + DataSet.LIST, "预算成本对比分析/" + DataSet.LIST })
+	@DataSet({ "成本管理/" + DataSet.LIST})
 	private List<CBSItem> listProject(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
 		return Services.get(CBSService.class).listProjectCost(condition);
+	}
+
+	@DataSet({  "预算成本对比分析/" + DataSet.LIST })
+	private List<CBSItem> listProjectCostAnalysis(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+		return Services.get(CBSService.class).listProjectCostAnalysis(condition);
 	}
 
 	@DataSet({ "成本管理/" + DataSet.COUNT, "预算成本对比分析/" + DataSet.COUNT })

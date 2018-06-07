@@ -32,7 +32,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 	}
 
 	@ReadValue("scopename")
-	private String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -229,7 +229,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return "N/A";
 	}
 
-	public Object getBudgetVarianceSummary() {
+	public Object getBDRSummary() {
 		Double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
@@ -237,7 +237,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return "N/A";
 	}
 
-	public Object getBudgetVariance(String period) {
+	public Object getBDR(String period) {
 		Double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
@@ -245,7 +245,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return "N/A";
 	}
 
-	public Object getBudgetVariance(String startPeriod, String endPeriod) {
+	public Object getBDR(String startPeriod, String endPeriod) {
 		Double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;

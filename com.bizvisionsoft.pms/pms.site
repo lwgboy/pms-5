@@ -4030,7 +4030,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db839f32",
@@ -4049,7 +4050,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db845953",
@@ -4081,7 +4083,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161db85edfa",
@@ -4100,7 +4103,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161e5ad2a13",
@@ -4119,7 +4123,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161e5ada2aa",
@@ -4138,14 +4143,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db85fc50",
@@ -4164,7 +4171,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161e5aeb95c",
@@ -4183,7 +4191,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -4605,7 +4614,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1621d4788ca",
@@ -4624,7 +4634,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1621d4789ab",
@@ -4643,7 +4654,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1621d478ba9",
@@ -4662,7 +4674,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -4784,7 +4797,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -5395,7 +5409,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1624ba5ce70",
@@ -5414,7 +5429,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1624ba5d214",
@@ -5433,7 +5449,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1624ba5d051",
@@ -5452,7 +5469,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1624ba649ad",
@@ -5471,7 +5489,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1624ba64b80",
@@ -5490,7 +5509,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1625038cb73",
@@ -5509,7 +5529,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -6199,7 +6220,8 @@
             "sort": 1,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1626ff49e8a",
@@ -6218,7 +6240,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162752818ba",
@@ -6237,7 +6260,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -6506,7 +6530,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16275ccab7a",
@@ -6525,7 +6550,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16275ccaa4f",
@@ -6544,7 +6570,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162d1d23adf",
@@ -6563,7 +6590,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162d1d2ee3f",
@@ -6582,7 +6610,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16275cd3b09",
@@ -6601,7 +6630,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16275cd3cd7",
@@ -6620,7 +6650,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16275cd3e39",
@@ -6649,10 +6680,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "yyyy-MM-dd",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16275cd409e",
@@ -6668,17 +6701,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "yyyy-MM-dd",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16275cd4215",
@@ -6710,7 +6746,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16275cd45b1",
@@ -6729,19 +6766,21 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16275cd4710",
             "name": "指标",
-            "text": "指标（%）",
+            "text": "指标",
             "alignment": 16777216,
             "width": 80,
             "minimumWidth": 0,
@@ -6765,10 +6804,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16275cd49ab",
@@ -6784,10 +6825,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16275cd4b5f",
@@ -6803,10 +6846,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16275d08547",
@@ -6822,17 +6867,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -7051,7 +7099,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628aef1bc0",
@@ -7070,7 +7119,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628adebf6d",
@@ -7089,7 +7139,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628adec091",
@@ -7108,7 +7159,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -7215,7 +7267,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -7234,7 +7287,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -7253,7 +7307,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -7272,7 +7327,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -7865,7 +7921,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b392097b",
@@ -7884,7 +7941,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b39208d4",
@@ -7903,7 +7961,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163d08a2c56",
@@ -7922,7 +7981,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -8031,7 +8091,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b3ca14da",
@@ -8050,7 +8111,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b3ca19fe",
@@ -8069,7 +8131,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b7817e3c",
@@ -8088,7 +8151,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b3ca17b7",
@@ -8107,7 +8171,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -8540,7 +8605,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83a4bc4",
@@ -8559,7 +8625,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355508",
@@ -8578,7 +8645,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83556bb",
@@ -8597,7 +8665,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355807",
@@ -8616,7 +8685,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355770",
@@ -8635,7 +8705,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -8825,7 +8896,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db839f32",
@@ -8844,7 +8916,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161e5aeb95c",
@@ -8863,7 +8936,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -9239,7 +9313,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db839f32",
@@ -9258,7 +9333,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db845953",
@@ -9290,7 +9366,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161db85edfa",
@@ -9309,7 +9386,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161e5ad2a13",
@@ -9328,7 +9406,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "161e5ada2aa",
@@ -9347,14 +9426,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db85fc50",
@@ -9373,7 +9454,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161e5aeb95c",
@@ -9392,7 +9474,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -9969,7 +10052,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1f7950",
@@ -9988,7 +10072,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1ceee1",
@@ -10007,7 +10092,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -10120,7 +10206,8 @@
             "sort": 0,
             "hide": false,
             "element": true,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -10267,7 +10354,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c1133de8",
@@ -10286,7 +10374,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c1134083",
@@ -10305,7 +10394,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -10525,7 +10615,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c4ae1895",
@@ -10544,7 +10635,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c457e703",
@@ -10563,7 +10655,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162d163f00f",
@@ -10582,7 +10675,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163b7384a5a",
@@ -10601,7 +10695,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c457e7ec",
@@ -10620,7 +10715,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c457e8d6",
@@ -10639,7 +10735,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c457e9d0",
@@ -10658,7 +10755,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c4aa47de",
@@ -10677,7 +10775,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -10943,7 +11042,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa432",
@@ -10962,7 +11062,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa50a",
@@ -10981,7 +11082,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162d1824bee",
@@ -11000,7 +11102,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -11243,7 +11346,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa432",
@@ -11262,7 +11366,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa50a",
@@ -11281,7 +11386,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -11384,7 +11490,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c9ac6685",
@@ -11403,7 +11510,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c9ac67a0",
@@ -11422,7 +11530,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -11785,7 +11894,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c9ac6685",
@@ -11804,7 +11914,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c9ac67a0",
@@ -11823,7 +11934,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -12099,7 +12211,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa432",
@@ -12118,7 +12231,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa50a",
@@ -12137,7 +12251,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162cc7cc749",
@@ -12156,7 +12271,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162cc7d34c9",
@@ -12175,7 +12291,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -13172,7 +13289,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -13364,7 +13482,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1f7950",
@@ -13383,7 +13502,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1ccbe0",
@@ -13402,7 +13522,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1ceee1",
@@ -13421,7 +13542,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -13637,7 +13759,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355508",
@@ -13656,7 +13779,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83556bb",
@@ -13675,7 +13799,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355807",
@@ -13694,7 +13819,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355770",
@@ -13713,7 +13839,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -13935,7 +14062,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83a4bc4",
@@ -13954,7 +14082,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355508",
@@ -13973,7 +14102,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83556bb",
@@ -13992,7 +14122,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355807",
@@ -14011,7 +14142,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355770",
@@ -14030,7 +14162,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -14269,7 +14402,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa432",
@@ -14288,7 +14422,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa50a",
@@ -14307,7 +14442,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -15710,7 +15846,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -15729,7 +15866,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -15748,7 +15886,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -15767,7 +15906,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3064f7",
@@ -15786,7 +15926,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3065a0",
@@ -15805,7 +15946,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306edd",
@@ -15824,7 +15966,8 @@
             "sort": 0,
             "hide": true,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -16020,7 +16163,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b83b50d",
@@ -16039,7 +16183,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ba828abc",
@@ -16072,7 +16217,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -16092,7 +16238,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -16111,7 +16258,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -16130,14 +16278,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ba838790",
@@ -16169,7 +16319,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163ba83b261",
@@ -16188,7 +16339,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163ba83b358",
@@ -16207,7 +16359,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163ba83b493",
@@ -16226,14 +16379,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b86522d",
@@ -16252,7 +16407,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638bf938c6",
@@ -16271,7 +16427,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -16418,7 +16575,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b980be4",
@@ -16437,7 +16595,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b986ed0",
@@ -16456,7 +16615,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -16519,7 +16679,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6d73c1",
@@ -16538,7 +16699,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e1a54",
@@ -16557,7 +16719,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e542d",
@@ -16576,7 +16739,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e89c9",
@@ -16595,7 +16759,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638aeaafee",
@@ -16614,7 +16779,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6cd313",
@@ -16633,7 +16799,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -16937,7 +17104,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e70d9f6",
@@ -16956,7 +17124,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e717b2e",
@@ -16975,7 +17144,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e720bc1",
@@ -16994,7 +17164,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e726004",
@@ -17013,7 +17184,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e7297a5",
@@ -17032,7 +17204,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e72d7e0",
@@ -17061,10 +17234,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "yyyy-MM-dd",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1632e73d16f",
@@ -17080,17 +17255,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "yyyy-MM-dd",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e744d66",
@@ -17122,7 +17300,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1632e751ae5",
@@ -17141,19 +17320,21 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1632e764c66",
             "name": "指标",
-            "text": "指标（%）",
+            "text": "指标",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -17177,10 +17358,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1632e770ed1",
@@ -17196,10 +17379,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1632e773bc9",
@@ -17215,10 +17400,12 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1632e773d33",
@@ -17234,17 +17421,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -17417,7 +17607,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b980be4",
@@ -17436,7 +17627,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b986ed0",
@@ -17455,7 +17647,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -17653,7 +17846,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -17672,7 +17866,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -17691,7 +17886,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -17710,7 +17906,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -18102,7 +18299,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1ccbe0",
@@ -18121,7 +18319,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636895dc1b",
@@ -18140,7 +18339,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cc911ea",
@@ -18159,7 +18359,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1639149cd2e",
@@ -18178,7 +18379,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -18475,7 +18677,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362575571",
@@ -18494,7 +18697,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362575688",
@@ -18514,7 +18718,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362575769",
@@ -18534,7 +18739,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362575849",
@@ -18553,7 +18759,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636257592c",
@@ -18573,7 +18780,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362587b53",
@@ -18592,7 +18800,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636258808b",
@@ -18611,7 +18820,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636324ed09",
@@ -18630,7 +18840,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -18909,7 +19120,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362575571",
@@ -18928,7 +19140,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636786ab74",
@@ -18961,7 +19174,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16362575769",
@@ -18981,7 +19195,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16362575849",
@@ -19000,14 +19215,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636786f8b2",
@@ -19040,7 +19257,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16367702cf3",
@@ -19060,7 +19278,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163677029a5",
@@ -19079,14 +19298,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16362587b53",
@@ -19105,7 +19326,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636258808b",
@@ -19124,7 +19346,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636324ed09",
@@ -19143,7 +19366,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -19438,7 +19662,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162bd1ccbe0",
@@ -19457,7 +19682,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -19540,7 +19766,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636c4468dc",
@@ -19560,7 +19787,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636bd9b1b2",
@@ -19579,7 +19807,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -19754,7 +19983,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636ccfce55",
@@ -19773,7 +20003,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd0c442",
@@ -19792,7 +20023,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd17af4",
@@ -19825,7 +20057,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1636cd0fafb",
@@ -19845,14 +20078,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16380afdda6",
@@ -19884,7 +20119,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6c3c",
@@ -19903,7 +20139,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6cfa",
@@ -19923,14 +20160,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1636bd9b1b2",
@@ -19949,7 +20188,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -20167,7 +20407,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -20186,7 +20427,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -20205,7 +20447,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -20224,7 +20467,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -20519,7 +20763,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -20538,7 +20783,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -20557,7 +20803,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -20576,7 +20823,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -20896,7 +21144,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355508",
@@ -20915,7 +21164,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b83556bb",
@@ -20934,7 +21184,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355807",
@@ -20953,7 +21204,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162b8355770",
@@ -20972,7 +21224,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -21526,7 +21779,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ac6f09e9",
@@ -21545,7 +21799,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e0d052b",
@@ -21564,7 +21819,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd10adf",
@@ -21583,7 +21839,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd340c8",
@@ -21615,7 +21872,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd43805",
@@ -21634,14 +21892,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd6c33a",
@@ -21673,7 +21933,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd91393",
@@ -21692,7 +21953,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd27851",
@@ -21712,14 +21974,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -22239,7 +22503,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161db839f32",
@@ -22258,7 +22523,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "161e5aeb95c",
@@ -22277,7 +22543,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -22402,7 +22669,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e591d03",
@@ -22421,7 +22689,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e5d12f5",
@@ -22440,7 +22709,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -22695,7 +22965,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2409b",
@@ -22714,7 +22985,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a25132",
@@ -22733,7 +23005,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2520b",
@@ -22752,7 +23025,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a252f2",
@@ -22771,7 +23045,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2721e",
@@ -22803,7 +23078,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a276ab",
@@ -22823,7 +23099,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a277d6",
@@ -22842,7 +23119,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a27947",
@@ -22862,14 +23140,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27a2b",
@@ -22889,7 +23169,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385e3be91",
@@ -22909,7 +23190,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27c11",
@@ -22928,7 +23210,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27d2e",
@@ -22947,7 +23230,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -23351,7 +23635,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163854722d1",
@@ -23370,7 +23655,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380d6f80c",
@@ -23389,7 +23675,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -23583,7 +23870,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636ccfce55",
@@ -23602,7 +23890,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd0c442",
@@ -23621,7 +23910,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd17af4",
@@ -23654,7 +23944,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1636cd0fafb",
@@ -23674,14 +23965,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16380afdda6",
@@ -23713,7 +24006,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6c3c",
@@ -23732,7 +24026,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6cfa",
@@ -23752,14 +24047,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1636bd9b1b2",
@@ -23778,7 +24075,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -23995,7 +24293,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163854873ed",
@@ -24014,7 +24313,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16381b80ac5",
@@ -24033,7 +24333,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16381c1804e",
@@ -24052,7 +24353,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163814f5463",
@@ -24071,7 +24373,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -24295,7 +24598,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636ccfce55",
@@ -24314,7 +24618,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd0c442",
@@ -24333,7 +24638,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636cd17af4",
@@ -24366,7 +24672,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1636cd0fafb",
@@ -24386,14 +24693,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16380afdda6",
@@ -24425,7 +24734,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6c3c",
@@ -24444,7 +24754,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16381934a42",
@@ -24463,7 +24774,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16381934c89",
@@ -24482,7 +24794,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380ba6cfa",
@@ -24502,14 +24815,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1636bd9b1b2",
@@ -24528,7 +24843,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -24745,7 +25061,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163854923ed",
@@ -24764,7 +25081,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163814f5463",
@@ -24783,7 +25101,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163819d7cd0",
@@ -24802,7 +25121,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -25011,7 +25331,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16386e0aa83",
@@ -25030,7 +25351,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16381c55e90",
@@ -25063,7 +25385,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16381c52068",
@@ -25082,14 +25405,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16381c81e67",
@@ -25121,7 +25446,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16381c8511b",
@@ -25141,14 +25467,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1636bd9b1b2",
@@ -25167,7 +25495,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -25370,7 +25699,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638fad6b0b",
@@ -25389,7 +25719,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163814f5463",
@@ -25408,7 +25739,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -25713,7 +26045,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638686a9e8",
@@ -25732,7 +26065,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638688b084",
@@ -25751,7 +26085,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -25925,7 +26260,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16386c27c91",
@@ -25944,7 +26280,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -26119,7 +26456,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -26138,7 +26476,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1639112a56e",
@@ -26171,7 +26510,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -26191,7 +26531,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -26210,7 +26551,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -26229,14 +26571,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391130fb5",
@@ -26269,7 +26613,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -26289,7 +26634,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -26308,7 +26654,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -26327,14 +26674,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1639113c645",
@@ -26366,7 +26715,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c2daa69",
@@ -26385,7 +26735,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c428e59",
@@ -26404,14 +26755,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -26491,7 +26844,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -26510,7 +26864,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391195b59",
@@ -26543,7 +26898,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -26563,7 +26919,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -26582,7 +26939,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -26601,14 +26959,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391195d70",
@@ -26641,7 +27001,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -26661,7 +27022,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -26680,7 +27042,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -26699,14 +27062,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391195e48",
@@ -26738,7 +27103,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c2daa69",
@@ -26757,7 +27123,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c428e59",
@@ -26776,14 +27143,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -26863,7 +27232,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -26882,7 +27252,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163911da0fe",
@@ -26915,7 +27286,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -26935,7 +27307,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -26954,7 +27327,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -26973,14 +27347,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163911da28b",
@@ -27013,7 +27389,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -27033,7 +27410,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -27052,7 +27430,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -27071,14 +27450,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163911da334",
@@ -27110,7 +27491,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c2daa69",
@@ -27129,7 +27511,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c428e59",
@@ -27148,14 +27531,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -27235,7 +27620,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -27254,7 +27640,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391201f82",
@@ -27287,7 +27674,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -27307,7 +27695,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -27326,7 +27715,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -27345,14 +27735,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1639120206b",
@@ -27385,7 +27777,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -27405,7 +27798,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -27424,7 +27818,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -27443,14 +27838,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391202124",
@@ -27482,7 +27879,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c2daa69",
@@ -27501,7 +27899,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c428e59",
@@ -27520,14 +27919,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -27607,7 +28008,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638570c0b7",
@@ -27626,7 +28028,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -27645,7 +28048,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163910dcf3b",
@@ -27678,7 +28082,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16385a46c4d",
@@ -27698,7 +28103,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163912ddf64",
@@ -27717,14 +28123,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163910e6bd8",
@@ -27757,7 +28165,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16386ae80ef",
@@ -27777,7 +28186,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163912e1d39",
@@ -27796,14 +28206,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163910f0d9d",
@@ -27836,7 +28248,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16386eea749",
@@ -27856,14 +28269,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -28059,7 +28474,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638570c0b7",
@@ -28078,7 +28494,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385a4d9d2",
@@ -28097,7 +28514,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1639110353d",
@@ -28130,7 +28548,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16385a46c4d",
@@ -28150,7 +28569,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163912b9cb9",
@@ -28169,14 +28589,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16391106f15",
@@ -28209,7 +28631,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16386a0c2b9",
@@ -28229,7 +28652,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163912c1146",
@@ -28248,14 +28672,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1639110dc11",
@@ -28288,7 +28714,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16386ebbc1c",
@@ -28308,14 +28735,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -28509,7 +28938,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16386c27c91",
@@ -28528,7 +28958,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -28879,7 +29310,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b83b50d",
@@ -28898,7 +29330,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163bdd5b174",
@@ -28917,7 +29350,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391220e0d",
@@ -28950,7 +29384,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -28970,7 +29405,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -28989,7 +29425,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -29008,14 +29445,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391220ec6",
@@ -29048,7 +29487,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b846a6e",
@@ -29068,7 +29508,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b8556a6",
@@ -29087,7 +29528,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1631b85c485",
@@ -29106,14 +29548,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163be14ffcd",
@@ -29132,7 +29576,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b86522d",
@@ -29151,7 +29596,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163bdf43ff5",
@@ -29170,7 +29616,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16391220f5e",
@@ -29203,7 +29650,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c2daa69",
@@ -29223,7 +29671,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1638c428e59",
@@ -29243,14 +29692,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163bdf56937",
@@ -29269,7 +29720,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -29351,7 +29803,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b83b50d",
@@ -29370,7 +29823,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b8469c7",
@@ -29390,7 +29844,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b846a6e",
@@ -29410,7 +29865,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b8556a6",
@@ -29429,7 +29885,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b85c485",
@@ -29448,7 +29905,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b86522d",
@@ -29467,7 +29925,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638bf938c6",
@@ -29486,7 +29945,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -29564,7 +30024,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6d73c1",
@@ -29583,7 +30044,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e1a54",
@@ -29602,7 +30064,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e542d",
@@ -29621,7 +30084,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6e89c9",
@@ -29640,7 +30104,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1638aeaafee",
@@ -29659,7 +30124,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1632b6cd313",
@@ -29678,7 +30144,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [
@@ -29827,7 +30294,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e0d052b",
@@ -29846,7 +30314,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd10adf",
@@ -29865,7 +30334,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd340c8",
@@ -29897,7 +30367,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd43805",
@@ -29916,14 +30387,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd6c33a",
@@ -29955,7 +30428,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd91393",
@@ -29974,7 +30448,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd27851",
@@ -29994,14 +30469,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -30065,7 +30542,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2409b",
@@ -30084,7 +30562,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a25132",
@@ -30103,7 +30582,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2520b",
@@ -30122,7 +30602,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a252f2",
@@ -30141,7 +30622,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a2721e",
@@ -30173,7 +30655,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a276ab",
@@ -30193,7 +30676,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a277d6",
@@ -30212,7 +30696,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16380a27947",
@@ -30232,14 +30717,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27a2b",
@@ -30259,7 +30746,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16385e3be91",
@@ -30279,7 +30767,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27c11",
@@ -30298,7 +30787,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "16380a27d2e",
@@ -30317,7 +30807,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -30382,7 +30873,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -30669,7 +31161,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa432",
@@ -30688,7 +31181,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162c73aa50a",
@@ -30707,7 +31201,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162cc7cc749",
@@ -30726,7 +31221,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "162cc7d34c9",
@@ -30745,7 +31241,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -30863,7 +31360,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e0d052b",
@@ -30882,7 +31380,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd10adf",
@@ -30901,7 +31400,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd340c8",
@@ -30933,7 +31433,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd43805",
@@ -30952,14 +31453,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd6c33a",
@@ -30991,7 +31494,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd91393",
@@ -31010,7 +31514,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "1637bd27851",
@@ -31030,14 +31535,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163971b2cab",
@@ -31069,7 +31576,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163971b8aab",
@@ -31088,7 +31596,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163971b8ba1",
@@ -31108,14 +31617,16 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -31207,7 +31718,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -31284,7 +31796,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163aab2c943",
@@ -31303,7 +31816,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163aab2c9f8",
@@ -31322,7 +31836,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163aab2caae",
@@ -31341,7 +31856,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163aab2cb68",
@@ -31361,7 +31877,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163aab2cc0c",
@@ -31380,7 +31897,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -31487,7 +32005,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -31506,7 +32025,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -31525,7 +32045,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -31544,7 +32065,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -31872,7 +32394,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c90c1fe5",
@@ -31891,7 +32414,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9009744",
@@ -31910,7 +32434,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9657747",
@@ -31929,7 +32454,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -32109,7 +32635,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c90c1fe5",
@@ -32128,7 +32655,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9f40438",
@@ -32147,7 +32675,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9009744",
@@ -32166,7 +32695,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9657747",
@@ -32185,7 +32715,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -32690,7 +33221,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163caf92bfa",
@@ -32709,7 +33241,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ca562ee3",
@@ -32728,7 +33261,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ca56a1cd",
@@ -32747,7 +33281,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b8556a6",
@@ -32766,7 +33301,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1631b85c485",
@@ -32785,7 +33321,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ca514151",
@@ -32804,7 +33341,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -32967,7 +33505,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163cd688722",
@@ -32986,7 +33525,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -33090,7 +33630,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637e0d052b",
@@ -33109,7 +33650,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1637bd10adf",
@@ -33128,7 +33670,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -33207,7 +33750,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f3062e6",
@@ -33226,7 +33770,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306399",
@@ -33245,7 +33790,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1628f306450",
@@ -33264,7 +33810,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "gridAutoColumnWidth": false,
@@ -33391,7 +33938,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c90c1fe5",
@@ -33410,7 +33958,90 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
+          },
+          {
+            "id": "163d9dc45be",
+            "name": "scopeCharger",
+            "text": "项目经理",
+            "alignment": 16384,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
+          },
+          {
+            "id": "163d9dc6495",
+            "name": "scopePlanStart",
+            "text": "计划开始",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
+          },
+          {
+            "id": "163d9dc7cdb",
+            "name": "scopePlanFinish",
+            "text": "计划结束",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
+          },
+          {
+            "id": "163d9dc9a67",
+            "name": "scopeStatus",
+            "text": "状态",
+            "alignment": 16777216,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9009744",
@@ -33442,7 +34073,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e0ec2",
@@ -33461,7 +34093,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e0f82",
@@ -33477,15 +34110,16 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e1088",
-                "name": "totalBudgetVariance",
+                "name": "totalBDR",
                 "text": "预算偏差",
                 "alignment": 131072,
                 "width": 100,
@@ -33497,18 +34131,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9657747",
@@ -33540,7 +34176,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecaa1",
@@ -33559,7 +34196,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecb54",
@@ -33575,15 +34213,16 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecc38",
-                "name": "budgetVariance",
+                "name": "bdr",
                 "text": "预算偏差",
                 "alignment": 131072,
                 "width": 100,
@@ -33595,97 +34234,67 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
-          },
-          {
-            "id": "163d9dc45be",
-            "name": "新列1",
-            "text": "项目经理",
-            "alignment": 16384,
-            "width": 80,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
-            "id": "163d9dc6495",
-            "name": "新列2",
-            "text": "计划开始",
-            "alignment": 16384,
-            "width": 80,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
-            "id": "163d9dc7cdb",
-            "name": "新列3",
-            "text": "计划结束",
-            "alignment": 16384,
-            "width": 80,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
-            "id": "163d9dc9a67",
-            "name": "新列4",
-            "text": "状态",
-            "alignment": 16384,
-            "width": 80,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "163da7b8828",
+            "name": "scopeId",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163da7b8aaf",
+            "name": "scopename",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163da7b8c5e",
+            "name": "scopeStatus",
+            "text": "状态",
+            "type": "下拉选择框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "optionText": "已创建#进行中#收尾中#已关闭#已暂停#已中止",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -33706,9 +34315,11 @@
             "id": "163d9de279a",
             "name": "查询",
             "text": "查询",
+            "image": "/img/search_w.svg",
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "query"
@@ -33791,7 +34402,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c90c1fe5",
@@ -33810,7 +34422,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9009744",
@@ -33842,7 +34455,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e0ec2",
@@ -33861,7 +34475,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e0f82",
@@ -33877,15 +34492,16 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33e1088",
-                "name": "totalBudgetVariance",
+                "name": "totalBDR",
                 "text": "预算偏差",
                 "alignment": 131072,
                 "width": 100,
@@ -33897,37 +34513,20 @@
                 "expanded": false,
                 "columns": [],
                 "markupEnabled": false,
-                "format": "0.0%",
+                "format": "##.0%",
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
-              },
-              {
-                "id": "163d447ce31",
-                "name": "新列21",
-                "text": "新列21",
-                "alignment": 16384,
-                "width": 80,
-                "minimumWidth": 0,
-                "moveable": false,
-                "resizeable": true,
-                "detail": false,
-                "summary": false,
-                "expanded": false,
-                "columns": [],
-                "markupEnabled": false,
-                "sort": 0,
-                "hide": false,
-                "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "163c9657747",
@@ -33959,7 +34558,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d43b47de",
@@ -33978,7 +34578,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecaa1",
@@ -33997,7 +34598,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecb54",
@@ -34016,7 +34618,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d33ecc38",
@@ -34035,7 +34638,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439d0be",
@@ -34054,7 +34658,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439d1f4",
@@ -34073,7 +34678,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439d39a",
@@ -34092,7 +34698,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439d479",
@@ -34111,7 +34718,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439d535",
@@ -34130,7 +34738,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439e66f",
@@ -34149,7 +34758,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439e918",
@@ -34168,7 +34778,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439eb59",
@@ -34187,7 +34798,8 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "163d439ed4c",
@@ -34206,14 +34818,36 @@
                 "sort": 0,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
+              },
+              {
+                "id": "163daa83608",
+                "name": "新列1",
+                "text": "新列1",
+                "alignment": 16384,
+                "width": 80,
+                "minimumWidth": 0,
+                "moveable": false,
+                "resizeable": true,
+                "detail": false,
+                "summary": false,
+                "expanded": false,
+                "columns": [],
+                "markupEnabled": false,
+                "sort": 0,
+                "hide": false,
+                "element": false,
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],
@@ -34348,7 +34982,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163caf92bfa",
@@ -34367,7 +35002,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ca562ee3",
@@ -34386,7 +35022,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ca56a1cd",
@@ -34405,7 +35042,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163cd4e8472",
@@ -34424,7 +35062,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163cd500184",
@@ -34443,7 +35082,8 @@
             "sort": 0,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           }
         ],
         "fields": [],

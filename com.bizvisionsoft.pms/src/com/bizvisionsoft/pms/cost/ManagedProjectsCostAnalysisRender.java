@@ -73,15 +73,15 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getCARSummary();
 			}
-		} else if ("totalBudgetVariance".equals(column.getName())) {
+		} else if ("totalBDR".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总预算偏差
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudgetVarianceSummary();
+				value = cbsItem.getBDRSummary();
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的总预算偏差
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudgetVarianceSummary();
+				value = cbsSubjectCost.getBDRSummary();
 			}
 		} else if ("cost".equals(column.getName())) {
 			if (element instanceof CBSItem) {

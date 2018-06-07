@@ -65,6 +65,12 @@ public interface CBSService {
 	public List<CBSSubject> getAllSubCBSSubjectByNumber(@PathParam("_id") ObjectId cbs_id,
 			@PathParam("number") String number);
 
+	@GET
+	@Path("/{_id}/cost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CBSItem getCBSItemCost(@PathParam("_id") ObjectId _id);
+
 	@POST
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
@@ -133,6 +139,12 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<CBSItem> listProjectCost(BasicDBObject condition);
+
+	@POST
+	@Path("/projectcostanalysis/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<CBSItem> listProjectCostAnalysis(BasicDBObject condition);
 
 	@POST
 	@Path("/projectcost/count")
