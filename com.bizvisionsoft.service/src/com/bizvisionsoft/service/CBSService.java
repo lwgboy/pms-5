@@ -149,6 +149,12 @@ public interface CBSService {
 	@Path("/submitcost/{scope_id}/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> submitCBSSubjectCost(@PathParam("scope_id")ObjectId scope_id,@PathParam("id") String id);
+	public List<Result> submitCBSSubjectCost(@PathParam("scope_id") ObjectId scope_id, @PathParam("id") String id);
+
+	@GET
+	@Path("/costcompositionanalysis/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String getCostCompositionAnalysis();
 
 }

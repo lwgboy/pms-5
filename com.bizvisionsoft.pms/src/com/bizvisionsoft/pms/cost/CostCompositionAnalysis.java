@@ -1,6 +1,5 @@
-package com.bizvisionsoft.demo.rsclient;
+package com.bizvisionsoft.pms.cost;
 
-import org.eclipse.rap.json.JsonArray;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -13,8 +12,10 @@ import com.bizvisionsoft.annotations.ui.common.GetContent;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.CBSService;
+import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EChartsDemo {
+public class CostCompositionAnalysis {
 
 	@Inject
 	private IBruiService bruiService;
@@ -30,21 +31,13 @@ public class EChartsDemo {
 	private void createUI(Composite parent) {
 		parent.setLayout(new FillLayout());
 		createChart(parent);
-//		((BruiAssemblyContext)context.getChildContextByAssemblyName("Ä³Ä³Í¼±í")).getContent();
+		// ((BruiAssemblyContext)context.getChildContextByAssemblyName("Ä³Ä³Í¼±í")).getContent();
 	}
 
 	private void createChart(Composite parent) {
 		content = new ECharts(parent, SWT.NONE);
-
-		JsonObject option = new JsonObject().add("title", new JsonObject().add("text", "Àý×Ó"))
-				.add("legend", new JsonObject().add("data", new JsonArray().add("ÏúÁ¿")))
-				.add("xAxis",
-						new JsonObject().add("data",
-								new JsonArray().add("³ÄÉÀ").add("ÑòÃ«ÉÀ").add("Ñ©·ÄÉÀ").add("¿ã×Ó").add("¸ß¸úÐ¬").add("Íà×Ó")))
-				.add("yAxis", new JsonObject())
-				.add("series", new JsonArray().add(new JsonObject().add("name", "ÏúÁ¿").add("type", "bar").add("data",
-						new JsonArray().add(5).add(20).add(36).add(10).add(10).add(20))));
-		content.setOption(option);
+		String option = Services.get(CBSService.class).getCostCompositionAnalysis();
+		content.setOption(JsonObject.readFrom(option));
 	}
 
 }

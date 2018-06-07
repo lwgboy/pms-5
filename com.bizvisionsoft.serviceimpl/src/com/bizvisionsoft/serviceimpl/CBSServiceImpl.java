@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -420,6 +421,104 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	private List<Result> submitCBSSubjectCostCheck(ObjectId scope_id, String id) {
 		return new ArrayList<Result>();
+	}
+
+	@Override
+	public String getCostCompositionAnalysis() {
+		Document option = new Document();
+		option.append("title", new Document().append("text", "成本组成").append("x", "center"));
+		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
+		// TODO JsonArray查询获取
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup", new Document("from", "cbsSubject")
+						.append("let",
+								new Document("id", "$id"))
+						.append("pipeline",
+								Arrays.asList(
+										new Document("$match",
+												new Document("$expr",
+														new Document("$eq", Arrays.asList("$subjectNumber", "$$id")))),
+										new Document("$group",
+												new Document("_id", "$subjectNumber").append("cost",
+														new Document("$sum", "$cost")))))
+						.append("as", "cbsSubject")),
+				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
+				new Document("$project", new Document().append("cbsSubject", false)));
+
+		// parent_id _id cost
+		Map<Object, Map<Object, Double>> subCost = new HashMap<Object, Map<Object, Double>>();
+		List<String> data1 = new ArrayList<String>();
+		c("accountItem").aggregate(pipeline).forEach(new Block<Document>() {
+			@Override
+			public void apply(final Document doc) {
+				Object parent_id = doc.get("parent_id");
+				Object _id = doc.getString("_id");
+				Object cost = doc.get("cost");
+				if (parent_id == null) {
+					data1.add(doc.getString("name"));
+					Map<Object, Double> map = new HashMap<Object, Double>();
+					map.put(_id, cost != null ? (Double) cost : null);
+					subCost.put(doc.getString("name"), map);
+				} else {
+					if (cost != null) {
+						Map<Object, Double> map = subCost.get(parent_id);
+						if (map == null) {
+							map = new HashMap<Object, Double>();
+							subCost.put(parent_id, map);
+						}
+						Double d = map.get(_id);
+						if (d == null) {
+							map.put(_id, (Double) cost);
+						}
+					}
+				}
+			}
+		});
+		List<Document> data2 = new ArrayList<Document>();
+		addDate2(data2, subCost);
+
+		option.append("legend",
+				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
+		option.append("series",
+				Arrays.asList(new Document().append("name", "成本组成").append("type", "pie").append("data", data2)));
+
+		return option.toJson();
+	}
+
+	private void addDate2(List<Document> data2, Map<Object, Map<Object, Double>> subCost) {
+		subCost.keySet().forEach(key1 -> {
+			if (key1 instanceof String) {
+				double d = 0d;
+				Map<Object, Double> map = subCost.get(key1);
+				for (Object key2 : map.keySet()) {
+					Double d1 = map.get(key2);
+					if (d1 != null) {
+						d += d1;
+					}
+					d += getSubCost(key2, subCost);
+				}
+				if (d != 0d) {
+					data2.add(new Document("name", key1).append("value", d));
+				}
+			}
+		});
+
+	}
+
+	private double getSubCost(Object key, Map<Object, Map<Object, Double>> subCost) {
+		double d = 0d;
+		Map<Object, Double> map = subCost.get(key);
+		if(map != null) {
+			for (Object key2 : map.keySet()) {
+				Double d1 = map.get(key2);
+				if (d1 != null) {
+					d += d1;
+				}
+				d += getSubCost(key2, subCost);
+			}
+		}
+		return d;
 	}
 
 }
