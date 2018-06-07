@@ -453,7 +453,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			@Override
 			public void apply(final Document doc) {
 				Object parent_id = doc.get("parent_id");
-				Object _id = doc.getString("_id");
+				Object _id = doc.get("_id");
 				Object cost = doc.get("cost");
 				if (parent_id == null) {
 					data1.add(doc.getString("name"));
