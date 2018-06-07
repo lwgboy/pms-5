@@ -1,13 +1,17 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -233,6 +237,103 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	public void setEnabled(ObjectId _id, boolean enabled) {
 		c("projectTemplate").updateOne(new Document("_id", _id),
 				new Document("$set", new Document("enabled", enabled)));
+	}
+
+	@Override
+	public void useTemplate(ObjectId template_id, ObjectId project_id, String user) {
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 清除当前的编辑数据
+		// 1. 获得所有的work
+		List<ObjectId> ids = c("work").distinct("_id", new Document("project_id", project_id), ObjectId.class)
+				.into(new ArrayList<>());
+		// 2.清除关联的resourcePlan
+		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", ids)));
+		// 3. 清除关联的workPackage
+		c("workPackage").deleteMany(new Document("work_id", new Document("$in", ids)));
+		// 4. 清除worklinks
+		c("worklinks").deleteMany(new Document("project_id", project_id));
+		// 5. 清除work
+		c("work").deleteMany(new Document("project_id", project_id));
+		// 6. 清除workspace
+		c("workspace").deleteMany(new Document("project_id", project_id));
+		// 7. 清除worklinksspace
+		c("worklinksspace").deleteMany(new Document("project_id", project_id));
+		// 8. 清除worklinksspace
+		c("worklinksspace").deleteMany(new Document("project_id", project_id));
+		// 9. 清除obs
+		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
+				new Document("scopeRoot", false).append("scope_id", project_id))));
+		// 10. 清除cbs
+		c("cbs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
+				new Document("scopeRoot", false).append("scope_id", project_id))));
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 检出项目
+		ObjectId space_id = new ObjectId();
+		Document project = c("project").find(new Document("_id", project_id)).first();
+		c("project").updateOne(new Document("_id", project_id),
+				new Document("$set", new Document("checkoutBy", user).append("space_id", space_id)));
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 创建工作
+		//
+		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
+		List<Document> tobeInsert = new ArrayList<>();
+
+		boolean stageEnable = Boolean.TRUE.equals(project.getBoolean("stageEnable"));
+		String pjNo = project.getString("id");
+		ObjectId obs_id = project.getObjectId("obs_id");
+
+		c("workInTemplate").find(new Document("template_id", template_id)).sort(new Document("wbsCode", 1))
+				.forEach((Document doc) -> {
+					ObjectId _id = new ObjectId();
+					idMap.put(doc.getObjectId("_id"), _id);
+
+					int index = generateCode(Generator.DEFAULT_NAME, "work");
+					String code = pjNo + String.format("%04d", index);
+
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					doc.append("_id", _id).append("space_id", space_id)
+							.append("stage", parent_id == null && stageEnable).append("project_id", project_id)
+							.append("code", code);
+					if (parent_id != null) {
+						ObjectId newParentId = idMap.get(parent_id);
+						doc.put("parent_id", newParentId);
+					}
+
+					doc.remove("template_id");
+					tobeInsert.add(doc);
+				});
+		c("workspace").insertMany(tobeInsert);
+		tobeInsert.clear();
+
+		c("worklinkInTemplate").find(new Document("template_id", template_id)).forEach((Document doc) -> {
+			ObjectId source = idMap.get(doc.get("source"));
+			ObjectId target = idMap.get(doc.get("target"));
+			doc.append("_id", new ObjectId()).append("project_id", project_id).append("space_id", space_id).append("source", source).append("target",
+					target).remove("template_id");
+			tobeInsert.add(doc);
+		});
+		c("worklinksspace").insertMany(tobeInsert);
+		idMap.clear();
+		tobeInsert.clear();
+
+		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), obs_id);
+					} else {
+						ObjectId _id = new ObjectId();
+						idMap.put(doc.getObjectId("_id"), _id);
+						doc.append("_id", _id).append("scope_id", project_id).append("parent_id", idMap.get(parent_id));
+						tobeInsert.add(doc);
+					}
+
+				});
+		c("obs").insertMany(tobeInsert);
+		idMap.clear();
+		tobeInsert.clear();
 	}
 
 }

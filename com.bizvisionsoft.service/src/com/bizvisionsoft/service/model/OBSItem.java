@@ -42,15 +42,6 @@ public class OBSItem {
 	@Exclude
 	public static final String NAME_CHARGER = "负责人";
 
-	@Exclude
-	public static final int TYPE_CHARGER_ITEM = 0;
-
-	@Exclude
-	public static final int TYPE_ROLE_ITEM = 1;
-
-	@Exclude
-	public static final int TYPE_TEAM_ITEM = 2;
-
 	@Override
 	@Label
 	@ReadValue("项目团队/label")
@@ -80,7 +71,7 @@ public class OBSItem {
 	public boolean behaviorEditOrDeleteItem() {
 		return !scopeRoot;
 	}
-	
+
 	@Behavior({ "成员" })
 	public boolean behaviorHasMember() {
 		return !isRole;
@@ -215,12 +206,19 @@ public class OBSItem {
 	}
 
 	@WriteValue("selectedRole")
-	public void writeSelectedRole(String selectedRole) {
+	private void writeSelectedRole(String selectedRole) {
 		this.selectedRole = selectedRole;
 		if (this.selectedRole != null) {
 			roleId = selectedRole.split("#")[0];
 			roleName = selectedRole.split("#")[1];
 		}
+	}
+
+	@ReadValue("selectedRole")
+	private String readSelectedRole() {
+		if (roleId != null && roleName != null)
+			return roleId + "#" + roleName;
+		return "";
 	}
 
 	@GetValue("roleId")
@@ -241,61 +239,54 @@ public class OBSItem {
 		return null;
 	}
 
-	@ReadValue({ "组织结构图/title", "组织结构图（查看）/title" })
-	public String getDiagramTitle() {
-		int type = getDiagramItemType();
-		if (TYPE_CHARGER_ITEM == type || TYPE_TEAM_ITEM == type) {
-			return name;
-		} else if (TYPE_ROLE_ITEM == type) {
-			return roleName;
-		}
-		return " ";
-	}
-
-	private int getDiagramItemType() {
-		// 有名称，有负责角色，有负责角色名称，有指定人的:例如：某某阶段团队，项目经理，张三
-		if (!Util.isEmptyOrNull(name) && roleId != null && managerId != null)
-			return TYPE_CHARGER_ITEM;
-		// 无名称，有负责角色，有负责角色名称，有指定人的:例如：财务经理，李四
-		if (Util.isEmptyOrNull(name) && roleId != null && managerId != null)
-			return TYPE_ROLE_ITEM;
-		// 有名称，没有角色也没有管理者的例如：某某团队
-		if (!Util.isEmptyOrNull(name) && roleId == null && managerId == null)
-			return TYPE_TEAM_ITEM;
-
-		return TYPE_TEAM_ITEM;
-	}
-
 	@ReadValue({ "组织结构图/id", "组织结构图（查看）/id" })
-	public String getDiagramId() {
+	private String getDiagramId() {
 		return _id.toHexString();
 	}
 
-	@ReadValue({ "组织结构图/text", "组织结构图（查看）/text" })
-	public String getDiagramText() {
-		int type = getDiagramItemType();
-		if (TYPE_CHARGER_ITEM == type) {
-			if (Util.isEmptyOrNull(roleName)) {
-				return managerInfo.substring(0, managerInfo.indexOf("["));
-			} else {
-				return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
-			}
-		} else if (TYPE_ROLE_ITEM == type) {
-			return managerInfo.substring(0, managerInfo.indexOf("["));
-		} else if (TYPE_TEAM_ITEM == type) {
-			return "小组";
+	@ReadValue({ "组织结构图/title", "组织结构图（查看）/title" })
+	private String getDiagramTitle() {
+		if (isRole()) {
+			return Util.isEmptyOrNull(roleName) ? "[未命名]" : roleName;
+		} else {
+			return Util.isEmptyOrNull(name) ? "[未命名]" : name;
 		}
-		return " ";
+
+	}
+
+	@ReadValue({ "组织结构图/text", "组织结构图（查看）/text" })
+	private String getDiagramText() {
+		if (isRole()) {
+			if (Util.isEmptyOrNull(managerInfo)) {
+				return "[待定]";
+			} else {
+				return managerInfo.substring(0, managerInfo.indexOf("["));
+			}
+		} else {
+			if (Util.isEmptyOrNull(roleName)) {
+				if (Util.isEmptyOrNull(managerInfo)) {
+					return "团队";
+				} else {
+					return managerInfo.substring(0, managerInfo.indexOf("["));
+				}
+			} else {
+				if (Util.isEmptyOrNull(managerInfo)) {
+					return roleName + " [待定]";
+				} else {
+					return roleName + " " + managerInfo.substring(0, managerInfo.indexOf("["));
+				}
+			}
+		}
 
 	}
 
 	@ReadValue({ "组织结构图/parent", "组织结构图（查看）/parent" })
-	public String getDiagramParent() {
+	private String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
 	@ReadValue({ "组织结构图/img", "组织结构图（查看）/img" })
-	public String getDiagramImage() {
+	private String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);
 		} else if (roleId != null) {

@@ -171,22 +171,4 @@ public interface ProjectService {
 	public String generateWorkOrder(@PathParam("catalog") String catalog,
 			@PathParam("parentproject_id") ObjectId parentproject_id, @PathParam("impunit_id") ObjectId impunit_id);
 
-	@GET
-	@Path("/_id/{_id}/worktime/plan/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public double getPlanWorks(@PathParam("_id") ObjectId _id);
-
-	@GET
-	@Path("/_id/{_id}/worktime/actual/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public double getActualWorks(@PathParam("_id") ObjectId _id);
-
-	@PUT
-	@Path("/_id/{_id}/template_id/{template_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public void useTemplate(@PathParam("_id") ObjectId _id, @PathParam("template_id") ObjectId template_id);
-
 }

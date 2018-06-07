@@ -9,7 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -22,9 +22,11 @@ public class UseTemplate {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
-		if (brui.confirm("套用项目模板", "套用项目模板将<span style='color:red;font-weight:bold;'>替换</span>项目的进度计划、项目团队，请确认套用项目模板。")) {
+		if (brui.confirm("套用项目模板",
+				"套用项目模板将<span style='color:red;font-weight:bold;'>替换</span>项目的进度计划、项目团队，请确认套用项目模板。")) {
 			Selector.open("项目模板选择器", context, null, l -> {
-				Services.get(ProjectService.class).useTemplate(project.get_id(), ((ProjectTemplate) l.get(0)).get_id());
+				Services.get(ProjectTemplateService.class).useTemplate(((ProjectTemplate) l.get(0)).get_id(),
+						project.get_id(), brui.getCurrentUserId());
 				Layer.message("项目已更新。");
 			});
 

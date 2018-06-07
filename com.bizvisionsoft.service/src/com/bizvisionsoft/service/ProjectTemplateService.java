@@ -239,4 +239,10 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	public void setEnabled(@PathParam("_id") ObjectId _id, @PathParam("enabled") boolean enabled);
 
+	@PUT
+	@Path("/_id/{_id}/project_id/{project_id}/checkoutBy/{checkoutBy}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void useTemplate(@PathParam("_id") ObjectId _id, @PathParam("project_id") ObjectId project_id,
+			@PathParam("checkoutBy") String checkoutBy);
 }
