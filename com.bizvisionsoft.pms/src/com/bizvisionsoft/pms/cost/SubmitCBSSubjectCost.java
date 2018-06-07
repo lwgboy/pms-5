@@ -57,7 +57,7 @@ public class SubmitCBSSubjectCost {
 			//提交当前期间成本
 			String id = "" + cal.get(Calendar.YEAR);
 			id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
-			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交期间成本",
+			if (MessageDialog.openConfirm(brui.getCurrentShell(), "确认期间成本",
 					"请确认提交当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月"
 							+ "）的成本。\n提交后将无法修改该期间的成本数据。")) {
