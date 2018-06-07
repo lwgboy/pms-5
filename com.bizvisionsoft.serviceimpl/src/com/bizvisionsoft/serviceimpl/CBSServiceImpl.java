@@ -23,7 +23,6 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -447,30 +446,27 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new Document("$project", new Document().append("cbsSubject", false)));
 
 		// parent_id _id cost
-		Map<Object, Map<Object, Double>> subCost = new HashMap<Object, Map<Object, Double>>();
+		Map<Object, Map<Object, Number>> subCost = new HashMap<Object, Map<Object, Number>>();
 		List<String> data1 = new ArrayList<String>();
-		c("accountItem").aggregate(pipeline).forEach(new Block<Document>() {
-			@Override
-			public void apply(final Document doc) {
-				Object parent_id = doc.get("parent_id");
-				Object _id = doc.get("_id");
-				Object cost = doc.get("cost");
-				if (parent_id == null) {
-					data1.add(doc.getString("name"));
-					Map<Object, Double> map = new HashMap<Object, Double>();
-					map.put(_id, cost != null ? (Double) cost : null);
-					subCost.put(doc.getString("name"), map);
-				} else {
-					if (cost != null) {
-						Map<Object, Double> map = subCost.get(parent_id);
-						if (map == null) {
-							map = new HashMap<Object, Double>();
-							subCost.put(parent_id, map);
-						}
-						Double d = map.get(_id);
-						if (d == null) {
-							map.put(_id, (Double) cost);
-						}
+		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+			Object parent_id = doc.get("parent_id");
+			Object _id = doc.get("_id");
+			Object cost = doc.get("cost");
+			if (parent_id == null) {
+				data1.add(doc.getString("name"));
+				Map<Object, Number> map = new HashMap<Object, Number>();
+				map.put(_id, cost != null ? (Number) cost : null);
+				subCost.put(doc.getString("name"), map);
+			} else {
+				if (cost != null) {
+					Map<Object, Number> map = subCost.get(parent_id);
+					if (map == null) {
+						map = new HashMap<Object, Number>();
+						subCost.put(parent_id, map);
+					}
+					Number d = map.get(_id);
+					if (d == null) {
+						map.put(_id, (Number) cost);
 					}
 				}
 			}
@@ -486,15 +482,15 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		return option.toJson();
 	}
 
-	private void addDate2(List<Document> data2, Map<Object, Map<Object, Double>> subCost) {
+	private void addDate2(List<Document> data2, Map<Object, Map<Object, Number>> subCost) {
 		subCost.keySet().forEach(key1 -> {
 			if (key1 instanceof String) {
 				double d = 0d;
-				Map<Object, Double> map = subCost.get(key1);
+				Map<Object, Number> map = subCost.get(key1);
 				for (Object key2 : map.keySet()) {
-					Double d1 = map.get(key2);
+					Number d1 = map.get(key2);
 					if (d1 != null) {
-						d += d1;
+						d += d1.doubleValue();
 					}
 					d += getSubCost(key2, subCost);
 				}
@@ -506,14 +502,14 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	}
 
-	private double getSubCost(Object key, Map<Object, Map<Object, Double>> subCost) {
+	private double getSubCost(Object key, Map<Object, Map<Object, Number>> subCost) {
 		double d = 0d;
-		Map<Object, Double> map = subCost.get(key);
-		if(map != null) {
+		Map<Object, Number> map = subCost.get(key);
+		if (map != null) {
 			for (Object key2 : map.keySet()) {
-				Double d1 = map.get(key2);
+				Number d1 = map.get(key2);
 				if (d1 != null) {
-					d += d1;
+					d += d1.doubleValue();
 				}
 				d += getSubCost(key2, subCost);
 			}
