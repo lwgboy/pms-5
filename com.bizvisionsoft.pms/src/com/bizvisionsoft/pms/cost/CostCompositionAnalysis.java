@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.cost;
 
+import org.bson.Document;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -36,8 +37,8 @@ public class CostCompositionAnalysis {
 
 	private void createChart(Composite parent) {
 		content = new ECharts(parent, SWT.NONE);
-		String option = Services.get(CBSService.class).getCostCompositionAnalysis();
-		content.setOption(JsonObject.readFrom(option));
+		Document option = Services.get(CBSService.class).getCostCompositionAnalysis();
+		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 
 }

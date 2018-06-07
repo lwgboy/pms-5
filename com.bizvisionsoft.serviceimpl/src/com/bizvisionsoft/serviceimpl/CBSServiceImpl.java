@@ -423,7 +423,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public String getCostCompositionAnalysis() {
+	public Document getCostCompositionAnalysis() {
 		Document option = new Document();
 		option.append("title", new Document().append("text", "成本组成").append("x", "center"));
 		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
@@ -479,7 +479,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		option.append("series",
 				Arrays.asList(new Document().append("name", "成本组成").append("type", "pie").append("data", data2)));
 
-		return option.toJson();
+		return option;
 	}
 
 	private void addDate2(List<Document> data2, Map<Object, Map<Object, Number>> subCost) {
