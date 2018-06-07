@@ -15,6 +15,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
@@ -299,6 +300,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					if (parent_id != null) {
 						ObjectId newParentId = idMap.get(parent_id);
 						doc.put("parent_id", newParentId);
+					} else if (stageEnable) {
+						doc.put("status", ProjectStatus.Created);
 					}
 
 					doc.remove("template_id");
@@ -307,11 +310,19 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("workspace").insertMany(tobeInsert);
 		tobeInsert.clear();
 
+		c("workPackage").find(new Document("work_id", new Document("$in", idMap.keySet()))).forEach((Document d) -> {
+			ObjectId newWorkId = idMap.get(d.get("work_id"));
+			d.append("work_id", newWorkId).append("_id", new ObjectId()).remove("chargerId");
+			tobeInsert.add(d);
+		});
+		c("workPackage").insertMany(tobeInsert);
+		tobeInsert.clear();
+
 		c("worklinkInTemplate").find(new Document("template_id", template_id)).forEach((Document doc) -> {
 			ObjectId source = idMap.get(doc.get("source"));
 			ObjectId target = idMap.get(doc.get("target"));
-			doc.append("_id", new ObjectId()).append("project_id", project_id).append("space_id", space_id).append("source", source).append("target",
-					target).remove("template_id");
+			doc.append("_id", new ObjectId()).append("project_id", project_id).append("space_id", space_id)
+					.append("source", source).append("target", target).remove("template_id");
 			tobeInsert.add(doc);
 		});
 		c("worklinksspace").insertMany(tobeInsert);

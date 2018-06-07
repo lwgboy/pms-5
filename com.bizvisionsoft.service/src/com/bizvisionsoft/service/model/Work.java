@@ -668,11 +668,17 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("进度计划和监控/chargerInfoWithDistributeIcon")
 	private String getChargerInfoWithIcon() {
+		if (chargerId == null) {
+			return "";
+		}
 		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + chargerInfo
 				+ getDistributedIcon() + "</div>";
 	}
 
 	public String getChargerInfo() {
+		if (chargerId == null) {
+			return "";
+		}
 		return chargerInfo;
 	}
 
