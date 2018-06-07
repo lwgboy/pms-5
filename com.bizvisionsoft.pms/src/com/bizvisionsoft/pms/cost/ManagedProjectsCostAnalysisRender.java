@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.cost;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.widgets.grid.GridColumn;
@@ -17,14 +16,10 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.CBSService;
-import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
-import com.bizvisionsoft.service.model.ICBSScope;
-import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ManagedProjectsCostRender extends GridPartDefaultRender {
+public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -38,40 +33,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 	private void init() {
 		// 获取当前年、月
 		Calendar currentCBSPeriod = Calendar.getInstance();
-		int newYear = currentCBSPeriod.get(Calendar.YEAR);
-		int newMonth = currentCBSPeriod.get(Calendar.MONTH);
-
-		Date date = null;
-		// 获取传入的CBSItem 从成本管理打开项目成本管理时，从contextInput获取
-		Object input = context.getInput();
-		if (input == null) {
-			// 获取传入的CBSItem 从项目、阶段打开项目成本管理时，从contextRootInput获取
-			Object rootInput = context.getRootInput();
-			if (rootInput instanceof ICBSScope) {
-				ICBSScope icbsScope = (ICBSScope) rootInput;
-				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
-			}
-		}
-		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
-		if (input != null) {
-			if (input instanceof CBSItem) {
-				CBSItem cbsItem = (CBSItem) input;
-				date = cbsItem.getNextSettlementDate();
-				// 如果项目下一结算月份等于当前月份，则日期为当前结算月份
-				currentCBSPeriod.setTime(date);
-				if (currentCBSPeriod.get(Calendar.YEAR) == newYear
-						&& currentCBSPeriod.get(Calendar.MONTH) == newMonth) {
-					currentCBSPeriod.add(Calendar.MONTH, -1);
-				}
-			}
-		}
-		// 从首页打开成本管理，结算月份为当前系统整体结算期间
-		if (date == null) {
-			date = Services.get(CommonService.class).getCurrentCBSPeriod();
-			currentCBSPeriod.setTime(date);
-		}
 		result = "" + currentCBSPeriod.get(Calendar.YEAR);
-		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
 	}
 
 	@Override
@@ -81,17 +43,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
 			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
 		Object element = cell.getElement();
-		if ("periodCost".equals(column.getName())) {
-			if (element instanceof CBSItem) {
-				// 获取成本管理的当前期间成本
-				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result);
-			} else if (element instanceof CBSSubjectCost) {
-				// 获取项目成本管理的当前期间成本
-				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result);
-			}
-		} else if ("totalCost".equals(column.getName())) {
+		if ("totalCost".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总成本
 				CBSItem cbsItem = (CBSItem) element;
@@ -135,41 +87,34 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间成本
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result);
+				value = cbsItem.getCost(result + "01", result + "12");
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间成本
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result);
+				value = cbsSubjectCost.getCost(result + "01", result + "12");
 			}
 		} else if ("budget".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间预算
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudget(result);
+				value = cbsItem.getBudget(result + "01", result + "12");
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间预算
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudget(result);
+				value = cbsSubjectCost.getBudget(result + "01", result + "12");
 			}
-		} else if ("car".equals(column.getName())) {
+		} else if ("01".equals(column.getName()) || "02".equals(column.getName()) || "03".equals(column.getName())
+				|| "04".equals(column.getName()) || "05".equals(column.getName()) || "06".equals(column.getName())
+				|| "07".equals(column.getName()) || "08".equals(column.getName()) || "09".equals(column.getName())
+				|| "10".equals(column.getName()) || "11".equals(column.getName()) || "12".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间CAR
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCAR(result);
+				value = cbsItem.getCost(result + column.getName());
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间CAR
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCAR(result);
-			}
-		} else if ("budgetVariance".equals(column.getName())) {
-			if (element instanceof CBSItem) {
-				// 获取成本管理的期间预算偏差
-				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudgetVariance(result);
-			} else if (element instanceof CBSSubjectCost) {
-				// 获取项目成本管理的期间预算偏差
-				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudgetVariance(result);
+				value = cbsSubjectCost.getCost(result + column.getName());
 			}
 		}
 		super.renderCell(cell, column, value, image);
@@ -179,13 +124,9 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 	@GridRenderColumnHeader
 	public void renderColumnHeader(@MethodParam(GridRenderColumnHeader.PARAM_COLUMN_WIDGET) GridColumn col,
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
-		// 修改当期成本显示列名
-		if ("periodCost".equals(column.getName())) {
-			column.setText(result.substring(0, 4) + "/" + result.substring(4, 6));
-		}
-		//TODO 没有修改ColumnGroupHeader的方法
+		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {
-		// column.setText(result.substring(0, 4) + "/" + result.substring(4, 6));
+		// column.setText(result+ "年" );
 		// }
 		super.renderColumnHeader(col, column);
 	}

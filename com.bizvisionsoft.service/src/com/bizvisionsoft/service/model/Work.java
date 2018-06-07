@@ -147,7 +147,7 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
  */
 @PersistenceCollection("work")
 @Strict
-public class Work implements ICBSScope, IOBSScope, IWBSScope,IWorkPackageMaster {
+public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -444,11 +444,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope,IWorkPackageMaster 
 	@SetValue
 	private double planWorks;
 
+	@SetValue
+	private double summaryPlanWorks;
+
 	@ReadValue("planWorks")
 	@GetValue("planWorks")
 	public double getPlanWorks() {
-		if(summary) {
-			return ServicesLoader.get(WorkService.class).getPlanWorks(wbsCode);
+		if (summary) {
+			return summaryPlanWorks;
 		}
 		return planWorks;
 	}
@@ -456,11 +459,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope,IWorkPackageMaster 
 	@SetValue
 	private double actualWorks;
 
+	@SetValue
+	private double summaryActualWorks;
+
 	@ReadValue("actualWorks")
 	@GetValue("actualWorks")
 	public double getActualWorks() {
-		if(summary) {
-			return ServicesLoader.get(WorkService.class).getActualWorks(wbsCode);
+		if (summary) {
+			return summaryActualWorks;
 		}
 		return actualWorks;
 	}
@@ -967,5 +973,5 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope,IWorkPackageMaster 
 	public String getAssignerId() {
 		return assignerId;
 	}
-	
+
 }

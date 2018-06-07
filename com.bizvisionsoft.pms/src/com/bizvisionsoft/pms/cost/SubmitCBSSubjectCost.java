@@ -27,6 +27,7 @@ public class SubmitCBSSubjectCost {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+		//获取当前显示的CBSItem根，主页打开时从contextInput中获取，项目、阶段打开时从contextRootInput中获取
 		Object input = context.getInput();
 		if (input == null) {
 			input = context.getRootInput();
@@ -35,13 +36,16 @@ public class SubmitCBSSubjectCost {
 				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
 			}
 		}
+		
 		if (input instanceof CBSItem) {
 			CBSItem cbsItem = (CBSItem) input;
+			//获取编辑的成本期间
 			Date settlementDate = cbsItem.getNextSettlementDate();
 			Calendar cal = Calendar.getInstance();
 			int newYear = cal.get(Calendar.YEAR);
 			int newMonth = cal.get(Calendar.MONTH);
 			cal.setTime(settlementDate);
+			//编辑的成本期间为当前年月时，禁止提交。
 			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
 				cal.add(Calendar.MONTH, -1);
 				Layer.message(
@@ -50,6 +54,7 @@ public class SubmitCBSSubjectCost {
 						Layer.ICON_CANCEL);
 				return;
 			}
+			//提交当前期间成本
 			String id = "" + cal.get(Calendar.YEAR);
 			id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
 			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交期间成本",

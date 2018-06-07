@@ -98,6 +98,11 @@ public class CBSItem {
 	private boolean behaviourDelete() {
 		return !scopeRoot && countSubCBSItems() == 0;
 	}
+	
+	@Behavior({"预算成本对比分析/打开项目预算成本对比分析"})
+	private boolean behaviourOpen() {
+		return scopeRoot;
+	}
 
 	@SetValue
 	@ReadValue
@@ -151,7 +156,7 @@ public class CBSItem {
 		return children.size();
 	}
 
-	@Structure({ "项目成本管理/list" })
+	@Structure({ "项目成本管理/list", "项目预算成本对比分析/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
 		children.forEach(c -> {
 			c.parent = this;
@@ -173,7 +178,7 @@ public class CBSItem {
 		return result;
 	}
 
-	@Structure({ "项目成本管理/count" })
+	@Structure({ "项目成本管理/count", "项目预算成本对比分析/count" })
 	public long countSubCBSItemsAndSubjects() {
 		long result = children.size();
 		if (result == 0) {
@@ -182,6 +187,33 @@ public class CBSItem {
 			} else {
 				result += subjects.size();
 			}
+		}
+		return result;
+	}
+
+	@Structure({ "预算成本对比分析/list" })
+	public List<Object> listSubCBSSubjects() {
+		List<Object> result = new ArrayList<Object>();
+
+		if (subjects == null) {
+			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
+		}
+		List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
+		subjects.forEach(s -> {
+			cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
+
+		});
+		result.addAll(cbsSubjects);
+		return result;
+	}
+
+	@Structure({ "预算成本对比分析/count" })
+	public long countSubCBSSubjects() {
+		long result = 0;
+		if (subjects == null) {
+			result += ServicesLoader.get(CommonService.class).countAccoutItemRoot();
+		} else {
+			result += subjects.size();
 		}
 		return result;
 	}
@@ -253,6 +285,25 @@ public class CBSItem {
 			}
 			return summary;
 		}
+	}
+
+	public Double getBudget(String startPeriod, String endPeriod) {
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
+			Iterator<CBSItem> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getBudget(startPeriod, endPeriod);
+			}
+		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			}
+		}
+		return summary;
 	}
 
 	public Double getBudgetYearSummary(String year) {
@@ -429,6 +480,54 @@ public class CBSItem {
 		if (!update && cbsSubjects.size() > 0) {
 			cbsSubjects.add(cbsSubject);
 		}
+	}
+
+	public Double getCARSummary() {
+		Double budgetSummary = getBudgetSummary();
+		if (budgetSummary != 0d) {
+			return 1d * getCostSummary() / budgetSummary;
+		}
+		return null;
+	}
+
+	public Double getCAR(String period) {
+		Double budget = getBudget(period);
+		if (budget != 0d) {
+			return 1d * getCost(period) / budget;
+		}
+		return null;
+	}
+
+	public Double getCAR(String startPeriod, String endPeriod) {
+		Double budget = getBudget(startPeriod, endPeriod);
+		if (budget != 0d) {
+			return 1d * getCost(startPeriod, endPeriod) / budget;
+		}
+		return null;
+	}
+
+	public Double getBudgetVarianceSummary() {
+		Double budgetSummary = getBudgetSummary();
+		if (budgetSummary != 0d) {
+			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
+		}
+		return null;
+	}
+
+	public Double getBudgetVariance(String period) {
+		Double budget = getBudget(period);
+		if (budget != 0d) {
+			return 1d * (getCost(period) - budget) / budget;
+		}
+		return null;
+	}
+
+	public Double getBudgetVariance(String startPeriod, String endPeriod) {
+		Double budget = getBudget(startPeriod, endPeriod);
+		if (budget != 0d) {
+			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
+		}
+		return null;
 	}
 
 }

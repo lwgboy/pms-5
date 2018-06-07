@@ -29,23 +29,25 @@ public class SetSearchCBSPeriod {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+		// 打开查询成本期间编辑器
 		Editor<Object> editor = Editor.create("成本管理—查询", context, new Document(), false);
 		if (Window.OK == editor.open()) {
+			// 获取查询的成本期间
 			BasicDBObject dbo = (BasicDBObject) editor.getResult();
 			String startPeriod = getPeriod(dbo.getDate("date1"));
 			String endPeriod = getPeriod(dbo.getDate("date2"));
 
-			IBruiContext bruiContext = context.getChildContextByAssemblyName("成本管理");
-			GridPart content = (GridPart) bruiContext.getContent();
+			GridPart content = (GridPart) context.getContent();
 			GridTreeViewer viewer = content.getViewer();
 			GridColumn[] columns = viewer.getGrid().getColumns();
 			for (GridColumn column : columns) {
+				// 修改当期成本列的列名和Label显示
 				if ("periodCost".equals(column.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6) );
+						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6));
 					} else {
-						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6)  + "-"
-								+ endPeriod.substring(0, 4) + "/" + endPeriod.substring(4, 6) );
+						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6) + "-"
+								+ endPeriod.substring(0, 4) + "/" + endPeriod.substring(4, 6));
 					}
 
 					GridViewerColumn vcol = new GridViewerColumn(viewer, column);
@@ -60,7 +62,6 @@ public class SetSearchCBSPeriod {
 					});
 				}
 
-				System.out.println();
 			}
 			viewer.refresh(true);
 		}

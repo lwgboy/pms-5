@@ -383,17 +383,4 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan rp);
-
-	@GET
-	@Path("/worktime/plan/{wbscode}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public double getPlanWorks(@PathParam("wbscode")String wbscode);
-
-	@GET
-	@Path("/worktime/actual/{wbscode}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public double getActualWorks(@PathParam("wbscode")String wbscode);
-
 }

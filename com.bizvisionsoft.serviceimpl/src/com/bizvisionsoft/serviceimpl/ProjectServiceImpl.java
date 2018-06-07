@@ -142,6 +142,32 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
+		appendWorkTime(pipeline);
+	}
+
+	private void appendWorkTime(List<Bson> pipeline) {
+		pipeline.addAll(Arrays.asList(
+				new Document("$lookup", new Document()
+						.append("from", "work").append("let", new Document("project_id", "$_id")).append("pipeline",
+								Arrays.asList(
+										new Document("$match",
+												new Document("$expr",
+														new Document("$and",
+																Arrays.asList(
+																		new Document("$eq",
+																				Arrays.asList("$project_id",
+																						"$$project_id")),
+																		new Document("$eq",
+																				Arrays.asList("$summary", false)))))),
+										new Document("$group",
+												new Document("_id", null)
+														.append("actualWorks", new Document("$sum", "$actualWorks"))
+														.append("planWorks", new Document("$sum", "$planWorks")))))
+						.append("as", "worktime")),
+				new Document("$unwind", new Document("path", "$worktime").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document("summaryActualWorks", "$worktime.actualWorks")
+						.append("summaryPlanWorks", "$worktime.planWorks")),
+				new Document("$project", new Document("worktime", false))));
 	}
 
 	@Override
