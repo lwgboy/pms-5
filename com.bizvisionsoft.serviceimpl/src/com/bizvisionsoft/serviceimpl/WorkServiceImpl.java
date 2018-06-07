@@ -27,11 +27,13 @@ import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
@@ -1015,5 +1017,54 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("$project", new Document("project", false).append("work", false)));
 		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
 				.into(new ArrayList<WorkResourcePlanDetail>());
+	}
+
+	@Override
+	public void assignRoleToProject(ObjectId project_id) {
+		List<ObjectId> ids = getScopeOBS(project_id);
+		Document condition = new Document("project_id", project_id);
+		updateWorkRoleAssignment(c("work"), ids, condition);
+		updateWorkRoleAssignment(c("workspace"), ids, condition);
+	}
+
+	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition) {
+		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
+				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
+					String roleId = d.getString("chargerRoleId");
+					if (!Util.isEmptyOrNull(roleId)) {
+						String userId = getManagerIdOfRole(ids, roleId);
+						if (!Util.isEmptyOrNull(userId)) {
+							c.updateOne(new Document("_id", d.get("_id")),
+									new Document("$set", new Document("chargerId", userId)));
+						}
+					}
+
+					roleId = d.getString("assignerRoleId");
+					if (!Util.isEmptyOrNull(roleId)) {
+						String userId = getManagerIdOfRole(ids, roleId);
+						if (!Util.isEmptyOrNull(userId)) {
+							c.updateOne(new Document("_id", d.get("_id")),
+									new Document("$set", new Document("assignerId", userId)));
+						}
+					}
+				});
+	}
+
+	@Override
+	public void assignRoleToStage(ObjectId work_id) {
+
+	}
+
+	private String getManagerIdOfRole(List<ObjectId> ids, String roleId) {
+		return Optional
+				.ofNullable(
+						c("obs").find(new Document("_id", new Document("$in", ids)).append("roleId", roleId)).first())
+				.map(d -> d.getString("managerId")).orElse(null);
+	}
+
+	private List<ObjectId> getScopeOBS(ObjectId scope_id) {
+		List<ObjectId> parentIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
+				.into(new ArrayList<>());
+		return getDesentItems(parentIds, "obs", "parent_id");
 	}
 }

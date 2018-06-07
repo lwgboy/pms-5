@@ -190,11 +190,11 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
-	
+
 	@POST
 	@Path("/templatepackage/ds/")
 	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")	
+	@Produces("application/json; charset=UTF-8")
 	List<WorkPackage> listWorkInTemplatePackage(BasicDBObject condition);
 
 	@POST
@@ -280,14 +280,13 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteEquipmentResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String eqResId);
-	
+
 	@DELETE
 	@Path("/_id/{_id}/resourceplan/ty/{resId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteTypedResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
 
-	
 	@POST
 	@Path("/_id/{_id}/resourceplan/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -383,4 +382,16 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan rp);
+
+	@POST
+	@Path("/assignRoleToProject/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void assignRoleToProject(@PathParam("project_id")ObjectId _id);
+	
+	@POST
+	@Path("/assignRoleToStage/{work_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void assignRoleToStage(@PathParam("work_id")ObjectId _id);
 }

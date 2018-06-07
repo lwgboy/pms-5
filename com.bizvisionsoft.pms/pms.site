@@ -12730,6 +12730,21 @@
             "type": "switch"
           },
           {
+            "id": "163d462b05c",
+            "name": "使用项目模板",
+            "text": "套用项目模板",
+            "description": "",
+            "image": "/img/folder_c.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.UseTemplate",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
             "id": "162d214dabc",
             "name": "启动项目",
             "text": "启动项目",
@@ -12756,7 +12771,7 @@
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
-        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，制定总体的进度计划，编制项目预算，组建项目的初始团队。\u003c/div\u003e\n",
+        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，制定总体的进度计划，编制项目预算，组建项目的初始团队。\u003c/div\u003e\n\u003cdiv\u003e您也可以套用项目模板完成计划的快速创建。\u003c/div\u003e\n",
         "actionPanelColumnCount": 5,
         "smallEditor": false,
         "addToParentContext": false
@@ -14135,7 +14150,22 @@
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "163d971ccb3",
+            "name": "分配工作",
+            "text": "分配工作",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.AssignToWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "162e1f767ff",
@@ -34415,6 +34445,7 @@
         "addToParentContext": false
       },
       {
+<<<<<<< HEAD
         "id": "163d954322f",
         "name": "成本组成分析组件",
         "bundleId": "com.bizvisionsoft.pms",
@@ -34533,6 +34564,44 @@
         "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163d46b7ca2",
+        "name": "项目模板选择器",
+        "layout": [],
+        "type": "selector",
+        "folderId": "162bd9f0190",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorGridAssemblyId": "162b3910923",
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
