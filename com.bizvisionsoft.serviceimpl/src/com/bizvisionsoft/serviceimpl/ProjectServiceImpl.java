@@ -495,4 +495,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		return 0;
 	}
+
+	@Override
+	public void useTemplate(ObjectId _id, ObjectId template_id) {
+		System.out.println(_id);
+		System.out.println(template_id);
+
+	}
 }
