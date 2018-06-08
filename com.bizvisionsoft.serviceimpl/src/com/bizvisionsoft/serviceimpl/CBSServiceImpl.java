@@ -649,16 +649,16 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			if (parent_id == null) {
 				String name = doc.getString("name");
 				data1.add(name);
-				Document costDoc = new Document();
-				data2.add(costDoc);
-				costDoc.append("name", name);
-				costDoc.append("type", "bar");
-				costDoc.append("stack", "成本");
 				Document budgetDoc = new Document();
 				data2.add(budgetDoc);
 				budgetDoc.append("name", name);
 				budgetDoc.append("type", "bar");
 				budgetDoc.append("stack", "预算");
+				Document costDoc = new Document();
+				data2.add(costDoc);
+				costDoc.append("name", name);
+				costDoc.append("type", "bar");
+				costDoc.append("stack", "成本");
 				Object cbsSubjects = doc.get("cbsSubject");
 				if (cbsSubjects != null && cbsSubjects instanceof List) {
 					List<Object> cost = new ArrayList<Object>();
