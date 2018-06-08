@@ -6,11 +6,14 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("message")
 public class Message {
 
+	@ReadValue
+	@WriteValue
 	private ObjectId _id;
 
 	@ReadValue("标题")
@@ -25,6 +28,8 @@ public class Message {
 	@ReadValue("是否已读")
 	private boolean read;
 
+	@ReadValue
+	@WriteValue
 	private String sender;
 
 	@ReadValue("发送者")
@@ -40,6 +45,8 @@ public class Message {
 		return null;
 	}
 
+	@ReadValue
+	@WriteValue
 	private String receiver;
 
 	@ReadValue("接收者")
@@ -48,26 +55,9 @@ public class Message {
 	@ReadValue("链接")
 	private String url;
 
-	public ObjectId get_id() {
-		return _id;
-	}
-
-	public Message set_id(ObjectId _id) {
-		this._id = _id;
-		return this;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
 	public Message setSubject(String subject) {
 		this.subject = subject;
 		return this;
-	}
-
-	public String getContent() {
-		return content;
 	}
 
 	public Message setContent(String content) {
@@ -75,17 +65,9 @@ public class Message {
 		return this;
 	}
 
-	public Date getSendDate() {
-		return sendDate;
-	}
-
 	public Message setSendDate(Date sendDate) {
 		this.sendDate = sendDate;
 		return this;
-	}
-
-	public boolean isRead() {
-		return read;
 	}
 
 	public Message setRead(boolean read) {
@@ -93,17 +75,9 @@ public class Message {
 		return this;
 	}
 
-	public String getSender() {
-		return sender;
-	}
-
 	public Message setSender(String sender) {
 		this.sender = sender;
 		return this;
-	}
-
-	public String getReceiver() {
-		return receiver;
 	}
 
 	public Message setReceiver(String receiver) {
@@ -111,13 +85,14 @@ public class Message {
 		return this;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
 	public Message setUrl(String url) {
 		this.url = url;
 		return this;
+	}
+
+	public static Message newInstance(String subject, String content, String sender, String receiver, String url) {
+		return new Message().setSendDate(new Date()).setSubject(subject).setContent(content).setSender(sender)
+				.setReceiver(receiver).setUrl(url);
 	}
 
 }

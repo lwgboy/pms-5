@@ -10,6 +10,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -178,12 +179,12 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
 	}
-	
+
 	protected void appendWork(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("work", "work_id", "_id", "work"));
 		pipeline.add(Aggregates.unwind("$work"));
 	}
-	
+
 	protected void appendProject(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
@@ -337,6 +338,31 @@ public class BasicServiceImpl {
 		default:
 			return "÷‹¡˘";
 		}
+	}
+
+	protected boolean sendMessage(Message message) {
+		c(Message.class).insertOne(message);
+		return true;
+	}
+
+	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url) {
+		sendMessage(Message.newInstance(subject, content, sender, receiver, url));
+		return true;
+	}
+
+	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url) {
+		List<Message> toBeInsert = new ArrayList<>();
+		receivers.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
+		return sendMessages(toBeInsert);
+	}
+
+	protected boolean sendMessages(List<Message> toBeInsert) {
+		c(Message.class).insertMany(toBeInsert);
+		return true;
+	}
+
+	protected String getName(String cName, ObjectId _id) {
+		return c(cName).distinct("name", new BasicDBObject("_id", _id), String.class).first();
 	}
 
 }
