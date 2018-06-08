@@ -548,9 +548,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
 				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
 				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}")
-						// .append("backgroundColor", "#eee").append("borderColor",
-						// "#aaa").append("borderWidth", 1)
-						// .append("borderRadius", 4)
 						.append("rich",
 								new Document("b",
 										new Document("color", "#747474").append("lineHeight", 22).append("align",
@@ -629,9 +626,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
 				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
 				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}")
-						// .append("backgroundColor", "#eee").append("borderColor",
-						// "#aaa").append("borderWidth", 1)
-						// .append("borderRadius", 4)
 						.append("rich",
 								new Document("b",
 										new Document("color", "#747474").append("lineHeight", 22).append("align",
