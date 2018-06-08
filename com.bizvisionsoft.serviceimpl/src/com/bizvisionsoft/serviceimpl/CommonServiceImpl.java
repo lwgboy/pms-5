@@ -214,6 +214,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public List<String> listDictionary(String type, String valueField) {
+		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class)
+				.into(new ArrayList<>());
+	}
+
+	@Override
 	public List<AccountItem> getAccoutItemRoot() {
 		return getAccoutItem(null);
 	}
