@@ -230,6 +230,12 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Map<String, String> getDictionary(@PathParam("type") String type);
+	
+	@POST
+	@Path("/dict/{type}/{valueField}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<String> listDictionary(@PathParam("type")String type, @PathParam("valueField")String valueField);
 
 	@POST
 	@Path("/dict/")
@@ -354,6 +360,5 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Date getCurrentCBSPeriod();
-
 
 }
