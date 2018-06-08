@@ -648,7 +648,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (planDuration != 0) {
 			return 1d * getActualDuration() / planDuration;
 		}
-		return "N/A";
+		return "--";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -659,7 +659,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (getPlanWorks() != 0) {
 			return 1d * getActualWorks() / getPlanWorks();
 		}
-		return "N/A";
+		return "--";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -671,7 +671,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (planDuration != 0) {
 			return 1d * getActualDuration() / planDuration;
 		}
-		return "N/A";
+		return "--";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -700,7 +700,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (budget != null && budget != 0) {
 			return getCost() / budget;
 		}
-		return "N/A";
+		return "--";
 	}
 
 	@ReadValue("bdr")
@@ -709,7 +709,14 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (budget != null && budget != 0) {
 			return (getCost() - budget) / budget;
 		}
-		return "N/A";
+		return "--";
+	}
+
+	@SetValue
+	private Boolean overdue;
+
+	public Boolean getOverdue() {
+		return overdue;
 	}
 
 }

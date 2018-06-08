@@ -494,7 +494,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getCostCompositionAnalysis(String year) {
 		Document option = new Document();
-		option.append("title", new Document().append("text", year + "年 项目成本组成").append("x", "center"));
+		option.append("title", new Document().append("text", year + "年 项目成本组成分析（万元）").append("x", "center"));
 		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 		// TODO JsonArray查询获取
 		List<? extends Bson> pipeline = Arrays.asList(
@@ -554,7 +554,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		Document option = new Document();
 		String title;
 		if (startPeriod.equals(endPeriod)) {
-			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月 成本组成";
+			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月 项目成本组成分析（万元）";
 		} else {
 			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-"
 					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
@@ -613,7 +613,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getMonthCostCompositionAnalysis(String year) {
 		Document option = new Document();
-		option.append("title", new Document().append("text", year + "年  成本").append("x", "center"));
+		option.append("title", new Document().append("text", year + "年 各月项目预算和成本分析（万元）").append("x", "center"));
 		option.append("tooltip",
 				new Document().append("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 		// TODO JsonArray查询获取

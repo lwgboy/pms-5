@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Stockholder;
@@ -171,5 +172,10 @@ public interface ProjectService {
 	public String generateWorkOrder(@PathParam("catalog") String catalog,
 			@PathParam("parentproject_id") ObjectId parentproject_id, @PathParam("impunit_id") ObjectId impunit_id);
 
+	@POST
+	@Path("/_id/{_id}/news/{count}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<News> getRecentNews(@PathParam("_id") ObjectId _id, @PathParam("count") int count);
 
 }

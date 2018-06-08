@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -22,6 +23,7 @@ import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.result.UpdateResult;
@@ -143,6 +145,44 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
 		appendWorkTime(pipeline);
+
+		// TODO 增加超期判断，
+		appendOverdue(pipeline);
+	}
+
+	private void appendOverdue(List<Bson> pipeline) {
+		pipeline.addAll(
+				Arrays.asList(
+						new Document("$lookup", new Document("from", "work")
+								.append("let",
+										new Document("project_id", "$_id"))
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr",
+																new Document("$and", Arrays.asList(
+																		new Document("$eq",
+																				Arrays.asList("$project_id",
+																						"$$project_id")),
+																		new Document("$in",
+																				Arrays.asList("$manageLevel",
+																						Arrays.asList("1", "2"))),
+																		new Document("$or", Arrays.asList(
+																				new Document("$lt",
+																						Arrays.asList("$planFinish",
+																								new Date())),
+																				new Document("$lt",
+																						Arrays.asList("$planFinish",
+																								"$actualFinish")))))))),
+												new Document("$group",
+														new Document("_id", null).append("count",
+																new Document("$sum", 1.0)))))
+								.append("as", "work")),
+						new Document("$unwind",
+								new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
+						new Document("$addFields",
+								new Document("overdue", new Document("$gt", Arrays.asList("$work.count", 0.0)))),
+						new Document("$project", new Document("work", false))));
 	}
 
 	private void appendWorkTime(List<Bson> pipeline) {
@@ -494,6 +534,27 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		workOrder += "-" + String.format("%04d", year);
 
 		return workOrder;
+	}
+
+	@Override
+	public List<News> getRecentNews(ObjectId _id, int count) {
+		ArrayList<News> result = new ArrayList<News>();
+		c("work")
+				.aggregate(
+						new JQ("查询时间线").set("match",
+								new Document("manageLevel", new Document("$in", Arrays.asList("1", "2")))
+										.append("project_id", _id))
+								.set("limit", count).array())
+				.forEach((Document doc) -> {
+					if (doc.get("date").equals(doc.get("actualStart"))) {
+						result.add(new News().setDate(doc.getDate("date"))
+								.setContent("" + doc.get("userInfo") + " 启动 " + doc.get("name") + " 工作"));
+					} else if (doc.get("date").equals(doc.get("actualFinish"))) {
+						result.add(new News().setDate(doc.getDate("date"))
+								.setContent("" + doc.get("userInfo") + " 完成 " + doc.get("name") + " 工作"));
+					}
+				});
+		return result;
 	}
 
 }

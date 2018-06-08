@@ -23,7 +23,6 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
-import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -348,12 +347,6 @@ public interface CommonService {
 	@DataSet("视图和工作包列表/" + DataSet.UPDATE)
 	public long updateTrackView(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@POST
-	@Path("/_id/{_id}/news/{count}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<News> getRecentNews(@PathParam("_id") ObjectId _id, @PathParam("count") int count);
 
 	@GET
 	@Path("/currentcbsperiod")
