@@ -656,8 +656,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		option.append("tooltip",
 				new Document().append("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 		// TODO JsonArray≤È—ØªÒ»°
-		List<? extends Bson> pipeline = Arrays
-				.asList(new Document("$lookup", new Document("from", "cbsSubject")
+		List<? extends Bson> pipeline = Arrays.asList(new Document("$lookup",
+				new Document("from", "cbsSubject")
 						.append("let",
 								new Document("subjectNumber", "$id"))
 						.append("pipeline",
@@ -676,9 +676,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 																										year)),
 																						0.0)))))),
 										new Document("$group",
-												new Document("_id", "$id").append("cost",
-														new Document("$sum", "$cost")))))
-						.append("as", "cbsSubject")), new Document("$sort", new Document("id", 1)));
+												new Document("_id", "$id").append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget")))))
+						.append("as", "cbsSubject")),
+				new Document("$sort", new Document("id", 1)));
 
 		// parent_id _id cost
 		List<String> data1 = new ArrayList<String>();
@@ -687,6 +688,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			Object parent_id = doc.get("parent_id");
 			if (parent_id == null) {
 				data1.add(doc.getString("name"));
+				Object cbsSubject = doc.get("cbsSubject");
+				if (cbsSubject != null && cbsSubject instanceof List) {
+List<Document> list = (List) cbsSubject;
+System.out.println();
+				}
 			}
 		});
 
