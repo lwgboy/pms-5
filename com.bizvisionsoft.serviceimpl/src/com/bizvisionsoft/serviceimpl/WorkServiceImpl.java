@@ -14,6 +14,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -469,22 +470,32 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			return result;
 		}
 
-		List<ObjectId> inputIds = Arrays.asList(_id);
-		inputIds = getDesentItems(inputIds, "work", "parent_id");
+		List<ObjectId> inputIds = getDesentItems(Arrays.asList(_id), "work", "parent_id");
 
-		UpdateResult ur = c("work").updateMany(
-				new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
-						.append("$or",
-								new BasicDBObject[] { new BasicDBObject("chargerId", new Document("$ne", null)),
-										new BasicDBObject("assignerId", new Document("$ne", null)) })
-						.append("distributed", new BasicDBObject("$ne", true)),
-				new BasicDBObject("$set", new BasicDBObject("distributed", true).append("distributeBy", distributeBy)
-						.append("distributeOn", new Date())));
+		BasicDBObject query = new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+				.append("$or",
+						new BasicDBObject[] { new BasicDBObject("chargerId", new Document("$ne", null)),
+								new BasicDBObject("assignerId", new Document("$ne", null)) })
+				.append("distributed", new BasicDBObject("$ne", true));
 
-		if (ur.getModifiedCount() == 0) {
+		final List<ObjectId> ids = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
+		c("work").find(query).forEach((Document w) -> {
+			ids.add(w.getObjectId("_id"));
+			messages.add(Message.newInstance("新的工作计划", "工作 " + w.getString("fullName") + " 已下达。", distributeBy,
+					w.getString("chargerId"), null));
+		});
+
+		if (ids.isEmpty()) {
 			result.add(Result.updateFailure("没有需要下达的计划。"));
 			return result;
 		}
+
+		c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", ids)),
+				new BasicDBObject("$set", new BasicDBObject("distributed", true).append("distributeBy", distributeBy)
+						.append("distributeOn", new Date())));
+
+		sendMessages(messages);
 
 		return new ArrayList<Result>();
 	}

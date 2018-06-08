@@ -247,7 +247,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		// TODO 指派者也需要下达
 		Document query = new Document("project_id", _id).append("parent_id", null)
 				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
 
@@ -255,7 +254,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		final List<Message> messages = new ArrayList<>();
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("收到新的工作计划", w.getString("fullName") + "已下达。", distributeBy,
+			messages.add(Message.newInstance("新的工作计划", "工作 "+w.getString("fullName") + " 已下达。", distributeBy,
 					w.getString("chargerId"), null));
 		});
 
