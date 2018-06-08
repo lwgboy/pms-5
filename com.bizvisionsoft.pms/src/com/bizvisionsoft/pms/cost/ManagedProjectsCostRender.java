@@ -181,9 +181,9 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		// 修改当期成本显示列名
 		if ("periodCost".equals(column.getName())) {
-			column.setText(result.substring(0, 4) + "/" + result.substring(4, 6));
+			column.setText(result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （万元）");
 		}
-		//TODO 没有修改ColumnGroupHeader的方法
+		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {
 		// column.setText(result.substring(0, 4) + "/" + result.substring(4, 6));
 		// }

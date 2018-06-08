@@ -80,7 +80,11 @@ public class PeriodCostCompositionAnalysisASM {
 		}
 		String result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
-		Document option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis( result);
+		setOption(result, result);
+	}
+
+	public void setOption(String startPeriod, String endPeriod) {
+		Document option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
 		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 

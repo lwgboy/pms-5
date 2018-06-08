@@ -494,59 +494,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getCostCompositionAnalysis(String year) {
 		Document option = new Document();
-		option.append("title", new Document().append("text", "总计 成本组成").append("x", "center"));
-		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
-		// TODO JsonArray查询获取
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup", new Document("from", "cbsSubject")
-						.append("let",
-								new Document("id", "$id"))
-						.append("pipeline",
-								Arrays.asList(
-										new Document("$match",
-												new Document("$expr",
-														new Document("$eq", Arrays.asList("$subjectNumber", "$$id")))),
-										new Document("$group",
-												new Document("_id", "$subjectNumber").append("cost",
-														new Document("$sum", "$cost")))))
-						.append("as", "cbsSubject")),
-				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
-				new Document("$project", new Document().append("cbsSubject", false)));
-
-		List<String> data1 = new ArrayList<String>();
-		List<Document> data2 = new ArrayList<Document>();
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
-			data1.add(doc.getString("name"));
-		});
-
-		option.append("legend",
-				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
-				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", data2)));
-		return option;
-	}
-
-	@Override
-	public Document getPeriodCostCompositionAnalysis(String period) {
-		Document option = new Document();
-		option.append("title",
-				new Document().append("text", period.substring(0, 4) + "年" + period.substring(4, 6) + "月 成本组成")
-						.append("x", "center"));
+		option.append("title", new Document().append("text", year + "年 项目成本组成").append("x", "center"));
 		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 		// TODO JsonArray查询获取
 		List<? extends Bson> pipeline = Arrays.asList(
@@ -555,11 +503,17 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 								.append("pipeline",
 										Arrays.asList(
 												new Document("$match",
-														new Document("$expr", new Document("$and", Arrays.asList(
-																new Document("$eq",
-																		Arrays.asList("$subjectNumber",
-																				"$$subjectNumber")),
-																new Document("$eq", Arrays.asList("$id", period)))))),
+														new Document("$expr",
+																new Document("$and", Arrays.asList(
+																		new Document("$eq",
+																				Arrays.asList("$subjectNumber",
+																						"$$subjectNumber")),
+																		new Document("$eq",
+																				Arrays.asList(
+																						new Document("$indexOfBytes",
+																								Arrays.asList("$id",
+																										year)),
+																						0.0)))))),
 												new Document("$group",
 														new Document("_id", "$subjectNumber").append("cost",
 																new Document("$sum", "$cost")))))
@@ -596,22 +550,81 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
+	public Document getPeriodCostCompositionAnalysis(String startPeriod, String endPeriod) {
+		Document option = new Document();
+		String title;
+		if (startPeriod.equals(endPeriod)) {
+			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月 成本组成";
+		} else {
+			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-"
+					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
+		}
+		option.append("title", new Document().append("text", title).append("x", "center"));
+		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "cbsSubject").append("let", new Document("subjectNumber", "$id"))
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr", new Document("$and", Arrays.asList(
+																new Document("$eq",
+																		Arrays.asList("$subjectNumber",
+																				"$$subjectNumber")),
+																new Document("$gte", Arrays.asList("$id", startPeriod)),
+																new Document("$lte",
+																		Arrays.asList("$id", endPeriod)))))),
+												new Document("$group",
+														new Document("_id", "$subjectNumber").append("cost",
+																new Document("$sum", "$cost")))))
+								.append("as", "cbsSubject")),
+				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
+				new Document("$project", new Document().append("cbsSubject", false)));
+
+		List<String> data1 = new ArrayList<String>();
+		List<Document> data2 = new ArrayList<Document>();
+		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
+			data1.add(doc.getString("name"));
+		});
+
+		option.append("legend",
+				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
+		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
+				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
+				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
+						"rich",
+						new Document("b",
+								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
+										.append("hr",
+												new Document("color", "#aaa").append("width", "100%")
+														.append("borderWidth", 0.5).append("height", 0))
+										.append("per",
+												new Document("color", "#eee").append("backgroundColor", "#334455")
+														.append("padding", Arrays.asList(2, 4))
+														.append("borderRadius", 2)))))
+
+				.append("data", data2)));
+		return option;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public Document getMonthCostCompositionAnalysis(String year) {
 		Document option = new Document();
 		option.append("title", new Document().append("text", year + "年  成本").append("x", "center"));
 		option.append("tooltip",
 				new Document().append("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 		// TODO JsonArray查询获取
-		List<? extends Bson> pipeline = Arrays.asList(new Document("$lookup",
-				new Document("from", "cbsSubject")
-						.append("let",
-								new Document("subjectNumber", "$id"))
-						.append("pipeline",
-								Arrays.asList(
-										new Document("$match",
-												new Document("$expr",
-														new Document("$and",
-																Arrays.asList(
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "cbsSubject").append("let", new Document("subjectNumber", "$id"))
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr",
+																new Document("$and", Arrays.asList(
 																		new Document("$eq",
 																				Arrays.asList("$subjectNumber",
 																						"$$subjectNumber")),
@@ -621,28 +634,128 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 																								Arrays.asList("$id",
 																										year)),
 																						0.0)))))),
-										new Document("$group",
-												new Document("_id", "$id").append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget")))))
-						.append("as", "cbsSubject")),
+												new Document("$group",
+														new Document("_id", "$id")
+																.append("cost", new Document("$sum", "$cost"))
+																.append("budget", new Document("$sum", "$budget"))),
+												new Document("$sort", new Document("_id", 1))))
+								.append("as", "cbsSubject")),
 				new Document("$sort", new Document("id", 1)));
 
-		// parent_id _id cost
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
 			Object parent_id = doc.get("parent_id");
 			if (parent_id == null) {
-				data1.add(doc.getString("name"));
-				Object cbsSubject = doc.get("cbsSubject");
-				if (cbsSubject != null && cbsSubject instanceof List) {
-					List<Document> list = (List) cbsSubject;
+				String name = doc.getString("name");
+				data1.add(name);
+				Document costDoc = new Document();
+				data2.add(costDoc);
+				costDoc.append("name", name);
+				costDoc.append("type", "bar");
+				costDoc.append("stack", "成本");
+				Document budgetDoc = new Document();
+				data2.add(budgetDoc);
+				budgetDoc.append("name", name);
+				budgetDoc.append("type", "bar");
+				budgetDoc.append("stack", "预算");
+				Object cbsSubjects = doc.get("cbsSubject");
+				if (cbsSubjects != null && cbsSubjects instanceof List) {
+					List<Object> cost = new ArrayList<Object>();
+					List<Object> budget = new ArrayList<Object>();
+					costDoc.append("data", cost);
+					budgetDoc.append("data", budget);
+					((List<Document>) cbsSubjects).forEach(cbsSubject -> {
+						String id = cbsSubject.getString("_id");
+						if ((year + "01").equals(id)) {
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "02").equals(id)) {
+							while (cost.size() < 1) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "03").equals(id)) {
+							while (cost.size() < 2) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "04").equals(id)) {
+							while (cost.size() < 3) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "05").equals(id)) {
+							while (cost.size() < 4) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "06").equals(id)) {
+							while (cost.size() < 5) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "07").equals(id)) {
+							while (cost.size() < 6) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "08").equals(id)) {
+							while (cost.size() < 7) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "09").equals(id)) {
+							while (cost.size() < 8) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "10").equals(id)) {
+							while (cost.size() < 9) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "11").equals(id)) {
+							while (cost.size() < 10) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						} else if ((year + "12").equals(id)) {
+							while (cost.size() < 11) {
+								cost.add(0);
+								budget.add(0);
+							}
+							cost.add(cbsSubject.get("cost"));
+							budget.add(cbsSubject.get("budget"));
+						}
+					});
+					;
 					System.out.println();
 				}
 			}
 		});
 
-		option.append("legend", new Document("data", data1));
+		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
 		option.append("grid",
 				new Document("left", "3%").append("right", "4%").append("bottom", "3%").append("containLabel", true));
 		option.append("xAxis",
@@ -652,43 +765,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 								year + "年11月", year + "年12月"))));
 		option.append("yAxis", Arrays.asList(new Document("type", "value")));
 
-		option.append("series", Arrays.asList(new Document().append("data", data2)));
+		option.append("series", data2);
 		return option;
 	}
-
-	private void addDate2(List<Document> data2, Map<Object, Map<Object, Number>> subCost) {
-		subCost.keySet().forEach(key1 -> {
-			if (key1 instanceof String) {
-				double d = 0d;
-				Map<Object, Number> map = subCost.get(key1);
-				for (Object key2 : map.keySet()) {
-					Number d1 = map.get(key2);
-					if (d1 != null) {
-						d += d1.doubleValue();
-					}
-					d += getSubCost(key2, subCost);
-				}
-				if (d != 0d) {
-					data2.add(new Document("name", key1).append("value", d));
-				}
-			}
-		});
-
-	}
-
-	private double getSubCost(Object key, Map<Object, Map<Object, Number>> subCost) {
-		double d = 0d;
-		Map<Object, Number> map = subCost.get(key);
-		if (map != null) {
-			for (Object key2 : map.keySet()) {
-				Number d1 = map.get(key2);
-				if (d1 != null) {
-					d += d1.doubleValue();
-				}
-				d += getSubCost(key2, subCost);
-			}
-		}
-		return d;
-	}
-
 }

@@ -171,10 +171,10 @@ public interface CBSService {
 	public Document getCostCompositionAnalysis(@PathParam("year") String year);
 
 	@POST
-	@Path("/periodcostcompositionanalysis/{id}")
+	@Path("/periodcostcompositionanalysis/{startPeriod}/{endPeriod}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getPeriodCostCompositionAnalysis(@PathParam("id") String period);
+	public Document getPeriodCostCompositionAnalysis(@PathParam("startPeriod") String startPeriod,@PathParam("endPeriod")  String endPeriod);
 
 	@POST
 	@Path("/monthcostcompositionanalysis/{year}/")

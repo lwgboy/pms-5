@@ -79,7 +79,11 @@ public class MonthCostCompositionAnalysisASM {
 			currentCBSPeriod.setTime(date);
 		}
 		String result = "" + currentCBSPeriod.get(Calendar.YEAR);
-		Document option = Services.get(CBSService.class).getMonthCostCompositionAnalysis(result);
+		setOption(result);
+	}
+
+	public void setOption(String year) {
+		Document option = Services.get(CBSService.class).getMonthCostCompositionAnalysis(year);
 		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 

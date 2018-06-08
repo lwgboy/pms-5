@@ -43,7 +43,7 @@ public class SetSearchProjectAnalysisACT {
 			GridColumnGroup[] columnGroups = viewer.getGrid().getColumnGroups();
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
-					columnGroup.setText(startPeriod + "年");
+					columnGroup.setText(startPeriod + " 年（万元）");
 				}
 			}
 
