@@ -164,10 +164,22 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> submitCBSSubjectCost(@PathParam("scope_id") ObjectId scope_id, @PathParam("id") String id);
 
-	@GET
+	@POST
 	@Path("/costcompositionanalysis/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getCostCompositionAnalysis();
+
+	@POST
+	@Path("/periodcostcompositionanalysis/{id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getPeriodCostCompositionAnalysis( @PathParam("id") String period);
+
+	@POST
+	@Path("/monthcostcompositionanalysis/{year}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getMonthCostCompositionAnalysis( @PathParam("year") String year);
 
 }
