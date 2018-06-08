@@ -165,21 +165,21 @@ public interface CBSService {
 	public List<Result> submitCBSSubjectCost(@PathParam("scope_id") ObjectId scope_id, @PathParam("id") String id);
 
 	@POST
-	@Path("/costcompositionanalysis/")
+	@Path("/costcompositionanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getCostCompositionAnalysis();
+	public Document getCostCompositionAnalysis(@PathParam("year") String year);
 
 	@POST
-	@Path("/periodcostcompositionanalysis/{id}")
+	@Path("/periodcostcompositionanalysis/{startPeriod}/{endPeriod}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getPeriodCostCompositionAnalysis( @PathParam("id") String period);
+	public Document getPeriodCostCompositionAnalysis(@PathParam("startPeriod") String startPeriod,@PathParam("endPeriod")  String endPeriod);
 
 	@POST
-	@Path("/monthcostcompositionanalysis/{year}")
+	@Path("/monthcostcompositionanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthCostCompositionAnalysis( @PathParam("year") String year);
+	public Document getMonthCostCompositionAnalysis(@PathParam("year") String year);
 
 }

@@ -20,7 +20,7 @@ import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class SubmitCBSSubjectCost {
+public class SubmitCBSSubjectCostACT {
 	@Inject
 	private IBruiService brui;
 

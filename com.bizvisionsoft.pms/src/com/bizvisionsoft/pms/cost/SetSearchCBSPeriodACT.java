@@ -21,7 +21,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.mongodb.BasicDBObject;
 
-public class SetSearchCBSPeriod {
+public class SetSearchCBSPeriodACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -44,10 +44,10 @@ public class SetSearchCBSPeriod {
 				// 修改当期成本列的列名和Label显示
 				if ("periodCost".equals(column.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6));
+						column.setText(startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						column.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6) + "-"
-								+ endPeriod.substring(0, 4) + "/" + endPeriod.substring(4, 6));
+						column.setText(startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "-"
+								+ endPeriod.substring(0, 4) + "/" + Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
 
 					GridViewerColumn vcol = new GridViewerColumn(viewer, column);

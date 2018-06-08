@@ -22,7 +22,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.mongodb.BasicDBObject;
 
-public class SetSearchCBSPeriodByAnalysis {
+public class SetSearchCBSPeriodByAnalysisACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -44,10 +44,12 @@ public class SetSearchCBSPeriodByAnalysis {
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						columnGroup.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6));
+						columnGroup.setText(startPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						columnGroup.setText(startPeriod.substring(0, 4) + "/" + startPeriod.substring(4, 6) + "-"
-								+ endPeriod.substring(0, 4) + "/" + endPeriod.substring(4, 6));
+						columnGroup.setText(startPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(startPeriod.substring(4, 6)) + "-" + endPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
 				}
 			}

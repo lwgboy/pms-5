@@ -23,7 +23,7 @@ import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
 import com.mongodb.BasicDBObject;
 
-public class SetSearchProjectAnalysis {
+public class SetSearchProjectAnalysisACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -43,7 +43,7 @@ public class SetSearchProjectAnalysis {
 			GridColumnGroup[] columnGroups = viewer.getGrid().getColumnGroups();
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
-					columnGroup.setText(startPeriod + "年");
+					columnGroup.setText(startPeriod + " 年（万元）");
 				}
 			}
 

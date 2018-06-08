@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 
-public class OpenProjectCost {
+public class OpenProjectCostACT {
 
 	@Inject
 	private IBruiService brui;
