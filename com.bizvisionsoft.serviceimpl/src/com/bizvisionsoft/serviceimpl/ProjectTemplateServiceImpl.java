@@ -259,8 +259,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("workspace").deleteMany(new Document("project_id", project_id));
 		// 7. Çå³ýworklinksspace
 		c("worklinksspace").deleteMany(new Document("project_id", project_id));
-		// 8. Çå³ýworklinksspace
-		c("worklinksspace").deleteMany(new Document("project_id", project_id));
+
 		// 9. Çå³ýobs
 		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
 				new Document("scopeRoot", false).append("scope_id", project_id))));

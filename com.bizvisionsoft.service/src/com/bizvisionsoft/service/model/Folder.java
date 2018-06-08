@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -37,26 +36,24 @@ public class Folder {
 	@Exclude
 	private boolean opened;
 
-	@ImageURL("项目档案库文件夹/folderName")
-	private String getIcon() {
-		if (parent_id == null) {
-			return "/img/cabinet_c.svg";
-		} else if (opened) {
-			return "/img/folder_opened.svg";
-		} else {
-			return "/img/folder_closed.svg";
-		}
-	}
-
 	@ReadValue
 	@WriteValue
 	private String name;
 
 	@ReadValue("项目档案库文件夹/folderName")
 	private String getHTMLName() {
-		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:48px;'>"
-				+ name;
-		html += "<a href='open/' target='_rwt'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a></div>";
+		String iconUrl;
+		if (parent_id == null) {
+			iconUrl = "rwt-resources/extres/img/cabinet_c.svg";
+		} else if (opened) {
+			iconUrl = "rwt-resources/extres/img/folder_opened.svg";
+		} else {
+			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
+		}
+		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" 
+				+ "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" 
+				+ "<div style='flex:auto;'>"+name+"</div>"
+				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a></div>";
 		return html;
 	}
 
