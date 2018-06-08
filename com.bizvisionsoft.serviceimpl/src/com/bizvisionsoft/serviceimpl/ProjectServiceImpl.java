@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.News;
+import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -245,9 +247,23 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		// TODO CBS金额汇总
 
-		// TODO 通知项目团队成员，项目已经启动
-
+		// 通知项目团队成员，项目已经启动
+		List<String> memberIds = getProjectMembers(_id);
+		String name = getName("project", _id);
+		sendMessage("项目启动通知", "项目" + name + "已于" + new SimpleDateFormat("yyyy-M-d") + "启动。", executeBy, memberIds,
+				null);
 		return result;
+	}
+
+	private List<String> getProjectMembers(ObjectId _id) {
+		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
+		ArrayList<String> memberIds = c("obs").distinct("managerId",
+				new BasicDBObject("_id",
+						new BasicDBObject("$in", ids).append("managerId", new BasicDBObject("$ne", null))),
+				String.class).into(new ArrayList<>());
+		return memberIds;
 	}
 
 	private List<Result> startProjectCheck(ObjectId _id, String executeBy) {
@@ -271,18 +287,30 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		UpdateResult ur = c(Work.class).updateMany(
-				new Document("project_id", _id).append("parent_id", null).append("chargerId", new Document("$ne", null))
-						.append("distributed", new Document("$ne", true)),
-				new Document("$set", new Document("distributed", true).append("distributeBy", distributeBy)
-						.append("distributeOn", new Date())));
+		Document query = new Document("project_id", _id).append("parent_id", null)
+				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
 
-		if (ur.getModifiedCount() == 0) {
+		final List<ObjectId> ids = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
+		c("work").find(query).forEach((Document w) -> {
+			ids.add(w.getObjectId("_id"));
+			messages.add(Message.newInstance("新的工作计划", "工作 "+w.getString("fullName") + " 已下达。", distributeBy,
+					w.getString("chargerId"), null));
+		});
+
+		if (ids.isEmpty()) {
 			result.add(Result.updateFailure("没有需要下达的计划。"));
 			return result;
 		}
 
+		c(Work.class).updateMany(new Document("_id", new Document("$in", ids)),
+				new Document("$set", new Document("distributed", true).append("distributeBy", distributeBy)
+						.append("distributeOn", new Date())));
+
+		sendMessages(messages);
+		
 		return new ArrayList<Result>();
+
 	}
 
 	private List<Result> distributeProjectPlanCheck(ObjectId _id, String distributeBy) {
@@ -440,6 +468,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足完工条件的项目。"));
 			return result;
 		}
+
+		// 通知项目团队成员，项目已经启动
+		List<String> memberIds = getProjectMembers(_id);
+		String name = getName("project", _id);
+		sendMessage("项目完工通知", "项目" + name + "已于" + new SimpleDateFormat("yyyy-M-d") + "完工。", executeBy, memberIds,
+				null);
 
 		return result;
 	}
