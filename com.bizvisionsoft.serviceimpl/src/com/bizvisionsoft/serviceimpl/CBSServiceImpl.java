@@ -492,7 +492,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Document getCostCompositionAnalysis() {
+	public Document getCostCompositionAnalysis(String year) {
 		Document option = new Document();
 		option.append("title", new Document().append("text", "总计 成本组成").append("x", "center"));
 		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
@@ -514,52 +514,28 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
 				new Document("$project", new Document().append("cbsSubject", false)));
 
-		// parent_id _id cost
-		Map<Object, Map<Object, Number>> subCost = new HashMap<Object, Map<Object, Number>>();
 		List<String> data1 = new ArrayList<String>();
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object parent_id = doc.get("parent_id");
-			Object _id = doc.get("_id");
-			Object cost = doc.get("cost");
-			if (parent_id == null) {
-				data1.add(doc.getString("name"));
-				Map<Object, Number> map = new HashMap<Object, Number>();
-				map.put(_id, cost != null ? (Number) cost : null);
-				subCost.put(doc.getString("name"), map);
-			} else {
-				if (cost != null) {
-					Map<Object, Number> map = subCost.get(parent_id);
-					if (map == null) {
-						map = new HashMap<Object, Number>();
-						subCost.put(parent_id, map);
-					}
-					Number d = map.get(_id);
-					if (d == null) {
-						map.put(_id, (Number) cost);
-					}
-				}
-			}
-		});
 		List<Document> data2 = new ArrayList<Document>();
-		addDate2(data2, subCost);
+		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
+			data1.add(doc.getString("name"));
+		});
 
 		option.append("legend",
 				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
 		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
 				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}")
-						.append("rich",
-								new Document("b",
-										new Document("color", "#747474").append("lineHeight", 22).append("align",
-												"center"))
-														.append("hr",
-																new Document("color", "#aaa").append("width", "100%")
-																		.append("borderWidth", 0.5).append("height", 0))
-														.append("per",
-																new Document("color", "#eee")
-																		.append("backgroundColor", "#334455")
-																		.append("padding", Arrays.asList(2, 4))
-																		.append("borderRadius", 2)))))
+				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
+						"rich",
+						new Document("b",
+								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
+										.append("hr",
+												new Document("color", "#aaa").append("width", "100%")
+														.append("borderWidth", 0.5).append("height", 0))
+										.append("per",
+												new Document("color", "#eee").append("backgroundColor", "#334455")
+														.append("padding", Arrays.asList(2, 4))
+														.append("borderRadius", 2)))))
 
 				.append("data", data2)));
 		return option;
@@ -592,52 +568,28 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
 				new Document("$project", new Document().append("cbsSubject", false)));
 
-		// parent_id _id cost
-		Map<Object, Map<Object, Number>> subCost = new HashMap<Object, Map<Object, Number>>();
 		List<String> data1 = new ArrayList<String>();
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object parent_id = doc.get("parent_id");
-			Object _id = doc.get("_id");
-			Object cost = doc.get("cost");
-			if (parent_id == null) {
-				data1.add(doc.getString("name"));
-				Map<Object, Number> map = new HashMap<Object, Number>();
-				map.put(_id, cost != null ? (Number) cost : null);
-				subCost.put(doc.getString("name"), map);
-			} else {
-				if (cost != null) {
-					Map<Object, Number> map = subCost.get(parent_id);
-					if (map == null) {
-						map = new HashMap<Object, Number>();
-						subCost.put(parent_id, map);
-					}
-					Number d = map.get(_id);
-					if (d == null) {
-						map.put(_id, (Number) cost);
-					}
-				}
-			}
-		});
 		List<Document> data2 = new ArrayList<Document>();
-		addDate2(data2, subCost);
+		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
+			data1.add(doc.getString("name"));
+		});
 
 		option.append("legend",
 				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
 		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
 				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}")
-						.append("rich",
-								new Document("b",
-										new Document("color", "#747474").append("lineHeight", 22).append("align",
-												"center"))
-														.append("hr",
-																new Document("color", "#aaa").append("width", "100%")
-																		.append("borderWidth", 0.5).append("height", 0))
-														.append("per",
-																new Document("color", "#eee")
-																		.append("backgroundColor", "#334455")
-																		.append("padding", Arrays.asList(2, 4))
-																		.append("borderRadius", 2)))))
+				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
+						"rich",
+						new Document("b",
+								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
+										.append("hr",
+												new Document("color", "#aaa").append("width", "100%")
+														.append("borderWidth", 0.5).append("height", 0))
+										.append("per",
+												new Document("color", "#eee").append("backgroundColor", "#334455")
+														.append("padding", Arrays.asList(2, 4))
+														.append("borderRadius", 2)))))
 
 				.append("data", data2)));
 		return option;
@@ -684,8 +636,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				data1.add(doc.getString("name"));
 				Object cbsSubject = doc.get("cbsSubject");
 				if (cbsSubject != null && cbsSubject instanceof List) {
-List<Document> list = (List) cbsSubject;
-System.out.println();
+					List<Document> list = (List) cbsSubject;
+					System.out.println();
 				}
 			}
 		});

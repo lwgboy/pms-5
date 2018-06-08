@@ -22,7 +22,7 @@ import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class PeriodCostCompositionAnalysis {
+public class CostCompositionAnalysisASM {
 
 	@Inject
 	private IBruiService bruiService;
@@ -79,8 +79,7 @@ public class PeriodCostCompositionAnalysis {
 			currentCBSPeriod.setTime(date);
 		}
 		String result = "" + currentCBSPeriod.get(Calendar.YEAR);
-		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
-		Document option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis( result);
+		Document option = Services.get(CBSService.class).getCostCompositionAnalysis(result);
 		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 

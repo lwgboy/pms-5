@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EditCBSSubjectCost {
+public class EditCBSSubjectCostACT {
 	@Inject
 	private IBruiService bruiService;
 

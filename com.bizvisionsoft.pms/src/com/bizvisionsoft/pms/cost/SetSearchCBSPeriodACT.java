@@ -21,7 +21,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.mongodb.BasicDBObject;
 
-public class SetSearchCBSPeriod {
+public class SetSearchCBSPeriodACT {
 
 	@Inject
 	private IBruiService bruiService;
