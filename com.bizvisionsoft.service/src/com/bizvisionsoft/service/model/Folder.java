@@ -12,7 +12,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("folder")
@@ -68,12 +68,12 @@ public class Folder {
 
 	@Structure(DataSet.LIST)
 	private List<Folder> listChildren() {
-		return ServicesLoader.get(ProjectService.class).listChildrenFolder(_id);
+		return ServicesLoader.get(DocumentService.class).listChildrenFolder(_id);
 	}
 
 	@Structure(DataSet.COUNT)
 	private long countChildren() {
-		return ServicesLoader.get(ProjectService.class).countChildrenFolder(_id);
+		return ServicesLoader.get(DocumentService.class).countChildrenFolder(_id);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

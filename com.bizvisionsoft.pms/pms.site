@@ -35551,8 +35551,11 @@
         "gridHasVScroll": true,
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
-        "gridFix": 0,
-        "gridPageControl": false,
+        "gridFix": 2,
+        "gridPageControl": true,
+        "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
         "columns": [
           {
             "id": "163dad31dc9",
@@ -35675,21 +35678,94 @@
             "forceDisplayZero": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "163deecef3b",
+            "name": "id",
+            "text": "文件编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163deec9298",
+            "name": "name",
+            "text": "文件名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163deed19da",
+            "name": "category",
+            "text": "文档类型",
+            "type": "多个对象选择框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "163de351c0f",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163deed5af9",
+            "name": "tag",
+            "text": "标签",
+            "type": "多个对象选择框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "163de39f183",
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
         "gridAutoColumnWidth": true,
         "actions": [],
         "rowActions": [
           {
             "id": "163dad5d3ab",
-            "name": "打开文件",
-            "image": "/img/open_w.svg",
+            "name": "编辑",
+            "text": "编辑",
+            "image": "/img/edit_w.svg",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "style": "normal",
+            "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "type": "edit"
+          },
+          {
+            "id": "163ded3b0d5",
+            "name": "删除",
+            "image": "/img/delete_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "delete"
           }
         ],
         "borderTop": false,

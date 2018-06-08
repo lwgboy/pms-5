@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.filecabinet;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
@@ -26,11 +26,12 @@ import com.bizvisionsoft.bruiengine.session.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class FileCabinetASM {
 
@@ -117,10 +118,9 @@ public class FileCabinetASM {
 
 	private void select(Folder folder) {
 		if (folder != null) {
-			List<Docu> result = Services.get(ProjectService.class).listDocument(folder.get_id());
-			filePane.setViewerInput(result);
+			filePane.doQuery(new BasicDBObject("folder_id", folder.get_id()));
 		} else {
-			filePane.setViewerInput(new ArrayList<>());
+			filePane.doQuery(new BasicDBObject("folder_id", null));
 		}
 	}
 
@@ -135,23 +135,18 @@ public class FileCabinetASM {
 			}
 		});
 
-		folderPane.getViewer().getControl().addListener(SWT.Expand, e -> {
-			Folder folder = (Folder) e.item.getData();
-			GridItem item = (GridItem) e.item;
-			folder.setOpened(item.isExpanded());
-			folderPane.update(folder);
-		});
-
-		folderPane.getViewer().getControl().addListener(SWT.Collapse, e -> {
-			Folder folder = (Folder) e.item.getData();
-			GridItem item = (GridItem) e.item;
-			folder.setOpened(item.isExpanded());
-			folderPane.update(folder);
-		});
+		folderPane.getViewer().getControl().addListener(SWT.Expand, e -> updateFolderIcon(e));
+		folderPane.getViewer().getControl().addListener(SWT.Collapse, e -> updateFolderIcon(e));
 
 		reloadRoot();
-
 		return left.getContainer();
+	}
+
+	private void updateFolderIcon(Event e) {
+		Folder folder = (Folder) e.item.getData();
+		GridItem item = (GridItem) e.item;
+		folder.setOpened(item.isExpanded());
+		folderPane.update(folder);
 	}
 
 	private void showMenu(final Folder folder) {
@@ -184,7 +179,7 @@ public class FileCabinetASM {
 		new ActionMenu(brui).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
 			Docu docu = new Docu().setFolder_id(folder.get_id()).setCreationInfo(brui.creationInfo());
 			Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
-				filePane.insert(Services.get(ProjectService.class).createDocument(t));
+				filePane.insert(Services.get(DocumentService.class).createDocument(t));
 			});
 			return false;
 		}).handleActionExecute("renameFolder", a -> {
@@ -208,7 +203,7 @@ public class FileCabinetASM {
 	}
 
 	private void reloadRoot() {
-		List<Folder> input = Services.get(ProjectService.class).listRootFolder(project_id);
+		List<Folder> input = Services.get(DocumentService.class).listRootFolder(project_id);
 		folderPane.setViewerInput(input);
 	}
 
@@ -218,13 +213,22 @@ public class FileCabinetASM {
 		a.setImage("/img/add_16_w.svg");
 		a.setTooltips("创建项目根文件夹");
 		a.setStyle("normal");
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a))
+
+		Action b = new Action();
+		b.setName("查询");
+		b.setImage("/img/search_w.svg");
+		b.setTooltips("查询项目文档");
+		b.setStyle("info");
+
+		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b))
 				.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());
 		bar.addListener(SWT.Selection, l -> {
 			if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
 				if (createFolder(null)) {
 					reloadRoot();
 				}
+			} else if ("查询".equals(((Action) l.data).getName())) {
+				filePane.openQueryEditor();
 			}
 		});
 		return bar;
@@ -243,7 +247,7 @@ public class FileCabinetASM {
 				folder.setParent_id(parentFolder.get_id());
 			}
 			folder.setProject_id(project_id);
-			folder = Services.get(ProjectService.class).createFolder(folder);
+			folder = Services.get(DocumentService.class).createFolder(folder);
 			return true;
 		}
 		return false;
@@ -252,7 +256,7 @@ public class FileCabinetASM {
 	private boolean deleteFolder(Folder folder) {
 		if (brui.confirm("删除文件夹", "请确认删除文件夹<span style='color:red;font-weight:bold;'>" + folder
 				+ "</span>，文件夹以及下级文档都将被删除。该操作<span style='color:red;font-weight:bold;'>不可恢复</span>。")) {
-			Services.get(ProjectService.class).deleteFolder(folder.get_id());
+			Services.get(DocumentService.class).deleteFolder(folder.get_id());
 			return true;
 		}
 		return false;
@@ -264,7 +268,7 @@ public class FileCabinetASM {
 		});
 		if (InputDialog.OK == id.open()) {
 			String folderName = id.getValue();
-			Services.get(ProjectService.class).renameFolder(folder.get_id(), folderName);
+			Services.get(DocumentService.class).renameFolder(folder.get_id(), folderName);
 			folder.setName(folderName);
 			return true;
 		}
