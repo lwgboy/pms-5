@@ -306,16 +306,20 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					doc.remove("template_id");
 					tobeInsert.add(doc);
 				});
-		c("workspace").insertMany(tobeInsert);
-		tobeInsert.clear();
+		if (!tobeInsert.isEmpty()) {
+			c("workspace").insertMany(tobeInsert);
+			tobeInsert.clear();
+		}
 
 		c("workPackage").find(new Document("work_id", new Document("$in", idMap.keySet()))).forEach((Document d) -> {
 			ObjectId newWorkId = idMap.get(d.get("work_id"));
 			d.append("work_id", newWorkId).append("_id", new ObjectId()).remove("chargerId");
 			tobeInsert.add(d);
 		});
-		c("workPackage").insertMany(tobeInsert);
-		tobeInsert.clear();
+		if (!tobeInsert.isEmpty()) {
+			c("workPackage").insertMany(tobeInsert);
+			tobeInsert.clear();
+		}
 
 		c("worklinkInTemplate").find(new Document("template_id", template_id)).forEach((Document doc) -> {
 			ObjectId source = idMap.get(doc.get("source"));
@@ -324,9 +328,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					.append("source", source).append("target", target).remove("template_id");
 			tobeInsert.add(doc);
 		});
-		c("worklinksspace").insertMany(tobeInsert);
+		if (!tobeInsert.isEmpty()) {
+			c("worklinksspace").insertMany(tobeInsert);
+			tobeInsert.clear();
+		}
 		idMap.clear();
-		tobeInsert.clear();
 
 		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1))
 				.forEach((Document doc) -> {
@@ -341,9 +347,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					}
 
 				});
-		c("obs").insertMany(tobeInsert);
+		if (!tobeInsert.isEmpty()) {
+			c("obs").insertMany(tobeInsert);
+			tobeInsert.clear();
+		}
 		idMap.clear();
-		tobeInsert.clear();
 	}
 
 	@Override
