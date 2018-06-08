@@ -346,4 +346,9 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		tobeInsert.clear();
 	}
 
+	@Override
+	public void deleteOBSItem(ObjectId _id) {
+		delete(_id, OBSInTemplate.class);
+	}
+
 }

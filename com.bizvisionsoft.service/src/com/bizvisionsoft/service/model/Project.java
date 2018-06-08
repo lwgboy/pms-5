@@ -62,7 +62,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Label(Label.ID_LABEL)
 	@WriteValue
 	@Persistence
-	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
+	@Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY, generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
 	@Override

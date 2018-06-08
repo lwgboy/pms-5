@@ -136,6 +136,13 @@ public interface ProjectTemplateService {
 	public List<OBSInTemplate> getOBSTemplate(
 			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
+	@DELETE
+	@Path("/obs/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目模板组织结构图/" + DataSet.DELETE })
+	public void deleteOBSItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	
 	@POST
 	@Path("/id/{_id}/obs/role/ds")
 	@Consumes("application/json; charset=UTF-8")
