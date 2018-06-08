@@ -9,7 +9,6 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.DocumentService;
-import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.mongodb.BasicDBObject;
@@ -61,16 +60,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public Docu createDocument(Docu doc) {
 		return insert(doc);
 	}
-
-//	@Override
-//	public List<Docu> listDocument(ObjectId folder_id) {
-//		return listDocument(new Query().filter(new Document("folder_id", folder_id)).bson());
-//	}
-//
-//	@Override
-//	public long countDocument(ObjectId folder_id) {
-//		return c("docu").count(new Document("folder_id", folder_id));
-//	}
 
 	@Override
 	public long deleteDocument(ObjectId _id) {
