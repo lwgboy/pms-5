@@ -1,7 +1,5 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,7 +18,6 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
-import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
