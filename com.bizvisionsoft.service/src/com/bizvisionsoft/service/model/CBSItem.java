@@ -73,6 +73,22 @@ public class CBSItem {
 	@ReadValue
 	@SetValue
 	public String scopeId;
+	
+	@ReadValue
+	@SetValue
+	public String scopeCharger;
+	
+	@ReadValue
+	@SetValue
+	public Date scopePlanStart;
+	
+	@ReadValue
+	@SetValue
+	public Date scopePlanFinish;
+	
+	@ReadValue
+	@SetValue
+	public String scopeStatus;
 
 	@Behavior({ "CBS/±‡º≠∫Õ…Ë∂®" })
 	private boolean behaviourAdd(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
@@ -482,52 +498,57 @@ public class CBSItem {
 		}
 	}
 
-	public Double getCARSummary() {
+	public Object getCARSummary() {
 		Double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * getCostSummary() / budgetSummary;
 		}
-		return null;
+		return "N/A";
 	}
 
-	public Double getCAR(String period) {
+	public Object getCAR(String period) {
 		Double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * getCost(period) / budget;
 		}
-		return null;
+		return "N/A";
 	}
 
-	public Double getCAR(String startPeriod, String endPeriod) {
+	public Object getCAR(String startPeriod, String endPeriod) {
 		Double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * getCost(startPeriod, endPeriod) / budget;
 		}
-		return null;
+		return "N/A";
 	}
 
-	public Double getBudgetVarianceSummary() {
+	public Object getBDRSummary() {
 		Double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
 		}
-		return null;
+		return "N/A";
 	}
 
-	public Double getBudgetVariance(String period) {
+	public Object getBDR(String period) {
 		Double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
 		}
-		return null;
+		return "N/A";
 	}
 
-	public Double getBudgetVariance(String startPeriod, String endPeriod) {
+	public Object getBDR(String startPeriod, String endPeriod) {
 		Double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
 		}
-		return null;
+		return "N/A";
 	}
-
+	
+	@SetValue
+	public Double cbsSubjectBudget;
+	
+	@SetValue
+	public Double cbsSubjectCost;
 }

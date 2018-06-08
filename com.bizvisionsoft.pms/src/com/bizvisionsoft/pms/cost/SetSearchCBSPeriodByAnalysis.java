@@ -65,7 +65,7 @@ public class SetSearchCBSPeriodByAnalysis {
 				} else if ("car".equals(column.getData("name"))) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod, endPeriod, "car"));
-				} else if ("budgetVariance".equals(column.getData("name"))) {
+				} else if ("bdr".equals(column.getData("name"))) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod, endPeriod, "bv"));
 				}
@@ -88,7 +88,7 @@ public class SetSearchCBSPeriodByAnalysis {
 					else if ("".equals(type))
 						return "car" + ((CBSItem) element).getCAR(startPeriod, endPeriod);
 					else if ("".equals(type))
-						return "bv" + ((CBSItem) element).getBudgetVariance(startPeriod, endPeriod);
+						return "bv" + ((CBSItem) element).getBDR(startPeriod, endPeriod);
 				}
 				return "";
 			}

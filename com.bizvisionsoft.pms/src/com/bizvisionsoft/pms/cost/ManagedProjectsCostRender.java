@@ -121,15 +121,15 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getCARSummary();
 			}
-		} else if ("totalBudgetVariance".equals(column.getName())) {
+		} else if ("totalBDR".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总预算偏差
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudgetVarianceSummary();
+				value = cbsItem.getBDRSummary();
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的总预算偏差
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudgetVarianceSummary();
+				value = cbsSubjectCost.getBDRSummary();
 			}
 		} else if ("cost".equals(column.getName())) {
 			if (element instanceof CBSItem) {
@@ -161,15 +161,15 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getCAR(result);
 			}
-		} else if ("budgetVariance".equals(column.getName())) {
+		} else if ("bdr".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间预算偏差
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudgetVariance(result);
+				value = cbsItem.getBDR(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间预算偏差
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudgetVariance(result);
+				value = cbsSubjectCost.getBDR(result);
 			}
 		}
 		super.renderCell(cell, column, value, image);

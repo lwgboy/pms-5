@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.filecabinet;
 
-import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
