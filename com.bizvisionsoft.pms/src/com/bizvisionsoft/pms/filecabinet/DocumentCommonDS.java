@@ -17,5 +17,7 @@ public class DocumentCommonDS {
 	private List<String> listTag() {
 		return Services.get(CommonService.class).listDictionary("Tag", "name");
 	}
+	
+	
 
 }
