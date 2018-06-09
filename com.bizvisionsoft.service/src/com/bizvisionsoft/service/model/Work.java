@@ -922,7 +922,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("warningIcon")
 	private String getWarningIcon() {
-		if ("ÒÑ³¬ÆÚ".equals(overdue))
+		if ("³¬ÆÚ".equals(overdue) || "ÊÇ".equals(overdue))
 			return "<span class='layui-badge'>³¬ÆÚ</span>";
 		else if ("Ô¤¾¯".equals(overdue))
 			return "<span class='layui-badge layui-bg-orange'>Ô¤¾¯</span>";
@@ -985,12 +985,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public String getOverdue() {
-		if ("ÒÑ³¬ÆÚ".equals(overdue))
+		if ("ÊÇ".equals(overdue))
 			return "³¬ÆÚ";
-		else if ("Ô¤¾¯".equals(overdue))
-			return "Ô¤¾¯";
-		else
+		else if ("·ñ".equals(overdue))
 			return "";
+		else
+			return overdue;
 	}
 
 	@SetValue
