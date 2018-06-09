@@ -19,12 +19,12 @@ public class WorkScheduleInfo {
 		return work;
 	}
 
-	@ReadValue({ "start_date" })
+	@ReadValue({ "start_date1" })
 	public Date getStart_date() {
 		return work.getPlanStart();
 	}
 
-	@ReadValue({ "start_date1" })
+	@ReadValue({ "start_date" })
 	public Date getStart_date1() {
 		if (work.getActualStart() != null) {
 			return work.getActualStart();
@@ -32,12 +32,12 @@ public class WorkScheduleInfo {
 		return work.getPlanStart();
 	}
 
-	@ReadValue({ "end_date" })
+	@ReadValue({ "end_date1" })
 	public Date getEnd_date() {
 		return work.getPlanFinish();
 	}
 
-	@ReadValue({ "end_date1" })
+	@ReadValue({ "end_date" })
 	public Date getEnd_date1() {
 		if (work.getActualFinish() != null) {
 			return work.getActualFinish();
