@@ -47,7 +47,7 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.LIST)
-	private List<WorkPackageProgress> listBasic(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+	private List<WorkPackageProgress> list(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			ObjectId work_id) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
@@ -70,7 +70,7 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.COUNT)
-	private long countBasic(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter, ObjectId work_id) {
+	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter, ObjectId work_id) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}

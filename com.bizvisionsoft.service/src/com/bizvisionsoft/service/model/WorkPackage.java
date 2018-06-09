@@ -159,7 +159,7 @@ public class WorkPackage {
 	@ReadValue("qualifiedRate")
 	private Double getQualifiedRate() {
 		if (completeQty != 0d) {
-			return qualifiedQty / completeQty * 100d;
+			return qualifiedQty / completeQty;
 		}
 		return null;
 	}
@@ -189,7 +189,7 @@ public class WorkPackage {
 	private String documentType;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	public ObjectId getWork_id() {
 		return work_id;
 	}

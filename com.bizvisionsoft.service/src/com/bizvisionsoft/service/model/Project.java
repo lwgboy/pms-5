@@ -673,10 +673,18 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工作量完成率 百分比
+
+	@SetValue("summaryPlanDuration")
+	private double summaryPlanDuration;
+
+	@SetValue("summaryActualDuration")
+	private double summaryActualDuration;
+
 	@ReadValue("war")
 	public Object getWAR() {
-		if (getPlanWorks() != 0) {
-			return 1d * getActualWorks() / getPlanWorks();
+		if (summaryPlanDuration != 0) {
+			double d = 1d * summaryActualDuration / summaryPlanDuration;
+			return d > 1d ? 1d : d;
 		}
 		return "--";
 	}

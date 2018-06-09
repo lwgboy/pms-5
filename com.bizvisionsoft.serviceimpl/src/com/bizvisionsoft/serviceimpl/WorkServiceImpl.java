@@ -108,6 +108,47 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 										"$workTime.planWorks")),
 				new Document("$project", new Document("workTime", false))));
 
+		pipeline.addAll(Arrays.asList(
+				new Document("$lookup", new Document("from", "work")
+						.append("let",
+								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
+						.append("pipeline",
+								Arrays.asList(
+										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
+												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
+												new Document("$eq",
+														Arrays.asList(new Document("$indexOfBytes",
+																Arrays.asList("$wbsCode",
+																		new Document("$concat",
+																				Arrays.asList("$$wbsCode", ".")))),
+																0)),
+												new Document("$eq", Arrays.asList("$summary", false)))))),
+										new Document().append(
+												"$addFields", new Document()
+														.append("planDuration", new Document("$divide",
+																Arrays.asList(
+																		new Document("$subtract",
+																				Arrays.asList("$planFinish",
+																						"$planStart")),
+																		1000 * 3600 * 24)))
+														.append("actualDuration", new Document("$divide", Arrays.asList(
+																new Document("$subtract", Arrays.asList(
+																		new Document("$ifNull",
+																				Arrays.asList("$actualFinish",
+																						new Date())),
+																		new Document("$ifNull",
+																				Arrays.asList("$actualStart",
+																						new Date())))),
+																1000 * 3600 * 24)))),
+										new Document("$group", new Document("_id", null)
+												.append("planDuration", new Document("$sum", "$planDuration"))
+												.append("actualDuration", new Document("$sum", "$actualDuration")))))
+						.append("as", "work")),
+				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document("summaryPlanDuration", "$work.planDuration")
+						.append("summaryActualDuration", "$work.actualDuration")),
+				new Document("$project", new Document("work", false))));
+
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
@@ -415,7 +456,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.addFields(
 				Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
 						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")),
-						new Field<Bson>("qualifiedQty", new BasicDBObject("$max", "$progress.qualifiedQty")))));
+						new Field<Bson>("qualifiedQty", new BasicDBObject("$sum", "$progress.qualifiedQty")))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		pipeline.add(
 				new BasicDBObject("$lookup",
@@ -575,7 +616,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 工作没有完成时间或完成时间小于当前时间时，更新工作的完成时间为当前时间，并获取更新的工作
 		Date finishDate = new Date();
 		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate).append("progress", 100d)));
+				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate).append("progress", 1d)));
 		// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 		if (doc == null) {
 			result.add(Result.updateFailure("工作已经完成。"));
@@ -604,7 +645,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 															new BasicDBObject("$lt", finishDate)) })
 									.append("stage", false),
 							new BasicDBObject("$set",
-									new BasicDBObject("actualFinish", finishDate).append("progress", 100d)));
+									new BasicDBObject("actualFinish", finishDate).append("progress", 1d)));
 			// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 			if (doc == null)
 				return;
@@ -638,7 +679,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set",
 						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", new Date())
-								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))));
+								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))
+								.append("progress", 1d)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -889,20 +931,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new BasicDBObject("$in", items)));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
 		List<ObjectId> items = getProject_id(userid);
 
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("project_id", new Document("$in", items)).append("summary", false)
-				.append("actualFinish", null).append("distributed", true)
-				.append("stage", new BasicDBObject("$ne", true))));
-		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
-		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
-		pipeline.add(new Document().append("$addFields",
-				new Document().append("scheduleMonitoring", "$workPackageSetting")));
-		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match",
+				new Document("project_id", new Document("$in", items)).append("summary", false)
+						.append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true)))
+				.set("catagory", catagory).array();
+
 		appendProject(pipeline);
+
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)

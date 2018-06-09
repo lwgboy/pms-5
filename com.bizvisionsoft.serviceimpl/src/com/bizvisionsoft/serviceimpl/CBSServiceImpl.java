@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -525,7 +526,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
+			data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
 			data1.add(doc.getString("name"));
 		});
 
@@ -591,7 +592,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			data2.add(new Document("name", doc.getString("name")).append("value", doc.get("cost")));
+			data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
 			data1.add(doc.getString("name"));
 		});
 
@@ -778,11 +779,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		return option;
 	}
 
-	private Double getDoubleValue(Object value) {
+	private String getDoubleValue(Object value) {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return d;
+				return new DecimalFormat("#.0").format(d);
 			}
 		}
 		return null;
