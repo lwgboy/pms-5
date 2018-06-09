@@ -453,8 +453,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return name + " [" + id + "]";
 	}
 
-	@ImageURL("id")
-	private String logo = "/img/project_c.svg";
+	@ImageURL("name")
+	private String icon = "/img/project_c.svg";
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude

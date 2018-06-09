@@ -110,7 +110,7 @@ public class ProjectBoardRender {
 						+ pj.get_id() + "' target='_rwt'><i class='layui-icon'>&#xe602;</i></a></div>");
 
 		sb.append("<div style='font-size: 22px;'>" + pj.getName() + "</div>");
-		sb.append("<div style='width:100%;margin-top:4px;display:inline-flex;justify-content:space-between;'><div>计划: "
+		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanFinish()));
 		if (!"".equals(pj.getOverdue()))

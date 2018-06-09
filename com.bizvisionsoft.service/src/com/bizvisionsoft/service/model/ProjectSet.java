@@ -42,8 +42,8 @@ public class ProjectSet {
 	@Persistence
 	private String id;
 
-	@ImageURL("id")
-	private String logo = "/img/project_set_c.svg";
+	@ImageURL("name")
+	private String icon = "/img/project_set_c.svg";
 
 	/**
 	 * ¹¤×÷ÁîºÅ
