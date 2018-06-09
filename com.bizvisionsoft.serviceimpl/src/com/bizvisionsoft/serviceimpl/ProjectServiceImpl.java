@@ -465,8 +465,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 修改项目状态
 		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set",
-						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", new Date())
-								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))));
+						new BasicDBObject("status", ProjectStatus.Closing).append("progress", 1d)
+								.append("finishOn", new Date()).append("finishBy", executeBy)
+								.append("actualFinish", doc.get("actualFinish"))));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {

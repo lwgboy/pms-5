@@ -575,7 +575,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 工作没有完成时间或完成时间小于当前时间时，更新工作的完成时间为当前时间，并获取更新的工作
 		Date finishDate = new Date();
 		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate).append("progress", 100d)));
+				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate).append("progress", 1d)));
 		// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 		if (doc == null) {
 			result.add(Result.updateFailure("工作已经完成。"));
@@ -604,7 +604,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 															new BasicDBObject("$lt", finishDate)) })
 									.append("stage", false),
 							new BasicDBObject("$set",
-									new BasicDBObject("actualFinish", finishDate).append("progress", 100d)));
+									new BasicDBObject("actualFinish", finishDate).append("progress", 1d)));
 			// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 			if (doc == null)
 				return;
@@ -638,7 +638,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set",
 						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", new Date())
-								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))));
+								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))
+								.append("progress", 1d)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
