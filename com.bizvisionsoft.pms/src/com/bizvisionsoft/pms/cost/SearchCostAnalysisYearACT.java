@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Event;
 
@@ -13,6 +14,8 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.ICBSScope;
 import com.mongodb.BasicDBObject;
 
 public class SearchCostAnalysisYearACT {
@@ -31,7 +34,25 @@ public class SearchCostAnalysisYearACT {
 			String startPeriod = getPeriod(dbo.getDate("date1"));
 			CostCompositionAnalysisASM content = (CostCompositionAnalysisASM) context
 					.getChildContextByAssemblyName("成本组成分析组件").getContent();
-			content.setOption(startPeriod);
+
+			Object input = context.getInput();
+			ObjectId scope_id = null;
+			// 从成本管理打开项目成本管理时，传入contextInput为CBSItem
+			if (input instanceof CBSItem) {
+				scope_id = ((CBSItem) input).getScope_id();
+
+			} else {
+				// 项目、阶段打开项目成本管理时需从contextRootInput获取传入的参数
+				if (input == null) {
+					input = context.getRootInput();
+				}
+				if (input != null) {
+					ICBSScope cbsScope = (ICBSScope) input;
+					scope_id = cbsScope.getScope_id();
+				}
+			}
+
+			content.setOption(startPeriod, scope_id);
 		}
 
 	}

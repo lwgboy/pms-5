@@ -510,11 +510,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	public Date getPlanFinish() {
 		return planFinish;
 	}
-	
+
 	public Date getActualStart() {
 		return actualStart;
 	}
-	
+
 	public Date getActualFinish() {
 		return actualFinish;
 	}
@@ -686,9 +686,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	// 工时完成率 百分比
 	@ReadValue("sar")
 	public Object getSAR() {
-		int planDuration = getPlanDuration();
-		if (planDuration != 0) {
-			return 1d * getActualDuration() / planDuration;
+		int actualDuration = getActualDuration();
+		if (actualDuration != 0) {
+			double d = 1d * getPlanDuration() / actualDuration;
+			return d > 1d ? 1d : d;
 		}
 		return "--";
 	}

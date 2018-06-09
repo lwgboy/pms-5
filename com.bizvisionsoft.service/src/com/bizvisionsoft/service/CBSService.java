@@ -165,6 +165,27 @@ public interface CBSService {
 	public List<Result> submitCBSSubjectCost(@PathParam("scope_id") ObjectId scope_id, @PathParam("id") String id);
 
 	@POST
+	@Path("/costcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
+			@PathParam("year") String year);
+
+	@POST
+	@Path("/periodcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{startPeriod}/{endPeriod}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getPeriodCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
+			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod);
+
+	@POST
+	@Path("/monthcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getMonthCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
+			@PathParam("year") String year);
+
+	@POST
 	@Path("/costcompositionanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -174,7 +195,8 @@ public interface CBSService {
 	@Path("/periodcostcompositionanalysis/{startPeriod}/{endPeriod}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getPeriodCostCompositionAnalysis(@PathParam("startPeriod") String startPeriod,@PathParam("endPeriod")  String endPeriod);
+	public Document getPeriodCostCompositionAnalysis(@PathParam("startPeriod") String startPeriod,
+			@PathParam("endPeriod") String endPeriod);
 
 	@POST
 	@Path("/monthcostcompositionanalysis/{year}/")

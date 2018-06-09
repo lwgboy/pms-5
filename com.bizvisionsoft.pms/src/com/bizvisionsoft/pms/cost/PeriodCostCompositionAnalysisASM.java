@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -61,9 +62,11 @@ public class PeriodCostCompositionAnalysisASM {
 			}
 		}
 		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
+		ObjectId cbsScope_id = null;
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
+				cbsScope_id = cbsItem.getScope_id();
 				date = cbsItem.getNextSettlementDate();
 				// 如果项目下一结算月份等于当前月份，则日期为当前结算月份
 				currentCBSPeriod.setTime(date);
@@ -80,11 +83,17 @@ public class PeriodCostCompositionAnalysisASM {
 		}
 		String result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
-		setOption(result, result);
+		setOption(result, result, cbsScope_id);
 	}
 
-	public void setOption(String startPeriod, String endPeriod) {
-		Document option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
+	public void setOption(String startPeriod, String endPeriod, ObjectId cbsScope_id) {
+		Document option;
+		if (cbsScope_id != null) {
+			option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod,
+					endPeriod);
+		} else {
+			option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
+		}
 		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 
