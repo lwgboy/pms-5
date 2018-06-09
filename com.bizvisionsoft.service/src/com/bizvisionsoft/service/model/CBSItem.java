@@ -397,8 +397,8 @@ public class CBSItem {
 		return summary;
 	}
 
-	public Double getCost(String startPeriod, String endPeriod) {
-		Double summary = 0d;
+	public double getCost(String startPeriod, String endPeriod) {
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {

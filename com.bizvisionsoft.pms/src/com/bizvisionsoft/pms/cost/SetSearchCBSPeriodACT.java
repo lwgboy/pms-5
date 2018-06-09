@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.cost;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,9 +45,9 @@ public class SetSearchCBSPeriodACT {
 				// 修改当期成本列的列名和Label显示
 				if ("periodCost".equals(column.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						column.setText(startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
+						column.setText("期间："+startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						column.setText(startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "-"
+						column.setText("期间："+startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "-"
 								+ endPeriod.substring(0, 4) + "/" + Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
 
@@ -55,7 +56,7 @@ public class SetSearchCBSPeriodACT {
 						@Override
 						public String getText(Object element) {
 							if (element instanceof CBSItem) {
-								return "" + ((CBSItem) element).getCost(startPeriod, endPeriod);
+								return new DecimalFormat("#.0").format(((CBSItem) element).getCost(startPeriod, endPeriod));
 							}
 							return "";
 						}
