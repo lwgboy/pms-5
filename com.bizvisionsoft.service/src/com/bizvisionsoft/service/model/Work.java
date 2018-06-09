@@ -260,6 +260,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@WriteValue
 	@Persistence
 	private int index;
+	
+	public int getIndex() {
+		return index;
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -433,6 +437,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
 			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
+		} else if (actualFinish == null && actualStart != null){
+			return (int) (((new Date()).getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
 		} else {
 			return 0;
 		}
@@ -583,7 +589,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("manageLevel")
 	@GetValue("manageLevel")
-	private String getManageLevel() {
+	public String getManageLevel() {
 		if ("level1_task".equals(barstyle)) {
 			return "1";
 		} else if ("level2_task".equals(barstyle)) {

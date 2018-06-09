@@ -294,7 +294,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		final List<Message> messages = new ArrayList<>();
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("新的工作计划", "工作 "+w.getString("fullName") + " 已下达。", distributeBy,
+			messages.add(Message.newInstance("新的工作计划", "工作 " + w.getString("fullName") + " 已下达。", distributeBy,
 					w.getString("chargerId"), null));
 		});
 
@@ -308,7 +308,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						.append("distributeOn", new Date())));
 
 		sendMessages(messages);
-		
+
 		return new ArrayList<Result>();
 
 	}
@@ -582,10 +582,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				.forEach((Document doc) -> {
 					if (doc.get("date").equals(doc.get("actualStart"))) {
 						result.add(new News().setDate(doc.getDate("date"))
-								.setContent("" + doc.get("userInfo") + " 启动 " + doc.get("name") + " 工作"));
+								.setContent("" + doc.get("userInfo") + " " + doc.get("name") + " 启动 "));
 					} else if (doc.get("date").equals(doc.get("actualFinish"))) {
 						result.add(new News().setDate(doc.getDate("date"))
-								.setContent("" + doc.get("userInfo") + " 完成 " + doc.get("name") + " 工作"));
+								.setContent("" + doc.get("userInfo") + " " + doc.get("name") + " 完成"));
 					}
 				});
 		return result;
