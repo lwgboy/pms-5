@@ -73,19 +73,19 @@ public class CBSItem {
 	@ReadValue
 	@SetValue
 	public String scopeId;
-	
+
 	@ReadValue
 	@SetValue
 	public String scopeCharger;
-	
+
 	@ReadValue
 	@SetValue
 	public Date scopePlanStart;
-	
+
 	@ReadValue
 	@SetValue
 	public Date scopePlanFinish;
-	
+
 	@ReadValue
 	@SetValue
 	public String scopeStatus;
@@ -114,8 +114,8 @@ public class CBSItem {
 	private boolean behaviourDelete() {
 		return !scopeRoot && countSubCBSItems() == 0;
 	}
-	
-	@Behavior({"预算成本对比分析/打开项目预算成本对比分析"})
+
+	@Behavior({ "预算成本对比分析/打开项目预算成本对比分析" })
 	private boolean behaviourOpen() {
 		return scopeRoot;
 	}
@@ -290,7 +290,7 @@ public class CBSItem {
 		}
 	}
 
-	public Double getBudget(String period) {
+	public double getBudget(String period) {
 		if (countSubCBSItems() == 0) {
 			return Optional.ofNullable(budget).map(b -> b.getDouble(period)).orElse(0d);
 		} else {
@@ -303,7 +303,7 @@ public class CBSItem {
 		}
 	}
 
-	public Double getBudget(String startPeriod, String endPeriod) {
+	public double getBudget(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -322,7 +322,7 @@ public class CBSItem {
 		return summary;
 	}
 
-	public Double getBudgetYearSummary(String year) {
+	public double getBudgetYearSummary(String year) {
 		Double summary = 0d;
 		if (countSubCBSItems() == 0) {
 			if (budget == null || budget.isEmpty()) {
@@ -354,7 +354,7 @@ public class CBSItem {
 	@Exclude
 	private Date settlementDate;
 
-	public Double getCostSummary() {
+	public double getCostSummary() {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -378,7 +378,7 @@ public class CBSItem {
 		return cbsSubjects;
 	}
 
-	public Double getCost(String period) {
+	public double getCost(String period) {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -545,10 +545,10 @@ public class CBSItem {
 		}
 		return "--";
 	}
-	
+
 	@SetValue
 	public Double cbsSubjectBudget;
-	
+
 	@SetValue
 	public Double cbsSubjectCost;
 }

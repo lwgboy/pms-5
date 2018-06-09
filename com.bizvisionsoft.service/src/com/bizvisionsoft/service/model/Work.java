@@ -260,7 +260,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@WriteValue
 	@Persistence
 	private int index;
-	
+
 	public int getIndex() {
 		return index;
 	}
@@ -433,7 +433,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
 			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
-		} else if (actualFinish == null && actualStart != null){
+		} else if (actualFinish == null && actualStart != null) {
 			return (int) (((new Date()).getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
 		} else {
 			return 0;
@@ -510,8 +510,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 工时完成率 百分比
 	@ReadValue("sar")
 	public Double getSAR() {
-		if (planDuration != 0) {
-			return 1d * getActualDuration() / planDuration;
+		int actualDuration = getActualDuration();
+		if (actualDuration != 0) {
+			double d = 1d * planDuration / actualDuration;
+			return d > 1d ? 1d : d;
 		}
 		return null;
 	}
@@ -921,7 +923,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("warningIcon")
 	private String getWarningIcon() {
-		if ("已超期".equals(overdue))
+		if ("超期".equals(overdue) || "是".equals(overdue))
 			return "<span class='layui-badge'>超期</span>";
 		else if ("预警".equals(overdue))
 			return "<span class='layui-badge layui-bg-orange'>预警</span>";
@@ -984,14 +986,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public String getOverdue() {
-		if ("已超期".equals(overdue))
+		if ("是".equals(overdue))
 			return "超期";
-		else if ("预警".equals(overdue))
-			return "预警";
-		else
+		else if ("否".equals(overdue))
 			return "";
+		else
+			return overdue;
 	}
-	
+
 	@SetValue
 	@ReadValue
 	private String packageName;
