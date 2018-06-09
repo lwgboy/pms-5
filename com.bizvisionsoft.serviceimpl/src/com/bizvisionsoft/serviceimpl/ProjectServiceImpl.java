@@ -261,7 +261,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
 		ArrayList<String> memberIds = c("obs").distinct("managerId",
 				new BasicDBObject("_id",
-						new BasicDBObject("$in", ids).append("managerId", new BasicDBObject("$ne", null))),
+						new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)),
 				String.class).into(new ArrayList<>());
 		return memberIds;
 	}
