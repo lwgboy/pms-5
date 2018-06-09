@@ -38,8 +38,8 @@ public class EPS implements Comparable<EPS> {
 	@WriteValue
 	private String id;
 
-	@ImageURL("id")
-	private String logo = "/img/eps_c.svg";
+	@ImageURL("name")
+	private String icon = "/img/eps_c.svg";
 	/**
 	 * ¸¸½Úµã
 	 */
