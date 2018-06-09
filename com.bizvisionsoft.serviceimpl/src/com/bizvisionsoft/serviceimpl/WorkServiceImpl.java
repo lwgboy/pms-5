@@ -456,7 +456,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.addFields(
 				Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
 						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")),
-						new Field<Bson>("qualifiedQty", new BasicDBObject("$max", "$progress.qualifiedQty")))));
+						new Field<Bson>("qualifiedQty", new BasicDBObject("$sum", "$progress.qualifiedQty")))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		pipeline.add(
 				new BasicDBObject("$lookup",
