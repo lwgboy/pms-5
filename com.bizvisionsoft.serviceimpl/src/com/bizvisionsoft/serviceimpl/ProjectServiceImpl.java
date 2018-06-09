@@ -506,7 +506,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Document doc = c("work").find(new BasicDBObject("project_id", _id))
 				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
 				.first();
-
+		
 		// ÐÞ¸ÄÏîÄ¿×´Ì¬
 		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", _id),
 				new BasicDBObject("$set",
