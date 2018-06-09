@@ -113,8 +113,8 @@ public class ProjectBoardRender {
 		sb.append("<div style='width:100%;margin-top:4px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanFinish()));
-		if (Boolean.TRUE.equals(pj.getOverdue()))
-			sb.append(" <span class='layui-badge layui-bg-red'>超期</span>");
+		if (!"".equals(pj.getOverdue()))
+			sb.append(" <span class='layui-badge layui-bg-red'>" + pj.getOverdue() + "</span>");
 		sb.append("</div>");
 		sb.append("<div style='margin-right:16px;'>项目经理: " + pj.getPmInfo() + "</div></div>");
 

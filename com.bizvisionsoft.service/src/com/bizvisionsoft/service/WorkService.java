@@ -19,7 +19,6 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -327,7 +326,7 @@ public interface WorkService {
 	@Path("/track/project/{project_id}/{catagory}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<TrackView> listWorkPackageForScheduleInProject(@PathParam("project_id") ObjectId project_id,
+	public List<Work> listWorkPackageForScheduleInProject(@PathParam("project_id") ObjectId project_id,
 			@PathParam("catagory") String catagory);
 
 	@POST
@@ -341,7 +340,7 @@ public interface WorkService {
 	@Path("/track/stage/{stage_id}/{catagory}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<TrackView> listWorkPackageForScheduleInStage(@PathParam("stage_id") ObjectId stage_id,
+	public List<Work> listWorkPackageForScheduleInStage(@PathParam("stage_id") ObjectId stage_id,
 			@PathParam("catagory") String catagory);
 
 	@POST

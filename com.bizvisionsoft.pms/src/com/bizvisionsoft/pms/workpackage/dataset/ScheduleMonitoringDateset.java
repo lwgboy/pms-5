@@ -11,7 +11,6 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -43,14 +42,14 @@ public class ScheduleMonitoringDateset {
 	}
 
 	@DataSet("研发进度监控/" + DataSet.LIST)
-	public List<TrackView> listDesign() {
+	public List<Work> listDesign() {
 		String catagory = "研发";
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(), catagory);
 		} else {
-			return new ArrayList<TrackView>();
+			return new ArrayList<Work>();
 		}
 	}
 
@@ -67,14 +66,14 @@ public class ScheduleMonitoringDateset {
 	}
 
 	@DataSet("采购计划监控/" + DataSet.LIST)
-	public List<TrackView> listPurchase() {
+	public List<Work> listPurchase() {
 		String catagory = "采购";
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(), catagory);
 		} else {
-			return new ArrayList<TrackView>();
+			return new ArrayList<Work>();
 		}
 	}
 
@@ -91,14 +90,14 @@ public class ScheduleMonitoringDateset {
 	}
 
 	@DataSet("生产计划监控/" + DataSet.LIST)
-	public List<TrackView> listProduce() {
+	public List<Work> listProduce() {
 		String catagory = "生产";
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(), catagory);
 		} else {
-			return new ArrayList<TrackView>();
+			return new ArrayList<Work>();
 		}
 	}
 
@@ -115,14 +114,14 @@ public class ScheduleMonitoringDateset {
 	}
 
 	@DataSet("检验进度监控/" + DataSet.LIST)
-	public List<TrackView> listInspection() {
+	public List<Work> listInspection() {
 		String catagory = "质量";
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(), catagory);
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(), catagory);
 		} else {
-			return new ArrayList<TrackView>();
+			return new ArrayList<Work>();
 		}
 	}
 

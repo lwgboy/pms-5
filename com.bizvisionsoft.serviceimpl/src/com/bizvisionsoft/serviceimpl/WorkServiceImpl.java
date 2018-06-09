@@ -21,7 +21,6 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -833,22 +832,23 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return update(filterAndUpdate, WorkPackageProgress.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<TrackView> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("project_id", project_id)));
-		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
-		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
-		pipeline.add(new Document().append("$addFields",
-				new Document().append("scheduleMonitoring", "$workPackageSetting")));
-		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
-		appendProject(pipeline);
-		pipeline.add(new Document().append("$group", new Document().append("_id", "$scheduleMonitoring")
-				.append("children", new Document().append("$push", "$$ROOT"))));
-		pipeline.add(new Document().append("$replaceRoot", new Document().append("newRoot",
-				new Document().append("$mergeObjects", Arrays.asList("$$ROOT", "$_id")))));
+	public List<Work> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("project_id", project_id))
+				.set("catagory", catagory).array();
 
-		return c("work", TrackView.class).aggregate(pipeline).into(new ArrayList<TrackView>());
+		appendProject(pipeline);
+
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 
 	@Override
@@ -857,23 +857,24 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.count(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<TrackView> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
+	public List<Work> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", items))));
-		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
-		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
-		pipeline.add(new Document().append("$addFields",
-				new Document().append("scheduleMonitoring", "$workPackageSetting")));
-		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
-		appendProject(pipeline);
-		pipeline.add(new Document().append("$group", new Document().append("_id", "$scheduleMonitoring")
-				.append("children", new Document().append("$push", "$$ROOT"))));
-		pipeline.add(new Document().append("$replaceRoot", new Document().append("newRoot",
-				new Document().append("$mergeObjects", Arrays.asList("$$ROOT", "$_id")))));
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包")
+				.set("match", new Document("_id", new Document("$in", items))).set("catagory", catagory).array();
 
-		return c("work", TrackView.class).aggregate(pipeline).into(new ArrayList<TrackView>());
+		appendProject(pipeline);
+
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 
 	@Override

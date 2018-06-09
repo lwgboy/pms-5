@@ -538,7 +538,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Persistence
 	private boolean distributed;
 
-	@ReadValue("进度计划和监控/distributeIcon")
+	@ReadValue("distributeIcon")
 	private String getDistributedIcon() {
 		if (!distributed) {
 			return "<span class='layui-badge layui-bg-orange'>未下达</span>";
@@ -596,7 +596,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	}
 
-	@ReadValue("进度计划和监控/manageLevelHtml")
+	@ReadValue("manageLevelHtml")
 	private String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
 			return "<span class='layui-badge level1_task'>1</span>";
@@ -916,7 +916,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
-	@ReadValue("进度计划和监控/warningIcon")
+	@ReadValue("warningIcon")
 	private String getWarningIcon() {
 		if ("已超期".equals(overdue))
 			return "<span class='layui-badge'>超期</span>";
@@ -980,4 +980,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return assignerId;
 	}
 
+	public String getOverdue() {
+		if ("已超期".equals(overdue))
+			return "超期";
+		else if ("预警".equals(overdue))
+			return "预警";
+		else
+			return "";
+	}
+	
+	@SetValue
+	@ReadValue
+	private String packageName;
 }
