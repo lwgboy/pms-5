@@ -1273,8 +1273,41 @@
               },
               {
                 "id": "16390f96644",
-                "name": "成本分析",
+                "name": "预算成本对比分析表",
                 "switchContentToAssemblyId": "163d3ef7ce7",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163e48cc76a",
+                "name": "成本组成分析表",
+                "switchContentToAssemblyId": "163d9548883",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163e48cf9b9",
+                "name": "成本组成分析表-期间",
+                "switchContentToAssemblyId": "163df6b1035",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163e48d2a67",
+                "name": "预算成本按月分析",
+                "switchContentToAssemblyId": "163df88737f",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
