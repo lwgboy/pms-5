@@ -429,10 +429,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		}
 	}
 
-	@SetValue
-	@ReadValue
-	private int actualDuration;
-
 	@GetValue("actualDuration")
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
@@ -492,7 +488,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("dar")
 	public Double getDAR() {
 		if (planDuration != 0) {
-			return 1d * actualDuration / planDuration;
+			return 1d * getActualDuration() / planDuration;
 		}
 		return null;
 	}
@@ -514,7 +510,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("sar")
 	public Double getSAR() {
 		if (planDuration != 0) {
-			return 1d * actualDuration / planDuration;
+			return 1d * getActualDuration() / planDuration;
 		}
 		return null;
 	}
