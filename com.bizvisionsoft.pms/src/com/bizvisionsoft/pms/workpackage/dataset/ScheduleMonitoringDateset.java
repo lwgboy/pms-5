@@ -140,7 +140,8 @@ public class ScheduleMonitoringDateset {
 	@DataSet("采购计划监控（项目管理）/" + DataSet.LIST)
 	public List<Work> listPurchaseForManagement(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
 		String catagory = "采购";
-		return Services.get(WorkService.class).listWorkPackageForSchedule(condition, userid, catagory);
+		List<Work> listWorkPackageForSchedule = Services.get(WorkService.class).listWorkPackageForSchedule(condition, userid, catagory);
+		return listWorkPackageForSchedule;
 	}
 
 	@DataSet("采购计划监控（项目管理）/" + DataSet.COUNT)

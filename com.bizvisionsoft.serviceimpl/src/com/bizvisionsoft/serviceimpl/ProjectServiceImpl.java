@@ -210,6 +210,51 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				new Document("$addFields", new Document("summaryActualWorks", "$worktime.actualWorks")
 						.append("summaryPlanWorks", "$worktime.planWorks")),
 				new Document("$project", new Document("worktime", false))));
+
+		pipeline.addAll(Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "work")
+								.append("let",
+										new Document("project_id", "_id"))
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr",
+																new Document("$and",
+																		Arrays.asList(
+																				new Document("$eq",
+																						Arrays.asList("$project_id",
+																								"$$project_id")),
+																				new Document("$eq",
+																						Arrays.asList("$summary",
+																								false)))))),
+												new Document().append("$addFields", new Document()
+														.append("planDuration", new Document("$divide",
+																Arrays.asList(
+																		new Document("$subtract",
+																				Arrays.asList("$planFinish",
+																						"$planStart")),
+																		1000 * 3600 * 24)))
+														.append("actualDuration", new Document("$divide", Arrays.asList(
+																new Document("$subtract", Arrays.asList(
+																		new Document("$ifNull",
+																				Arrays.asList("$actualFinish",
+																						new Date())),
+																		new Document("$ifNull",
+																				Arrays.asList("$actualStart",
+																						new Date())))),
+																1000 * 3600 * 24)))),
+												new Document("$group",
+														new Document("_id", null)
+																.append("planDuration",
+																		new Document("$sum", "$planDuration"))
+																.append("actualDuration",
+																		new Document("$sum", "$actualDuration")))))
+								.append("as", "work")),
+				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document("summaryPlanDuration", "$work.planDuration")
+						.append("summaryActualDuration", "$work.actualDuration")),
+				new Document("$project", new Document("work", false))));
 	}
 
 	@Override

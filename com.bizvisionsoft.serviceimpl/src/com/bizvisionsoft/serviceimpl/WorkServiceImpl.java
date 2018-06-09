@@ -108,6 +108,47 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 										"$workTime.planWorks")),
 				new Document("$project", new Document("workTime", false))));
 
+		pipeline.addAll(Arrays.asList(
+				new Document("$lookup", new Document("from", "work")
+						.append("let",
+								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
+						.append("pipeline",
+								Arrays.asList(
+										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
+												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
+												new Document("$eq",
+														Arrays.asList(new Document("$indexOfBytes",
+																Arrays.asList("$wbsCode",
+																		new Document("$concat",
+																				Arrays.asList("$$wbsCode", ".")))),
+																0)),
+												new Document("$eq", Arrays.asList("$summary", false)))))),
+										new Document().append(
+												"$addFields", new Document()
+														.append("planDuration", new Document("$divide",
+																Arrays.asList(
+																		new Document("$subtract",
+																				Arrays.asList("$planFinish",
+																						"$planStart")),
+																		1000 * 3600 * 24)))
+														.append("actualDuration", new Document("$divide", Arrays.asList(
+																new Document("$subtract", Arrays.asList(
+																		new Document("$ifNull",
+																				Arrays.asList("$actualFinish",
+																						new Date())),
+																		new Document("$ifNull",
+																				Arrays.asList("$actualStart",
+																						new Date())))),
+																1000 * 3600 * 24)))),
+										new Document("$group", new Document("_id", null)
+												.append("planDuration", new Document("$sum", "$planDuration"))
+												.append("actualDuration", new Document("$sum", "$actualDuration")))))
+						.append("as", "work")),
+				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields", new Document("summaryPlanDuration", "$work.planDuration")
+						.append("summaryActualDuration", "$work.actualDuration")),
+				new Document("$project", new Document("work", false))));
+
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
@@ -890,20 +931,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new BasicDBObject("$in", items)));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
 		List<ObjectId> items = getProject_id(userid);
 
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("project_id", new Document("$in", items)).append("summary", false)
-				.append("actualFinish", null).append("distributed", true)
-				.append("stage", new BasicDBObject("$ne", true))));
-		pipeline.add(new Document().append("$unwind", "$workPackageSetting"));
-		pipeline.add(new Document().append("$match", new Document().append("workPackageSetting.catagory", catagory)));
-		pipeline.add(new Document().append("$addFields",
-				new Document().append("scheduleMonitoring", "$workPackageSetting")));
-		pipeline.add(new Document().append("$project", new Document().append("workPackageSetting", false)));
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match",
+				new Document("project_id", new Document("$in", items)).append("summary", false)
+						.append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true)))
+				.set("catagory", catagory).array();
+
 		appendProject(pipeline);
+
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
