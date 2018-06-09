@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -479,10 +480,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
+
+		Work work = get(_id, Work.class);
+		String pjName = getName("project", work.getProject_id());
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("新的工作计划", "工作 " + w.getString("fullName") + " 已下达。", distributeBy,
-					w.getString("chargerId"), null));
+			messages.add(Message.newInstance("新下达的工作计划",
+					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
+							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planStart")) + " - "
+							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planFinish")),
+					distributeBy, w.getString("chargerId"), null));
 		});
 
 		if (ids.isEmpty()) {
@@ -1077,4 +1084,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.into(new ArrayList<>());
 		return getDesentItems(parentIds, "obs", "parent_id");
 	}
+
+	@Override
+	public ObjectId getProjectId(ObjectId _id) {
+		return c("work").distinct("project_id", new Document("_id", _id), ObjectId.class).first();
+	}
+
 }

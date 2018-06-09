@@ -9,6 +9,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.mongodb.BasicDBObject;
@@ -34,7 +35,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Folder> listChildrenFolder(ObjectId parent_id) {
-		return c(Folder.class).find(new Document("parent_id", parent_id)).sort(new Document("name", 1))
+		return c(Folder.class).find(new Document("parent_id", parent_id))//.sort(new Document("name", 1))
 				.into(new ArrayList<>());
 	}
 
@@ -105,6 +106,11 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public long countDocument(BasicDBObject filter) {
 		return count(filter, Docu.class);
+	}
+
+	@Override
+	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
+		return listDocument(new Query().filter(new BasicDBObject("workPackage_id",wp_id)).bson());
 	}
 
 }

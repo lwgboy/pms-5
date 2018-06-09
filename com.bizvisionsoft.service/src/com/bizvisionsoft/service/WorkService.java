@@ -85,12 +85,18 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public Work getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
-
+	
 	@GET
 	@Path("/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public WorkLink getLink(@PathParam("_id") ObjectId _id);
+	
+	@GET
+	@Path("/task/_id/{_id}/project_id/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ObjectId getProjectId(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/project_id/{project_id}/ds")

@@ -19,8 +19,8 @@ public class UseTemplate {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		if (brui.confirm("套用项目模板",
 				"套用项目模板将<span style='color:red;font-weight:bold;'>替换</span>项目的进度计划、项目团队，请确认套用项目模板。")) {
