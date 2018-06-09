@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.conversions.Bson;
@@ -9,6 +10,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -75,6 +77,49 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	@Override
 	public long update(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, ProjectSet.class);
+	}
+
+	@Override
+	public List<ProjectSet> listFinishProjectSet(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		List<Bson> pipeline = new ArrayList<Bson>();
+		if (filter != null)
+			pipeline.add(new BasicDBObject("$match", filter));
+		
+		pipeline.addAll(Arrays.asList(
+				new BasicDBObject("$lookup", new BasicDBObject("from", "project")
+						.append("let", new BasicDBObject("projectSet_id", "$_id"))
+						.append("pipeline", Arrays.asList(
+								new BasicDBObject("$match",
+										new BasicDBObject("$expr", new BasicDBObject("$and", Arrays.asList(
+												new BasicDBObject("$eq",
+														Arrays.asList("$projectSet_id", "$$projectSet_id")),
+												new BasicDBObject("$eq",
+														Arrays.asList(
+																new BasicDBObject("$not",
+																		Arrays.asList(new BasicDBObject("$eq",
+																				Arrays.asList("$status",
+																						ProjectStatus.Closed)))),
+																false)))))),
+								new BasicDBObject("$group",
+										new BasicDBObject("_id", null).append("count",
+												new BasicDBObject("$sum", 1.0)))))
+						.append("as", "project")),
+				new BasicDBObject("$unwind",
+						new BasicDBObject("path", "$project").append("preserveNullAndEmptyArrays", true)),
+				new BasicDBObject("$addFields", new BasicDBObject("projectCount", "$project.count")),
+				new BasicDBObject("$match", new BasicDBObject("projectCount", new BasicDBObject("$gt", 0.0))),
+				new BasicDBObject("$project", new BasicDBObject("project", false))));
+
+		if (skip != null)
+			pipeline.add(new BasicDBObject("$skip", skip));
+
+		if (limit != null)
+			pipeline.add(new BasicDBObject("$limit", limit));
+
+		return c(ProjectSet.class).aggregate(pipeline).into(new ArrayList<ProjectSet>());
 	}
 
 }

@@ -214,7 +214,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private double summaryPlanWorks;
 
 	@ReadValue("planWorks")
-	private double getPlanWorks() {
+	public double getPlanWorks() {
 		return summaryPlanWorks;
 	}
 
@@ -281,7 +281,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private double summaryActualWorks;
 
 	@ReadValue("actualWorks")
-	private double getActualWorks() {
+	public double getActualWorks() {
 		return summaryActualWorks;
 	}
 
@@ -509,6 +509,14 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	public Date getPlanFinish() {
 		return planFinish;
+	}
+	
+	public Date getActualStart() {
+		return actualStart;
+	}
+	
+	public Date getActualFinish() {
+		return actualFinish;
 	}
 
 	public Project setStageEnable(boolean stageEnable) {

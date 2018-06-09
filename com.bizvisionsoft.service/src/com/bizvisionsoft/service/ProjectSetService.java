@@ -56,4 +56,10 @@ public interface ProjectSetService {
 	@Produces("application/json; charset=UTF-8")
 	@Deprecated
 	public long delete(@PathParam("_id") ObjectId get_id);
+
+	@POST
+	@Path("/finish/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ProjectSet> listFinishProjectSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
 }
