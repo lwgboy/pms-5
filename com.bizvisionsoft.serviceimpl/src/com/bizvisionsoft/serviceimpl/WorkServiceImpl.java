@@ -934,11 +934,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
-		List<ObjectId> items = getProject_id(userid);
+		// List<ObjectId> items = getProject_id(userid);
 
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match",
-				new Document("project_id", new Document("$in", items)).append("summary", false)
-						.append("actualFinish", null).append("distributed", true)
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包")
+				.set("match", new Document("summary", false).append("actualFinish", null).append("distributed", true)
 						.append("stage", new BasicDBObject("$ne", true)))
 				.set("catagory", catagory).array();
 
