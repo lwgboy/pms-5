@@ -415,7 +415,7 @@ public class ProjectSet {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue("cost")
-	public Double getCost() {
+	public double getCost() {
 		double cost = 0;
 		for (Object obj : getSubProjectSetsAndProjects()) {
 			if (obj instanceof ProjectSet) {
@@ -428,7 +428,7 @@ public class ProjectSet {
 	}
 
 	@ReadValue("budget")
-	public Double getBudget() {
+	public double getBudget() {
 		double budget = 0;
 		for (Object obj : getSubProjectSetsAndProjects()) {
 			if (obj instanceof ProjectSet) {

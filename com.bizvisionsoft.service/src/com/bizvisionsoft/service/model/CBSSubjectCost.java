@@ -87,7 +87,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return cbsSubjects;
 	}
 
-	public Double getBudgetSummary() {
+	public double getBudgetSummary() {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();
@@ -105,7 +105,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Double getBudget(String period) {
+	public double getBudget(String period) {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();
@@ -125,7 +125,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Double getBudget(String startPeriod, String endPeriod) {
+	public double getBudget(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();
@@ -146,7 +146,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Double getCostSummary() {
+	public double getCostSummary() {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();
@@ -164,7 +164,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Double getCost(String period) {
+	public double getCost(String period) {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();
@@ -184,7 +184,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Double getCost(String startPeriod, String endPeriod) {
+	public double getCost(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		if (children.size() > 0) {
 			Iterator<CBSSubjectCost> iter = children.iterator();

@@ -290,7 +290,7 @@ public class CBSItem {
 		}
 	}
 
-	public Double getBudget(String period) {
+	public double getBudget(String period) {
 		if (countSubCBSItems() == 0) {
 			return Optional.ofNullable(budget).map(b -> b.getDouble(period)).orElse(0d);
 		} else {
@@ -303,7 +303,7 @@ public class CBSItem {
 		}
 	}
 
-	public Double getBudget(String startPeriod, String endPeriod) {
+	public double getBudget(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -322,7 +322,7 @@ public class CBSItem {
 		return summary;
 	}
 
-	public Double getBudgetYearSummary(String year) {
+	public double getBudgetYearSummary(String year) {
 		Double summary = 0d;
 		if (countSubCBSItems() == 0) {
 			if (budget == null || budget.isEmpty()) {
@@ -354,7 +354,7 @@ public class CBSItem {
 	@Exclude
 	private Date settlementDate;
 
-	public Double getCostSummary() {
+	public double getCostSummary() {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -378,7 +378,7 @@ public class CBSItem {
 		return cbsSubjects;
 	}
 
-	public Double getCost(String period) {
+	public double getCost(String period) {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -397,7 +397,7 @@ public class CBSItem {
 		return summary;
 	}
 
-	public Double getCost(String startPeriod, String endPeriod) {
+	public double getCost(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
