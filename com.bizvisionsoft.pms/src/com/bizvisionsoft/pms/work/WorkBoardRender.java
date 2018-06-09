@@ -119,7 +119,7 @@ public class WorkBoardRender {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 		gridItem.setHeight(84);
 		gridItem.setBackground(BruiColors.getColor(BruiColor.Grey_50));
-		String warrningText = "超期";// TODO
+		String warrningText = work.getOverdue();
 		StringBuffer sb = new StringBuffer();
 		// 开始和完成按钮
 		if (work.getActualStart() == null) {
@@ -134,8 +134,10 @@ public class WorkBoardRender {
 		sb.append("<div style='font-size: 22px;'>" + work.getFullName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat("yyyy/MM/dd").format(work.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat("yyyy/MM/dd").format(work.getPlanFinish())
-				+ " <span class='layui-badge layui-bg-red'>" + warrningText + "</span></div>");
+				+ new SimpleDateFormat("yyyy/MM/dd").format(work.getPlanFinish()));
+		if (!"".equals(warrningText))
+			sb.append(" <span class='layui-badge layui-bg-red'>" + warrningText + "</span>");
+		sb.append("</div>");
 		String chargerInfo = work.getChargerInfo();
 		sb.append("<div style='margin-right:16px;'>负责: "
 				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>"
