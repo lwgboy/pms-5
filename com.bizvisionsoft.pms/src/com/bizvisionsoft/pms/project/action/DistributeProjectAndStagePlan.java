@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.project.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -39,10 +40,10 @@ public class DistributeProjectAndStagePlan {
 				if (!ok) {
 					return;
 				}
-				List<Result> result = Services.get(ProjectService.class).distributeProjectPlan(project.get_id(),
-						brui.getCurrentUserId());
+				List<Result> result = Services.get(ProjectService.class)
+						.distributeProjectPlan(brui.command(project.get_id(), new Date()));
 				if (result.isEmpty()) {
-					Layer.message( "项目阶段计划下达完成。");
+					Layer.message("项目阶段计划下达完成。");
 				} else {
 					// TODO 显示多条错误信息的通用方法
 					MessageDialog.openError(s, "下达项目阶段计划", "项目阶段计划下达失败。</p>" + result.get(0).message);
@@ -59,10 +60,10 @@ public class DistributeProjectAndStagePlan {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).distributeWorkPlan(work.get_id(),
-					brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class)
+					.distributeWorkPlan(brui.command(work.get_id(), new Date()));
 			if (result.isEmpty()) {
-				Layer.message( "阶段计划下达完成。");
+				Layer.message("阶段计划下达完成。");
 			} else {
 				// TODO 显示多条错误信息的通用方法
 				MessageDialog.openError(s, "下达阶段计划", "阶段计划下达失败。</p>" + result.get(0).message);

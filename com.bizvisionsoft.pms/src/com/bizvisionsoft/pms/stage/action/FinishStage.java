@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.stage.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -38,7 +39,7 @@ public class FinishStage {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).finishStage(stage.get_id(), brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class).finishStage(brui.command(stage.get_id(), new Date()));
 			if (result.isEmpty()) {
 				Layer.message("阶段已完工。");
 				brui.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());

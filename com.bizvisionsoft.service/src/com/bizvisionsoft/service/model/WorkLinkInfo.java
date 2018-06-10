@@ -170,8 +170,14 @@ public class WorkLinkInfo {
 		return this;
 	}
 
-	public void setSpaceId(ObjectId space_id) {
+	public WorkLinkInfo setSpaceId(ObjectId space_id) {
 		this.space_id = space_id;
+		return this;
+	}
+	
+	public WorkLinkInfo setLag(int lag) {
+		this.lag = lag;
+		return this;
 	}
 
 }

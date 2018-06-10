@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectBoardInfo;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ProjectBoardRender {
@@ -111,8 +112,8 @@ public class ProjectBoardRender {
 
 		sb.append("<div style='font-size: 22px;'>" + pj.getName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>¼Æ»®: "
-				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat("yyyy/MM/dd").format(pj.getPlanFinish()));
+				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanStart()) + " ~ "
+				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanFinish()));
 		if (!"".equals(pj.getOverdue()))
 			sb.append(" <span class='layui-badge layui-bg-red'>" + pj.getOverdue() + "</span>");
 		sb.append("</div>");

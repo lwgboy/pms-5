@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -24,6 +25,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -279,16 +281,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> startProject(ObjectId _id, String executeBy) {
-		List<Result> result = startProjectCheck(_id, executeBy);
+	public List<Result> startProject(Command com) {
+		List<Result> result = startProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", _id),
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("startOn", new Date()).append("startBy", executeBy)));
+						.append("startOn", com.date).append("startBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -299,9 +301,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// TODO CBS金额汇总
 
 		// 通知项目团队成员，项目已经启动
-		List<String> memberIds = getProjectMembers(_id);
-		String name = getName("project", _id);
-		sendMessage("项目启动通知", "项目" + name + "已于" + new SimpleDateFormat("yyyy-M-d") + "启动。", executeBy, memberIds,
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目启动", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。", com.userId, memberIds,
 				null);
 		return result;
 	}
@@ -310,10 +312,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
 				.into(new ArrayList<>());
 		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
-		ArrayList<String> memberIds = c("obs").distinct("managerId",
-				new BasicDBObject("_id",
-						new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)),
-				String.class).into(new ArrayList<>());
+		ArrayList<String> memberIds = c("obs")
+				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
+						new BasicDBObject("$ne", null)), String.class)
+				.into(new ArrayList<>());
 		return memberIds;
 	}
 
@@ -332,26 +334,26 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> distributeProjectPlan(ObjectId _id, String distributeBy) {
-		List<Result> result = distributeProjectPlanCheck(_id, distributeBy);
+	public List<Result> distributeProjectPlan(Command com) {
+		List<Result> result = distributeProjectPlanCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
-		Document query = new Document("project_id", _id).append("parent_id", null)
+		Document query = new Document("project_id", com._id).append("parent_id", null)
 				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
 
-		String pjName = getName("project", _id);
+		String pjName = getName("project", com._id);
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
 			messages.add(Message.newInstance("新下达的工作计划",
 					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
-							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planStart")) + " - "
-							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planFinish")),
-					distributeBy, w.getString("chargerId"), null));
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + " - "
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")),
+					com.userId, w.getString("chargerId"), null));
 		});
 
 		if (ids.isEmpty()) {
@@ -359,9 +361,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		c(Work.class).updateMany(new Document("_id", new Document("$in", ids)),
-				new Document("$set", new Document("distributed", true).append("distributeBy", distributeBy)
-						.append("distributeOn", new Date())));
+		c(Work.class).updateMany(new Document("_id", new Document("$in", ids)), new Document("$set",
+				new Document("distributed", true).append("distributeBy", com.userId).append("distributeOn", com.date)));
 
 		sendMessages(messages);
 
@@ -503,21 +504,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> finishProject(ObjectId _id, String executeBy) {
-		List<Result> result = finishProjectCheck(_id, executeBy);
+	public List<Result> finishProject(Command com) {
+		List<Result> result = finishProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
-		Document doc = c("work").find(new BasicDBObject("project_id", _id))
+		Document doc = c("work").find(new BasicDBObject("project_id", com._id))
 				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
 				.first();
-		
+
 		// 修改项目状态
-		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", _id),
+		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set",
 						new BasicDBObject("status", ProjectStatus.Closing).append("progress", 1d)
-								.append("finishOn", new Date()).append("finishBy", executeBy)
+								.append("finishOn", com.date).append("finishBy", com.userId)
 								.append("actualFinish", doc.get("actualFinish"))));
 
 		// 根据ur构造下面的结果
@@ -527,9 +528,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 通知项目团队成员，项目已经启动
-		List<String> memberIds = getProjectMembers(_id);
-		String name = getName("project", _id);
-		sendMessage("项目完工通知", "项目" + name + "已于" + new SimpleDateFormat("yyyy-M-d") + "完工。", executeBy, memberIds,
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目完工", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完工。", com.userId, memberIds,
 				null);
 
 		return result;
@@ -548,16 +549,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> closeProject(ObjectId _id, String executeBy) {
-		List<Result> result = closeProjectCheck(_id, executeBy);
+	public List<Result> closeProject(Command com) {
+		List<Result> result = closeProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed)
-						.append("closeOn", new Date()).append("closeBy", executeBy)));
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed).append("closeOn", com.date)
+						.append("closeBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {

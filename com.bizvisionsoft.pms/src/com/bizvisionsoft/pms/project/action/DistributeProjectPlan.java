@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.project.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -39,8 +40,8 @@ public class DistributeProjectPlan {
 				if (!ok) {
 					return;
 				}
-				List<Result> result = Services.get(ProjectService.class).distributeProjectPlan(project.get_id(),
-						brui.getCurrentUserId());
+				List<Result> result = Services.get(ProjectService.class)
+						.distributeProjectPlan(brui.command(project.get_id(), new Date()));
 				if (result.isEmpty()) {
 					Layer.message("项目计划已下达。");
 				} else {
@@ -59,8 +60,8 @@ public class DistributeProjectPlan {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).distributeWorkPlan(work.get_id(),
-					brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class)
+					.distributeWorkPlan(brui.command(work.get_id(), new Date()));
 			if (result.isEmpty()) {
 				Layer.message("阶段计划已下达。");
 			} else {

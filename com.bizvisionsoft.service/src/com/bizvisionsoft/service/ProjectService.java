@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
@@ -76,17 +77,17 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public long countStage(@PathParam("_id") ObjectId _id);
 
-	@PUT
-	@Path("/_id/{_id}/start/{executeBy}")
+	@POST
+	@Path("/command/start/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> startProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> startProject(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/distribute/{executeBy}")
+	@POST
+	@Path("/command/distribute/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> distributeProjectPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> distributeProjectPlan(Command command);
 
 	@POST
 	@Path("/_id/{_id}/stockholder/ds")
@@ -153,17 +154,17 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public Workspace getWorkspace(@PathParam("_id") ObjectId _id);
 
-	@PUT
-	@Path("/_id/{_id}/finish/{executeBy}")
+	@POST
+	@Path("/command/finish/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> finishProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> finishProject(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/close/{executeBy}")
+	@POST
+	@Path("/command/close/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> closeProject(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> closeProject(Command command);
 
 	@POST
 	@Path("/genworkorder/{catalog}/{parentproject_id}/{impunit_id}")

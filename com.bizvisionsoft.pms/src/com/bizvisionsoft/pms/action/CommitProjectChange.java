@@ -12,8 +12,10 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.WorkSpaceService;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.WorkInfo;
+import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -29,15 +31,21 @@ public class CommitProjectChange {
 			"可调回旋悠悠球-天极战虎", "可动公仔-萌鸡大宇", "弹射变形双车空翻炼狱" };
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService brui;
+
+	private ProjectService projectService;
+
+	private WorkSpaceService workSpaceService;
+
+	private WorkService workService;
 
 	@Execute
 	public void execute() {
-		ProjectService projectService = Services.get(ProjectService.class);
+		projectService = Services.get(ProjectService.class);
 
-		WorkSpaceService workSpaceService = Services.get(WorkSpaceService.class);
+		workSpaceService = Services.get(WorkSpaceService.class);
 
-		WorkService workService = Services.get(WorkService.class);
+		workService = Services.get(WorkService.class);
 
 		Project template = projectService.get(new ObjectId("5b1c2413e37dab4080433de6"));
 
@@ -50,49 +58,101 @@ public class CommitProjectChange {
 
 			// 创建
 			Project project = projectService.insert(template);
-			System.out.println("创建项目");
+			System.out.println("创建项目:" + project);
 
 			// 检出
 			Workspace workspace = project.getWorkspace();
 			workSpaceService.checkout(workspace, "zh", true);
-			System.out.println("检出项目");
 			workspace = project.getWorkspace();
-			// 添加工作
-			WorkInfo workInfo = WorkInfo.newInstance(project).setPlanStart(project.getPlanStart())
-					.setPlanFinish(project.getPlanFinish()).setText("演示工作").setChargerId("zh")
-					.setSpaceId(workspace.getSpace_id());
-			workSpaceService.insertWork(workInfo);
-			System.out.println("创建工作");
+			System.out.println("检出项目:" + project);
 
+			// 创建阶段
+			Date start = project.getPlanStart();
+			Date finish = project.getPlanFinish();
+			WorkInfo stage1 = createStage("立项策划", project, workspace, start, null);
+			System.out.println("创建" + stage1);
+			WorkInfo stage2 = createStage("方案阶段", project, workspace, stage1.getPlanFinish(), finish);
+			System.out.println("创建" + stage2);
+			createWorkLinkInfo(project, workspace, stage1, stage2);
+			System.out.println("创建阶段关联");
+			WorkInfo work1 = createWork("编制立项策划书", workspace, stage1, start, null);
+			WorkInfo work2 = createWork("编制总体方案", workspace, stage2, stage1.getPlanFinish(), finish);
+
+			// 检入工作
 			workSpaceService.checkin(workspace);
 			System.out.println("检入工作");
 
 			// 启动
-			projectService.startProject(project_id, "zh");
-			System.out.println("开始项目");
+			projectService.startProject(Command.newInstance("开始项目", "zh", start, project_id));
+			System.out.println("开始项目"+project);
 
-			projectService.distributeProjectPlan(project_id, "zh");
+			projectService.distributeProjectPlan(Command.newInstance("下达项目计划", "zh", start, project_id));
 			System.out.println("下达项目计划");
+			
+			workService.startStage(Command.newInstance("启动阶段", "zh", stage1.getPlanStart(), stage1.get_id()));
+			workService.distributeWorkPlan(Command.newInstance("下达阶段计划", "zh", stage1.getPlanStart(), stage1.get_id()));
+			workService.startWork(Command.newInstance("开始工作", "zh", start, work1.get_id()));
+			System.out.println("开始工作"+work1);
+			workService.finishWork(Command.newInstance("完成工作", "zh", finish, work1.get_id()));
+			System.out.println("完成工作"+work1);
+			workService.finishStage(Command.newInstance("完成阶段", "zh", stage1.getPlanFinish(), stage1.get_id()));
+			workService.closeStage(Command.newInstance("关闭阶段", "zh", stage1.getPlanFinish(), stage1.get_id()));
 
-			workService.startWork(workInfo.get_id());
-			System.out.println("开始工作");
-			workService.finishWork(workInfo.get_id());
-			System.out.println("完成工作");
+			workService.startStage(Command.newInstance("启动阶段", "zh", stage2.getPlanStart(), stage1.get_id()));
+			workService.distributeWorkPlan(Command.newInstance("下达阶段计划", "zh", stage2.getPlanStart(), stage2.get_id()));
+			workService.startWork(Command.newInstance("开始工作", "zh", start, work2.get_id()));
+			System.out.println("开始工作"+work2);
+			workService.finishWork(Command.newInstance("完成工作", "zh", finish, work2.get_id()));
+			System.out.println("完成工作"+work2);
+			workService.finishStage(Command.newInstance("完成阶段", "zh", stage2.getPlanFinish(), stage2.get_id()));
+			workService.closeStage(Command.newInstance("关闭阶段", "zh", stage2.getPlanFinish(), stage2.get_id()));
 
-			projectService.finishProject(project_id, "zh");
-			System.out.println("完成项目");
+			projectService.finishProject(Command.newInstance("完成项目", "zh", finish, project_id));
+			System.out.println("完成项目:" + project);
 
-			projectService.closeProject(project_id, "zh");
-			System.out.println("关闭项目");
+			projectService.closeProject(Command.newInstance("关闭项目:", "zh", finish, project_id));
+			System.out.println("关闭项目:" + project);
 
 		}
 
+	}
+
+	private WorkInfo createWork(String name, Workspace space, WorkInfo parent, Date start, Date finish) {
+		if (finish == null) {
+			Calendar c = Calendar.getInstance();
+			c.setTime(start);
+			c.add(Calendar.MONTH, 1);
+			finish = c.getTime();
+		}
+		WorkInfo workInfo = WorkInfo.newInstance(parent).setPlanStart(start).setPlanFinish(finish).setText(name)
+				.setChargerId("zh").setSpaceId(space.getSpace_id()).setStage(false);
+		return workSpaceService.insertWork(workInfo);
+	}
+
+	private void createWorkLinkInfo(Project project, Workspace workspace, WorkInfo stage1, WorkInfo stage2) {
+		WorkLinkInfo wi = WorkLinkInfo.newInstance(project.get_id()).setTarget(stage2).setSource(stage1)
+				.setSpaceId(workspace.getSpace_id()).setLag(0);
+		workSpaceService.insertLink(wi);
+	}
+
+	private WorkInfo createStage(String name, Project project, Workspace workspace, Date start, Date finish) {
+		if (finish == null) {
+			Calendar c = Calendar.getInstance();
+			c.setTime(start);
+			c.add(Calendar.MONTH, 1);
+			finish = c.getTime();
+		}
+
+		WorkInfo workInfo = WorkInfo.newInstance(project).setPlanStart(start).setPlanFinish(finish).setText(name)
+				.setChargerId("zh").setSpaceId(workspace.getSpace_id()).setStage(true);
+		return workSpaceService.insertWork(workInfo);
 	}
 
 	private void createProject(Project project, int year, int i, ObjectId _id) {
 		project.set_id(_id);
 		project.setPmId("zh");
 		project.setEps_id(eps[i % eps.length]);
+		project.setStageEnable(true);
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(year, i % 12, new Random().nextInt(29), 0, 0, 0);

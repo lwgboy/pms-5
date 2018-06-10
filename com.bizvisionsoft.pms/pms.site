@@ -32826,7 +32826,7 @@
             "expanded": false,
             "columns": [],
             "markupEnabled": false,
-            "format": "yyyy/MM/dd",
+            "format": "yyyy-MM-dd",
             "sort": 0,
             "hide": false,
             "element": false,

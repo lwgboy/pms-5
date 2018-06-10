@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.work;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ViewerCell;
@@ -86,7 +87,7 @@ public class WorkBoardRender {
 
 	private void finishWork(Work work) {
 		if (brui.confirm("完成工作", "请确认完成工作<span style='color:red;'>" + work + "</span>。\n系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(work.get_id());
+			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date()));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成。");
 				viewer.remove(work);
@@ -96,7 +97,7 @@ public class WorkBoardRender {
 
 	private void startWork(Work work) {
 		if (brui.confirm("启动工作", "请确认启动工作<span style='color:red;'>" + work + "</span>。\n系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(work.get_id());
+			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date()));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动。");
 				Work t = Services.get(WorkService.class).getWork(work.get_id());
@@ -133,8 +134,8 @@ public class WorkBoardRender {
 		sb.append("<div style=''>" + work.getProjectName() + "</div>");
 		sb.append("<div style='font-size: 22px;'>" + work.getFullName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
-				+ new SimpleDateFormat("yyyy/MM/dd").format(work.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat("yyyy/MM/dd").format(work.getPlanFinish()));
+				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
+				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
 		if (!"".equals(warrningText))
 			sb.append(" <span class='layui-badge layui-bg-red'>" + warrningText + "</span>");
 		sb.append("</div>");

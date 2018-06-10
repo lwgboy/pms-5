@@ -38,7 +38,7 @@ public class StartStage {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).startStage(stage.get_id(), brui.getCurrentUserId());
+			List<Result> result = Services.get(WorkService.class).startStage(brui.command(stage.get_id()));
 			if (result.isEmpty()) {
 				Layer.message("½×¶ÎÒÑÆô¶¯¡£");
 				brui.switchPage("½×¶ÎÊ×Ò³£¨Ö´ÐÐ£©", ((Work) stage).get_id().toHexString());

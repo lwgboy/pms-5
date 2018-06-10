@@ -672,6 +672,14 @@ public class WorkInfo {
 		return this;
 	}
 	
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+	
+	public Date getPlanStart() {
+		return planStart;
+	}
+	
 	public WorkInfo setChargerId(String chargerId) {
 		this.chargerId = chargerId;
 		return this;
