@@ -39,6 +39,7 @@ public class EPS implements Comparable<EPS> {
 	private String id;
 
 	@ImageURL("name")
+	@Exclude
 	private String icon = "/img/eps_c.svg";
 	/**
 	 * ¸¸½Úµã
