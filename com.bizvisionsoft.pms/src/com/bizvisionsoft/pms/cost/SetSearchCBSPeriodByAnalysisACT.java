@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.cost;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,10 +45,10 @@ public class SetSearchCBSPeriodByAnalysisACT {
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						columnGroup.setText(startPeriod.substring(0, 4) + "/"
+						columnGroup.setText("期间："+ startPeriod.substring(0, 4) + "/"
 								+ Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						columnGroup.setText(startPeriod.substring(0, 4) + "/"
+						columnGroup.setText("期间："+ startPeriod.substring(0, 4) + "/"
 								+ Integer.parseInt(startPeriod.substring(4, 6)) + "-" + endPeriod.substring(0, 4) + "/"
 								+ Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
@@ -84,9 +85,9 @@ public class SetSearchCBSPeriodByAnalysisACT {
 			public String getText(Object element) {
 				if (element instanceof CBSItem) {
 					if ("cost".equals(type))
-						return "" + ((CBSItem) element).getCost(startPeriod, endPeriod);
+						return new DecimalFormat("#.0").format( ((CBSItem) element).getCost(startPeriod, endPeriod));
 					else if ("budget".equals(type))
-						return "" + ((CBSItem) element).getBudget(startPeriod, endPeriod);
+						return new DecimalFormat("#.0").format( ((CBSItem) element).getBudget(startPeriod, endPeriod));
 					else if ("".equals(type))
 						return "car" + ((CBSItem) element).getCAR(startPeriod, endPeriod);
 					else if ("".equals(type))
