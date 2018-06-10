@@ -492,9 +492,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
-		Document option = new Document();
-		option.append("title", new Document("text", year + "年 项目成本组成分析（万元）").append("x", "center"));
-		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -514,42 +511,29 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 																Arrays.asList("$id", year)), 0)),
 												cbsSubjectMatch)))),
 										new Document("$group",
-												new Document("_id", "$subjectNumber").append("cost",
-														new Document("$sum", "$cost")))))
+												new Document("_id", "$subjectNumber")
+														.append("cost", new Document("$sum", "$cost"))
+														.append("count", new Document("$sum", 1)))))
 								.append("as", "cbsSubject")),
 				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document("cost", "$cbsSubject.cost")),
+				new Document("$addFields",
+						new Document("cost", "$cbsSubject.cost").append("count", "$cbsSubject.count")),
 				new Document("$project", new Document("cbsSubject", false)));
 
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
-			data1.add(doc.getString("name"));
+			Object count = doc.get("count");
+			if (count != null && ((Number) count).doubleValue() > 0) {
+				data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
+				data1.add(doc.getString("name"));
+			}
 		});
-
-		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", data2)));
-		return option;
+		return getPieChart(year + "年 项目成本组成分析（万元）", data1, data2);
 	}
 
 	@Override
 	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod) {
-		Document option = new Document();
 		String title;
 		if (startPeriod.equals(endPeriod)) {
 			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6))
@@ -558,8 +542,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-"
 					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
 		}
-		option.append("title", new Document("text", title).append("x", "center"));
-		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -579,45 +561,31 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 																new Document("$lte", Arrays.asList("$id", endPeriod)),
 																cbsSubjectMatch)))),
 												new Document("$group",
-														new Document("_id", "$subjectNumber").append("cost",
-																new Document("$sum", "$cost")))))
+														new Document("_id", "$subjectNumber")
+																.append("cost", new Document("$sum", "$cost"))
+																.append("count", new Document("$sum", 1)))))
 								.append("as", "cbsSubject")),
 				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document("cost", "$cbsSubject.cost")),
+				new Document("$addFields",
+						new Document("cost", "$cbsSubject.cost").append("count", "$cbsSubject.count")),
 				new Document("$project", new Document("cbsSubject", false)));
 
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
-			data1.add(doc.getString("name"));
+			Object count = doc.get("count");
+			if (count != null && ((Number) count).doubleValue() > 0) {
+				data2.add(new Document("name", doc.getString("name")).append("value", getDoubleValue(doc.get("cost"))));
+				data1.add(doc.getString("name"));
+			}
 		});
 
-		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", data2)));
-		return option;
+		return getPieChart(title, data1, data2);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Document getMonthCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
-		Document option = new Document();
-		option.append("title", new Document("text", year + "年 各月项目预算和成本分析（万元）").append("x", "center"));
-		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -646,8 +614,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object parent_id = doc.get("parent_id");
-			if (parent_id == null) {
+			Object cbsSubjects = doc.get("cbsSubject");
+			if (cbsSubjects != null && cbsSubjects instanceof List && ((List<Document>) cbsSubjects).size() > 0) {
 				String name = doc.getString("name");
 				data1.add(name);
 				Document budgetDoc = new Document();
@@ -665,113 +633,97 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				costDoc.append("itemStyle", new Document("opacity", 0.5));
 				costDoc.append("label",
 						new Document("normal", new Document("show", true).append("position", "inside")));
-				Object cbsSubjects = doc.get("cbsSubject");
-				if (cbsSubjects != null && cbsSubjects instanceof List) {
-					List<Object> cost = new ArrayList<Object>();
-					List<Object> budget = new ArrayList<Object>();
-					costDoc.append("data", cost);
-					budgetDoc.append("data", budget);
-					((List<Document>) cbsSubjects).forEach(cbsSubject -> {
-						String id = cbsSubject.getString("_id");
-						if ((year + "01").equals(id)) {
-							cost.add(cbsSubject.get("cost"));
-							budget.add(cbsSubject.get("budget"));
-						} else if ((year + "02").equals(id)) {
-							while (cost.size() < 1) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "03").equals(id)) {
-							while (cost.size() < 2) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "04").equals(id)) {
-							while (cost.size() < 3) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "05").equals(id)) {
-							while (cost.size() < 4) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "06").equals(id)) {
-							while (cost.size() < 5) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "07").equals(id)) {
-							while (cost.size() < 6) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "08").equals(id)) {
-							while (cost.size() < 7) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "09").equals(id)) {
-							while (cost.size() < 8) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "10").equals(id)) {
-							while (cost.size() < 9) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "11").equals(id)) {
-							while (cost.size() < 10) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
-						} else if ((year + "12").equals(id)) {
-							while (cost.size() < 11) {
-								cost.add(null);
-								budget.add(null);
-							}
-							cost.add(getDoubleValue(cbsSubject.get("cost")));
-							budget.add(getDoubleValue(cbsSubject.get("budget")));
+				List<Object> cost = new ArrayList<Object>();
+				List<Object> budget = new ArrayList<Object>();
+				costDoc.append("data", cost);
+				budgetDoc.append("data", budget);
+				((List<Document>) cbsSubjects).forEach(cbsSubject -> {
+					String id = cbsSubject.getString("_id");
+					if ((year + "01").equals(id)) {
+						cost.add(cbsSubject.get("cost"));
+						budget.add(cbsSubject.get("budget"));
+					} else if ((year + "02").equals(id)) {
+						while (cost.size() < 1) {
+							cost.add(null);
+							budget.add(null);
 						}
-					});
-				}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "03").equals(id)) {
+						while (cost.size() < 2) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "04").equals(id)) {
+						while (cost.size() < 3) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "05").equals(id)) {
+						while (cost.size() < 4) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "06").equals(id)) {
+						while (cost.size() < 5) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "07").equals(id)) {
+						while (cost.size() < 6) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "08").equals(id)) {
+						while (cost.size() < 7) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "09").equals(id)) {
+						while (cost.size() < 8) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "10").equals(id)) {
+						while (cost.size() < 9) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "11").equals(id)) {
+						while (cost.size() < 10) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					} else if ((year + "12").equals(id)) {
+						while (cost.size() < 11) {
+							cost.add(null);
+							budget.add(null);
+						}
+						cost.add(getDoubleValue(cbsSubject.get("cost")));
+						budget.add(getDoubleValue(cbsSubject.get("budget")));
+					}
+				});
 			}
 		});
-
-		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "4%").append("bottom", "3%").append("containLabel", true));
-
-		option.append("xAxis",
-				Arrays.asList(new Document("type", "category").append("data",
-						Arrays.asList(year + "年 1月", year + "年 2月", year + "年 3月", year + "年 4月", year + "年 5月",
-								year + "年 6月", year + "年 7月", year + "年 8月", year + "年 9月", year + "年10月",
-								year + "年11月", year + "年12月"))));
-		option.append("yAxis", Arrays.asList(new Document("type", "value")));
-
-		option.append("series", data2);
-		return option;
+		return getBarChart(year + "年 各月项目预算和成本分析（万元）", data1, data2);
 	}
 
 	private String getDoubleValue(Object value) {

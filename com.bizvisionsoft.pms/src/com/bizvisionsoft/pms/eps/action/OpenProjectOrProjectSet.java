@@ -7,6 +7,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -29,8 +30,20 @@ public class OpenProjectOrProjectSet {
 					bruiService.switchPage("项目首页（执行）", ((Project) em).get_id().toHexString());
 				} else if (ProjectStatus.Closing.equals(((Project) em).getStatus())) {
 					bruiService.switchPage("项目首页（收尾）", ((Project) em).get_id().toHexString());
-				}else if (ProjectStatus.Closed.equals(((Project) em).getStatus())) {
+				} else if (ProjectStatus.Closed.equals(((Project) em).getStatus())) {
 					bruiService.switchPage("项目首页（关闭）", ((Project) em).get_id().toHexString());
+				}
+			} else if (em instanceof EPSInfo) {
+				if (((EPSInfo) em).getType().equals(EPSInfo.TYPE_PROJECT)) {
+					if (ProjectStatus.Created.equals(((EPSInfo) em).getStatus())) {
+						bruiService.switchPage("项目首页（启动）", ((EPSInfo) em).get_id().toHexString());
+					} else if (ProjectStatus.Processing.equals(((EPSInfo) em).getStatus())) {
+						bruiService.switchPage("项目首页（执行）", ((EPSInfo) em).get_id().toHexString());
+					} else if (ProjectStatus.Closing.equals(((EPSInfo) em).getStatus())) {
+						bruiService.switchPage("项目首页（收尾）", ((EPSInfo) em).get_id().toHexString());
+					} else if (ProjectStatus.Closed.equals(((EPSInfo) em).getStatus())) {
+						bruiService.switchPage("项目首页（关闭）", ((EPSInfo) em).get_id().toHexString());
+					}
 				}
 			}
 		});
