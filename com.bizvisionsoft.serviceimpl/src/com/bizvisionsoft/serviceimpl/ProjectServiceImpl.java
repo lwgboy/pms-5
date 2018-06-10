@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
@@ -305,8 +306,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
-		sendMessage("项目启动", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。", com.userId, memberIds,
-				null);
+		sendMessage("项目启动", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+				com.userId, memberIds, null);
 		return result;
 	}
 
@@ -534,8 +535,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
-		sendMessage("项目完工", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完工。", com.userId, memberIds,
-				null);
+		sendMessage("项目完工", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完工。",
+				com.userId, memberIds, null);
 
 		return result;
 	}
@@ -651,6 +652,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					}
 				});
 		return result;
+	}
+
+	@Override
+	public SalesItem insertSalesItem(SalesItem salesItem) {
+		return insert(salesItem);
 	}
 
 }

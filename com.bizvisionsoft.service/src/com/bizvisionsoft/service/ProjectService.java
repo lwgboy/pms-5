@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
@@ -178,5 +179,11 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<News> getRecentNews(@PathParam("_id") ObjectId _id, @PathParam("count") int count);
+	
+	@POST
+	@Path("/salesItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public SalesItem insertSalesItem(SalesItem salesItem);
 
 }

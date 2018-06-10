@@ -139,8 +139,8 @@ public class EPS implements Comparable<EPS> {
 	public long countFinishSubNodes() {
 		// ²éÏÂ¼¶
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
-		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id));
-		cnt += ServicesLoader.get(ProjectSetService.class)
+		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
+		cnt += ServicesLoader.get(ProjectService.class)
 				.count(new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
 		return cnt;
 	}
