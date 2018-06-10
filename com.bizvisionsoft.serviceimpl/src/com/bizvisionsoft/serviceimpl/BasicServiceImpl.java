@@ -365,4 +365,44 @@ public class BasicServiceImpl {
 		return c(cName).distinct("name", new BasicDBObject("_id", _id), String.class).first();
 	}
 
+	protected Document getPieChart(String title, Object legendData, Object seriesData) {
+		Document option = new Document();
+		option.append("title", new Document("text", title).append("x", "center"));
+		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
+		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", legendData));
+		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
+				.append("center", Arrays.asList("50%", "60%"))
+				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
+						"rich",
+						new Document("b",
+								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
+										.append("hr",
+												new Document("color", "#aaa").append("width", "100%")
+														.append("borderWidth", 0.5).append("height", 0))
+										.append("per",
+												new Document("color", "#eee").append("backgroundColor", "#334455")
+														.append("padding", Arrays.asList(2, 4))
+														.append("borderRadius", 2)))))
+
+				.append("data", seriesData)));
+		return option;
+	}
+
+	protected Document getBarChart(String text, Object legendData, Object series) {
+		Document option = new Document();
+		option.append("title", new Document("text", text).append("x", "center"));
+		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+
+		option.append("legend", new Document("data", legendData).append("orient", "vertical").append("left", "right"));
+		option.append("grid",
+				new Document("left", "3%").append("right", "4%").append("bottom", "3%").append("containLabel", true));
+
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data",
+				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
+		option.append("yAxis", Arrays.asList(new Document("type", "value")));
+
+		option.append("series", series);
+		return option;
+	}
+
 }
