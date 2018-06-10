@@ -137,7 +137,33 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	}
 
 	@Override
-	public Document getMonthInvestmentAnalysis(String year) {
+	public Document getMonthProfitIA(String year) {
+		List<? extends Bson> pipeline = new JQ("查询投资分析-投资回报按月分析").array();
+
+		List<String> data1 = new ArrayList<String>();
+		List<Document> data2 = new ArrayList<Document>();
+		c("eps", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
+			String name = epsInfo.getName();
+			data1.add(name);
+			Document profitDoc = new Document();
+			data2.add(profitDoc);
+			profitDoc.append("name", name);
+			profitDoc.append("type", "bar");
+			profitDoc.append("stack", "回报");
+			profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+			List<Object> profit = new ArrayList<Object>();
+			profitDoc.append("data", profit);
+			for (int i = 0; i < 12; i++) {
+				String month = String.format("%02d", i + 1);
+				profit.add(getDoubleValue(epsInfo.getProfit(year + month)));
+			}
+
+		});
+		return getBarChart(year + "年 销售利润分析（万元）", data1, data2);
+	}
+
+	@Override
+	public Document getMonthCostIA(String year) {
 		List<? extends Bson> pipeline = new JQ("查询投资分析-投资回报按月分析").array();
 
 		List<String> data1 = new ArrayList<String>();
@@ -151,25 +177,15 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			costDoc.append("type", "bar");
 			costDoc.append("stack", "投资");
 			costDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
-			Document profitDoc = new Document();
-			data2.add(profitDoc);
-			profitDoc.append("name", name);
-			profitDoc.append("type", "bar");
-			profitDoc.append("stack", "回报");
-			profitDoc.append("itemStyle", new Document("opacity", 0.5));
-			profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
 			List<Object> cost = new ArrayList<Object>();
-			List<Object> profit = new ArrayList<Object>();
 			costDoc.append("data", cost);
-			profitDoc.append("data", profit);
 			for (int i = 0; i < 12; i++) {
 				String month = String.format("%02d", i + 1);
-				cost.add(getDoubleValue(epsInfo.getCost(year + month)));
-				profit.add(getDoubleValue(epsInfo.getProfit(year + month)));
+				 cost.add(getDoubleValue(epsInfo.getCost(year + month)));
 			}
 
 		});
-		return getBarChart(year + "年 各月EPS投资回报分析（万元）", data1, data2);
+		return getBarChart(year + "年 资金投入分析（万元）", data1, data2);
 	}
 
 	private String getDoubleValue(Object value) {

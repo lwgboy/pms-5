@@ -109,9 +109,15 @@ public interface EPSService {
 	public long countSubEPSInfo(@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/investmentanalysis/{year}/")
+	@Path("/profitanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthInvestmentAnalysis(@PathParam("year")String year);
+	public Document getMonthProfitIA(@PathParam("year")String year);
+
+	@POST
+	@Path("/costanalysis/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getMonthCostIA(@PathParam("year")String year);
 
 }

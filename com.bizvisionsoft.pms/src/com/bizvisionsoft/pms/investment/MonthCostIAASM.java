@@ -15,7 +15,7 @@ import com.bizvisionsoft.pms.chart.AbstractChartASM;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class MonthInvestmentAnalysisASM extends AbstractChartASM {
+public class MonthCostIAASM extends AbstractChartASM {
 
 	@Inject
 	private IBruiService bruiService;
@@ -38,28 +38,11 @@ public class MonthInvestmentAnalysisASM extends AbstractChartASM {
 
 	@Override
 	protected void setOptionBefore() {
-		// // 获取传入的CBSItem 从成本管理打开项目成本管理时，从contextInput获取
-		// Object input = context.getInput();
-		// if (input == null) {
-		// // 获取传入的CBSItem 从项目、阶段打开项目成本管理时，从contextRootInput获取
-		// Object rootInput = context.getRootInput();
-		// if (rootInput instanceof ICBSScope) {
-		// ICBSScope icbsScope = (ICBSScope) rootInput;
-		// input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
-		// }
-		// }
-		// // input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
-		// if (input != null) {
-		// if (input instanceof CBSItem) {
-		// CBSItem cbsItem = (CBSItem) input;
-		// cbsScope_id = cbsItem.getScope_id();
-		// }
-		// }
 		year = "" + Calendar.getInstance().get(Calendar.YEAR);
 	}
 
 	public Document getOptionDocument() {
-		return Services.get(EPSService.class).getMonthInvestmentAnalysis(year);
+		return Services.get(EPSService.class).getMonthCostIA(year);
 	}
 
 	public void setYear(String year) {
