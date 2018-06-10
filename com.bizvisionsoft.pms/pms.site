@@ -2017,17 +2017,6 @@
                 "type": "switch"
               },
               {
-                "id": "9628decd621",
-                "name": "检验进度监控",
-                "switchContentToAssemblyId": "16386a3a9c9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "9628decbc1b",
                 "name": "研发进度监控",
                 "switchContentToAssemblyId": "163856055de",
@@ -2053,6 +2042,17 @@
                 "id": "9628decbf7e",
                 "name": "生产计划监控",
                 "switchContentToAssemblyId": "16386a04541",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd621",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "16386a3a9c9",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2160,7 +2160,8 @@
           },
           {
             "id": "9628df224b5",
-            "name": "项目档案",
+            "name": "项目档案库",
+            "switchContentToAssemblyId": "163dac2719a",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -22003,7 +22004,7 @@
             "name": "默认",
             "minimalDeviceWidth": 0,
             "maximalDeviceWidth": 0,
-            "columnCount": 1,
+            "columnCount": 2,
             "horizontalSpacing": 0,
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
@@ -22017,13 +22018,35 @@
             "marginWidth": 0,
             "assemblys": [
               {
-                "id": "162dc3fab0c",
+                "id": "15df617602d",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "15df6241f4a",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "1630607a1fb",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
                 "grabExcessVerticalSpace": true,
                 "verticalSpan": 1,
-                "horizontalSpan": 1,
+                "horizontalSpan": 2,
                 "widthHint": -1,
                 "heightHint": -1
               }
