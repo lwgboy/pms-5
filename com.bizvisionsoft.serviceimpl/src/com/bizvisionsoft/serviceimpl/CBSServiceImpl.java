@@ -309,10 +309,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			totalBudget += (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d);
 		}
 
-		List<Document> pipeline = Arrays.asList(
-				new Document().append("$match", new Document().append("cbsItem_id", _id)),
-				new Document().append("$group", new Document().append("_id", "$cbsItem_id").append("totalBudget",
-						new Document().append("$sum", "$budget"))));
+		List<Document> pipeline = Arrays.asList(new Document("$match", new Document("cbsItem_id", _id)), new Document(
+				"$group", new Document("_id", "$cbsItem_id").append("totalBudget", new Document("$sum", "$budget"))));
 		Document doc = c("cbsPeriod").aggregate(pipeline).first();
 
 		if (doc != null && totalBudget.doubleValue() != doc.getDouble("totalBudget").doubleValue()) {
@@ -495,8 +493,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
 		Document option = new Document();
-		option.append("title", new Document().append("text", year + "年 项目成本组成分析（万元）").append("x", "center"));
-		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
+		option.append("title", new Document("text", year + "年 项目成本组成分析（万元）").append("x", "center"));
+		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -520,8 +518,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 														new Document("$sum", "$cost")))))
 								.append("as", "cbsSubject")),
 				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
-				new Document("$project", new Document().append("cbsSubject", false)));
+				new Document("$addFields", new Document("cost", "$cbsSubject.cost")),
+				new Document("$project", new Document("cbsSubject", false)));
 
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
@@ -530,10 +528,9 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			data1.add(doc.getString("name"));
 		});
 
-		option.append("legend",
-				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
-				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
+		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", data1));
+		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
+				.append("center", Arrays.asList("50%", "60%"))
 				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
 						"rich",
 						new Document("b",
@@ -561,8 +558,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-"
 					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
 		}
-		option.append("title", new Document().append("text", title).append("x", "center"));
-		option.append("tooltip", new Document().append("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
+		option.append("title", new Document("text", title).append("x", "center"));
+		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -586,8 +583,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 																new Document("$sum", "$cost")))))
 								.append("as", "cbsSubject")),
 				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document().append("cost", "$cbsSubject.cost")),
-				new Document("$project", new Document().append("cbsSubject", false)));
+				new Document("$addFields", new Document("cost", "$cbsSubject.cost")),
+				new Document("$project", new Document("cbsSubject", false)));
 
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
@@ -596,10 +593,9 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			data1.add(doc.getString("name"));
 		});
 
-		option.append("legend",
-				new Document().append("orient", "vertical").append("left", "left").append("data", data1));
-		option.append("series", Arrays.asList(new Document().append("name", "成本组成").append("type", "pie")
-				.append("radius", "55%").append("center", Arrays.asList("50%", "60%"))
+		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", data1));
+		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
+				.append("center", Arrays.asList("50%", "60%"))
 				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
 						"rich",
 						new Document("b",
@@ -620,9 +616,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getMonthCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
 		Document option = new Document();
-		option.append("title", new Document().append("text", year + "年 各月项目预算和成本分析（万元）").append("x", "center"));
-		option.append("tooltip",
-				new Document().append("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+		option.append("title", new Document("text", year + "年 各月项目预算和成本分析（万元）").append("x", "center"));
+		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		Document cbsSubjectMatch = new Document();
 		if (cbsScope_id != null)
@@ -809,5 +804,128 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public Document getMonthCostCompositionAnalysis(String year) {
 		return getMonthCostCompositionAnalysis(null, year);
+	}
+
+	@Override
+	public Document getCBSSummary(ObjectId cbsScope_id, String startPeriod, String endPeriod) {
+		List<ObjectId> cbsItemId = getCBSItemId(cbsScope_id);
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$match", new Document("_id",
+						new Document("$in", cbsItemId))),
+				new Document("$lookup",
+						new Document(
+								"from", "cbs")
+										.append("let",
+												new Document("parent_id", "$_id"))
+										.append("pipeline", Arrays.asList(
+												new Document("$match",
+														new Document("$expr", new Document("$and",
+																Arrays.asList(new Document("$eq",
+																		Arrays.asList("$parent_id", "$$parent_id")))))),
+												new Document("$count", "count")))
+										.append("as", "count")),
+				new Document("$unwind", new Document("path", "$count").append("preserveNullAndEmptyArrays", true)),
+				new Document("$match", new Document("count", null)),
+				new Document("$lookup",
+						new Document("from", "cbsSubject")
+								.append("let",
+										new Document("cbsItem_id", "$_id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match",
+												new Document("$expr", new Document("$and",
+														Arrays.asList(new Document("$eq",
+																Arrays.asList("$cbsItem_id", "$$cbsItem_id")))))),
+										new Document("$group",
+												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget")))))
+								.append("as", "cbsSubject1")),
+				new Document("$unwind",
+						new Document("path", "$cbsSubject1").append("preserveNullAndEmptyArrays", true)),
+				new Document("$lookup",
+						new Document("from", "cbsSubject")
+								.append("let",
+										new Document("cbsItem_id", "$_id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match", new Document("$expr", new Document("$and",
+												Arrays.asList(
+														new Document("$eq",
+																Arrays.asList("$cbsItem_id", "$$cbsItem_id")),
+														new Document("$gte", Arrays.asList("$id", startPeriod)),
+														new Document("$lte", Arrays.asList("$id", endPeriod)))))),
+										new Document("$group",
+												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget")))))
+								.append("as", "cbsSubject2")),
+				new Document("$unwind",
+						new Document("path", "$cbsSubject2").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields",
+						new Document("totalCost", "$cbsSubject1.cost").append("totalBudget", "$cbsSubject1.budget")
+								.append("cost", "$cbsSubject2.cost").append("budget", "$cbsSubject2.budget")),
+				new Document("$group",
+						new Document("_id", null).append("totalCost", new Document("$sum", "$totalCost"))
+								.append("totalBudget", new Document("$sum", "$totalBudget"))
+								.append("cost", new Document("$sum", "$cost"))
+								.append("budget", new Document("$sum", "$budget"))));
+		return c("cbs").aggregate(pipeline).first();
+	}
+
+	@Override
+	public Document getCBSSummary(String startPeriod, String endPeriod) {
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document(
+								"from", "cbs")
+										.append("let",
+												new Document("parent_id", "$_id"))
+										.append("pipeline", Arrays.asList(
+												new Document("$match",
+														new Document("$expr", new Document("$and",
+																Arrays.asList(new Document("$eq",
+																		Arrays.asList("$parent_id", "$$parent_id")))))),
+												new Document("$count", "count")))
+										.append("as", "count")),
+				new Document("$unwind", new Document("path", "$count").append("preserveNullAndEmptyArrays", true)),
+				new Document("$match", new Document("count", null)),
+				new Document("$lookup",
+						new Document("from", "cbsSubject")
+								.append("let",
+										new Document("cbsItem_id", "$_id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match",
+												new Document("$expr", new Document("$and",
+														Arrays.asList(new Document("$eq",
+																Arrays.asList("$cbsItem_id", "$$cbsItem_id")))))),
+										new Document("$group",
+												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget")))))
+								.append("as", "cbsSubject1")),
+				new Document("$unwind",
+						new Document("path", "$cbsSubject1").append("preserveNullAndEmptyArrays", true)),
+				new Document("$lookup",
+						new Document("from", "cbsSubject")
+								.append("let",
+										new Document("cbsItem_id", "$_id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match", new Document("$expr", new Document("$and",
+												Arrays.asList(
+														new Document("$eq",
+																Arrays.asList("$cbsItem_id", "$$cbsItem_id")),
+														new Document("$gte", Arrays.asList("$id", startPeriod)),
+														new Document("$lte", Arrays.asList("$id", endPeriod)))))),
+										new Document("$group",
+												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget")))))
+								.append("as", "cbsSubject2")),
+				new Document("$unwind",
+						new Document("path", "$cbsSubject2").append("preserveNullAndEmptyArrays", true)),
+				new Document("$addFields",
+						new Document("totalCost", "$cbsSubject1.cost").append("totalBudget", "$cbsSubject1.budget")
+								.append("cost", "$cbsSubject2.cost").append("budget", "$cbsSubject2.budget")),
+				new Document("$group",
+						new Document("_id", null).append("totalCost", new Document("$sum", "$totalCost"))
+								.append("totalBudget", new Document("$sum", "$totalBudget"))
+								.append("cost", new Document("$sum", "$cost"))
+								.append("budget", new Document("$sum", "$budget"))));
+		return c("cbs").aggregate(pipeline).first();
 	}
 }

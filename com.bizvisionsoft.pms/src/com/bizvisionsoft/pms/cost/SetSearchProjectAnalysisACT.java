@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.cost;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -80,27 +81,47 @@ public class SetSearchProjectAnalysisACT {
 			public String getText(Object element) {
 				if (element instanceof CBSItem) {
 					if ("cost".equals(type))
-						if (endPeriod != null)
-							return "" + ((CBSItem) element).getCost(startPeriod, endPeriod);
-						else
-							return "" + ((CBSItem) element).getCost(startPeriod);
+						if (endPeriod != null) {
+							double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
+							if (cost != 0)
+								return new DecimalFormat("#.0").format(cost);
+						} else {
+							double cost = ((CBSItem) element).getCost(startPeriod);
+							if (cost != 0)
+								return new DecimalFormat("#.0").format(cost);
+						}
 					else if ("budget".equals(type))
-						if (endPeriod != null)
-							return "" + ((CBSItem) element).getBudget(startPeriod, endPeriod);
-						else
-							return "" + ((CBSItem) element).getBudget(startPeriod);
+						if (endPeriod != null) {
+							double budget = ((CBSItem) element).getBudget(startPeriod, endPeriod);
+							if (budget != 0)
+								return new DecimalFormat("#.0").format(budget);
+						} else {
+							double budget = ((CBSItem) element).getBudget(startPeriod);
+							if (budget != 0)
+								return new DecimalFormat("#.0").format(budget);
+						}
 				} else if (element instanceof CBSSubjectCost) {
 
 					if ("cost".equals(type))
-						if (endPeriod != null)
-							return "" + ((CBSSubjectCost) element).getCost(startPeriod, endPeriod);
-						else
-							return "" + ((CBSSubjectCost) element).getCost(startPeriod);
+						if (endPeriod != null) {
+							double cost = ((CBSSubjectCost) element).getCost(startPeriod, endPeriod);
+							if (cost != 0)
+								return new DecimalFormat("#.0").format(cost);
+						} else {
+							double cost = ((CBSSubjectCost) element).getCost(startPeriod);
+							if (cost != 0)
+								return new DecimalFormat("#.0").format(cost);
+						}
 					else if ("budget".equals(type))
-						if (endPeriod != null)
-							return "" + ((CBSSubjectCost) element).getBudget(startPeriod, endPeriod);
-						else
-							return "" + ((CBSSubjectCost) element).getBudget(startPeriod);
+						if (endPeriod != null) {
+							double budget = ((CBSSubjectCost) element).getBudget(startPeriod, endPeriod);
+							if (budget != 0)
+								return new DecimalFormat("#.0").format(budget);
+						} else {
+							double budget = ((CBSSubjectCost) element).getBudget(startPeriod);
+							if (budget != 0)
+								return new DecimalFormat("#.0").format(budget);
+						}
 				}
 				return "";
 			}

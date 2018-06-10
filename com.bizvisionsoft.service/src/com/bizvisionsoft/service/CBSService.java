@@ -204,4 +204,18 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	public Document getMonthCostCompositionAnalysis(@PathParam("year") String year);
 
+	@POST
+	@Path("/cbssummart/{cbsscope_id}/{startPeriod}/{endPeriod}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getCBSSummary(@PathParam("cbsscope_id") ObjectId cbsScope_id,
+			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod);
+
+	@POST
+	@Path("/cbssummart/{startPeriod}/{endPeriod}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getCBSSummary(@PathParam("startPeriod") String startPeriod,
+			@PathParam("endPeriod") String endPeriod);
+
 }

@@ -277,7 +277,7 @@ public class CBSItem {
 		this.id = id;
 	}
 
-	public Double getBudgetSummary() {
+	public double getBudgetSummary() {
 		Double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -561,4 +561,16 @@ public class CBSItem {
 
 	@SetValue
 	public Double cbsSubjectCost;
+
+	public double getOverspend(String period) {
+		return getCost(period) - getBudget(period);
+	}
+
+	public double getOverspend(String startPeriod, String endPeriod) {
+		return getCost(startPeriod, endPeriod) - getBudget(startPeriod, endPeriod);
+	}
+
+	public double getOverspendSummary() {
+		return getCostSummary() - getBudgetSummary();
+	}
 }
