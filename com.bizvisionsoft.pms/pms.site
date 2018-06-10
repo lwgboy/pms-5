@@ -31763,7 +31763,7 @@
         "name": "我的项目（首页小组件）",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "我参与的项目",
+        "stickerTitle": "我的项目",
         "folderId": "1639583e46c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 64,
