@@ -278,33 +278,43 @@ public class CBSItem {
 	}
 
 	public Double getBudgetSummary() {
-		if (countSubCBSItems() == 0) {
-			return Optional.ofNullable(budgetTotal).orElse(0d);
-		} else {
-			Double summary = 0d;
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudgetSummary();
 			}
-			return summary;
 		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+			}
+		}
+		return summary;
 	}
 
 	public double getBudget(String period) {
-		if (countSubCBSItems() == 0) {
-			return Optional.ofNullable(budget).map(b -> b.getDouble(period)).orElse(0d);
-		} else {
-			Double summary = 0d;
+		Double summary = 0d;
+		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudget(period);
 			}
-			return summary;
 		}
+		List<CBSSubject> cbsSubjects = listCBSSubjects();
+		if (cbsSubjects.size() > 0) {
+			for (CBSSubject cbsSubject : cbsSubjects) {
+				if (period.equals(cbsSubject.getId())) {
+					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			}
+		}
+		return summary;
 	}
 
 	public double getBudget(String startPeriod, String endPeriod) {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
