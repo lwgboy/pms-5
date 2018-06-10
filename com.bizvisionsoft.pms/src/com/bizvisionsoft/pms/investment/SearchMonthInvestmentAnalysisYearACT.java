@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.cost;
+package com.bizvisionsoft.pms.investment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +15,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.mongodb.BasicDBObject;
 
-public class SearchMonthCostAnalysisYearACT {
+public class SearchMonthInvestmentAnalysisYearACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -30,8 +30,8 @@ public class SearchMonthCostAnalysisYearACT {
 			// 获取查询的成本期间
 			BasicDBObject dbo = (BasicDBObject) editor.getResult();
 			String startPeriod = getPeriod(dbo.getDate("date1"));
-			MonthCostCompositionAnalysisASM content = (MonthCostCompositionAnalysisASM) context
-					.getChildContextByAssemblyName("预算成本按月分析组件").getContent();
+			MonthInvestmentAnalysisASM content = (MonthInvestmentAnalysisASM) context
+					.getChildContextByAssemblyName("投资回报按月分析组件").getContent();
 			content.setYear(startPeriod);
 			content.refresh();
 		}

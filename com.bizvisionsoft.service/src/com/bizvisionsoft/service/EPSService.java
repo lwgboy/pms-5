@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -38,14 +39,14 @@ public interface EPSService {
 	@Path("/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"EPS管理/list","EPS浏览/list","EPS和项目集选择/list"})
+	@DataSet({ "EPS管理/list", "EPS浏览/list", "EPS和项目集选择/list" })
 	public List<EPS> getRootEPS();
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"EPS管理/count","EPS浏览/count","EPS和项目集选择/count"})
+	@DataSet({ "EPS管理/count", "EPS浏览/count", "EPS和项目集选择/count" })
 	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
 
 	@POST
@@ -80,20 +81,19 @@ public interface EPSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.INSERT)
 	public EPS insert(@ServiceParam(ServiceParam.OBJECT) EPS eps);
-	
-	
+
 	@POST
 	@Path("/info/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"EPS浏览-投资分析/list"})
+	@DataSet({ "EPS浏览-投资分析/list" })
 	public List<EPSInfo> listRootEPSInfo();
 
 	@POST
 	@Path("/info/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"EPS浏览-投资分析/count"})
+	@DataSet({ "EPS浏览-投资分析/count" })
 	public long countRootEPSInfo();
 
 	@POST
@@ -107,5 +107,11 @@ public interface EPSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countSubEPSInfo(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/investmentanalysis/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getMonthInvestmentAnalysis(@PathParam("year")String year);
 
 }
