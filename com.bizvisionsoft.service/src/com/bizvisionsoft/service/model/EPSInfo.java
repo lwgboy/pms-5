@@ -1,8 +1,10 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -207,14 +209,14 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		this.type = type;
 		return this;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 	@SetValue
 	private String status;
-	
+
 	public String getStatus() {
 		return status;
 	}
@@ -306,11 +308,27 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	}
 
 	public double getROI(String startPeriod, String endPeriod) {
-		double profit = getProfit(startPeriod, endPeriod);
+		double profit = 0d;
+		Set<String> id = new HashSet<String>();
+		List<SalesItem> salesItems = getSalesItems();
+		if (salesItems != null && salesItems.size() > 0) {
+			for (SalesItem salesItem : salesItems) {
+				if (startPeriod.compareTo(salesItem.getId()) <= 0 && endPeriod.compareTo(salesItem.getId()) >= 0) {
+					profit += Optional.ofNullable(salesItem.getProfit()).orElse(0d);
+					id.add(salesItem.getId());
+				}
+			}
+		}
+		if (id.size() > 0)
+			profit = profit / id.size() * 12d;
 		double totalCost = getCostSummary();
 		if (totalCost == 0d) {
 			return profit;
 		}
 		return profit / totalCost;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

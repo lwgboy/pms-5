@@ -6,45 +6,48 @@ import java.util.Date;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.rap.json.JsonObject;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.bizivisionsoft.widgets.chart.ECharts;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
-import com.bizvisionsoft.annotations.ui.common.GetContainer;
-import com.bizvisionsoft.annotations.ui.common.GetContent;
+import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.chart.AbstractChartASM;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class PeriodCostCompositionAnalysisASM {
+public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 
 	@Inject
 	private IBruiService bruiService;
 
-	@GetContainer
-	@GetContent("chart")
-	private ECharts content;
-
 	@Inject
 	private BruiAssemblyContext context;
 
-	@CreateUI
-	private void createUI(Composite parent) {
-		parent.setLayout(new FillLayout());
-		createChart(parent);
-		// ((BruiAssemblyContext)context.getChildContextByAssemblyName("某某图表")).getContent();
+	private ObjectId cbsScope_id = null;
+
+	private String startPeriod;
+
+	private String endPeriod;
+
+	@Init
+	public void init() {
+		setContext(context);
+		setBruiService(bruiService);
 	}
 
-	private void createChart(Composite parent) {
-		content = new ECharts(parent, SWT.NONE);
+	@CreateUI
+	public void createUI(Composite parent) {
+		super.createUI(parent);
+	}
 
+	@Override
+	protected void setOptionBefore() {
+		// 获取传入的CBSItem 从成本管理打开项目成本管理时，从contextInput获取
 		// 获取当前年、月
 		Calendar currentCBSPeriod = Calendar.getInstance();
 		int newYear = currentCBSPeriod.get(Calendar.YEAR);
@@ -62,7 +65,6 @@ public class PeriodCostCompositionAnalysisASM {
 			}
 		}
 		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
-		ObjectId cbsScope_id = null;
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
@@ -81,20 +83,30 @@ public class PeriodCostCompositionAnalysisASM {
 			date = Services.get(CommonService.class).getCurrentCBSPeriod();
 			currentCBSPeriod.setTime(date);
 		}
-		String result = "" + currentCBSPeriod.get(Calendar.YEAR);
-		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
-		setOption(result, result, cbsScope_id);
+		startPeriod = "" + currentCBSPeriod.get(Calendar.YEAR);
+		startPeriod += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
+
+		endPeriod = startPeriod;
 	}
 
-	public void setOption(String startPeriod, String endPeriod, ObjectId cbsScope_id) {
-		Document option;
+	public Document getOptionDocument() {
 		if (cbsScope_id != null) {
-			option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod,
-					endPeriod);
+			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod);
 		} else {
-			option = Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
+			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
 		}
-		content.setOption(JsonObject.readFrom(option.toJson()));
 	}
 
+	public void setStartPeriod(String startPeriod) {
+		this.startPeriod = startPeriod;
+	}
+
+	public void setEndPeriod(String endPeriod) {
+		this.endPeriod = endPeriod;
+	}
+
+	@Override
+	protected JsonObject getOption() {
+		return JsonObject.readFrom(getOptionDocument().toJson());
+	}
 }
