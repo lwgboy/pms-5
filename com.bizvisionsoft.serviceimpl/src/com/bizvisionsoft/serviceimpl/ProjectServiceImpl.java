@@ -477,6 +477,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		pipeline.add(new Document("$replaceRoot",
 				new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
+
+		pipeline.add(new Document("$match", new Document("status", new Document("$ne", ProjectStatus.Closed))));
 	}
 
 	@Override
