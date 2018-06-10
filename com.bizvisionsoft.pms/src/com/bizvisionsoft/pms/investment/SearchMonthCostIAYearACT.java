@@ -15,7 +15,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.mongodb.BasicDBObject;
 
-public class SearchMonthInvestmentAnalysisYearACT {
+public class SearchMonthCostIAYearACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -24,14 +24,13 @@ public class SearchMonthInvestmentAnalysisYearACT {
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		// 打开查询成本期间编辑器
-		Editor<Document> editor = Editor.create("项目预算成本对比分析—查询", context, new Document(), false)
-				.setTitle("预算成本按月分析—查询");
+		Editor<Document> editor = Editor.create("项目预算成本对比分析—查询", context, new Document(), false).setTitle("期间");
 		if (Window.OK == editor.open()) {
 			// 获取查询的成本期间
 			BasicDBObject dbo = (BasicDBObject) editor.getResult();
 			String startPeriod = getPeriod(dbo.getDate("date1"));
-			MonthInvestmentAnalysisASM content = (MonthInvestmentAnalysisASM) context
-					.getChildContextByAssemblyName("投资回报按月分析组件").getContent();
+			MonthCostIAASM content = (MonthCostIAASM) context.getChildContextByAssemblyName("资金投入分析组件")
+					.getContent();
 			content.setYear(startPeriod);
 			content.refresh();
 		}
