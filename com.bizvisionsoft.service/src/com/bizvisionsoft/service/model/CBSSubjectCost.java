@@ -24,7 +24,6 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 
 	@ReadValue
 	private String name;
-	
 
 	@ReadValue("scopeId")
 	public String getId() {
@@ -295,6 +294,18 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		if (!update) {
 			cbsSubjects.add(cbsSubject);
 		}
+	}
+
+	public double getOverspend(String period) {
+		return getCost(period) - getBudget(period);
+	}
+
+	public double getOverspend(String startPeriod, String endPeriod) {
+		return getCost(startPeriod, endPeriod) - getBudget(startPeriod, endPeriod);
+	}
+
+	public double getOverspendSummary() {
+		return getCostSummary() - getBudgetSummary();
 	}
 
 }

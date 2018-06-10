@@ -45,10 +45,12 @@ public class SetSearchCBSPeriodACT {
 				// 修改当期成本列的列名和Label显示
 				if ("periodCost".equals(column.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						column.setText("期间："+startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
+						column.setText("期间：" + startPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						column.setText("期间："+startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "-"
-								+ endPeriod.substring(0, 4) + "/" + Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
+						column.setText("期间：" + startPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(startPeriod.substring(4, 6)) + "-" + endPeriod.substring(0, 4) + "/"
+								+ Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
 
 					GridViewerColumn vcol = new GridViewerColumn(viewer, column);
@@ -56,7 +58,9 @@ public class SetSearchCBSPeriodACT {
 						@Override
 						public String getText(Object element) {
 							if (element instanceof CBSItem) {
-								return new DecimalFormat("#.0").format(((CBSItem) element).getCost(startPeriod, endPeriod));
+								double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
+								if (cost != 0)
+									return new DecimalFormat("#.0").format(cost);
 							}
 							return "";
 						}

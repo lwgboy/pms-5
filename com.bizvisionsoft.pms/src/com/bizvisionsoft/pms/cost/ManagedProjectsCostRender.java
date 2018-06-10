@@ -1,8 +1,11 @@
 package com.bizvisionsoft.pms.cost;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 
@@ -34,6 +37,10 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 
 	private String result;
 
+	private ObjectId scope_id;
+
+	private Document doc;
+
 	@Init
 	private void init() {
 		// 获取当前年、月
@@ -56,6 +63,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 		if (input != null) {
 			if (input instanceof CBSItem) {
 				CBSItem cbsItem = (CBSItem) input;
+				scope_id = cbsItem.getScope_id();
 				date = cbsItem.getNextSettlementDate();
 				// 如果项目下一结算月份等于当前月份，则日期为当前结算月份
 				currentCBSPeriod.setTime(date);
@@ -70,8 +78,14 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			date = Services.get(CommonService.class).getCurrentCBSPeriod();
 			currentCBSPeriod.setTime(date);
 		}
+
 		result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
+
+		if (scope_id != null)
+			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result);
+		else
+			doc = Services.get(CBSService.class).getCBSSummary(result, result);
 	}
 
 	@Override
@@ -110,6 +124,16 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				// 获取项目成本管理的总预算
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getBudgetSummary();
+			}
+		} else if ("totalOverspend".equals(column.getName())) {
+			if (element instanceof CBSItem) {
+				// 获取成本管理的总预算
+				CBSItem cbsItem = (CBSItem) element;
+				value = cbsItem.getOverspendSummary();
+			} else if (element instanceof CBSSubjectCost) {
+				// 获取项目成本管理的总预算
+				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
+				value = cbsSubjectCost.getOverspendSummary();
 			}
 		} else if ("totalCAR".equals(column.getName())) {
 			if (element instanceof CBSItem) {
@@ -151,6 +175,16 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getBudget(result);
 			}
+		} else if ("overspend".equals(column.getName())) {
+			if (element instanceof CBSItem) {
+				// 获取成本管理的总预算
+				CBSItem cbsItem = (CBSItem) element;
+				value = cbsItem.getOverspend(result);
+			} else if (element instanceof CBSSubjectCost) {
+				// 获取项目成本管理的总预算
+				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
+				value = cbsSubjectCost.getOverspend(result);
+			}
 		} else if ("car".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间CAR
@@ -172,6 +206,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				value = cbsSubjectCost.getBDR(result);
 			}
 		}
+
 		super.renderCell(cell, column, value, image);
 	}
 
@@ -181,7 +216,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		// 修改当期成本显示列名
 		if ("periodCost".equals(column.getName())) {
-			column.setText("期间："+result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （万元）");
+			column.setText("期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （万元）");
 		}
 		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {
@@ -194,6 +229,29 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 	@GridRenderColumnFooter
 	public void renderColumnFooter(@MethodParam(GridRenderColumnHeader.PARAM_COLUMN_WIDGET) GridColumn col,
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
+		Object name = col.getData("name");
+		Object value = null;
+		if ("totalCost".equals(name)) {
+			value = doc.get("totalCost");
+		} else if ("totalBudget".equals(name)) {
+			value = doc.get("totalBudget");
+		} else if ("totalOverspend".equals(name)) {
+			double totalCost = doc.get("totalCost") != null ? ((Number) doc.get("totalCost")).doubleValue() : 0d;
+			double totalBudget = doc.get("totalBudget") != null ? ((Number) doc.get("totalBudget")).doubleValue() : 0d;
+			value = totalCost - totalBudget;
+		} else if ("cost".equals(name)) {
+			value = doc.get("cost");
+		} else if ("budget".equals(name)) {
+			value = doc.get("budget");
+		} else if ("overspend".equals(name)) {
+			double cost = doc.get("cost") != null ? ((Number) doc.get("cost")).doubleValue() : 0d;
+			double budget = doc.get("budget") != null ? ((Number) doc.get("budget")).doubleValue() : 0d;
+			value = cost - budget;
+		}
+
+		if (value != null && value instanceof Number && ((Number) value).doubleValue() != 0)
+			col.setFooterText(new DecimalFormat("#.0").format(value));
+
 		super.renderColumnFooter(col, column);
 	}
 

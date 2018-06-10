@@ -63,6 +63,16 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
 				value = cbsSubjectCost.getBudgetSummary();
 			}
+		} else if ("totalOverspend".equals(column.getName())) {
+			if (element instanceof CBSItem) {
+				// 获取成本管理的总预算
+				CBSItem cbsItem = (CBSItem) element;
+				value = cbsItem.getOverspendSummary();
+			} else if (element instanceof CBSSubjectCost) {
+				// 获取项目成本管理的总预算
+				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
+				value = cbsSubjectCost.getOverspendSummary();
+			}
 		} else if ("totalCAR".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总CAR
