@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.EPS;
+import com.bizvisionsoft.service.model.EPSInfo;
 import com.mongodb.BasicDBObject;
 
 @Path("/eps")
@@ -37,14 +38,14 @@ public interface EPSService {
 	@Path("/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("list")
+	@DataSet({"EPS管理/list","EPS浏览/list","EPS和项目集选择/list"})
 	public List<EPS> getRootEPS();
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("count")
+	@DataSet({"EPS管理/count","EPS浏览/count","EPS和项目集选择/count"})
 	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
 
 	@POST
@@ -79,5 +80,32 @@ public interface EPSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.INSERT)
 	public EPS insert(@ServiceParam(ServiceParam.OBJECT) EPS eps);
+	
+	
+	@POST
+	@Path("/info/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"EPS浏览-投资分析/list"})
+	public List<EPSInfo> listRootEPSInfo();
+
+	@POST
+	@Path("/info/root/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"EPS浏览-投资分析/count"})
+	public long countRootEPSInfo();
+
+	@POST
+	@Path("/info/{_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<EPSInfo> listSubEPSInfo(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/info/{_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countSubEPSInfo(@PathParam("_id") ObjectId _id);
 
 }

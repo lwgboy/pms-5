@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.model.EPS;
+import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -82,6 +83,30 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			throw new ServiceException("不允许删除有下级项目的项目集记录");
 
 		return delete(_id, ProjectSet.class);
+	}
+
+	@Override
+	public List<EPSInfo> listRootEPSInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countRootEPSInfo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<EPSInfo> listSubEPSInfo(ObjectId _id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countSubEPSInfo(ObjectId _id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
