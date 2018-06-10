@@ -178,12 +178,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 																								"$actualFinish")))))))),
 												new Document("$group",
 														new Document("_id", null).append("count",
-																new Document("$sum", 1.0)))))
+																new Document("$sum", 1)))))
 								.append("as", "work")),
 						new Document("$unwind",
 								new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
 						new Document("$addFields",
-								new Document("overdue", new Document("$gt", Arrays.asList("$work.count", 0.0)))),
+								new Document("overdue", new BasicDBObject("$cond",
+										new BasicDBObject("if", new Document("$gt", Arrays.asList("$work.count", 0)))
+												.append("then", "Ô¤¾¯").append("else", "")))),
 						new Document("$project", new Document("work", false))));
 	}
 
