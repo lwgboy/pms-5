@@ -741,13 +741,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@SetValue
-	private Boolean overdue;
+	private String overdue;
 
 	public String getOverdue() {
-		if (Boolean.TRUE.equals(overdue))
-			return "³¬ÆÚ";
-		else
-			return "";
+		return overdue;
 	}
 	
 	public Project setPmId(String pmId) {

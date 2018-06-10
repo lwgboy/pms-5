@@ -171,7 +171,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						.append("then", new BasicDBObject("$cond",
 								new BasicDBObject("if",
 										new BasicDBObject("$lt", new Object[] { "$planFinish", "$actualFinish" }))
-												.append("then", "ÊÇ").append("else", "·ñ")))
+												.append("then", "³¬ÆÚ").append("else", "")))
 
 		)));
 
