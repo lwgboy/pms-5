@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
@@ -85,13 +86,13 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public Work getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
-	
+
 	@GET
 	@Path("/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public WorkLink getLink(@PathParam("_id") ObjectId _id);
-	
+
 	@GET
 	@Path("/task/_id/{_id}/project_id/")
 	@Consumes("application/json; charset=UTF-8")
@@ -122,11 +123,11 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public long countChildren(@PathParam("parent_id") ObjectId parent_id);
 
-	@PUT
-	@Path("/_id/{_id}/startstage/{executeBy}")
+	@POST
+	@Path("/command/startstage/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> startStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> startStage(Command command);
 
 	@GET
 	@Path("/workspace/{_id}")
@@ -232,35 +233,35 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
 
-	@PUT
-	@Path("/_id/{_id}/distribute/{executeBy}")
+	@POST
+	@Path("/command/distribute/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> distributeWorkPlan(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> distributeWorkPlan(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/startwork")
+	@POST
+	@Path("/command/startwork/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> startWork(@PathParam("_id") ObjectId _id);
+	public List<Result> startWork(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/finishwork")
+	@POST
+	@Path("/command/finishwork/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> finishWork(@PathParam("_id") ObjectId _id);
+	public List<Result> finishWork(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/finishstage/{executeBy}")
+	@POST
+	@Path("/command/finishstage/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> finishStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> finishStage(Command command);
 
-	@PUT
-	@Path("/_id/{_id}/closestage/{executeBy}")
+	@POST
+	@Path("/command/closestage/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> closeStage(@PathParam("_id") ObjectId _id, @PathParam("executeBy") String executeBy);
+	public List<Result> closeStage(Command command);
 
 	@POST
 	@Path("/resourceplan/")
@@ -392,11 +393,11 @@ public interface WorkService {
 	@Path("/assignRoleToProject/{project_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void assignRoleToProject(@PathParam("project_id")ObjectId _id);
-	
+	public void assignRoleToProject(@PathParam("project_id") ObjectId _id);
+
 	@POST
 	@Path("/assignRoleToStage/{work_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void assignRoleToStage(@PathParam("work_id")ObjectId _id);
+	public void assignRoleToStage(@PathParam("work_id") ObjectId _id);
 }

@@ -557,8 +557,9 @@ public class WorkInfo {
 		return space_id;
 	}
 
-	public void setSpaceId(ObjectId space_id) {
+	public WorkInfo setSpaceId(ObjectId space_id) {
 		this.space_id = space_id;
+		return this;
 	}
 
 	@Persistence
@@ -659,6 +660,29 @@ public class WorkInfo {
 	@Behavior("É¾³ýÈÎÎñ")
 	private boolean behaviourDeleteTask() {
 		return actualStart == null;
+	}
+	
+	public WorkInfo setPlanStart(Date planStart) {
+		this.planStart = planStart;
+		return this;
+	}
+	
+	public WorkInfo setPlanFinish(Date planFinish) {
+		this.planFinish = planFinish;
+		return this;
+	}
+	
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+	
+	public Date getPlanStart() {
+		return planStart;
+	}
+	
+	public WorkInfo setChargerId(String chargerId) {
+		this.chargerId = chargerId;
+		return this;
 	}
 
 }

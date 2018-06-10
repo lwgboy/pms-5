@@ -36,6 +36,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SingleResourceConflictSolutionASM {
@@ -206,7 +207,7 @@ public class SingleResourceConflictSolutionASM {
 					} else {
 						startDate = ((WorkResourcePlanDetail) element).planStart;
 					}
-					return new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+					return new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(startDate);
 				} else if ("endDate".equals(name)) {
 					Date endDate;
 					if (((WorkResourcePlanDetail) element).actualFinish != null) {
@@ -214,7 +215,7 @@ public class SingleResourceConflictSolutionASM {
 					} else {
 						endDate = ((WorkResourcePlanDetail) element).planFinish;
 					}
-					return new SimpleDateFormat("yyyy-MM-dd").format(endDate);
+					return new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(endDate);
 				}
 				return "";
 			}

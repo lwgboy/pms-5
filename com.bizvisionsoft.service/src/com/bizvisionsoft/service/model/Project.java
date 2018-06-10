@@ -746,5 +746,38 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	public String getOverdue() {
 		return overdue;
 	}
+	
+	public Project setPmId(String pmId) {
+		this.pmId = pmId;
+		return this;
+	}
+	
+	public Project setEps_id(ObjectId eps_id) {
+		this.eps_id = eps_id;
+		return this;
+	}
+	
+	public Project setPlanStart(Date planStart) {
+		this.planStart = planStart;
+		return this;
+	}
+	
+	public Project setPlanFinish(Date planFinish) {
+		this.planFinish = planFinish;
+		return this;
+	}
+	
+	public Project setId(String id) {
+		this.id = id;
+		return this;
+	}
+	
+	public Project setName(String name) {
+		this.name = name;
+		return this;
+	}
+	
+	
+	
 
 }

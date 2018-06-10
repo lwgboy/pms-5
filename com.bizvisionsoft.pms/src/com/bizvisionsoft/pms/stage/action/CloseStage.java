@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.stage.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -33,7 +34,7 @@ public class CloseStage {
 		if (!ok) {
 			return;
 		}
-		List<Result> result = Services.get(WorkService.class).closeStage(stage.get_id(), brui.getCurrentUserId());
+		List<Result> result = Services.get(WorkService.class).closeStage(brui.command(stage.get_id(), new Date()));
 		if (result.isEmpty()) {
 			Layer.message("½×¶ÎÒÑ¹Ø±Õ¡£");
 			brui.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", ((Work) stage).get_id().toHexString());

@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.project.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -32,8 +33,7 @@ public class StartProject {
 		if (!ok) {
 			return;
 		}
-		List<Result> result = Services.get(ProjectService.class).startProject(project.get_id(),
-				brui.getCurrentUserId());
+		List<Result> result = Services.get(ProjectService.class).startProject(brui.command(project.get_id(),new Date()));
 		if (result.isEmpty()) {
 			Layer.message("项目已启动。");
 			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());

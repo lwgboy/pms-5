@@ -15,6 +15,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -243,25 +244,25 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> startStage(ObjectId _id, String executeBy) {
-		List<Result> result = startStageCheck(_id, executeBy);
+	public List<Result> startStage(Command com) {
+		List<Result> result = startStageCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
 		// 修改状态
-		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", _id),
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("startOn", new Date()).append("startBy", executeBy)));
+						.append("startOn",  com.date).append("startBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
 			throw new ServiceException("没有满足启动条件的工作。");
 		}
 
-		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", _id), ObjectId.class).first();
+		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class).first();
 		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
-				new BasicDBObject("$set", new BasicDBObject("stage_id", _id)));
+				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
 			throw new ServiceException("无法更新项目当前状态。");
@@ -505,13 +506,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return update(filterAndUpdate, WorkPackage.class);
 	}
 
-	public List<Result> distributeWorkPlan(ObjectId _id, String distributeBy) {
-		List<Result> result = distributeWorkPlanCheck(_id, distributeBy);
+	public List<Result> distributeWorkPlan(Command com) {
+		List<Result> result = distributeWorkPlanCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
-		List<ObjectId> inputIds = getDesentItems(Arrays.asList(_id), "work", "parent_id");
+		List<ObjectId> inputIds = getDesentItems(Arrays.asList(com._id), "work", "parent_id");
 
 		BasicDBObject query = new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
 				.append("$or",
@@ -522,15 +523,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
 
-		Work work = get(_id, Work.class);
+		Work work = get(com._id, Work.class);
 		String pjName = getName("project", work.getProject_id());
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
 			messages.add(Message.newInstance("新下达的工作计划",
 					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
-							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planStart")) + " - "
-							+ new SimpleDateFormat("yyyy/M/d").format(w.getDate("planFinish")),
-					distributeBy, w.getString("chargerId"), null));
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + " - "
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")),
+							com.userId, w.getString("chargerId"), null));
 		});
 
 		if (ids.isEmpty()) {
@@ -539,8 +540,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		c("work").updateMany(new BasicDBObject("_id", new BasicDBObject("$in", ids)),
-				new BasicDBObject("$set", new BasicDBObject("distributed", true).append("distributeBy", distributeBy)
-						.append("distributeOn", new Date())));
+				new BasicDBObject("$set", new BasicDBObject("distributed", true).append("distributeBy", com.userId)
+						.append("distributeOn", com.date)));
 
 		sendMessages(messages);
 
@@ -553,16 +554,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> startWork(ObjectId _id) {
-		List<Result> result = startWorkCheck(_id);
+	public List<Result> startWork(Command com) {
+		List<Result> result = startWorkCheck(com._id);
 
 		// 工作没有开始时间或开始时间大于当前时间时，更新当前工作的开始时间为当前时间并获取更新的工作
-		Date startDate = new Date();
 		Document doc = c("work").findOneAndUpdate(
-				new BasicDBObject("_id", _id).append("$or",
+				new BasicDBObject("_id", com._id).append("$or",
 						new BasicDBObject[] { new BasicDBObject("actualStart", null),
-								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
+								new BasicDBObject("actualStart", new BasicDBObject("$gt", com.date)) }),
+				new BasicDBObject("$set", new BasicDBObject("actualStart", com.date)));
 
 		// 如果没有获得工作则该工作已经启动
 		if (doc == null) {
@@ -573,7 +573,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 更新上级工作的启动时间
 		ObjectId parent_id = doc.getObjectId("parent_id");
 		if (parent_id != null)
-			startParentWork(parent_id, startDate);
+			startParentWork(parent_id, com.date);
 
 		return new ArrayList<Result>();
 	}
@@ -611,12 +611,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> finishWork(ObjectId _id) {
-		List<Result> result = finishWorkCheck(_id);
+	public List<Result> finishWork(Command com) {
+		List<Result> result = finishWorkCheck(com._id);
 		// 工作没有完成时间或完成时间小于当前时间时，更新工作的完成时间为当前时间，并获取更新的工作
-		Date finishDate = new Date();
-		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("actualFinish", finishDate).append("progress", 1d)));
+		Document doc = c("work").findOneAndUpdate(new BasicDBObject("_id", com._id),
+				new BasicDBObject("$set", new BasicDBObject("actualFinish", com.date).append("progress", 1d)));
 		// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
 		if (doc == null) {
 			result.add(Result.updateFailure("工作已经完成。"));
@@ -626,7 +625,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 更新上级工作的完工时间
 		ObjectId parent_id = doc.getObjectId("parent_id");
 		if (parent_id != null)
-			finishParentWork(parent_id, finishDate);
+			finishParentWork(parent_id, com.date);
 
 		return result;
 	}
@@ -665,21 +664,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> finishStage(ObjectId _id, String executeBy) {
-		List<Result> result = finishStageCheck(_id, executeBy);
+	public List<Result> finishStage(Command com) {
+		List<Result> result = finishStageCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
-		Document doc = c("work").find(new BasicDBObject("parent_id", _id))
+		Document doc = c("work").find(new BasicDBObject("parent_id", com._id))
 				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
 				.first();
 
 		// 修改项目状态
-		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", _id),
+		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set",
-						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", new Date())
-								.append("finishBy", executeBy).append("actualFinish", doc.get("actualFinish"))
+						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", com.date)
+								.append("finishBy", com.userId).append("actualFinish", doc.get("actualFinish"))
 								.append("progress", 1d)));
 
 		// 根据ur构造下面的结果
@@ -706,16 +705,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Result> closeStage(ObjectId _id, String executeBy) {
-		List<Result> result = closeStageCheck(_id, executeBy);
+	public List<Result> closeStage(Command com) {
+		List<Result> result = closeStageCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
 		// 修改状态
-		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", _id),
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed)
-						.append("closeOn", new Date()).append("closeBy", executeBy)));
+						.append("closeOn",  com.date).append("closeBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {

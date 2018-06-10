@@ -202,8 +202,15 @@ public class CBSSubject {
 		return true;
 	}
 
-	public void setCost(Double cost) {
+	public CBSSubject setCost(Double cost) {
 		this.cost = cost;
+		return this;
 	}
+	
+	public CBSSubject setBudget(Double budget) {
+		this.budget = budget;
+		return this;
+	}
+	
 
 }

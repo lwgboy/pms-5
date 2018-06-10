@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.project.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -32,8 +33,8 @@ public class CloseProject {
 		if (!ok) {
 			return;
 		}
-		List<Result> result = Services.get(ProjectService.class).closeProject(project.get_id(),
-				brui.getCurrentUserId());
+		List<Result> result = Services.get(ProjectService.class)
+				.closeProject(brui.command(project.get_id(), new Date()));
 		if (result.isEmpty()) {
 			Layer.message("项目已关闭。");
 			brui.switchPage("项目首页（关闭）", ((Project) project).get_id().toHexString());
