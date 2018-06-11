@@ -144,13 +144,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
 		Document pieDoc = new Document();
-		// data:[
-		// {value:335, name:'ip1'},
-		// {value:310, name:'ip2'},
-		// {value:234, name:'ip3'},
-		// {value:135, name:'ip4'},
-		// {value:1548, name:'ip5'}
-		// ]
 		pieDoc.append("type", "pie");
 		pieDoc.append("center", Arrays.asList("83%", "53%"));
 		pieDoc.append("radius", "28%");
@@ -210,6 +203,20 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
+		Document pieDoc = new Document();
+		pieDoc.append("type", "pie");
+		pieDoc.append("center", Arrays.asList("83%", "53%"));
+		pieDoc.append("radius", "28%");
+		pieDoc.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
+				"rich",
+				new Document("b", new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
+						.append("hr",
+								new Document("color", "#aaa").append("width", "100%").append("borderWidth", 0.5)
+										.append("height", 0))
+						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
+								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
+		List<Document> pieDatas = new ArrayList<Document>();
+		pieDoc.append("data", pieDatas);
 		c("eps", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			String name = epsInfo.getName();
 			data1.add(name);
@@ -219,15 +226,35 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			costDoc.append("type", "bar");
 			costDoc.append("stack", "投资");
 			costDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
-			List<Object> cost = new ArrayList<Object>();
-			costDoc.append("data", cost);
+			List<Object> costData = new ArrayList<Object>();
+			costDoc.append("data", costData);
+			double pieValue = 0d;
 			for (int i = 0; i < 12; i++) {
 				String month = String.format("%02d", i + 1);
-				cost.add(getDoubleValue(epsInfo.getCost(year + month)));
+				double cost = epsInfo.getCost(year + month);
+				pieValue += cost;
+				costData.add(getDoubleValue(cost));
 			}
+			Document pieData = new Document();
+			pieData.append("name", name).append("value", getDoubleValue(pieValue));
+			pieDatas.add(pieData);
 
 		});
-		return getBarChart(year + "年 资金投入分析（万元）", data1, data2);
+		data2.add(pieDoc);
+
+		Document option = new Document();
+		option.append("title", new Document("text", year + "年 资金投入分析（万元）").append("x", "center"));
+		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+
+		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
+		option.append("grid", new Document("left", "3%").append("right", "35%").append("bottom", "6%").append("containLabel", true));
+
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data",
+				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
+		option.append("yAxis", Arrays.asList(new Document("type", "value")));
+
+		option.append("series", data2);
+		return option;
 	}
 
 	private String getDoubleValue(Object value) {
