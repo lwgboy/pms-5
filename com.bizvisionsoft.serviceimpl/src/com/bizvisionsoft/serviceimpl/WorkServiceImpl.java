@@ -253,14 +253,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 修改状态
 		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("startOn",  com.date).append("startBy", com.userId)));
+						.append("startOn", com.date).append("startBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
 			throw new ServiceException("没有满足启动条件的工作。");
 		}
 
-		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class).first();
+		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
+				.first();
 		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
 				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
 		// 根据ur构造下面的结果
@@ -531,7 +532,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + " - "
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")),
-							com.userId, w.getString("chargerId"), null));
+					com.userId, w.getString("chargerId"), null));
 		});
 
 		if (ids.isEmpty()) {
@@ -713,8 +714,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		// 修改状态
 		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed)
-						.append("closeOn",  com.date).append("closeBy", com.userId)));
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed).append("closeOn", com.date)
+						.append("closeBy", com.userId)));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -935,10 +936,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
 		// List<ObjectId> items = getProject_id(userid);
 
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包")
-				.set("match", new Document("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true)))
-				.set("catagory", catagory).array();
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("summary", false)
+				.append("actualFinish", null).append("stage", new BasicDBObject("$ne", true))).set("catagory", catagory)
+				.array();
 
 		appendProject(pipeline);
 
