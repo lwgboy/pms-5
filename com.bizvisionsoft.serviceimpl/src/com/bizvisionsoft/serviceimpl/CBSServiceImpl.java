@@ -730,7 +730,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return new DecimalFormat("#.0").format(d);
+				return new DecimalFormat("0.0").format(d);
 			}
 		}
 		return null;

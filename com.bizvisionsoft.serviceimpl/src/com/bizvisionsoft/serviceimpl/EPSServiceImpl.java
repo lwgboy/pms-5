@@ -192,7 +192,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return new DecimalFormat("#.0").format(d);
+				return new DecimalFormat("0.0").format(d);
 			}
 		}
 		return null;
