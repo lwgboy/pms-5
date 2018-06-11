@@ -370,8 +370,9 @@ public class BasicServiceImpl {
 		option.append("title", new Document("text", title).append("x", "center"));
 		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", legendData));
-		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
+		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie")
+//				.append("radius", "55%")
+//				.append("center", Arrays.asList("50%", "60%"))
 				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
 						"rich",
 						new Document("b",
