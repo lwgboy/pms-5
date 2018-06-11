@@ -365,26 +365,12 @@ public class BasicServiceImpl {
 		return c(cName).distinct("name", new BasicDBObject("_id", _id), String.class).first();
 	}
 
-	protected Document getPieChart(String title, Object legendData, Object seriesData) {
+	protected Document getPieChart(String title, Object legendData, Object series) {
 		Document option = new Document();
 		option.append("title", new Document("text", title).append("x", "center"));
 		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
 		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", legendData));
-		option.append("series", Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", seriesData)));
+		option.append("series", series);
 		return option;
 	}
 
