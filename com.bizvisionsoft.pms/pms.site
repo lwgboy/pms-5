@@ -33294,7 +33294,7 @@
             "name": "scopeId",
             "text": "项目编号",
             "alignment": 16384,
-            "width": 160,
+            "width": 80,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -33332,7 +33332,7 @@
           {
             "id": "163c9009744",
             "name": "totalCost",
-            "text": "累计成本（万元）",
+            "text": "累计成本（单位：万元）",
             "alignment": 131072,
             "width": 240,
             "minimumWidth": 0,
