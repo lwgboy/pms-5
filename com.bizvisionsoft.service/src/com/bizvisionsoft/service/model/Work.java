@@ -617,9 +617,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("manageLevelHtml")
 	private String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
-			return "<span class='layui-badge level1_task'>1</span>";
+			return "<span class='layui-badge layui-bg-cyan'>1</span>";
 		} else if ("level2_task".equals(barstyle)) {
-			return "<span class='layui-badge level2_task'>2</span>";
+			return "<span class='layui-badge layui-bg-blue'>2</span>";
 		} else if ("level3_task".equals(barstyle)) {
 			return "<span class='layui-badge layui-bg-green'>3</span>";
 		} else {
@@ -1005,4 +1005,31 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue
 	@ReadValue
 	private String packageName;
+
+	@ReadValue("我的工作/workpackageHtml")
+	public String getWorkPackageActionHtml() {
+		StringBuffer sb = new StringBuffer();
+		List<TrackView> wps = getWorkPackageSetting();
+		sb.append("<div style='display: inline-flex;" + 
+				"    justify-content: space-between;" + 
+				"    width: 100%;'>");
+		if (Util.isEmptyOrNull(wps)) {
+			sb.append(
+					"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
+		} else if (wps.size() == 1) {
+			sb.append(
+					"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
+
+		} else {
+			for (int i = 0; i < wps.size(); i++) {
+				sb.append(
+						"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+			}
+		}
+		sb.append("</div>");
+		return sb.toString();
+	}
 }
