@@ -424,7 +424,7 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.COUNT })
-	public long countWorkReportDailyDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+	public long countWorkReportDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
@@ -447,4 +447,27 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.INPUT })
 	public WorkReport getWorkReport(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/workreport/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("日报工作/" + DataSet.UPDATE)
+	public long updateWorkReport(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/workreport/work/{workReport_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报-工作/" + DataSet.LIST })
+	public List<Work> createworkInReportDailyDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
+
+	@POST
+	@Path("/workreport/work/{workReport_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报-工作/" + DataSet.COUNT })
+	public long countworkInReportDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
 }

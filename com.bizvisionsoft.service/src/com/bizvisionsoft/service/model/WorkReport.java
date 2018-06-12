@@ -123,7 +123,7 @@ public class WorkReport {
 		return this;
 	}
 
-	@WriteValue
+	@ReadValue
 	@Persistence
 	private Date reportDate;
 
@@ -132,6 +132,7 @@ public class WorkReport {
 		return this;
 	}
 
+	@ReadValue
 	@Persistence
 	private Date submitDate;
 
@@ -142,6 +143,7 @@ public class WorkReport {
 	@SetValue
 	private String verifierInfo;
 
+	@ReadValue
 	@Persistence
 	private String verifyDate;
 

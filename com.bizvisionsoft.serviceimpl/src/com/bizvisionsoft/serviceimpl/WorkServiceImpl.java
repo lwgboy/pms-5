@@ -1192,9 +1192,29 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	public long updateWorkReport(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, WorkReport.class);
+	}
+
+	@Override
 	public WorkReport getWorkReport(ObjectId _id) {
 		List<? extends Bson> pipeline = new JQ("查询工作报告").set("match", new Document("_id", _id)).array();
 		return c(WorkReport.class).aggregate(pipeline).first();
+	}
+
+	@Override
+	public List<Work> createworkInReportDailyDataSet(BasicDBObject condition, ObjectId workReport_id) {
+		List<? extends Bson> pipeline = new JQ("查询工作报告-日报工作").set("workReport_id", workReport_id).array();
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countworkInReportDailyDataSet(BasicDBObject filter, ObjectId workReport_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("type", WorkReport.TYPE_DAILY);
+		return count(filter, WorkReport.class);
 	}
 
 }
