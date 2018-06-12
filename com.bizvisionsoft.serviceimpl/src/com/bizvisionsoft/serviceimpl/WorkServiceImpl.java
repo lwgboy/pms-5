@@ -27,6 +27,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Util;
@@ -1134,6 +1135,31 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public ObjectId getProjectId(ObjectId _id) {
 		return c("work").distinct("project_id", new Document("_id", _id), ObjectId.class).first();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid, String type) {
+		List<Bson> pipeline = (List<Bson>) new JQ("")
+				.set("match", new Document("reporter", userid).append("type", type)).array();
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
 	}
 
 }
