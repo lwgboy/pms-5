@@ -406,13 +406,13 @@ public interface WorkService {
 	@Path("/userid/{userid}/workreport/{type}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkReport> createWorkReportDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@PathParam("userid") String userid, @PathParam("type") String type);
+	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, @PathParam("userid") String userid,
+			@PathParam("type") String type);
 
 	@POST
 	@Path("/userid/{userid}/workreport/{type}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countWorkReportDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@PathParam("userid") String userid, @PathParam("type") String type);
+	public long countWorkReportDataSet(BasicDBObject filter, @PathParam("userid") String userid,
+			@PathParam("type") String type);
 }

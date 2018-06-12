@@ -19139,10 +19139,10 @@
             "columns": [],
             "markupEnabled": false,
             "sort": 0,
-            "forceDisplayZero": false,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163ef9c1f20",
@@ -19173,10 +19173,10 @@
                 "markupEnabled": false,
                 "format": "yyyy-MM-dd",
                 "sort": 0,
-                "forceDisplayZero": false,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16362575769",
@@ -19194,10 +19194,10 @@
                 "markupEnabled": false,
                 "format": "yyyy-MM-dd",
                 "sort": 0,
-                "forceDisplayZero": false,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               },
               {
                 "id": "16362575849",
@@ -19214,18 +19214,18 @@
                 "columns": [],
                 "markupEnabled": false,
                 "sort": 0,
-                "forceDisplayZero": false,
                 "hide": false,
                 "element": false,
-                "noToggleGridColumnGroup": false
+                "noToggleGridColumnGroup": false,
+                "forceDisplayZero": false
               }
             ],
             "markupEnabled": false,
             "sort": 0,
-            "forceDisplayZero": false,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": true
+            "noToggleGridColumnGroup": true,
+            "forceDisplayZero": false
           },
           {
             "id": "16362587b53",
@@ -19242,10 +19242,10 @@
             "columns": [],
             "markupEnabled": false,
             "sort": 0,
-            "forceDisplayZero": false,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "1636257592c",
@@ -19263,10 +19263,10 @@
             "markupEnabled": false,
             "format": "yyyy-MM-dd",
             "sort": 0,
-            "forceDisplayZero": false,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163efafb700",
@@ -30417,10 +30417,10 @@
             "columns": [],
             "markupEnabled": true,
             "sort": 0,
-            "forceDisplayZero": false,
             "hide": false,
             "element": false,
-            "noToggleGridColumnGroup": false
+            "noToggleGridColumnGroup": false,
+            "forceDisplayZero": false
           },
           {
             "id": "163bdd5b174",
