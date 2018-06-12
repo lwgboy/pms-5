@@ -1162,4 +1162,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
 	}
 
+	@Override
+	public long countWorkReportDataSet(BasicDBObject filter, String userid, String type) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("reporter", userid);
+
+		filter.put("type", type);
+		return count(filter, WorkReport.class);
+	}
+
 }

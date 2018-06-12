@@ -39299,9 +39299,6 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": true,
-        "gridRenderBundleId": "",
-        "gridRenderClassName": "",
-        "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.MyDailyDS",
         "columns": [

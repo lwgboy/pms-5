@@ -24,4 +24,10 @@ public class MyDailyDS {
 		String userid = brui.getCurrentUserId();
 		return Services.get(WorkService.class).createWorkReportDataSet(condition, userid, WorkReport.TYPE_DAILY);
 	}
+
+	@DataSet({ "»’±®/count" })
+	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+		String userid = brui.getCurrentUserId();
+		return Services.get(WorkService.class).countWorkReportDataSet(filter, userid, WorkReport.TYPE_DAILY);
+	}
 }
