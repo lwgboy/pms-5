@@ -3905,6 +3905,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -3945,6 +3946,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -4015,6 +4017,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -4109,6 +4112,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -4149,6 +4153,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -4189,6 +4194,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -4232,6 +4238,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.UserService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "161db823fab",
@@ -4566,6 +4573,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16204babd2f",
@@ -4816,6 +4824,7 @@
         "gridFix": 0,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.OrganizationService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1621d475d14",
@@ -4999,6 +5008,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.demo.rsclient",
         "gridDataSetClassName": "com.bizvisionsoft.demo.rsclient.DemoForDataSource",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162230955ff",
@@ -5094,6 +5104,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -5134,8 +5145,10 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
+        "rowActions": [],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -5205,6 +5218,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -5244,6 +5258,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -5316,6 +5331,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -5356,6 +5372,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -5459,6 +5476,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -5531,6 +5549,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -5570,6 +5589,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -5611,6 +5631,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1624b9ed2e5",
@@ -6021,6 +6042,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1626b1f35be",
@@ -6422,6 +6444,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1626ff49cca",
@@ -6633,6 +6656,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162702a662c",
@@ -6732,6 +6756,7 @@
         "gridFix": 3,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16275ccab7a",
@@ -7206,6 +7231,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16284800113",
@@ -7303,6 +7329,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628adebecf",
@@ -7427,6 +7454,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -7471,6 +7499,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -7656,6 +7685,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162905df447",
@@ -7820,6 +7850,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1629e37f73e",
@@ -7920,6 +7951,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162b2be5f8b",
@@ -7978,6 +8010,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162b37658a3",
@@ -8125,6 +8158,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b392082e",
@@ -8295,6 +8329,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OrganizationService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b3ca119b",
@@ -8535,6 +8570,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162f0b0b272",
@@ -8677,6 +8713,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162f0b08da0",
@@ -8809,6 +8846,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.org.dataset.OrganizationDataSet",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b8355315",
@@ -9059,6 +9097,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -9100,6 +9139,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.UserService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "161db823fab",
@@ -9265,6 +9305,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162bc9f992f",
@@ -9517,6 +9558,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.UserService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "161db823fab",
@@ -9879,6 +9921,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162bc9f992f",
@@ -10100,6 +10143,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162bcad77a9",
@@ -10169,6 +10213,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162bd1ff051",
@@ -10256,6 +10301,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162bd1ccbe0",
@@ -10410,6 +10456,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162bd6eba9b",
@@ -10473,6 +10520,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162bda0ddf4",
@@ -10558,6 +10606,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.org.dataset.OrganizationDataSet",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c1133cef",
@@ -10721,6 +10770,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162f0b0dc06",
@@ -10819,6 +10869,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c457e61b",
@@ -11100,6 +11151,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c49c1b1e",
@@ -11246,6 +11298,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c73aa337",
@@ -11413,6 +11466,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c49c1b1e",
@@ -11510,6 +11564,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -11550,6 +11605,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c73aa337",
@@ -11694,6 +11750,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
         "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c9b54322",
@@ -11842,6 +11899,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -11882,6 +11940,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c9ee178d",
@@ -12098,6 +12157,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
         "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c9b54322",
@@ -12201,6 +12261,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162ca16ba8b",
@@ -12415,6 +12476,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c73aa337",
@@ -12620,6 +12682,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c49c1b1e",
@@ -12761,6 +12824,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162cd6440ff",
@@ -13009,6 +13073,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -13136,6 +13201,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1626b1f35be",
@@ -13508,6 +13574,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b3ca14da",
@@ -13599,6 +13666,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162b7bcc540",
@@ -13701,6 +13769,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162dc43cc1d",
@@ -13874,6 +13943,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162dc440ece",
@@ -13978,6 +14048,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b8355315",
@@ -14208,6 +14279,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162dc2904f9",
@@ -14281,6 +14353,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.org.dataset.OrganizationDataSet",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b8355315",
@@ -14504,6 +14577,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -14636,6 +14710,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c73aa337",
@@ -14800,6 +14875,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c49c1b1e",
@@ -14885,6 +14961,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -15078,6 +15155,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -15132,6 +15210,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c49c1b1e",
@@ -15201,6 +15280,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162ee843244",
@@ -15275,6 +15355,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -15365,6 +15446,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -15419,6 +15501,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162b37658a3",
@@ -15523,6 +15606,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectInfo",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163055bd2cb",
@@ -15799,6 +15883,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectInfo",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1639145b623",
@@ -16025,6 +16110,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -16069,6 +16155,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -16324,6 +16411,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -16365,6 +16453,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -16408,6 +16497,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b8413df",
@@ -16780,6 +16870,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -16820,6 +16911,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b97adb5",
@@ -16924,6 +17016,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1632b6b4aa1",
@@ -17196,6 +17289,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1632b8a9cf4",
@@ -17349,6 +17443,7 @@
         "gridFix": 3,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1632e70d9f6",
@@ -17814,6 +17909,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -17854,6 +17950,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b97adb5",
@@ -17958,6 +18055,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -18049,6 +18147,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -18093,6 +18192,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.EditableGantt",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -18398,6 +18498,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -18443,6 +18544,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ComparableGantt",
+        "gridPageCount": 0,
         "columns": [],
         "gridAutoColumnWidth": false,
         "actions": [
@@ -18504,6 +18606,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.MySchedule",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -18546,6 +18649,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162dc43cc1d",
@@ -18739,6 +18843,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162dc440ece",
@@ -18884,6 +18989,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -18926,6 +19032,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.MyWorkRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636324ed09",
@@ -18950,7 +19057,7 @@
           {
             "id": "1636258808b",
             "name": "manageLevelHtml",
-            "text": "",
+            "text": "级\u003cbr/\u003e别",
             "alignment": 16777216,
             "width": 40,
             "minimumWidth": 0,
@@ -18960,7 +19067,7 @@
             "summary": false,
             "expanded": false,
             "columns": [],
-            "markupEnabled": false,
+            "markupEnabled": true,
             "sort": 0,
             "forceDisplayZero": false,
             "hide": false,
@@ -19376,6 +19483,7 @@
         "gridFix": 0,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16362575119",
@@ -19803,6 +19911,7 @@
         "gridPageControl": false,
         "gridDataSetService": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -19860,6 +19969,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636893d688",
@@ -19918,6 +20028,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162dc43cc1d",
@@ -20022,6 +20133,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636bd98aa7",
@@ -20167,6 +20279,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636c464925",
@@ -20239,6 +20352,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636bd98aa7",
@@ -20547,6 +20661,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636c464925",
@@ -20663,6 +20778,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -20791,6 +20907,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -20844,6 +20961,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -20943,6 +21061,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -21005,6 +21124,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -21285,6 +21405,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -21326,6 +21447,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -21386,6 +21508,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162b8355315",
@@ -21621,6 +21744,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -21662,6 +21786,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -21735,6 +21860,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -21838,6 +21964,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -21909,6 +22036,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -22002,6 +22130,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -22043,6 +22172,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.ResourceDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1637bd12ba0",
@@ -22336,6 +22466,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1637d16e62a",
@@ -22479,6 +22610,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1637d16e62a",
@@ -22622,6 +22754,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1637d16e62a",
@@ -22767,6 +22900,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.resource.ResourceSelectorDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "161db823fab",
@@ -22933,6 +23067,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1637e59194f",
@@ -23145,6 +23280,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1637e5b1cdf",
@@ -23229,6 +23365,7 @@
         "gridPageControl": true,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.risk.ProjectRiskDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380a23d6f",
@@ -23662,6 +23799,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1638106ab28",
@@ -23898,6 +24036,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageProgressDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380d681a8",
@@ -24046,6 +24185,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16380df661d",
@@ -24133,6 +24273,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636bd98aa7",
@@ -24441,6 +24582,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636c464925",
@@ -24555,6 +24697,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageProgressDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380d681a8",
@@ -24743,6 +24886,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16380df661d",
@@ -24860,6 +25004,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636bd98aa7",
@@ -25208,6 +25353,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636c464925",
@@ -25322,6 +25468,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageProgressDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380d681a8",
@@ -25490,6 +25637,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16380df661d",
@@ -25592,6 +25740,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1636bd98aa7",
@@ -25872,6 +26021,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1636cd4d4c0",
@@ -25972,6 +26122,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageProgressDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380d681a8",
@@ -26121,6 +26272,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16380df661d",
@@ -26205,6 +26357,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163830cf949",
@@ -26319,6 +26472,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16386933e9c",
@@ -26464,6 +26618,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1638689f83c",
@@ -26534,6 +26689,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16386c236f2",
@@ -26659,6 +26815,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "16386c46b6c",
@@ -26730,6 +26887,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2b01e87",
@@ -27202,6 +27360,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2b01e87",
@@ -27674,6 +27833,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2b01e87",
@@ -28146,6 +28306,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2b01e87",
@@ -28618,6 +28779,7 @@
         "gridPageControl": true,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2d142a0",
@@ -29226,6 +29388,7 @@
         "gridPageControl": true,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.ScheduleMonitoringDateset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163e2d36cb3",
@@ -29832,6 +29995,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16386c236f2",
@@ -29957,6 +30121,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1637d179f9e",
@@ -30028,6 +30193,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "1638c1a5de1",
@@ -30204,6 +30370,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.work.ScheduleRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b8413df",
@@ -30697,6 +30864,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b8413df",
@@ -30918,6 +31086,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1632b6b4aa1",
@@ -31147,6 +31316,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -31188,6 +31358,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.ResourceDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1637bd12ba0",
@@ -31436,6 +31607,7 @@
         "gridPageControl": true,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.risk.ProjectRiskDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16380a23d6f",
@@ -31767,6 +31939,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.project.ProjectBoardRender",
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+        "gridPageCount": 10,
         "columns": [
           {
             "id": "163958005c5",
@@ -31846,7 +32019,7 @@
             "marginWidth": 0,
             "assemblys": [
               {
-                "id": "16399f2c7e5",
+                "id": "163f1d2326e",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -31899,7 +32072,7 @@
             "marginWidth": 0,
             "assemblys": [
               {
-                "id": "16399f2c7e5",
+                "id": "163f1d2326e",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -31938,6 +32111,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -31977,6 +32151,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -32015,6 +32190,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -32055,6 +32231,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162c73aa337",
@@ -32200,6 +32377,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -32254,6 +32432,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.ResourceDataset",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1637bd12ba0",
@@ -32590,10 +32769,10 @@
       },
       {
         "id": "16399f2c7e5",
-        "name": "我的待处理工作（首页小组件）",
+        "name": "我的待处理工作（工作抽屉）",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "待处理工作",
+        "stickerTitle": "",
         "folderId": "1639583e46c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 64,
@@ -32612,6 +32791,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkBoardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 5,
         "columns": [
           {
             "id": "163958005c5",
@@ -32653,14 +32833,14 @@
         ],
         "rowActions": [],
         "borderTop": false,
-        "borderRight": true,
-        "borderBottom": true,
+        "borderRight": false,
+        "borderBottom": false,
         "borderLeft": false,
         "readonly": false,
         "enableGanttCompare": false,
         "ganttGridWidthCalculate": false,
         "ganttGridWidth": 0,
-        "hasTitlebar": true,
+        "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
@@ -32690,6 +32870,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163aab2c878",
@@ -32855,6 +33036,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -32899,6 +33081,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.projecttemplate.GanttDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -33149,6 +33332,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162905df447",
@@ -33288,6 +33472,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163c90c1ed5",
@@ -33442,6 +33627,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163c9c50c77",
@@ -33531,6 +33717,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163c90c1ed5",
@@ -33704,6 +33891,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -33843,6 +34031,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
@@ -33943,6 +34132,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162dc2904f9",
@@ -34012,6 +34202,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162b7bcc540",
@@ -34117,6 +34308,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b8413df",
@@ -34330,6 +34522,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163cd606078",
@@ -34401,6 +34594,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163cd669786",
@@ -34485,6 +34679,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -34526,6 +34721,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.projecttemplate.ResourceReqDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1637bd12ba0",
@@ -34646,6 +34842,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.projecttemplate.GanttDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1628f30623d",
@@ -34772,6 +34969,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "162c46185f6",
@@ -34834,6 +35032,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163c90c1ed5",
@@ -35339,6 +35538,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostAnalysisRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163c90c1ed5",
@@ -35880,6 +36080,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163c9c53095",
@@ -35939,6 +36140,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "1631b8413df",
@@ -36118,6 +36320,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -36191,6 +36394,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -36244,6 +36448,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -36284,6 +36489,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -36323,6 +36529,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163dad257be",
@@ -36388,6 +36595,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
         "gridDataSetBundleId": "",
         "gridDataSetClassName": "",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163dad31dc9",
@@ -36637,6 +36845,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163dde7228d",
@@ -36795,6 +37004,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.filecabinet.DocumentCommonDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162230955ff",
@@ -36860,6 +37070,7 @@
         "gridPageControl": false,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.filecabinet.DocumentCommonDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "162230955ff",
@@ -36923,6 +37134,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -36963,6 +37175,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -37036,6 +37249,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -37123,6 +37337,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -37178,6 +37393,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "15ce2dee0b7",
@@ -37397,6 +37613,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -37436,6 +37653,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163dad257be",
@@ -37503,6 +37721,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ScheduleGantt",
+        "gridPageCount": 0,
         "columns": [],
         "gridAutoColumnWidth": false,
         "actions": [
@@ -37567,6 +37786,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.investment.EPSInfoInvestmentAnalysisRender",
         "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16275ccab7a",
@@ -38130,6 +38350,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "163c90c1ed5",
@@ -38277,6 +38498,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.StageInfoDS",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "15df624ad52",
@@ -38422,6 +38644,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.StageInfoDS",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "15df61aae37",
@@ -38524,6 +38747,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -38597,6 +38821,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -38651,6 +38876,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -38691,6 +38917,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -38764,6 +38991,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -38851,6 +39079,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -38938,6 +39167,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -38992,6 +39222,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [],
@@ -39084,6 +39315,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
@@ -39100,6 +39332,117 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163f1d2326e",
+        "name": "我的待处理工作（首页小组件）",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.work.WorkWidgetASM",
+        "layout": [],
+        "folderId": "1639583e46c",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [
+          {
+            "id": "163f1da53a4",
+            "name": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163f1d9c312",
+            "name": "打开",
+            "image": "/img/right_w.svg",
+            "switchContentToAssemblyId": "163624f036e",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          }
+        ],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163f1f421af",
+        "name": "我的待处理工作日历选择器",
+        "layout": [],
+        "type": "scheduler",
+        "folderId": "1639583e46c",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "schedulerType": "selector",
         "addToParentContext": false
       }
     ]

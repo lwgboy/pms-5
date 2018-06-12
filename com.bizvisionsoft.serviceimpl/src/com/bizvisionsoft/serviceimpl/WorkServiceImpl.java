@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Command;
+import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -1134,6 +1135,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public ObjectId getProjectId(ObjectId _id) {
 		return c("work").distinct("project_id", new Document("_id", _id), ObjectId.class).first();
+	}
+
+	@Override
+	public List<DateMark> listMyWorksDateMark(String userid) {
+		List<? extends Bson> ls = new JQ("日期选择器-用户待办工作的时间标记").set("userId", userid).array();
+		return c("work").aggregate(ls, DateMark.class).into(new ArrayList<>());
+	}
+
+	public static void main(String[] args) {
+		BasicDBObject filter = new BasicDBObject("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", "zh"), new BasicDBObject("assignerId", "zh") })
+						.append("summary", false).append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true));
+		System.out.println(filter.toJson());
 	}
 
 }

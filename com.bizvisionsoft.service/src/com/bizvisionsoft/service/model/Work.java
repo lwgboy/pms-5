@@ -249,7 +249,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("projectText")
 	public String getProjectText() {
-		return projectName + "[" + projectNumber + "]";
+		return projectName + " [" + projectNumber + "]";
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -976,12 +976,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return !summary && !stage;
 	}
 
-	@Structure("我的待处理工作（首页小组件）/list")
+	@Structure("我的待处理工作（工作抽屉）/list")
 	private List<WorkBoardInfo> getWorkBoardInfo() {
 		return Arrays.asList(new WorkBoardInfo().setWork(this));
 	}
 
-	@Structure("我的待处理工作（首页小组件）/count")
+	@Structure("我的待处理工作（工作抽屉）/count")
 	private long countWorkBoardInfo() {
 		return 1;
 	}
