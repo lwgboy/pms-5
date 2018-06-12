@@ -28,7 +28,7 @@ public class AddDailyACT {
 			String reporter = brui.getCurrentUserId();
 			WorkReport workReport = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
-					.setType(WorkReport.TYPE_DAILY).setCycle(new Date()).setReportDate(new Date());
+					.setType(WorkReport.TYPE_DAILY).setPeriod(new Date()).setReportDate(new Date());
 			workReport = ServicesLoader.get(WorkService.class).insertWorkReport(workReport);
 			((GridPart) context.getContent()).insert(workReport);
 			brui.openContent(brui.getAssembly("»’±®œÍ«È"), workReport);

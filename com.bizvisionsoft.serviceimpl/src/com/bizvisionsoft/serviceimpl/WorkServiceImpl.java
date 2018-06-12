@@ -1146,9 +1146,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid, String type) {
+	public List<WorkReport> createWorkReportDailyDataSet(BasicDBObject condition, String userid) {
 		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
-				.set("match", new Document("reporter", userid).append("type", type)).array();
+				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)).array();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
@@ -1170,19 +1170,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public long countWorkReportDataSet(BasicDBObject filter, String userid, String type) {
+	public long countWorkReportDailyDataSet(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
 
 		filter.put("reporter", userid);
 
-		filter.put("type", type);
+		filter.put("type", WorkReport.TYPE_DAILY);
 		return count(filter, WorkReport.class);
 	}
 
 	@Override
 	public WorkReport insertWorkReport(WorkReport workReport) {
-		return insert(workReport, WorkReport.class);
+		WorkReport newWorkReport = insert(workReport);
+		return getWorkReport(newWorkReport.get_id());
 	}
 
 	@Override

@@ -30,28 +30,28 @@ public class WorkReport {
 
 	@WriteValue
 	@Persistence
-	private Date cycle;
+	private Date period;
 
-	public Date getCycle() {
-		return cycle;
+	public Date getPeriod() {
+		return period;
 	}
 
-	public WorkReport setCycle(Date cycle) {
-		this.cycle = cycle;
+	public WorkReport setPeriod(Date period) {
+		this.period = period;
 		return this;
 	}
 
-	@ReadValue("cycle")
+	@ReadValue("period")
 	public String getCycleText() {
 		if (TYPE_DAILY.equals(type)) {
-			return new SimpleDateFormat("yyyy-MM-dd").format(cycle);
+			return new SimpleDateFormat("yyyy-MM-dd").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(cycle);
+			cal.setTime(period);
 			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return new SimpleDateFormat("yyyy-MM").format(cycle) + " " + weekOfMonth + "周";
+			return new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "周";
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return new SimpleDateFormat("yyyy-MM").format(cycle);
+			return new SimpleDateFormat("yyyy-MM").format(period);
 		}
 		return "";
 	}
@@ -67,7 +67,9 @@ public class WorkReport {
 	// }
 
 	public static String TYPE_DAILY = "日报";
+	
 	public static String TYPE_WEEKLY = "周报";
+	
 	public static String TYPE_MONTHLY = "月报";
 	@WriteValue
 	@Persistence
@@ -156,16 +158,41 @@ public class WorkReport {
 	@Label
 	private String getLabel() {
 		if (TYPE_DAILY.equals(type)) {
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM-dd").format(cycle);
+			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(cycle);
+			cal.setTime(period);
 			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(cycle) + " "
+			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " "
 					+ weekOfMonth + "周";
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(cycle);
+			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period);
 		}
 		return "";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkReport other = (WorkReport) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		return true;
 	}
 }

@@ -168,13 +168,14 @@ public interface WorkService {
 	@DataSet({ "我的工作/list", "我的工作（日历牌）/list", "我的待处理工作（工作抽屉）/list" })
 	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/processing/datemark")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的待处理工作日历选择器/list" )
-	public List<DateMark> listMyWorksDateMark(@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	@DataSet("我的待处理工作日历选择器/list")
+	public List<DateMark> listMyWorksDateMark(
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/processing/count")
@@ -411,34 +412,39 @@ public interface WorkService {
 	public void assignRoleToStage(@PathParam("work_id") ObjectId _id);
 
 	@POST
-	@Path("/userid/{userid}/workreport/{type}/ds")
+	@Path("/userid/{userid}/workreport/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, @PathParam("userid") String userid,
-			@PathParam("type") String type);
+	@DataSet({ "日报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportDailyDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/workreport/{type}/count")
+	@Path("/userid/{userid}/workreport/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countWorkReportDataSet(BasicDBObject filter, @PathParam("userid") String userid,
-			@PathParam("type") String type);
+	@DataSet({ "日报/" + DataSet.COUNT })
+	public long countWorkReportDailyDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/workreport/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报/" + DataSet.INSERT })
 	public WorkReport insertWorkReport(WorkReport workReport);
 
 	@DELETE
 	@Path("/workreport/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报/" + DataSet.DELETE })
 	public long deleteWorkReport(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/workreport/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报/" + DataSet.INPUT })
 	public WorkReport getWorkReport(@PathParam("_id") ObjectId _id);
 }

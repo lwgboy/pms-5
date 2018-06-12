@@ -34,17 +34,20 @@ public class MyWorkReportDS {
 		}
 	}
 
-	@DataSet({ "日报/list" })
-	private List<WorkReport> list(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
-		String userid = brui.getCurrentUserId();
-		return Services.get(WorkService.class).createWorkReportDataSet(condition, userid, WorkReport.TYPE_DAILY);
-	}
+	// @DataSet({ "日报/list" })
+	// private List<WorkReport> list(@ServiceParam(ServiceParam.CONDITION)
+	// BasicDBObject condition) {
+	// String userid = brui.getCurrentUserId();
+	// return Services.get(WorkService.class).createWorkReportDataSet(condition,
+	// userid, WorkReport.TYPE_DAILY);
+	// }
 
-	@DataSet({ "日报/count" })
-	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
-		String userid = brui.getCurrentUserId();
-		return Services.get(WorkService.class).countWorkReportDataSet(filter, userid, WorkReport.TYPE_DAILY);
-	}
+	// @DataSet({ "日报/count" })
+	// private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	// String userid = brui.getCurrentUserId();
+	// return Services.get(WorkService.class).countWorkReportDataSet(filter, userid,
+	// WorkReport.TYPE_DAILY);
+	// }
 
 	@DataSet(DataSet.INSERT)
 	private WorkReport insert(WorkReport workReport) {
