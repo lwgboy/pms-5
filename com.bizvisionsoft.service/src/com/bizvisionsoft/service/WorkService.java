@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
@@ -408,4 +409,18 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void assignRoleToStage(@PathParam("work_id") ObjectId _id);
+
+	@POST
+	@Path("/userid/{userid}/workreport/{type}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, @PathParam("userid") String userid,
+			@PathParam("type") String type);
+
+	@POST
+	@Path("/userid/{userid}/workreport/{type}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkReportDataSet(BasicDBObject filter, @PathParam("userid") String userid,
+			@PathParam("type") String type);
 }

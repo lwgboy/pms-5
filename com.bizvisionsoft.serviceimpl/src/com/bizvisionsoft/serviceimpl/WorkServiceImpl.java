@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Util;
@@ -1143,12 +1144,40 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c("work").aggregate(ls, DateMark.class).into(new ArrayList<>());
 	}
 
-	public static void main(String[] args) {
-		BasicDBObject filter = new BasicDBObject("$or",
-				new BasicDBObject[] { new BasicDBObject("chargerId", "zh"), new BasicDBObject("assignerId", "zh") })
-						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true));
-		System.out.println(filter.toJson());
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid, String type) {
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
+				.set("match", new Document("reporter", userid).append("type", type)).array();
+
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		Integer skip = (Integer) condition.get("skip");
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		Integer limit = (Integer) condition.get("limit");
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
+	}
+
+	@Override
+	public long countWorkReportDataSet(BasicDBObject filter, String userid, String type) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("reporter", userid);
+
+		filter.put("type", type);
+		return count(filter, WorkReport.class);
 	}
 
 }
