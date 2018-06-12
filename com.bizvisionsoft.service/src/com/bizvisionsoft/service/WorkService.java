@@ -423,4 +423,22 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkReportDataSet(BasicDBObject filter, @PathParam("userid") String userid,
 			@PathParam("type") String type);
+
+	@POST
+	@Path("/workreport/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkReport insertWorkReport(WorkReport workReport);
+
+	@DELETE
+	@Path("/workreport/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteWorkReport(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/workreport/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkReport getWorkReport(@PathParam("_id") ObjectId _id);
 }
