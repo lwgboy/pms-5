@@ -1,12 +1,12 @@
-   [
+    [
         { 
             "$match" : {
                 "$or" : [
                     {
-                        "chargerId" : "zh"
+                        "chargerId" : "<userId>"
                     }, 
                     {
-                        "assignerId" : "zh"
+                        "assignerId" : "<userId>"
                     }
                 ], 
                 "summary" : false, 
@@ -33,22 +33,39 @@
             }
         }, 
         { 
+            "$group" : {
+                "_id" : {
+                    "$dateToString" : {
+                        "format" : "%Y-%m-%d", 
+                        "date" : "$date"
+                    }
+                }, 
+                "idx" : {
+                    "$first" : "$index"
+                }
+            }
+        }, 
+        { 
             "$project" : {
-                "date" : true, 
-                "type" : "dhx_time_block",
+                "type" : "dhx_time_block", 
+                "text" : {
+                    "$cond" : [
+                        "$idx", 
+                        "<i class='layui-icon layui-icon-flag' style='color:#ff9800;font-size:18px;'></i>", 
+                        "<i class='layui-icon layui-icon-release' style='color:#3f51b5;font-size:18px;'></i>"
+                    ]
+                }, 
                 "style" : {
                     "$cond" : [
-                        "$index", 
+                        "$idx", 
                         "dhx_mark_finish", 
                         "dhx_mark_start"
                     ]
                 }, 
-                "text" : {
-                    "$cond" : [
-                        "$index", 
-                        "<i class='layui-icon layui-icon-flag' style='color:#ff9800;font-size:18px;'></i>", 
-                        "<i class='layui-icon layui-icon-release' style='color:#3f51b5;font-size:18px;'></i>"
-                    ]
+                "date" : {
+                    "$dateFromString" : {
+                        "dateString" : "$_id"
+                    }
                 }
             }
         }

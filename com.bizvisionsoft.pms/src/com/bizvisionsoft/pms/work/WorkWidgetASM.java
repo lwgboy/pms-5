@@ -8,10 +8,10 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.SchedulerPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
@@ -44,6 +44,14 @@ public class WorkWidgetASM {
 
 		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("待处理工作")
 				.setActions(context.getAssembly().getActions());
+		bar.addListener(SWT.Selection, l -> {
+			if ("打开".equals(((Action) l.data).getName())) {
+				brui.switchContent(brui.getAssembly("我的工作"), null);
+			} else if ("查询".equals(((Action) l.data).getName())) {
+				workPane.openQueryEditor();
+			}
+		});
+		
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
@@ -62,10 +70,10 @@ public class WorkWidgetASM {
 
 		content.setLayout(new FormLayout());
 
+		Composite cal = createBottomAsm(content);
+		// Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);
 		Composite grid = createTopAsm(content);
 		grid.setBackground(content.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);
-		Composite cal = createBottomAsm(content);
 
 		fd = new FormData();
 		cal.setLayoutData(fd);
@@ -74,17 +82,17 @@ public class WorkWidgetASM {
 		fd.top = new FormAttachment();
 		fd.height = 360;
 
-		fd = new FormData();
-		sep.setLayoutData(fd);
-		fd.left = new FormAttachment();
-		fd.right = new FormAttachment(100);
-		fd.top = new FormAttachment(cal);
-		fd.height = 1;
+		// fd = new FormData();
+		// sep.setLayoutData(fd);
+		// fd.left = new FormAttachment();
+		// fd.right = new FormAttachment(100);
+		// fd.top = new FormAttachment(cal);
+		// fd.height = 1;
 
 		fd = new FormData();
 		grid.setLayoutData(fd);
 		fd.left = new FormAttachment();
-		fd.top = new FormAttachment(sep);
+		fd.top = new FormAttachment(cal, 1);
 		fd.right = new FormAttachment(100);
 		fd.bottom = new FormAttachment(100);
 
@@ -103,7 +111,7 @@ public class WorkWidgetASM {
 				cal.set(Calendar.HOUR_OF_DAY, 0);
 				cal.set(Calendar.MINUTE, 0);
 				cal.set(Calendar.SECOND, 0);
-//				Date start = cal.getTime();
+				// Date start = cal.getTime();
 				cal.add(Calendar.DATE, 1);
 				cal.add(Calendar.SECOND, -1);
 				Date end = cal.getTime();
@@ -121,6 +129,7 @@ public class WorkWidgetASM {
 	private Composite createTopAsm(Composite parent) {
 		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("我的待处理工作（工作抽屉）"))
 				.setServices(brui).create();
+		asm.getContext().setName("worklist");
 		workPane = (GridPart) asm.getContext().getContent();
 		return asm.getContainer();
 	}
