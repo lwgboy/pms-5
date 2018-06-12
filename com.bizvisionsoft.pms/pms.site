@@ -32848,7 +32848,50 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "163f49c2505",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163f49a8a18",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          },
+          {
+            "id": "163f49cb371",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0
+          }
+        ],
         "gridAutoColumnWidth": true,
         "actions": [
           {
@@ -39397,6 +39440,8 @@
             "id": "163f1da53a4",
             "name": "查询",
             "image": "/img/search_w.svg",
+            "bundleId": "",
+            "className": "",
             "openContent": false,
             "propagate": false,
             "forceText": false,
