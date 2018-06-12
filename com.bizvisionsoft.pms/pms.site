@@ -40120,17 +40120,6 @@
                 "horizontalSpan": 1,
                 "widthHint": -1,
                 "heightHint": -1
-              },
-              {
-                "id": "163f1ec41b4",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 2,
-                "widthHint": -1,
-                "heightHint": -1
               }
             ]
           }
