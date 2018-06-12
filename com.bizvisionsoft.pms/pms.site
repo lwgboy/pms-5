@@ -5,7 +5,7 @@
   "title": "BV-PMS 2018",
   "behavior": true,
   "path": "/",
-  "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n/bvs/widgets/diagram/codebase/diagram.css\n/bvs/widgets/diagram/codebase/diagram.css",
+  "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
   "pageOverflow": "scrollY",
   "aliasOfResFolder": "extres",
   "favIcon": "/img/favicon.png",
@@ -39862,6 +39862,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.MyWorkReportDS",
+        "gridPageCount": 0,
         "columns": [
           {
             "id": "16362575119",
@@ -40027,6 +40028,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "borderTop": false,
         "borderRight": false,
@@ -40070,6 +40072,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.WorkReportInfo",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163f33674e7",
@@ -40231,6 +40234,7 @@
         "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.WorkReportInfo",
+        "gridPageCount": 0,
         "fields": [
           {
             "id": "163f33674e7",
@@ -40355,6 +40359,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
         "borderTop": false,
