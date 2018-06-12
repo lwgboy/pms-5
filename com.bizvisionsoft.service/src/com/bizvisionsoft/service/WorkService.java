@@ -439,12 +439,12 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.DELETE })
-	public long deleteWorkReport(@PathParam("_id") ObjectId _id);
+	public long deleteWorkReport(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/workreport/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.INPUT })
-	public WorkReport getWorkReport(@PathParam("_id") ObjectId _id);
+	public WorkReport getWorkReport(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 }
