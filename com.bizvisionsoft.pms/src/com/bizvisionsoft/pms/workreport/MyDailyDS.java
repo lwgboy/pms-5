@@ -2,6 +2,8 @@ package com.bizvisionsoft.pms.workreport;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -29,5 +31,15 @@ public class MyDailyDS {
 	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
 		String userid = brui.getCurrentUserId();
 		return Services.get(WorkService.class).countWorkReportDataSet(filter, userid, WorkReport.TYPE_DAILY);
+	}
+
+	@DataSet(DataSet.INSERT)
+	private WorkReport insert(WorkReport workReport) {
+		return Services.get(WorkService.class).insertWorkReport(workReport);
+	}
+	
+	@DataSet(DataSet.DELETE)
+	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
+		return Services.get(WorkService.class).deleteWorkReport(_id);
 	}
 }

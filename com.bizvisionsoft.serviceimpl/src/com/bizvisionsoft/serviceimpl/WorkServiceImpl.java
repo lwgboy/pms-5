@@ -1173,4 +1173,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return count(filter, WorkReport.class);
 	}
 
+	@Override
+	public WorkReport insertWorkReport(WorkReport workReport) {
+		return insert(workReport, WorkReport.class);
+	}
+
+	@Override
+	public long deleteWorkReport(ObjectId _id) {
+		return delete(_id, WorkReport.class);
+	}
+
+	@Override
+	public WorkReport getWorkReport(ObjectId _id) {
+		List<? extends Bson> pipeline = new JQ("查询工作报告").set("match", new Document("_id", _id)).array();
+		return c(WorkReport.class).aggregate(pipeline).first();
+	}
+
 }
