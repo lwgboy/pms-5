@@ -72,7 +72,7 @@ public class WorkWidgetASM {
 		fd.left = new FormAttachment();
 		fd.right = new FormAttachment(100);
 		fd.top = new FormAttachment();
-		fd.height = 300;
+		fd.height = 360;
 
 		fd = new FormData();
 		sep.setLayoutData(fd);
