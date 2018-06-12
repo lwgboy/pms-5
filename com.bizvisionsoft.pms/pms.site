@@ -30811,7 +30811,6 @@
             "element": false,
             "noToggleGridColumnGroup": false,
             "forceDisplayZero": false
-            "noToggleGridColumnGroup": true
           }
         ],
         "fields": [],
