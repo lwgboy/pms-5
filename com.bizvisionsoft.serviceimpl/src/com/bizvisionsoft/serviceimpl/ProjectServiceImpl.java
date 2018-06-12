@@ -659,4 +659,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return insert(salesItem);
 	}
 
+	@Override
+	public long deleteStockholder(ObjectId _id) {
+		return delete(_id, Stockholder.class);
+	}
+
 }
