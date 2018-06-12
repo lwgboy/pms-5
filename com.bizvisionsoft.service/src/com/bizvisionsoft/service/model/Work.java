@@ -976,12 +976,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return !summary && !stage;
 	}
 
-	@Structure({"我的待处理工作（首页小组件）/list"})
+	@Structure({ "我的待处理工作（首页小组件）/list", "日报-工作/list" })
 	private List<WorkBoardInfo> getWorkBoardInfo() {
 		return Arrays.asList(new WorkBoardInfo().setWork(this));
 	}
 
-	@Structure({"我的待处理工作（首页小组件）/count"})
+	@Structure({ "我的待处理工作（首页小组件）/count", "日报-工作/count" })
 	private long countWorkBoardInfo() {
 		return 1;
 	}
@@ -1010,23 +1010,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public String getWorkPackageActionHtml() {
 		StringBuffer sb = new StringBuffer();
 		List<TrackView> wps = getWorkPackageSetting();
-		sb.append("<div style='display: inline-flex;" + 
-				"    justify-content: space-between;" + 
-				"    width: 100%;'>");
+		sb.append("<div style='display: inline-flex;" + "    justify-content: space-between;" + "    width: 100%;'>");
 		if (Util.isEmptyOrNull(wps)) {
-			sb.append(
-					"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
-			sb.append(
-					"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+					+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
-				sb.append(
-						"<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+				sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+						+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
 		sb.append("</div>");

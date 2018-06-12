@@ -39300,7 +39300,7 @@
         "gridFix": 0,
         "gridPageControl": true,
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.MyDailyDS",
+        "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.MyWorkReportDS",
         "columns": [
           {
             "id": "163f29425a0",
@@ -39658,7 +39658,9 @@
         "gridPageControl": true,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkBoardRender",
-        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridDataSetService": "",
+        "gridDataSetBundleId": "com.bizvisionsoft.pms",
+        "gridDataSetClassName": "com.bizvisionsoft.pms.workreport.MyWorkReportDS",
         "columns": [
           {
             "id": "16362575119",
@@ -39796,7 +39798,7 @@
         "enableGanttCompare": false,
         "ganttGridWidthCalculate": false,
         "ganttGridWidth": 0,
-        "hasTitlebar": true,
+        "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
@@ -40118,6 +40120,17 @@
                 "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "163f1ec41b4",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 2,
                 "widthHint": -1,
                 "heightHint": -1
               }
