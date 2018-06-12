@@ -98,7 +98,7 @@ public interface ProjectService {
 	public List<Stockholder> getStockholders(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
-	@POST
+	
 	@Path("/_id/{_id}/stockholder/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -111,6 +111,13 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Stockholder insertStockholder(Stockholder c);
+	
+	@DELETE
+	@Path("/stockholder/id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目干系人/" + DataSet.DELETE)
+	public long deleteStockholder(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId id);
 
 	@POST
 	@Path("/pm/{userid}/ds")
