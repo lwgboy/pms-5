@@ -1140,7 +1140,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid, String type) {
-		List<Bson> pipeline = (List<Bson>) new JQ("")
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
 				.set("match", new Document("reporter", userid).append("type", type)).array();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
