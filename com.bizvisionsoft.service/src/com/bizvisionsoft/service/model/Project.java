@@ -782,9 +782,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (_actual == null) {
 			_actual = new Date();
 		}
-		String actual = new SimpleDateFormat("yyyyMMdd").format(_actual);
-		String plan = new SimpleDateFormat("yyyyMMdd").format(_plan);
-		if (plan.compareTo(actual) < 0) {
+		if (_plan.before(_actual)) {
 			return "<span class='layui-badge layui-bg-red'>³¬ÆÚ</span>";
 		}
 

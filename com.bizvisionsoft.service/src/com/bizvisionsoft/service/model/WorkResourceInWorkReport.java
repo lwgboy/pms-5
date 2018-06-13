@@ -188,7 +188,9 @@ public class WorkResourceInWorkReport {
 
 	@Structure("工作报告-工作资源用量/count")
 	private long countChildren() {
-		return 1; // ServicesLoader.get(WorkReportService.class).countSubWorkResourceInWorkReport(work_id,
-					// workReport_id);
+		return ServicesLoader.get(WorkReportService.class)
+				.countSubWorkResourceInWorkReport(new WorkResourceAssignment().setWork_id(work_id)
+						.setWorkReport_id(workReport_id).setUsedEquipResId(usedEquipResId)
+						.setUsedHumanResId(usedHumanResId).setUsedTypedResId(usedTypedResId));
 	}
 }
