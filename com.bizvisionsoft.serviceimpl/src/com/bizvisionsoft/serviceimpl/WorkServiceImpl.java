@@ -28,7 +28,6 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
-import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Util;
@@ -80,6 +79,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
+//		pipeline.forEach(b->System.out.println(b.toBsonDocument(Document.class, MongoClient.getDefaultCodecRegistry())));
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}

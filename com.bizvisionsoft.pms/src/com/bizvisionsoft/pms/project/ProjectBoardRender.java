@@ -114,7 +114,7 @@ public class ProjectBoardRender {
 		sb.append("<div style='width:100%;margin-top:4px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanFinish()));
-		sb.append("  "+pj.getOverdueHtml());
+		sb.append("  " + pj.getOverdueHtml());
 		sb.append("</div>");
 		sb.append("<div style='margin-right:16px;margin-top:2px;'>项目经理: " + pj.getPmInfo() + "</div></div>");
 
@@ -154,41 +154,34 @@ public class ProjectBoardRender {
 		// 添加指标
 		// height += 46;
 		// TODO 计算指标
+
 		sb.append(
 				"<div style='margin-top:0px;width: 100%;display:inline-flex;justify-content:center;padding-right: 36px;'>");
-		sb.append(
-				"<div class='brui_indicator normal' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
+
 		Object sar = pj.getSAR();
-		if (sar instanceof String) {
-			sb.append(sar);
-		} else if (sar instanceof Double) {
+		if (sar != null) {
+			sb.append(
+					"<div class='brui_indicator normal' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
 			sb.append(new DecimalFormat("#0.0%").format(sar));
-		} else {
-			sb.append("--");
+			sb.append("<br/>进度完成率</div>");
 		}
-		sb.append("<br/>进度完成率</div>");
-		sb.append(
-				"<div class='brui_indicator info' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
+
 		Object war = pj.getWAR();
-		if (war instanceof String) {
-			sb.append(war);
-		} else if (war instanceof Double) {
+		if (war != null) {
+			sb.append(
+					"<div class='brui_indicator info' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
 			sb.append(new DecimalFormat("#0.0%").format(war));
-		} else {
-			sb.append("--");
+			sb.append("<br/>工作量完成率</div>");
 		}
-		sb.append("<br/>工作量完成率</div>");
-		sb.append(
-				"<div class='brui_indicator warning' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
+
 		Object dar = pj.getDAR();
-		if (dar instanceof String) {
-			sb.append(dar);
-		} else if (dar instanceof Double) {
+		if (dar != null) {
+			sb.append(
+					"<div class='brui_indicator warning' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
 			sb.append(new DecimalFormat("#0.0%").format(dar));
-		} else {
-			sb.append("--");
+			sb.append("<br/>工期完成率</div>");
 		}
-		sb.append("<br/>工期完成率</div>");
+
 		sb.append("</div>");
 
 		// gridItem.setHeight(height);

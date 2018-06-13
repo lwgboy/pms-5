@@ -693,12 +693,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期完成率 百分比
 	@ReadValue("dar")
-	public Object getDAR() {
+	public Double getDAR() {
 		int planDuration = getPlanDuration();
 		if (planDuration != 0) {
 			return 1d * getActualDuration() / planDuration;
 		}
-		return "--";
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -712,26 +712,23 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private double summaryActualDuration;
 
 	@ReadValue("war")
-	public Object getWAR() {
+	public Double getWAR() {
 		if (summaryPlanDuration != 0) {
 			double d = 1d * summaryActualDuration / summaryPlanDuration;
 			return d > 1d ? 1d : d;
 		}
-		return "--";
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 工时完成率 百分比
+	// 进度完成率 百分比
+	@SetValue
 	@ReadValue("sar")
-	public Object getSAR() {
-		//TODO
-		int actualDuration = getActualDuration();
-		if (actualDuration != 0) {
-			double d = 1d * getPlanDuration() / actualDuration;
-			return d > 1d ? 1d : d;
-		}
-		return "--";
+	private Double sar;
+
+	public Double getSAR() {
+		return sar;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -792,10 +789,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 			return "";
 		}
 	}
-	
+
 	@ReadValue("warningOvercost")
 	private String getOvercostHtml() {
-		if (getOvercost()>0) {
+		if (getOvercost() > 0) {
 			return "<span class='layui-badge'>超支</span>";
 		} else {
 			return "";

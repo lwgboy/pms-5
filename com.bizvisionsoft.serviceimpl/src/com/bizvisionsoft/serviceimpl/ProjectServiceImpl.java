@@ -150,6 +150,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
 		appendWorkTime(pipeline);
+		
+		pipeline.addAll(new JQ("项目sar管道").array());
 
 		// TODO 增加超期判断，
 		appendOverdue(pipeline);

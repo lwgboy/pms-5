@@ -430,6 +430,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@GetValue("actualDuration")
+	@ReadValue({ "我的工作（已完成）/actualDuration", "我的工作/actualDuration" })
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
 			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));
@@ -520,12 +521,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 工时完成率 百分比
+	// 进度完成率指标 百分比
 	@ReadValue("sar")
 	public Double getSAR() {
-		int actualDuration = getActualDuration();
-		if (actualDuration != 0) {
-			double d = 1d * planDuration / actualDuration;
+		if (stage && actualFinish != null) {
+			double d = 1d * (planFinish.getTime() - planStart.getTime())
+					/ (actualFinish.getTime() - actualStart.getTime());
 			return d > 1d ? 1d : d;
 		}
 		return null;
