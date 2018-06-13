@@ -713,6 +713,13 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("war")
 	public Object getWAR() {
+		if (getActualStart() == null) {
+			return 0d;
+		}
+		if (getActualFinish() != null) {
+			return 1d;
+		}
+
 		if (summaryPlanDuration != 0) {
 			double d = 1d * summaryActualDuration / summaryPlanDuration;
 			return d > 1d ? 1d : d;
@@ -723,15 +730,33 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工时完成率 百分比
+	@SetValue
+	private List<ObjectId> stage_ids;
+
 	@ReadValue("sar")
 	public Object getSAR() {
-		//TODO
-		int actualDuration = getActualDuration();
-		if (actualDuration != 0) {
-			double d = 1d * getPlanDuration() / actualDuration;
-			return d > 1d ? 1d : d;
+		// TODO
+
+		if (stage_ids != null && stage_ids.size() > 0) {
+			for (ObjectId stageId : stage_ids) {
+				double sars = 0d;
+				Work work = ServicesLoader.get(WorkService.class).getWork(stageId);
+				Double sar = work.getSAR();
+				sars += (sar != null ? sar : 0d);
+				double d = 1d * Math.pow(0.8, getChangeQty()) * sars / stage_ids.size();
+				return d > 1d ? 1d : d;
+			}
+		} else {
+			if (summaryActualDuration != 0) {
+				double d = 1d * Math.pow(0.8, getChangeQty()) * summaryPlanDuration / summaryActualDuration;
+				return d > 1d ? 1d : d;
+			}
 		}
 		return "--";
+	}
+
+	private double getChangeQty() {
+		return 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -756,6 +781,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("car")
 	public Object getCAR() {
+		if (getActualFinish() != null) {
+			return 1d;
+		}
+
 		Double budget = getBudget();
 		if (budget != null && budget != 0) {
 			return getCost() / budget;
@@ -792,10 +821,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 			return "";
 		}
 	}
-	
+
 	@ReadValue("warningOvercost")
 	private String getOvercostHtml() {
-		if (getOvercost()>0) {
+		if (getOvercost() > 0) {
 			return "<span class='layui-badge'>超支</span>";
 		} else {
 			return "";

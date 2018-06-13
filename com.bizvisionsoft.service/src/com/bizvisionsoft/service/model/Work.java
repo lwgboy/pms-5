@@ -497,6 +497,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("war")
 	public Double getWAR() {
+		if (getActualStart() == null) {
+			return 0d;
+		}
+		if (getActualFinish() != null) {
+			return 1d;
+		}
+
 		if (summary) {
 			if (summaryPlanDuration != 0) {
 				double d = 1d * summaryActualDuration / summaryPlanDuration;
@@ -523,12 +530,30 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 工时完成率 百分比
 	@ReadValue("sar")
 	public Double getSAR() {
-		int actualDuration = getActualDuration();
-		if (actualDuration != 0) {
-			double d = 1d * planDuration / actualDuration;
-			return d > 1d ? 1d : d;
+		if (stage) {
+			if (summaryActualDuration != 0) {
+				double d = 1d * Math.pow(0.8, getChangeQty()) * summaryPlanDuration / summaryActualDuration;
+				return d > 1d ? 1d : d;
+			}
 		}
+
+		if (summary) {
+			if (summaryActualDuration != 0) {
+				double d = 1d * summaryPlanDuration / summaryActualDuration;
+				return d > 1d ? 1d : d;
+			}
+		} else {
+			if (getActualDuration() != 0) {
+				double d = 1d * getPlanDuration() / getActualDuration();
+				return d > 1d ? 1d : d;
+			}
+		}
+
 		return null;
+	}
+
+	private double getChangeQty() {
+		return 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

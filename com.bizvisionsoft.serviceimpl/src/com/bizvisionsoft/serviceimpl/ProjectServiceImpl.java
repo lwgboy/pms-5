@@ -266,6 +266,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						new Document("summaryPlanDuration", "$workDuration.planDuration")
 								.append("summaryActualDuration", "$workDuration.actualDuration")),
 				new Document("$project", new Document("workDuration", false))));
+
+		pipeline.addAll(Arrays.asList(
+				new Document().append("$lookup", new Document().append("from", "work")
+						.append("let", new Document().append("project_id", "$_id"))
+						.append("pipeline", Arrays.asList(new Document().append("$match",
+								new Document().append("$expr", new Document().append("$and",
+										Arrays.asList(new Document().append("$eq", Arrays.asList("$stage", true)),
+												new Document().append("$eq",
+														Arrays.asList("$project_id", "$$project_id"))))))))
+						.append("as", "stageWork")),
+				new Document().append("$addFields", new Document().append("stage_ids", "$stageWork._id")),
+				new Document().append("$project", new Document().append("stageWork", false))));
 	}
 
 	@Override
