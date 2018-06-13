@@ -83,14 +83,42 @@
 		"preserveNullAndEmptyArrays" : true
 	}
 }, {
+	"$lookup" : {
+		"from" : "user",
+		"localField" : "chargerId",
+		"foreignField" : "userId",
+		"as" : "user1"
+	}
+}, {
+	"$lookup" : {
+		"from" : "user",
+		"localField" : "assignerId",
+		"foreignField" : "userId",
+		"as" : "user2"
+	}
+}, {
+	"$unwind" : {
+		"path" : "$user1",
+		"preserveNullAndEmptyArrays" : true
+	}
+}, {
+	"$unwind" : {
+		"path" : "$user2",
+		"preserveNullAndEmptyArrays" : true
+	}
+}, {
 	"$addFields" : {
-		"estimatedFinish" : "$workInReport.estimatedFinish",
-		"executionInfo" : "$workInReport.executionInfo",
-		"question" : "$workInReport.question"
+		"chargerInfo" : {
+			"$concat" : [ "$user1.name", "[", "$user1.userId", "]" ]
+		},
+		"assignerInfo" : {
+			"$concat" : [ "$user2.name", "[", "$user2.userId", "]" ]
+		}
 	}
 }, {
 	"$project" : {
 		"workReport" : false,
-		"workInReport" : false
+		"user1" : false,
+		"user2" : false
 	}
 } ]

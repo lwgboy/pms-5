@@ -11,7 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.mongodb.BasicDBObject;
@@ -26,13 +26,13 @@ public class EditWorkReportInfoACT {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 
 		WorkReport input = (WorkReport) context.getInput();
-		Editor.open("工作报告说明信息编辑器", context, input, (r, i) -> {
-			ServicesLoader.get(WorkService.class).updateWorkReport(new FilterAndUpdate()
+		Editor.open("工作报告编辑器", context, input, (r, i) -> {
+			ServicesLoader.get(WorkReportService.class).updateWorkReport(new FilterAndUpdate()
 					.filter(new BasicDBObject("_id", i.get_id())).set(Util.getBson((WorkReport) i, "_id")).bson());
 			AUtil.simpleCopy(i, input);
 			// TODO 刷新
 			// IBruiContext bruiContext = context.getChildContextByName("工作报告说明信息面板");
 			// InfopadPart content = (InfopadPart) bruiContext.getContent();
-		});
+		}).setTitle(input.getLabel());
 	}
 }

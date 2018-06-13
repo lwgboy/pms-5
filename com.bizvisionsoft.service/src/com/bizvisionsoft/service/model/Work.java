@@ -1034,4 +1034,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		sb.append("</div>");
 		return sb.toString();
 	}
+
+	@SetValue
+	private WorkInReport workInReport;
+
+	public WorkInReport getWorkInReport() {
+		return workInReport;
+	}
 }

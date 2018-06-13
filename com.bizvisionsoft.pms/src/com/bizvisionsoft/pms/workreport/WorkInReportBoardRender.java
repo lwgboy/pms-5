@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
+import com.bizvisionsoft.service.model.WorkInReport;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class WorkInReportBoardRender {
@@ -89,28 +90,47 @@ public class WorkInReportBoardRender {
 		// 开始和完成按钮
 		Date actualStart = work.getActualStart();
 		Date actualFinish = work.getActualFinish();
-		if (actualStart == null) {
-			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='editor/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/start_w.svg'/></a></div>");
-		} else if (actualFinish == null) {
-			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='finishWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
-		}
+		// if (actualStart == null) {
+		// sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a
+		// href='editor/" + work.get_id()
+		// + "' target='_rwt'><img class='layui-btn layui-btn-sm' style='padding:6px
+		// 10px;' src='rwt-resources/extres/img/start_w.svg'/></a></div>");
+		// } else if (actualFinish == null) {
+		// sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a
+		// href='finishWork/" + work.get_id()
+		// + "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sm'
+		// style='padding:6px 10px;'
+		// src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
+		// }
 
 		sb.append("<div style='font-size: 22px;'>" + work.getFullName() + "</div>");
-		sb.append("<div style='width:100%;margin-top:2px;display:-webkit-flex;justify-content:space-between;'><div>计划: "
-				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
+		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'>");
+
+		sb.append("<div>计划: " + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
 		sb.append("</div>");
-		String chargerInfo = work.getChargerInfo();
-		sb.append("<div style='margin-right:16px;'>负责: " + (chargerInfo == null ? "" : chargerInfo) + "</div></div>");
-		sb.append("<div style='width:100%;margin-top:2px;display:-webkit-flex;justify-content:space-between;'><div>实际: "
+
+		sb.append("<div>实际: "
 				+ (actualStart == null ? "" : new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(actualStart)) + " ~ "
 				+ (actualFinish == null ? "" : new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(actualFinish)));
 		sb.append("</div>");
-		String assignerInfo = work.getAssignerInfo();
-		sb.append("<div style='margin-right:16px;'>指派: " + (assignerInfo == null ? "" : assignerInfo) + "</div></div>");
 
+		WorkInReport workInReport = work.getWorkInReport();
+		if (workInReport != null && workInReport.getEstimatedFinish() != null) {
+			sb.append("<div>预计完成时间: "
+					+ (actualStart == null ? "" : new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(actualStart)) );
+			sb.append("</div>");
+		}
+
+		String chargerInfo = work.getChargerInfo();
+		if (chargerInfo != null && !"".equals(chargerInfo))
+			sb.append("<div>负责: " + chargerInfo + "</div>");
+
+		String assignerInfo = work.getAssignerInfo();
+		if (assignerInfo != null && !"".equals(assignerInfo))
+			sb.append("<div style='margin-right:16px;'>指派: " + assignerInfo + "</div>");
+
+		sb.append("</div>");
 		cell.setText(sb.toString());
 	}
 
@@ -118,75 +138,35 @@ public class WorkInReportBoardRender {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 		gridItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		gridItem.setHeight(132);
-
-		String perc;
-		Double ind;
+		WorkInReport workInReport = work.getWorkInReport();
 
 		StringBuffer sb = new StringBuffer();
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 显示进度指标信息
 		sb.append(
-				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		ind = work.getWAR();
+				"<div style='display:inline-flex;padding-right:3px;margin-top:3px;width:33%;'><div style='justify-content:space-between;width:100%;'>");
 		// ind = 0.2365555d;
-		sb.append("<div style='width:112px;'>工作进度：</div>");
-		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
-		if (ind != null) {
-			NumberFormat df = DecimalFormat.getInstance();
-			df.setMaximumFractionDigits(1);
-			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>"
-					+ perc + "</span></div>");
-		}
+		sb.append("<div style='width:112px;'>完成情况：</div>");
+		sb.append("<div style='margin-left:16px;flex:auto;white-space:pre-wrap;'>");
+		if (workInReport != null && workInReport.getExecutionInfo() != null)
+			sb.append(workInReport.getExecutionInfo());
 		sb.append("</div></div></div>");
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 显示工期指标信息
-		ind = work.getDAR();
-		// ind = 0.9365555d;
 		sb.append(
-				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		sb.append("<div style='width:112px;'>工期(天)：" + work.getActualDuration() + "/" + work.getPlanDuration()
-				+ "</div>");
-		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
-		if (ind != null) {
-			NumberFormat df = DecimalFormat.getInstance();
-			df.setMaximumFractionDigits(1);
-			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>"
-					+ perc + "</span></div>");
-		}
+				"<div style='display:inline-flex;padding-right:3px;margin-top:3px;width:33%;'><div style='justify-content:space-between;width:100%;'>");
+		// ind = 0.2365555d;
+		sb.append("<div style='width:112px;'>存在的问题：</div>");
+		sb.append("<div style='margin-left:16px;flex:auto;white-space:pre-wrap;'>");
+		if (workInReport != null && workInReport.getQuestion() != null)
+			sb.append(workInReport.getQuestion());
 		sb.append("</div></div></div>");
 
-		sb.append("<div style='display:inline-flex;width:100%;justify-content:flex-end;padding-right:24px'>");
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 工作包按钮
-		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Util.isEmptyOrNull(wps)) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
-							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
-		} else if (wps.size() == 1) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
-							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
-
-		} else {
-			for (int i = 0; i < wps.size(); i++) {
-				sb.append(
-						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
-								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
-			}
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 指派按钮
-		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:16px;margin-right:4px;' href='assignWork/"
-							+ work.get_id() + "' target='_rwt'>指派</a>");
-		}
-		sb.append("</div>");
+		sb.append(
+				"<div style='display:inline-flex;padding-right:3px;margin-top:3px;width:33%;'><div style='justify-content:space-between;width:100%;'>");
+		// ind = 0.2365555d;
+		sb.append("<div style='width:112px;'>项目经理批注：</div>");
+		sb.append("<div style='margin-left:16px;flex:auto;white-space:pre-wrap;'>");
+		if (workInReport != null && workInReport.getVerifierRemark() != null)
+			sb.append(workInReport.getVerifierRemark());
+		sb.append("</div></div></div>");
 
 		cell.setText(sb.toString());
 	}

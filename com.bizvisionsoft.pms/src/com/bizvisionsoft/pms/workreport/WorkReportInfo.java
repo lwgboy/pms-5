@@ -10,7 +10,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -31,7 +31,7 @@ public class WorkReportInfo {
 
 	@DataSet("list")
 	public List<WorkReport> data() {
-		return Arrays.asList(Services.get(WorkService.class).getWorkReport(workReport_id));
+		return Arrays.asList(Services.get(WorkReportService.class).getWorkReport(workReport_id));
 	}
 
 }

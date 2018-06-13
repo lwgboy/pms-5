@@ -28,7 +28,6 @@ public class WorkReport {
 		this._id = _id;
 	}
 
-	@WriteValue
 	@Persistence
 	private Date period;
 
@@ -158,7 +157,7 @@ public class WorkReport {
 	private String otherRemark;
 
 	@Label
-	private String getLabel() {
+	public String getLabel() {
 		if (TYPE_DAILY.equals(type)) {
 			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
