@@ -156,36 +156,40 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
-		List<Document> asList = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "work")
+		pipeline.addAll(
+				Arrays.asList(
+						new Document("$lookup", new Document("from", "work")
 								.append("let",
 										new Document("project_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-												new Document("$in",
-														Arrays.asList("$manageLevel", Arrays.asList("1", "2"))),
-												new Document("$or",
-														Arrays.asList(
-																new Document("$and",
-																		Arrays.asList(new Document("$lt",
-																				Arrays.asList("$planFinish",
-																						new Date())))),
-																new Document("$lt",
-																		Arrays.asList("$planFinish",
-																				"$actualFinish")))))))),
-										new Document("$group",
-												new Document("_id", null).append("count", new Document("$sum", 1)))))
+								.append("pipeline",
+										Arrays.asList(
+												new Document("$match",
+														new Document("$expr",
+																new Document("$and", Arrays.asList(
+																		new Document("$eq",
+																				Arrays.asList("$project_id",
+																						"$$project_id")),
+																		new Document("$in",
+																				Arrays.asList("$manageLevel",
+																						Arrays.asList("1", "2"))),
+																		new Document("$or", Arrays.asList(
+																				new Document("$lt",
+																						Arrays.asList("$planFinish",
+																								new Date())),
+																				new Document("$lt",
+																						Arrays.asList("$planFinish",
+																								"$actualFinish")))))))),
+												new Document("$group",
+														new Document("_id", null).append("count",
+																new Document("$sum", 1)))))
 								.append("as", "work")),
-				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("overdueWarning",
-								new BasicDBObject("$cond",
+						new Document("$unwind",
+								new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
+						new Document("$addFields",
+								new Document("overdue", new BasicDBObject("$cond",
 										new BasicDBObject("if", new Document("$gt", Arrays.asList("$work.count", 0)))
 												.append("then", "Ô¤¾¯").append("else", "")))),
-				new Document("$project", new Document("work", false)));
-		pipeline.addAll(asList);
+						new Document("$project", new Document("work", false))));
 	}
 
 	private void appendWorkTime(List<Bson> pipeline) {
