@@ -9,7 +9,9 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkInReport;
 import com.bizvisionsoft.service.model.WorkReport;
+import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -53,23 +55,23 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	@Override
-	public WorkReport insertWorkReport(WorkReport workReport) {
+	public WorkReport insert(WorkReport workReport) {
 		WorkReport newWorkReport = insert(workReport);
-		return getWorkReport(newWorkReport.get_id());
+		return get(newWorkReport.get_id());
 	}
 
 	@Override
-	public long deleteWorkReport(ObjectId _id) {
+	public long delete(ObjectId _id) {
 		return delete(_id, WorkReport.class);
 	}
 
 	@Override
-	public long updateWorkReport(BasicDBObject filterAndUpdate) {
+	public long update(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, WorkReport.class);
 	}
 
 	@Override
-	public WorkReport getWorkReport(ObjectId _id) {
+	public WorkReport get(ObjectId _id) {
 		List<? extends Bson> pipeline = new JQ("查询工作报告").set("match", new Document("_id", _id)).array();
 		return c(WorkReport.class).aggregate(pipeline).first();
 	}
@@ -87,6 +89,22 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		filter.put("type", WorkReport.TYPE_DAILY);
 		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public long updateWorkInReport(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, WorkInReport.class);
+	}
+
+	@Override
+	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(ObjectId work_id,
+			ObjectId workReport_id) {
+		return new ArrayList<WorkResourceInWorkReport>();
+	}
+
+	@Override
+	public long countWorkResourceInWorkReportDataSet(ObjectId work_id, ObjectId workReport_id) {
+		return 0;
 	}
 
 }

@@ -31,7 +31,7 @@ public class WorkReportInfo {
 
 	@DataSet("list")
 	public List<WorkReport> data() {
-		return Arrays.asList(Services.get(WorkReportService.class).getWorkReport(workReport_id));
+		return Arrays.asList(Services.get(WorkReportService.class).get(workReport_id));
 	}
 
 }

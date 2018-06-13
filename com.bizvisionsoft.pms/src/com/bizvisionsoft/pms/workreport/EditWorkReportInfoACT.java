@@ -27,7 +27,7 @@ public class EditWorkReportInfoACT {
 
 		WorkReport input = (WorkReport) context.getInput();
 		Editor.open("工作报告编辑器", context, input, (r, i) -> {
-			ServicesLoader.get(WorkReportService.class).updateWorkReport(new FilterAndUpdate()
+			ServicesLoader.get(WorkReportService.class).update(new FilterAndUpdate()
 					.filter(new BasicDBObject("_id", i.get_id())).set(Util.getBson((WorkReport) i, "_id")).bson());
 			AUtil.simpleCopy(i, input);
 			// TODO 刷新

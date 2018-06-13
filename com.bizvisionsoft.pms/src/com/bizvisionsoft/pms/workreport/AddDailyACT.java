@@ -32,11 +32,11 @@ public class AddDailyACT {
 		Selector.open("我的项目选择器", context, null, em -> {
 			String reporter = brui.getCurrentUserId();
 			final WorkReport newWorkReport = ServicesLoader.get(WorkReportService.class)
-					.insertWorkReport(new WorkReport().setProject_id(((Project) em.get(0)).get_id())
+					.insert(new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 							.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
 							.setType(WorkReport.TYPE_DAILY).setPeriod(new Date()).setReportDate(new Date()));
 			Editor.open("工作报告编辑器", context, newWorkReport, (r, i) -> {
-				ServicesLoader.get(WorkReportService.class).updateWorkReport(new FilterAndUpdate()
+				ServicesLoader.get(WorkReportService.class).update(new FilterAndUpdate()
 						.filter(new BasicDBObject("_id", i.get_id())).set(Util.getBson((WorkReport) i, "_id")).bson());
 				AUtil.simpleCopy(i, newWorkReport);
 				// TODO 刷新

@@ -17,6 +17,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
+import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.mongodb.BasicDBObject;
 
 @Path("/workreport")
@@ -43,28 +44,28 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.INSERT })
-	public WorkReport insertWorkReport(WorkReport workReport);
+	public WorkReport insert(WorkReport workReport);
 
 	@DELETE
 	@Path("/workreport/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.DELETE })
-	public long deleteWorkReport(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
+	public long delete(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/workreport/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.INPUT })
-	public WorkReport getWorkReport(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
+	public WorkReport get(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/workreport/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("日报工作/" + DataSet.UPDATE)
-	public long updateWorkReport(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/workreport/work/{workReport_id}/ds")
@@ -81,4 +82,24 @@ public interface WorkReportService {
 	@DataSet({ "日报-工作/" + DataSet.COUNT })
 	public long countworkInReportDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
+
+	@PUT
+	@Path("/workreport/work/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateWorkInReport(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/workreport/workresource/{workReport_id}/{work_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
+			@PathParam("workReport_id") ObjectId workReport_id);
+
+	@POST
+	@Path("/workreport/workresource/{workReport_id}/{work_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
+			@PathParam("workReport_id") ObjectId workReport_id);
 }

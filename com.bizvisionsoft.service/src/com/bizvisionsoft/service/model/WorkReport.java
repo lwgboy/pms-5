@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
@@ -65,11 +66,15 @@ public class WorkReport {
 	// System.out.println(date);
 	// }
 
+	@Exclude
 	public static String TYPE_DAILY = "日报";
-	
+
+	@Exclude
 	public static String TYPE_WEEKLY = "周报";
-	
+
+	@Exclude
 	public static String TYPE_MONTHLY = "月报";
+	
 	@WriteValue
 	@Persistence
 	private String type;
@@ -164,10 +169,9 @@ public class WorkReport {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(period);
 			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " "
-					+ weekOfMonth + "周";
+			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "周";
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return  projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period);
+			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period);
 		}
 		return "";
 	}
