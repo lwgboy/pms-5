@@ -59,10 +59,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendProject(pipeline);
 
-		appendOverdue(pipeline);
-
-		appendWorkTime(pipeline);
-
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
@@ -80,37 +76,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			pipeline.add(Aggregates.limit(limit));
 
 //		pipeline.forEach(b->System.out.println(b.toBsonDocument(Document.class, MongoClient.getDefaultCodecRegistry())));
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
 	}
 
 	private void appendWorkTime(List<Bson> pipeline) {
-		pipeline.addAll(Arrays.asList(
-				new Document("$lookup", new Document("from", "work")
-						.append("let",
-								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
-						.append("pipeline", Arrays.asList(
-								new Document("$match", new Document("$expr", new Document("$and",
-										Arrays.asList(new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-												new Document("$eq", Arrays.asList(
-														new Document("$indexOfBytes",
-																Arrays.asList("$wbsCode",
-																		new Document("$concat",
-																				Arrays.asList("$$wbsCode", ".")))),
-														0.0)),
-												new Document("$eq", Arrays.asList("$summary", false)))))),
-								new Document("$group",
-										new Document("_id", null)
-												.append("actualWorks", new Document("$sum", "$actualWorks"))
-												.append("planWorks", new Document("$sum", "$planWorks")))))
-						.append("as", "workTime")),
-				new Document("$unwind", new Document("path", "$workTime").append("preserveNullAndEmptyArrays", true)),
-				new Document()
-						.append("$addFields",
-								new Document("summaryActualWorks", "$workTime.actualWorks").append("summaryPlanWorks",
-										"$workTime.planWorks")),
-				new Document("$project", new Document("workTime", false))));
-
 		pipeline.addAll(Arrays.asList(
 				new Document("$lookup", new Document("from", "work")
 						.append("let",
@@ -145,11 +119,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 																1000 * 3600 * 24)))),
 										new Document("$group", new Document("_id", null)
 												.append("planDuration", new Document("$sum", "$planDuration"))
-												.append("actualDuration", new Document("$sum", "$actualDuration")))))
+												.append("actualDuration", new Document("$sum", "$actualDuration"))
+												.append("actualWorks", new Document("$sum", "$actualWorks"))
+												.append("planWorks", new Document("$sum", "$planWorks")))))
 						.append("as", "work")),
 				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document("summaryPlanDuration", "$work.planDuration")
-						.append("summaryActualDuration", "$work.actualDuration")),
+				new Document("$addFields",
+						new Document("summaryPlanDuration", "$work.planDuration")
+								.append("summaryActualDuration", "$work.actualDuration")
+								.append("summaryActualWorks", "$workTime.actualWorks")
+								.append("summaryPlanWorks", "$workTime.planWorks")),
 				new Document("$project", new Document("work", false))));
 
 	}
@@ -158,8 +137,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		int warningDay = (int) getSystemSetting(WARNING_DAY);
 		warningDay = warningDay * 24 * 60 * 60 * 1000;
 		List<Field<?>> fields = new ArrayList<Field<?>>();
-		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond", new BasicDBObject("if", new BasicDBObject(
-				"$ne", new Object[] { new BasicDBObject("$ifNull", new Object[] { "$actualFinish", true }), true }))
+		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond",
+				new BasicDBObject("if", new BasicDBObject("$ifNull", new Object[] { "$actualFinish", true }))
 						.append("else",
 								new BasicDBObject("$cond", new BasicDBObject("if",
 										new BasicDBObject("$lt", new Object[] { "$planFinish", new Date() }))
@@ -340,12 +319,40 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
 
-		return queryWork(skip, limit, new BasicDBObject("$or",
+		int warningDay = (int) getSystemSetting(WARNING_DAY);
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
 						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true)),
-				filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
+						.append("stage", new BasicDBObject("$ne", true))));
+
+		appendProject(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 
 	@Override

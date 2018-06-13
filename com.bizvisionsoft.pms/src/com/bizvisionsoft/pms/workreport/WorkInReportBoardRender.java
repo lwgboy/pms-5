@@ -98,7 +98,7 @@ public class WorkInReportBoardRender {
 
 	private void renderTitle(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		gridItem.setHeight(84);
+		gridItem.setHeight(64);
 		gridItem.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 		StringBuffer sb = new StringBuffer();
 		// 开始和完成按钮
@@ -146,16 +146,17 @@ public class WorkInReportBoardRender {
 		sb.append("</div>");
 
 		String chargerInfo = work.getChargerInfo();
-		sb.append("<div>负责: ");
+		sb.append("<div style='margin-right:16px;'>负责: ");
 		if (chargerInfo != null && !"".equals(chargerInfo))
 			sb.append(chargerInfo);
 		sb.append("</div>");
 
 		String assignerInfo = work.getAssignerInfo();
-		sb.append("<div style='margin-right:16px;'>指派: ");
-		if (assignerInfo != null && !"".equals(assignerInfo))
+		if (assignerInfo != null && !"".equals(assignerInfo)) {
+			sb.append("<div style='margin-right:16px;'>指派: ");
 			sb.append(assignerInfo);
-		sb.append("</div>");
+			sb.append("</div>");
+		}
 
 		sb.append("</div>");
 		cell.setText(sb.toString());

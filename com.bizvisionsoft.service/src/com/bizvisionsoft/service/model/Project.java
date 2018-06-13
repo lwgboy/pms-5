@@ -713,6 +713,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("war")
 	public Double getWAR() {
+		if (getActualStart() == null) {
+			return 0d;
+		}
+		if (getActualFinish() != null) {
+			return 1d;
+		}
 		if (summaryPlanDuration != 0) {
 			double d = 1d * summaryActualDuration / summaryPlanDuration;
 			return d > 1d ? 1d : d;
@@ -724,6 +730,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 进度完成率 百分比
 	@SetValue
+	private List<ObjectId> stage_ids;
+
 	@ReadValue("sar")
 	private Double sar;
 
@@ -753,6 +761,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("car")
 	public Object getCAR() {
+		if (getActualFinish() != null) {
+			return 1d;
+		}
+
 		Double budget = getBudget();
 		if (budget != null && budget != 0) {
 			return getCost() / budget;
