@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -25,7 +24,7 @@ import com.mongodb.BasicDBObject;
 public interface WorkReportService {
 
 	@POST
-	@Path("/userid/{userid}/workreport/ds")
+	@Path("/userid/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.LIST })
@@ -33,7 +32,7 @@ public interface WorkReportService {
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/workreport/count")
+	@Path("/userid/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.COUNT })
@@ -41,35 +40,35 @@ public interface WorkReportService {
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/workreport/")
+	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.INSERT })
 	public WorkReport insert(WorkReport workReport);
 
 	@DELETE
-	@Path("/workreport/{_id}")
+	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.DELETE })
 	public long delete(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
-	@GET
-	@Path("/workreport/_id/{_id}")
+	@POST
+	@Path("/_id/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.INPUT })
-	public WorkReport get(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
+	@DataSet("工作报告基本信息面板/list")
+	public List<WorkReport> listInfo(@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@PUT
-	@Path("/workreport/")
+	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("日报工作/" + DataSet.UPDATE)
 	public long update(BasicDBObject filterAndUpdate);
 
 	@POST
-	@Path("/workreport/work/{workReport_id}/ds")
+	@Path("/work/{workReport_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报-工作/" + DataSet.LIST })
@@ -77,7 +76,7 @@ public interface WorkReportService {
 			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
 
 	@POST
-	@Path("/workreport/work/{workReport_id}/count")
+	@Path("/work/{workReport_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报-工作/" + DataSet.COUNT })
@@ -85,34 +84,34 @@ public interface WorkReportService {
 			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
 
 	@PUT
-	@Path("/workreport/work/")
+	@Path("/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkInReport(BasicDBObject filterAndUpdate);
 
 	@POST
-	@Path("/workreport/workresource/{workReport_id}/{work_id}/ds")
+	@Path("/workresource/{workReport_id}/{work_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
 			@PathParam("workReport_id") ObjectId workReport_id);
 
 	@POST
-	@Path("/workreport/workresource/{workReport_id}/{work_id}/count")
+	@Path("/workresource/{workReport_id}/{work_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
 			@PathParam("workReport_id") ObjectId workReport_id);
 
 	@POST
-	@Path("/workreport/subworkresource/ds")
+	@Path("/subworkresource/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkResourceInWorkReport> listSubWorkResourceInWorkReport(
 			WorkResourceAssignment workResourceAssignment);
 
 	@POST
-	@Path("/workreport/subworkresource/count")
+	@Path("/subworkresource/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment);

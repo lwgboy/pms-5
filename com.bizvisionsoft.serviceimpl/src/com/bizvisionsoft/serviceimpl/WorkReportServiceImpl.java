@@ -58,7 +58,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public WorkReport insert(WorkReport workReport) {
 		WorkReport newWorkReport = super.insert(workReport);
-		return get(newWorkReport.get_id());
+		return listInfo(newWorkReport.get_id()).get(0);
 	}
 
 	@Override
@@ -72,9 +72,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	@Override
-	public WorkReport get(ObjectId _id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告").set("match", new Document("_id", _id)).array();
-		return c(WorkReport.class).aggregate(pipeline).first();
+	public List<WorkReport> listInfo(ObjectId _id) {
+		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", new Document("_id", _id)).array())
+				.into(new ArrayList<>());
 	}
 
 	@Override

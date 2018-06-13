@@ -997,12 +997,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return !summary && !stage;
 	}
 
-	@Structure({ "我的待处理工作（工作抽屉）/list", "日报-工作/list" })
+	@Structure({ "我的待处理工作（工作抽屉）/list" })
 	private List<WorkBoardInfo> getWorkBoardInfo() {
 		return Arrays.asList(new WorkBoardInfo().setWork(this));
 	}
 
-	@Structure({ "我的待处理工作（工作抽屉）/count", "日报-工作/count" })
+	@Structure({ "我的待处理工作（工作抽屉）/count" })
 	private long countWorkBoardInfo() {
 		return 1;
 	}
