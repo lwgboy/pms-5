@@ -177,6 +177,30 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String status;
+
+	@ReadValue("statusHtml")
+	private String getStatusHtml() {
+		if (ProjectStatus.Created.equals(status)) {
+			return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Processing.equals(status)) {
+			if (stage != null) {
+				return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + stage + "</span>";
+			} else {
+				return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
+			}
+		} else if (ProjectStatus.Closing.equals(status)) {
+			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Closed.equals(status)) {
+			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Suspended.equals(status)) {
+			return "<span class='layui-badge layui-bg-gray layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Terminated.equals(status)) {
+			return "<span class='layui-badge layui-bg-black layui-btn-fluid'>" + status + "</span>";
+		} else {
+			return "";
+		}
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 计划属性
 	/**
@@ -750,8 +774,15 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	private String overdue;
 
-	public String getOverdue() {
-		return overdue;
+	@ReadValue("warningIcon")
+	public String getOverdueHtml() {
+		if ("预警".equals(overdue)) {
+			return "<span class='layui-badge layui-bg-orange'>" + overdue + "</span>";
+		} else if ("超期".equals(overdue)) {
+			return "<span class='layui-badge layui-bg-red'>" + overdue + "</span>";
+		} else {
+			return "";
+		}
 	}
 
 	public Project setPmId(String pmId) {
