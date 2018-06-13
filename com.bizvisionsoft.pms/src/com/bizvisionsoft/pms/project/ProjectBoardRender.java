@@ -163,7 +163,7 @@ public class ProjectBoardRender {
 		if (sar instanceof String) {
 			sb.append(sar);
 		} else if (sar instanceof Double) {
-			sb.append(new DecimalFormat("##.0%").format(sar));
+			sb.append(new DecimalFormat("#0.0%").format(sar));
 		} else {
 			sb.append("--");
 		}
@@ -174,7 +174,7 @@ public class ProjectBoardRender {
 		if (war instanceof String) {
 			sb.append(war);
 		} else if (war instanceof Double) {
-			sb.append(new DecimalFormat("##.0%").format(war));
+			sb.append(new DecimalFormat("#0.0%").format(war));
 		} else {
 			sb.append("--");
 		}
@@ -185,7 +185,7 @@ public class ProjectBoardRender {
 		if (dar instanceof String) {
 			sb.append(dar);
 		} else if (dar instanceof Double) {
-			sb.append(new DecimalFormat("##.0%").format(dar));
+			sb.append(new DecimalFormat("#0.0%").format(dar));
 		} else {
 			sb.append("--");
 		}
