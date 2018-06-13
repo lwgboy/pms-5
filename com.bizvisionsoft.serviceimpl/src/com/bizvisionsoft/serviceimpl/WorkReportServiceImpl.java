@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -8,9 +9,8 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
-import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.model.WorkInReport;
 import com.bizvisionsoft.service.model.WorkReport;
+import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkResourceAssignment;
 import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -58,6 +58,11 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public WorkReport insert(WorkReport workReport) {
 		WorkReport newWorkReport = super.insert(workReport);
+		List<? extends Bson> pipeline = new JQ("查询工作报告-日报工作").set("workReport_id", newWorkReport.get_id()).array();
+		c("work").aggregate(pipeline).forEach((Document doc) -> {
+			c("workReportItem").insertOne(
+					new Document().append("work_id", doc.get("_id")).append("report_id", newWorkReport.get_id()));
+		});
 		return listInfo(newWorkReport.get_id()).get(0);
 	}
 
@@ -78,23 +83,28 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	@Override
-	public List<Work> createworkInReportDailyDataSet(BasicDBObject condition, ObjectId workReport_id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告-日报工作").set("workReport_id", workReport_id).array();
-		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+	public List<WorkReportItem> listDailyReportItem(ObjectId report_id) {
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document().append("$match", new Document().append("report_id", report_id)),
+				new Document().append("$lookup",
+						new Document().append("from", "work").append("localField", "work_id")
+								.append("foreignField", "_id").append("as", "work")),
+				new Document().append("$unwind",
+						new Document().append("path", "$work").append("preserveNullAndEmptyArrays", false)));
+
+		ArrayList<WorkReportItem> result = c(WorkReportItem.class).aggregate(pipeline).into(new ArrayList<>());
+		return result;
 	}
 
 	@Override
-	public long countworkInReportDailyDataSet(BasicDBObject filter, ObjectId workReport_id) {
-		if (filter == null)
-			filter = new BasicDBObject();
-
-		filter.put("type", WorkReport.TYPE_DAILY);
-		return count(filter, WorkReport.class);
+	public long countDailyReportItem(ObjectId workReport_id) {
+		return count(new BasicDBObject("type", WorkReport.TYPE_DAILY).append("report_id", workReport_id),
+				WorkReport.class);
 	}
 
 	@Override
 	public long updateWorkInReport(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, WorkInReport.class);
+		return update(filterAndUpdate, WorkReportItem.class);
 	}
 
 	@Override

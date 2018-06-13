@@ -14,8 +14,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
-import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
+import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkResourceAssignment;
 import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.mongodb.BasicDBObject;
@@ -58,46 +58,47 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作报告基本信息面板/list")
-	public List<WorkReport> listInfo(@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public List<WorkReport> listInfo(
+			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("日报工作/" + DataSet.UPDATE)
+	@DataSet("日报/" + DataSet.UPDATE)
 	public long update(BasicDBObject filterAndUpdate);
 
 	@POST
-	@Path("/work/{workReport_id}/ds")
+	@Path("/_id/{_id}/item/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报-工作/" + DataSet.LIST })
-	public List<Work> createworkInReportDailyDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
+	public List<WorkReportItem> listDailyReportItem(
+			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
 	@POST
-	@Path("/work/{workReport_id}/count")
+	@Path("/_id/{_id}/item/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报-工作/" + DataSet.COUNT })
-	public long countworkInReportDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("workReport_id") ObjectId workReport_id);
+	public long countDailyReportItem(
+			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
 	@PUT
-	@Path("/work/")
+	@Path("/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkInReport(BasicDBObject filterAndUpdate);
 
 	@POST
-	@Path("/workresource/{workReport_id}/{work_id}/ds")
+	@Path("/_id/{_id}/{work_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
-			@PathParam("workReport_id") ObjectId workReport_id);
+			@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/workresource/{workReport_id}/{work_id}/count")
+	@Path("/_id/{_id}/{work_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,

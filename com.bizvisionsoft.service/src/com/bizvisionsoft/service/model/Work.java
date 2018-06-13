@@ -1073,14 +1073,4 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return sb.toString();
 	}
 
-	@SetValue
-	private WorkInReport workInReport;
-
-	public WorkInReport getWorkInReport() {
-		return workInReport;
-	}
-
-	public void setWorkInReport(WorkInReport workInReport) {
-		this.workInReport = workInReport;
-	}
 }

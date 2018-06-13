@@ -137,7 +137,7 @@ public interface ProjectService {
 	@Path("/member/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list" })
+	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list","我的项目选择列表/list" })
 	public List<Project> listParticipatedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -145,7 +145,7 @@ public interface ProjectService {
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count" })
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count","我的项目选择列表/count" })
 	public long countParticipatedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
