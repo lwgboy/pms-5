@@ -17,6 +17,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
+import com.bizvisionsoft.service.model.WorkResourceAssignment;
 import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.mongodb.BasicDBObject;
 
@@ -102,4 +103,17 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	public long countWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
 			@PathParam("workReport_id") ObjectId workReport_id);
+
+	@POST
+	@Path("/workreport/subworkresource/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkResourceInWorkReport> listSubWorkResourceInWorkReport(
+			WorkResourceAssignment workResourceAssignment);
+
+	@POST
+	@Path("/workreport/subworkresource/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment);
 }
