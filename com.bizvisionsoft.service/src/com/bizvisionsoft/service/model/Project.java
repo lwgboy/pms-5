@@ -734,9 +734,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private List<ObjectId> stage_ids;
 
 	@ReadValue("sar")
-	public Object getSAR() {
-		// TODO
-
+	public Double getSAR() {
 		if (stage_ids != null && stage_ids.size() > 0) {
 			for (ObjectId stageId : stage_ids) {
 				double sars = 0d;
@@ -746,13 +744,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 				double d = 1d * Math.pow(0.8, getChangeQty()) * sars / stage_ids.size();
 				return d > 1d ? 1d : d;
 			}
-		} else {
-			if (summaryActualDuration != 0) {
-				double d = 1d * Math.pow(0.8, getChangeQty()) * summaryPlanDuration / summaryActualDuration;
-				return d > 1d ? 1d : d;
-			}
 		}
-		return "--";
+		return null;
 	}
 
 	private double getChangeQty() {

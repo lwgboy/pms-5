@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -967,7 +968,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue("warningIcon")
-	private String getWarningIcon() {
+	public String getWarningIcon() {
+		String overdue = getOverdue();
 		if ("³¬ÆÚ".equals(overdue))
 			return "<span class='layui-badge'>³¬ÆÚ</span>";
 		else if ("Ô¤¾¯".equals(overdue))
@@ -979,6 +981,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	@SetValue
 	private String overdue;
+
+	@SetValue
+	private Integer warningDay;
 
 	public Date getPlanFinish() {
 		return planFinish;
@@ -1031,6 +1036,30 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public String getOverdue() {
+		if (!summary && overdue == null) {
+			Date actualFinish = getActualFinish();
+			Date planFinish = getPlanFinish();
+			Calendar cal = Calendar.getInstance();
+			Date now = cal.getTime();
+			if (actualFinish != null) {
+				if (actualFinish.after(planFinish)) {
+					overdue = "³¬ÆÚ";
+				} else {
+					overdue = "";
+				}
+			} else {
+				cal.setTime(planFinish);
+				cal.add(Calendar.DAY_OF_MONTH, (warningDay == null ? 0 : (-1 * warningDay)));
+				Date warning = cal.getTime();
+				if (now.after(planFinish)) {
+					overdue = "³¬ÆÚ";
+				} else if (now.after(warning)) {
+					overdue = "Ô¤¾¯";
+				} else {
+					overdue = "";
+				}
+			}
+		}
 		return overdue;
 	}
 

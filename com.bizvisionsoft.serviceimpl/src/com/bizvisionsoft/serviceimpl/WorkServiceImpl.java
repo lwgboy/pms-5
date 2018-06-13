@@ -59,10 +59,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendProject(pipeline);
 
-		appendOverdue(pipeline);
-
-		appendWorkTime(pipeline);
-
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
@@ -78,6 +74,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
+
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
 
 		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
 		return iterable;
@@ -318,12 +318,40 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
 
-		return queryWork(skip, limit, new BasicDBObject("$or",
+		int warningDay = (int) getSystemSetting(WARNING_DAY);
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
 						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true)),
-				filter, new BasicDBObject("planFinish", 1)).into(new ArrayList<Work>());
+						.append("stage", new BasicDBObject("$ne", true))));
+
+		appendProject(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 
 	@Override

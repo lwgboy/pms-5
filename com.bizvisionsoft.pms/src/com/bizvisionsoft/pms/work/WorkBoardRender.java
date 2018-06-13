@@ -136,8 +136,8 @@ public class WorkBoardRender {
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
-		if (!"".equals(warrningText))
-			sb.append(" <span class='layui-badge layui-bg-red'>" + warrningText + "</span>");
+		if (!"".equals(warrningText) && warrningText != null)
+			sb.append(work.getWarningIcon());
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfo();
 		sb.append("<div style='margin-right:16px;'>负责: "
