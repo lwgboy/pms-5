@@ -132,7 +132,7 @@ public class WorkBoardRender {
 		}
 
 		sb.append("<div style=''>" + work.getProjectName() + "</div>");
-		sb.append("<div style='font-size: 22px;'>" + work.getFullName() + "</div>");
+		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>¼Æ»®: "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
