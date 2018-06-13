@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -772,14 +773,23 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@SetValue
-	private String overdue;
+	private String overdueWarning;
 
 	@ReadValue("warningIcon")
 	public String getOverdueHtml() {
-		if ("Ô¤¾¯".equals(overdue)) {
-			return "<span class='layui-badge layui-bg-orange'>" + overdue + "</span>";
-		} else if ("³¬ÆÚ".equals(overdue)) {
-			return "<span class='layui-badge layui-bg-red'>" + overdue + "</span>";
+		Date _actual = getActualFinish();
+		Date _plan = getPlanFinish();
+		if (_actual == null) {
+			_actual = new Date();
+		}
+		String actual = new SimpleDateFormat("yyyyMMdd").format(_actual);
+		String plan = new SimpleDateFormat("yyyyMMdd").format(_plan);
+		if (plan.compareTo(actual) < 0) {
+			return "<span class='layui-badge layui-bg-red'>³¬ÆÚ</span>";
+		}
+
+		if ("Ô¤¾¯".equals(overdueWarning)) {
+			return "<span class='layui-badge layui-bg-orange'>" + overdueWarning + "</span>";
 		} else {
 			return "";
 		}
