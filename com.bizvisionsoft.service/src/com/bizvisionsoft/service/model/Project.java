@@ -726,6 +726,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	// 工时完成率 百分比
 	@ReadValue("sar")
 	public Object getSAR() {
+		//TODO
 		int actualDuration = getActualDuration();
 		if (actualDuration != 0) {
 			double d = 1d * getPlanDuration() / actualDuration;
@@ -775,7 +776,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	private String overdueWarning;
 
-	@ReadValue("warningIcon")
+	@ReadValue("warningOverdue")
 	public String getOverdueHtml() {
 		Date _actual = getActualFinish();
 		Date _plan = getPlanFinish();
@@ -791,6 +792,20 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		} else {
 			return "";
 		}
+	}
+	
+	@ReadValue("warningOvercost")
+	public String getOvercostHtml() {
+		if (getCost()>getBudget()) {
+			return "<span class='layui-badge'>超支</span>";
+		} else {
+			return "";
+		}
+	}
+
+	@ReadValue("overcost")
+	private double getOvercost() {
+		return getCost() - getBudget();
 	}
 
 	public Project setPmId(String pmId) {
