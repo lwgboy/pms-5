@@ -794,8 +794,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 	
 	@ReadValue("warningOvercost")
-	public String getOvercostHtml() {
-		if (getCost()>getBudget()) {
+	private String getOvercostHtml() {
+		if (getOvercost()>0) {
 			return "<span class='layui-badge'>ณฌึง</span>";
 		} else {
 			return "";
@@ -803,7 +803,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@ReadValue("overcost")
-	private double getOvercost() {
+	public double getOvercost() {
 		return getCost() - getBudget();
 	}
 
