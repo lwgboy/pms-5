@@ -186,7 +186,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						new Document("$unwind",
 								new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
 						new Document("$addFields",
-								new Document("overdue", new BasicDBObject("$cond",
+								new Document("overdueWarning", new BasicDBObject("$cond",
 										new BasicDBObject("if", new Document("$gt", Arrays.asList("$work.count", 0)))
 												.append("then", "Ô¤¾¯").append("else", "")))),
 						new Document("$project", new Document("work", false))));

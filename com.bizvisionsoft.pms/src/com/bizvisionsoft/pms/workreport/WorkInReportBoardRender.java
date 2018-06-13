@@ -142,7 +142,7 @@ public class WorkInReportBoardRender {
 		WorkInReport workInReport = work.getWorkInReport();
 		sb.append("<div>预计完成时间: ");
 		if (workInReport != null && workInReport.getEstimatedFinish() != null)
-			sb.append((actualStart == null ? "" : new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(actualStart)));
+			sb.append(new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(workInReport.getEstimatedFinish()));
 		sb.append("</div>");
 
 		String chargerInfo = work.getChargerInfo();

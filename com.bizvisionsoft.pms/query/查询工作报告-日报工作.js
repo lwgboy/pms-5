@@ -11,15 +11,20 @@
 		"from" : "workReport",
 		"let" : {
 			"chargerId" : "$chargerId",
-			"assignerId" : "$assignerId"
+			"assignerId" : "$assignerId",
+			"project_id" : "$project_id"
 		},
 		"pipeline" : [ {
 			"$match" : {
 				"$expr" : {
-					"$or" : [ {
-						"$eq" : [ "$reporter", "$$chargerId" ]
+					$and : [ {
+						"$or" : [ {
+							"$eq" : [ "$reporter", "$$chargerId" ]
+						}, {
+							"$eq" : [ "$reporter", "$$assignerId" ]
+						} ]
 					}, {
-						"$eq" : [ "$reporter", "$$assignerId" ]
+						$eq : [ "$project_id", "$$project_id" ]
 					} ]
 				}
 			}
