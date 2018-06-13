@@ -57,7 +57,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public WorkReport insert(WorkReport workReport) {
-		WorkReport newWorkReport = insert(workReport);
+		WorkReport newWorkReport = super.insert(workReport);
 		return get(newWorkReport.get_id());
 	}
 
@@ -102,7 +102,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			ObjectId workReport_id) {
 		List<? extends Bson> pipeline = new JQ("查询工作报告-资源用量")
 				.set("match", new Document("work_id", work_id).append("workReport_id", workReport_id)).array();
-		ArrayList<WorkResourceInWorkReport> into = c(WorkResourceInWorkReport.class).aggregate(pipeline).into(new ArrayList<WorkResourceInWorkReport>());
+		ArrayList<WorkResourceInWorkReport> into = c(WorkResourceInWorkReport.class).aggregate(pipeline)
+				.into(new ArrayList<WorkResourceInWorkReport>());
 		return into;
 	}
 
