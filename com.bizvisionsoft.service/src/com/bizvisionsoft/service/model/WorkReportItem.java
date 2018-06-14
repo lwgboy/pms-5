@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -9,6 +10,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.WorkReportService;
 
 @PersistenceCollection("workReportItem")
 public class WorkReportItem {
@@ -43,46 +46,73 @@ public class WorkReportItem {
 	@WriteValue
 	@ReadValue
 	private String pmRemark;
-	
+
 	@ReadValue
 	@WriteValue
 	private boolean confirmed;
-	
+
 	@ReadValue
 	@WriteValue
 	private String reportorId;
 
+	@SetValue
+	private List<String> pmIds;
+
+	public ObjectId get_id() {
+		return _id;
+	}
+
 	public String getPmRemark() {
 		return pmRemark;
 	}
-	
+
+	public void setPmRemark(String pmRemark) {
+		this.pmRemark = pmRemark;
+	}
+
 	public Date getEstimatedFinish() {
 		return estimatedFinish;
 	}
-	
+
+	public void setEstimatedFinish(Date estimatedFinish) {
+		this.estimatedFinish = estimatedFinish;
+	}
+
 	public String getStatement() {
 		return statement;
 	}
-	
+
+	public void setStatement(String statement) {
+		this.statement = statement;
+	}
+
 	public String getProblems() {
 		return problems;
+	}
+
+	public void setProblems(String problems) {
+		this.problems = problems;
 	}
 
 	public Work getWork() {
 		return work;
 	}
-	
+
 	public boolean isConfirmed() {
 		return confirmed;
 	}
-	
+
 	public String getReportorId() {
 		return reportorId;
 	}
 
-	public String getPMId() {
-		//获取项目经理和本工作阶段负责人的id，查询即可
-		return "yj";
+	public List<String> getPMId() {
+		// 获取项目经理和本工作阶段负责人的id，查询即可
+		return pmIds;
+	}
+
+	public WorkReport getWorkReport() {
+		return ServicesLoader.get(WorkReportService.class).getWorkReport(report_id);
 	}
 
 	@Label

@@ -20,8 +20,12 @@ import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.WorkReportService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReportItem;
+import com.mongodb.BasicDBObject;
 
 public class ReportItemRender extends GridPartDefaultRender {
 
@@ -44,26 +48,47 @@ public class ReportItemRender extends GridPartDefaultRender {
 					InputDialog id = new InputDialog(brui.getCurrentShell(), "完成情况", "请输入工作完成情况", initialValue, null)
 							.setTextMultiline(true);
 					if (id.open() == InputDialog.OK) {
-						System.out.println(id.getValue());
+						ServicesLoader.get(WorkReportService.class).updateWorkReportItem(
+								new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id()))
+										.set(new BasicDBObject("statement", id.getValue())).bson());
+						item.setStatement(id.getValue());
+						viewer.refresh();
 					}
 				} else if (e.text.startsWith("editProblems/")) {
-					System.out.println("editProblems");
-					System.out.println(item);
+					String initialValue = item.getProblems();
+					InputDialog id = new InputDialog(brui.getCurrentShell(), "存在问题", "请输入工作存在问题", initialValue, null)
+							.setTextMultiline(true);
+					if (id.open() == InputDialog.OK) {
+						ServicesLoader.get(WorkReportService.class).updateWorkReportItem(
+								new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id()))
+										.set(new BasicDBObject("problems", id.getValue())).bson());
+						item.setProblems(id.getValue());
+						viewer.refresh();
+					}
 				} else if (e.text.startsWith("editPMRemark/")) {
-					System.out.println("editPMRemark");
-					System.out.println(item);
+					String initialValue = item.getPmRemark();
+					InputDialog id = new InputDialog(brui.getCurrentShell(), "批注", "请输入工作批注", initialValue, null)
+							.setTextMultiline(true);
+					if (id.open() == InputDialog.OK) {
+						ServicesLoader.get(WorkReportService.class).updateWorkReportItem(
+								new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id()))
+										.set(new BasicDBObject("pmRemark", id.getValue())).bson());
+						item.setPmRemark(id.getValue());
+						viewer.refresh();
+					}
 				} else if (e.text.startsWith("editEstimatedFinish/")) {
-					System.out.println("editEstimatedFinish");
-					System.out.println(item);
 					Date currentEstFinish = item.getEstimatedFinish();
 					DateTimeInputDialog dtid = new DateTimeInputDialog(brui.getCurrentShell(), "预计完成日期",
 							"请输入您估计本工作的预计完成日期", currentEstFinish, d -> {
 								return d != null && d.before(new Date()) ? "请输入合法的日期" : null;
 							});
 					if (dtid.open() == DateTimeInputDialog.OK) {
-						System.out.println(dtid.getValue());
-						// 调服务保存
-						// 刷新行
+						ServicesLoader.get(WorkReportService.class).updateWorkReportItem(
+								new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id()))
+										.set(new BasicDBObject("estimatedFinish", dtid.getValue())).bson());
+						item.setEstimatedFinish(dtid.getValue());
+
+						viewer.refresh();
 					}
 
 				} else if (e.text.split("/").length > 1) {
@@ -106,7 +131,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
 				+ "'>" + Optional.ofNullable(ri.getPmRemark()).orElse("") + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getPMId())) {
+		if (!ri.isConfirmed() && ri.getPMId().contains(brui.getCurrentUserId())) {
 			sb.append(
 					"<a href='editPMRemark/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
@@ -171,7 +196,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 
 		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
 		sb.append("<div>计划进度：" + formatText(work.getPlanStart()) + " ~ " + formatText(work.getPlanFinish()) + "</div>");
-		sb.append("<div>实际开始：" + formatText(work.getActualStart()) + "</div>");
+		sb.append("<div>实际进度：" + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
+				+ "</div>");
 		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
 
 		sb.append(

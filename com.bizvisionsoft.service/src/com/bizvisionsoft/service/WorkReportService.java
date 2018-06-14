@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -53,6 +54,12 @@ public interface WorkReportService {
 	@DataSet({ "»’±®/" + DataSet.DELETE })
 	public long delete(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
+	@GET
+	@Path("/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkReport getWorkReport(@PathParam("_id") ObjectId _id);
+
 	@POST
 	@Path("/_id/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -88,7 +95,7 @@ public interface WorkReportService {
 	@Path("/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateWorkInReport(BasicDBObject filterAndUpdate);
+	public long updateWorkReportItem(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/_id/{_id}/{work_id}/ds")

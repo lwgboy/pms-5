@@ -74,7 +74,7 @@ public class WorkReport {
 
 	@Exclude
 	public static String TYPE_MONTHLY = "月报";
-	
+
 	@WriteValue
 	@Persistence
 	private String type;
@@ -91,7 +91,7 @@ public class WorkReport {
 	@WriteValue
 	@Persistence
 	private ObjectId project_id;
-	
+
 	public ObjectId getProject_id() {
 		return project_id;
 	}
@@ -130,7 +130,7 @@ public class WorkReport {
 		this.reporter = reporter;
 		return this;
 	}
-	
+
 	public String getReporter() {
 		return reporter;
 	}
@@ -207,5 +207,21 @@ public class WorkReport {
 		} else if (!_id.equals(other._id))
 			return false;
 		return true;
+	}
+
+	public Date getPeriodForm() {
+		//TODO 缺少其它类型的返回
+		if (TYPE_DAILY.equals(type)) {
+			return period;
+		}
+		return null;
+	}
+
+	public Date getPeriodTo() {
+		//TODO 缺少其它类型的返回
+		if (TYPE_DAILY.equals(type)) {
+			return period;
+		}
+		return null;
 	}
 }

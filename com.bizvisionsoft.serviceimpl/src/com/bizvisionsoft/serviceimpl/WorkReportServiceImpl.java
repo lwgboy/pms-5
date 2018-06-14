@@ -86,7 +86,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			throw new ServiceException("没有需要填写报告的工作。");
 		}
 		c(WorkReportItem.class).insertMany(into);
-		return listInfo(newWorkReport.get_id()).get(0);
+		return getWorkReport(newWorkReport.get_id());
 	}
 
 	@Override
@@ -102,22 +102,13 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReport> listInfo(ObjectId _id) {
-		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", new Document("_id", _id)).array())
-				.into(new ArrayList<>());
+		return Arrays.asList(getWorkReport(_id));
 	}
 
 	@Override
 	public List<WorkReportItem> listDailyReportItem(ObjectId report_id) {
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document().append("$match", new Document().append("report_id", report_id)),
-				new Document().append("$lookup",
-						new Document().append("from", "work").append("localField", "work_id")
-								.append("foreignField", "_id").append("as", "work")),
-				new Document().append("$unwind",
-						new Document().append("path", "$work").append("preserveNullAndEmptyArrays", false)));
-
-		ArrayList<WorkReportItem> result = c(WorkReportItem.class).aggregate(pipeline).into(new ArrayList<>());
-		return result;
+		List<? extends Bson> pipeline = new JQ("查询工作报告-工作").set("report_id", report_id).array();
+		return c(WorkReportItem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
 	@Override
@@ -127,7 +118,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	@Override
-	public long updateWorkInReport(BasicDBObject filterAndUpdate) {
+	public long updateWorkReportItem(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, WorkReportItem.class);
 	}
 
@@ -152,15 +143,18 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkResourceInWorkReport> listSubWorkResourceInWorkReport(
 			WorkResourceAssignment workResourceAssignment) {
-		// TODO Auto-generated method stub
 		return c(WorkResourceInWorkReport.class).find(workResourceAssignment.getQuery())
 				.into(new ArrayList<WorkResourceInWorkReport>());
 	}
 
 	@Override
 	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment) {
-		// TODO Auto-generated method stub
 		return c(WorkResourceInWorkReport.class).count(workResourceAssignment.getQuery());
+	}
+
+	@Override
+	public WorkReport getWorkReport(ObjectId _id) {
+		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", new Document("_id", _id)).array()).first();
 	}
 
 }
