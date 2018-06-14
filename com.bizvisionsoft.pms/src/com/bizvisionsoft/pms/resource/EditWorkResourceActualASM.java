@@ -1,11 +1,10 @@
 package com.bizvisionsoft.pms.resource;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -15,7 +14,6 @@ import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -28,13 +26,15 @@ import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.ui.ActionMenu;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkReportAssignment;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -58,11 +58,24 @@ public class EditWorkResourceActualASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setActions(context.getAssembly().getActions());
+		Action closeAction = new Action();
+		closeAction.setName("close");
+		closeAction.setImage("/img/close.svg");
+
+		Action addAction = new Action();
+		addAction.setName("add");
+		addAction.setText("添加资源用量");
+		addAction.setForceText(true);
+		addAction.setStyle("normal");
+
+		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, Arrays.asList(addAction))
+				.setActions(context.getAssembly().getActions());
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
+			} else if ("add".equals(action.getName())) {
+				allocateResource();
 			}
 		});
 		FormData fd = new FormData();
@@ -97,8 +110,46 @@ public class EditWorkResourceActualASM {
 		createViewer(content);
 		//
 		// TODO 封装成方法
-//		works = service.listConflictWorks(ra.work_id);
-//		viewer.setInput(works);
+		// works = service.listConflictWorks(ra.work_id);
+		// viewer.setInput(works);
+	}
+
+	private void allocateResource() {
+		// 显示资源选择框
+		Action hrRes = new Action();
+		hrRes.setName("hr");
+		hrRes.setText("人力资源");
+		hrRes.setImage("/img/team_w.svg");
+		hrRes.setStyle("normal");
+
+		Action eqRes = new Action();
+		eqRes.setName("eq");
+		eqRes.setText("设备资源");
+		eqRes.setImage("/img/equipment_w.svg");
+		eqRes.setStyle("normal");
+
+		Action typedRes = new Action();
+		typedRes.setName("tr");
+		typedRes.setText("资源类型");
+		typedRes.setImage("/img/resource_w.svg");
+		typedRes.setStyle("info");
+
+		// 弹出menu
+		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+			addResource("工作报告-添加人力资源编辑器");
+			return false;
+		}).handleActionExecute("eq", a -> {
+			addResource("工作报告-添加设备资源编辑器");
+			return false;
+		}).handleActionExecute("tr", a -> {
+			addResource("工作报告-添加资源类型编辑器");
+			return false;
+		}).open();
+	}
+
+	private void addResource(String editorId) {
+		// TODO
+
 	}
 
 	private void createViewer(Composite parent) {
@@ -178,7 +229,7 @@ public class EditWorkResourceActualASM {
 			@Override
 			public String getText(Object element) {
 				String name = c.getName();
-				//TODO
+				// TODO
 				if ("resId".equals(name)) {
 					return "";
 				} else if ("type".equals(name)) {
