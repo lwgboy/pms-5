@@ -82,7 +82,7 @@ public class WorkReportItem {
 
 	public String getPMId() {
 		//获取项目经理和本工作阶段负责人的id，查询即可
-		return "zh";
+		return "yj";
 	}
 
 	@Label

@@ -79,7 +79,6 @@ public class ReportItemRender extends GridPartDefaultRender {
 		// 表格行高120，减去上下两个8px
 		sb.append("<div style='height:104px;display:block;'>");
 
-		String a = "所有图标全部采用字体形式，取材于阿里巴巴矢量图标库（iconfont）。因此你可以把一个 icon 看作是一个普通的文字因此你可以把一个 icon 看作是一个普通的文字因此你可以把一个 icon 看作是一个普通的文字，这意味着你直接用 css 控制文字属性，如 color、font-size，就可以改变图标的颜色和大小";
 		sb.append("<div style='height:76px;" // 4行文字高度
 				+ "white-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
@@ -88,8 +87,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "display: -webkit-box;"//
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
-				+ "'>" + Optional.ofNullable(ri.getPmRemark()).orElse(a) + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+				+ "'>" + Optional.ofNullable(ri.getPmRemark()).orElse("") + "</div>");
+		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getPMId())) {
 			sb.append(
 					"<a href='editPMRemark/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
@@ -104,7 +103,6 @@ public class ReportItemRender extends GridPartDefaultRender {
 		// 表格行高120，减去上下两个8px
 		sb.append("<div style='height:104px;display:block;'>");
 
-		String a = "所有图标全部采用字体形式，取材于阿里巴巴矢量图标库（iconfont）。因此你可以把一个 icon 看作是一个普通的文字因此你可以把一个 icon 看作是一个普通的文字因此你可以把一个 icon 看作是一个普通的文字，这意味着你直接用 css 控制文字属性，如 color、font-size，就可以改变图标的颜色和大小";
 		sb.append("<div style='height:76px;" // 4行文字高度
 				+ "white-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
@@ -113,11 +111,11 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "display: -webkit-box;"//
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
-				+ "'>" + Optional.ofNullable(ri.getProblems()).orElse(a) + "</div>");
-		sb.append(
-				"<a href='editProblems/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
-						+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
+				+ "'>" + Optional.ofNullable(ri.getProblems()).orElse("") + "</div>");
 		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+			sb.append(
+					"<a href='editProblems/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
 		}
 
 		sb.append("</div>");
@@ -138,7 +136,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
 				+ "'>" + Optional.ofNullable(ri.getStatement()).orElse("") + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getPMId())) {
+		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
 			sb.append(
 					"<a href='editStatement/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
