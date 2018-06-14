@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridColumn;
@@ -37,9 +38,13 @@ public class ReportItemRender extends GridPartDefaultRender {
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				if (e.text.startsWith("editStatement/")) {
-					Object data = e.item.getData();
-					System.out.println("editStatement");
-					System.out.println(data);
+					WorkReportItem data = (WorkReportItem) e.item.getData();
+					String initialValue = data.getStatement();
+					InputDialog id = new InputDialog(brui.getCurrentShell(), "完成情况", "", initialValue, null)
+							.setTextMultiline(true);
+					if (id.open()== InputDialog.OK) {
+						System.out.println(id.getValue());
+					}
 				} else if (e.text.startsWith("editProblems/")) {
 					Object data = e.item.getData();
 					System.out.println("editProblems");
