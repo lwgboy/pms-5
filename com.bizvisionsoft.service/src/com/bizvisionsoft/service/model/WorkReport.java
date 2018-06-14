@@ -44,11 +44,11 @@ public class WorkReport {
 	@ReadValue("period")
 	public String getCycleText() {
 		if (TYPE_DAILY.equals(type)) {
-			return new SimpleDateFormat("yyyy MMM dd").format(period);
+			return new SimpleDateFormat("yyyy年MM月dd日").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
-			return new SimpleDateFormat("yyyy MMM 第W").format(period)+"周" ;
+			return new SimpleDateFormat("yyyy年MM月 第W").format(period)+"周" ;
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return new SimpleDateFormat("yyyy MMM").format(period);
+			return new SimpleDateFormat("yyyy年MM月").format(period);
 		}
 		return "";
 	}
