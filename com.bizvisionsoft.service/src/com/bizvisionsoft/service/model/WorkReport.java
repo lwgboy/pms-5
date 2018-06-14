@@ -44,14 +44,11 @@ public class WorkReport {
 	@ReadValue("period")
 	public String getCycleText() {
 		if (TYPE_DAILY.equals(type)) {
-			return new SimpleDateFormat("yyyy-MM-dd").format(period);
+			return new SimpleDateFormat("yyyy MMM dd").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
-			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "周";
+			return new SimpleDateFormat("yyyy MMM 第W").format(period)+"周" ;
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return new SimpleDateFormat("yyyy-MM").format(period);
+			return new SimpleDateFormat("yyyy MMM").format(period);
 		}
 		return "";
 	}
@@ -210,7 +207,7 @@ public class WorkReport {
 	}
 
 	public Date getPeriodForm() {
-		//TODO 缺少其它类型的返回
+		// TODO 缺少其它类型的返回
 		if (TYPE_DAILY.equals(type)) {
 			return period;
 		}
@@ -218,7 +215,7 @@ public class WorkReport {
 	}
 
 	public Date getPeriodTo() {
-		//TODO 缺少其它类型的返回
+		// TODO 缺少其它类型的返回
 		if (TYPE_DAILY.equals(type)) {
 			return period;
 		}
