@@ -1678,28 +1678,51 @@
             "type": "customized"
           },
           {
-            "id": "162ffff59b2",
+            "id": "163fe7cf799",
             "name": "项目进度计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-            "switchContentToAssemblyId": "1628f2f73ab",
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "children": [
+              {
+                "id": "162ffff59b2",
+                "name": "项目进度计划甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "1628f2f73ab",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "163fe7d5eed",
+                "name": "项目进度计划表",
+                "switchContentToAssemblyId": "1638c2c16a9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "16370fa7c16",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "16370ff5184",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "16370fa7c16",
-            "name": "资源计划",
-            "switchContentToAssemblyId": "16370ff5184",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           },
           {
             "id": "162fffad053",
@@ -1714,7 +1737,7 @@
           },
           {
             "id": "16370fb0942",
-            "name": "项目风险管理",
+            "name": "项目风险管理计划",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -7384,7 +7407,7 @@
             "forceText": false,
             "style": "",
             "editorAssemblyEditable": false,
-            "objectBehavier": true,
+            "objectBehavier": false,
             "type": "customized"
           }
         ],
@@ -7825,7 +7848,7 @@
             "forceText": true,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
@@ -16691,7 +16714,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "项目基本信息面板"
               },
               {
                 "id": "163056fb075",
@@ -16702,7 +16726,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "项目类别信息面板"
               },
               {
                 "id": "1630607a1fb",
@@ -31825,7 +31850,22 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "163fe9538ed",
+            "name": "下达计划",
+            "text": "下达计划",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectAndStagePlan",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "1638c0f97f9",
