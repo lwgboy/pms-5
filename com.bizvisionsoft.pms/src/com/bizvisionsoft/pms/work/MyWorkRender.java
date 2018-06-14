@@ -22,8 +22,6 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
@@ -43,7 +41,6 @@ public class MyWorkRender extends GridPartDefaultRender {
 	@GridRenderUICreated
 	private void uiCreated() {
 		viewer = (GridTreeViewer) context.getContent("viewer");
-		viewer.getGrid().setBackground(BruiColors.getColor(BruiColor.Grey_50));
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				if (e.text.startsWith("startWork/")) {
