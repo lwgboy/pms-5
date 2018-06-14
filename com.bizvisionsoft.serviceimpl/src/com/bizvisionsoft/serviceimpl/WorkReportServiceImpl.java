@@ -74,17 +74,18 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 										new Document("assignerId", workReport.getReporter()))),
 						new Document("$or", Arrays.asList(new Document("actualFinish", null),
 								new Document("actualFinish", workReport.getPeriod())))));
-		if (c("work").count(query) == 0) {
+
+		WorkReport newWorkReport = super.insert(workReport);
+
+		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询工作报告-日报工作")
+				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
+				.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter()).array())
+				.into(new ArrayList<WorkReportItem>());
+		if (into.size() == 0) {
+			delete(newWorkReport.get_id(), WorkReport.class);
 			throw new ServiceException("没有需要填写报告的工作。");
 		}
-		WorkReport newWorkReport = super.insert(workReport);
-		c("work").find(query)
-
-				.forEach((Document doc) -> {
-					c("workReportItem").insertOne(
-							new Document().append("work_id", doc.get("_id")).append("report_id", newWorkReport.get_id())
-									.append("reporter", newWorkReport.getReporter()));
-				});
+		c(WorkReportItem.class).insertMany(into);
 		return listInfo(newWorkReport.get_id()).get(0);
 	}
 

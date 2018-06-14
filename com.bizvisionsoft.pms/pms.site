@@ -41094,22 +41094,7 @@
         ],
         "gridAutoColumnWidth": false,
         "actions": [],
-        "rowActions": [
-          {
-            "id": "163fc2add0e",
-            "name": "编辑日报工作",
-            "text": "编辑",
-            "image": "/img/edit_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyId": "163f7d4d225",
-            "editorAssemblyEditable": true,
-            "objectBehavier": false,
-            "type": "edit"
-          }
-        ],
+        "rowActions": [],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
