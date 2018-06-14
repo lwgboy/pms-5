@@ -41502,6 +41502,7 @@
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
         "actions": [],
+        "rowActions": [],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -41544,7 +41545,7 @@
           {
             "id": "163fa6bd8f4",
             "name": "workRemark",
-            "text": "风险什么的重要活动",
+            "text": "对项目影响或存在风险的重要活动",
             "type": "标签页（文本编辑）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -41560,7 +41561,7 @@
           {
             "id": "163f4a1640c",
             "name": "otherRemark",
-            "text": "其他问题",
+            "text": "其他问题需求",
             "type": "标签页（文本编辑）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -41634,7 +41635,7 @@
           },
           {
             "id": "163f4a16227",
-            "name": "executionInfo",
+            "name": "statement",
             "text": "完成情况",
             "type": "多行文本框",
             "formFields": [],
@@ -41650,7 +41651,7 @@
           },
           {
             "id": "163f4a1640c",
-            "name": "question",
+            "name": "problems",
             "text": "存在的问题",
             "type": "多行文本框",
             "formFields": [],

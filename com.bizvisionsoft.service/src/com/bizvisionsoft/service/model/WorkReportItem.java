@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
@@ -84,4 +85,8 @@ public class WorkReportItem {
 		return "zh";
 	}
 
+	@Label
+	public String toString() {
+		return work.getFullName();
+	}
 }

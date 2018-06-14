@@ -31,7 +31,7 @@ public class AddDailyACT {
 			cal.set(Calendar.HOUR_OF_DAY, 0);
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.SECOND, 0);
-			cal.setTimeInMillis(0);
+			cal.set(Calendar.MILLISECOND, 0);
 			WorkReport report = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
 					.setType(WorkReport.TYPE_DAILY).setPeriod(cal.getTime()).setReportDate(cal.getTime());
