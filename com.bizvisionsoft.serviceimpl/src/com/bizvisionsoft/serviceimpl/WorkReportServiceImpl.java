@@ -58,14 +58,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public WorkReport insert(WorkReport workReport) {
-		// {
-		// "summary" : false,
-		// "distributed" : true,
-		// "stage" : {"$ne" : true},
-		// project_id:ObjectId("5b04d2c17fbf7437fc199880"),
-		// actualStart:{$ne:null},
-		// $or:[{actualFinish:null},{actualFinish:ISODate("2018-06-14T01:14:44.661+0000")}]
-		// }
 		if (c("workReport").count(new Document("project_id", workReport.getProject_id())
 				.append("period", workReport.getPeriod()).append("type", workReport.getType())) > 0) {
 			throw new ServiceException("已经创建报告。");
@@ -73,8 +65,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		Document query = new Document();
 		query.append("summary", false);
-		query.append("distributed", true);
-		query.append("stage", new Document("$ne", true));
 		query.append("project_id", workReport.getProject_id());
 		query.append("actualStart", new Document("$ne", null));
 		query.append("$and",
@@ -88,15 +78,19 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			throw new ServiceException("没有需要填写报告的工作。");
 		}
 		WorkReport newWorkReport = super.insert(workReport);
-		c("work").find(query).forEach((Document doc) -> {
-			c("workReportItem").insertOne(new Document().append("work_id", doc.get("_id"))
-					.append("report_id", newWorkReport.get_id()).append("reporter", newWorkReport.getReporter()));
-		});
+		c("work").find(query)
+
+				.forEach((Document doc) -> {
+					c("workReportItem").insertOne(
+							new Document().append("work_id", doc.get("_id")).append("report_id", newWorkReport.get_id())
+									.append("reporter", newWorkReport.getReporter()));
+				});
 		return listInfo(newWorkReport.get_id()).get(0);
 	}
 
 	@Override
 	public long delete(ObjectId _id) {
+		c("workReportItem").deleteMany(new Document("report_id", _id));
 		return delete(_id, WorkReport.class);
 	}
 
