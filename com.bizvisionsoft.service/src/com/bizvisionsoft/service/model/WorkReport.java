@@ -91,6 +91,10 @@ public class WorkReport {
 	@WriteValue
 	@Persistence
 	private ObjectId project_id;
+	
+	public ObjectId getProject_id() {
+		return project_id;
+	}
 
 	public WorkReport setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
@@ -125,6 +129,10 @@ public class WorkReport {
 	public WorkReport setReporter(String reporter) {
 		this.reporter = reporter;
 		return this;
+	}
+	
+	public String getReporter() {
+		return reporter;
 	}
 
 	@ReadValue

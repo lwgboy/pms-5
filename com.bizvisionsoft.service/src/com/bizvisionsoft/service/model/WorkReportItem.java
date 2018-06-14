@@ -49,7 +49,7 @@ public class WorkReportItem {
 	
 	@ReadValue
 	@WriteValue
-	private String reportUserId;
+	private String reportorId;
 
 	public String getPmRemark() {
 		return pmRemark;
@@ -75,8 +75,8 @@ public class WorkReportItem {
 		return confirmed;
 	}
 	
-	public String getReportUserId() {
-		return reportUserId;
+	public String getReportorId() {
+		return reportorId;
 	}
 
 }

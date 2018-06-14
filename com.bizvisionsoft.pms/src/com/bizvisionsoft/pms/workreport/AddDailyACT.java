@@ -1,9 +1,10 @@
 package com.bizvisionsoft.pms.workreport;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -26,12 +27,21 @@ public class AddDailyACT {
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
 		Selector.open("我的项目选择器", context, null, em -> {
 			String reporter = brui.getCurrentUserId();
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.setTimeInMillis(0);
 			WorkReport report = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
-					.setType(WorkReport.TYPE_DAILY).setPeriod(new Date()).setReportDate(new Date());
-			report = ServicesLoader.get(WorkReportService.class).insert(report);
-			((GridPart) context.getContent()).insert(report);
-			brui.openContent(brui.getAssembly("日报详情"), report);
+					.setType(WorkReport.TYPE_DAILY).setPeriod(cal.getTime()).setReportDate(cal.getTime());
+			try {
+				report = ServicesLoader.get(WorkReportService.class).insert(report);
+				((GridPart) context.getContent()).insert(report);
+				brui.openContent(brui.getAssembly("日报详情"), report);
+			} catch (Exception e) {
+				Layer.message("项目:" + ((Project) em.get(0)).getName() + " " + e.getMessage(), Layer.ICON_CANCEL);
+			}
 
 		});
 

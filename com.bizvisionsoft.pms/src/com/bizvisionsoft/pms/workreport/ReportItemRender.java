@@ -75,7 +75,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 	private String getWorkStatementText(WorkReportItem ri) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div>" + Optional.ofNullable(ri.getStatement()).orElse("") + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportUserId())) {
+		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
 			sb.append("<button class='layui-btn layui-btn-sm layui-btn-primary'>"
 					+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button>");
 		}
