@@ -19,6 +19,7 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReportItem;
 
@@ -37,22 +38,34 @@ public class ReportItemRender extends GridPartDefaultRender {
 		viewer = (GridTreeViewer) context.getContent("viewer");
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
+				WorkReportItem item = (WorkReportItem) e.item.getData();
 				if (e.text.startsWith("editStatement/")) {
-					WorkReportItem data = (WorkReportItem) e.item.getData();
-					String initialValue = data.getStatement();
-					InputDialog id = new InputDialog(brui.getCurrentShell(), "完成情况", "", initialValue, null)
+					String initialValue = item.getStatement();
+					InputDialog id = new InputDialog(brui.getCurrentShell(), "完成情况", "请输入工作完成情况", initialValue, null)
 							.setTextMultiline(true);
-					if (id.open()== InputDialog.OK) {
+					if (id.open() == InputDialog.OK) {
 						System.out.println(id.getValue());
 					}
 				} else if (e.text.startsWith("editProblems/")) {
-					Object data = e.item.getData();
 					System.out.println("editProblems");
-					System.out.println(data);
+					System.out.println(item);
 				} else if (e.text.startsWith("editPMRemark/")) {
-					Object data = e.item.getData();
 					System.out.println("editPMRemark");
-					System.out.println(data);
+					System.out.println(item);
+				} else if (e.text.startsWith("editEstimatedFinish/")) {
+					System.out.println("editEstimatedFinish");
+					System.out.println(item);
+					Date currentEstFinish = item.getEstimatedFinish();
+					DateTimeInputDialog dtid = new DateTimeInputDialog(brui.getCurrentShell(), "预计完成日期",
+							"请输入您估计本工作的预计完成日期", currentEstFinish, d -> {
+								return d != null && d.before(new Date()) ? "请输入合法的日期" : null;
+							});
+					if (dtid.open() == DateTimeInputDialog.OK) {
+						System.out.println(dtid.getValue());
+						// 调服务保存
+						// 刷新行
+					}
+
 				} else if (e.text.split("/").length > 1) {
 				}
 			}
@@ -154,10 +167,19 @@ public class ReportItemRender extends GridPartDefaultRender {
 	private String getWorkPlanText(WorkReportItem ri) {
 		Work work = ri.getWork();
 		StringBuffer sb = new StringBuffer();
+		sb.append("<div style='height:104px;display:block;'>");
+
 		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
-		sb.append("<div>计划: " + formatText(work.getPlanStart()) + " ~ " + formatText(work.getPlanFinish()) + "</div>");
-		sb.append("<div>实际: " + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
-				+ "</div>");
+		sb.append("<div>计划进度：" + formatText(work.getPlanStart()) + " ~ " + formatText(work.getPlanFinish()) + "</div>");
+		sb.append("<div>实际开始：" + formatText(work.getActualStart()) + "</div>");
+		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
+
+		sb.append(
+				"<a href='editEstimatedFinish/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+						+ "预计完成时间" + "</button></a>");
+		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+		}
+		sb.append("</div>");
 		return sb.toString();
 	}
 
