@@ -1219,7 +1219,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "163ff5e398b",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "1628dec0239",
@@ -16709,7 +16724,7 @@
             "name": "默认",
             "minimalDeviceWidth": 0,
             "maximalDeviceWidth": 0,
-            "columnCount": 2,
+            "columnCount": 3,
             "horizontalSpacing": 0,
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
@@ -16731,8 +16746,7 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": -1,
-                "layoutName": "项目基本信息面板"
+                "heightHint": -1
               },
               {
                 "id": "163056fb075",
@@ -16743,8 +16757,19 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "163ff61cdd6",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
                 "heightHint": -1,
-                "layoutName": "项目类别信息面板"
+                "layoutName": ""
               },
               {
                 "id": "1630607a1fb",
@@ -16755,7 +16780,18 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 2,
                 "widthHint": -1,
-                "heightHint": 500
+                "heightHint": -1
+              },
+              {
+                "id": "163df88737f",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
               }
             ]
           }
@@ -16984,8 +17020,8 @@
         ],
         "rowActions": [],
         "borderTop": false,
-        "borderRight": false,
-        "borderBottom": false,
+        "borderRight": true,
+        "borderBottom": true,
         "borderLeft": false,
         "readonly": true,
         "enableGanttCompare": false,
@@ -44213,6 +44249,47 @@
         "ganttGridWidthCalculate": false,
         "ganttGridWidth": 0,
         "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "163ff61cdd6",
+        "name": "项目进展信息（小组件）",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.project.ProjectProgressWidgetASM",
+        "layout": [],
+        "folderId": "163b6fe6dac",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,

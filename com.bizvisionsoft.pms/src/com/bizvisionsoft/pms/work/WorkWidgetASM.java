@@ -63,10 +63,10 @@ public class WorkWidgetASM {
 		content.setBackground(BruiColors.getColor(BruiColor.Grey_200));
 		fd = new FormData();
 		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 12);
-		fd.top = new FormAttachment(bar, 12);
-		fd.right = new FormAttachment(100, -12);
-		fd.bottom = new FormAttachment(100, -12);
+		fd.left = new FormAttachment(0, 8);
+		fd.top = new FormAttachment(bar, 8);
+		fd.right = new FormAttachment(100, -8);
+		fd.bottom = new FormAttachment(100, -8);
 
 		content.setLayout(new FormLayout());
 
