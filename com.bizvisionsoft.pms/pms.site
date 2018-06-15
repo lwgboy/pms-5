@@ -13898,7 +13898,7 @@
             "tooltips": "",
             "image": "/img/task_c.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.EditProject",
+            "className": "com.bizvisionsoft.pms.project.action.EditProjectInfo",
             "openContent": false,
             "propagate": false,
             "forceText": false,

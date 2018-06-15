@@ -39,7 +39,7 @@ public class AddDailyACT {
 			try {
 				report = ServicesLoader.get(WorkReportService.class).insert(report);
 				((GridPart) context.getContent()).insert(report);
-				brui.openContent(brui.getAssembly("日报详情"), report);
+				brui.openContent(brui.getAssembly("报告详情"), report);
 			} catch (Exception e) {
 				Layer.message("项目:" + ((Project) em.get(0)).getName() + " " + e.getMessage(), Layer.ICON_CANCEL);
 			}
