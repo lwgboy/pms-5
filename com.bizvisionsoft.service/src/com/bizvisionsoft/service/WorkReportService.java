@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkResourceAssignment;
@@ -112,7 +113,7 @@ public interface WorkReportService {
 	@Path("/_id/{_id}/item/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报-工作/" + DataSet.LIST, "周报-工作/" + DataSet.LIST, "月报-工作/" + DataSet.LIST })
+	@DataSet({ "报告-工作/" + DataSet.LIST })
 	public List<WorkReportItem> listReportItem(
 			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
@@ -120,7 +121,7 @@ public interface WorkReportService {
 	@Path("/_id/{_id}/item/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报-工作/" + DataSet.COUNT, "周报-工作/" + DataSet.COUNT, "月报-工作/" + DataSet.COUNT })
+	@DataSet({ "报告-工作/" + DataSet.COUNT })
 	public long countReportItem(
 			@ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
@@ -156,4 +157,16 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment);
+
+	@POST
+	@Path("/submitworkreport")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> submitWorkReport(List<ObjectId> workReportIds);
+
+	@POST
+	@Path("/confirmworkreport/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> confirmWorkReport(List<ObjectId> workReportIds, @PathParam("userId") String userId);
 }

@@ -23,7 +23,9 @@ import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
 import com.mongodb.BasicDBObject;
 
@@ -76,6 +78,17 @@ public class ReportItemRender extends GridPartDefaultRender {
 						item.setPmRemark(id.getValue());
 						viewer.refresh();
 					}
+				} else if (e.text.startsWith("editResourceActual/")) {
+					ResourceAssignment resourceAssignment = null;
+					Work work = ((WorkReportItem) item).getWork();
+					WorkReport workReport = (WorkReport) context.getInput();
+					resourceAssignment = new ResourceAssignment().setWork_id(work.get_id());
+					// TODO 根据类型输入不同的from和to
+					resourceAssignment.from = workReport.getPeriodForm();
+					resourceAssignment.to = workReport.getPeriodTo();
+
+					brui.openContent(brui.getAssembly("编辑资源用量"), resourceAssignment);
+
 				} else if (e.text.startsWith("editEstimatedFinish/")) {
 					Date currentEstFinish = item.getEstimatedFinish();
 					DateTimeInputDialog dtid = new DateTimeInputDialog(brui.getCurrentShell(), "预计完成日期",
@@ -199,7 +212,9 @@ public class ReportItemRender extends GridPartDefaultRender {
 		sb.append("<div>实际进度：" + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
 				+ "</div>");
 		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
-
+		sb.append(
+				"<a href='editResourceActual/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:90px;'>"
+						+ "报告资源用量" + "</button></a>");
 		sb.append(
 				"<a href='editEstimatedFinish/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 						+ "预计完成时间" + "</button></a>");

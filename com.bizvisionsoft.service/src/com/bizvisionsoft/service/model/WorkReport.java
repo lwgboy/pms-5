@@ -10,8 +10,10 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("workReport")
@@ -46,7 +48,7 @@ public class WorkReport {
 		if (TYPE_DAILY.equals(type)) {
 			return new SimpleDateFormat("yyyy年MM月dd日").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
-			return new SimpleDateFormat("yyyy年MM月 第W").format(period)+"周" ;
+			return new SimpleDateFormat("yyyy年MM月 第W").format(period) + "周";
 		} else if (TYPE_MONTHLY.equals(type)) {
 			return new SimpleDateFormat("yyyy年MM月").format(period);
 		}
@@ -153,7 +155,7 @@ public class WorkReport {
 	private String verifierInfo;
 
 	@ReadValue
-	@Persistence
+	@SetValue
 	private String verifyDate;
 
 	@ReadValue
@@ -165,6 +167,23 @@ public class WorkReport {
 	@WriteValue
 	@Persistence
 	private String otherRemark;
+
+	@SetValue
+	private String pmId;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String status;
+
+	@Exclude
+	public static String STATUS_CREATE = "创建";
+
+	@Exclude
+	public static String STATUS_SUBMIT = "提交";
+
+	@Exclude
+	public static String STATUS_CONFIRM = "确认";
 
 	@Label
 	public String getLabel() {
@@ -207,18 +226,43 @@ public class WorkReport {
 	}
 
 	public Date getPeriodForm() {
-		// TODO 缺少其它类型的返回
-		if (TYPE_DAILY.equals(type)) {
-			return period;
-		}
-		return null;
+		return period;
 	}
 
 	public Date getPeriodTo() {
 		// TODO 缺少其它类型的返回
+		Calendar cal = Calendar.getInstance();
 		if (TYPE_DAILY.equals(type)) {
 			return period;
+		} else if (TYPE_WEEKLY.equals(type)) {
+			cal.setTime(period);
+			cal.add(Calendar.DAY_OF_MONTH, 7);
+			return cal.getTime();
+		} else if (TYPE_MONTHLY.equals(type)) {
+			cal.setTime(period);
+			cal.add(Calendar.MONTH, 1);
+			return cal.getTime();
 		}
 		return null;
 	}
+
+	@Behavior({ "删除报告", "编辑报告", "提交报告" })
+	private boolean behaviourEdit() {
+		return STATUS_CREATE.equals(status);
+	}
+
+	@Behavior("确认报告")
+	private boolean behaviourConfirm(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userid) {
+		return STATUS_SUBMIT.equals(status) && userid.equals(pmId);
+	}
+
+	public WorkReport setStatus(String status) {
+		this.status = status;
+		return this;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
 }

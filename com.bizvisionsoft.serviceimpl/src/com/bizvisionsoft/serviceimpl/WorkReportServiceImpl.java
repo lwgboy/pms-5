@@ -11,6 +11,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkResourceAssignment;
@@ -19,6 +20,7 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.UpdateResult;
 
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
@@ -186,7 +188,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		WorkReport newWorkReport = super.insert(workReport);
 
-		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询工作报告-日报工作")
+		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询工作报告-工作1")
 				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
 				.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
@@ -216,7 +218,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReportItem> listReportItem(ObjectId report_id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告-工作").set("report_id", report_id).array();
+		List<? extends Bson> pipeline = new JQ("查询工作报告-报告工作").set("report_id", report_id).array();
 		return c(WorkReportItem.class).aggregate(pipeline).into(new ArrayList<WorkReportItem>());
 	}
 
@@ -263,6 +265,47 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public WorkReport getWorkReport(ObjectId _id) {
 		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", new Document("_id", _id)).array()).first();
+	}
+
+	@Override
+	public List<Result> submitWorkReport(List<ObjectId> workReportIds) {
+		List<Result> result = submitWorkReportCheck(workReportIds);
+
+		UpdateResult ur = c(WorkReport.class).updateMany(new Document("_id", new Document("$in", workReportIds)),
+				new Document("$set",
+						new Document("submitDate", new Date()).append("status", WorkReport.STATUS_SUBMIT)));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足提交条件的报告。"));
+			return result;
+		}
+
+		return result;
+	}
+
+	private List<Result> submitWorkReportCheck(List<ObjectId> workReportIds) {
+		// TODO 检查是否可以进行提交
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> confirmWorkReport(List<ObjectId> workReportIds, String userId) {
+		List<Result> result = confirmWorkReportCheck(workReportIds);
+
+		UpdateResult ur = c(WorkReport.class).updateMany(new Document("_id", new Document("$in", workReportIds)),
+				new Document("$set", new Document("verifyDate", new Date()).append("status", WorkReport.STATUS_CONFIRM)
+						.append("verifier", userId)));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的报告。"));
+			return result;
+		}
+		ur = c(WorkReportItem.class).updateMany(new Document("report_id", new Document("$in", workReportIds)),
+				new Document("$set", new Document("confirmed", true)));
+		return result;
+	}
+
+	private List<Result> confirmWorkReportCheck(List<ObjectId> workReportIds) {
+		// TODO 检查是否可以进行确认
+		return new ArrayList<Result>();
 	}
 
 }
