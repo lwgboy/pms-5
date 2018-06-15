@@ -46,6 +46,26 @@ import com.mongodb.BasicDBObject;
 @PersistenceCollection("project")
 public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
+	/**
+	 * 控制项目计划是否可以下达，根据项目状态判断
+	 * 
+	 * @return
+	 */
+	@Behavior("下达计划")
+	private boolean enableDistribute() {
+		return ProjectStatus.Processing.equals(status);
+	}
+
+	// @Behavior("我的项目/编辑项目") // 控制action
+	// private boolean enableEdit() {
+	// return true;// TODO 考虑权限
+	// }
+	//
+	// @Behavior("我的项目/删除项目") // 控制action
+	// private boolean enableDelete() {
+	// return true;// TODO 考虑权限
+	// }
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 标识属性
 	/**
@@ -500,21 +520,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private long countProjectBoardInfo() {
 		return 1;
 	}
-
-	@Behavior("EPS浏览/打开") // 控制action
-	private boolean enableOpen() {
-		return true;// TODO 考虑权限
-	}
-
-	// @Behavior("我的项目/编辑项目") // 控制action
-	// private boolean enableEdit() {
-	// return true;// TODO 考虑权限
-	// }
-	//
-	// @Behavior("我的项目/删除项目") // 控制action
-	// private boolean enableDelete() {
-	// return true;// TODO 考虑权限
-	// }
 
 	@Persistence
 	private CreationInfo creationInfo;

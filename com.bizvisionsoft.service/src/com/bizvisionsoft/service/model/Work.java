@@ -298,7 +298,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Label(Label.NAME_LABEL)
 	private String text;
 
-	@ReadValue("进度计划和监控/name")
+	@ReadValue({ "进度计划和监控/name", "进度计划/name" })
 	private String getWorkNameHTML() {
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
@@ -540,7 +540,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return null;
 	}
 
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -694,7 +693,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 
-	@ReadValue("进度计划和监控/chargerInfoWithDistributeIcon")
+	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划/chargerInfoWithDistributeIcon" })
 	private String getChargerInfoWithIcon() {
 		if (chargerId == null) {
 			return "";
@@ -752,6 +751,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return workPackageSetting;
 	}
 
+	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
+		this.workPackageSetting = workPackageSetting;
+	}
+
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -764,12 +767,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure("进度计划和监控/list")
+	@Structure({ "进度计划和监控/list", "进度计划/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure("进度计划和监控/count")
+	@Structure({ "进度计划和监控/count", "进度计划/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
@@ -992,7 +995,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return actualStart != null;
 	}
 
-	@Behavior("打开工作包")
+	@Behavior({ "打开工作包", "设置工作包" })
 	private boolean behaviourOpenWorkPackage() {
 		return !summary && !stage;
 	}
@@ -1051,8 +1054,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	private String packageName;
 
-	@ReadValue("我的工作/workpackageHtml")
+	@ReadValue({ "我的工作/workpackageHtml", "进度计划/workpackageHtml" })
 	public String getWorkPackageActionHtml() {
+		if (summary) {
+			return "";
+		}
+
 		StringBuffer sb = new StringBuffer();
 		List<TrackView> wps = getWorkPackageSetting();
 		sb.append("<div style='display: inline-flex;" + "    justify-content: space-between;" + "    width: 100%;'>");

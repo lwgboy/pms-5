@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class EditProject {
+public class EditProjectInfo {
 
 	@Inject
 	private IBruiService bruiService;
