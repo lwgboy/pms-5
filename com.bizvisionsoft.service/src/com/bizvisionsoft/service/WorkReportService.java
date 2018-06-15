@@ -75,17 +75,135 @@ public interface WorkReportService {
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
+	@Path("/userid/{userid}/daily/project/{project_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目日报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportProjectDailyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/daily/project/{project_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目日报/" + DataSet.COUNT })
+	public long countWorkReportProjectDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/weekly/project/{project_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目周报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportProjectWeeklyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/weekly/project/{project_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目周报/" + DataSet.COUNT })
+	public long countWorkReportProjectWeeklyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/monthly/project/{project_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目月报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportProjectMonthlyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/monthly/project/{project_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目月报/" + DataSet.COUNT })
+	public long countWorkReportProjectMonthlyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/userid/{userid}/daily/stage/{stage_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段日报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportStageDailyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
+	@Path("/userid/{userid}/daily/stage/{stage_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段日报/" + DataSet.COUNT })
+	public long countWorkReportStageDailyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
+	@Path("/userid/{userid}/weekly/stage/{stage_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段周报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportStageWeeklyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
+	@Path("/userid/{userid}/weekly/stage/{stage_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段周报/" + DataSet.COUNT })
+	public long countWorkReportStageWeeklyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
+	@Path("/userid/{userid}/monthly/stage/{stage_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段月报/" + DataSet.LIST })
+	public List<WorkReport> createWorkReportStageMonthlyDataSet(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
+	@Path("/userid/{userid}/monthly/stage/{stage_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "阶段月报/" + DataSet.COUNT })
+	public long countWorkReportStageMonthlyDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
+
+	@POST
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.INSERT, "周报/" + DataSet.INSERT, "月报/" + DataSet.INSERT })
+	@DataSet({ "日报/" + DataSet.INSERT, "周报/" + DataSet.INSERT, "月报/" + DataSet.INSERT, "项目日报/" + DataSet.INSERT,
+			"项目周报/" + DataSet.INSERT, "项目月报/" + DataSet.INSERT, "阶段日报/" + DataSet.INSERT, "阶段周报/" + DataSet.INSERT,
+			"阶段月报/" + DataSet.INSERT })
 	public WorkReport insert(WorkReport workReport);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.DELETE, "周报/" + DataSet.DELETE, "月报/" + DataSet.DELETE })
+	@DataSet({ "日报/" + DataSet.DELETE, "周报/" + DataSet.DELETE, "月报/" + DataSet.DELETE, "项目日报/" + DataSet.DELETE,
+			"项目周报/" + DataSet.DELETE, "项目月报/" + DataSet.DELETE, "阶段日报/" + DataSet.DELETE, "阶段周报/" + DataSet.DELETE,
+			"阶段月报/" + DataSet.DELETE })
 	public long delete(@ServiceParam(ServiceParam._ID) @PathParam("_id") ObjectId _id);
 
 	@GET
@@ -106,7 +224,9 @@ public interface WorkReportService {
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("日报/" + DataSet.UPDATE)
+	@DataSet({ "日报/" + DataSet.UPDATE, "周报/" + DataSet.UPDATE, "月报/" + DataSet.UPDATE, "项目日报/" + DataSet.UPDATE,
+			"项目周报/" + DataSet.UPDATE, "项目月报/" + DataSet.UPDATE, "阶段日报/" + DataSet.UPDATE, "阶段周报/" + DataSet.UPDATE,
+			"阶段月报/" + DataSet.UPDATE })
 	public long update(BasicDBObject filterAndUpdate);
 
 	@POST

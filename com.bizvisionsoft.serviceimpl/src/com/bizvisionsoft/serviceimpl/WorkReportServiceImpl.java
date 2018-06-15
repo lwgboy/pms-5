@@ -25,10 +25,8 @@ import com.mongodb.client.result.UpdateResult;
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public List<WorkReport> createWorkReportDailyDataSet(BasicDBObject condition, String userid) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
-				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)).array();
+	private List<WorkReport> query(BasicDBObject condition, Document match) {
+		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告").set("match", match).array();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
@@ -47,6 +45,12 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			pipeline.add(Aggregates.limit(limit));
 
 		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportDailyDataSet(BasicDBObject condition, String userid) {
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY);
+		return query(condition, match);
 	}
 
 	@Override
@@ -60,29 +64,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		return count(filter, WorkReport.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<WorkReport> createWorkReportWeeklyDataSet(BasicDBObject condition, String userid) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
-				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)).array();
-
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		Integer skip = (Integer) condition.get("skip");
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		Integer limit = (Integer) condition.get("limit");
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY);
+		return query(condition, match);
 	}
 
 	@Override
@@ -96,29 +81,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		return count(filter, WorkReport.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<WorkReport> createWorkReportMonthlyDataSet(BasicDBObject condition, String userid) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告")
-				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)).array();
-
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		Integer skip = (Integer) condition.get("skip");
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		Integer limit = (Integer) condition.get("limit");
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY);
+		return query(condition, match);
 	}
 
 	@Override
@@ -128,6 +94,129 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		filter.put("reporter", userid);
 
+		filter.put("type", WorkReport.TYPE_MONTHLY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportProjectDailyDataSet(BasicDBObject condition, String userid,
+			ObjectId project_id) {
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportProjectDailyDataSet(BasicDBObject filter, String userid, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
+		filter.put("type", WorkReport.TYPE_DAILY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportProjectWeeklyDataSet(BasicDBObject condition, String userid,
+			ObjectId project_id) {
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportProjectWeeklyDataSet(BasicDBObject filter, String userid, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
+		filter.put("type", WorkReport.TYPE_WEEKLY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportProjectMonthlyDataSet(BasicDBObject condition, String userid,
+			ObjectId project_id) {
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportProjectMonthlyDataSet(BasicDBObject filter, String userid, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
+		filter.put("type", WorkReport.TYPE_MONTHLY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportStageDailyDataSet(BasicDBObject condition, String userid,
+			ObjectId stage_id) {
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportStageDailyDataSet(BasicDBObject filter, String userid, ObjectId stage_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
+		filter.put("type", WorkReport.TYPE_DAILY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportStageWeeklyDataSet(BasicDBObject condition, String userid,
+			ObjectId stage_id) {
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportStageWeeklyDataSet(BasicDBObject filter, String userid, ObjectId stage_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
+		filter.put("type", WorkReport.TYPE_WEEKLY);
+		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createWorkReportStageMonthlyDataSet(BasicDBObject condition, String userid,
+			ObjectId stage_id) {
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY).append("project_id",
+				project_id);
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportStageMonthlyDataSet(BasicDBObject filter, String userid, ObjectId stage_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
+		filter.put("reporter", userid);
+		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_MONTHLY);
 		return count(filter, WorkReport.class);
 	}
@@ -264,7 +353,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public WorkReport getWorkReport(ObjectId _id) {
-		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", new Document("_id", _id)).array()).first();
+		Document match = new Document("_id", _id);
+		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", match).array()).first();
 	}
 
 	@Override
