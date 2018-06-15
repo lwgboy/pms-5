@@ -3346,14 +3346,14 @@
           },
           {
             "id": "16401fd4854",
-            "name": "阶段报告",
+            "name": "项目报告",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "children": [
               {
                 "id": "16401fd591a",
-                "name": "阶段日报",
+                "name": "项目日报",
                 "switchContentToAssemblyId": "16401ed04d3",
                 "openContent": false,
                 "propagate": false,
@@ -3364,7 +3364,7 @@
               },
               {
                 "id": "16401fd5fa5",
-                "name": "阶段周报",
+                "name": "项目周报",
                 "switchContentToAssemblyId": "16401ed4b56",
                 "openContent": false,
                 "propagate": false,
@@ -3375,7 +3375,7 @@
               },
               {
                 "id": "16401fd64fc",
-                "name": "阶段月报",
+                "name": "项目月报",
                 "switchContentToAssemblyId": "16401ed898f",
                 "openContent": false,
                 "propagate": false,
@@ -3713,14 +3713,14 @@
           },
           {
             "id": "16401fecd4e",
-            "name": "阶段报告",
+            "name": "项目报告",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "children": [
               {
                 "id": "16401fed545",
-                "name": "阶段日报",
+                "name": "项目日报",
                 "switchContentToAssemblyId": "16401ed04d3",
                 "openContent": false,
                 "propagate": false,
@@ -3731,7 +3731,7 @@
               },
               {
                 "id": "16401fedaac",
-                "name": "阶段周报",
+                "name": "项目周报",
                 "switchContentToAssemblyId": "16401ed4b56",
                 "openContent": false,
                 "propagate": false,
@@ -3742,7 +3742,7 @@
               },
               {
                 "id": "16401fee1d9",
-                "name": "阶段月报",
+                "name": "项目月报",
                 "switchContentToAssemblyId": "16401ed898f",
                 "openContent": false,
                 "propagate": false,
@@ -44236,7 +44236,7 @@
         "name": "阶段日报",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "阶段日报",
+        "stickerTitle": "项目日报",
         "folderId": "16401ec83fd",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
@@ -44464,7 +44464,7 @@
         "name": "阶段周报",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "阶段周报",
+        "stickerTitle": "项目周报",
         "folderId": "16401ec8fa3",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
@@ -44692,7 +44692,7 @@
         "name": "阶段月报",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "阶段月报",
+        "stickerTitle": "项目月报",
         "folderId": "16401ec96e0",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
@@ -44914,7 +44914,8 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false
-      }, {
+      },
+      {
         "id": "163ff61cdd6",
         "name": "项目进展信息（小组件）",
         "bundleId": "com.bizvisionsoft.pms",
