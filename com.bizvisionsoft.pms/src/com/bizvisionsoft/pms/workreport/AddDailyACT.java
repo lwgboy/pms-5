@@ -34,7 +34,8 @@ public class AddDailyACT {
 			cal.set(Calendar.MILLISECOND, 0);
 			WorkReport report = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
-					.setType(WorkReport.TYPE_DAILY).setPeriod(cal.getTime()).setReportDate(cal.getTime());
+					.setType(WorkReport.TYPE_DAILY).setPeriod(cal.getTime()).setReportDate(cal.getTime())
+					.setStatus(WorkReport.STATUS_CREATE);
 			try {
 				report = ServicesLoader.get(WorkReportService.class).insert(report);
 				((GridPart) context.getContent()).insert(report);

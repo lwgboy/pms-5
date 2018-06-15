@@ -71,7 +71,8 @@
                     "$user2.userId", 
                     "]"
                 ]
-            }
+            },
+            "pmId" : "$project.pmId"
         }
     }, 
     { 
