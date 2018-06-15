@@ -8161,7 +8161,7 @@
             "forceText": true,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
@@ -32181,7 +32181,7 @@
             "forceText": true,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           }
         ],
