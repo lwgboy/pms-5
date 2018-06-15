@@ -2,13 +2,17 @@ package com.bizvisionsoft.pms.project;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import com.bizivisionsoft.widgets.tools.WidgetHandler;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
@@ -18,13 +22,17 @@ import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ProjectProgressWidgetASM {
-	
+
 	@Inject
 	private IBruiService brui;
 
@@ -37,7 +45,7 @@ public class ProjectProgressWidgetASM {
 	private void init() {
 		project = context.getRootInput(Project.class, false);
 	}
-	
+
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setHtmlAttribute("class", "brui_borderRight brui_borderBottom");
@@ -45,7 +53,7 @@ public class ProjectProgressWidgetASM {
 		parent.setLayout(new FormLayout());
 
 		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("进展摘要");
-				
+
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
@@ -54,38 +62,104 @@ public class ProjectProgressWidgetASM {
 		fd.height = 48;
 
 		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-//		content.setBackground(BruiColors.getColor(BruiColor));
 		fd = new FormData();
 		content.setLayoutData(fd);
 		fd.left = new FormAttachment(0, 8);
 		fd.top = new FormAttachment(bar, 8);
 		fd.right = new FormAttachment(100, -8);
 		fd.bottom = new FormAttachment(100, -8);
-		
-		FillLayout layout = new FillLayout();
-		content.setLayout(layout);
-		layout.marginHeight = 24;
-		layout.marginWidth = 24;
-		Composite info = new Composite(content,SWT.NONE);
-		UserSession.bruiToolkit().enableMarkup(info);
-		WidgetHandler.getHandler(info).setHtmlContent(getInfoHtml());
-		
-	}
-	
-	private String getInfoHtml() {
-		StringBuffer sb = new StringBuffer();
 
-		// 如果项目有阶段，显示阶段状态。
+		FormLayout layout = new FormLayout();
+		content.setLayout(layout);
+		layout.marginHeight = 16;
+		layout.marginWidth = 16;
+		layout.spacing = 16;
+
+		Composite stage = null;
+
 		if (project.isStageEnable()) {
-			// height += 46;
-			sb.append(getProjectStageInfo());
+			stage = createStagePanel(content);
+			fd = new FormData();
+			stage.setLayoutData(fd);
+			fd.right = new FormAttachment(100);
+			fd.height = 38;
+			fd.left = new FormAttachment();
+			fd.top = new FormAttachment();
+		}
+		Composite info = new Composite(content, SWT.NONE);
+		WidgetHandler.getHandler(info).setHtmlContent(getInfoHtml());
+
+		Composite ind = new Composite(content, SWT.NONE);
+		WidgetHandler.getHandler(ind).setHtmlContent(getIndicatorsHtml());
+
+		fd = new FormData();
+		info.setLayoutData(fd);
+		fd.right = new FormAttachment(100);
+		fd.bottom = new FormAttachment(ind);
+		if (stage != null) {
+			fd.top = new FormAttachment(stage);
+		} else {
+			fd.top = new FormAttachment();
+		}
+		fd.left = new FormAttachment();
+		
+		fd = new FormData();
+		ind.setLayoutData(fd);
+		fd.left = new FormAttachment();
+		fd.right = new FormAttachment(100);
+		fd.bottom = new FormAttachment(100);
+		fd.height = 48;
+	}
+
+	private Composite createStagePanel(Composite content) {
+		Composite panel = new Composite(content, SWT.NONE);
+		panel.setLayout(new FillLayout());
+
+		List<Work> stage = Services.get(ProjectService.class).listStage(project.get_id());
+		for (int i = 0; i < stage.size(); i++) {
+			Button b = new Button(panel, SWT.PUSH);
+			final Work work = stage.get(i);
+			b.setText(work.getText());
+			if (i == 0) {
+				b.setData(RWT.CUSTOM_VARIANT, "segmentleft");
+			} else if (i == stage.size() - 1) {
+				b.setData(RWT.CUSTOM_VARIANT, "segmentright");
+			} else {
+				b.setData(RWT.CUSTOM_VARIANT, "segment");
+			}
+
+			if (work.getStartOn() != null && work.getFinishOn() != null) {
+				b.setBackground(BruiColors.getColor(BruiColor.Teal_500));
+				b.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+			} else if (work.getStartOn() != null && work.getFinishOn() == null) {
+				b.setBackground(BruiColors.getColor(BruiColor.light_blue_500));
+				b.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+			}
+			b.addListener(SWT.Selection, e -> openStage(work));
 		}
 
+		return panel;
+	}
+
+	private void openStage(Work work) {
+		if (ProjectStatus.Created.equals(work.getStatus())) {
+			brui.switchPage("阶段首页（启动）", work.get_id().toHexString());
+		} else if (ProjectStatus.Processing.equals(work.getStatus())) {
+			brui.switchPage("阶段首页（执行）", work.get_id().toHexString());
+		} else if (ProjectStatus.Closing.equals(work.getStatus())) {
+			brui.switchPage("阶段首页（收尾）", work.get_id().toHexString());
+		} else if (ProjectStatus.Closed.equals(work.getStatus())) {
+			brui.switchPage("阶段首页（关闭）", work.get_id().toHexString());
+		}
+	}
+
+	private String getInfoHtml() {
+		StringBuffer sb = new StringBuffer();
 		// 添加项目时间线
 		List<News> news = Services.get(ProjectService.class).getRecentNews(project.get_id(), 5);
 		if (news.size() > 0) {
 			// height += 24;
-			sb.append("<ul class='layui-timeline' style='margin-top:12px;'>");
+			sb.append("<ul class='layui-timeline' style='margin-left:12px;'>");
 			for (int i = 0; i < news.size(); i++) {
 				sb.append("<li class='layui-timeline-item' style='padding-bottom:8px;'>");
 				sb.append("<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>");
@@ -99,59 +173,43 @@ public class ProjectProgressWidgetASM {
 			sb.append("</ul>");
 		}
 
-		// 添加指标
 
-		sb.append(
-				"<div style='width:100%;display:inline-flex;justify-content:center;margin-top:12px;'>");
-
-		Object sar = project.getSAR();
-		if (sar != null) {
-			sb.append(
-					"<div class='brui_indicator normal' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(sar));
-			sb.append("<br/>进度完成率</div>");
-		}
-
-		Object war = project.getWAR();
-		if (war != null) {
-			sb.append(
-					"<div class='brui_indicator info' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(war));
-			sb.append("<br/>工作量完成率</div>");
-		}
-
-		Object dar = project.getDAR();
-		if (dar != null) {
-			sb.append(
-					"<div class='brui_indicator warning' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(dar));
-			sb.append("<br/>工期完成率</div>");
-		}
-
-		sb.append("</div>");
-
-		// gridItem.setHeight(height);
 		return sb.toString();
 	}
 
-	private String getProjectStageInfo() {
-		StringBuffer text = new StringBuffer();
-		text.append("<div class='layui-btn-group' "
-				+ "style='width: 100%;display:inline-flex;justify-content:space-between;'>");
-		Services.get(ProjectService.class).listStage(project.get_id()).forEach(work -> {
-			String style;
-			if (work.getStartOn() != null && work.getFinishOn() != null) {
-				style = "layui-btn layui-btn-sm";
-			} else if (work.getStartOn() != null && work.getFinishOn() == null) {
-				style = "layui-btn layui-btn-normal layui-btn-sm";
-			} else {
-				style = "layui-btn layui-btn-primary layui-btn-sm";
-			}
-			text.append("<a class='" + style + "' style='flex:auto;' href='openStage/" + work.getId()
-					+ "' target='_rwt'>" + work.getText() + "</a>");
-		});
-		text.append("</div>");
-		return text.toString();
+	private String getIndicatorsHtml() {
+		// 添加指标
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div style='width:100%;display:inline-flex;justify-content:space-around;'>");
+
+		String ind = Optional.ofNullable(project.getWAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>工作执行</div></div>");
+
+		ind = Optional.ofNullable(project.getDAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>工期完成</div></div>");
+		
+		ind = Optional.ofNullable(project.getSAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>进度完成</div></div>");
+
+		ind = Optional.ofNullable(project.getCAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>成本执行</div></div>");
+
+		ind = Optional.ofNullable(project.getBDR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>预算偏差</div></div>");
+
+		sb.append("</div>");
+		return sb.toString();
 	}
+
 
 }

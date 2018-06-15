@@ -1676,7 +1676,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "1640180035b",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "162fff3b5e3",
@@ -1854,7 +1869,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "16401806691",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "9628dec0239",
@@ -2307,7 +2337,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "16401809975",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "9928dec0239",
