@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.project;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -156,31 +157,33 @@ public class ProjectBoardRender {
 		// TODO 计算指标
 
 		sb.append(
-				"<div style='margin-top:0px;width: 100%;display:inline-flex;justify-content:center;padding-right: 36px;'>");
+				"<div style='margin-top:0px;width: 100%;display:inline-flex;justify-content:space-between;padding-right: 36px;'>");
 
-		Object sar = pj.getSAR();
-		if (sar != null) {
-			sb.append(
-					"<div class='brui_indicator normal' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(sar));
-			sb.append("<br/>进度完成率</div>");
-		}
+		String ind = Optional.ofNullable(pj.getWAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>工作执行</div></div>");
 
-		Object war = pj.getWAR();
-		if (war != null) {
-			sb.append(
-					"<div class='brui_indicator info' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(war));
-			sb.append("<br/>工作量完成率</div>");
-		}
+		ind = Optional.ofNullable(pj.getDAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>工期完成</div></div>");
+		
+		ind = Optional.ofNullable(pj.getSAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>进度完成</div></div>");
+		
+		ind = Optional.ofNullable(pj.getCAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>成本执行</div></div>");
 
-		Object dar = pj.getDAR();
-		if (dar != null) {
-			sb.append(
-					"<div class='brui_indicator warning' style='font-size:16px;font-weight:lighter;flex:auto;flex-basis:33%;margin:0px 8px;'>");
-			sb.append(new DecimalFormat("#0.0%").format(dar));
-			sb.append("<br/>工期完成率</div>");
-		}
+		ind = Optional.ofNullable(pj.getBDR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
+		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
+		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>预算偏差</div></div>");
+
 
 		sb.append("</div>");
 

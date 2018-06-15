@@ -765,7 +765,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@ReadValue("car")
-	public Object getCAR() {
+	public Double getCAR() {
 		if (getActualFinish() != null) {
 			return 1d;
 		}
@@ -774,16 +774,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (budget != null && budget != 0) {
 			return getCost() / budget;
 		}
-		return "--";
+		return null;
 	}
 
 	@ReadValue("bdr")
-	public Object getBDR() {
+	public Double getBDR() {
 		Double budget = getBudget();
 		if (budget != null && budget != 0) {
 			return (getCost() - budget) / budget;
 		}
-		return "--";
+		return null;
 	}
 
 	@SetValue

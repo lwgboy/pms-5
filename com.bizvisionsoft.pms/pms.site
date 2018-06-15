@@ -1762,7 +1762,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "1640180035b",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "162fff3b5e3",
@@ -1940,7 +1955,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "16401806691",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "9628dec0239",
@@ -2438,7 +2468,22 @@
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
-        "toolbarItems": [],
+        "toolbarItems": [
+          {
+            "id": "16401809975",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "sidebarItems": [
           {
             "id": "9928dec0239",
@@ -44864,6 +44909,46 @@
         "ganttGridWidth": 0,
         "hasTitlebar": true,
         "displayInputLabelInTitlebar": true,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false
+      }, {
+        "id": "163ff61cdd6",
+        "name": "项目进展信息（小组件）",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.project.ProjectProgressWidgetASM",
+        "layout": [],
+        "folderId": "163b6fe6dac",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
