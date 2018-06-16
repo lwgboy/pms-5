@@ -100,7 +100,7 @@ public class ResourcePlanASM {
 				openResourceConflict((ResourcePlan) l.item.getData());
 			}
 		});
-		Layer.message("提示：您可以双击叶子任务选择要添加的资源。");
+		Layer.message("提示： 您可以双击叶子任务选择要添加的资源。");
 	}
 
 	private void openResourceConflict(ResourcePlan rp) {

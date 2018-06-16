@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 
-@PersistenceCollection(value = "user")
+@PersistenceCollection("user")
 public class User implements IResourceAssignment {
 
 	@Persistence
@@ -94,6 +94,14 @@ public class User implements IResourceAssignment {
 	@ReadValue
 	@WriteValue
 	private ObjectId resourceType_id;
+
+	@WriteValue
+	@ReadValue
+	private boolean admin;
+
+	@WriteValue
+	@ReadValue
+	private boolean buzAdmin;
 
 	public String getUserId() {
 		return userId;
@@ -177,6 +185,14 @@ public class User implements IResourceAssignment {
 
 	public ObjectId getResourceType_id() {
 		return resourceType_id;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public boolean isBuzAdmin() {
+		return buzAdmin;
 	}
 
 }
