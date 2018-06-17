@@ -642,8 +642,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				new Document("$sort", new Document("id", 1)));
 
 		List<String> data1 = new ArrayList<String>();
-		data1.add("预算 合计");
-		data1.add("成本 合计");
 
 		List<Document> budgetData2 = new ArrayList<Document>();
 		List<Document> costData2 = new ArrayList<Document>();
@@ -779,25 +777,37 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		});
 
 		List<Document> data2 = new ArrayList<Document>();
+		data2.addAll(budgetData2);
 		Document budgetDoc = new Document();
 		data2.add(budgetDoc);
 		budgetDoc.append("name", "预算 合计");
 		budgetDoc.append("type", "bar");
-//		budgetDoc.append("stack", "预算");
-//		budgetDoc.append("barGap", "-50%");
-		budgetDoc.append("label", new Document("normal", new Document("show", true).append("position", "top")));
-		budgetDoc.append("data", totalBudgets.values());
-		data2.addAll(budgetData2);
+		budgetDoc.append("stack", "预算");
+		budgetDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
+				.append("textStyle", new Document("color", "#000"))));
+		budgetDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
+		List<String> budgetData = new ArrayList<String>();
+		for (int i = 1; i < 13; i++) {
+			budgetData.add(getStringValue(totalBudgets.get(year + String.format("%02d", i))));
+		}
 
+		budgetDoc.append("data", budgetData);
+
+		data2.addAll(costData2);
 		Document costDoc = new Document();
 		data2.add(costDoc);
 		costDoc.append("name", "成本 合计");
 		costDoc.append("type", "bar");
-//		costDoc.append("stack", "成本");
-//		costDoc.append("barGap", "-50%");
-		costDoc.append("label", new Document("normal", new Document("show", true).append("position", "top")));
-		costDoc.append("data", totalCosts.values());
-		data2.addAll(costData2);
+		costDoc.append("stack", "成本");
+		costDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
+				.append("textStyle", new Document("color", "#000"))));
+		costDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
+
+		List<String> costData = new ArrayList<String>();
+		for (int i = 1; i < 13; i++) {
+			costData.add(getStringValue(totalCosts.get(year + String.format("%02d", i))));
+		}
+		costDoc.append("data", costData);
 
 		return getBarChart(year + "年 各月项目预算和成本分析（万元）", data1, data2);
 	}
