@@ -211,6 +211,14 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public Map<String, String> getDictionaryIdNamePair(String type) {
+		Map<String, String> result = new HashMap<String, String>();
+		Iterable<Document> itr = c("dictionary").find(new BasicDBObject("type", type));
+		itr.forEach(d -> result.put(d.getString("id"), d.getString("name")));
+		return result;
+	}
+
+	@Override
 	public List<String> listDictionary(String type, String valueField) {
 		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class)
 				.into(new ArrayList<>());

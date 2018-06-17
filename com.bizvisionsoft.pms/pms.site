@@ -197,11 +197,6 @@
             "children": [],
             "name": "跟踪视图",
             "id": "16362281dda"
-          },
-          {
-            "children": [],
-            "name": "权限管理",
-            "id": "1640ca9e295"
           }
         ],
         "name": "系统管理",
@@ -279,6 +274,11 @@
             "children": [],
             "name": "财务科目设置",
             "id": "162e59b2f46"
+          },
+          {
+            "children": [],
+            "name": "权限管理",
+            "id": "1640e481843"
           }
         ],
         "name": "业务管理",
@@ -689,7 +689,7 @@
             "id": "16197902d45",
             "name": "主页",
             "text": "主页",
-            "description": "1111",
+            "description": "一般项目成员的主页",
             "image": "/img/favicon.png",
             "bundleId": "",
             "className": "",
@@ -699,7 +699,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": ""
           },
           {
             "id": "161985c99a8",
@@ -719,7 +720,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": ""
               },
               {
                 "id": "161989cc406",
@@ -731,7 +733,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "项目管理员#项目总监"
               },
               {
                 "id": "16406b99e36",
@@ -743,7 +746,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized"
+                "type": "customized",
+                "role": ""
               }
             ],
             "editorAssemblyEditable": false,
@@ -768,7 +772,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": ""
               },
               {
                 "id": "161989cc80d",
@@ -780,7 +785,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": ""
               },
               {
                 "id": "161989cc8b9",
@@ -792,7 +798,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "部门经理"
               },
               {
                 "id": "163624d6384",
@@ -804,7 +811,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": ""
               }
             ],
             "editorAssemblyEditable": false,
@@ -854,7 +862,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": ""
           },
           {
             "id": "161989cc240",
@@ -900,7 +909,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "财务经理#项目总监"
           },
           {
             "id": "163e433adcb",
@@ -949,7 +959,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": "投资规划经理#项目总监"
           },
           {
             "id": "161989cbe38",
@@ -961,7 +972,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": "供应链经理#项目总监"
           },
           {
             "id": "161989cc03c",
@@ -973,7 +985,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": "制造经理#项目总监"
           },
           {
             "id": "16406dea820",
@@ -986,7 +999,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "业务管理员"
           },
           {
             "id": "16406d18935",
@@ -999,7 +1013,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "系统管理员"
           }
         ]
       },
@@ -1016,7 +1031,8 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "163958383b0",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "role": ""
           }
         ]
       },
@@ -4071,57 +4087,35 @@
             "type": "switch"
           },
           {
-            "id": "162bc7b536f",
-            "name": "账户管理",
-            "switchContentToAssemblyId": "162bca813e1",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
-            "id": "16406850d46",
-            "name": "权限管理",
+            "id": "1640e8bb1bd",
+            "name": "账户",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "children": [
               {
-                "id": "162bd7d0076",
-                "name": "授权管理",
-                "bundleId": "com.bizvisionsoft.bruiengine",
-                "className": "com.bizvisionsoft.bruiengine.app.sysman.OpenAuthManACT",
+                "id": "162bc7b536f",
+                "name": "账户管理",
+                "switchContentToAssemblyId": "162bca813e1",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized"
+                "type": "switch"
               },
               {
-                "id": "16406857f84",
-                "name": "权限查询",
+                "id": "162c9010168",
+                "name": "账户操作审计",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
+                "children": [],
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "customized"
               }
             ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "162c9010168",
-            "name": "账户操作审计",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -4364,6 +4358,51 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch"
+          },
+          {
+            "id": "1640e3f2bd1",
+            "name": "权限管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "1640e3fa0d1",
+                "name": "功能权限",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "1640675398d",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "1640e3fb3bf",
+                "name": "项目数据权限",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              },
+              {
+                "id": "1640e46d3e8",
+                "name": "视图数据权限",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ]
       },
@@ -13677,7 +13716,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "optionText": "角色名称#文档类型#Tag",
+            "optionText": "角色名称#文档类型#Tag#功能角色",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -43699,14 +43738,14 @@
       },
       {
         "id": "1640675398d",
-        "name": "权限设置",
+        "name": "功能权限设置",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "权限设置",
-        "folderId": "1640ca9e295",
+        "stickerTitle": "功能权限设置",
+        "folderId": "1640e481843",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
+        "gridMarkupEnabled": true,
         "gridLineVisiable": true,
         "gridMultiSelection": false,
         "gridHeaderVisiable": true,
@@ -43718,12 +43757,282 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.PermissionService",
         "gridPageCount": 0,
-        "columns": [],
-        "fields": [],
-        "gridAutoColumnWidth": false,
-        "actions": [],
-        "rowActions": [],
+        "columns": [
+          {
+            "id": "1640e4f39a0",
+            "name": "role",
+            "text": "功能角色",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e4f88be",
+            "name": "id",
+            "text": "被授权者编号",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e4c1c6b",
+            "name": "name",
+            "text": "被授权者名称",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e4ce821",
+            "name": "type",
+            "text": "被授权者类型",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e5190bc",
+            "name": "from",
+            "text": "起始日期",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e51b498",
+            "name": "to",
+            "text": "中止日期",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e4d3cfb",
+            "name": "authBy",
+            "text": "授权人",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "1640e510771",
+            "name": "authOn",
+            "text": "授权日期",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "1640e52dcf1",
+            "name": "role",
+            "text": "功能角色",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "textQueryType": "字符串",
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e543d96",
+            "name": "id",
+            "text": "被授权者编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "textQueryType": "字符串",
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e544203",
+            "name": "name",
+            "text": "被授权者名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "textQueryType": "字符串",
+            "height": 0,
+            "staticContent": false
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [
+          {
+            "id": "1640e559a41",
+            "name": "查询",
+            "text": "查询",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
+          },
+          {
+            "id": "1640e55c415",
+            "name": "授权组织",
+            "text": "授权组织",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyId": "1640e56eb0a",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "insert",
+            "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+            "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission"
+          },
+          {
+            "id": "1640e59a1c1",
+            "name": "授权用户",
+            "text": "授权用户",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyId": "1640e5bedee",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "insert",
+            "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+            "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission"
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "1640e5642a4",
+            "name": "删除",
+            "image": "/img/minus_16_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "delete"
+          }
+        ],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -43745,7 +44054,7 @@
         "name": "权限查询",
         "layout": [],
         "type": "grid",
-        "folderId": "1640ca9e295",
+        "folderId": "1640e481843",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -44477,28 +44786,282 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false
+      },
+      {
+        "id": "1640e56eb0a",
+        "name": "功能权限编辑（组织）",
+        "title": "授权组织",
+        "layout": [],
+        "type": "editor",
+        "folderId": "1640e481843",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "1640e574b80",
+            "name": "role",
+            "text": "功能角色",
+            "type": "下拉选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e574f46",
+            "name": "organization",
+            "text": "被授权组织",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "selectorAssemblyId": "1621d403c8b",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e57501f",
+            "name": "from",
+            "text": "起始日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "datetime",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e575119",
+            "name": "to",
+            "text": "中止日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "datetime",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "nullValueAllowedFields": "rom#to",
+        "smallEditor": true,
+        "addToParentContext": false
+      },
+      {
+        "id": "1640e5bedee",
+        "name": "功能权限编辑（用户）",
+        "title": "授权用户",
+        "layout": [],
+        "type": "editor",
+        "folderId": "1640e481843",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "1640e574b80",
+            "name": "role",
+            "text": "功能角色",
+            "type": "下拉选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e574f46",
+            "name": "user",
+            "text": "被授权用户",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "selectorAssemblyId": "162ba875640",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e57501f",
+            "name": "from",
+            "text": "起始日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "datetime",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1640e575119",
+            "name": "to",
+            "text": "中止日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "datetime",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "nullValueAllowedFields": "from#to",
+        "smallEditor": true,
+        "addToParentContext": false
       }
     ]
   },
   "roles": [
     {
-      "name": "PM",
-      "id": "1640d86857d",
-      "text": "项目经理"
+      "name": "投资规划经理",
+      "id": "1640d8b155b",
+      "text": "投资规划经理"
     },
     {
-      "name": "PCM",
-      "id": "1640d86e361",
-      "text": "采购经理"
+      "name": "技术经理",
+      "id": "1640dca507b",
+      "text": "技术经理"
     },
     {
-      "name": "PMM",
-      "id": "1640d8775e5",
+      "name": "供应链经理",
+      "id": "1640dcab78a",
+      "text": "供应链经理"
+    },
+    {
+      "name": "制造经理",
+      "id": "1640dcad392",
       "text": "制造经理"
     },
     {
-      "name": "",
-      "id": "1640d8b155b"
+      "name": "质量经理",
+      "id": "1640dcafa8e",
+      "text": "质量经理"
+    },
+    {
+      "name": "财务经理",
+      "id": "1640dcb15df",
+      "text": "财务经理"
+    },
+    {
+      "name": "项目总监",
+      "id": "1640dcb699d",
+      "text": "项目总监"
+    },
+    {
+      "name": "项目管理员",
+      "id": "1640dcdc149",
+      "text": "项目管理员"
+    },
+    {
+      "name": "部门经理",
+      "id": "1640e334e61",
+      "text": "部门经理"
+    },
+    {
+      "name": "系统管理员",
+      "id": "1640e41b151",
+      "text": "系统管理员"
+    },
+    {
+      "name": "业务管理员",
+      "id": "1640e41fdc4",
+      "text": "业务管理员"
     }
   ]
 }
