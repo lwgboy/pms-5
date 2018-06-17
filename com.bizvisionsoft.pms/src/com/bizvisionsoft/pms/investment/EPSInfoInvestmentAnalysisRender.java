@@ -48,6 +48,9 @@ public class EPSInfoInvestmentAnalysisRender extends GridPartDefaultRender {
 				EPSInfo epsInfo = (EPSInfo) element;
 				value = epsInfo.getCost(result + "01", result + "12");
 			}
+		} else if ("profit".equals(column.getName())) {
+			EPSInfo epsInfo = (EPSInfo) element;
+			value = epsInfo.getProfit(result + "01", result + "12");
 		} else if ("roi".equals(column.getName())) {
 			if (element instanceof EPSInfo) {
 				// 获取成本管理的期间成本

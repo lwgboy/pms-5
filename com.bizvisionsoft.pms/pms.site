@@ -38201,7 +38201,7 @@
           {
             "id": "163e93703e7",
             "name": "period",
-            "text": "今年（万元）",
+            "text": "今年 销售利润（万元）",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -38212,9 +38212,9 @@
             "expanded": true,
             "columns": [
               {
-                "id": "163e9b06263",
-                "name": "cost",
-                "text": "资金投入",
+                "id": "1640d1f8bd3",
+                "name": "profit",
+                "text": "合计",
                 "alignment": 131072,
                 "width": 100,
                 "minimumWidth": 0,

@@ -43,7 +43,7 @@ public class SearchInvestmentAnalysisYearACT {
 			GridColumnGroup[] columnGroups = viewer.getGrid().getColumnGroups();
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
-					columnGroup.setText(startPeriod + " 年（万元）");
+					columnGroup.setText(startPeriod + " 年销售利润（万元）");
 				}
 			}
 
@@ -55,6 +55,9 @@ public class SearchInvestmentAnalysisYearACT {
 				if ("cost".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "cost"));
+				}else if ("profit".equals(name)) {
+					vcol = new GridViewerColumn(viewer, column);
+					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "profit"));
 				} else if ("roi".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "roi"));
