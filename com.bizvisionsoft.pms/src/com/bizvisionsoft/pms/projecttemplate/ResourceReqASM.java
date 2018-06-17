@@ -21,7 +21,7 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Selector;

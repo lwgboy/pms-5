@@ -29,7 +29,7 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.WorkService;

@@ -12,7 +12,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.model.User;

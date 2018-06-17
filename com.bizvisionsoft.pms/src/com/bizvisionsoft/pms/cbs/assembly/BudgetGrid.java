@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
-import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 
 public abstract class BudgetGrid extends GridPart {
 

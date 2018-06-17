@@ -1,11 +1,9 @@
 package com.bizvisionsoft.demo.rsclient;
 
-import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.service.UISession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -13,22 +11,19 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.bizivisionsoft.widgets.carousel.Carousel;
 import com.bizivisionsoft.widgets.util.Layer;
-import com.bizivisionsoft.widgets.util.WidgetToolkit;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.GetContainer;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruiengine.BruiAssemblyEngine;
-import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.IServiceWithId;
-import com.bizvisionsoft.bruiengine.session.UserSession;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
@@ -118,7 +113,7 @@ public class CarouselDemo {
 
 		container = carousel.addPage(new Composite(carousel, SWT.NONE));
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(ModelLoader.site.getAssemblyByName("用户管理"));
-		brui.init(new IServiceWithId[] { bruiService, new BruiAssemblyContext().setEngine(brui) }).createUI(container);
+		brui.init(new IServiceWithId[] { bruiService, UserSession.newAssemblyContext().setEngine(brui) }).createUI(container);
 	}
 
 
