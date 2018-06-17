@@ -1,16 +1,13 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
 import org.bson.types.ObjectId;
 
@@ -228,29 +225,10 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	@ReadValue("irp")
 	public Integer getIRP() {
 		double cost = getCostSummary();
-		if (salesItems != null && salesItems.size() > 0) {
-			double profit = 0d;
-			String id = null;
-			for (SalesItem salesItem : getSalesItems()) {
-				profit += salesItem.getProfit();
-				if (cost <= profit) {
-					id = salesItem.getId();
-					break;
-				}
-			}
-			if (actualFinish != null && id != null) {
-				try {
-					Calendar bef = Calendar.getInstance();
-					Calendar aft = Calendar.getInstance();
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-					bef.setTime(actualFinish);
-					aft.setTime(sdf.parse(id));
-					int result = aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH);
-					result += ((aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12);
-					return Math.abs(result);
-				} catch (ParseException e) {
-				}
-			}
+
+		double profit = getMonthAvgProfit();
+		if (profit != 0) {
+			return (int) Math.ceil(cost / profit);
 		}
 		return null;
 	}
@@ -308,24 +286,28 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	}
 
 	public double getROI(String startPeriod, String endPeriod) {
-		double profit = 0d;
-		Set<String> id = new HashSet<String>();
-		List<SalesItem> salesItems = getSalesItems();
-		if (salesItems != null && salesItems.size() > 0) {
-			for (SalesItem salesItem : salesItems) {
-				if (startPeriod.compareTo(salesItem.getId()) <= 0 && endPeriod.compareTo(salesItem.getId()) >= 0) {
-					profit += Optional.ofNullable(salesItem.getProfit()).orElse(0d);
-					id.add(salesItem.getId());
-				}
-			}
-		}
-		if (id.size() > 0)
-			profit = profit / id.size() * 12d;
+		double profit = getMonthAvgProfit() * 12d;
 		double totalCost = getCostSummary();
 		if (totalCost == 0d) {
 			return profit;
 		}
 		return profit / totalCost;
+	}
+
+	private double getMonthAvgProfit() {
+		double profit = 0d;
+		Set<String> id = new HashSet<String>();
+		List<SalesItem> salesItems = getSalesItems();
+		if (salesItems != null && salesItems.size() > 0) {
+			for (SalesItem salesItem : salesItems) {
+				profit += Optional.ofNullable(salesItem.getProfit()).orElse(0d);
+				id.add(salesItem.getId());
+			}
+		}
+		if (id.size() > 0)
+			profit = profit / id.size();
+
+		return profit;
 	}
 
 	public String getName() {
