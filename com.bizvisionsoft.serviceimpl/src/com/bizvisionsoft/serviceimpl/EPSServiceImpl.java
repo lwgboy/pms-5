@@ -169,7 +169,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			profitDoc.append("name", name);
 			profitDoc.append("type", "bar");
 			profitDoc.append("stack", "回报");
-			profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+			profitDoc.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
 			List<Object> profitData = new ArrayList<Object>();
 			profitDoc.append("data", profitData);
 			double pieValue = 0d;
@@ -212,7 +212,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 销售利润分析（万元）").append("x", "center"));
-		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
 		option.append("grid",
@@ -256,7 +256,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			costDoc.append("name", name);
 			costDoc.append("type", "bar");
 			costDoc.append("stack", "投资");
-			costDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+			costDoc.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
 			List<Object> costData = new ArrayList<Object>();
 			costDoc.append("data", costData);
 			double pieValue = 0d;
@@ -300,7 +300,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 资金投入分析（万元）").append("x", "center"));
-		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
 		option.append("grid",

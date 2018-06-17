@@ -377,7 +377,7 @@ public class BasicServiceImpl {
 	protected Document getBarChart(String text, Object legendData, Object series) {
 		Document option = new Document();
 		option.append("title", new Document("text", text).append("x", "center"));
-		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", legendData).append("orient", "vertical").append("left", "right"));
 		option.append("grid",
