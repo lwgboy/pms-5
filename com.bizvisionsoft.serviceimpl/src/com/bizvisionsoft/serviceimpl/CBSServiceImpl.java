@@ -659,7 +659,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				budgetDoc.append("type", "bar");
 				budgetDoc.append("stack", "‘§À„");
 				budgetDoc.append("label",
-						new Document("normal", new Document("show", true).append("position", "inside")));
+						new Document("normal", new Document("show", false).append("position", "inside")));
 
 				Document costDoc = new Document();
 				costData2.add(costDoc);
@@ -668,7 +668,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				costDoc.append("stack", "≥…±æ");
 				costDoc.append("itemStyle", new Document("opacity", 0.5));
 				costDoc.append("label",
-						new Document("normal", new Document("show", true).append("position", "inside")));
+						new Document("normal", new Document("show", false).append("position", "inside")));
 				List<Object> cost = new ArrayList<Object>();
 				List<Object> budget = new ArrayList<Object>();
 				costDoc.append("data", cost);
