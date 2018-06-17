@@ -38153,9 +38153,9 @@
               {
                 "id": "163e9300470",
                 "name": "irp",
-                "text": "投资回收期（月）",
+                "text": "PP\u0027/M",
                 "alignment": 131072,
-                "width": 130,
+                "width": 80,
                 "minimumWidth": 0,
                 "moveable": false,
                 "resizeable": true,
@@ -38173,9 +38173,50 @@
               {
                 "id": "163e9316011",
                 "name": "roi",
-                "text": "投资回报率",
+                "text": "ROI",
                 "alignment": 131072,
-                "width": 100,
+                "width": 80,
+                "minimumWidth": 0,
+                "moveable": false,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "expanded": false,
+                "columns": [],
+                "markupEnabled": false,
+                "format": "#.0%",
+                "sort": 0,
+                "forceDisplayZero": false,
+                "hide": false,
+                "element": false,
+                "noToggleGridColumnGroup": false
+              },
+              {
+                "id": "1640d973938",
+                "name": "npv",
+                "text": "NPV",
+                "alignment": 131072,
+                "width": 80,
+                "minimumWidth": 0,
+                "moveable": false,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "expanded": false,
+                "columns": [],
+                "markupEnabled": false,
+                "sort": 0,
+                "forceDisplayZero": false,
+                "hide": false,
+                "element": false,
+                "noToggleGridColumnGroup": false
+              },
+              {
+                "id": "1640d97db16",
+                "name": "npvr",
+                "text": "NPVR",
+                "alignment": 131072,
+                "width": 80,
                 "minimumWidth": 0,
                 "moveable": false,
                 "resizeable": true,
@@ -44438,5 +44479,26 @@
         "addToParentContext": false
       }
     ]
-  }
+  },
+  "roles": [
+    {
+      "name": "PM",
+      "id": "1640d86857d",
+      "text": "项目经理"
+    },
+    {
+      "name": "PCM",
+      "id": "1640d86e361",
+      "text": "采购经理"
+    },
+    {
+      "name": "PMM",
+      "id": "1640d8775e5",
+      "text": "制造经理"
+    },
+    {
+      "name": "",
+      "id": "1640d8b155b"
+    }
+  ]
 }
