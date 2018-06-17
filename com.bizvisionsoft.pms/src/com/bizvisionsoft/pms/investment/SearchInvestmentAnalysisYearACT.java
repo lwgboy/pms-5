@@ -85,7 +85,7 @@ public class SearchInvestmentAnalysisYearACT {
 						if (cost != 0)
 							return new DecimalFormat("#.0").format(cost);
 					} else if ("roi".equals(type)) {
-						double roi = ((EPSInfo) element).getROI(startPeriod, endPeriod);
+						double roi = ((EPSInfo) element).getROI();
 						if (roi != 0)
 							return new DecimalFormat("#.0%").format(roi);
 					} else if ("profit".equals(type)) {

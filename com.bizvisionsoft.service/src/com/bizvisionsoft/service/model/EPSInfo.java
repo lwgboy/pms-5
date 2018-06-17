@@ -224,11 +224,28 @@ public class EPSInfo implements Comparable<EPSInfo> {
 
 	@ReadValue("irp")
 	public Integer getIRP() {
-		double cost = getCostSummary();
+		List<EPSInfo> listSub = listSub();
+		if (listSub.size() > 0) {
+			int i = 0;
+			int irp = 0;
+			for (EPSInfo epsInfo : listSub) {
+				Integer irp2 = epsInfo.getIRP();
+				if (irp2 != null) {
+					irp += irp2;
+					i++;
+				}
+			}
+			if (i == 0) {
+				return null;
+			}
 
-		double profit = getMonthAvgProfit();
-		if (profit != 0) {
-			return (int) Math.ceil(cost / profit);
+			return (int) Math.ceil(irp / i);
+		} else {
+			double cost = getCostSummary();
+			double profit = getMonthAvgProfit();
+			if (profit != 0) {
+				return (int) Math.ceil(cost / profit);
+			}
 		}
 		return null;
 	}
@@ -285,13 +302,30 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return summary;
 	}
 
-	public double getROI(String startPeriod, String endPeriod) {
-		double profit = getMonthAvgProfit() * 12d;
-		double totalCost = getCostSummary();
-		if (totalCost == 0d) {
-			return profit;
+	public Double getROI() {
+		List<EPSInfo> listSub = listSub();
+		if (listSub.size() > 0) {
+			int i = 0;
+			double roi = 0d;
+			for (EPSInfo epsInfo : listSub) {
+				Double roi2 = epsInfo.getROI();
+				if (roi2 != null) {
+					roi += roi2;
+					i++;
+				}
+			}
+			if (i == 0) {
+				return null;
+			}
+			return roi / i;
+		} else {
+			double profit = getMonthAvgProfit() * 12d;
+			double totalCost = getCostSummary();
+			if (totalCost == 0d) {
+				return profit;
+			}
+			return profit / totalCost;
 		}
-		return profit / totalCost;
 	}
 
 	private double getMonthAvgProfit() {
