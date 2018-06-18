@@ -231,6 +231,12 @@ public interface CommonService {
 	public Map<String, String> getDictionary(@PathParam("type") String type);
 	
 	@POST
+	@Path("/dict/idname/{type}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Map<String, String> getDictionaryIdNamePair(@PathParam("type") String type);
+	
+	@POST
 	@Path("/dict/{type}/{valueField}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

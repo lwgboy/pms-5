@@ -155,6 +155,16 @@ public class User implements IResourceAssignment {
 	private String getSectionKey() {
 		return userId;
 	}
+	
+	private List<String> roles;
+	
+	public List<String> getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 
 	public boolean isActivated() {
 		return activated;
