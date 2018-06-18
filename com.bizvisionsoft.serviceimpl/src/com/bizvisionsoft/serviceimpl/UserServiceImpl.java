@@ -1,7 +1,9 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -24,11 +26,35 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public User check(String userId, String password) {
-		User user = c(User.class).find(new BasicDBObject("userId", userId).append("password", password)).first();
-		if (user != null && user.isActivated()) {
-			return user;
+		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
+				new BasicDBObject("userId", userId).append("password", password)));
+		if (ds.size() == 0) {
+			throw new ServiceException("账户无法通过验证");
 		}
-		throw new ServiceException("账户无法通过验证");
+		User user = ds.get(0);
+
+		// 获得user所在的各级组织
+		ObjectId org_id = user.getOrganizationId();
+		List<String> orgIds = new ArrayList<String>();
+		if (org_id != null) {
+			Optional.ofNullable(c("organization").find(new Document("_id", org_id)).first()).ifPresent(doc -> {
+				while (doc != null) {
+					orgIds.add(doc.getString("id"));
+					doc = Optional.ofNullable(doc.getObjectId("parent_id"))
+							.map(parentId -> c("organization").find(new Document("_id", parentId)).first())
+							.orElse(null);
+				}
+			});
+		}
+
+		ArrayList<String> functionPermissions = c("funcPermission").distinct("role",
+				new Document("$or", Arrays.asList(new Document("type", "组织").append("id", new Document("$in", orgIds)),
+						new Document("type", "用户").append("id", user.getUserId()))),
+				String.class).into(new ArrayList<>());
+		
+		user.setRoles(functionPermissions);
+		
+		return user;
 	}
 
 	@Override
@@ -67,7 +93,6 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	 */
 
 	private List<User> query(Integer skip, Integer limit, BasicDBObject filter) {
-
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		if (filter != null)
@@ -81,9 +106,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 		appendOrgFullName(pipeline, "org_id", "orgFullName");
 
-		List<User> result = new ArrayList<User>();
-		c(User.class).aggregate(pipeline).into(result);
-		return result;
+		return c(User.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
 	@Override

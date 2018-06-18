@@ -1033,6 +1033,13 @@
             "id": "163958383b0",
             "defaultAssembly": true,
             "role": ""
+          },
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "163eb0672aa",
+            "defaultAssembly": false,
+            "role": "投资规划经理"
           }
         ]
       },
