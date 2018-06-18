@@ -645,9 +645,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		List<Document> budgetData2 = new ArrayList<Document>();
 		List<Document> costData2 = new ArrayList<Document>();
-
-		Map<String, Double> totalCosts = new HashMap<String, Double>();
-		Map<String, Double> totalBudgets = new HashMap<String, Double>();
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
 			Object cbsSubjects = doc.get("cbsSubject");
 			if (cbsSubjects != null && cbsSubjects instanceof List && ((List<Document>) cbsSubjects).size() > 0) {
@@ -675,21 +672,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				budgetDoc.append("data", budget);
 				((List<Document>) cbsSubjects).forEach(cbsSubject -> {
 					String id = cbsSubject.getString("_id");
-					Double totalCost = totalCosts.get(id);
-					if (totalCost == null) {
-						totalCost = getDoubleValue(cbsSubject.get("cost"));
-					} else {
-						totalCost += getDoubleValue(cbsSubject.get("cost"));
-					}
-					totalCosts.put(id, totalCost);
-
-					Double totalBudget = totalBudgets.get(id);
-					if (totalBudget == null) {
-						totalBudget = getDoubleValue(cbsSubject.get("budget"));
-					} else {
-						totalBudget += getDoubleValue(cbsSubject.get("budget"));
-					}
-					totalBudgets.put(id, totalBudget);
 
 					if ((year + "01").equals(id)) {
 						cost.add(getStringValue(cbsSubject.get("cost")));
@@ -778,36 +760,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		List<Document> data2 = new ArrayList<Document>();
 		data2.addAll(budgetData2);
-		Document budgetDoc = new Document();
-		data2.add(budgetDoc);
-		budgetDoc.append("name", "预算 合计");
-		budgetDoc.append("type", "bar");
-		budgetDoc.append("stack", "预算");
-		budgetDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
-				.append("textStyle", new Document("color", "#000"))));
-		budgetDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
-		List<String> budgetData = new ArrayList<String>();
-		for (int i = 1; i < 13; i++) {
-			budgetData.add(getStringValue(totalBudgets.get(year + String.format("%02d", i))));
-		}
-
-		budgetDoc.append("data", budgetData);
 
 		data2.addAll(costData2);
-		Document costDoc = new Document();
-		data2.add(costDoc);
-		costDoc.append("name", "成本 合计");
-		costDoc.append("type", "bar");
-		costDoc.append("stack", "成本");
-		costDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
-				.append("textStyle", new Document("color", "#000"))));
-		costDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
-
-		List<String> costData = new ArrayList<String>();
-		for (int i = 1; i < 13; i++) {
-			costData.add(getStringValue(totalCosts.get(year + String.format("%02d", i))));
-		}
-		costDoc.append("data", costData);
 
 		return getBarChart(year + "年 各月项目预算和成本分析（万元）", data1, data2);
 	}
@@ -822,12 +776,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		return null;
 	}
 
-	private Double getDoubleValue(Object value) {
-		if (value instanceof Number) {
-			return ((Number) value).doubleValue();
-		}
-		return null;
-	}
 
 	private List<ObjectId> getCBSItemId(ObjectId cbsScope_id) {
 		List<ObjectId> cbsItem_id = c("cbs").distinct("_id", new Document("scope_id", cbsScope_id), ObjectId.class)

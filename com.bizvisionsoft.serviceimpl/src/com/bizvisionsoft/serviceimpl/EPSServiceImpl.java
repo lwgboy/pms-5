@@ -3,9 +3,7 @@ package com.bizvisionsoft.serviceimpl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -157,7 +155,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 										.append("height", 0))
 						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
 								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
-		Map<String, Double> totalProfits = new HashMap<String, Double>();
 
 		List<Document> pieDatas = new ArrayList<Document>();
 		pieDoc.append("data", pieDatas);
@@ -178,14 +175,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 				double profit = epsInfo.getProfit(year + month);
 				pieValue += profit;
 				profitData.add(getStringValue(profit));
-
-				Double totalProfit = totalProfits.get(year + month);
-				if (totalProfit == null) {
-					totalProfit = profit;
-				} else {
-					totalProfit += profit;
-				}
-				totalProfits.put(year + month, totalProfit);
 			}
 			Document pieData = new Document();
 			pieData.append("name", name).append("value", getStringValue(pieValue));
@@ -194,21 +183,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		});
 		data2.add(pieDoc);
 		
-
-		Document profitDoc = new Document();
-		data2.add(profitDoc);
-		profitDoc.append("name", "销售利润 合计");
-		profitDoc.append("type", "bar");
-		profitDoc.append("stack", "回报");
-		profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
-				.append("textStyle", new Document("color", "#000"))));
-		profitDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
-		List<String> profitData = new ArrayList<String>();
-		for (int i = 1; i < 13; i++) {
-			profitData.add(getStringValue(totalProfits.get(year + String.format("%02d", i))));
-		}
-
-		profitDoc.append("data", profitData);
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 销售利润分析（万元）").append("x", "center"));
@@ -244,7 +218,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 										.append("height", 0))
 						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
 								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
-		Map<String, Double> totalCosts = new HashMap<String, Double>();
 		
 		List<Document> pieDatas = new ArrayList<Document>();
 		pieDoc.append("data", pieDatas);
@@ -265,15 +238,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 				double cost = epsInfo.getCost(year + month);
 				pieValue += cost;
 				costData.add(getStringValue(cost));
-				
-
-				Double totalCost = totalCosts.get(year + month);
-				if (totalCost == null) {
-					totalCost = cost;
-				} else {
-					totalCost += cost;
-				}
-				totalCosts.put(year + month, totalCost);
 			}
 			Document pieData = new Document();
 			pieData.append("name", name).append("value", getStringValue(pieValue));
@@ -282,21 +246,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		});
 		data2.add(pieDoc);
 		
-
-		Document costDoc = new Document();
-		data2.add(costDoc);
-		costDoc.append("name", "资金投入 合计");
-		costDoc.append("type", "bar");
-		costDoc.append("stack", "投资");
-		costDoc.append("label", new Document("normal", new Document("show", true).append("position", "insideBottom")
-				.append("textStyle", new Document("color", "#000"))));
-		costDoc.append("itemStyle", new Document("normal", new Document("color", "rgba(128, 128, 128, 0)")));
-		List<String> costData = new ArrayList<String>();
-		for (int i = 1; i < 13; i++) {
-			costData.add(getStringValue(totalCosts.get(year + String.format("%02d", i))));
-		}
-
-		costDoc.append("data", costData);
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 资金投入分析（万元）").append("x", "center"));
