@@ -221,7 +221,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		if (xAxis == null)
 			xAxis = new ArrayList<String>();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyÄêMÔÂ");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M");
 		xAxis.add(sdf.format(startDate));
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startDate);

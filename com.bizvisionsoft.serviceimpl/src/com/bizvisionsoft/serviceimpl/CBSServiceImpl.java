@@ -1,6 +1,5 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -646,12 +645,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		Document budgetData2 = new Document();
 		budgetData2.append("name", "‘§À„");
 		budgetData2.append("type", "bar");
-		budgetData2.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
+		budgetData2.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
 
 		Document costData2 = new Document();
 		costData2.append("name", "≥…±æ");
 		costData2.append("type", "bar");
-		costData2.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
+		costData2.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
 
 		Map<String, Double> costMap = new TreeMap<String, Double>();
 		Map<String, Double> budgetMap = new TreeMap<String, Double>();
@@ -667,29 +666,40 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				((List<Document>) cbsSubjects).forEach(cbsSubject -> {
 					String id = cbsSubject.getString("_id");
 					Double costD = costMap.get(id);
-					if(costD!= null) {
+					if (costD != null) {
 						Object cost = cbsSubject.get("cost");
 						if (cost != null) {
 							costD += ((Number) cost).doubleValue();
-							costMap.put(cbsSubject.getString("id"), costD);
+							costMap.put(id, costD);
 						}
 					}
 
 					Double budgetD = budgetMap.get(id);
-					if(budgetD!= null) {
+					if (budgetD != null) {
 						Object budget = cbsSubject.get("budget");
 						if (budget != null) {
 							budgetD += ((Number) budget).doubleValue();
-							budgetMap.put(cbsSubject.getString("id"), budgetD);
+							budgetMap.put(id, budgetD);
 						}
 					}
-					
+
 				});
 			}
 		});
 
 		List<Document> data2 = new ArrayList<Document>();
+		List<Object> budgetdata = new ArrayList<Object>();
+		for (Double d : budgetMap.values()) {
+			budgetdata.add(getStringValue(d));
+		}
+		budgetData2.append("data", budgetdata);
 		data2.add(budgetData2);
+
+		List<Object> costData = new ArrayList<Object>();
+		for (Double d : costMap.values()) {
+			costData.add(getStringValue(d));
+		}
+		costData2.append("data", costData);
 
 		data2.add(costData2);
 
