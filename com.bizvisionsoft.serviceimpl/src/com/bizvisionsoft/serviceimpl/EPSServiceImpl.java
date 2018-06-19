@@ -207,7 +207,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	}
 
 	private List<String> getLegend(List<EPSInvestmentAnalysis> epsIAs) {
-		if (epsIAs != null && epsIAs.size() > 1) {
+		if (epsIAs != null && epsIAs.size() > 0) {
 			List<String> legend = new ArrayList<String>();
 			epsIAs.forEach(epsIA -> {
 				legend.add(epsIA.name);
@@ -408,7 +408,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 				return new DecimalFormat("0.0").format(d);
 			}
 		}
-		return null;
+		return "";
 	}
 
 	@Override

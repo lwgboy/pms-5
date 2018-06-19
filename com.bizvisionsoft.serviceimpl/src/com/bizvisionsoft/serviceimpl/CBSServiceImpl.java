@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.bson.Document;
@@ -641,129 +643,57 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 								.append("as", "cbsSubject")),
 				new Document("$sort", new Document("id", 1)));
 
-		List<String> data1 = new ArrayList<String>();
+		Document budgetData2 = new Document();
+		budgetData2.append("name", "预算");
+		budgetData2.append("type", "bar");
+		budgetData2.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
 
-		List<Document> budgetData2 = new ArrayList<Document>();
-		List<Document> costData2 = new ArrayList<Document>();
+		Document costData2 = new Document();
+		costData2.append("name", "成本");
+		costData2.append("type", "bar");
+		costData2.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
+
+		Map<String, Double> costMap = new TreeMap<String, Double>();
+		Map<String, Double> budgetMap = new TreeMap<String, Double>();
+		for (int i = 1; i < 12; i++) {
+			String key = year + String.format("%02d", i);
+			costMap.put(key, 0d);
+			budgetMap.put(key, 0d);
+		}
+
 		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
 			Object cbsSubjects = doc.get("cbsSubject");
 			if (cbsSubjects != null && cbsSubjects instanceof List && ((List<Document>) cbsSubjects).size() > 0) {
-				String name = doc.getString("name");
-				data1.add(name);
-				Document budgetDoc = new Document();
-				budgetData2.add(budgetDoc);
-				budgetDoc.append("name", name);
-				budgetDoc.append("type", "bar");
-				budgetDoc.append("stack", "预算");
-				budgetDoc.append("label",
-						new Document("normal", new Document("show", false).append("position", "inside")));
-
-				Document costDoc = new Document();
-				costData2.add(costDoc);
-				costDoc.append("name", name);
-				costDoc.append("type", "bar");
-				costDoc.append("stack", "成本");
-				costDoc.append("itemStyle", new Document("opacity", 0.5));
-				costDoc.append("label",
-						new Document("normal", new Document("show", false).append("position", "inside")));
-				List<Object> cost = new ArrayList<Object>();
-				List<Object> budget = new ArrayList<Object>();
-				costDoc.append("data", cost);
-				budgetDoc.append("data", budget);
 				((List<Document>) cbsSubjects).forEach(cbsSubject -> {
 					String id = cbsSubject.getString("_id");
-
-					if ((year + "01").equals(id)) {
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "02").equals(id)) {
-						while (cost.size() < 1) {
-							cost.add(null);
-							budget.add(null);
+					Double costD = costMap.get(id);
+					if(costD!= null) {
+						Object cost = cbsSubject.get("cost");
+						if (cost != null) {
+							costD += ((Number) cost).doubleValue();
+							costMap.put(cbsSubject.getString("id"), costD);
 						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "03").equals(id)) {
-						while (cost.size() < 2) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "04").equals(id)) {
-						while (cost.size() < 3) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "05").equals(id)) {
-						while (cost.size() < 4) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "06").equals(id)) {
-						while (cost.size() < 5) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "07").equals(id)) {
-						while (cost.size() < 6) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "08").equals(id)) {
-						while (cost.size() < 7) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "09").equals(id)) {
-						while (cost.size() < 8) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "10").equals(id)) {
-						while (cost.size() < 9) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "11").equals(id)) {
-						while (cost.size() < 10) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
-					} else if ((year + "12").equals(id)) {
-						while (cost.size() < 11) {
-							cost.add(null);
-							budget.add(null);
-						}
-						cost.add(getStringValue(cbsSubject.get("cost")));
-						budget.add(getStringValue(cbsSubject.get("budget")));
 					}
+
+					Double budgetD = budgetMap.get(id);
+					if(budgetD!= null) {
+						Object budget = cbsSubject.get("budget");
+						if (budget != null) {
+							budgetD += ((Number) budget).doubleValue();
+							budgetMap.put(cbsSubject.getString("id"), budgetD);
+						}
+					}
+					
 				});
 			}
 		});
 
 		List<Document> data2 = new ArrayList<Document>();
-		data2.addAll(budgetData2);
+		data2.add(budgetData2);
 
-		data2.addAll(costData2);
+		data2.add(costData2);
 
-		return getBarChart(year + "年 各月项目预算和成本分析（万元）", data1, data2);
+		return getBarChart(year + "年 各月项目预算和成本分析（万元）", Arrays.asList("预算", "成本"), data2);
 	}
 
 	private String getStringValue(Object value) {
@@ -775,7 +705,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		}
 		return null;
 	}
-
 
 	private List<ObjectId> getCBSItemId(ObjectId cbsScope_id) {
 		List<ObjectId> cbsItem_id = c("cbs").distinct("_id", new Document("scope_id", cbsScope_id), ObjectId.class)
