@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
+import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.mongodb.BasicDBObject;
 
 @Path("/eps")
@@ -112,12 +113,18 @@ public interface EPSService {
 	@Path("/profitanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthProfitIA(@PathParam("year")String year);
+	public Document getMonthProfitIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year);
 
 	@POST
 	@Path("/costanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthCostIA(@PathParam("year")String year);
+	public Document getMonthCostIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year);
+
+	@GET
+	@Path("/project/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ObjectId> getSubProjectId(@PathParam("_id") ObjectId _id);
 
 }
