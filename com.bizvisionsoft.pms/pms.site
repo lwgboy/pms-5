@@ -753,7 +753,7 @@
           {
             "id": "161985cac4c",
             "name": "工作",
-            "text": "工作",
+            "text": "工作管理",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -1107,7 +1107,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628decb7e0",
@@ -1179,7 +1180,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628decc6f8",
@@ -1235,7 +1237,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM#PFM"
           },
           {
             "id": "1628deccce4",
@@ -1288,7 +1291,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628decd492",
@@ -1307,7 +1311,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "PM#PA#PPM##PCE#SE"
               },
               {
                 "id": "1628decbdcc",
@@ -1318,7 +1323,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "PM#PA#PPM##PR#SE"
               },
               {
                 "id": "1628decd621",
@@ -1329,7 +1335,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "PM#PA#PPM##QME#SE"
               },
               {
                 "id": "1628decbf7e",
@@ -1340,7 +1347,8 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "PM#PA#PPM#MR#SE"
               }
             ],
             "editorAssemblyEditable": false,
@@ -1388,7 +1396,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628decdce7",
@@ -1420,7 +1429,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628df226b9",
@@ -1482,7 +1492,8 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "1628df224b5",
@@ -1505,7 +1516,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "PM#PA#PPM"
           }
         ]
       },
@@ -1572,7 +1584,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "162fffa390f",
@@ -1606,7 +1619,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "163fe7cf799",
@@ -1653,7 +1667,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "162fffad053",
@@ -1664,7 +1679,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "role": "PM#PA#PPM#PFM"
           },
           {
             "id": "16370fb0942",
@@ -1698,7 +1714,8 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "PM#PA#PPM"
           }
         ]
       },
@@ -4465,7 +4482,7 @@
         "id": "16187d39041",
         "name": "用户登录组件",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.assembly.LoginPage",
+        "className": "com.bizvisionsoft.bruiengine.app.login.LoginPage",
         "layout": [],
         "folderId": "1631b42dbd8",
         "gridAutoExpandLevel": 0,
@@ -45010,5 +45027,6 @@
         "addToParentContext": false
       }
     ]
-  }
+  },
+  "password": "admin"
 }

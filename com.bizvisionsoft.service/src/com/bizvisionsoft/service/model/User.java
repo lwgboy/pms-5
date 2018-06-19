@@ -204,5 +204,13 @@ public class User implements IResourceAssignment {
 	public boolean isBuzAdmin() {
 		return buzAdmin;
 	}
+	
+	public boolean isSA() {
+		return "administrator".equals(name);
+	}
+	
+	public static User SA() {
+		return new User().setName("administrator").setUserId("administrator");
+	}
 
 }
