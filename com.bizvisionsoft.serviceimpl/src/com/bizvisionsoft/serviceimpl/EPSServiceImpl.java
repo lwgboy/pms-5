@@ -147,8 +147,8 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	@Override
 	public Document getMonthProfitIA(List<EPSInvestmentAnalysis> epsIAs, String year) {
 		Calendar cal1 = Calendar.getInstance();
-		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
 		Calendar cal2 = Calendar.getInstance();
+		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
 		cal2.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
 		return getProfitIA(epsIAs, year + "年 销售利润分析（万元）", cal1.getTime(), cal2.getTime());
 	}
@@ -156,8 +156,8 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	@Override
 	public Document getMonthCostIA(List<EPSInvestmentAnalysis> epsIAs, String year) {
 		Calendar cal1 = Calendar.getInstance();
-		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
 		Calendar cal2 = Calendar.getInstance();
+		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
 		cal2.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
 		return getCostIA(epsIAs, year + "年 资金投入分析（万元）", cal1.getTime(), cal2.getTime());
 	}
@@ -220,7 +220,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	private List<String> createXAxis(List<String> xAxis, Date startDate, Date endDate) {
 		if (xAxis == null)
 			xAxis = new ArrayList<String>();
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M");
 		xAxis.add(sdf.format(startDate));
 		Calendar cal = Calendar.getInstance();
@@ -232,7 +231,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		return xAxis;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createCostSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
 			Date endDate) {
 		Map<String, Double> mapKeys = new TreeMap<String, Double>();
@@ -247,76 +245,20 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		}
 		if (epsIAs != null && epsIAs.size() > 0) {
 			epsIAs.forEach(epsIA -> {
-				Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
 					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
 							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
-
-					aggregate.forEach((Document doc) -> {
-						Object obj = doc.get("cbsSubjects");
-						if (obj != null && obj instanceof List) {
-							((List<Document>) obj).forEach(cbsSubject -> {
-								Double d = map.get(cbsSubject.getString("id"));
-								if (d != null) {
-									Object cost = cbsSubject.get("cost");
-									if (cost != null) {
-										d += ((Number) cost).doubleValue();
-										map.put(cbsSubject.getString("id"), d);
-									}
-								}
-							});
-						}
-					});
-
-					Document costDoc = new Document();
-					series.add(costDoc);
-
-					costDoc.append("name", epsIA.name);
-					costDoc.append("type", "bar");
-					costDoc.append("label",
-							new Document("normal", new Document("show", true).append("position", "inside")));
-					List<Object> data = new ArrayList<Object>();
-					for (Double d : map.values()) {
-						data.add(getStringValue(d));
-					}
-					costDoc.append("data", data);
+					createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", epsIA.name);
 				}
 			});
 		} else {
-			Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
-			c("project").aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array())
-					.forEach((Document doc) -> {
-						Object obj = doc.get("cbsSubjects");
-						if (obj != null && obj instanceof List) {
-							((List<Document>) obj).forEach(cbsSubject -> {
-								Double d = map.get(cbsSubject.getString("id"));
-								if (d != null) {
-									Object cost = cbsSubject.get("cost");
-									if (cost != null) {
-										d += ((Number) cost).doubleValue();
-										map.put(cbsSubject.getString("id"), d);
-									}
-								}
-							});
-						}
-					});
-
-			Document costDoc = new Document();
-			series.add(costDoc);
-
-			costDoc.append("name", "资金投入");
-			costDoc.append("type", "bar");
-			costDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
-			List<Object> data = new ArrayList<Object>();
-			for (Double d : map.values()) {
-				data.add(getStringValue(d));
-			}
-			costDoc.append("data", data);
+			AggregateIterable<Document> aggregate = c("project")
+					.aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array());
+			createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", "资金投入");
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createProfitSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
 			Date endDate) {
 		Map<String, Double> mapKeys = new TreeMap<String, Double>();
@@ -331,74 +273,51 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		}
 		if (epsIAs != null && epsIAs.size() > 0) {
 			epsIAs.forEach(epsIA -> {
-				Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
 					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
 							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
-
-					aggregate.forEach((Document doc) -> {
-						Object obj = doc.get("salesItems");
-						if (obj != null && obj instanceof List) {
-							((List<Document>) obj).forEach(salesItem -> {
-								Double d = map.get(salesItem.getString("period"));
-								if (d != null) {
-									Object profit = salesItem.get("profit");
-									if (profit != null) {
-										d += ((Number) profit).doubleValue();
-										map.put(salesItem.getString("period"), d);
-									}
-								}
-							});
-						}
-					});
-
-					Document profitDoc = new Document();
-					series.add(profitDoc);
-
-					profitDoc.append("name", epsIA.name);
-					profitDoc.append("type", "bar");
-					profitDoc.append("label",
-							new Document("normal", new Document("show", true).append("position", "inside")));
-					List<Object> data = new ArrayList<Object>();
-					for (Double d : map.values()) {
-						data.add(getStringValue(d));
-					}
-					profitDoc.append("data", data);
+					createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", epsIA.name);
 				}
 			});
 		} else {
-			Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
-			c("project").aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array())
-					.forEach((Document doc) -> {
-						Object obj = doc.get("salesItems");
-						if (obj != null && obj instanceof List) {
-							((List<Document>) obj).forEach(salesItem -> {
-								Double d = map.get(salesItem.getString("period"));
-								if (d != null) {
-									Object profit = salesItem.get("profit");
-									if (profit != null) {
-										d += ((Number) profit).doubleValue();
-										map.put(salesItem.getString("period"), d);
-									}
-								}
-							});
-						}
-					});
-
-			Document profitDoc = new Document();
-			series.add(profitDoc);
-
-			profitDoc.append("name", "销售利润");
-			profitDoc.append("type", "bar");
-			profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
-			List<Object> data = new ArrayList<Object>();
-			for (Double d : map.values()) {
-				data.add(getStringValue(d));
-			}
-			profitDoc.append("data", data);
-
+			AggregateIterable<Document> aggregate = c("project")
+					.aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array());
+			createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", "销售利润");
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createSeriesData(List<Document> series, Map<String, Double> mapKeys,
+			AggregateIterable<Document> aggregate, String fieldName, String childFieldName, String valueName,
+			String docName) {
+		Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
+		aggregate.forEach((Document doc) -> {
+			Object obj = doc.get(fieldName);
+			if (obj != null && obj instanceof List) {
+				((List<Document>) obj).forEach(child -> {
+					Double d = map.get(child.getString(childFieldName));
+					if (d != null) {
+						Object value = child.get(valueName);
+						if (value != null) {
+							d += ((Number) value).doubleValue();
+							map.put(child.getString(childFieldName), d);
+						}
+					}
+				});
+			}
+		});
+
+		Document doc = new Document();
+		series.add(doc);
+		doc.append("name", docName);
+		doc.append("type", "bar");
+		doc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+		List<Object> data = new ArrayList<Object>();
+		for (Double d : map.values()) {
+			data.add(getStringValue(d));
+		}
+		doc.append("data", data);
 	}
 
 	private String getStringValue(Object value) {
