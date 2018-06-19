@@ -682,6 +682,19 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1641797d553",
+            "name": "演示时间选择",
+            "image": "/img/workflow_w.svg",
+            "bundleId": "com.bizvisionsoft.demo.rsclient",
+            "className": "com.bizvisionsoft.demo.rsclient.DateTimeSelectorDemoACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ],
         "sidebarItems": [
