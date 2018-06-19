@@ -278,6 +278,8 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	}
 
 	private Document getCostIA(EPSInvestmentAnalysis epsIA, String title, Date startDate, Date endDate) {
+		
+		
 		List<Document> series = new ArrayList<Document>();
 
 		Document costDoc = new Document();
