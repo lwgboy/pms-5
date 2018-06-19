@@ -21,10 +21,13 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.RoleBased;
+import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.EPSService;
+import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
@@ -820,6 +823,15 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	public double getOvercost() {
 		return getCost() - getBudget();
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 获得给定用户在项目中的角色
+	@RoleBased
+	private List<String> getProjectRole(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userId) {
+		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id,userId);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Project setPmId(String pmId) {
 		this.pmId = pmId;

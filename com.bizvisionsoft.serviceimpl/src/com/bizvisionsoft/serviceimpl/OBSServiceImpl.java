@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +131,18 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1))
 				.projection(new BasicDBObject("seq", 1)).first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("seq", 0)).orElse(0) + 1;
+	}
+
+	@Override
+	public List<String> getScopeRoleofUser(ObjectId scope_id, String userId) {
+		ArrayList<String> result = c("obs").distinct("roleId",
+				new Document("scope_id", scope_id).append("$or",
+						Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
+				String.class).into(new ArrayList<>());
+		if (c("obs").count(new Document("scope_id", scope_id).append("member", userId)) != 0) {
+			result.add("member");
+		}
+		return result;
 	}
 
 }

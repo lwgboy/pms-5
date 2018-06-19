@@ -17,9 +17,11 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.RoleBased;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -1078,6 +1080,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		}
 		sb.append("</div>");
 		return sb.toString();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 获得给定用户在阶段中的角色
+	@RoleBased
+	private List<String> getStageRole(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userId) {
+		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
 
 }

@@ -22,7 +22,6 @@ import com.mongodb.BasicDBObject;
 @Path("/obs")
 public interface OBSService {
 
-
 	@POST
 	@Path("/nextobsseq")
 	@Consumes("application/json; charset=UTF-8")
@@ -98,5 +97,11 @@ public interface OBSService {
 	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
 	public long countMember(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+
+	@GET
+	@Path("/scope/id/{_id}/userId/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<String> getScopeRoleofUser(@PathParam("_id")  ObjectId scope_id, @PathParam("userId")  String userId);
 
 }

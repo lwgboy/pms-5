@@ -724,19 +724,6 @@
                 "role": ""
               },
               {
-                "id": "161989cc406",
-                "name": "企业项目结构",
-                "text": "企业项目结构",
-                "switchContentToAssemblyId": "16275cba497",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch",
-                "role": "项目管理员#项目总监"
-              },
-              {
                 "id": "16406b99e36",
                 "name": "创建项目",
                 "bundleId": "com.bizvisionsoft.pms",
@@ -755,9 +742,22 @@
             "type": "customized"
           },
           {
+            "id": "161989cc406",
+            "name": "企业项目结构",
+            "text": "企业项目结构",
+            "switchContentToAssemblyId": "16275cba497",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "项目管理员#项目总监"
+          },
+          {
             "id": "161985cac4c",
-            "name": "工作",
-            "text": "工作管理",
+            "name": "我的工作",
+            "text": "我的工作",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -789,19 +789,6 @@
                 "role": ""
               },
               {
-                "id": "161989cc8b9",
-                "name": "部门工作管理",
-                "text": "部门工作管理",
-                "switchContentToAssemblyId": "1635d7d0d35",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch",
-                "role": "部门经理"
-              },
-              {
                 "id": "163624d6384",
                 "name": "已完成的工作",
                 "text": "已完成的工作",
@@ -818,6 +805,19 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "161989cc8b9",
+            "name": "部门工作",
+            "text": "部门工作",
+            "switchContentToAssemblyId": "1635d7d0d35",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "部门经理"
           },
           {
             "id": "163f1e3d040",
@@ -1602,7 +1602,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch",
-            "role": "PM#PA#PPM"
+            "role": "PM#PA#PPM#PFM"
           },
           {
             "id": "162fffa390f",

@@ -108,8 +108,8 @@ public class User implements IResourceAssignment {
 	}
 
 	public String getHeadpicURL() {
-		if (isSA()) {
-			return "/bvs/svg?text=SA&color=ffffff";
+		if (isSU()) {
+			return "/bvs/svg?text=SU&color=ffffff";
 		} else if (headPics != null && headPics.size() > 0)
 			return headPics.get(0).getURL(ServicesLoader.url);
 		return null;
@@ -197,12 +197,12 @@ public class User implements IResourceAssignment {
 		return buzAdmin;
 	}
 
-	public boolean isSA() {
-		return "administrator".equals(name);
+	public boolean isSU() {
+		return "su".equals(userId);
 	}
 
-	public static User SA() {
-		return new User().setName("超级用户").setUserId("administrator");
+	public static User SU() {
+		return new User().setName("超级用户").setUserId("su");
 	}
 
 	private List<String> roles;
