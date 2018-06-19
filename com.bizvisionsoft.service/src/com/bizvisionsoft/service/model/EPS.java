@@ -195,5 +195,9 @@ public class EPS implements Comparable<EPS> {
 	public String toString() {
 		return name + " [" + id + "]";
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 }

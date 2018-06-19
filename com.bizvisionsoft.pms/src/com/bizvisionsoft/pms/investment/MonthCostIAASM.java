@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.investment;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.bson.Document;
 import org.eclipse.rap.json.JsonObject;
@@ -13,6 +14,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.pms.chart.AbstractChartASM;
 import com.bizvisionsoft.service.EPSService;
+import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class MonthCostIAASM extends AbstractChartASM {
@@ -24,6 +26,8 @@ public class MonthCostIAASM extends AbstractChartASM {
 	private BruiAssemblyContext context;
 
 	private String year;
+
+	private List<EPSInvestmentAnalysis> epsIAs = null;
 
 	@Init
 	public void init() {
@@ -42,7 +46,11 @@ public class MonthCostIAASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
-		return Services.get(EPSService.class).getMonthCostIA(year);
+		return Services.get(EPSService.class).getMonthCostIA(epsIAs, year);
+	}
+
+	public void setEpsIAs(List<EPSInvestmentAnalysis> epsIAs) {
+		this.epsIAs = epsIAs;
 	}
 
 	public void setYear(String year) {

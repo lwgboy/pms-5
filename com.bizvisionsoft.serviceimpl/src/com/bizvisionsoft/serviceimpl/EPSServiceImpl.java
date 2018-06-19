@@ -1,9 +1,14 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -12,11 +17,13 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
+import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.AggregateIterable;
 
 public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
@@ -138,131 +145,261 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	}
 
 	@Override
-	public Document getMonthProfitIA(String year) {
-		List<? extends Bson> pipeline = new JQ("查询投资分析-投资回报按月分析").array();
-
-		List<String> data1 = new ArrayList<String>();
-		List<Document> data2 = new ArrayList<Document>();
-		Document pieDoc = new Document();
-		pieDoc.append("type", "pie");
-		pieDoc.append("center", Arrays.asList("83%", "53%"));
-		pieDoc.append("radius", "28%");
-		pieDoc.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-				"rich",
-				new Document("b", new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-						.append("hr",
-								new Document("color", "#aaa").append("width", "100%").append("borderWidth", 0.5)
-										.append("height", 0))
-						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
-								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
-
-		List<Document> pieDatas = new ArrayList<Document>();
-		pieDoc.append("data", pieDatas);
-		c("eps", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
-			String name = epsInfo.getName();
-			data1.add(name);
-			Document profitDoc = new Document();
-			data2.add(profitDoc);
-			profitDoc.append("name", name);
-			profitDoc.append("type", "bar");
-			profitDoc.append("stack", "回报");
-			profitDoc.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
-			List<Object> profitData = new ArrayList<Object>();
-			profitDoc.append("data", profitData);
-			double pieValue = 0d;
-			for (int i = 0; i < 12; i++) {
-				String month = String.format("%02d", i + 1);
-				double profit = epsInfo.getProfit(year + month);
-				pieValue += profit;
-				profitData.add(getStringValue(profit));
-			}
-			Document pieData = new Document();
-			pieData.append("name", name).append("value", getStringValue(pieValue));
-			pieDatas.add(pieData);
-
-		});
-		data2.add(pieDoc);
-		
-
-		Document option = new Document();
-		option.append("title", new Document("text", year + "年 销售利润分析（万元）").append("x", "center"));
-//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
-
-		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "35%").append("bottom", "6%").append("containLabel", true));
-
-		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data",
-				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
-		option.append("yAxis", Arrays.asList(new Document("type", "value")));
-
-		option.append("series", data2);
-		return option;
+	public Document getMonthProfitIA(List<EPSInvestmentAnalysis> epsIAs, String year) {
+		Calendar cal1 = Calendar.getInstance();
+		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
+		return getProfitIA(epsIAs, year + "年 销售利润分析（万元）", cal1.getTime(), cal2.getTime());
 	}
 
 	@Override
-	public Document getMonthCostIA(String year) {
-		List<? extends Bson> pipeline = new JQ("查询投资分析-投资回报按月分析").array();
+	public Document getMonthCostIA(List<EPSInvestmentAnalysis> epsIAs, String year) {
+		Calendar cal1 = Calendar.getInstance();
+		cal1.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
+		return getCostIA(epsIAs, year + "年 资金投入分析（万元）", cal1.getTime(), cal2.getTime());
+	}
 
-		List<String> data1 = new ArrayList<String>();
-		List<Document> data2 = new ArrayList<Document>();
-		Document pieDoc = new Document();
-		pieDoc.append("type", "pie");
-		pieDoc.append("center", Arrays.asList("83%", "53%"));
-		pieDoc.append("radius", "28%");
-		pieDoc.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-				"rich",
-				new Document("b", new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-						.append("hr",
-								new Document("color", "#aaa").append("width", "100%").append("borderWidth", 0.5)
-										.append("height", 0))
-						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
-								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
-		
-		List<Document> pieDatas = new ArrayList<Document>();
-		pieDoc.append("data", pieDatas);
-		c("eps", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
-			String name = epsInfo.getName();
-			data1.add(name);
-			Document costDoc = new Document();
-			data2.add(costDoc);
-			costDoc.append("name", name);
-			costDoc.append("type", "bar");
-			costDoc.append("stack", "投资");
-			costDoc.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
-			List<Object> costData = new ArrayList<Object>();
-			costDoc.append("data", costData);
-			double pieValue = 0d;
-			for (int i = 0; i < 12; i++) {
-				String month = String.format("%02d", i + 1);
-				double cost = epsInfo.getCost(year + month);
-				pieValue += cost;
-				costData.add(getStringValue(cost));
-			}
-			Document pieData = new Document();
-			pieData.append("name", name).append("value", getStringValue(pieValue));
-			pieDatas.add(pieData);
-
-		});
-		data2.add(pieDoc);
-		
+	private Document getProfitIA(List<EPSInvestmentAnalysis> epsIAs, String title, Date startDate, Date endDate) {
+		List<String> xAxis = createXAxis(null, startDate, endDate);
+		List<Document> series = new ArrayList<Document>();
+		createProfitSeries(series, epsIAs, startDate, endDate);
+		List<String> legend = getLegend(epsIAs);
 
 		Document option = new Document();
-		option.append("title", new Document("text", year + "年 资金投入分析（万元）").append("x", "center"));
-//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
-
-		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
+		option.append("title", new Document("text", title).append("x", "center"));
 		option.append("grid",
-				new Document("left", "3%").append("right", "35%").append("bottom", "6%").append("containLabel", true));
+				new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
 
-		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data",
-				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
+		if (legend != null && legend.size() > 0)
+			option.append("legend", new Document("data", legend).append("bottom", 10).append("left", "center"));
+
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data", xAxis)));
 		option.append("yAxis", Arrays.asList(new Document("type", "value")));
 
-		option.append("series", data2);
+		option.append("series", series);
+
 		return option;
 	}
 
+	private Document getCostIA(List<EPSInvestmentAnalysis> epsIAs, String title, Date startDate, Date endDate) {
+		List<String> xAxis = createXAxis(null, startDate, endDate);
+		List<Document> series = new ArrayList<Document>();
+		createCostSeries(series, epsIAs, startDate, endDate);
+		List<String> legend = getLegend(epsIAs);
+
+		Document option = new Document();
+		option.append("title", new Document("text", title).append("x", "center"));
+		option.append("grid",
+				new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
+
+		if (legend != null && legend.size() > 0)
+			option.append("legend", new Document("data", legend).append("bottom", 10).append("left", "center"));
+
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data", xAxis)));
+		option.append("yAxis", Arrays.asList(new Document("type", "value")));
+
+		option.append("series", series);
+
+		return option;
+	}
+
+	private List<String> getLegend(List<EPSInvestmentAnalysis> epsIAs) {
+		if (epsIAs != null && epsIAs.size() > 0) {
+			List<String> legend = new ArrayList<String>();
+			epsIAs.forEach(epsIA -> {
+				legend.add(epsIA.name);
+			});
+			return legend;
+		}
+		return null;
+	}
+
+	private List<String> createXAxis(List<String> xAxis, Date startDate, Date endDate) {
+		if (xAxis == null)
+			xAxis = new ArrayList<String>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月");
+		xAxis.add(sdf.format(startDate));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		while (cal.getTime().before(endDate)) {
+			cal.add(Calendar.MONTH, 1);
+			xAxis.add(sdf.format(cal.getTime()));
+		}
+		return xAxis;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createCostSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
+			Date endDate) {
+		Map<String, Double> mapKeys = new TreeMap<String, Double>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+		mapKeys.put(sdf.format(startDate), 0d);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		while (cal.getTime().before(endDate)) {
+			cal.add(Calendar.MONTH, 1);
+			mapKeys.put(sdf.format(cal.getTime()), 0d);
+		}
+		if (epsIAs != null && epsIAs.size() > 0) {
+			epsIAs.forEach(epsIA -> {
+				Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
+				AggregateIterable<Document> aggregate;
+				if (epsIA.project_ids != null) {
+					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
+							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
+
+					aggregate.forEach((Document doc) -> {
+						Object obj = doc.get("cbsSubjects");
+						if (obj != null && obj instanceof List) {
+							((List<Document>) obj).forEach(cbsSubject -> {
+								Double d = map.get(cbsSubject.getString("id"));
+								if (d != null) {
+									Object cost = cbsSubject.get("cost");
+									if (cost != null) {
+										d += ((Number) cost).doubleValue();
+										map.put(cbsSubject.getString("id"), d);
+									}
+								}
+							});
+						}
+					});
+
+					Document costDoc = new Document();
+					series.add(costDoc);
+
+					costDoc.append("name", epsIA.name);
+					costDoc.append("type", "bar");
+					costDoc.append("label",
+							new Document("normal", new Document("show", true).append("position", "inside")));
+					List<Object> data = new ArrayList<Object>();
+					for (Double d : map.values()) {
+						data.add(getStringValue(d));
+					}
+					costDoc.append("data", data);
+				}
+			});
+		} else {
+			Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
+			c("project").aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array())
+					.forEach((Document doc) -> {
+						Object obj = doc.get("cbsSubjects");
+						if (obj != null && obj instanceof List) {
+							((List<Document>) obj).forEach(cbsSubject -> {
+								Double d = map.get(cbsSubject.getString("id"));
+								if (d != null) {
+									Object cost = cbsSubject.get("cost");
+									if (cost != null) {
+										d += ((Number) cost).doubleValue();
+										map.put(cbsSubject.getString("id"), d);
+									}
+								}
+							});
+						}
+					});
+
+			Document costDoc = new Document();
+			series.add(costDoc);
+
+			costDoc.append("name", "资金投入");
+			costDoc.append("type", "bar");
+			costDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+			List<Object> data = new ArrayList<Object>();
+			for (Double d : map.values()) {
+				data.add(getStringValue(d));
+			}
+			costDoc.append("data", data);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createProfitSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
+			Date endDate) {
+		Map<String, Double> mapKeys = new TreeMap<String, Double>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+		mapKeys.put(sdf.format(startDate), 0d);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		while (cal.getTime().before(endDate)) {
+			cal.add(Calendar.MONTH, 1);
+			mapKeys.put(sdf.format(cal.getTime()), 0d);
+		}
+		if (epsIAs != null && epsIAs.size() > 0) {
+			epsIAs.forEach(epsIA -> {
+				Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
+				AggregateIterable<Document> aggregate;
+				if (epsIA.project_ids != null) {
+					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
+							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
+
+					aggregate.forEach((Document doc) -> {
+						Object obj = doc.get("salesItems");
+						if (obj != null && obj instanceof List) {
+							((List<Document>) obj).forEach(salesItem -> {
+								Double d = map.get(salesItem.getString("period"));
+								if (d != null) {
+									Object profit = salesItem.get("profit");
+									if (profit != null) {
+										d += ((Number) profit).doubleValue();
+										map.put(salesItem.getString("period"), d);
+									}
+								}
+							});
+						}
+					});
+
+					Document profitDoc = new Document();
+					series.add(profitDoc);
+
+					profitDoc.append("name", epsIA.name);
+					profitDoc.append("type", "bar");
+					profitDoc.append("label",
+							new Document("normal", new Document("show", true).append("position", "inside")));
+					List<Object> data = new ArrayList<Object>();
+					for (Double d : map.values()) {
+						data.add(getStringValue(d));
+					}
+					profitDoc.append("data", data);
+				}
+			});
+		} else {
+			Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
+			c("project").aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array())
+					.forEach((Document doc) -> {
+						Object obj = doc.get("salesItems");
+						if (obj != null && obj instanceof List) {
+							((List<Document>) obj).forEach(salesItem -> {
+								Double d = map.get(salesItem.getString("period"));
+								if (d != null) {
+									Object profit = salesItem.get("profit");
+									if (profit != null) {
+										d += ((Number) profit).doubleValue();
+										map.put(salesItem.getString("period"), d);
+									}
+								}
+							});
+						}
+					});
+
+			Document profitDoc = new Document();
+			series.add(profitDoc);
+
+			profitDoc.append("name", "销售利润");
+			profitDoc.append("type", "bar");
+			profitDoc.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+			List<Object> data = new ArrayList<Object>();
+			for (Double d : map.values()) {
+				data.add(getStringValue(d));
+			}
+			profitDoc.append("data", data);
+
+		}
+	}
 
 	private String getStringValue(Object value) {
 		if (value instanceof Number) {
@@ -271,7 +408,29 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 				return new DecimalFormat("0.0").format(d);
 			}
 		}
-		return null;
+		return "";
+	}
+
+	@Override
+	public List<ObjectId> getSubProjectId(ObjectId _id) {
+		List<ObjectId> epsIds = getDesentItems(Arrays.asList(_id), "eps", "parent_id");
+
+		List<ObjectId> projectIds = c("project")
+				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		List<ObjectId> projectSetIds = c("projectSet")
+				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		if (projectSetIds.size() > 0) {
+			projectSetIds = getDesentItems(projectSetIds, "projectSet", "parent_id");
+
+			projectIds.addAll(c("project")
+					.distinct("_id", new Document("projectSet_id", new Document("$in", projectSetIds)), ObjectId.class)
+					.into(new ArrayList<ObjectId>()));
+		}
+		projectIds = getDesentItems(projectIds, "project", "parentProject_id");
+		return projectIds;
 	}
 
 }

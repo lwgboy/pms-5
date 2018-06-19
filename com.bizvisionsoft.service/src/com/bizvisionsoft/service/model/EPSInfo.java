@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -222,6 +223,10 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	@SetValue
 	private Date actualFinish;
 
+	@ReadValue("start")
+	@SetValue
+	private Date actualStart;
+
 	@ReadValue("irp")
 	public Integer getIRP() {
 		List<EPSInfo> listSub = listSub();
@@ -244,7 +249,18 @@ public class EPSInfo implements Comparable<EPSInfo> {
 			double cost = getCostSummary();
 			double profit = getMonthAvgProfit();
 			if (profit != 0) {
-				return (int) Math.ceil(cost / profit);
+				String id = getSalesItems().get(0).getId();
+				Calendar startCal = Calendar.getInstance();
+				startCal.setTime(actualStart);
+				int start = 0;
+
+				Calendar endCal = Calendar.getInstance();
+				endCal.set(Calendar.YEAR, Integer.parseInt(id.substring(0, 4)));
+				endCal.set(Calendar.MONTH, Integer.parseInt(id.substring(4, 6)));
+				int year = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
+				start = year * 12 + endCal.get(Calendar.MONTH) - startCal.get(Calendar.MONTH);
+
+				return (start + (int) Math.ceil(cost / profit));
 			}
 		}
 		return null;
