@@ -699,8 +699,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch",
-            "role": ""
+            "type": "switch"
           },
           {
             "id": "161985c99a8",
@@ -720,8 +719,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": ""
+                "type": "switch"
               },
               {
                 "id": "161989cc406",
@@ -733,8 +731,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": "项目管理员#项目总监"
+                "type": "switch"
               },
               {
                 "id": "16406b99e36",
@@ -746,8 +743,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized",
-                "role": ""
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
@@ -772,8 +768,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": ""
+                "type": "switch"
               },
               {
                 "id": "161989cc80d",
@@ -785,8 +780,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": ""
+                "type": "switch"
               },
               {
                 "id": "161989cc8b9",
@@ -798,8 +792,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": "部门经理"
+                "type": "switch"
               },
               {
                 "id": "163624d6384",
@@ -811,8 +804,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch",
-                "role": ""
+                "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
@@ -862,8 +854,7 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch",
-            "role": ""
+            "type": "switch"
           },
           {
             "id": "161989cc240",
@@ -909,8 +900,7 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized",
-            "role": "财务经理#项目总监"
+            "type": "customized"
           },
           {
             "id": "163e433adcb",
@@ -959,8 +949,7 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch",
-            "role": "投资规划经理#项目总监"
+            "type": "switch"
           },
           {
             "id": "161989cbe38",
@@ -972,8 +961,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch",
-            "role": "供应链经理#项目总监"
+            "type": "switch"
           },
           {
             "id": "161989cc03c",
@@ -985,8 +973,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch",
-            "role": "制造经理#项目总监"
+            "type": "switch"
           },
           {
             "id": "16406dea820",
@@ -999,8 +986,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized",
-            "role": "业务管理员"
+            "type": "customized"
           },
           {
             "id": "16406d18935",
@@ -1013,8 +999,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized",
-            "role": "系统管理员"
+            "type": "customized"
           }
         ]
       },
@@ -1031,15 +1016,13 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "163958383b0",
-            "defaultAssembly": true,
-            "role": ""
+            "defaultAssembly": true
           },
           {
             "typeName": "组件链接",
             "behavior": true,
             "id": "163eb0672aa",
-            "defaultAssembly": false,
-            "role": "投资规划经理"
+            "defaultAssembly": false
           }
         ]
       },
@@ -39499,6 +39482,20 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "16411ff5ab4",
+            "name": "范围",
+            "text": "范围",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.investment.SearchEPSIAACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -45013,62 +45010,5 @@
         "addToParentContext": false
       }
     ]
-  },
-  "roles": [
-    {
-      "name": "投资规划经理",
-      "id": "1640d8b155b",
-      "text": "投资规划经理"
-    },
-    {
-      "name": "技术经理",
-      "id": "1640dca507b",
-      "text": "技术经理"
-    },
-    {
-      "name": "供应链经理",
-      "id": "1640dcab78a",
-      "text": "供应链经理"
-    },
-    {
-      "name": "制造经理",
-      "id": "1640dcad392",
-      "text": "制造经理"
-    },
-    {
-      "name": "质量经理",
-      "id": "1640dcafa8e",
-      "text": "质量经理"
-    },
-    {
-      "name": "财务经理",
-      "id": "1640dcb15df",
-      "text": "财务经理"
-    },
-    {
-      "name": "项目总监",
-      "id": "1640dcb699d",
-      "text": "项目总监"
-    },
-    {
-      "name": "项目管理员",
-      "id": "1640dcdc149",
-      "text": "项目管理员"
-    },
-    {
-      "name": "部门经理",
-      "id": "1640e334e61",
-      "text": "部门经理"
-    },
-    {
-      "name": "系统管理员",
-      "id": "1640e41b151",
-      "text": "系统管理员"
-    },
-    {
-      "name": "业务管理员",
-      "id": "1640e41fdc4",
-      "text": "业务管理员"
-    }
-  ]
+  }
 }

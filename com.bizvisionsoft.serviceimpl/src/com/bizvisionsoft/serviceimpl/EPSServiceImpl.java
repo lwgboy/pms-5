@@ -1,8 +1,11 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -12,6 +15,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
+import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -182,11 +186,11 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		});
 		data2.add(pieDoc);
-		
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 销售利润分析（万元）").append("x", "center"));
-//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+		// option.append("tooltip", new Document("trigger",
+		// "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
 		option.append("grid",
@@ -218,7 +222,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 										.append("height", 0))
 						.append("per", new Document("color", "#eee").append("backgroundColor", "#334455")
 								.append("padding", Arrays.asList(2, 4)).append("borderRadius", 2)))));
-		
+
 		List<Document> pieDatas = new ArrayList<Document>();
 		pieDoc.append("data", pieDatas);
 		c("eps", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
@@ -245,11 +249,11 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		});
 		data2.add(pieDoc);
-		
 
 		Document option = new Document();
 		option.append("title", new Document("text", year + "年 资金投入分析（万元）").append("x", "center"));
-//		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
+		// option.append("tooltip", new Document("trigger",
+		// "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", data1).append("orient", "vertical").append("left", "right"));
 		option.append("grid",
@@ -263,7 +267,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		return option;
 	}
 
-
 	private String getStringValue(Object value) {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
@@ -272,6 +275,41 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			}
 		}
 		return null;
+	}
+
+	private Document getCostIA(EPSInvestmentAnalysis epsIA, String title, Date startDate, Date endDate) {
+		List<Document> series = new ArrayList<Document>();
+
+		Document costDoc = new Document();
+		series.add(costDoc);
+		costDoc.append("name", epsIA.name);
+		costDoc.append("type", "bar");
+		costDoc.append("label", new Document("normal", new Document("show", false).append("position", "inside")));
+		List<Object> costData = new ArrayList<Object>();
+		costDoc.append("data", costData);
+
+		Document option = new Document();
+		option.append("title", new Document("text", title).append("x", "center"));
+		option.append("grid",
+				new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
+
+		List<String> xAxis = new ArrayList<String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M");
+		xAxis.add(sdf.format(startDate));
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		while (startDate.before(endDate)) {
+			cal.add(Calendar.MONTH, 1);
+			xAxis.add(sdf.format(cal.getTime()));
+		}
+
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data", xAxis)));
+		option.append("yAxis", Arrays.asList(new Document("type", "value")));
+
+		option.append("series", series);
+
+		return option;
 	}
 
 }
