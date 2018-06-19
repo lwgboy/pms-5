@@ -108,7 +108,9 @@ public class User implements IResourceAssignment {
 	}
 
 	public String getHeadpicURL() {
-		if (headPics != null && headPics.size() > 0)
+		if (isSA()) {
+			return "/bvs/svg?text=SA&color=ffffff";
+		} else if (headPics != null && headPics.size() > 0)
 			return headPics.get(0).getURL(ServicesLoader.url);
 		return null;
 	}
@@ -155,16 +157,6 @@ public class User implements IResourceAssignment {
 	private String getSectionKey() {
 		return userId;
 	}
-	
-	private List<String> roles;
-	
-	public List<String> getRoles() {
-		return roles;
-	}
-	
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
 
 	public boolean isActivated() {
 		return activated;
@@ -204,13 +196,23 @@ public class User implements IResourceAssignment {
 	public boolean isBuzAdmin() {
 		return buzAdmin;
 	}
-	
+
 	public boolean isSA() {
 		return "administrator".equals(name);
 	}
-	
+
 	public static User SA() {
 		return new User().setName("administrator").setUserId("administrator");
 	}
 
+	private List<String> roles;
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+	
 }
