@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service.model;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 public class WorkResourceAssignment {
