@@ -202,7 +202,7 @@ public class User implements IResourceAssignment {
 	}
 
 	public static User SA() {
-		return new User().setName("administrator").setUserId("administrator");
+		return new User().setName("≥¨º∂”√ªß").setUserId("administrator");
 	}
 
 	private List<String> roles;
@@ -214,5 +214,5 @@ public class User implements IResourceAssignment {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-	
+
 }
