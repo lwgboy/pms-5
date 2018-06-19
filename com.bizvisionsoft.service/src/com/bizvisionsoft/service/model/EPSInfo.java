@@ -248,7 +248,7 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		} else {
 			double cost = getCostSummary();
 			double profit = getMonthAvgProfit();
-			if (profit != 0) {
+			if (profit != 0 && actualStart != null) {
 				String id = getSalesItems().get(0).getId();
 				Calendar startCal = Calendar.getInstance();
 				startCal.setTime(actualStart);

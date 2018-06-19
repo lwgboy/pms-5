@@ -52,7 +52,6 @@ public abstract class AbstractChartASM {
 
 	public void refresh() {
 		JsonObject option = getOption();
-		System.out.println(option);
 		content.setOption(option);
 	}
 }
