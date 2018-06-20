@@ -248,8 +248,8 @@ public class EditWorkResourceActualASM {
 		grp.setExpanded(true);
 
 		GridColumn col = new GridColumn(grp, SWT.CENTER);
-		col.setText("标准用量");
-		col.setWidth(80);
+		col.setText("标准");
+		col.setWidth(48);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -261,8 +261,8 @@ public class EditWorkResourceActualASM {
 		vcol.setLabelProvider(getColumnLabelProvider(now, "Basic", type));
 
 		col = new GridColumn(grp, SWT.CENTER);
-		col.setText("加班用量");
-		col.setWidth(80);
+		col.setText("加班");
+		col.setWidth(48);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
