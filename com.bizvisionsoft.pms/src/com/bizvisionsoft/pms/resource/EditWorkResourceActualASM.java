@@ -26,15 +26,12 @@ import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
-import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.model.WorkReportAssignment;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.serviceconsumer.Services;
 
