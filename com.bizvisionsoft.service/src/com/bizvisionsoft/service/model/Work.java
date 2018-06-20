@@ -300,7 +300,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Label(Label.NAME_LABEL)
 	private String text;
 
-	@ReadValue({ "进度计划和监控/name", "进度计划/name" })
+	@ReadValue({ "进度计划和监控/name", "进度计划和监控（查看）/name", "进度计划/name" })
 	private String getWorkNameHTML() {
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
@@ -695,7 +695,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 
-	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划/chargerInfoWithDistributeIcon" })
+	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon",
+			"进度计划/chargerInfoWithDistributeIcon" })
 	private String getChargerInfoWithIcon() {
 		if (chargerId == null) {
 			return "";
@@ -769,12 +770,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure({ "进度计划和监控/list", "进度计划/list" })
+	@Structure({ "进度计划和监控/list","进度计划和监控（查看）/list", "进度计划/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure({ "进度计划和监控/count", "进度计划/count" })
+	@Structure({ "进度计划和监控/count","进度计划和监控（查看）/count", "进度计划/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
