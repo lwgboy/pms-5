@@ -75,7 +75,7 @@ public class FuncPermission {
 
 	@ReadValue("authBy")
 	private String getAuthBy() {
-		return creationInfo.getCreatorInfo();
+		return creationInfo.userName;
 	}
 
 	@ReadValue("authOn")

@@ -10,8 +10,4 @@ public class CreationInfo {
 
 	public Date date;
 
-	public String getCreatorInfo() {
-		return userName + " [" + userId + "]";
-	}
-
 }

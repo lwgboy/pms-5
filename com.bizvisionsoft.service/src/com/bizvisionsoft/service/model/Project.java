@@ -202,7 +202,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String status;
 
 	@ReadValue("statusHtml")
-	private String getStatusHtml() {
+	public String getStatusHtml() {
 		if (ProjectStatus.Created.equals(status)) {
 			return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
 		} else if (ProjectStatus.Processing.equals(status)) {
@@ -828,7 +828,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	// 获得给定用户在项目中的角色
 	@RoleBased
 	private List<String> getProjectRole(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userId) {
-		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id,userId);
+		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
