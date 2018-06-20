@@ -626,6 +626,21 @@
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "children": [
+              {
+                "id": "1641a8b2e02",
+                "name": "加载测试数据",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.LoadDemoData",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized",
+                "role": ""
+              }
+            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -668,35 +683,7 @@
         "enabled": true,
         "width": 240,
         "header": "16184129060",
-        "toolbarItems": [
-          {
-            "id": "16197920f2e",
-            "name": "创建演示数据",
-            "tooltips": "创建演示数据",
-            "image": "/img/submit_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.action.CommitProjectChange",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1641797d553",
-            "name": "演示时间选择",
-            "image": "/img/workflow_w.svg",
-            "bundleId": "com.bizvisionsoft.demo.rsclient",
-            "className": "com.bizvisionsoft.demo.rsclient.DateTimeSelectorDemoACT",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "16197902d45",
@@ -4200,6 +4187,18 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch"
+          },
+          {
+            "id": "1641a87cc06",
+            "name": "开发环境",
+            "image": "/img/rnd_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "openpage",
+            "openPageName": "开发环境"
           }
         ]
       },
@@ -32249,7 +32248,7 @@
         "gridHideIndentionImage": true,
         "gridAutoHeight": false,
         "gridFix": 0,
-        "gridPageControl": false,
+        "gridPageControl": true,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.project.ProjectBoardRender",
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
