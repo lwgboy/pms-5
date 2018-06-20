@@ -1694,17 +1694,6 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch"
-              },
-              {
-                "id": "16370fa7c16",
-                "name": "项目资源计划",
-                "switchContentToAssemblyId": "16370ff5184",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
@@ -1725,6 +1714,30 @@
             "type": "switch",
             "role": "",
             "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "16370fa7c16",
+            "name": "项目资源计划",
+            "switchContentToAssemblyId": "16370ff5184",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1641c046ef8",
+            "name": "项目资源计划（查看）",
+            "text": "项目资源计划",
+            "switchContentToAssemblyId": "16390d02c3a",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
           },
           {
             "id": "162fffad053",
