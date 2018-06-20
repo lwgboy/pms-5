@@ -125,10 +125,10 @@ public class WorkBoardRender {
 		// 开始和完成按钮
 		if (work.getActualStart() == null) {
 			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='startWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-sessionManager' style='padding:6px 10px;' src='rwt-resources/extres/img/start_w.svg'/></a></div>");
+					+ "' target='_rwt'><img class='layui-btn layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/start_w.svg'/></a></div>");
 		} else if (work.getActualFinish() == null) {
 			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='finishWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sessionManager' style='padding:6px 10px;' src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
+					+ "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
 		}
 
 		sb.append("<div style=''>" + work.getProjectName() + "</div>");
@@ -197,17 +197,17 @@ public class WorkBoardRender {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (Util.isEmptyOrNull(wps)) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sessionManager layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
 							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sessionManager layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
 							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
 				sb.append(
-						"<a class='layui-btn layui-btn-sessionManager layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
 								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
@@ -216,7 +216,7 @@ public class WorkBoardRender {
 		// 指派按钮
 		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sessionManager layui-btn-normal' style='float:right; width:60px;margin-top:16px;margin-right:4px;' href='assignWork/"
+					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:16px;margin-right:4px;' href='assignWork/"
 							+ work.get_id() + "' target='_rwt'>指派</a>");
 		}
 		sb.append("</div>");

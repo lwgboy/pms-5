@@ -108,7 +108,7 @@ public class ProjectBoardRender {
 
 		StringBuffer sb = new StringBuffer();
 		sb.append(
-				"<div style='float:right;margin-right:16px;margin-top:0px;'><a class='layui-btn layui-btn-primary layui-btn-sessionManager' href='openProject/"
+				"<div style='float:right;margin-right:16px;margin-top:0px;'><a class='layui-btn layui-btn-primary layui-btn-sm' href='openProject/"
 						+ pj.get_id() + "' target='_rwt'><i class='layui-icon'>&#xe602;</i></a></div>");
 
 		sb.append("<div class='label_title'>" + pj.getName() + "</div>");
@@ -200,11 +200,11 @@ public class ProjectBoardRender {
 		Services.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
-				style = "layui-btn layui-btn-sessionManager";
+				style = "layui-btn layui-btn-sm";
 			} else if (work.getStartOn() != null && work.getFinishOn() == null) {
-				style = "layui-btn layui-btn-normal layui-btn-sessionManager";
+				style = "layui-btn layui-btn-normal layui-btn-sm";
 			} else {
-				style = "layui-btn layui-btn-primary layui-btn-sessionManager";
+				style = "layui-btn layui-btn-primary layui-btn-sm";
 			}
 			text.append("<a class='" + style + "' style='flex:auto;' href='openStage/" + work.getId()
 					+ "' target='_rwt'>" + work.getText() + "</a>");
