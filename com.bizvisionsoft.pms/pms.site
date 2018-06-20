@@ -1737,7 +1737,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "switch"
+            "type": "switch",
+            "excludeRole": "PM#PA#PPM"
           },
           {
             "id": "162fffad053",
