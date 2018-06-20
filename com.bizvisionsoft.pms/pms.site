@@ -1603,7 +1603,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch",
-            "role": "member"
+            "role": ""
           },
           {
             "id": "16300006028",
