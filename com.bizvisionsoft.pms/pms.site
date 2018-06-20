@@ -1987,7 +1987,8 @@
             "children": [
               {
                 "id": "9628decce74",
-                "name": "项目风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16380a1c169",
                 "openContent": false,
                 "propagate": false,
@@ -2522,7 +2523,8 @@
             "children": [
               {
                 "id": "9928decce74",
-                "name": "项目风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16390d46af6",
                 "openContent": false,
                 "propagate": false,
@@ -2837,7 +2839,8 @@
             "children": [
               {
                 "id": "16371a91b79",
-                "name": "风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16380a1c169",
                 "openContent": false,
                 "propagate": false,
@@ -3062,7 +3065,8 @@
             "children": [
               {
                 "id": "16371b90b76",
-                "name": "风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16380a1c169",
                 "openContent": false,
                 "propagate": false,
@@ -3429,7 +3433,8 @@
             "children": [
               {
                 "id": "16371bbacf1",
-                "name": "风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16380a1c169",
                 "openContent": false,
                 "propagate": false,
@@ -3817,7 +3822,8 @@
             "children": [
               {
                 "id": "96371bbacf1",
-                "name": "风险清单",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
                 "switchContentToAssemblyId": "16390d46af6",
                 "openContent": false,
                 "propagate": false,
