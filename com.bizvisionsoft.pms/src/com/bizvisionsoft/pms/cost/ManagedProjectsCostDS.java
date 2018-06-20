@@ -60,7 +60,7 @@ public class ManagedProjectsCostDS {
 		return Services.get(CBSService.class).countProjectCost(filter);
 	}
 
-	@DataSet({ "项目成本管理/" + DataSet.LIST, "项目预算成本对比分析/" + DataSet.LIST })
+	@DataSet({ "项目成本管理/" + DataSet.LIST,"项目成本管理（查看）/" + DataSet.LIST, "项目预算成本对比分析/" + DataSet.LIST })
 	private List<CBSItem> listCBSItemCost() {
 		return Services.get(CBSService.class).getScopeRoot(scope_id);
 	}

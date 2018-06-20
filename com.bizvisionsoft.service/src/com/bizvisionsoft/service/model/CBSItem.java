@@ -14,6 +14,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
+import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.ServiceParam;
@@ -172,7 +173,7 @@ public class CBSItem {
 		return children.size();
 	}
 
-	@Structure({ "项目成本管理/list", "项目预算成本对比分析/list" })
+	@Structure({ "项目成本管理/list","项目成本管理（查看）/list", "项目预算成本对比分析/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
 		children.forEach(c -> {
 			c.parent = this;
@@ -194,7 +195,7 @@ public class CBSItem {
 		return result;
 	}
 
-	@Structure({ "项目成本管理/count", "项目预算成本对比分析/count" })
+	@Structure({ "项目成本管理/count", "项目成本管理（查看）/count","项目预算成本对比分析/count" })
 	public long countSubCBSItemsAndSubjects() {
 		long result = children.size();
 		if (result == 0) {

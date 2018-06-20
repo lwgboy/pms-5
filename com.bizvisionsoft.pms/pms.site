@@ -1281,7 +1281,7 @@
               },
               {
                 "id": "163e48d2a67",
-                "name": "预算成本按月分析",
+                "name": "预算成本综合分析",
                 "switchContentToAssemblyId": "163ecf0554c",
                 "openContent": false,
                 "propagate": false,
@@ -2071,7 +2071,7 @@
               },
               {
                 "id": "163e4ea06d0",
-                "name": "预算成本按月分析",
+                "name": "预算成本综合分析",
                 "switchContentToAssemblyId": "163ecf0554c",
                 "openContent": false,
                 "propagate": false,
@@ -2493,39 +2493,16 @@
             "type": "switch"
           },
           {
-            "id": "993099ca971",
-            "name": "组织结构和干系人",
+            "id": "993099d3908",
+            "name": "组织结构",
+            "text": "组织结构",
+            "switchContentToAssemblyId": "16371c338b9",
             "openContent": false,
             "propagate": false,
             "forceText": false,
-            "children": [
-              {
-                "id": "993099d3908",
-                "name": "组织结构",
-                "text": "组织结构",
-                "switchContentToAssemblyId": "16371c338b9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9928decb6d6",
-                "name": "项目干系人",
-                "switchContentToAssemblyId": "16390ce5577",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "switch"
           },
           {
             "id": "9928decb7e0",
@@ -2536,9 +2513,12 @@
             "forceText": false,
             "children": [
               {
-                "id": "9928decb92d",
-                "name": "项目进度计划",
-                "switchContentToAssemblyId": "16390ca5f18",
+                "id": "9928decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "16371ebbf89",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2547,12 +2527,22 @@
                 "type": "switch"
               },
               {
-                "id": "9928decba8b",
-                "name": "项目进度计划甘特图",
-                "text": "项目进度甘特图",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "16371ebbf89",
+                "id": "1641f8c638f",
+                "name": "项目进度跟踪甘特图",
+                "text": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "163e36dc30b",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9928decb92d",
+                "name": "项目进度计划表（查看）",
+                "text": "项目进度计划表",
+                "switchContentToAssemblyId": "1641c25e273",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2608,28 +2598,6 @@
             "forceText": false,
             "children": [
               {
-                "id": "9928decc878",
-                "name": "项目预算",
-                "switchContentToAssemblyId": "163722a9d18",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9928decc9e5",
-                "name": "项目成本",
-                "switchContentToAssemblyId": "163e4ed7da2",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "16390f86458",
                 "name": "预算成本对比分析表",
                 "switchContentToAssemblyId": "163d3ef7ce7",
@@ -2641,31 +2609,9 @@
                 "type": "switch"
               },
               {
-                "id": "163e4eb06f6",
-                "name": "成本组成分析表",
-                "switchContentToAssemblyId": "163d9548883",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "163e4eb0ae1",
-                "name": "成本组成分析表-期间",
-                "switchContentToAssemblyId": "163df6b1035",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "163e4eb0e9b",
-                "name": "预算成本按月分析",
-                "switchContentToAssemblyId": "163df88737f",
+                "name": "预算成本综合分析",
+                "switchContentToAssemblyId": "163ecf0554c",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2740,18 +2686,6 @@
             "forceText": false,
             "children": [
               {
-                "id": "16390ccb37a",
-                "name": "总体进度监控",
-                "text": "总体进度监控",
-                "switchContentToAssemblyId": "1638c2c16a9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "9928decbc1b",
                 "name": "研发进度监控",
                 "switchContentToAssemblyId": "163856055de",
@@ -2800,26 +2734,14 @@
             "objectBehavier": false
           },
           {
-            "id": "9928decdce7",
-            "name": "项目变更管理",
-            "text": "项目变更管理",
+            "id": "9928decdec9",
+            "name": "项目基线",
             "openContent": false,
             "propagate": false,
             "forceText": false,
-            "children": [
-              {
-                "id": "9928decdec9",
-                "name": "项目基线",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "type": "switch"
           },
           {
             "id": "9928df226b9",
@@ -2885,7 +2807,19 @@
           },
           {
             "id": "9928df224b5",
-            "name": "项目档案",
+            "name": "项目档案库",
+            "switchContentToAssemblyId": "163dac2719a",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "9928decb6d6",
+            "name": "项目干系人",
+            "switchContentToAssemblyId": "16390ce5577",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -36529,7 +36463,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "成本组成分析",
+        "stickerTitle": "项目成本组成按年分析",
         "folderId": "163d33c2f06",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -37410,7 +37344,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "成本组成分析",
+        "stickerTitle": "项目成本组成按期间分析",
         "folderId": "163d33c2f06",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -37500,7 +37434,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "预算成本按月分析",
+        "stickerTitle": "预算和成本按月对比分析",
         "folderId": "163d33c2f06",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
