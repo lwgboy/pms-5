@@ -175,6 +175,10 @@
 		}, {
 			"$addFields" : {
 				"workName" : "$work.name",
+				"actualStart" : "$work.actualStart",
+				"actualFinish" : "$work.actualFinish",
+				"planStart" : "$work.planStart",
+				"planFinish" : "$work.planFinish",
 				"projectName" : "$project.name"
 			}
 		}, {

@@ -83,11 +83,24 @@ public class ReportItemRender extends GridPartDefaultRender {
 					Work work = ((WorkReportItem) item).getWork();
 					WorkReport workReport = (WorkReport) context.getInput();
 					// TODO 根据类型输入不同的from和to
-					rt.setFrom(workReport.getPeriodForm());
-					rt.setTo(workReport.getPeriodTo());
+					Date periodForm = workReport.getPeriodForm();
+					Date periodTo = workReport.getPeriodTo();
+					Date actualStart = work.getActualStart();
+					Date actualFinish = work.getActualFinish();
+
+					if (periodForm.before(actualStart))
+						periodForm = actualStart;
+
+					if (actualFinish != null && periodTo.after(actualFinish))
+						periodTo = actualFinish;
+
+					rt.setFrom(periodForm);
+					rt.setTo(periodTo);
 					rt.addWorkIds(work.get_id());
 					rt.setType(ResourceTransfer.TYPE_ACTUAL);
 					rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+					rt.setCheckTime(false);
+					rt.setCanAdd(true);
 
 					brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 

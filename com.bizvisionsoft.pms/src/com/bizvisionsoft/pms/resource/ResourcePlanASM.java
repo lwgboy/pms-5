@@ -29,6 +29,7 @@ import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
+import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -104,9 +105,21 @@ public class ResourcePlanASM {
 	}
 
 	private void openResourceConflict(ResourcePlan rp) {
-		brui.openContent(brui.getAssembly("解决单一资源冲突"), rp);
+		ResourceTransfer rt = new ResourceTransfer();
+		rt.addWorkIds(work.get_id());
+		rt.setType(ResourceTransfer.TYPE_PLAN);
+		rt.setShowType(ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE);
+		rt.setFrom(work.getPlanStart());
+		rt.setTo(work.getPlanFinish());
+		rt.setUsedEquipResId(rp.getUsedEquipResId());
+		rt.setUsedHumanResId(rp.getUsedHumanResId());
+		rt.setUsedTypedResId(rp.getUsedTypedResId());
+		rt.setResTypeId(rp.getResTypeId());
+		rt.setCheckTime(true);
+		rt.setCanAdd(false);
+
+		brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 	}
-	
 
 	private void allocateResource() {
 		// 显示资源选择框
