@@ -137,7 +137,7 @@ public class WorkBoardRender {
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
 		if (!"".equals(warrningText) && warrningText != null)
-			sb.append(work.getWarningIcon());
+			sb.append("  "+work.getWarningIcon());
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfo();
 		sb.append("<div style='margin-right:16px;'>¸ºÔð: "

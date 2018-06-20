@@ -52,15 +52,6 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 		return countOrganizations(new BasicDBObject("parent_id", null).append("project_id", null));
 	}
 
-	/**
-	 * 
-	 * db.getCollection('organization').aggregate( [
-	 * {"$lookup":{"from":"user","localField":"managerId","foreignField":"userId","as":"user"}}
-	 * , {"$unwind":{"path":"$user","preserveNullAndEmptyArrays":true}} ,
-	 * {"$addFields":{"managerInfo":{"$concat":["$user.name","
-	 * [","$user.userId","]"]}}} , {"$project":{"user":0}} ])
-	 * 
-	 */
 	@Override
 	public List<Organization> getSub(ObjectId parent_id) {
 		return getOrganizations(new BasicDBObject("parent_id", parent_id));

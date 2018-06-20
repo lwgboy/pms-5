@@ -154,8 +154,13 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.unwind("$" + tempField, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
-		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>(userInfoField, new BasicDBObject("$concat",
-				new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId", "]" }))));
+		// ²»ÏÔÊ¾userid
+		// pipeline.add(Aggregates.addFields(new Field<BasicDBObject>(userInfoField, new
+		// BasicDBObject("$concat",
+		// new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId",
+		// "]" }))));
+
+		pipeline.add(Aggregates.addFields(new Field<String>(userInfoField, "$" + tempField + ".name")));
 
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
 	}
@@ -169,10 +174,11 @@ public class BasicServiceImpl {
 		pipeline.add(Aggregates.unwind("$" + tempField, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
 		pipeline.add(Aggregates.addFields(
-				// info×Ö¶Î
-				new Field<BasicDBObject>(userInfoField,
-						new BasicDBObject("$concat",
-								new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId", "]" })),
+				// info×Ö¶Î È¥µôuseridÏÔÊ¾
+//				new Field<BasicDBObject>(userInfoField,
+//						new BasicDBObject("$concat",
+//								new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId", "]" })),
+				new Field<String>(userInfoField,"$" + tempField + ".name"),
 				// headPics×Ö¶Î
 				new Field<BasicDBObject>(headPicField,
 						new BasicDBObject("$arrayElemAt", new Object[] { "$" + tempField + ".headPics", 0 }))));

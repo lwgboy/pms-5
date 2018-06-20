@@ -115,6 +115,7 @@ public class ProjectBoardRender {
 		sb.append("<div style='width:100%;margin-top:4px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanFinish()));
+		sb.append("  <span class='layui-badge-rim'>" + pj.getStatus() + "</span>");
 		sb.append("  " + pj.getOverdueHtml());
 		sb.append("</div>");
 		sb.append("<div style='margin-right:16px;margin-top:2px;'>项目经理: " + pj.getPmInfo() + "</div></div>");

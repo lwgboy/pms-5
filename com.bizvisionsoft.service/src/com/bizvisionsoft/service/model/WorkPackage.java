@@ -76,7 +76,7 @@ public class WorkPackage {
 		}
 
 		if (matId != null) {
-			text += "[" + matId + "]";
+			text += " [" + matId + "]";
 		}
 
 		if (description != null) {
@@ -84,7 +84,7 @@ public class WorkPackage {
 		}
 
 		if (id != null) {
-			text += "[" + id + "]";
+			text += " [" + id + "]";
 		}
 
 		return text;

@@ -146,7 +146,7 @@ public class User implements IResourceAssignment {
 	@Label
 	@ReadValue("部门工作日程表/label")
 	public String toString() {
-		return name + " [" + userId + "]";
+		return name;// + " [" + userId + "]";
 	}
 
 	@ReadValue(ReadValue.TYPE)

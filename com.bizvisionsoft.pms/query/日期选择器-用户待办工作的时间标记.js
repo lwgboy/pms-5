@@ -52,7 +52,7 @@
                     "$cond" : [
                         "$idx", 
                         "<i class='layui-icon layui-icon-flag' style='color:#ff9800;font-size:18px;'></i>", 
-                        "<i class='layui-icon layui-icon-release' style='color:#3f51b5;font-size:18px;'></i>"
+                        "<i class='layui-icon layui-icon-notice' style='color:#3f51b5;font-size:18px;'></i>"
                     ]
                 }, 
                 "style" : {

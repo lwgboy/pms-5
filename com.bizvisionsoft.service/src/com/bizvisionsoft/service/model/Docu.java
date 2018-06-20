@@ -88,7 +88,7 @@ public class Docu {
 	public Docu setCreationInfo(CreationInfo ci) {
 		this.createOn = ci.date;
 		this.createBy = ci.userId;
-		this.createByInfo = ci.getCreatorInfo();
+		this.createByInfo = ci.userName;
 		return this;
 	}
 
