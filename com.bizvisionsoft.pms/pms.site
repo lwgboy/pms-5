@@ -1325,9 +1325,9 @@
                 "type": "switch"
               },
               {
-                "id": "1641b8054c8",
-                "name": "检验进度监控",
-                "switchContentToAssemblyId": "16386a3a9c9",
+                "id": "1641b805c50",
+                "name": "生产计划监控",
+                "switchContentToAssemblyId": "16386a04541",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1336,9 +1336,9 @@
                 "type": "switch"
               },
               {
-                "id": "1641b805c50",
-                "name": "生产计划监控",
-                "switchContentToAssemblyId": "16386a04541",
+                "id": "1641b8054c8",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "16386a3a9c9",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1379,19 +1379,6 @@
             "excludeRole": "PM#PA#PPM"
           },
           {
-            "id": "1628decd621",
-            "name": "检验进度监控",
-            "switchContentToAssemblyId": "16386a3a9c9",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": "QME#SE",
-            "excludeRole": "PM#PA#PPM"
-          },
-          {
             "id": "1628decbf7e",
             "name": "生产计划监控",
             "switchContentToAssemblyId": "16386a04541",
@@ -1402,6 +1389,19 @@
             "objectBehavier": false,
             "type": "switch",
             "role": "MR#SE",
+            "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "1628decd621",
+            "name": "检验进度监控",
+            "switchContentToAssemblyId": "16386a3a9c9",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "QME#SE",
             "excludeRole": "PM#PA#PPM"
           },
           {
@@ -1952,9 +1952,12 @@
             "forceText": false,
             "children": [
               {
-                "id": "9628decb92d",
-                "name": "项目进度计划",
-                "switchContentToAssemblyId": "16390ca5f18",
+                "id": "9628decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "16371ebbf89",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1963,12 +1966,22 @@
                 "type": "switch"
               },
               {
-                "id": "9628decba8b",
-                "name": "项目进度计划甘特图",
-                "text": "项目进度甘特图",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "16371ebbf89",
+                "id": "1641d9cd069",
+                "name": "项目进度跟踪甘特图",
+                "text": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "163e36dc30b",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decb92d",
+                "name": "项目进度计划表（查看）",
+                "text": "项目进度计划表",
+                "switchContentToAssemblyId": "1641c25e273",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2069,7 +2082,163 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM#PFM"
+          },
+          {
+            "id": "9628decd492",
+            "name": "项目监控",
+            "text": "项目监控",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "9628decbc1b",
+                "name": "研发进度监控",
+                "switchContentToAssemblyId": "163856055de",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decbdcc",
+                "name": "采购计划监控",
+                "switchContentToAssemblyId": "163869a1e8b",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decbf7e",
+                "name": "生产计划监控",
+                "switchContentToAssemblyId": "16386a04541",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "9628decd621",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "16386a3a9c9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1641d9fef51",
+            "name": "研发进度监控",
+            "switchContentToAssemblyId": "163856055de",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "PCE#SE",
+            "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "1641d9ff321",
+            "name": "采购计划监控",
+            "switchContentToAssemblyId": "163869a1e8b",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "PR#SE",
+            "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "1641d9ff67b",
+            "name": "生产计划监控",
+            "switchContentToAssemblyId": "16386a04541",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "MR#SE",
+            "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "1641d9ff9a8",
+            "name": "检验进度监控",
+            "switchContentToAssemblyId": "16386a3a9c9",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "QME#SE",
+            "excludeRole": "PM#PA#PPM"
+          },
+          {
+            "id": "16401fb6100",
+            "name": "项目报告",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "16401fb6838",
+                "name": "项目日报",
+                "switchContentToAssemblyId": "16401bb95a9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "16401fb6da1",
+                "name": "项目周报",
+                "switchContentToAssemblyId": "16401bbfa5c",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "16401fb7616",
+                "name": "项目月报",
+                "switchContentToAssemblyId": "16401bc7721",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "9628deccce4",
@@ -2126,119 +2295,6 @@
             "objectBehavier": false
           },
           {
-            "id": "9628decd492",
-            "name": "项目监控",
-            "text": "项目监控",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "16390c99c8c",
-                "name": "总体进度监控",
-                "text": "总体进度监控",
-                "switchContentToAssemblyId": "1638c2c16a9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9628decbc1b",
-                "name": "研发进度监控",
-                "switchContentToAssemblyId": "163856055de",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9628decbdcc",
-                "name": "采购计划监控",
-                "switchContentToAssemblyId": "163869a1e8b",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9628decbf7e",
-                "name": "生产计划监控",
-                "switchContentToAssemblyId": "16386a04541",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "9628decd621",
-                "name": "检验进度监控",
-                "switchContentToAssemblyId": "16386a3a9c9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false
-          },
-          {
-            "id": "16401fb6100",
-            "name": "项目报告",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "16401fb6838",
-                "name": "项目日报",
-                "switchContentToAssemblyId": "16401bb95a9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16401fb6da1",
-                "name": "项目周报",
-                "switchContentToAssemblyId": "16401bbfa5c",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16401fb7616",
-                "name": "项目月报",
-                "switchContentToAssemblyId": "16401bc7721",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "9628decdce7",
             "name": "项目变更管理",
             "text": "项目变更管理",
@@ -2269,17 +2325,6 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false
-          },
-          {
-            "id": "9628decb6d6",
-            "name": "项目干系人",
-            "switchContentToAssemblyId": "1632b6942a0",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           },
           {
             "id": "9628df226b9",
@@ -2341,12 +2386,24 @@
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
           },
           {
             "id": "9628df224b5",
             "name": "项目档案库",
             "switchContentToAssemblyId": "163dac2719a",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
+            "id": "9628decb6d6",
+            "name": "项目干系人",
+            "switchContentToAssemblyId": "1632b6942a0",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -2364,7 +2421,8 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "customized",
+            "role": "PM#PA#PPM"
           }
         ]
       },
@@ -21445,99 +21503,7 @@
             "type": "customized"
           }
         ],
-        "rowActions": [
-          {
-            "id": "1625139f41b",
-            "name": "打开",
-            "text": "打开",
-            "image": "/img/open_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkInfo",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1625139f4ca",
-            "name": "团队",
-            "text": "团队",
-            "image": "/img/team_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkTeam",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1625139f7f2",
-            "name": "工作包",
-            "text": "工作包",
-            "image": "/img/daily-report_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkReport",
-            "switchContentToAssemblyId": "16367155906",
-            "openContent": true,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
-            "id": "1625139f56e",
-            "name": "进展",
-            "text": "进展",
-            "image": "/img/progress_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkProgress",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1625139f6a9",
-            "name": "资源",
-            "text": "资源",
-            "image": "/img/people_list_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkResource",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1625139f74c",
-            "name": "风险",
-            "text": "风险",
-            "image": "/img/risk_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.workinfo.action.OpenWorkRisk",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "warning",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "rowActions": [],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -21547,8 +21513,8 @@
         "ganttTimeScaleType": "year-month-week",
         "ganttGridWidthCalculate": true,
         "ganttGridWidth": 0,
-        "eventHandlerBundleId": "com.bizvisionsoft.pms",
-        "eventHandlerClassName": "com.bizvisionsoft.pms.work.gantt.event.EventHandler",
+        "eventHandlerBundleId": "",
+        "eventHandlerClassName": "",
         "headActions": [],
         "hasTitlebar": true,
         "displayInputLabelInTitlebar": false,
