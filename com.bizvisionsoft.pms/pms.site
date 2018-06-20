@@ -1146,7 +1146,19 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch"
-              },
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1641c0dfa86",
+            "name": "项目资源计划",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
               {
                 "id": "1628decc40b",
                 "name": "项目资源计划",
@@ -1172,7 +1184,44 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "type": "customized",
             "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1641c100111",
+            "name": "项目资源计划（查看）",
+            "text": "项目资源计划",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "1641c105971",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "16390d02c3a",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "1641c105f08",
+                "name": "项目资源用量",
+                "switchContentToAssemblyId": "16396e1b1ae",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized",
+            "excludeRole": "PM#PA#PPM"
           },
           {
             "id": "1628decc6f8",
