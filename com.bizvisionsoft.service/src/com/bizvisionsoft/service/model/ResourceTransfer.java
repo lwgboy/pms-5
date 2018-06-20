@@ -16,17 +16,21 @@ public class ResourceTransfer {
 
 	private int type;
 
-	public static int TYPE_PLAN = 1;
+	public static final int TYPE_PLAN = 1;
 
-	public static int TYPE_ACTUAL = 2;
+	public static final int TYPE_ACTUAL = 2;
 
 	private int showType;
 
-	public static int SHOWTYPE_ONEWORK_MULTIRESOURCE = 1 << 1;
+	public static final int SHOWTYPE_ONEWORK_MULTIRESOURCE = 1 << 1;
 
-	public static int SHOWTYPE_MULTIWORK_ONERESOURCE = 1 << 2;
+	public static final int SHOWTYPE_MULTIWORK_ONERESOURCE = 1 << 2;
 
-	public static int SHOWTYPE_MULTIWORK_MULTIRESOURCE = 1 << 3;
+	public static final int SHOWTYPE_MULTIWORK_MULTIRESOURCE = 1 << 3;
+
+	private boolean checkTime;
+
+	private boolean canAdd;
 
 	public void setType(int type) {
 		this.type = type;
@@ -73,5 +77,61 @@ public class ResourceTransfer {
 
 	public void setTo(Date to) {
 		this.to = to;
+	}
+
+	public boolean isCheckTime() {
+		return checkTime;
+	}
+
+	public void setCheckTime(boolean checkTime) {
+		this.checkTime = checkTime;
+	}
+
+	public boolean isCanAdd() {
+		return canAdd;
+	}
+
+	public void setCanAdd(boolean canAdd) {
+		this.canAdd = canAdd;
+	}
+
+	private String usedHumanResId;
+
+	private String usedEquipResId;
+
+	private String usedTypedResId;
+
+	private ObjectId resTypeId;
+
+	public String getUsedHumanResId() {
+		return usedHumanResId;
+	}
+
+	public void setUsedHumanResId(String usedHumanResId) {
+		this.usedHumanResId = usedHumanResId;
+	}
+
+	public String getUsedEquipResId() {
+		return usedEquipResId;
+	}
+
+	public void setUsedEquipResId(String usedEquipResId) {
+		this.usedEquipResId = usedEquipResId;
+	}
+
+	public String getUsedTypedResId() {
+		return usedTypedResId;
+	}
+
+	public void setUsedTypedResId(String usedTypedResId) {
+		this.usedTypedResId = usedTypedResId;
+	}
+
+	public ObjectId getResTypeId() {
+		return resTypeId;
+	}
+
+	public void setResTypeId(ObjectId resTypeId) {
+		this.resTypeId = resTypeId;
 	}
 }

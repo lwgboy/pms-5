@@ -1161,9 +1161,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		} else {
 			resourceCollection = "resourceActual";
 		}
+		Document match;
+		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == ra.getShowType()) {
+			match = new Document("usedEquipResId", ra.getUsedEquipResId()).append("usedHumanResId", ra.getUsedHumanResId())
+					.append("usedTypedResId", ra.getUsedTypedResId()).append("resTypeId", ra.getResTypeId());
+		} else {
+			match = new Document("work_id", new Document("$in", ra.getWorkIds()));
+		}
 		return c(resourceCollection)
-				.aggregate(new JQ("编辑资源").set("match", new Document("work_id", new Document("$in", ra.getWorkIds())))
-						.set("resourceCollection", resourceCollection).array())
+				.aggregate(new JQ("编辑资源").set("match", match).set("resourceCollection", resourceCollection).array())
 				.into(new ArrayList<Document>());
 	}
 

@@ -147,6 +147,10 @@ public class ResourcePlan {
 		this.resTypeId = resTypeId;
 		return this;
 	}
+	
+	public ObjectId getResTypeId() {
+		return resTypeId;
+	}
 
 	public void setId(Date id) {
 		this.id = id;
