@@ -11,9 +11,7 @@ import java.util.Locale;
 
 import org.bson.Document;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -42,7 +40,6 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -346,12 +343,14 @@ public class EditWorkResourceActualASM {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							return "0.0".equals(text) ? "" : text;
+							return "<a href='" + key + doc.get("_id").toString()
+									+ "' target='_rwt' style='width: 100%;'>" + ("0.0".equals(text) ? "" : text)
+									+ "</a>";
 						}
 					}
 
 				}
-				return "";
+				return "<a href='" + key + "@" + id + "' target='_rwt' style='width: 100%;'></a>";
 			}
 
 			@Override
