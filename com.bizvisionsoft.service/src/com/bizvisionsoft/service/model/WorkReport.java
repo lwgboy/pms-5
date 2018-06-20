@@ -236,11 +236,12 @@ public class WorkReport {
 			return period;
 		} else if (TYPE_WEEKLY.equals(type)) {
 			cal.setTime(period);
-			cal.add(Calendar.DAY_OF_MONTH, 7);
+			cal.add(Calendar.DAY_OF_MONTH, 6);
 			return cal.getTime();
 		} else if (TYPE_MONTHLY.equals(type)) {
 			cal.setTime(period);
 			cal.add(Calendar.MONTH, 1);
+			cal.add(Calendar.DAY_OF_MONTH, -1);
 			return cal.getTime();
 		}
 		return null;

@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.workreport;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.eclipse.swt.widgets.Event;
 
@@ -32,10 +33,10 @@ public class AddMonthlyACT {
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.SECOND, 0);
 			cal.set(Calendar.MILLISECOND, 0);
-			cal.add(Calendar.DAY_OF_MONTH, 1);
+			cal.set(Calendar.DAY_OF_MONTH, 1);
 			WorkReport report = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
-					.setType(WorkReport.TYPE_MONTHLY).setPeriod(cal.getTime()).setReportDate(cal.getTime())
+					.setType(WorkReport.TYPE_MONTHLY).setPeriod(cal.getTime()).setReportDate(new Date())
 					.setStatus(WorkReport.STATUS_CREATE);
 			try {
 				report = ServicesLoader.get(WorkReportService.class).insert(report);
