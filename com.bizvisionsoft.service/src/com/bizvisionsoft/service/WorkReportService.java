@@ -18,8 +18,6 @@ import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
-import com.bizvisionsoft.service.model.WorkResourceAssignment;
-import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.mongodb.BasicDBObject;
 
 @Path("/workreport")
@@ -251,32 +249,6 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkReportItem(BasicDBObject filterAndUpdate);
 
-	@POST
-	@Path("/_id/{_id}/{work_id}/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
-			@PathParam("_id") ObjectId _id);
-
-	@POST
-	@Path("/_id/{_id}/{work_id}/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long countWorkResourceInWorkReportDataSet(@PathParam("work_id") ObjectId work_id,
-			@PathParam("workReport_id") ObjectId workReport_id);
-
-	@POST
-	@Path("/subworkresource/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<WorkResourceInWorkReport> listSubWorkResourceInWorkReport(
-			WorkResourceAssignment workResourceAssignment);
-
-	@POST
-	@Path("/subworkresource/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment);
 
 	@POST
 	@Path("/submitworkreport")

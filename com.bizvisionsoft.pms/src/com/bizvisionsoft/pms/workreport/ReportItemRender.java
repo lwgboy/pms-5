@@ -23,7 +23,7 @@ import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.ResourceAssignment;
+import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
@@ -79,15 +79,17 @@ public class ReportItemRender extends GridPartDefaultRender {
 						viewer.refresh();
 					}
 				} else if (e.text.startsWith("editResourceActual/")) {
-					ResourceAssignment resourceAssignment = null;
+					ResourceTransfer rt = new ResourceTransfer();
 					Work work = ((WorkReportItem) item).getWork();
 					WorkReport workReport = (WorkReport) context.getInput();
-					resourceAssignment = new ResourceAssignment().setWork_id(work.get_id());
 					// TODO 根据类型输入不同的from和to
-					resourceAssignment.from = workReport.getPeriodForm();
-					resourceAssignment.to = workReport.getPeriodTo();
+					rt.setFrom(workReport.getPeriodForm());
+					rt.setTo(workReport.getPeriodTo());
+					rt.addWorkIds(work.get_id());
+					rt.setType(ResourceTransfer.TYPE_ACTUAL);
+					rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 
-					brui.openContent(brui.getAssembly("编辑资源用量"), resourceAssignment);
+					brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 
 				} else if (e.text.startsWith("editEstimatedFinish/")) {
 					Date currentEstFinish = item.getEstimatedFinish();

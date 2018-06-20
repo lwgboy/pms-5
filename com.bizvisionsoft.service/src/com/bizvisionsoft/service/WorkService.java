@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -20,6 +21,7 @@ import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
+import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -409,4 +411,10 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void assignRoleToStage(@PathParam("work_id") ObjectId _id);
+
+	@POST
+	@Path("/resource/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> getResource(ResourceTransfer ra);
 }

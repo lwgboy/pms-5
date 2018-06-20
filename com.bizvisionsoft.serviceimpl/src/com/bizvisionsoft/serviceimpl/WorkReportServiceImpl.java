@@ -14,8 +14,6 @@ import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
-import com.bizvisionsoft.service.model.WorkResourceAssignment;
-import com.bizvisionsoft.service.model.WorkResourceInWorkReport;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -319,36 +317,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public long updateWorkReportItem(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, WorkReportItem.class);
-	}
-
-	@Override
-	public List<WorkResourceInWorkReport> createWorkResourceInWorkReportDataSet(ObjectId work_id,
-			ObjectId workReport_id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告-资源用量")
-				.set("match", new Document("work_id", work_id).append("workReport_id", workReport_id)).array();
-		ArrayList<WorkResourceInWorkReport> into = c(WorkResourceInWorkReport.class).aggregate(pipeline)
-				.into(new ArrayList<WorkResourceInWorkReport>());
-		return into;
-	}
-
-	@Override
-	public long countWorkResourceInWorkReportDataSet(ObjectId work_id, ObjectId workReport_id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告-资源用量")
-				.set("match", new Document("work_id", work_id).append("workReport_id", workReport_id)).array();
-		return c(WorkResourceInWorkReport.class).aggregate(pipeline).into(new ArrayList<WorkResourceInWorkReport>())
-				.size();
-	}
-
-	@Override
-	public List<WorkResourceInWorkReport> listSubWorkResourceInWorkReport(
-			WorkResourceAssignment workResourceAssignment) {
-		return c(WorkResourceInWorkReport.class).find(workResourceAssignment.getQuery())
-				.into(new ArrayList<WorkResourceInWorkReport>());
-	}
-
-	@Override
-	public long countSubWorkResourceInWorkReport(WorkResourceAssignment workResourceAssignment) {
-		return c(WorkResourceInWorkReport.class).count(workResourceAssignment.getQuery());
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
+import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -75,7 +76,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-//		pipeline.forEach(b->System.out.println(b.toBsonDocument(Document.class, MongoClient.getDefaultCodecRegistry())));
+		// pipeline.forEach(b->System.out.println(b.toBsonDocument(Document.class,
+		// MongoClient.getDefaultCodecRegistry())));
 		appendOverdue(pipeline);
 
 		appendWorkTime(pipeline);
@@ -1149,6 +1151,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<DateMark> listMyWorksDateMark(String userid) {
 		List<? extends Bson> ls = new JQ("日期选择器-用户待办工作的时间标记").set("userId", userid).array();
 		return c("work").aggregate(ls, DateMark.class).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> getResource(ResourceTransfer ra) {
+		String resourceCollection;
+		if (ResourceTransfer.TYPE_PLAN == ra.getType()) {
+			resourceCollection = "resourcePlan";
+		} else {
+			resourceCollection = "resourceActual";
+		}
+		return c(resourceCollection)
+				.aggregate(new JQ("编辑资源").set("match", new Document("work_id", new Document("$in", ra.getWorkIds())))
+						.set("resourceCollection", resourceCollection).array())
+				.into(new ArrayList<Document>());
 	}
 
 }

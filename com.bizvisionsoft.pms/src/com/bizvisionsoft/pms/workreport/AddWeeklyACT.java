@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.workreport;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.eclipse.swt.widgets.Event;
 
@@ -38,7 +39,7 @@ public class AddWeeklyACT {
 			cal.add(Calendar.DAY_OF_MONTH, cal.getFirstDayOfWeek() - i);
 			WorkReport report = new WorkReport().setProject_id(((Project) em.get(0)).get_id())
 					.setStage_id(((Project) em.get(0)).getStage_id()).setReporter(reporter)
-					.setType(WorkReport.TYPE_WEEKLY).setPeriod(cal.getTime()).setReportDate(cal.getTime())
+					.setType(WorkReport.TYPE_WEEKLY).setPeriod(cal.getTime()).setReportDate(new Date())
 					.setStatus(WorkReport.STATUS_CREATE);
 			try {
 				report = ServicesLoader.get(WorkReportService.class).insert(report);
