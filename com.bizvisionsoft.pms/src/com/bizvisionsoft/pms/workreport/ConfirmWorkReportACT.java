@@ -40,7 +40,7 @@ public class ConfirmWorkReportACT {
 			Layer.message("报告已确认。");
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
-			//TODO 缺少按钮刷新
+			brui.closeCurrentContent();
 		}
 	}
 }

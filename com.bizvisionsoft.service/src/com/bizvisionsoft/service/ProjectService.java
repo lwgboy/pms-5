@@ -98,7 +98,6 @@ public interface ProjectService {
 	public List<Stockholder> getStockholders(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
-	
 	@Path("/_id/{_id}/stockholder/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -111,7 +110,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Stockholder insertStockholder(Stockholder c);
-	
+
 	@DELETE
 	@Path("/stockholder/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -137,7 +136,7 @@ public interface ProjectService {
 	@Path("/member/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list","我的项目选择列表/list" })
+	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list", "我的项目选择列表/list" })
 	public List<Project> listParticipatedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -145,8 +144,57 @@ public interface ProjectService {
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count","我的项目选择列表/count" })
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count" })
 	public long countParticipatedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/daily/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-日报/list" })
+	public List<Project> listParticipatedProjectsInDaily(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/daily/{userid}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-日报/count" })
+	public long countParticipatedProjectsInDaily(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/weekly/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-周报/list" })
+	public List<Project> listParticipatedProjectsInWeekly(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/weekly/{userid}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-周报/count" })
+	public long countParticipatedProjectsInWeekly(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/monthly/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-月报/list" })
+	public List<Project> listParticipatedProjectsInMonthly(
+			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/member/monthly/{userid}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我报告的项目选择列表-月报/count" })
+	public long countParticipatedProjectsInMonthly(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
 			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@DELETE
@@ -186,7 +234,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<News> getRecentNews(@PathParam("_id") ObjectId _id, @PathParam("count") int count);
-	
+
 	@POST
 	@Path("/salesItem/")
 	@Consumes("application/json; charset=UTF-8")

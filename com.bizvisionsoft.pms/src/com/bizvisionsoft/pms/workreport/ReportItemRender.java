@@ -183,7 +183,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
 				+ "'>" + Optional.ofNullable(ri.getProblems()).orElse("") + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+		if (canEdit(ri)) {
 			sb.append(
 					"<a href='editProblems/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
@@ -207,7 +207,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
 				+ "'>" + Optional.ofNullable(ri.getStatement()).orElse("") + "</div>");
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+		if (canEdit(ri)) {
 			sb.append(
 					"<a href='editStatement/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
@@ -227,7 +227,10 @@ public class ReportItemRender extends GridPartDefaultRender {
 		sb.append("<div>实际进度：" + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
 				+ "</div>");
 		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
-		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+		if (ri.getEstimatedFinish() != null && work.getPlanFinish().before(ri.getEstimatedFinish()))
+			sb.append("<span class='layui-badge'>预计超期</span>");
+
+		if (canEdit(ri)) {
 			sb.append(
 					"<a href='editResourceActual/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:90px;'>"
 							+ "报告资源用量" + "</button></a>");
@@ -237,6 +240,10 @@ public class ReportItemRender extends GridPartDefaultRender {
 		}
 		sb.append("</div>");
 		return sb.toString();
+	}
+
+	private boolean canEdit(WorkReportItem ri) {
+		return !ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId());
 	}
 
 	@Override

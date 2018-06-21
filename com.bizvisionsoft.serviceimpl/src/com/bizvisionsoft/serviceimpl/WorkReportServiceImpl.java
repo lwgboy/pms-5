@@ -97,8 +97,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectDailyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -110,14 +111,17 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_DAILY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
 	@Override
 	public List<WorkReport> createWorkReportProjectWeeklyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -129,14 +133,17 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_WEEKLY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
 	@Override
 	public List<WorkReport> createWorkReportProjectMonthlyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -148,6 +155,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_MONTHLY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
@@ -156,8 +165,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
 
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -170,6 +180,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_DAILY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
@@ -178,8 +190,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
 
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -192,6 +205,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_WEEKLY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
@@ -200,8 +215,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
 
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY).append("project_id",
-				project_id);
+		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)
+				.append("project_id", project_id).append("status",
+						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -214,6 +230,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_MONTHLY);
+		filter.put("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return count(filter, WorkReport.class);
 	}
 
@@ -273,9 +291,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		WorkReport newWorkReport = super.insert(workReport);
 
-		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询工作报告-工作")
-				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
-				.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter()).array())
+		List<WorkReportItem> into = c("work", WorkReportItem.class)
+				.aggregate(new JQ("查询工作报告-工作").set("project_id", workReport.getProject_id())
+						.set("actualFinish", workReport.getPeriod()).set("report_id", newWorkReport.get_id())
+						.set("reportorId", workReport.getReporter()).set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
 		if (into.size() == 0) {
 			delete(newWorkReport.get_id(), WorkReport.class);
@@ -326,6 +345,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<Result> submitWorkReport(List<ObjectId> workReportIds) {
 		List<Result> result = submitWorkReportCheck(workReportIds);
+		if (!result.isEmpty()) {
+			return result;
+		}
 
 		UpdateResult ur = c(WorkReport.class).updateMany(new Document("_id", new Document("$in", workReportIds)),
 				new Document("$set",
@@ -339,13 +361,21 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	private List<Result> submitWorkReportCheck(List<ObjectId> workReportIds) {
-		// TODO 检查是否可以进行提交
-		return new ArrayList<Result>();
+		List<Result> result = new ArrayList<Result>();
+		Document doc = new Document("statement", null).append("report_id", new Document("$in", workReportIds));
+		long count = c(WorkReportItem.class).count(doc);
+		if (count > 0) {
+			result.add(Result.submitWorkReportError("存在为填写完成情况的工作"));
+		}
+		return result;
 	}
 
 	@Override
 	public List<Result> confirmWorkReport(List<ObjectId> workReportIds, String userId) {
 		List<Result> result = confirmWorkReportCheck(workReportIds);
+		if (!result.isEmpty()) {
+			return result;
+		}
 
 		UpdateResult ur = c(WorkReport.class).updateMany(new Document("_id", new Document("$in", workReportIds)),
 				new Document("$set", new Document("verifyDate", new Date()).append("status", WorkReport.STATUS_CONFIRM)

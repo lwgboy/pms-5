@@ -16,8 +16,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Command;
-import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -150,7 +150,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
 		appendWorkTime(pipeline);
-		
+
 		pipeline.addAll(new JQ("项目sar管道").array());
 
 		// TODO 增加超期判断，
@@ -507,6 +507,136 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			pipeline.add(new Document("$match", filter));
 
 		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
+	}
+
+	@Override
+	public List<Project> listParticipatedProjectsInDaily(BasicDBObject condition, String userId) {
+		Date startWorkFinish = new Date();
+		return listParticipatedProjects(condition, userId, startWorkFinish);
+	}
+
+	@Override
+	public long countParticipatedProjectsInDaily(BasicDBObject filter, String userId) {
+		Date startWorkFinish = new Date();
+		return countParticipatedProjects(filter, userId, startWorkFinish);
+	}
+
+	@Override
+	public List<Project> listParticipatedProjectsInWeekly(BasicDBObject condition, String userId) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.setFirstDayOfWeek(Calendar.SUNDAY);
+		int i = cal.get(Calendar.DAY_OF_WEEK);
+
+		cal.add(Calendar.DAY_OF_MONTH, cal.getFirstDayOfWeek() - i);
+		return listParticipatedProjects(condition, userId, cal.getTime());
+	}
+
+	@Override
+	public long countParticipatedProjectsInWeekly(BasicDBObject filter, String userId) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.setFirstDayOfWeek(Calendar.SUNDAY);
+		int i = cal.get(Calendar.DAY_OF_WEEK);
+
+		cal.add(Calendar.DAY_OF_MONTH, cal.getFirstDayOfWeek() - i);
+		return countParticipatedProjects(filter, userId, cal.getTime());
+	}
+
+	@Override
+	public List<Project> listParticipatedProjectsInMonthly(BasicDBObject condition, String userId) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		return listParticipatedProjects(condition, userId, cal.getTime());
+	}
+
+	@Override
+	public long countParticipatedProjectsInMonthly(BasicDBObject filter, String userId) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		return countParticipatedProjects(filter, userId, cal.getTime());
+	}
+
+	private List<Project> listParticipatedProjects(BasicDBObject condition, String userId,
+			Date startWorkFinish) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		List<ObjectId> project_ids = c("work")
+				.distinct("project_id",
+						new Document("summary", false)
+								.append("actualStart",
+										new Document("$ne", null))
+								.append("$and",
+										Arrays.asList(
+												new Document("$or",
+														Arrays.asList(new Document("actualFinish", null),
+																new Document("actualFinish",
+																		new Document("$gte", startWorkFinish)))),
+												new Document("$or",
+														Arrays.asList(new Document("chargerId", userId),
+																new Document("assignerId", userId))))),
+						ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids))));
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
+
+		appendUserInfo(pipeline, "pmId", "pmInfo");
+
+		return c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+	}
+
+	private long countParticipatedProjects(BasicDBObject filter, String userId, Date startWorkFinish) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		List<ObjectId> project_ids = c("work")
+				.distinct("project_id",
+						new Document("summary", false)
+								.append("actualStart",
+										new Document("$ne", null))
+								.append("$and",
+										Arrays.asList(
+												new Document("$or",
+														Arrays.asList(new Document("actualFinish", null),
+																new Document("actualFinish",
+																		new Document("$gte", startWorkFinish)))),
+												new Document("$or",
+														Arrays.asList(new Document("chargerId", userId),
+																new Document("assignerId", userId))))),
+						ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids))));
+		if (filter != null)
+			pipeline.add(new Document("$match", filter));
+
+		return c("project").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override

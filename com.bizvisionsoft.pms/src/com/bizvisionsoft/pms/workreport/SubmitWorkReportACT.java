@@ -38,7 +38,10 @@ public class SubmitWorkReportACT {
 			Layer.message("报告已提交。");
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
-			//TODO 缺少按钮刷新
+			brui.closeCurrentContent();
+		} else {
+			if(result.get(0).code==Result.CODE_WORKREPORT_HASNOSTATEMENTWORK)
+			Layer.message("请为所有工作填写完成情況后，再进行提交。",Layer.ICON_CANCEL);
 		}
 	}
 }
