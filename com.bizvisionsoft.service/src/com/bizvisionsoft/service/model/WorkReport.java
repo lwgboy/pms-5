@@ -156,7 +156,7 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
-	private String verifyDate;
+	private Date verifyDate;
 
 	@ReadValue
 	@WriteValue

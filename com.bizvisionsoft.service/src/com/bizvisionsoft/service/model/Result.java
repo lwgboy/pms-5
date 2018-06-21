@@ -24,6 +24,8 @@ public class Result {
 
 	public static final int CODE_CBS_SUCCESS = 900;
 
+	public static final int CODE_WORKREPORT_HASNOSTATEMENTWORK = 610;
+
 	public int code;
 
 	public String message;
@@ -82,6 +84,14 @@ public class Result {
 		e.code = Result.CODE_CBS_SUCCESS;
 		e.message = message;
 		e.type = Result.TYPE_INFO;
+		return e;
+	}
+
+	public static Result submitWorkReportError(String message) {
+		Result e = new Result();
+		e.code = Result.CODE_WORKREPORT_HASNOSTATEMENTWORK;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
 		return e;
 	}
 
