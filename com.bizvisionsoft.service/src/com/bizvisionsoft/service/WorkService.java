@@ -386,7 +386,7 @@ public interface WorkService {
 	@Path("/resourceactual/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ResourceActual> addResourceActual(ResourceAssignment resa);
+	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas);
 
 	@POST
 	@Path("/_id/{_id}/resourceactual/ds")

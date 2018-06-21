@@ -130,8 +130,9 @@ public class ResourceActualASM {
 	}
 
 	private void addResource(String editorId) {
+		// TODO
 		Editor.open(editorId, context, new ResourceAssignment().setWork_id(work.get_id()), (t, r) -> {
-			Services.get(WorkService.class).addResourceActual(r);
+			Services.get(WorkService.class).addResourceActual(Arrays.asList(r));
 			grid.setViewerInput(Services.get(WorkService.class).listResourceActual(work.get_id()));
 		});
 

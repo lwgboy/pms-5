@@ -998,42 +998,41 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<ResourceActual> addResourceActual(ResourceAssignment resa) {
-		Set<ObjectId> workIds = new HashSet<ObjectId>();
+	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas) {
 		List<ResourceActual> documents = new ArrayList<ResourceActual>();
-
-		Date planStart = resa.from;
-		Date planFinish = resa.to;
-		Calendar planStartCal = Calendar.getInstance();
-		planStartCal.setTime(planStart);
-
-		Calendar planFinishCal = Calendar.getInstance();
-		planFinishCal.setTime(planFinish);
-		planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
-
-		while (planStartCal.getTime().before(planFinishCal.getTime())) {
-			if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-				Date time = planStartCal.getTime();
-				ResourceActual res = resa.getResourceActual();
-				res.setId(time);
-				documents.add(res);
-
-				c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
-						.append("usedHumanResId", res.getUsedHumanResId())
-						.append("usedEquipResId", res.getUsedEquipResId())
-						.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));
+		resas.forEach(resa->{
+			Date planStart = resa.from;
+			Date planFinish = resa.to;
+			Calendar planStartCal = Calendar.getInstance();
+			planStartCal.setTime(planStart);
+			
+			Calendar planFinishCal = Calendar.getInstance();
+			planFinishCal.setTime(planFinish);
+			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+			
+			while (planStartCal.getTime().before(planFinishCal.getTime())) {
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
+					Date time = planStartCal.getTime();
+					ResourceActual res = resa.getResourceActual();
+					res.setId(time);
+					documents.add(res);
+					
+					c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
+							.append("usedHumanResId", res.getUsedHumanResId())
+							.append("usedEquipResId", res.getUsedEquipResId())
+							.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));
+				}
+				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			planStartCal.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		workIds.add(resa.work_id);
-
-		double actualBasicQty = resa.actualBasicQty / documents.size();
-
-		double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
-		for (ResourceActual resourceActual : documents) {
-			resourceActual.setActualBasicQty(actualBasicQty);
-			resourceActual.setActualOverTimeQty(actualOverTimeQty);
-		}
+			
+			double actualBasicQty = resa.actualBasicQty / documents.size();
+			
+			double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
+			for (ResourceActual resourceActual : documents) {
+				resourceActual.setActualBasicQty(actualBasicQty);
+				resourceActual.setActualOverTimeQty(actualOverTimeQty);
+			}
+		});
 
 		c(ResourceActual.class).insertMany(documents);
 
@@ -1163,8 +1162,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 		Document match;
 		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == ra.getShowType()) {
-			match = new Document("usedEquipResId", ra.getUsedEquipResId()).append("usedHumanResId", ra.getUsedHumanResId())
-					.append("usedTypedResId", ra.getUsedTypedResId()).append("resTypeId", ra.getResTypeId());
+			match = new Document("usedEquipResId", ra.getUsedEquipResId())
+					.append("usedHumanResId", ra.getUsedHumanResId()).append("usedTypedResId", ra.getUsedTypedResId())
+					.append("resTypeId", ra.getResTypeId());
 		} else {
 			match = new Document("work_id", new Document("$in", ra.getWorkIds()));
 		}
