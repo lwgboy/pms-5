@@ -25,7 +25,7 @@ public class AddDailyACT {
 	@Execute
 	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
-		Selector.open("我的项目选择器", context, null, em -> {
+		Selector.create("我的日报项目选择器", context, null).setTitle("请选择要填写日报的项目").open(em -> {
 			String reporter = brui.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR_OF_DAY, 0);

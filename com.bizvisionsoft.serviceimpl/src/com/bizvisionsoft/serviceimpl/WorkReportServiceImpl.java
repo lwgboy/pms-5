@@ -291,9 +291,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 		WorkReport newWorkReport = super.insert(workReport);
 
-		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询工作报告-工作")
-				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
-				.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter()).array())
+		List<WorkReportItem> into = c("work", WorkReportItem.class)
+				.aggregate(new JQ("查询工作报告-工作").set("project_id", workReport.getProject_id())
+						.set("actualFinish", workReport.getPeriod()).set("report_id", newWorkReport.get_id())
+						.set("reportorId", workReport.getReporter()).set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
 		if (into.size() == 0) {
 			delete(newWorkReport.get_id(), WorkReport.class);
