@@ -13,9 +13,10 @@ import java.util.Locale;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
@@ -30,14 +31,17 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
+import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Column;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
+import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
@@ -50,7 +54,7 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EditWorkResourceActualASM {
+public class EditWorkResourceActualASM extends GridPart {
 
 	@Inject
 	private IBruiService brui;
@@ -62,7 +66,7 @@ public class EditWorkResourceActualASM {
 
 	private Calendar end;
 
-	private GridTableViewer viewer;
+	private GridTreeViewer viewer;
 
 	private Locale locale;
 
@@ -70,20 +74,83 @@ public class EditWorkResourceActualASM {
 
 	private ResourceTransfer rt;
 
-	private WorkService workService;
+	private WorkService workService = Services.get(WorkService.class);
+
+	private Composite content;
+
+	private int showType;
+
+	private boolean showResActual;
+
+	private boolean showResPlan;
+
+	private boolean showResTypeInfo;
+
+	private boolean showDelete;
+
+	public EditWorkResourceActualASM() {
+	}
+
+	public EditWorkResourceActualASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
+		this.brui = brui;
+		this.context = context;
+		this.content = parent;
+	}
+
+	@Override
+	public GridTreeViewer getViewer() {
+		return viewer;
+	}
+
+	@Init
+	protected void init() {
+		rt = (ResourceTransfer) context.getInput();
+	}
+
+	public void setResourceTransfer(ResourceTransfer rt) {
+		this.rt = rt;
+		start = Calendar.getInstance();
+		start.setTime(rt.getFrom());
+		end = Calendar.getInstance();
+		end.setTime(rt.getTo());
+		showType = rt.getShowType();
+		Grid grid = viewer.getGrid();
+		GridColumnGroup[] columnGroups = grid.getColumnGroups();
+		for (GridColumnGroup gridColumnGroup : columnGroups) {
+			String name = (String) gridColumnGroup.getData("name");
+			if (!"costRate".equals(name) && !"actual".equals(name) && !"plan".equals(name) && gridColumnGroup != null
+					&& !gridColumnGroup.isDisposed()) {
+				gridColumnGroup.dispose();
+			}
+		}
+		GridColumn[] columns = grid.getColumns();
+		for (GridColumn gridColumn : columns) {
+			String name = (String) gridColumn.getData("name");
+			if ("rowAction".equals(name) && gridColumn != null && !gridColumn.isDisposed()) {
+				gridColumn.dispose();
+			}
+		}
+		createDateColumn();
+
+		createRowAction(grid);
+		doRefresh();
+	}
 
 	@CreateUI
 	public void createUI(Composite parent) {
 		locale = RWT.getLocale();
-		rt = (ResourceTransfer) context.getInput();
 
 		parent.setLayout(new FormLayout());
 
-		Action closeAction = new Action();
-		closeAction.setName("close");
-		closeAction.setImage("/img/close.svg");
-
+		Action closeAction = null;
 		List<Action> rightActions = null;
+		StickerTitlebar bar = null;
+		if (rt.isCanClose()) {
+			closeAction = new Action();
+			closeAction.setName("close");
+			closeAction.setImage("/img/close.svg");
+		}
+
 		if (rt.isCanAdd()) {
 			rightActions = new ArrayList<Action>();
 			Action addAction = new Action();
@@ -96,52 +163,100 @@ public class EditWorkResourceActualASM {
 			addAction.setStyle("normal");
 			rightActions.add(addAction);
 		}
+		if (closeAction != null || closeAction != null) {
+			bar = new StickerTitlebar(parent, closeAction, rightActions).setActions(context.getAssembly().getActions());
+			bar.addListener(SWT.Selection, e -> {
+				Action action = ((Action) e.data);
+				if ("close".equals(action.getName())) {
+					brui.closeCurrentContent();
+				} else if ("add".equals(action.getName())) {
+					allocateResource();
+				}
+			});
+			FormData fd = new FormData();
+			bar.setLayoutData(fd);
+			fd.left = new FormAttachment(0);
+			fd.top = new FormAttachment(0);
+			fd.right = new FormAttachment(100);
+			fd.height = 48;
 
-		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, rightActions)
-				.setActions(context.getAssembly().getActions());
-		bar.addListener(SWT.Selection, e -> {
-			Action action = ((Action) e.data);
-			if ("close".equals(action.getName())) {
-				brui.closeCurrentContent();
-			} else if ("add".equals(action.getName())) {
-				allocateResource();
-			}
-		});
+			String barText;
+			if (ResourceTransfer.TYPE_PLAN == rt.getType())
+				barText = "资源计划用量 ";
+			else
+				barText = "资源实际用量 ";
+			bar.setText(barText);
+		}
+
+		content = UserSession.bruiToolkit().newContentPanel(parent);
 		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
-
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
 		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
+		if (bar != null) {
+			fd.left = new FormAttachment(0, 8);
+			fd.top = new FormAttachment(bar, 8);
+			fd.right = new FormAttachment(100, -8);
+			fd.bottom = new FormAttachment(100, -8);
+		} else {
+			fd.left = new FormAttachment(0);
+			fd.top = new FormAttachment(0);
+			fd.right = new FormAttachment(100);
+			fd.bottom = new FormAttachment(100);
+		}
 		content.setLayout(new FillLayout(SWT.VERTICAL));
-		String barText;
-		if (ResourceTransfer.TYPE_PLAN == rt.getType())
-			barText = "资源计划用量 ";
-		else
-			barText = "资源实际用量 ";
-		bar.setText(barText);
-
-		workService = Services.get(WorkService.class);
 		start = Calendar.getInstance();
-		start.setTime(rt.getFrom());
+		if (rt.getFrom() != null)
+			start.setTime(rt.getFrom());
+
 		end = Calendar.getInstance();
-		end.setTime(rt.getTo());
+		if (rt.getTo() != null)
+			end.setTime(rt.getTo());
+		showType = rt.getShowType();
+		showResTypeInfo = rt.isShowResTypeInfo();
+		showResPlan = rt.isShowResPlan();
+		showResActual = rt.isShowResActual();
+		showDelete = rt.isShowDelete();
 		//
-		createViewer(content);
+
+		viewer = new GridTreeViewer(content, SWT.H_SCROLL | SWT.V_SCROLL);
+		Grid grid = viewer.getGrid();
+		grid.setHeaderVisible(true);
+		grid.setFooterVisible(false);
+		grid.setLinesVisible(true);
+		UserSession.bruiToolkit().enableMarkup(grid);
+		createViewer();
+
+		createRowAction(grid);
+
 		doRefresh();
 	}
 
-	private void doRefresh() {
-		resource = workService.getResource(rt);
-		viewer.setInput(resource);
+	private void createRowAction(Grid grid) {
+		if (showDelete) {
+			int actionColWidth = BruiToolkit.actionMargin + BruiToolkit.actionImgBtnWidth + BruiToolkit.actionMargin;
+			GridColumn col = new GridColumn(grid, SWT.NONE);
+			col.setData("name", "rowAction");
+			col.setWidth(actionColWidth);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setData("fixedRight", true);
+
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(new ColumnLabelProvider() {
+				@Override
+				public String getText(Object element) {
+					return "<a class='cellbutton warning' href='delete' target='_rwt'>"
+							+ "<img alter='删除' src='rwt-resources/extres/img/minus_16_w.svg' style='cursor:pointer;' width='16px' height='16px'>"
+							+ "</a>";
+				}
+			});
+		}
+	}
+
+	public void doRefresh() {
+		if (rt.getWorkIds() != null || rt.getResTypeId() != null) {
+			resource = workService.getResource(rt);
+			viewer.setInput(resource);
+		}
 	}
 
 	private void allocateResource() {
@@ -201,7 +316,36 @@ public class EditWorkResourceActualASM {
 		});
 	}
 
+	private void delete(Object data) {
+		if (data == null)
+			return;
+		Document doc = (Document) data;
+		rt.getWorkIds().forEach(work_id -> {
+			if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
+				if (doc.get("usedEquipResId") != null)
+					workService.deleteEquipmentResourcePlan(work_id, (String) doc.get("usedEquipResId"));
+				else if (doc.get("usedHumanResId") != null)
+					workService.deleteHumanResourcePlan(work_id, (String) doc.get("usedHumanResId"));
+				else if (doc.get("usedTypedResId") != null)
+					workService.deleteTypedResourcePlan(work_id, (String) doc.get("usedTypedResId"));
+			} else if (rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
+				if (doc.get("usedEquipResId") != null)
+					workService.deleteEquipmentResourceActual(work_id, (String) doc.get("usedEquipResId"));
+				else if (doc.get("usedHumanResId") != null)
+					workService.deleteHumanResourceActual(work_id, (String) doc.get("usedHumanResId"));
+				else if (doc.get("usedTypedResId") != null)
+					workService.deleteTypedResourceActual(work_id, (String) doc.get("usedTypedResId"));
+			}
+		});
+		doRefresh();
+	}
+
 	private void updateQty(String text, Object data) {
+		if (data == null)
+			return;
+
+		Document doc = (Document) data;
+
 		String dialogTitle = "";
 		String dialogMessage = "";
 		if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
@@ -218,7 +362,13 @@ public class EditWorkResourceActualASM {
 			if (t.trim().isEmpty())
 				return "请输入资源用量";
 			try {
-				Double.parseDouble(t);
+				double d = Double.parseDouble(t);
+
+				if (text.startsWith("Basic") && d > doc.getDouble("basicWorks")) {
+					return "资源标准用量不能大于:" + doc.getDouble("basicWorks");
+				} else if (text.startsWith("OverTime") && d > doc.getDouble("overTimeWorks")) {
+					return "资源加班用量不能大于:" + doc.getDouble("overTimeWorks");
+				}
 			} catch (Exception e) {
 				return "输入的类型错误";
 			}
@@ -227,15 +377,11 @@ public class EditWorkResourceActualASM {
 		if (InputDialog.OK == id.open()) {
 			double qty = Double.parseDouble(id.getValue());
 			if (text.indexOf("-") > 0) {
-				if (data == null)
-					return;
-
 				Date period = null;
 				try {
 					period = new SimpleDateFormat("yyyyMMdd").parse(text.split("-")[1]);
 					if (period != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
 						ResourcePlan rp = new ResourcePlan();
-						Document doc = (Document) data;
 						rp.setWork_id(doc.getObjectId("work_id"));
 						rp.setUsedEquipResId(doc.getString("usedEquipResId"));
 						rp.setUsedHumanResId(doc.getString("usedHumanResId"));
@@ -250,7 +396,6 @@ public class EditWorkResourceActualASM {
 						workService.insertResourcePlan(rp);
 					} else if (period != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 						ResourceActual ra = new ResourceActual();
-						Document doc = (Document) data;
 						ra.setWork_id(doc.getObjectId("work_id"));
 						ra.setUsedEquipResId(doc.getString("usedEquipResId"));
 						ra.setUsedHumanResId(doc.getString("usedHumanResId"));
@@ -290,23 +435,31 @@ public class EditWorkResourceActualASM {
 		}
 	}
 
-	private void createViewer(Composite parent) {
-		viewer = new GridTableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+	@Override
+	public void setViewerInput() {
+	}
+
+	@Override
+	public void setViewerInput(List<?> input) {
+	}
+
+	private void createViewer() {
 		Grid grid = viewer.getGrid();
-		grid.setHeaderVisible(true);
-		grid.setFooterVisible(false);
-		grid.setLinesVisible(true);
-		UserSession.bruiToolkit().enableMarkup(grid);
-		if (rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE) {
 			grid.setData(RWT.FIXED_COLUMNS, 5);
-		} else if (rt.getShowType() == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
+		} else if (showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
 			grid.setData(RWT.FIXED_COLUMNS, 3);
-		} else if (rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
+		} else if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
 			grid.setData(RWT.FIXED_COLUMNS, 4);
 		}
+		createColumn();
+
+	}
+
+	private void createColumn() {
 		Column c;
-		if (rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
-				|| rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
+				|| showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
 			c = new Column();
 			c.setName("workName");
 			c.setText("工作名称");
@@ -326,7 +479,7 @@ public class EditWorkResourceActualASM {
 			createTitleColumn(c);
 		}
 
-		if (rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
 			c = new Column();
 			c.setName("startDate");
 			c.setText("开始");
@@ -346,8 +499,8 @@ public class EditWorkResourceActualASM {
 			createTitleColumn(c);
 		}
 
-		if (rt.getShowType() == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
-				|| rt.getShowType() == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
+				|| showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
 			c = new Column();
 			c.setName("resId");
 			c.setText("资源编号");
@@ -375,6 +528,178 @@ public class EditWorkResourceActualASM {
 			c.setResizeable(true);
 			createTitleColumn(c);
 		}
+
+		if (showResTypeInfo) {
+			GridColumnGroup grp = new GridColumnGroup(viewer.getGrid(), SWT.CENTER);
+			grp.setData("name", "costRate");
+			grp.setText("费率（元）");
+			grp.setExpanded(true);
+
+			GridColumn col = new GridColumn(grp, SWT.CENTER);
+			col.setText("标准");
+			col.setData("name", "basicRate");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("basicRate"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "overtimeRate");
+			col.setText("加班");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("overtimeRate"));
+		}
+		if (showResPlan) {
+			GridColumnGroup grp = new GridColumnGroup(viewer.getGrid(), SWT.CENTER);
+			grp.setData("name", "plan");
+			grp.setText("计划");
+			grp.setExpanded(true);
+
+			GridColumn col = new GridColumn(grp, SWT.CENTER);
+			col.setText("标准用量");
+			col.setData("name", "planBasicQty");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("planBasicQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "planOverTimeQty");
+			col.setText("加班用量");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("planOverTimeQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "planAmount");
+			col.setText("金额（元）");
+			col.setWidth(100);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("planAmount"));
+		}
+		if (showResActual) {
+			GridColumnGroup grp = new GridColumnGroup(viewer.getGrid(), SWT.CENTER);
+			grp.setData("name", "actual");
+			grp.setText("实际");
+			grp.setExpanded(true);
+
+			GridColumn col = new GridColumn(grp, SWT.CENTER);
+			col.setText("标准用量");
+			col.setData("name", "actualBasicQty");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("actualBasicQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "actualOverTimeQty");
+			col.setText("加班用量");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("actualOverTimeQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "actualAmount");
+			col.setText("金额（元）");
+			col.setWidth(100);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("actualAmount"));
+		}
+		createDateColumn();
+
+		viewer.setContentProvider(new ITreeContentProvider() {
+
+			@Override
+			public void dispose() {
+			}
+
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			}
+
+			@Override
+			public Object[] getElements(Object value) {
+				if (value instanceof List) {
+					return ((List<?>) value).toArray();
+				} else if (value instanceof Object[]) {
+					return (Object[]) value;
+				}
+				return new Object[0];
+			}
+
+			@Override
+			public Object[] getChildren(Object parentElement) {
+				return null;
+			}
+
+			@Override
+			public Object getParent(Object element) {
+				return null;
+			}
+
+			@Override
+			public boolean hasChildren(Object element) {
+				return false;
+			}
+			
+		});
+		viewer.getGrid().addListener(SWT.Selection, l -> {
+			if (l.text != null)
+				if ("delete".equals(l.text))
+					delete(l.item.getData());
+				else
+					updateQty(l.text, l.item.getData());
+		});
+	}
+
+	private void createDateColumn() {
 		Calendar now = Calendar.getInstance();
 		now.setTime(start.getTime());
 		createDateColumn(now.getTime());
@@ -382,22 +707,6 @@ public class EditWorkResourceActualASM {
 			now.add(Calendar.DATE, 1);
 			createDateColumn(now.getTime());
 		}
-
-		c = new Column();
-		c.setName("");
-		c.setText("");
-		c.setWidth(0);
-		c.setAlignment(SWT.LEFT);
-		c.setMoveable(false);
-		c.setResizeable(true);
-		createTitleColumn(c);
-
-		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		viewer.getGrid().addListener(SWT.Selection, l -> {
-			if (l.text != null)
-				updateQty(l.text, l.item.getData());
-		});
-
 	}
 
 	private void createDateColumn(Date now) {
@@ -413,7 +722,6 @@ public class EditWorkResourceActualASM {
 		col.setData("name", "Basic");
 		col.setWidth(48);
 		col.setMoveable(false);
-		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
 		col.setResizeable(true);
 		col.setDetail(true);
@@ -427,7 +735,6 @@ public class EditWorkResourceActualASM {
 		col.setText("加班");
 		col.setWidth(48);
 		col.setMoveable(false);
-		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
 		col.setResizeable(true);
 		col.setDetail(true);
@@ -513,10 +820,15 @@ public class EditWorkResourceActualASM {
 		col.setResizeable(c.isResizeable());
 
 		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
-		vcol.setLabelProvider(new ColumnLabelProvider() {
+		vcol.setLabelProvider(getTitleLabelProvider(c.getName()));
+
+	}
+
+	private ColumnLabelProvider getTitleLabelProvider(String name) {
+		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				String name = c.getName();
+				String format = null;
 				Object value;
 				if ("startDate".equals(name)) {
 					if (((Document) element).get("actualStart") != null) {
@@ -530,12 +842,30 @@ public class EditWorkResourceActualASM {
 					} else {
 						value = ((Document) element).get("planFinish");
 					}
+				} else if ("planAmount".equals(name)) {
+					format = "#,###.0";
+					value = getDoubleValue(((Document) element).get("planBasicQty"))
+							* getDoubleValue(((Document) element).get("basicRate"))
+							+ getDoubleValue(((Document) element).get("planOverTimeQty"))
+									* getDoubleValue(((Document) element).get("overtimeRate"));
+				} else if ("actualAmount".equals(name)) {
+					format = "#,###.0";
+					value = getDoubleValue(((Document) element).get("actualBasicQty"))
+							* getDoubleValue(((Document) element).get("basicRate"))
+							+ getDoubleValue(((Document) element).get("actualOverTimeQty"))
+									* getDoubleValue(((Document) element).get("overtimeRate"));
 				} else {
 					value = ((Document) element).get(name);
 				}
-				return Util.getFormatText(value, null, locale);
+				return Util.getFormatText(value, format, locale);
 			}
-		});
+		};
+	}
 
+	private double getDoubleValue(Object object) {
+		if (object instanceof Number)
+			return ((Number) object).doubleValue();
+
+		return 0;
 	}
 }

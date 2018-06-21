@@ -305,6 +305,24 @@ public interface WorkService {
 	public long deleteEquipmentResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String eqResId);
 
 	@DELETE
+	@Path("/_id/{_id}/resourceactual/ty/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteTypedResourceActual(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
+	
+	@DELETE
+	@Path("/_id/{_id}/resourceactual/hr/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteHumanResourceActual(@PathParam("_id") ObjectId work_id, @PathParam("resId") String hrResId);
+
+	@DELETE
+	@Path("/_id/{_id}/resourceactual/eq/{resId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteEquipmentResourceActual(@PathParam("_id") ObjectId work_id, @PathParam("resId") String eqResId);
+
+	@DELETE
 	@Path("/_id/{_id}/resourceplan/ty/{resId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

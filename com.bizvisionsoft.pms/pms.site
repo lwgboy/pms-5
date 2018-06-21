@@ -12495,8 +12495,25 @@
           },
           {
             "id": "163957e16ba",
-            "name": "works",
-            "text": "工作日每日工时",
+            "name": "basicWorks",
+            "text": "每日标准工时",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "textRestrict": "浮点",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1642247d204",
+            "name": "overTimeWorks",
+            "text": "每日加班工时",
             "type": "单行文本框",
             "formFields": [],
             "hasInfoLabel": false,
@@ -21048,20 +21065,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1637cc1cc68",
-            "name": "分配资源",
-            "text": "分配资源",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -32472,20 +32476,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1637cc1cc68",
-            "name": "添加资源用量",
-            "text": "添加资源用量",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,

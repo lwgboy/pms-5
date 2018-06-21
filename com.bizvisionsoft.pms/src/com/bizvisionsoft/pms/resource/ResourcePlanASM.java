@@ -43,7 +43,7 @@ public class ResourcePlanASM {
 
 	private GanttPart gantt;
 
-	private GridPart grid;
+	private EditWorkResourceActualASM grid;
 
 	private Work work;
 
@@ -71,8 +71,20 @@ public class ResourcePlanASM {
 
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
-		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表"))
-				.setServices(brui).create().getContext().getContent();
+		ResourceTransfer rt = new ResourceTransfer();
+		rt.setType(ResourceTransfer.TYPE_PLAN);
+		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+		rt.setCheckTime(true);
+		rt.setCanAdd(false);
+		rt.setCanClose(false);
+		rt.setShowResActual(false);
+		rt.setShowResPlan(true);
+		rt.setShowResTypeInfo(true);
+		rt.setShowDelete(true);
+
+		grid = (EditWorkResourceActualASM) new AssemblyContainer(content, context)
+				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
+				.getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
@@ -96,11 +108,11 @@ public class ResourcePlanASM {
 			}
 		});
 
-		grid.getViewer().getGrid().addListener(SWT.Selection, l -> {
-			if ("conflict".equals(l.text)) {
-				openResourceConflict((ResourcePlan) l.item.getData());
-			}
-		});
+		// grid.getViewer().getGrid().addListener(SWT.Selection, l -> {
+		// if ("conflict".equals(l.text)) {
+		// openResourceConflict((ResourcePlan) l.item.getData());
+		// }
+		// });
 		Layer.message("提示： 您可以双击叶子任务选择要添加的资源。");
 	}
 
@@ -117,6 +129,11 @@ public class ResourcePlanASM {
 		rt.setResTypeId(rp.getResTypeId());
 		rt.setCheckTime(true);
 		rt.setCanAdd(false);
+		rt.setCanClose(true);
+		rt.setShowResActual(false);
+		rt.setShowResPlan(false);
+		rt.setShowResTypeInfo(false);
+		rt.setShowDelete(false);
 
 		brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 	}
@@ -159,8 +176,7 @@ public class ResourcePlanASM {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
 			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
 			Services.get(WorkService.class).addResourcePlan(resa);
-
-			grid.setViewerInput(Services.get(WorkService.class).listResourcePlan(work.get_id()));
+			grid.doRefresh();
 		});
 	}
 
@@ -170,8 +186,23 @@ public class ResourcePlanASM {
 		}
 		this.work = work;
 		// 查询
-		List<ResourcePlan> input = Services.get(WorkService.class).listResourcePlan(work.get_id());
-		grid.setViewerInput(input);
+		ResourceTransfer rt = new ResourceTransfer();
+		rt.addWorkIds(work.get_id());
+		rt.setType(ResourceTransfer.TYPE_PLAN);
+		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+		rt.setFrom(work.getPlanStart());
+		rt.setTo(work.getPlanFinish());
+		rt.setCheckTime(false);
+		rt.setCanAdd(false);
+		rt.setShowResActual(false);
+		rt.setShowResPlan(true);
+		rt.setShowResTypeInfo(true);
+		rt.setShowDelete(true);
+		grid.setResourceTransfer(rt);
+
+		// List<ResourcePlan> input =
+		// Services.get(WorkService.class).listResourcePlan(work.get_id());
+		// grid.setViewerInput(input);
 	}
 
 }
