@@ -275,10 +275,16 @@ public interface WorkService {
 	public List<Result> closeStage(Command command);
 
 	@POST
-	@Path("/resourceplan/")
+	@Path("/resourceplan/add/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas);
+
+	@POST
+	@Path("/resourceplan/insert/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ResourcePlan insertResourcePlan(ResourcePlan rp);
 
 	@PUT
 	@Path("/resourceplan/")
@@ -383,16 +389,28 @@ public interface WorkService {
 			@PathParam("catagory") String catagory);
 
 	@POST
-	@Path("/resourceactual/")
+	@Path("/resourceactual/add/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas);
+
+	@POST
+	@Path("/resourceactual/insert/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ResourceActual insertResourceActual(ResourceActual ra);
 
 	@POST
 	@Path("/_id/{_id}/resourceactual/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ResourceActual> listResourceActual(@PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/resourceactual/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateResourceActual(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/resourcePlan/conflict/ds")

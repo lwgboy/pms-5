@@ -227,13 +227,13 @@ public class ReportItemRender extends GridPartDefaultRender {
 		sb.append("<div>实际进度：" + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
 				+ "</div>");
 		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
-		sb.append(
-				"<a href='editResourceActual/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:90px;'>"
-						+ "报告资源用量" + "</button></a>");
-		sb.append(
-				"<a href='editEstimatedFinish/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
-						+ "预计完成时间" + "</button></a>");
 		if (!ri.isConfirmed() && brui.getCurrentUserId().equals(ri.getReportorId())) {
+			sb.append(
+					"<a href='editResourceActual/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:90px;'>"
+							+ "报告资源用量" + "</button></a>");
+			sb.append(
+					"<a href='editEstimatedFinish/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+							+ "预计完成时间" + "</button></a>");
 		}
 		sb.append("</div>");
 		return sb.toString();

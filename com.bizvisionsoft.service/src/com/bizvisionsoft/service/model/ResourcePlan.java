@@ -89,6 +89,10 @@ public class ResourcePlan {
 
 	@ReadValue
 	private double planOverTimeQty;
+	
+	public void setPlanOverTimeQty(double planOverTimeQty) {
+		this.planOverTimeQty = planOverTimeQty;
+	}
 
 	@Persistence
 	private ObjectId resTypeId;
