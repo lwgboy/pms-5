@@ -778,6 +778,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	public long deleteHumanResourceActual(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourceActual")
+				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
+		updateWorkActualWorks(work_id);
+		return dr.getDeletedCount();
+	}
+
+	@Override
+	public long deleteEquipmentResourceActual(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourceActual")
+				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		updateWorkActualWorks(work_id);
+		return dr.getDeletedCount();
+	}
+
+	@Override
+	public long deleteTypedResourceActual(ObjectId work_id, String resId) {
+		DeleteResult dr = c("resourceActual")
+				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		updateWorkActualWorks(work_id);
+		return dr.getDeletedCount();
+	}
+
+	@Override
 	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas) {
 		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();

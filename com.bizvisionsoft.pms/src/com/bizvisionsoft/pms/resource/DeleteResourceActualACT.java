@@ -24,15 +24,15 @@ public class DeleteResourceActualACT {
 			ResourceActual ra = (ResourceActual) em;
 			String usedEquipResId = ra.getUsedEquipResId();
 			if (usedEquipResId != null)
-				Services.get(WorkService.class).deleteEquipmentResourcePlan(ra.getWork_id(), usedEquipResId);
+				Services.get(WorkService.class).deleteEquipmentResourceActual(ra.getWork_id(), usedEquipResId);
 
 			String usedHumanResId = ra.getUsedHumanResId();
 			if (usedHumanResId != null)
-				Services.get(WorkService.class).deleteHumanResourcePlan(ra.getWork_id(), usedHumanResId);
+				Services.get(WorkService.class).deleteHumanResourceActual(ra.getWork_id(), usedHumanResId);
 
 			String usedTypedResId = ra.getUsedTypedResId();
 			if (usedTypedResId != null)
-				Services.get(WorkService.class).deleteTypedResourcePlan(ra.getWork_id(), usedTypedResId);
+				Services.get(WorkService.class).deleteTypedResourceActual(ra.getWork_id(), usedTypedResId);
 
 			GridPart content = (GridPart) context.getContent();
 			content.remove(em);

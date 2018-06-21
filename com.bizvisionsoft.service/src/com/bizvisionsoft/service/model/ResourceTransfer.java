@@ -32,6 +32,16 @@ public class ResourceTransfer {
 
 	private boolean canAdd;
 
+	private boolean canClose;
+
+	private boolean showResTypeInfo;
+
+	private boolean showResPlan;
+
+	private boolean showResActual;
+
+	private boolean showDelete;
+
 	public void setType(int type) {
 		this.type = type;
 	}
@@ -93,6 +103,46 @@ public class ResourceTransfer {
 
 	public void setCanAdd(boolean canAdd) {
 		this.canAdd = canAdd;
+	}
+
+	public void setCanClose(boolean canClose) {
+		this.canClose = canClose;
+	}
+
+	public boolean isCanClose() {
+		return canClose;
+	}
+
+	public void setShowResTypeInfo(boolean showResTypeInfo) {
+		this.showResTypeInfo = showResTypeInfo;
+	}
+
+	public boolean isShowResTypeInfo() {
+		return showResTypeInfo;
+	}
+
+	public void setShowResPlan(boolean showResPlan) {
+		this.showResPlan = showResPlan;
+	}
+
+	public boolean isShowResPlan() {
+		return showResPlan;
+	}
+
+	public void setShowResActual(boolean showResActual) {
+		this.showResActual = showResActual;
+	}
+
+	public boolean isShowResActual() {
+		return showResActual;
+	}
+
+	public void setShowDelete(boolean showDelete) {
+		this.showDelete = showDelete;
+	}
+
+	public boolean isShowDelete() {
+		return showDelete;
 	}
 
 	private String usedHumanResId;

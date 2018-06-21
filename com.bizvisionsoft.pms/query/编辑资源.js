@@ -61,6 +61,120 @@
 			}
 		},
 		{
+			"$lookup" : {
+				"from" : "<resourceCollection>",
+				"let" : {
+					"work_id" : "$work_id",
+					"resTypeId" : "$resTypeId",
+					"usedTypedResId" : "$usedTypedResId",
+					"usedHumanResId" : "$usedHumanResId",
+					"usedEquipResId" : "$usedEquipResId"
+				},
+				"pipeline" : [ {
+					"$match" : {
+						"$expr" : {
+							"$and" : [
+									{
+										"$eq" : [ "$work_id", "$$work_id" ]
+									},
+									{
+										"$eq" : [ "$resTypeId", "$$resTypeId" ]
+									},
+									{
+										"$eq" : [ "$usedTypedResId",
+												"$$usedTypedResId" ]
+									},
+									{
+										"$eq" : [ "$usedHumanResId",
+												"$$usedHumanResId" ]
+									},
+									{
+										"$eq" : [ "$usedEquipResId",
+												"$$usedEquipResId" ]
+									} ]
+						}
+					}
+				} ],
+				"as" : "resource"
+			}
+		},
+		{
+			"$lookup" : {
+				"from" : "resourcePlan",
+				"let" : {
+					"work_id" : "$work_id",
+					"resTypeId" : "$resTypeId",
+					"usedTypedResId" : "$usedTypedResId",
+					"usedHumanResId" : "$usedHumanResId",
+					"usedEquipResId" : "$usedEquipResId"
+				},
+				"pipeline" : [ {
+					"$match" : {
+						"$expr" : {
+							"$and" : [
+									{
+										"$eq" : [ "$work_id", "$$work_id" ]
+									},
+									{
+										"$eq" : [ "$resTypeId", "$$resTypeId" ]
+									},
+									{
+										"$eq" : [ "$usedTypedResId",
+												"$$usedTypedResId" ]
+									},
+									{
+										"$eq" : [ "$usedHumanResId",
+												"$$usedHumanResId" ]
+									},
+									{
+										"$eq" : [ "$usedEquipResId",
+												"$$usedEquipResId" ]
+									} ]
+						}
+					}
+				} ],
+				"as" : "resourcePlan"
+			}
+		},
+		{
+			"$lookup" : {
+				"from" : "resourceActual",
+				"let" : {
+					"work_id" : "$work_id",
+					"resTypeId" : "$resTypeId",
+					"usedTypedResId" : "$usedTypedResId",
+					"usedHumanResId" : "$usedHumanResId",
+					"usedEquipResId" : "$usedEquipResId"
+				},
+				"pipeline" : [ {
+					"$match" : {
+						"$expr" : {
+							"$and" : [
+									{
+										"$eq" : [ "$work_id", "$$work_id" ]
+									},
+									{
+										"$eq" : [ "$resTypeId", "$$resTypeId" ]
+									},
+									{
+										"$eq" : [ "$usedTypedResId",
+												"$$usedTypedResId" ]
+									},
+									{
+										"$eq" : [ "$usedHumanResId",
+												"$$usedHumanResId" ]
+									},
+									{
+										"$eq" : [ "$usedEquipResId",
+												"$$usedEquipResId" ]
+									} ]
+						}
+					}
+				} ],
+				"as" : "resourceActual"
+			}
+		},
+		{
 			"$match" : "<match>"
 		},
 		{
@@ -182,13 +296,45 @@
 				"projectName" : "$project.name"
 			}
 		}, {
+			"$lookup" : {
+				"from" : "calendar",
+				"localField" : "resType.cal_id",
+				"foreignField" : "_id",
+				"as" : "calendar"
+			}
+		}, {
+			"$unwind" : {
+				"path" : "$calendar",
+				"preserveNullAndEmptyArrays" : true
+			}
+		}, {
+			"$addFields" : {
+				"workName" : "$work.name",
+				"actualStart" : "$work.actualStart",
+				"actualFinish" : "$work.actualFinish",
+				"planStart" : "$work.planStart",
+				"planFinish" : "$work.planFinish",
+				"projectName" : "$project.name",
+				"overtimeRate" : "$resType.overtimeRate",
+				"basicRate" : "$resType.basicRate",
+				"basicWorks" : "$calendar.basicWorks",
+				"overTimeWorks" : "$calendar.overTimeWorks",
+				"planBasicQty" : {"$sum":"$resourcePlan.planBasicQty"},
+				"planOverTimeQty" : {"$sum":"$resourcePlan.planOverTimeQty"},
+				"actualBasicQty" : {"$sum":"$resourceActual.actualBasicQty"},
+				"actualOverTimeQty" : {"$sum":"$resourceActual.actualOverTimeQty"}
+			}
+		}, {
 			"$project" : {
 				"resourceType" : false,
 				"resType_id" : false,
 				"user" : false,
 				"equipment" : false,
 				"work" : false,
-				"project" : false
+				"project" : false,
+				"calendar" : false,
+				"resourcePlan" : false,
+				"resourceActual" : false
 			}
 		}, {
 			"$sort" : {

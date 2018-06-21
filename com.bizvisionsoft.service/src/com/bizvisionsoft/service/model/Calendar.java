@@ -52,20 +52,39 @@ public class Calendar {
 	private boolean global;
 	
 	@ReadValue
-	private double works;
+	@Persistence
+	private double basicWorks;
 	
-	@WriteValue("works")
-	public void setWorks(String _works) {
-		double __works;
+	@WriteValue("basicWorks")
+	public void setWorks(String _basicWorks) {
+		double __basicWorks;
 		try {
-			__works = Double.parseDouble(_works);
+			__basicWorks = Double.parseDouble(_basicWorks);
 		} catch (Exception e) {
 			throw new RuntimeException("输入类型错误。");
 		}
-		if (__works <= 0) {
-			throw new RuntimeException("工作日每日工时需大于零。");
+		if (__basicWorks <= 0) {
+			throw new RuntimeException("每日标准工时需大于零。");
 		}
-		works = __works;
+		basicWorks = __basicWorks;
+	}
+	
+	@ReadValue
+	@Persistence
+	private double overTimeWorks;
+	
+	@WriteValue("overTimeWorks")
+	public void setOverTimeWorks(String _overTimeWorks) {
+		double __overTimeWorks;
+		try {
+			__overTimeWorks = Double.parseDouble(_overTimeWorks);
+		} catch (Exception e) {
+			throw new RuntimeException("输入类型错误。");
+		}
+		if (__overTimeWorks <= 0) {
+			throw new RuntimeException("每日加班工时需大于零。");
+		}
+		overTimeWorks = __overTimeWorks;
 	}
 
 	@Behavior({ "工作日历/添加", "工作日历/删除", "工作日历/编辑" })
