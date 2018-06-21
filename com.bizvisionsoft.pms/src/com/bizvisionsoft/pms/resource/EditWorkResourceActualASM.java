@@ -497,11 +497,7 @@ public class EditWorkResourceActualASM {
 							}
 						}
 					}
-					if ("Basic".equals(key)) {
-						return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
-					} else if ("OverTime".equals(key)) {
-						return workTime > 16 ? BruiColors.getColor(BruiColor.Red_400) : null;
-					}
+					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
 				}
 				return null;
 			}
