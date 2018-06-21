@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.resource;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,10 +11,10 @@ import java.util.List;
 import java.util.Locale;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -42,6 +43,9 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.ResourceActual;
+import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -65,6 +69,8 @@ public class EditWorkResourceActualASM {
 	private List<Document> resource;
 
 	private ResourceTransfer rt;
+
+	private WorkService workService;
 
 	@CreateUI
 	public void createUI(Composite parent) {
@@ -123,14 +129,18 @@ public class EditWorkResourceActualASM {
 			barText = "资源实际用量 ";
 		bar.setText(barText);
 
-		resource = Services.get(WorkService.class).getResource(rt);
+		workService = Services.get(WorkService.class);
 		start = Calendar.getInstance();
 		start.setTime(rt.getFrom());
 		end = Calendar.getInstance();
 		end.setTime(rt.getTo());
 		//
 		createViewer(content);
+		doRefresh();
+	}
 
+	private void doRefresh() {
+		resource = workService.getResource(rt);
 		viewer.setInput(resource);
 	}
 
@@ -168,15 +178,116 @@ public class EditWorkResourceActualASM {
 	}
 
 	private void addResource(String editorId) {
-		// TODO
 		Selector.open(editorId, context, null, l -> {
-			// List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
-			// l.forEach(o -> resa.add(new
-			// ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
-			// Services.get(WorkService.class).addResourcePlan(resa);
-			//
-			// grid.setViewerInput(Services.get(WorkService.class).listResourcePlan(work.get_id()));
+			List<ResourceAssignment> resas = new ArrayList<ResourceAssignment>();
+			if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
+				l.forEach(o -> {
+					rt.getWorkIds().forEach(
+							work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
+				});
+				workService.addResourcePlan(resas);
+			} else if (ResourceTransfer.TYPE_ACTUAL == rt.getType()) {
+				l.forEach(o -> {
+					rt.getWorkIds().forEach(work_id -> {
+						ResourceAssignment ra = new ResourceAssignment().setTypedResource(o).setWork_id(work_id);
+						ra.from = start.getTime();
+						ra.to = end.getTime();
+						resas.add(ra);
+					});
+				});
+				workService.addResourceActual(resas);
+			}
+			doRefresh();
 		});
+	}
+
+	private void updateQty(String text, Object data) {
+		String dialogTitle = "";
+		String dialogMessage = "";
+		if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
+			dialogTitle = "填写资源计划用量";
+		} else if (rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
+			dialogTitle = "填写资源实际用量";
+		}
+		if (text.startsWith("Basic")) {
+			dialogMessage = "请填写资源标准用量";
+		} else if (text.startsWith("OverTime")) {
+			dialogMessage = "请填写资源加班用量";
+		}
+		InputDialog id = new InputDialog(brui.getCurrentShell(), dialogTitle, dialogMessage, null, t -> {
+			if (t.trim().isEmpty())
+				return "请输入资源用量";
+			try {
+				Double.parseDouble(t);
+			} catch (Exception e) {
+				return "输入的类型错误";
+			}
+			return null;
+		});
+		if (InputDialog.OK == id.open()) {
+			double qty = Double.parseDouble(id.getValue());
+			if (text.indexOf("-") > 0) {
+				if (data == null)
+					return;
+
+				Date period = null;
+				try {
+					period = new SimpleDateFormat("yyyyMMdd").parse(text.split("-")[1]);
+					if (period != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
+						ResourcePlan rp = new ResourcePlan();
+						Document doc = (Document) data;
+						rp.setWork_id(doc.getObjectId("work_id"));
+						rp.setUsedEquipResId(doc.getString("usedEquipResId"));
+						rp.setUsedHumanResId(doc.getString("usedHumanResId"));
+						rp.setUsedTypedResId(doc.getString("usedTypedResId"));
+						rp.setResTypeId(doc.getObjectId("resTypeId"));
+						rp.setId(period);
+						if (text.startsWith("Basic")) {
+							rp.setPlanBasicQty(qty);
+						} else if (text.startsWith("OverTime")) {
+							rp.setPlanOverTimeQty(qty);
+						}
+						workService.insertResourcePlan(rp);
+					} else if (period != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
+						ResourceActual ra = new ResourceActual();
+						Document doc = (Document) data;
+						ra.setWork_id(doc.getObjectId("work_id"));
+						ra.setUsedEquipResId(doc.getString("usedEquipResId"));
+						ra.setUsedHumanResId(doc.getString("usedHumanResId"));
+						ra.setUsedTypedResId(doc.getString("usedTypedResId"));
+						ra.setResTypeId(doc.getObjectId("resTypeId"));
+						ra.setId(period);
+						if (text.startsWith("Basic")) {
+							ra.setActualBasicQty(qty);
+						} else if (text.startsWith("OverTime")) {
+							ra.setActualOverTimeQty(qty);
+						}
+						workService.insertResourceActual(ra);
+					}
+				} catch (ParseException e) {
+				}
+
+			} else {
+				ObjectId _id = null;
+				String key = "";
+				if (text.startsWith("Basic")) {
+					_id = new ObjectId(text.replace("Basic", ""));
+					key += "BasicQty";
+				} else if (text.startsWith("OverTime")) {
+					_id = new ObjectId(text.replace("OverTime", ""));
+					key += "OverTimeQty";
+				}
+				if (_id != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
+					workService.updateResourcePlan(new FilterAndUpdate().filter(new Document("_id", _id))
+							.set(new Document("plan" + key, qty)).bson());
+				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
+					workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
+							.set(new Document("actual" + key, qty)).bson());
+				}
+
+			}
+			doRefresh();
+		}
 	}
 
 	private void createViewer(Composite parent) {
@@ -283,8 +394,8 @@ public class EditWorkResourceActualASM {
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		viewer.getGrid().addListener(SWT.Selection, l -> {
-			Object data = l.item.getData();
-			System.out.println(l.text);
+			if (l.text != null)
+				updateQty(l.text, l.item.getData());
 		});
 
 	}
@@ -346,12 +457,20 @@ public class EditWorkResourceActualASM {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							return "0.0".equals(text) ? "" : text;
+							return "<a href='" + key + doc.get("_id").toString()
+									+ "' target='_rwt' style='width: 100%;'>"
+									+ ("0.0".equals(text)
+											? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
+													+ "<i class='layui-icon  layui-icon-edit'></i></button>")
+											: text)
+									+ "</a>";
 						}
 					}
 
 				}
-				return "";
+				return "<a href='" + key + "-" + id
+						+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
+						+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";
 			}
 
 			@Override

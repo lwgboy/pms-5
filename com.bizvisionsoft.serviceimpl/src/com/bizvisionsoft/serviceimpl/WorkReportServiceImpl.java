@@ -30,9 +30,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
+		pipeline.add(Aggregates.sort(new Document("period", -1)));
 
 		Integer skip = (Integer) condition.get("skip");
 		if (skip != null)

@@ -818,6 +818,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return documents;
 	}
 
+	@Override
+	public ResourcePlan insertResourcePlan(ResourcePlan rp) {
+		return insert(rp, ResourcePlan.class);
+	}
+
 	private void updateWorkPlanWorks(ObjectId work_id) {
 		if (work_id != null) {
 			// TODO 修改计算方式
@@ -998,46 +1003,77 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<ResourceActual> addResourceActual(ResourceAssignment resa) {
-		Set<ObjectId> workIds = new HashSet<ObjectId>();
+	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas) {
 		List<ResourceActual> documents = new ArrayList<ResourceActual>();
+		resas.forEach(resa -> {
+			Date planStart = resa.from;
+			Date planFinish = resa.to;
+			Calendar planStartCal = Calendar.getInstance();
+			planStartCal.setTime(planStart);
 
-		Date planStart = resa.from;
-		Date planFinish = resa.to;
-		Calendar planStartCal = Calendar.getInstance();
-		planStartCal.setTime(planStart);
+			Calendar planFinishCal = Calendar.getInstance();
+			planFinishCal.setTime(planFinish);
+			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
 
-		Calendar planFinishCal = Calendar.getInstance();
-		planFinishCal.setTime(planFinish);
-		planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+			while (planStartCal.getTime().before(planFinishCal.getTime())) {
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
+					Date time = planStartCal.getTime();
+					ResourceActual res = resa.getResourceActual();
+					res.setId(time);
+					documents.add(res);
 
-		while (planStartCal.getTime().before(planFinishCal.getTime())) {
-			if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-				Date time = planStartCal.getTime();
-				ResourceActual res = resa.getResourceActual();
-				res.setId(time);
-				documents.add(res);
-
-				c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
-						.append("usedHumanResId", res.getUsedHumanResId())
-						.append("usedEquipResId", res.getUsedEquipResId())
-						.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));
+					c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
+							.append("usedHumanResId", res.getUsedHumanResId())
+							.append("usedEquipResId", res.getUsedEquipResId())
+							.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));
+				}
+				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			planStartCal.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		workIds.add(resa.work_id);
 
-		double actualBasicQty = resa.actualBasicQty / documents.size();
+			double actualBasicQty = resa.actualBasicQty / documents.size();
 
-		double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
-		for (ResourceActual resourceActual : documents) {
-			resourceActual.setActualBasicQty(actualBasicQty);
-			resourceActual.setActualOverTimeQty(actualOverTimeQty);
-		}
+			double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
+			for (ResourceActual resourceActual : documents) {
+				resourceActual.setActualBasicQty(actualBasicQty);
+				resourceActual.setActualOverTimeQty(actualOverTimeQty);
+			}
+		});
 
 		c(ResourceActual.class).insertMany(documents);
 
 		return documents;
+	}
+
+	@Override
+	public ResourceActual insertResourceActual(ResourceActual ra) {
+		return insert(ra, ResourceActual.class);
+	}
+
+	@Override
+	public long updateResourceActual(BasicDBObject filterAndUpdate) {
+		Bson bson = (Bson) filterAndUpdate.get("filter");
+		ObjectId work_id = c("resourceActual").distinct("work_id", bson, ObjectId.class).first();
+		long update = update(filterAndUpdate, ResourceActual.class);
+		updateWorkActualWorks(work_id);
+		return update;
+	}
+
+	private void updateWorkActualWorks(ObjectId work_id) {
+		if (work_id != null) {
+			// TODO 修改计算方式
+			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
+					new Document("$addFields",
+							new Document("actualQty",
+									new Document("$sum", Arrays.asList("$actualBasicQty", "$actualOverTimeQty")))),
+					new Document("$group",
+							new Document("_id", "$work_id").append("actualWorks", new Document("$sum", "$actualQty"))));
+
+			double works = Optional.ofNullable(c("resourceActual").aggregate(pipeline).first())
+					.map(d -> d.getDouble("actualWorks")).map(p -> p.doubleValue()).orElse(0d);
+
+			c(Work.class).updateOne(new Document("_id", work_id),
+					new Document("$set", new Document("actualWorks", works)));
+		}
 	}
 
 	@Override
@@ -1163,8 +1199,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 		Document match;
 		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == ra.getShowType()) {
-			match = new Document("usedEquipResId", ra.getUsedEquipResId()).append("usedHumanResId", ra.getUsedHumanResId())
-					.append("usedTypedResId", ra.getUsedTypedResId()).append("resTypeId", ra.getResTypeId());
+			match = new Document("usedEquipResId", ra.getUsedEquipResId())
+					.append("usedHumanResId", ra.getUsedHumanResId()).append("usedTypedResId", ra.getUsedTypedResId())
+					.append("resTypeId", ra.getResTypeId());
 		} else {
 			match = new Document("work_id", new Document("$in", ra.getWorkIds()));
 		}
