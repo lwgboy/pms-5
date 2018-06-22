@@ -173,9 +173,6 @@ public class ResourcePlanASM {
 
 		grid.setResourceTransfer(rt);
 
-		// List<ResourcePlan> input =
-		// Services.get(WorkService.class).listResourcePlan(work.get_id());
-		// grid.setViewerInput(input);
 	}
 
 }
