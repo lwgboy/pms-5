@@ -309,7 +309,7 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteTypedResourceActual(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
-	
+
 	@DELETE
 	@Path("/_id/{_id}/resourceactual/hr/{resId}")
 	@Consumes("application/json; charset=UTF-8")
@@ -453,4 +453,23 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Document> getResource(ResourceTransfer ra);
+
+	@POST
+	@Path("/resourceplananalysis/project_id/{project_id}/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getResourcePlanAnalysis(@PathParam("project_id") ObjectId project_id,
+			@PathParam("year") String year);
+	@POST
+	@Path("/resourceactualanalysis/project_id/{project_id}/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getResourceActualAnalysis(@PathParam("project_id") ObjectId project_id,
+			@PathParam("year") String year);
+	@POST
+	@Path("/resourceallanalysis/project_id/{project_id}/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id,
+			@PathParam("year") String year);
 }
