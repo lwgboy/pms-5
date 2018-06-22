@@ -62,44 +62,6 @@
 		},
 		{
 			"$lookup" : {
-				"from" : "<resourceCollection>",
-				"let" : {
-					"work_id" : "$work_id",
-					"resTypeId" : "$resTypeId",
-					"usedTypedResId" : "$usedTypedResId",
-					"usedHumanResId" : "$usedHumanResId",
-					"usedEquipResId" : "$usedEquipResId"
-				},
-				"pipeline" : [ {
-					"$match" : {
-						"$expr" : {
-							"$and" : [
-									{
-										"$eq" : [ "$work_id", "$$work_id" ]
-									},
-									{
-										"$eq" : [ "$resTypeId", "$$resTypeId" ]
-									},
-									{
-										"$eq" : [ "$usedTypedResId",
-												"$$usedTypedResId" ]
-									},
-									{
-										"$eq" : [ "$usedHumanResId",
-												"$$usedHumanResId" ]
-									},
-									{
-										"$eq" : [ "$usedEquipResId",
-												"$$usedEquipResId" ]
-									} ]
-						}
-					}
-				} ],
-				"as" : "resource"
-			}
-		},
-		{
-			"$lookup" : {
 				"from" : "resourcePlan",
 				"let" : {
 					"work_id" : "$work_id",

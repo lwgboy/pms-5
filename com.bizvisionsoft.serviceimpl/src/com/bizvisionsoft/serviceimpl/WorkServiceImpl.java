@@ -1244,7 +1244,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				return new DecimalFormat("0.0").format(d);
 			}
 		}
-		return "0";
+		return "";
 	}
 
 	@Override
@@ -1422,10 +1422,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Map<String, Double> actualAmountMap = new TreeMap<String, Double>();
 		Map<String, Double> planWorksMap = new TreeMap<String, Double>();
 		Map<String, Double> planAmountMap = new TreeMap<String, Double>();
-		Document first = c("project")
-				.find(new Document("_id", project_id)).projection(new Document("actualStart", true)
-						.append("actualFinish", true).append("planStart", true).append("planFinish", true))
-				.first();
+		Document first = c("project").find(new Document("_id", project_id)).projection(new Document("actualStart", true)
+				.append("actualFinish", true).append("planStart", true).append("planFinish", true)).first();
 		Calendar start = Calendar.getInstance();
 		Calendar end = Calendar.getInstance();
 		Object actualStart = first.get("actualStart");
@@ -1453,7 +1451,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);
-		
 
 		List<String> xAxisDate = new ArrayList<String>();
 
@@ -1515,9 +1512,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					}
 				});
 
-		double barMax = 0;
-		double lineMax = 0;
-
 		Document planWorksData = new Document();
 		planWorksData.append("name", "计划工时");
 		planWorksData.append("type", "bar");
@@ -1525,13 +1519,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Object> palnWorksdata = new ArrayList<Object>();
 		for (Double d : planWorksMap.values()) {
-			if (d == null) {
-				d = 0d;
-			}
-			if (d > barMax)
-				barMax = d.doubleValue();
-
-			palnWorksdata.add(new DecimalFormat("0.0").format(d));
+			palnWorksdata.add(getStringValue(d));
 		}
 		planWorksData.append("data", palnWorksdata);
 		series.add(planWorksData);
@@ -1543,31 +1531,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Object> actualWorksdata = new ArrayList<Object>();
 		for (Double d : actualWorksMap.values()) {
-			if (d == null) {
-				d = 0d;
-			}
-			if (d > barMax)
-				barMax = d.doubleValue();
-
-			actualWorksdata.add(new DecimalFormat("0.0").format(d));
+			actualWorksdata.add(getStringValue(d));
 		}
 		actualWorksData.append("data", actualWorksdata);
 		series.add(actualWorksData);
 
 		Document planAmountData = new Document();
 		planAmountData.append("name", "计划金额");
-		planAmountData.append("type", "line");
+		planAmountData.append("type", "bar");
 		planAmountData.append("yAxisIndex", 1);
-		planAmountData.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
+		planAmountData.append("xAxisIndex", 1);
+		planAmountData.append("label", new Document("normal", new Document("show", true).append("position", "top")));
 		List<Object> planAmountdata = new ArrayList<Object>();
 		for (Double d : planAmountMap.values()) {
-			if (d == null) {
-				d = 0d;
-			}
-			if (d > lineMax)
-				lineMax = d.doubleValue();
-
-			planAmountdata.add(new DecimalFormat("0.0").format(d));
+			planAmountdata.add(getStringValue(d));
 		}
 		planAmountData.append("data", planAmountdata);
 
@@ -1575,58 +1552,44 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		Document actualAmountData = new Document();
 		actualAmountData.append("name", "实际金额");
-		actualAmountData.append("type", "line");
+		actualAmountData.append("type", "bar");
 		actualAmountData.append("yAxisIndex", 1);
-		actualAmountData.append("label",
-				new Document("normal", new Document("show", true).append("position", "inside")));
+		actualAmountData.append("xAxisIndex", 1);
+		actualAmountData.append("label", new Document("normal", new Document("show", true).append("position", "top")));
 		List<Object> actualAmountdata = new ArrayList<Object>();
 		for (Double d : actualAmountMap.values()) {
-			if (d == null) {
-				d = 0d;
-			}
-			if (d > lineMax)
-				lineMax = d.doubleValue();
-
-			actualAmountdata.add(new DecimalFormat("0.0").format(d));
+			actualAmountdata.add(getStringValue(d));
 		}
 		actualAmountData.append("data", actualAmountdata);
 
 		series.add(actualAmountData);
 
-		double barCount = Math.ceil(barMax / 50d);
-		double lineCount = Math.ceil(lineMax / 50d);
-		if (barCount >= lineCount) {
-			barMax = barCount * 50d;
-			lineMax = barCount * 50d;
-		} else {
-			barMax = lineCount * 50d;
-			lineMax = lineCount * 50d;
-		}
-
 		Document option = new Document();
 		option.append("title", new Document("text", "项目各月资源计划/实际用量分析").append("x", "center"));
-		// option.append("tooltip", new Document("trigger",
-		// "axis").append("axisPointer", new Document("type", "shadow")));
+		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
-		option.append("legend", new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额"))
-				.append("y", "top").append("x", "right"));
+		option.append("legend", new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额")).append("y", "top")
+				.append("x", "right"));
 		option.append("grid",
-				new Document("left", 10).append("right", 10).append("bottom", 40).append("containLabel", true));
+				Arrays.asList(
+						new Document("left", 10).append("right", 10).append("bottom", "50%").append("containLabel",
+								true),
+						new Document("left", 10).append("right", 10).append("bottom", 40).append("top", "55%")
+								.append("containLabel", true)));
 
-		option.append("xAxis",
-				Arrays.asList(new Document("type", "category").append("data", xAxisDate )));
+		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data", xAxisDate),
+				new Document("type", "category").append("data", xAxisDate).append("gridIndex", 1)));
 
 		option.append("yAxis",
 				Arrays.asList(
-						new Document("type", "value").append("name", "工时")
-								.append("axisLabel", new Document("formatter", "{value} 小时")).append("min", 0)
-								.append("max", barMax).append("interval", 50),
+						new Document("type", "value").append("name", "工时").append("axisLabel",
+								new Document("formatter", "{value} 小时")),
 						new Document("type", "value").append("name", "金额")
-								.append("axisLabel", new Document("formatter", "{value} 万元")).append("min", 0)
-								.append("max", lineMax).append("interval", 50)));
-		
+								.append("axisLabel", new Document("formatter", "{value} 万元")).append("gridIndex", 1)));
 
-		option.append("dataZoom",Arrays.asList(new Document("type","inside"),new Document("type","slider")));
+		option.append("dataZoom",
+				Arrays.asList(new Document("type", "inside").append("xAxisIndex", Arrays.asList(0, 1)),
+						new Document("type", "slider").append("xAxisIndex", Arrays.asList(0, 1))));
 
 		option.append("series", series);
 		return option;

@@ -45955,17 +45955,6 @@
                 "horizontalSpan": 1,
                 "widthHint": -1,
                 "heightHint": -1
-              },
-              {
-                "id": "164268f2b50",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
               }
             ]
           }
