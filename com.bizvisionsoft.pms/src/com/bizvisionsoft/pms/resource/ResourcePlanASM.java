@@ -18,7 +18,6 @@ import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
-import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -28,7 +27,6 @@ import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
-import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -43,7 +41,7 @@ public class ResourcePlanASM {
 
 	private GanttPart gantt;
 
-	private EditWorkResourceActualASM grid;
+	private EditWorkResourceASM grid;
 
 	private Work work;
 
@@ -76,13 +74,14 @@ public class ResourcePlanASM {
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setCheckTime(true);
 		rt.setCanAdd(false);
+		rt.setCanDelete(true);
 		rt.setCanClose(false);
-		rt.setShowResActual(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
-		rt.setShowDelete(true);
+		rt.setShowConflict(true);
+		rt.setShowFooter(true);
 
-		grid = (EditWorkResourceActualASM) new AssemblyContainer(content, context)
+		grid = (EditWorkResourceASM) new AssemblyContainer(content, context)
 				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
 				.getContent();
 		// 侦听gantt的selection
@@ -107,35 +106,7 @@ public class ResourcePlanASM {
 				allocateResource();
 			}
 		});
-
-		// grid.getViewer().getGrid().addListener(SWT.Selection, l -> {
-		// if ("conflict".equals(l.text)) {
-		// openResourceConflict((ResourcePlan) l.item.getData());
-		// }
-		// });
 		Layer.message("提示： 您可以双击叶子任务选择要添加的资源。");
-	}
-
-	private void openResourceConflict(ResourcePlan rp) {
-		ResourceTransfer rt = new ResourceTransfer();
-		rt.addWorkIds(work.get_id());
-		rt.setType(ResourceTransfer.TYPE_PLAN);
-		rt.setShowType(ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE);
-		rt.setFrom(work.getPlanStart());
-		rt.setTo(work.getPlanFinish());
-		rt.setUsedEquipResId(rp.getUsedEquipResId());
-		rt.setUsedHumanResId(rp.getUsedHumanResId());
-		rt.setUsedTypedResId(rp.getUsedTypedResId());
-		rt.setResTypeId(rp.getResTypeId());
-		rt.setCheckTime(true);
-		rt.setCanAdd(false);
-		rt.setCanClose(true);
-		rt.setShowResActual(false);
-		rt.setShowResPlan(false);
-		rt.setShowResTypeInfo(false);
-		rt.setShowDelete(false);
-
-		brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 	}
 
 	private void allocateResource() {
@@ -181,9 +152,9 @@ public class ResourcePlanASM {
 	}
 
 	private void select(Work work) {
-		if (this.work != null && this.work.get_id().equals(work.get_id())) {
+		if (this.work != null && this.work.get_id().equals(work.get_id()))
 			return;
-		}
+
 		this.work = work;
 		// 查询
 		ResourceTransfer rt = new ResourceTransfer();
@@ -192,12 +163,14 @@ public class ResourcePlanASM {
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setFrom(work.getPlanStart());
 		rt.setTo(work.getPlanFinish());
-		rt.setCheckTime(false);
 		rt.setCanAdd(false);
-		rt.setShowResActual(false);
+		rt.setCanDelete(true);
+		rt.setCanClose(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
-		rt.setShowDelete(true);
+		rt.setShowConflict(true);
+		rt.setShowFooter(true);
+
 		grid.setResourceTransfer(rt);
 
 		// List<ResourcePlan> input =

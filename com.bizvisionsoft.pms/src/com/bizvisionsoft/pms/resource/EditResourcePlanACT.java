@@ -32,13 +32,6 @@ public class EditResourcePlanACT {
 			rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 			rt.setFrom(work.getPlanStart());
 			rt.setTo(work.getPlanFinish());
-			rt.setCheckTime(false);
-			rt.setCanAdd(true);
-			rt.setCanClose(true);
-			rt.setShowResActual(false);
-			rt.setShowResPlan(false);
-			rt.setShowResTypeInfo(false);
-			rt.setShowDelete(false);
 			
 			brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 		});

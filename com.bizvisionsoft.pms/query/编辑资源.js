@@ -250,64 +250,64 @@
 							} ]
 				}
 			}
-		}, {
+		},
+		{
 			"$lookup" : {
 				"from" : "resourceType",
 				"localField" : "resTypeId",
 				"foreignField" : "_id",
 				"as" : "resType"
 			}
-		}, {
+		},
+		{
 			"$unwind" : {
 				"path" : "$resType",
 				"preserveNullAndEmptyArrays" : true
 			}
-		}, {
+		},
+		{
 			"$lookup" : {
 				"from" : "work",
 				"localField" : "work_id",
 				"foreignField" : "_id",
 				"as" : "work"
 			}
-		}, {
+		},
+		{
 			"$unwind" : {
 				"path" : "$work",
 				"preserveNullAndEmptyArrays" : true
 			}
-		}, {
+		},
+		{
 			"$lookup" : {
 				"from" : "project",
 				"localField" : "work.project_id",
 				"foreignField" : "_id",
 				"as" : "project"
 			}
-		}, {
+		},
+		{
 			"$unwind" : {
 				"path" : "$project",
 				"preserveNullAndEmptyArrays" : true
 			}
-		}, {
-			"$addFields" : {
-				"workName" : "$work.name",
-				"actualStart" : "$work.actualStart",
-				"actualFinish" : "$work.actualFinish",
-				"planStart" : "$work.planStart",
-				"planFinish" : "$work.planFinish",
-				"projectName" : "$project.name"
-			}
-		}, {
+		},
+		{
 			"$lookup" : {
 				"from" : "calendar",
 				"localField" : "resType.cal_id",
 				"foreignField" : "_id",
 				"as" : "calendar"
 			}
-		}, {
+		},
+		{
 			"$unwind" : {
 				"path" : "$calendar",
 				"preserveNullAndEmptyArrays" : true
 			}
-		}, {
+		},
+		{
 			"$addFields" : {
 				"workName" : "$work.name",
 				"actualStart" : "$work.actualStart",
@@ -315,14 +315,141 @@
 				"planStart" : "$work.planStart",
 				"planFinish" : "$work.planFinish",
 				"projectName" : "$project.name",
-				"overtimeRate" : "$resType.overtimeRate",
-				"basicRate" : "$resType.basicRate",
+				"basicWorks" : "$calendar.basicWorks",
+				"overTimeWorks" : "$calendar.overTimeWorks"
+			}
+		},
+		{
+			"$lookup" : {
+				"from" : "<resourceCollection>",
+				"let" : {
+					"planStart" : "$planStart",
+					"planFinish" : "$planFinish",
+					"resTypeId" : "$resTypeId",
+					"usedTypedResId" : "$usedTypedResId",
+					"usedHumanResId" : "$usedHumanResId",
+					"usedEquipResId" : "$usedEquipResId",
+					"basicWorks" : "$basicWorks",
+					"overTimeWorks" : "$overTimeWorks"
+				},
+				"pipeline" : [
+						{
+							"$match" : {
+								"$expr" : {
+									"$and" : [
+											{
+												"$gte" : [ "$id", "$$planStart" ]
+											},
+											{
+												"$lte" : [ "$id",
+														"$$planFinish" ]
+											},
+											{
+												"$eq" : [ "$resTypeId",
+														"$$resTypeId" ]
+											},
+											{
+												"$eq" : [ "$usedTypedResId",
+														"$$usedTypedResId" ]
+											},
+											{
+												"$eq" : [ "$usedHumanResId",
+														"$$usedHumanResId" ]
+											},
+											{
+												"$eq" : [ "$usedEquipResId",
+														"$$usedEquipResId" ]
+											} ]
+								}
+							}
+						},
+						{
+							"$group" : {
+								"_id" : "$id",
+								"planBasicQty" : {
+									"$sum" : "$planBasicQty"
+								},
+								"planOverTimeQty" : {
+									"$sum" : "$planOverTimeQty"
+								},
+								"actualBasicQty" : {
+									"$sum" : "$actualBasicQty"
+								},
+								"actualOverTimeQty" : {
+									"$sum" : "$actualOverTimeQty"
+								}
+							}
+						},
+						{
+							"$match" : {
+								"$expr" : {
+									"$or" : [
+											{
+												"$gt" : [ "$planBasicQty",
+														"$$basicWorks" ]
+											},
+											{
+												"$gt" : [ "$planOverTimeQty",
+														"$$overTimeWorks" ]
+											},
+											{
+												"$gt" : [ "$actualBasicQty",
+														"$$basicWorks" ]
+											},
+											{
+												"$gt" : [ "$actualOverTimeQty",
+														"$$overTimeWorks" ]
+											} ]
+								}
+							}
+						} ],
+				"as" : "conflict"
+			}
+		}, {
+			"$addFields" : {
 				"basicWorks" : "$calendar.basicWorks",
 				"overTimeWorks" : "$calendar.overTimeWorks",
-				"planBasicQty" : {"$sum":"$resourcePlan.planBasicQty"},
-				"planOverTimeQty" : {"$sum":"$resourcePlan.planOverTimeQty"},
-				"actualBasicQty" : {"$sum":"$resourceActual.actualBasicQty"},
-				"actualOverTimeQty" : {"$sum":"$resourceActual.actualOverTimeQty"}
+				"planBasicQty" : {
+					"$sum" : "$resourcePlan.planBasicQty"
+				},
+				"planOverTimeQty" : {
+					"$sum" : "$resourcePlan.planOverTimeQty"
+				},
+				"actualBasicQty" : {
+					"$sum" : "$resourceActual.actualBasicQty"
+				},
+				"actualOverTimeQty" : {
+					"$sum" : "$resourceActual.actualOverTimeQty"
+				},
+				"overtimeRate" : "$resType.overtimeRate",
+				"basicRate" : "$resType.basicRate",
+				"planAmount" : {
+					"$sum" : [ {
+						"$multiply" : [ {
+							"$sum" : "$resourcePlan.planBasicQty"
+						}, "$resType.basicRate" ]
+					}, {
+						"$multiply" : [ {
+							"$sum" : "$resourcePlan.planOverTimeQty"
+						}, "$resType.overtimeRate" ]
+					} ]
+				},
+				"actualAmount" : {
+					"$sum" : [ {
+						"$multiply" : [ {
+							"$sum" : "$resourceActual.actualBasicQty"
+						}, "$resType.basicRate" ]
+					}, {
+						"$multiply" : [ {
+							"$sum" : "$resourceActual.actualOverTimeQty"
+						}, "$resType.overtimeRate" ]
+					} ]
+				},
+				"conflict" : {
+					"$gt" : [ {
+						"$size" : "$conflict"
+					}, 0 ]
+				}
 			}
 		}, {
 			"$project" : {

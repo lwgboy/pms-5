@@ -54,7 +54,7 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EditWorkResourceActualASM extends GridPart {
+public class EditWorkResourceASM extends GridPart {
 
 	@Inject
 	private IBruiService brui;
@@ -88,10 +88,18 @@ public class EditWorkResourceActualASM extends GridPart {
 
 	private boolean showDelete;
 
-	public EditWorkResourceActualASM() {
+	private boolean showConflict;
+
+	private boolean showFooter;
+
+	private boolean canEditDateValue;
+
+	private ArrayList<GridColumn> footerCols;
+
+	public EditWorkResourceASM() {
 	}
 
-	public EditWorkResourceActualASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
+	public EditWorkResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
 		this.brui = brui;
 		this.context = context;
 		this.content = parent;
@@ -114,6 +122,12 @@ public class EditWorkResourceActualASM extends GridPart {
 		end = Calendar.getInstance();
 		end.setTime(rt.getTo());
 		showType = rt.getShowType();
+		showResTypeInfo = rt.isShowResTypeInfo();
+		showResPlan = rt.isShowResPlan();
+		showResActual = rt.isShowResActual();
+		showDelete = rt.isCanDelete();
+		showConflict = rt.isShowConflict();
+		canEditDateValue = rt.isCanEditDateValue();
 		Grid grid = viewer.getGrid();
 		GridColumnGroup[] columnGroups = grid.getColumnGroups();
 		for (GridColumnGroup gridColumnGroup : columnGroups) {
@@ -126,14 +140,16 @@ public class EditWorkResourceActualASM extends GridPart {
 		GridColumn[] columns = grid.getColumns();
 		for (GridColumn gridColumn : columns) {
 			String name = (String) gridColumn.getData("name");
-			if ("rowAction".equals(name) && gridColumn != null && !gridColumn.isDisposed()) {
+			if (("rowAction".equals(name) || "delete".equals(name)) && gridColumn != null && !gridColumn.isDisposed()) {
 				gridColumn.dispose();
 			}
 		}
 		createDateColumn();
 
 		createRowAction(grid);
+
 		doRefresh();
+
 	}
 
 	@CreateUI
@@ -214,20 +230,27 @@ public class EditWorkResourceActualASM extends GridPart {
 		showResTypeInfo = rt.isShowResTypeInfo();
 		showResPlan = rt.isShowResPlan();
 		showResActual = rt.isShowResActual();
-		showDelete = rt.isShowDelete();
+		showDelete = rt.isCanDelete();
+		showConflict = rt.isShowConflict();
+		showFooter = rt.isShowFooter();
+		canEditDateValue = rt.isCanEditDateValue();
+
 		//
 
 		viewer = new GridTreeViewer(content, SWT.H_SCROLL | SWT.V_SCROLL);
 		Grid grid = viewer.getGrid();
 		grid.setHeaderVisible(true);
-		grid.setFooterVisible(false);
+		grid.setFooterVisible(showFooter);
 		grid.setLinesVisible(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
+
+		footerCols = new ArrayList<GridColumn>();
 		createViewer();
 
 		createRowAction(grid);
 
 		doRefresh();
+
 	}
 
 	private void createRowAction(Grid grid) {
@@ -256,7 +279,14 @@ public class EditWorkResourceActualASM extends GridPart {
 		if (rt.getWorkIds() != null || rt.getResTypeId() != null) {
 			resource = workService.getResource(rt);
 			viewer.setInput(resource);
+			doRefreshFooterText();
 		}
+	}
+
+	private void doRefreshFooterText() {
+		footerCols.forEach(col -> {
+			col.setFooterText(getFooterText((String) col.getData("name")));
+		});
 	}
 
 	private void allocateResource() {
@@ -338,6 +368,28 @@ public class EditWorkResourceActualASM extends GridPart {
 			}
 		});
 		doRefresh();
+	}
+
+	private void openResourceConflict(Object data) {
+		if (data == null)
+			return;
+
+		Document doc = (Document) data;
+
+		ResourceTransfer newRT = new ResourceTransfer();
+		newRT.setWorkIds(rt.getWorkIds());
+		newRT.setType(ResourceTransfer.TYPE_PLAN);
+		newRT.setShowType(ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE);
+		newRT.setFrom(start.getTime());
+		newRT.setTo(end.getTime());
+		newRT.setUsedEquipResId(doc.getString("usedEquipResId"));
+		newRT.setUsedHumanResId(doc.getString("usedHumanResId"));
+		newRT.setUsedTypedResId(doc.getString("usedTypedResId"));
+		newRT.setResTypeId(doc.getObjectId("resTypeId"));
+		newRT.setCheckTime(true);
+		newRT.setCanAdd(false);
+
+		brui.openContent(brui.getAssembly("编辑资源情况"), newRT);
 	}
 
 	private void updateQty(String text, Object data) {
@@ -445,13 +497,20 @@ public class EditWorkResourceActualASM extends GridPart {
 
 	private void createViewer() {
 		Grid grid = viewer.getGrid();
-		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE) {
-			grid.setData(RWT.FIXED_COLUMNS, 5);
-		} else if (showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
-			grid.setData(RWT.FIXED_COLUMNS, 3);
-		} else if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
-			grid.setData(RWT.FIXED_COLUMNS, 4);
-		}
+		int fixecColumns = 0;
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE)
+			fixecColumns = 5;
+		else if (showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE)
+			fixecColumns = 3;
+		else if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE)
+			fixecColumns = 4;
+
+		if (showConflict)
+			fixecColumns += 1;
+
+		if (fixecColumns != 0)
+			grid.setData(RWT.FIXED_COLUMNS, fixecColumns);
+
 		createColumn();
 
 	}
@@ -529,6 +588,17 @@ public class EditWorkResourceActualASM extends GridPart {
 			createTitleColumn(c);
 		}
 
+		if (showConflict) {
+			c = new Column();
+			c.setName("conflict");
+			c.setText("");
+			c.setWidth(55);
+			c.setAlignment(SWT.CENTER);
+			c.setMoveable(false);
+			c.setResizeable(true);
+			createTitleColumn(c);
+		}
+
 		if (showResTypeInfo) {
 			GridColumnGroup grp = new GridColumnGroup(viewer.getGrid(), SWT.CENTER);
 			grp.setData("name", "costRate");
@@ -578,6 +648,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("planBasicQty"));
 
@@ -591,6 +665,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("planOverTimeQty"));
 
@@ -604,6 +682,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("planAmount"));
 		}
@@ -623,6 +705,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("actualBasicQty"));
 
@@ -636,6 +722,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("actualOverTimeQty"));
 
@@ -649,6 +739,10 @@ public class EditWorkResourceActualASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("actualAmount"));
 		}
@@ -688,15 +782,25 @@ public class EditWorkResourceActualASM extends GridPart {
 			public boolean hasChildren(Object element) {
 				return false;
 			}
-			
+
 		});
 		viewer.getGrid().addListener(SWT.Selection, l -> {
 			if (l.text != null)
 				if ("delete".equals(l.text))
 					delete(l.item.getData());
+				else if ("conflict".equals(l.text))
+					openResourceConflict(l.item.getData());
 				else
 					updateQty(l.text, l.item.getData());
 		});
+	}
+
+	private String getFooterText(String key) {
+		double value = 0d;
+		for (Document doc : resource) {
+			value += getDoubleValue(doc.get(key));
+		}
+		return Util.getFormatText(value, "#,##0.0", locale);
 	}
 
 	private void createDateColumn() {
@@ -707,6 +811,15 @@ public class EditWorkResourceActualASM extends GridPart {
 			now.add(Calendar.DATE, 1);
 			createDateColumn(now.getTime());
 		}
+
+		Column c = new Column();
+		c.setName("delete");
+		c.setText("");
+		c.setWidth(0);
+		c.setAlignment(SWT.CENTER);
+		c.setMoveable(false);
+		c.setResizeable(true);
+		createTitleColumn(c);
 	}
 
 	private void createDateColumn(Date now) {
@@ -764,20 +877,26 @@ public class EditWorkResourceActualASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							return "<a href='" + key + doc.get("_id").toString()
-									+ "' target='_rwt' style='width: 100%;'>"
-									+ ("0.0".equals(text)
-											? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
-													+ "<i class='layui-icon  layui-icon-edit'></i></button>")
-											: text)
-									+ "</a>";
+							if (canEditDateValue)
+								return "<a href='" + key + doc.get("_id").toString()
+										+ "' target='_rwt' style='width: 100%;'>"
+										+ ("0.0".equals(text)
+												? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
+														+ "<i class='layui-icon  layui-icon-edit'></i></button>")
+												: text)
+										+ "</a>";
+							else
+								return "0.0".equals(text) ? "" : text;
 						}
 					}
 
 				}
-				return "<a href='" + key + "-" + id
-						+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
-						+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";
+				if (canEditDateValue)
+					return "<a href='" + key + "-" + id
+							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
+							+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";
+				else
+					return "";
 			}
 
 			@Override
@@ -844,18 +963,22 @@ public class EditWorkResourceActualASM extends GridPart {
 					}
 				} else if ("planAmount".equals(name)) {
 					format = "#,###.0";
-					value = getDoubleValue(((Document) element).get("planBasicQty"))
-							* getDoubleValue(((Document) element).get("basicRate"))
-							+ getDoubleValue(((Document) element).get("planOverTimeQty"))
-									* getDoubleValue(((Document) element).get("overtimeRate"));
+					value = ((Document) element).get(name);
 				} else if ("actualAmount".equals(name)) {
 					format = "#,###.0";
-					value = getDoubleValue(((Document) element).get("actualBasicQty"))
-							* getDoubleValue(((Document) element).get("basicRate"))
-							+ getDoubleValue(((Document) element).get("actualOverTimeQty"))
-									* getDoubleValue(((Document) element).get("overtimeRate"));
+					value = ((Document) element).get(name);
+				} else if ("conflict".equals(name)) {
+					if (Boolean.TRUE.equals(((Document) element).get("conflict")))
+						if (canEditDateValue)
+							value = "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>冲突</a>";
+						else
+							value = "<span class='layui-badge layui-bg-red' >冲突</span>";
+					else
+						value = "";
 				} else {
 					value = ((Document) element).get(name);
+					if (value instanceof Number && ((Number) value).doubleValue() == 0.0)
+						value = "";
 				}
 				return Util.getFormatText(value, format, locale);
 			}

@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.resource;
 
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -16,16 +14,13 @@ import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
-import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ResourcePlan;
+import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ReadonlyResourcePlanASM {
 
@@ -37,7 +32,7 @@ public class ReadonlyResourcePlanASM {
 
 	private GanttPart gantt;
 
-	private GridPart grid;
+	private EditWorkResourceASM grid;
 
 	private Work work;
 
@@ -65,8 +60,22 @@ public class ReadonlyResourcePlanASM {
 
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
 				.setServices(brui).create().getContext().getContent();
-		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("资源分配表（查看）"))
-				.setServices(brui).create().getContext().getContent();
+
+		ResourceTransfer rt = new ResourceTransfer();
+		rt.setType(ResourceTransfer.TYPE_PLAN);
+		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+		rt.setCheckTime(true);
+		rt.setCanAdd(false);
+		rt.setCanClose(false);
+		rt.setCanEditDateValue(false);
+		rt.setShowResPlan(true);
+		rt.setShowResTypeInfo(true);
+		rt.setShowConflict(true);
+		rt.setShowFooter(true);
+
+		grid = (EditWorkResourceASM) new AssemblyContainer(content, context)
+				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
+				.getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
@@ -90,8 +99,21 @@ public class ReadonlyResourcePlanASM {
 		}
 		this.work = work;
 		// 查询
-		List<ResourcePlan> input = Services.get(WorkService.class).listResourcePlan(work.get_id());
-		grid.setViewerInput(input);
+		ResourceTransfer rt = new ResourceTransfer();
+		rt.addWorkIds(work.get_id());
+		rt.setType(ResourceTransfer.TYPE_PLAN);
+		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+		rt.setFrom(work.getPlanStart());
+		rt.setTo(work.getPlanFinish());
+		rt.setCanAdd(false);
+		rt.setCanClose(false);
+		rt.setCanEditDateValue(false);
+		rt.setShowResPlan(true);
+		rt.setShowResTypeInfo(true);
+		rt.setShowConflict(true);
+		rt.setShowFooter(true);
+
+		grid.setResourceTransfer(rt);
 	}
 
 }

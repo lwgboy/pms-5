@@ -40907,7 +40907,7 @@
         "name": "编辑资源情况",
         "title": "编辑资源情况",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.EditWorkResourceActualASM",
+        "className": "com.bizvisionsoft.pms.resource.EditWorkResourceASM",
         "layout": [],
         "folderId": "1636e54a6d9",
         "gridAutoExpandLevel": 0,

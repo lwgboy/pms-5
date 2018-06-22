@@ -34,13 +34,32 @@ public class ResourceTransfer {
 
 	private boolean canClose;
 
+	private boolean canDelete;
+
+	private boolean canEditDateValue;
+
 	private boolean showResTypeInfo;
 
 	private boolean showResPlan;
 
 	private boolean showResActual;
 
-	private boolean showDelete;
+	private boolean showConflict;
+
+	private boolean showFooter;
+
+	public ResourceTransfer() {
+		this.canAdd = true;
+		this.canClose = true;
+		this.canDelete = false;
+		this.canEditDateValue = true;
+		this.checkTime = false;
+		this.showResActual = false;
+		this.showResPlan = false;
+		this.showResTypeInfo = false;
+		this.showConflict = false;
+		this.showFooter = false;
+	}
 
 	public void setType(int type) {
 		this.type = type;
@@ -113,6 +132,22 @@ public class ResourceTransfer {
 		return canClose;
 	}
 
+	public void setCanDelete(boolean canDelete) {
+		this.canDelete = canDelete;
+	}
+
+	public boolean isCanDelete() {
+		return canDelete;
+	}
+
+	public void setCanEditDateValue(boolean canEditDateValue) {
+		this.canEditDateValue = canEditDateValue;
+	}
+
+	public boolean isCanEditDateValue() {
+		return canEditDateValue;
+	}
+
 	public void setShowResTypeInfo(boolean showResTypeInfo) {
 		this.showResTypeInfo = showResTypeInfo;
 	}
@@ -137,12 +172,20 @@ public class ResourceTransfer {
 		return showResActual;
 	}
 
-	public void setShowDelete(boolean showDelete) {
-		this.showDelete = showDelete;
+	public void setShowConflict(boolean showConflict) {
+		this.showConflict = showConflict;
 	}
 
-	public boolean isShowDelete() {
-		return showDelete;
+	public boolean isShowConflict() {
+		return showConflict;
+	}
+
+	public void setShowFooter(boolean showFooter) {
+		this.showFooter = showFooter;
+	}
+
+	public boolean isShowFooter() {
+		return showFooter;
 	}
 
 	private String usedHumanResId;
