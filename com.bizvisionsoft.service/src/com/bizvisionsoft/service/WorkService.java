@@ -467,9 +467,8 @@ public interface WorkService {
 	public Document getResourceActualAnalysis(@PathParam("project_id") ObjectId project_id,
 			@PathParam("year") String year);
 	@POST
-	@Path("/resourceallanalysis/project_id/{project_id}/{year}/")
+	@Path("/resourceallanalysis/project_id/{project_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id,
-			@PathParam("year") String year);
+	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id);
 }

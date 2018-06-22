@@ -41,7 +41,7 @@ public class ResourcePlanASM {
 
 	private GanttPart gantt;
 
-	private EditWorkResourceASM grid;
+	private EditResourceASM grid;
 
 	private Work work;
 
@@ -81,7 +81,7 @@ public class ResourcePlanASM {
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
 
-		grid = (EditWorkResourceASM) new AssemblyContainer(content, context)
+		grid = (EditResourceASM) new AssemblyContainer(content, context)
 				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
 				.getContent();
 		// 侦听gantt的selection

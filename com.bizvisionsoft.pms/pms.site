@@ -40909,7 +40909,7 @@
         "name": "编辑资源情况",
         "title": "编辑资源情况",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.EditWorkResourceASM",
+        "className": "com.bizvisionsoft.pms.resource.EditResourceASM",
         "layout": [],
         "folderId": "1636e54a6d9",
         "gridAutoExpandLevel": 0,
@@ -45932,7 +45932,7 @@
             "name": "默认",
             "minimalDeviceWidth": 0,
             "maximalDeviceWidth": 0,
-            "columnCount": 2,
+            "columnCount": 1,
             "horizontalSpacing": 0,
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
@@ -45946,18 +45946,7 @@
             "marginWidth": 0,
             "assemblys": [
               {
-                "id": "164264acb24",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "1642681706e",
+                "id": "164268f2b50",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -45974,7 +45963,7 @@
                 "grabExcessHorizontalSpace": true,
                 "grabExcessVerticalSpace": true,
                 "verticalSpan": 1,
-                "horizontalSpan": 2,
+                "horizontalSpan": 1,
                 "widthHint": -1,
                 "heightHint": -1
               }

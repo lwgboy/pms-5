@@ -54,7 +54,7 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EditWorkResourceASM extends GridPart {
+public class EditResourceASM extends GridPart {
 
 	@Inject
 	private IBruiService brui;
@@ -96,10 +96,10 @@ public class EditWorkResourceASM extends GridPart {
 
 	private ArrayList<GridColumn> footerCols;
 
-	public EditWorkResourceASM() {
+	public EditResourceASM() {
 	}
 
-	public EditWorkResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
+	public EditResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
 		this.brui = brui;
 		this.context = context;
 		this.content = parent;
@@ -413,16 +413,20 @@ public class EditWorkResourceASM extends GridPart {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), dialogTitle, dialogMessage, null, t -> {
 			if (t.trim().isEmpty())
 				return "请输入资源用量";
+			double d;
 			try {
-				double d = Double.parseDouble(t);
-
+				d = Double.parseDouble(t);
+			} catch (Exception e) {
+				return "输入的类型错误";
+			}
+			try {
 				if (text.startsWith("Basic") && d > doc.getDouble("basicWorks")) {
 					return "资源标准用量不能大于:" + doc.getDouble("basicWorks");
 				} else if (text.startsWith("OverTime") && d > doc.getDouble("overTimeWorks")) {
 					return "资源加班用量不能大于:" + doc.getDouble("overTimeWorks");
 				}
 			} catch (Exception e) {
-				return "输入的类型错误";
+				return e.getMessage();
 			}
 			return null;
 		});

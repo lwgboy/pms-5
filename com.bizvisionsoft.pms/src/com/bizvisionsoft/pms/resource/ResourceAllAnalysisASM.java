@@ -52,7 +52,7 @@ public class ResourceAllAnalysisASM extends AbstractChartASM {
 	public Document getOptionDocument() {
 		Document option;
 		// if (project_id != null) {
-		option = Services.get(WorkService.class).getResourceAllAnalysis(project_id, year);
+		option = Services.get(WorkService.class).getResourceAllAnalysis(project_id);
 		// } else {
 		// option = Services.get(WorkService.class).getResourcePlanAnalysis(year);
 		// }
