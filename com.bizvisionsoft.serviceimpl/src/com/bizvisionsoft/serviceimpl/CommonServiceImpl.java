@@ -28,15 +28,13 @@ import com.mongodb.client.model.Field;
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
 	@Override
-	public List<Certificate> getCertificates() {
-		List<Certificate> result = new ArrayList<>();
-		c(Certificate.class).find().into(result);
-		return result;
+	public List<Certificate> getCertificates(BasicDBObject condition) {
+		return createDataSet(condition, Certificate.class);
 	}
 
 	@Override
 	public Certificate insertCertificate(Certificate cert) {
-		return insert(cert, Certificate.class);
+		return insert(cert);
 	}
 
 	@Override
@@ -360,6 +358,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 		}
 		return cal.getTime();
+	}
+
+	@Override
+	public long countCertificate(BasicDBObject filter) {
+		return count(filter, Certificate.class);
 	}
 
 }

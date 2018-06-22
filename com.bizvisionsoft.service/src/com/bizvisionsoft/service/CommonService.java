@@ -51,8 +51,15 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.LIST)
-	public List<Certificate> getCertificates();
+	public List<Certificate> getCertificates(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
 
+	@POST
+	@Path("/cert/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("执业资格列表/" + DataSet.COUNT)
+	public long countCertificate(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	
 	@POST
 	@Path("/cert/names/ds")
 	@Consumes("application/json; charset=UTF-8")
