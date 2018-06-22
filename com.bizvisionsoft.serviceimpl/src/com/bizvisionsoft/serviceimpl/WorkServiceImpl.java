@@ -1423,13 +1423,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Map<String, Double> planWorksMap = new TreeMap<String, Double>();
 		Map<String, Double> planAmountMap = new TreeMap<String, Double>();
 		Document first = c("project").find(new Document("_id", project_id)).projection(new Document("actualStart", true)
-				.append("actualFinish", true).append("planStart", true).append("planFinish", true)).first();
+				.append("actualFinish", true).append("planStart", true).append("planFinish", true).append("name", true))
+				.first();
 		Calendar start = Calendar.getInstance();
 		Calendar end = Calendar.getInstance();
 		Object actualStart = first.get("actualStart");
 		Object actualFinish = first.get("actualFinish");
 		Object planStart = first.get("planStart");
 		Object planFinish = first.get("planFinish");
+		Object name = first.get("name");
 		if (actualFinish != null && ((Date) actualFinish).after(((Date) planFinish)))
 			end.setTime((Date) actualFinish);
 		else
@@ -1565,7 +1567,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		series.add(actualAmountData);
 
 		Document option = new Document();
-		option.append("title", new Document("text", "项目各月资源计划/实际用量分析").append("x", "center"));
+		option.append("title", new Document("text", ""+name+" 资源用量综合分析").append("x", "center"));
 		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额")).append("y", "top")
