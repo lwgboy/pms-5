@@ -812,27 +812,71 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> schedule(ObjectId _id) {
+	public Integer schedule(ObjectId _id) {
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-		Date startDate = c("project").find(new Document("_id", _id)).first().getDate("planStart");
+		Document pj = c("project").find(new Document("_id", _id)).first();
+		Date start = pj.getDate("planStart");
+		Date end = pj.getDate("planFinish");
 		Graphic gh = createGraphic(works, links);
-		setupStartDate(gh, works, startDate);
+		setupStartDate(gh, works, start);
 		gh.schedule();
-		
-		return new ArrayList<Result>();
+
+		// 检查项目是否超期
+		int warningLevel = 999;
+		Document message = null;
+		// 0级预警检查
+		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+		if (overTime > 0) {
+			warningLevel = 0;// 0级预警，项目可能超期。
+			message = new Document("date", new Date()).append("overdue", (int) overTime)
+					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期");
+
+		}
+		for (int i = 0; i < works.size(); i++) {
+			Document doc = works.get(i);
+			if ("1".equals(doc.getString("manageLevel"))) {
+				if (checkOverdue(gh, doc)) {
+					warningLevel = warningLevel > 1 ? 1 : warningLevel;
+					message = message == null ? new Document("date", new Date()).append("msg", "一级工作预计超期") : message;
+				}
+			}
+			if ("2".equals(doc.getString("manageLevel"))) {
+				if (checkOverdue(gh, doc)) {
+					warningLevel = warningLevel > 2 ? 2 : warningLevel;
+					message = message == null ? new Document("date", new Date()).append("msg", "二级工作预计超期") : message;
+				}
+			}
+		}
+
+		c("project").updateOne(new Document("_id", _id),
+				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", message)));
+		return warningLevel;
+	}
+
+	private boolean checkOverdue(Graphic gh, Document doc) {
+		Date planFinish = doc.getDate("planFinish");
+		Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
+		long overTime = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
+		if (overTime > 0) {
+			c("work").updateOne(new Document("_id", doc.get("_id")),
+					new Document("$set", new Document("scheduleEst", new Document("date", new Date())
+							.append("overdue", (int) overTime).append("finish", estFinish).append("msg", "工作预计超期"))));
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart) {
+		gh.setStartDate(pjStart);
 		gh.getStartRoute().forEach(r -> {
 			String id = r.end2.getId();
 			ObjectId _id = new ObjectId(id);
 			Document doc = works.stream().filter(d -> _id.equals(d.getObjectId("_id"))).findFirst().get();
 			Date aStart = doc.getDate("actualStart");
 			Date pStart = doc.getDate("planStart");
-			Date start = aStart == null ? pStart : aStart;
-			int interval = (int) ((start.getTime()-pjStart.getTime())/(1000*60*60*24));
-			gh.setStartInterval(id, interval);
+			gh.setStartDate(id, aStart == null ? pStart : aStart);
 		});
 	}
 
@@ -849,7 +893,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		works.forEach(doc -> setParent(tasks, doc));
 		final ArrayList<Route> routes = new ArrayList<Route>();
 		links.forEach(doc -> createRoute(routes, tasks, doc));
-		return new Graphic(tasks,routes);
+		return new Graphic(tasks, routes);
 	}
 
 	private Route createRoute(ArrayList<Route> routes, ArrayList<Task> tasks, Document doc) {

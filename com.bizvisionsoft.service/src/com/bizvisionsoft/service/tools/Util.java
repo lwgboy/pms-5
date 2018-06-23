@@ -17,6 +17,9 @@ public class Util {
 	public static final String DATE_FORMAT_DATE = "yyyy-MM-dd";
 
 	public static final String DATE_FORMAT_TIME = "HH:mm";
+	
+	public static final String DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+
 
 	public static Date str_date(String str) {
 		if (str == null)

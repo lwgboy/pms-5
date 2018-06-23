@@ -217,10 +217,10 @@ public interface ProjectService {
 	public List<Result> finishProject(Command command);
 	
 	@POST
-	@Path("/schedule/")
+	@Path("/_id/{_id}/schedule/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> schedule(@PathParam("_id") ObjectId _id);
+	public Integer schedule(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/command/close/")
