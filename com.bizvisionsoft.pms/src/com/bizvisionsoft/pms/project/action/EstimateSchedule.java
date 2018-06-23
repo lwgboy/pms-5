@@ -20,7 +20,7 @@ public class EstimateSchedule {
 		Integer result = Services.get(ProjectService.class)
 				.schedule(context.getRootInput(Project.class, false).get_id());
 		// TODO 刷新
-		// 避免客户端狂点估算按钮，应考虑每天只运行一次
+		// TODO 避免客户端狂点估算按钮，应考虑每天只运行一次
 		if (result == 0) {
 			Layer.message("<span style='color:red'>O级预警</span><br/>项目进度预计超期。", Layer.ICON_CANCEL);
 		} else if (result == 1) {
