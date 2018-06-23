@@ -221,7 +221,7 @@ public class ShowResourceASM extends GridPart {
 		grp.setExpanded(true);
 
 		GridColumn col = new GridColumn(grp, SWT.CENTER);
-		col.setText("标准用量");
+		col.setText("标准");
 		col.setData("name", "planBasicQty");
 		col.setWidth(80);
 		col.setMoveable(false);
@@ -238,7 +238,7 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "planOverTimeQty");
-		col.setText("加班用量");
+		col.setText("加班");
 		col.setWidth(80);
 		col.setMoveable(false);
 		col.setResizeable(false);
@@ -274,7 +274,7 @@ public class ShowResourceASM extends GridPart {
 		grp.setExpanded(true);
 
 		col = new GridColumn(grp, SWT.CENTER);
-		col.setText("标准用量");
+		col.setText("标准");
 		col.setData("name", "actualBasicQty");
 		col.setWidth(80);
 		col.setMoveable(false);
@@ -291,7 +291,7 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "actualOverTimeQty");
-		col.setText("加班用量");
+		col.setText("加班");
 		col.setWidth(80);
 		col.setMoveable(false);
 		col.setResizeable(false);
@@ -458,10 +458,10 @@ public class ShowResourceASM extends GridPart {
 		vcol.setLabelProvider(getColumnLabelProvider(id, "actualQty"));
 
 		col = new GridColumn(grp, SWT.CENTER);
-		col.setText("计划金额（万元）");
+		col.setText("计划金额");
 		col.setData("name", "planAmount");
 		col.setData("id", id);
-		col.setWidth(130);
+		col.setWidth(80);
 		col.setMoveable(false);
 		col.setAlignment(SWT.RIGHT);
 		col.setResizeable(true);
@@ -476,8 +476,8 @@ public class ShowResourceASM extends GridPart {
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "actualAmount");
 		col.setData("id", id);
-		col.setText("实际金额（万元）");
-		col.setWidth(130);
+		col.setText("实际金额");
+		col.setWidth(80);
 		col.setMoveable(false);
 		col.setAlignment(SWT.RIGHT);
 		col.setResizeable(true);

@@ -421,7 +421,6 @@
 				"equipment" : false,
 				"work" : false,
 				"project" : false,
-				"calendar" : false,
 				"resourcePlan" : false,
 				"resourceActual" : false
 			}

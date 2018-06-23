@@ -881,7 +881,7 @@ public class EditResourceASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							if (canEditDateValue)
+							if (canEditDateValue && isWorkDay((Document) element))
 								return "<a href='" + key + doc.get("_id").toString()
 										+ "' target='_rwt' style='width: 100%;'>"
 										+ ("0.0".equals(text)
@@ -895,12 +895,72 @@ public class EditResourceASM extends GridPart {
 					}
 
 				}
-				if (canEditDateValue)
+
+				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)))
 					return "<a href='" + key + "-" + id
 							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";
-				else
-					return "";
+
+				return "";
+			}
+
+			private Boolean isWorkDay = null;
+
+			private boolean isWorkDay(Document doc) {
+				if (isWorkDay == null) {
+					isWorkDay = false;
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(now);
+					cal.setFirstDayOfWeek(Calendar.SUNDAY);
+					String week;
+					switch (cal.get(Calendar.DAY_OF_WEEK)) {
+					case 1:
+						week = "周日";
+						break;
+					case 2:
+						week = "周一";
+						break;
+					case 3:
+						week = "周二";
+						break;
+					case 4:
+						week = "周三";
+						break;
+					case 5:
+						week = "周四";
+						break;
+					case 6:
+						week = "周五";
+						break;
+					default:
+						week = "周六";
+						break;
+					}
+					boolean result = false;
+
+					Document calendar = (Document) doc.get("calendar");
+					Object obj = calendar.get("workTime");
+					if (obj instanceof List) {
+						List<Document> list = (List<Document>) obj;
+						for (Document workTime : list) {
+							if (workTime.getBoolean("workingDay", false)) {
+								Object date = workTime.get("date");
+								if (date != null) {
+									if (id.equals(sdf.format(date)))
+										isWorkDay = true;
+								} else {
+									Object day = workTime.get("day");
+									if (day instanceof List) {
+										result = ((List) day).contains(week);
+									}
+								}
+							}
+						}
+					}
+
+					isWorkDay = result;
+				}
+				return isWorkDay;
 			}
 
 			@Override
@@ -929,6 +989,10 @@ public class EditResourceASM extends GridPart {
 					}
 					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
 				}
+
+				if (!isWorkDay((Document) element))
+					return BruiColors.getColor(BruiColor.Grey_50);
+
 				return null;
 			}
 		};
