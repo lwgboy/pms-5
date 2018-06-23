@@ -39,10 +39,9 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ShowResourceASM extends GridPart {
+public class ShowDeptResourceASM extends GridPart {
 
 	@Inject
 	private IBruiService brui;
@@ -66,10 +65,12 @@ public class ShowResourceASM extends GridPart {
 
 	private ArrayList<GridColumn> footerDateCols;
 
-	public ShowResourceASM() {
+	private String userId;
+
+	public ShowDeptResourceASM() {
 	}
 
-	public ShowResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
+	public ShowDeptResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
 		this.brui = brui;
 		this.context = context;
 		this.content = parent;
@@ -82,24 +83,24 @@ public class ShowResourceASM extends GridPart {
 
 	@Init
 	protected void init() {
-		Object rootInput = context.getRootInput();
-		if (rootInput != null && rootInput instanceof Project) {
-			resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id());
-		}
+		userId = brui.getCurrentUserId();
 		start = Calendar.getInstance();
 		end = Calendar.getInstance();
+		start.set(Calendar.MONTH, 0);
 		start.set(Calendar.DAY_OF_MONTH, 1);
 		start.set(Calendar.HOUR_OF_DAY, 0);
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
 
+		end.set(Calendar.MONTH, 11);
 		end.set(Calendar.DAY_OF_MONTH, 1);
 		end.set(Calendar.HOUR_OF_DAY, 0);
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);
-
+		end.add(Calendar.MONTH, 1);
+		end.add(Calendar.MILLISECOND, -1);
 	}
 
 	@CreateUI
@@ -183,6 +184,8 @@ public class ShowResourceASM extends GridPart {
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);
+		end.add(Calendar.MONTH, 1);
+		end.add(Calendar.MILLISECOND, -1);
 		Grid grid = viewer.getGrid();
 		GridColumnGroup[] columnGroups = grid.getColumnGroups();
 		for (GridColumnGroup gridColumnGroup : columnGroups) {
@@ -209,6 +212,10 @@ public class ShowResourceASM extends GridPart {
 	}
 
 	public void doRefresh() {
+		if (userId != null) {
+			resource = Services.get(WorkService.class).getProjectResourceByDept(userId, start.getTimeInMillis(), end.getTimeInMillis());
+		}
+
 		if (resource != null) {
 			viewer.setInput(resource);
 			doRefreshFooterText();
@@ -453,10 +460,9 @@ public class ShowResourceASM extends GridPart {
 	private void createDateColumn() {
 		Calendar now = Calendar.getInstance();
 		now.setTime(start.getTime());
-		createDateColumn(now.getTime());
 		while (now.before(end)) {
-			now.add(Calendar.MONTH, 1);
 			createDateColumn(now.getTime());
+			now.add(Calendar.MONTH, 1);
 		}
 
 		Column c = new Column();
