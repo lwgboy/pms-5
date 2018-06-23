@@ -460,15 +460,23 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public Document getResourcePlanAnalysis(@PathParam("project_id") ObjectId project_id,
 			@PathParam("year") String year);
+
 	@POST
 	@Path("/resourceactualanalysis/project_id/{project_id}/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getResourceActualAnalysis(@PathParam("project_id") ObjectId project_id,
 			@PathParam("year") String year);
+
 	@POST
 	@Path("/resourceallanalysis/project_id/{project_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/resource/project/{project_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> getProjectResource(@PathParam("project_id") ObjectId project_id);
 }
