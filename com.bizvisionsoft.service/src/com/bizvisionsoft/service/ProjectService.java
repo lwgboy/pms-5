@@ -215,6 +215,12 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishProject(Command command);
+	
+	@POST
+	@Path("/schedule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> schedule(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/command/close/")
@@ -240,5 +246,5 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public SalesItem insertSalesItem(SalesItem salesItem);
-
+	
 }

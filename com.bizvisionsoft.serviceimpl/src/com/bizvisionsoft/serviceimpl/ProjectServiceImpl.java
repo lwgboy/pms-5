@@ -13,6 +13,10 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
+import com.bizvisionsoft.math.scheduling.Graphic;
+import com.bizvisionsoft.math.scheduling.Relation;
+import com.bizvisionsoft.math.scheduling.Route;
+import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Command;
@@ -571,8 +575,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return countParticipatedProjects(filter, userId, cal.getTime());
 	}
 
-	private List<Project> listParticipatedProjects(BasicDBObject condition, String userId,
-			Date startWorkFinish) {
+	private List<Project> listParticipatedProjects(BasicDBObject condition, String userId, Date startWorkFinish) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -806,6 +809,98 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long deleteStockholder(ObjectId _id) {
 		return delete(_id, Stockholder.class);
+	}
+
+	@Override
+	public List<Result> schedule(ObjectId _id) {
+		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
+		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
+		Date startDate = c("project").find(new Document("_id", _id)).first().getDate("planStart");
+		Graphic gh = createGraphic(works, links);
+		setupStartDate(gh, works, startDate);
+		gh.schedule();
+		
+		return new ArrayList<Result>();
+	}
+
+	private void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart) {
+		gh.getStartRoute().forEach(r -> {
+			String id = r.end2.getId();
+			ObjectId _id = new ObjectId(id);
+			Document doc = works.stream().filter(d -> _id.equals(d.getObjectId("_id"))).findFirst().get();
+			Date aStart = doc.getDate("actualStart");
+			Date pStart = doc.getDate("planStart");
+			Date start = aStart == null ? pStart : aStart;
+			int interval = (int) ((start.getTime()-pjStart.getTime())/(1000*60*60*24));
+			gh.setStartInterval(id, interval);
+		});
+	}
+
+	/**
+	 * 根据work 和 link 创建图
+	 * 
+	 * @param works
+	 * @param links
+	 * @return
+	 */
+	private Graphic createGraphic(ArrayList<Document> works, ArrayList<Document> links) {
+		final ArrayList<Task> tasks = new ArrayList<Task>();
+		works.forEach(doc -> createTask(tasks, doc));
+		works.forEach(doc -> setParent(tasks, doc));
+		final ArrayList<Route> routes = new ArrayList<Route>();
+		links.forEach(doc -> createRoute(routes, tasks, doc));
+		return new Graphic(tasks,routes);
+	}
+
+	private Route createRoute(ArrayList<Route> routes, ArrayList<Task> tasks, Document doc) {
+		String end1Id = doc.getObjectId("source").toHexString();
+		String end2Id = doc.getObjectId("target").toHexString();
+		Task end1 = tasks.stream().filter(t -> end1Id.equals(t.getId())).findFirst().orElse(null);
+		Task end2 = tasks.stream().filter(t -> end2Id.equals(t.getId())).findFirst().orElse(null);
+		if (end1 != null && end2 != null) {
+			String _type = doc.getString("type");
+			int type = Relation.FTS;
+			if ("FF".equals(_type)) {
+				type = Relation.FTF;
+			} else if ("SF".equals(_type)) {
+				type = Relation.STF;
+			} else if ("SS".equals(_type)) {
+				type = Relation.STS;
+			}
+			Number lag = (Number) doc.get("lag");
+			float interval = Optional.ofNullable(lag).map(l -> l.floatValue()).orElse(0f);
+			Relation rel = new Relation(type, interval);
+			Route route = new Route(end1, end2, rel);
+			routes.add(route);
+			return route;
+		}
+		return null;
+	}
+
+	private void setParent(final ArrayList<Task> tasks, final Document doc) {
+		Optional.ofNullable(doc.getObjectId("parent_id")).map(_id -> _id.toHexString()).ifPresent(parentId -> {
+			String id = doc.getObjectId("_id").toHexString();
+			Task subTask = tasks.stream().filter(t -> id.equals(t.getId())).findFirst().orElse(null);
+			Task parentTaskTask = tasks.stream().filter(t -> parentId.equals(t.getId())).findFirst().orElse(null);
+			if (subTask != null && parentTaskTask != null) {
+				parentTaskTask.addSubTask(subTask);
+			}
+		});
+	}
+
+	private Task createTask(ArrayList<Task> tasks, Document doc) {
+		String id = doc.getObjectId("_id").toHexString();
+		Date aStart = doc.getDate("actualStart");
+		Date aFinish = doc.getDate("actualFinish");
+		Date pStart = doc.getDate("planStart");
+		Date pFinish = doc.getDate("planFinish");
+		Date finish = aFinish == null ? pFinish : aFinish;
+		Date start = aStart == null ? pStart : aStart;
+		long d = (finish.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+		Task task = new Task(id, d);
+		task.setName(doc.getString("name"));
+		tasks.add(task);
+		return task;
 	}
 
 }
