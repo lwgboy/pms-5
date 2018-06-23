@@ -25,15 +25,18 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
@@ -80,23 +83,11 @@ public class ShowResourceASM extends GridPart {
 	@Init
 	protected void init() {
 		Object rootInput = context.getRootInput();
-
-		start = Calendar.getInstance();
-
-		end = Calendar.getInstance();
 		if (rootInput != null && rootInput instanceof Project) {
-			Project project = (Project) rootInput;
-			if (project.getActualStart() != null && project.getActualStart().before(project.getPlanStart()))
-				start.setTime(project.getActualStart());
-			else
-				start.setTime(project.getPlanStart());
-
-			if (project.getActualFinish() != null && project.getActualFinish().after(project.getPlanFinish()))
-				end.setTime(project.getActualFinish());
-			else
-				end.setTime(project.getPlanFinish());
-			resource = Services.get(WorkService.class).getProjectResource(project.get_id());
+			resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id());
 		}
+		start = Calendar.getInstance();
+		end = Calendar.getInstance();
 		start.set(Calendar.DAY_OF_MONTH, 1);
 		start.set(Calendar.HOUR, 0);
 		start.set(Calendar.MINUTE, 0);
@@ -117,8 +108,22 @@ public class ShowResourceASM extends GridPart {
 
 		parent.setLayout(new FormLayout());
 
+		List<Action> rightActions = new ArrayList<Action>();
+		Action addAction = new Action();
+		addAction.setName("period");
+		addAction.setText("期间");
+		addAction.setForceText(true);
+		addAction.setStyle("normal");
+		rightActions.add(addAction);
+
 		StickerTitlebar bar = null;
-		bar = new StickerTitlebar(parent, null, null).setActions(context.getAssembly().getActions());
+		bar = new StickerTitlebar(parent, null, rightActions).setActions(context.getAssembly().getActions());
+		bar.addListener(SWT.Selection, e -> {
+			Action action = ((Action) e.data);
+			if ("period".equals(action.getName())) {
+				setDate();
+			}
+		});
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
@@ -148,6 +153,56 @@ public class ShowResourceASM extends GridPart {
 		footerTotalCols = new ArrayList<GridColumn>();
 		footerDateCols = new ArrayList<GridColumn>();
 		createViewer();
+
+		doRefresh();
+
+	}
+
+	private void setDate() {
+		DateTimeInputDialog dtid = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置查看期间",
+				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)
+						.setDateSetting(DateTimeSetting.month().setRange(true));
+		if (dtid.open() == DateTimeInputDialog.OK) {
+			Date[] range = dtid.getValues();
+
+			setResourceTransfer(range[0], range[1]);
+		}
+	}
+
+	public void setResourceTransfer(Date from, Date to) {
+		start.setTime(from);
+		start.set(Calendar.DAY_OF_MONTH, 1);
+		start.set(Calendar.HOUR, 0);
+		start.set(Calendar.MINUTE, 0);
+		start.set(Calendar.SECOND, 0);
+		start.set(Calendar.MILLISECOND, 0);
+
+		end.setTime(to);
+		end.set(Calendar.DAY_OF_MONTH, 1);
+		end.set(Calendar.HOUR, 0);
+		end.set(Calendar.MINUTE, 0);
+		end.set(Calendar.SECOND, 0);
+		end.set(Calendar.MILLISECOND, 0);
+		Grid grid = viewer.getGrid();
+		GridColumnGroup[] columnGroups = grid.getColumnGroups();
+		for (GridColumnGroup gridColumnGroup : columnGroups) {
+			String name = (String) gridColumnGroup.getData("name");
+			if (!"plan".equals(name) && !"actual".equals(name) && gridColumnGroup != null
+					&& !gridColumnGroup.isDisposed()) {
+				for (GridColumn gridColumn : gridColumnGroup.getColumns()) {
+					footerDateCols.remove(gridColumn);
+				}
+				gridColumnGroup.dispose();
+			}
+		}
+		GridColumn[] columns = grid.getColumns();
+		for (GridColumn gridColumn : columns) {
+			String name = (String) gridColumn.getData("name");
+			if ("delete".equals(name) && gridColumn != null && !gridColumn.isDisposed()) {
+				gridColumn.dispose();
+			}
+		}
+		createDateColumn();
 
 		doRefresh();
 
@@ -378,9 +433,9 @@ public class ShowResourceASM extends GridPart {
 				List<Document> list = (List<Document>) obj;
 				for (Document doc : list) {
 					if (id.equals(doc.get("id"))) {
-						 Object docValue = doc.get(name);
-						 if(docValue instanceof Number)
-							 value +=((Number) docValue).doubleValue();
+						Object docValue = doc.get(name);
+						if (docValue instanceof Number)
+							value += ((Number) docValue).doubleValue();
 					}
 				}
 
