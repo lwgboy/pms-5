@@ -836,6 +836,39 @@
             "role": "部门经理"
           },
           {
+            "id": "1642aaa73c6",
+            "name": "资源管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "1642aaac170",
+                "name": "新操作项2",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "1642aaac69a",
+                "name": "新操作项3",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "部门经理"
+          },
+          {
             "id": "163f1e3d040",
             "name": "我的报告",
             "openContent": false,

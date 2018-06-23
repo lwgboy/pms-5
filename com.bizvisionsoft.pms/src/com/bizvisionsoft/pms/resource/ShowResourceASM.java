@@ -35,6 +35,9 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ShowResourceASM extends GridPart {
 
@@ -76,11 +79,36 @@ public class ShowResourceASM extends GridPart {
 
 	@Init
 	protected void init() {
+		Object rootInput = context.getRootInput();
+
 		start = Calendar.getInstance();
 
 		end = Calendar.getInstance();
+		if (rootInput != null && rootInput instanceof Project) {
+			Project project = (Project) rootInput;
+			if (project.getActualStart() != null && project.getActualStart().before(project.getPlanStart()))
+				start.setTime(project.getActualStart());
+			else
+				start.setTime(project.getPlanStart());
 
-		// Services.get(WorkService.class)
+			if (project.getActualFinish() != null && project.getActualFinish().after(project.getPlanFinish()))
+				end.setTime(project.getActualFinish());
+			else
+				end.setTime(project.getPlanFinish());
+			resource = Services.get(WorkService.class).getProjectResource(project.get_id());
+		}
+		start.set(Calendar.DAY_OF_MONTH, 1);
+		start.set(Calendar.HOUR, 0);
+		start.set(Calendar.MINUTE, 0);
+		start.set(Calendar.SECOND, 0);
+		start.set(Calendar.MILLISECOND, 0);
+
+		end.set(Calendar.DAY_OF_MONTH, 1);
+		end.set(Calendar.HOUR, 0);
+		end.set(Calendar.MINUTE, 0);
+		end.set(Calendar.SECOND, 0);
+		end.set(Calendar.MILLISECOND, 0);
+
 	}
 
 	@CreateUI
@@ -341,9 +369,30 @@ public class ShowResourceASM extends GridPart {
 		return Util.getFormatText(value, "#,##0.0", locale);
 	}
 
+	@SuppressWarnings("unchecked")
 	private String getFooterDateText(String name, String id) {
-		// TODO Auto-generated method stub
-		return null;
+		double value = 0d;
+		for (Document resourceDoc : resource) {
+			Object obj = resourceDoc.get("resource");
+			if (obj instanceof List) {
+				List<Document> list = (List<Document>) obj;
+				for (Document doc : list) {
+					if (id.equals(doc.get("id"))) {
+						 Object docValue = doc.get(name);
+						 if(docValue instanceof Number)
+							 value +=((Number) docValue).doubleValue();
+					}
+				}
+
+			}
+		}
+		String format = null;
+		if ("planAmount".equals(name) || "actualAmount".equals(name))
+			format = "#,##0.0";
+		else
+			format = "0.0";
+		String text = Util.getFormatText(value, format, locale);
+		return "0.0".equals(text) ? "" : text;
 	}
 
 	private void createDateColumn() {
@@ -351,7 +400,7 @@ public class ShowResourceASM extends GridPart {
 		now.setTime(start.getTime());
 		createDateColumn(now.getTime());
 		while (now.before(end)) {
-			now.add(Calendar.DATE, 1);
+			now.add(Calendar.MONTH, 1);
 			createDateColumn(now.getTime());
 		}
 
@@ -463,10 +512,14 @@ public class ShowResourceASM extends GridPart {
 					List<Document> list = (List<Document>) obj;
 					for (Document doc : list) {
 						if (id.equals(doc.get("id"))) {
-							Object value;
-							// TODO
-							// String text = Util.getFormatText(value, null, locale);
-							// return "0.0".equals(text) ? "" : text;
+							Object value = doc.get(key);
+							String format = null;
+							if ("planAmount".equals(key) || "actualAmount".equals(key))
+								format = "#,##0.0";
+							else
+								format = "0.0";
+							String text = Util.getFormatText(value, format, locale);
+							return "0.0".equals(text) ? "" : text;
 						}
 					}
 
@@ -488,30 +541,19 @@ public class ShowResourceASM extends GridPart {
 			public String getText(Object element) {
 				String format = null;
 				Object value;
-				if ("startDate".equals(name)) {
-					if (((Document) element).get("actualStart") != null) {
-						value = ((Document) element).get("actualStart");
-					} else {
-						value = ((Document) element).get("planStart");
-					}
-				} else if ("endDate".equals(name)) {
-					if (((Document) element).get("actualFinish") != null) {
-						value = ((Document) element).get("actualFinish");
-					} else {
-						value = ((Document) element).get("planFinish");
-					}
-				} else if ("planAmount".equals(name)) {
-					format = "#,###.0";
+				if ("planAmount".equals(name)) {
+					format = "#,##0.0";
 					value = ((Document) element).get(name);
 				} else if ("actualAmount".equals(name)) {
-					format = "#,###.0";
+					format = "#,##0.0";
 					value = ((Document) element).get(name);
 				} else {
 					value = ((Document) element).get(name);
-					if (value instanceof Number && ((Number) value).doubleValue() == 0.0)
-						value = "";
+					if (value instanceof Number)
+						format = "0.0";
 				}
-				return Util.getFormatText(value, format, locale);
+				String text = Util.getFormatText(value, format, locale);
+				return "0.0".equals(text) ? "" : text;
 			}
 		};
 	}
@@ -519,7 +561,6 @@ public class ShowResourceASM extends GridPart {
 	private double getDoubleValue(Object object) {
 		if (object instanceof Number)
 			return ((Number) object).doubleValue();
-
 		return 0;
 	}
 }

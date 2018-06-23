@@ -41,7 +41,6 @@
 		{
 			"$group" : {
 				"_id" : {
-					"work_id" : "$work_id",
 					"resTypeId" : "$resTypeId",
 					"usedTypedResId" : "$usedTypedResId",
 					"usedHumanResId" : "$usedHumanResId",
@@ -91,6 +90,18 @@
 					"planQty" : {
 						"$sum" : [ "$planBasicQty", "$planOverTimeQty" ]
 					},
+					"actualBasicQty" : {
+						"$sum" : "$actualBasicQty"
+					},
+					"actualOverTimeQty" : {
+						"$sum" : "$actualOverTimeQty"
+					},
+					"planBasicQty" : {
+						"$sum" : "$planBasicQty"
+					},
+					"planOverTimeQty" : {
+						"$sum" : "$planOverTimeQty"
+					},
 					"planAmount" : {
 						"$sum" : [ {
 							"$multiply" : [ {
@@ -138,6 +149,18 @@
 				},
 				"actualAmount" : {
 					"$sum" : "$resource.actualAmount"
+				},
+				"actualBasicQty" : {
+					"$sum" : "$resource.actualBasicQty"
+				},
+				"actualOverTimeQty" : {
+					"$sum" : "$resource.actualOverTimeQty"
+				},
+				"planBasicQty" : {
+					"$sum" : "$resource.planBasicQty"
+				},
+				"planOverTimeQty" : {
+					"$sum" : "$resource.planOverTimeQty"
 				}
 			}
 		},

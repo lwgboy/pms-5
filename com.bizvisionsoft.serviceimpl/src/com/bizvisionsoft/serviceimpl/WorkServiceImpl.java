@@ -1567,7 +1567,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		series.add(actualAmountData);
 
 		Document option = new Document();
-		option.append("title", new Document("text", ""+name+" 资源用量综合分析").append("x", "center"));
+		option.append("title", new Document("text", "" + name + " 资源用量综合分析").append("x", "center"));
 		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
 		option.append("legend", new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额")).append("y", "top")
@@ -1596,5 +1596,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		option.append("series", series);
 		return option;
 
+	}
+
+	@Override
+	public List<Document> getProjectResource(ObjectId project_id) {
+		return c("work").aggregate(new JQ("查看资源汇总情况").set("match", new Document("project_id", project_id)).array())
+				.into(new ArrayList<Document>());
 	}
 }
