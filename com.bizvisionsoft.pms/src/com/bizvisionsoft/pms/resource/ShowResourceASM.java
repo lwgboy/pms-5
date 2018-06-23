@@ -89,13 +89,13 @@ public class ShowResourceASM extends GridPart {
 		start = Calendar.getInstance();
 		end = Calendar.getInstance();
 		start.set(Calendar.DAY_OF_MONTH, 1);
-		start.set(Calendar.HOUR, 0);
+		start.set(Calendar.HOUR_OF_DAY, 0);
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
 
 		end.set(Calendar.DAY_OF_MONTH, 1);
-		end.set(Calendar.HOUR, 0);
+		end.set(Calendar.HOUR_OF_DAY, 0);
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);
@@ -172,14 +172,14 @@ public class ShowResourceASM extends GridPart {
 	public void setResourceTransfer(Date from, Date to) {
 		start.setTime(from);
 		start.set(Calendar.DAY_OF_MONTH, 1);
-		start.set(Calendar.HOUR, 0);
+		start.set(Calendar.HOUR_OF_DAY, 0);
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
 
 		end.setTime(to);
 		end.set(Calendar.DAY_OF_MONTH, 1);
-		end.set(Calendar.HOUR, 0);
+		end.set(Calendar.HOUR_OF_DAY, 0);
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);

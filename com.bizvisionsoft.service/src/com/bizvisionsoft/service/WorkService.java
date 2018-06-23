@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -475,14 +476,21 @@ public interface WorkService {
 	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id);
 
 	@POST
-	@Path("/resourceallanalysis/{year}/")
+	@Path("/resourceallanalysis/{year}/{userid}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getResourceAllAnalysisByYear(@PathParam("year") String year);
+	public Document getResourceAllAnalysisByDept(@PathParam("year") String year, @PathParam("userid") String userid);
 
 	@POST
 	@Path("/resource/project/{project_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Document> getProjectResource(@PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/resource/dept/{userid}/{start}/{end}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> getProjectResourceByDept(@PathParam("userid") String userid, @PathParam("start") long start,
+			@PathParam("end") long end);
 }

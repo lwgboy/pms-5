@@ -44,7 +44,7 @@ public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 	public Document getOptionDocument() {
 		Document option;
 		// if (project_id != null) {
-		option = Services.get(WorkService.class).getResourceAllAnalysisByYear(year);
+		option = Services.get(WorkService.class).getResourceAllAnalysisByDept(year, bruiService.getCurrentUserId());
 		// } else {
 		// option = Services.get(WorkService.class).getResourcePlanAnalysis(year);
 		// }

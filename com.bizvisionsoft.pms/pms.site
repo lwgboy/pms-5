@@ -46586,7 +46586,7 @@
                 "horizontalSpan": 1,
                 "widthHint": -1,
                 "heightHint": -1,
-                "layoutName": "部门资源用量对比分析"
+                "layoutName": "部门资源用量对比分析组件"
               }
             ]
           }
@@ -46615,6 +46615,8 @@
             "id": "1642c5e6cab",
             "name": "期间",
             "text": "期间",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.resource.SearchMonthResourceIAYearACT",
             "openContent": false,
             "propagate": false,
             "forceText": true,

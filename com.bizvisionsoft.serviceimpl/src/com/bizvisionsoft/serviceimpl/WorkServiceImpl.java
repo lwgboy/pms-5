@@ -1438,44 +1438,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			start.setTime((Date) planStart);
 
 		start.set(Calendar.DAY_OF_MONTH, 1);
-		start.set(Calendar.HOUR, 0);
+		start.set(Calendar.HOUR_OF_DAY, 0);
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
 
 		end.set(Calendar.DAY_OF_MONTH, 1);
-		end.set(Calendar.HOUR, 0);
+		end.set(Calendar.HOUR_OF_DAY, 0);
 		end.set(Calendar.MINUTE, 0);
 		end.set(Calendar.SECOND, 0);
 		end.set(Calendar.MILLISECOND, 0);
 
-		Document option = createResourceAllAnalysis(start, end, "" + name + " 资源用量综合分析",
-				new Document("project_id", project_id));
-		option.append("dataZoom",
-				Arrays.asList(new Document("type", "inside").append("xAxisIndex", Arrays.asList(0, 1)),
-						new Document("type", "slider").append("xAxisIndex", Arrays.asList(0, 1))));
-		return option;
-
-	}
-
-	@Override
-	public Document getResourceAllAnalysisByYear(String year) {
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-
-		start.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
-		start.set(Calendar.MILLISECOND, 0);
-
-		end.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
-		end.set(Calendar.MILLISECOND, 0);
-
-		Document option = createResourceAllAnalysis(start, end, year + "年 资源用量综合分析", new Document("year", year));
-		return option;
-
-	}
-
-	private Document createResourceAllAnalysis(Calendar start, Calendar end, Object text, Document match) {
-		List<Document> series = new ArrayList<Document>();
 		List<String> xAxisDate = new ArrayList<String>();
 		Map<String, Double> actualWorksMap = new TreeMap<String, Double>();
 		Map<String, Double> actualAmountMap = new TreeMap<String, Double>();
@@ -1494,6 +1467,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			start.add(Calendar.MONTH, 1);
 		}
 
+		Document match = new Document("project_id", project_id);
 		c("resourcePlan").aggregate(new JQ("查询资源计划分析-Porject").set("match", match).array()).forEach((Document doc) -> {
 			String id = doc.getString("_id");
 			Double worksD = planWorksMap.get(id);
@@ -1536,6 +1510,108 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						}
 					}
 				});
+
+		Document option = createResourceAllAnalysis(start, end, "" + name + " 资源用量综合分析", actualWorksMap,
+				actualAmountMap, planWorksMap, planAmountMap, xAxisDate);
+		option.append("dataZoom",
+				Arrays.asList(new Document("type", "inside").append("xAxisIndex", Arrays.asList(0, 1)),
+						new Document("type", "slider").append("xAxisIndex", Arrays.asList(0, 1))));
+		return option;
+
+	}
+
+	@Override
+	public Document getResourceAllAnalysisByDept(String year, String userid) {
+		Calendar start = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+
+		start.set(Integer.parseInt(year), 0, 1, 0, 0, 0);
+		start.set(Calendar.MILLISECOND, 0);
+
+		end.set(Integer.parseInt(year), 11, 1, 0, 0, 0);
+		end.set(Calendar.MILLISECOND, 0);
+
+		List<String> xAxisDate = new ArrayList<String>();
+		Map<String, Double> actualWorksMap = new TreeMap<String, Double>();
+		Map<String, Double> actualAmountMap = new TreeMap<String, Double>();
+		Map<String, Double> planWorksMap = new TreeMap<String, Double>();
+		Map<String, Double> planAmountMap = new TreeMap<String, Double>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMM");
+		while (start.before(end) || start.equals(end)) {
+			String key = sdf1.format(start.getTime());
+			xAxisDate.add(sdf.format(start.getTime()));
+			actualWorksMap.put(key, 0d);
+			actualAmountMap.put(key, 0d);
+			planWorksMap.put(key, 0d);
+			planAmountMap.put(key, 0d);
+			start.add(Calendar.MONTH, 1);
+		}
+
+		Document match = new Document("year", year);
+		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		orgids = getDesentItems(orgids, "organization", "parent_id");
+		c("resourcePlan")
+				.aggregate(
+						new JQ("查询资源计划分析-Dept").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+				.forEach((Document doc) -> {
+					String id = doc.getString("_id");
+					Double worksD = planWorksMap.get(id);
+					if (worksD != null) {
+						Object works = doc.get("planQty");
+						if (works != null) {
+							worksD += ((Number) works).doubleValue();
+							planWorksMap.put(id, worksD);
+						}
+					}
+
+					Double amountD = planAmountMap.get(id);
+					if (amountD != null) {
+						Object amount = doc.get("planAmount");
+						if (amount != null) {
+							amountD += (((Number) amount).doubleValue() / 10000d);
+							planAmountMap.put(id, amountD);
+						}
+					}
+				});
+
+		c("resourceActual")
+				.aggregate(
+						new JQ("查询资源实际分析-Dept").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+				.forEach((Document doc) -> {
+					String id = doc.getString("_id");
+					Double worksD = actualWorksMap.get(id);
+					if (worksD != null) {
+						Object works = doc.get("actualQty");
+						if (works != null) {
+							worksD += ((Number) works).doubleValue();
+							actualWorksMap.put(id, worksD);
+						}
+					}
+
+					Double amountD = actualAmountMap.get(id);
+					if (amountD != null) {
+						Object amount = doc.get("actualAmount");
+						if (amount != null) {
+							amountD += (((Number) amount).doubleValue() / 10000d);
+							actualAmountMap.put(id, amountD);
+						}
+					}
+				});
+
+		Document option = createResourceAllAnalysis(start, end, year + "年 资源用量综合分析", actualWorksMap, actualAmountMap,
+				planWorksMap, planAmountMap, xAxisDate);
+		return option;
+
+	}
+
+	private Document createResourceAllAnalysis(Calendar start, Calendar end, Object text,
+			Map<String, Double> actualWorksMap, Map<String, Double> actualAmountMap, Map<String, Double> planWorksMap,
+			Map<String, Double> planAmountMap, List<String> xAxisDate) {
+
+		List<Document> series = new ArrayList<Document>();
 
 		Document planWorksData = new Document();
 		planWorksData.append("name", "计划工时");
@@ -1619,6 +1695,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Document> getProjectResource(ObjectId project_id) {
 		return c("work").aggregate(new JQ("查看资源汇总情况").set("match", new Document("project_id", project_id)).array())
+				.into(new ArrayList<Document>());
+	}
+
+	@Override
+	public List<Document> getProjectResourceByDept(String userid, long start, long end) {
+		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		orgids = getDesentItems(orgids, "organization", "parent_id");
+
+		return c("work").aggregate(
+				new JQ("查看资源汇总情况-Dept").set("workMatch", new Document()).set("org_ids", new Document("$in", orgids))
+						.set("start", new Date(start)).set("end", new Date(end)).array())
 				.into(new ArrayList<Document>());
 	}
 }
