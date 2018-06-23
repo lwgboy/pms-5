@@ -1,7 +1,8 @@
 package com.bizvisionsoft.pms.resource;
 
+import java.util.Calendar;
+
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.widgets.Composite;
 
@@ -12,10 +13,9 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.pms.chart.AbstractChartASM;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ResourceAllAnalysisASM extends AbstractChartASM {
+public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 
 	@Inject
 	private IBruiService bruiService;
@@ -23,7 +23,7 @@ public class ResourceAllAnalysisASM extends AbstractChartASM {
 	@Inject
 	private BruiAssemblyContext context;
 
-	private ObjectId project_id = null;
+	private String year;
 
 	@Init
 	public void init() {
@@ -38,20 +38,21 @@ public class ResourceAllAnalysisASM extends AbstractChartASM {
 
 	@Override
 	protected void setOptionBefore() {
-		Object rootInput = context.getRootInput();
-		if (rootInput instanceof Project) {
-			project_id = ((Project) rootInput).get_id();
-		}
+		year = "" + Calendar.getInstance().get(Calendar.YEAR);
 	}
 
 	public Document getOptionDocument() {
 		Document option;
 		// if (project_id != null) {
-		option = Services.get(WorkService.class).getResourceAllAnalysis(project_id);
+		option = Services.get(WorkService.class).getResourceAllAnalysisByYear(year);
 		// } else {
 		// option = Services.get(WorkService.class).getResourcePlanAnalysis(year);
 		// }
 		return option;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 	@Override

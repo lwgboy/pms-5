@@ -42,7 +42,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ShowResourceASM extends GridPart {
+public class ShowDeptResourceASM extends GridPart {
 
 	@Inject
 	private IBruiService brui;
@@ -66,10 +66,10 @@ public class ShowResourceASM extends GridPart {
 
 	private ArrayList<GridColumn> footerDateCols;
 
-	public ShowResourceASM() {
+	public ShowDeptResourceASM() {
 	}
 
-	public ShowResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
+	public ShowDeptResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
 		this.brui = brui;
 		this.context = context;
 		this.content = parent;
@@ -88,12 +88,14 @@ public class ShowResourceASM extends GridPart {
 		}
 		start = Calendar.getInstance();
 		end = Calendar.getInstance();
+		start.set(Calendar.MONTH, 0);
 		start.set(Calendar.DAY_OF_MONTH, 1);
 		start.set(Calendar.HOUR, 0);
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
 
+		end.set(Calendar.MONTH, 11);
 		end.set(Calendar.DAY_OF_MONTH, 1);
 		end.set(Calendar.HOUR, 0);
 		end.set(Calendar.MINUTE, 0);

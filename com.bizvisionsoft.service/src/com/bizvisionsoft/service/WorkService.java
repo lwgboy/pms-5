@@ -475,6 +475,12 @@ public interface WorkService {
 	public Document getResourceAllAnalysis(@PathParam("project_id") ObjectId project_id);
 
 	@POST
+	@Path("/resourceallanalysis/{year}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getResourceAllAnalysisByYear(@PathParam("year") String year);
+
+	@POST
 	@Path("/resource/project/{project_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
