@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.result.DeleteResult;
@@ -154,6 +155,26 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long updateRiskDetectionInd(BasicDBObject fu) {
 		return update(fu, DetectionInd.class);
+	}
+
+	@Override
+	public List<RiskScore> listRiskScoreInd() {
+		return c(RiskScore.class).find().sort(new BasicDBObject("score",1)).into(new ArrayList<RiskScore>());
+	}
+
+	@Override
+	public RiskScore insertRiskScoreInd(RiskScore item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteRiskScoreInd(ObjectId _id) {
+		return delete(_id, RiskScore.class);
+	}
+
+	@Override
+	public long updateRiskScoreInd(BasicDBObject fu) {
+		return update(fu, RiskScore.class);
 	}
 
 }

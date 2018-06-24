@@ -191,13 +191,13 @@ public class RBSItem {
 		return name + " [" + getId() + "]";
 	}
 
-	@Structure({ "项目风险清单/list", "项目风险清单（查看）/list" })
+	@Structure({ "项目风险登记簿/list", "项目风险登记簿（查看）/list" })
 	private List<RBSItem> listSecondryRisks() {
 		return ServicesLoader.get(RiskService.class).listRBSItem(
 				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
 	}
 
-	@Structure({ "项目风险清单/count", "项目风险清单（查看）/count" })
+	@Structure({ "项目风险登记簿/count", "项目风险登记簿（查看）/count" })
 	private long countSecondryRisks() {
 		return ServicesLoader.get(RiskService.class)
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));

@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.mongodb.BasicDBObject;
 
@@ -189,5 +190,36 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.UPDATE)
 	public long updateRiskDetectionInd(BasicDBObject filterAndUpdate);
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/scoreInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("风险评分标准/" + DataSet.LIST)
+	public List<RiskScore> listRiskScoreInd();
+
+	@POST
+	@Path("/scoreInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("风险评分标准/" + DataSet.INSERT)
+	public RiskScore insertRiskScoreInd(@ServiceParam(ServiceParam.OBJECT) RiskScore item);
+
+	@DELETE
+	@Path("/scoreInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("风险评分标准/" + DataSet.DELETE)
+	public long deleteRiskScoreInd(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/scoreInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("风险评分标准/" + DataSet.UPDATE)
+	public long updateRiskScoreInd(BasicDBObject filterAndUpdate);
 
 }
