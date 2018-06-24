@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
@@ -40,7 +40,7 @@ public interface OBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目团队/list")
 	public List<OBSItem> getScopeRootOBS(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@POST
 	@Path("/scope/id/{_id}")
@@ -48,7 +48,7 @@ public interface OBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织结构图/list", "组织结构图（查看）/list" })
 	public List<OBSItem> getScopeOBS(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@GET
 	@Path("/{_id}")
@@ -61,7 +61,7 @@ public interface OBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目团队/" + DataSet.DELETE, "组织结构图/" + DataSet.DELETE })
-	public void delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/{_id}/sub")
@@ -87,16 +87,16 @@ public interface OBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "团队成员/" + DataSet.LIST, "团队成员（查看）/" + DataSet.LIST })
-	public List<User> getMember(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+	public List<User> getMember(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
 
 	@POST
 	@Path("/member/count/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
-	public long countMember(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
 
 	@GET
 	@Path("/scope/id/{_id}/userId/{userId}")

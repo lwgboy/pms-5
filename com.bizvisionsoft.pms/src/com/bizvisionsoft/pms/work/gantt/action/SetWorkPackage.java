@@ -27,8 +27,8 @@ public class SetWorkPackage {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		String editor = "¹¤×÷ÊôÐÔ±à¼­Æ÷";
 
 		if (event instanceof GanttEvent) {

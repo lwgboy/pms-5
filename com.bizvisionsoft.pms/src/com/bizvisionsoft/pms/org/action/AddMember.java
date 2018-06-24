@@ -26,8 +26,8 @@ public class AddMember {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 
 		new Selector(bruiService.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织成员").open(r -> {
 			final List<String> ids = new ArrayList<String>();

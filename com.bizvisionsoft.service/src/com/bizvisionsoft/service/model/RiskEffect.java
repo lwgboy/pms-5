@@ -7,7 +7,9 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.tools.Util;
@@ -90,6 +92,13 @@ public class RiskEffect {
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 控制WBS要素只能选着叶子节点
+	@SelectionValidation("work")
+	private boolean workSelectionValidation(@MethodParam(MethodParam.OBJECT) Object work) {
+		return (work instanceof Work) && !((Work) work).isSummary();
+	}
+
 	public RiskEffect setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
@@ -104,6 +113,5 @@ public class RiskEffect {
 		this.rbsItem_id = rbsItem_id;
 		return this;
 	}
-	
 
 }

@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.risk;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -22,7 +20,7 @@ public class CreateEffectACT {
 
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_ACTION) Action action, @MethodParam(Execute.PARAM_EVENT) Event event) {
+			@MethodParam(Execute.PARAM_ACTION) Action action) {
 		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id());
 		context.selected(c -> {
 			re.setRBSItem_id(((RBSItem) c).get_id());

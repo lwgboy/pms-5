@@ -19,8 +19,8 @@ public class CreateRootTaskACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		ProjectTemplate template = context.getRootInput(ProjectTemplate.class,false);
 		String title = "创建工作";
 		Assembly editor = bruiService.getAssembly("项目模板工作编辑器");

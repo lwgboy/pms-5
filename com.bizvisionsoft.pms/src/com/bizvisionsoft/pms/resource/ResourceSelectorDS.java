@@ -3,8 +3,8 @@ package com.bizvisionsoft.pms.resource;
 import java.util.List;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.UserService;
@@ -21,7 +21,7 @@ public class ResourceSelectorDS {
 	private IBruiService brui;
 
 	@DataSet("选择人力资源/" + DataSet.LIST)
-	public List<User> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -32,7 +32,7 @@ public class ResourceSelectorDS {
 	}
 
 	@DataSet("选择人力资源/" + DataSet.COUNT)
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}

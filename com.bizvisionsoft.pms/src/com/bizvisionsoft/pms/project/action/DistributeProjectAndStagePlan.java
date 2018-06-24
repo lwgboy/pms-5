@@ -26,8 +26,8 @@ public class DistributeProjectAndStagePlan {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Object rootInput = context.getRootInput();
 		if (rootInput instanceof Project) {
 			Project project = (Project) rootInput;

@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.CBSService;
@@ -46,17 +46,17 @@ public class ManagedProjectsCostDS {
 	}
 
 	@DataSet({ "成本管理/" + DataSet.LIST})
-	private List<CBSItem> listProject(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	private List<CBSItem> listProject(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return Services.get(CBSService.class).listProjectCost(condition);
 	}
 
 	@DataSet({  "预算成本对比分析/" + DataSet.LIST })
-	private List<CBSItem> listProjectCostAnalysis(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	private List<CBSItem> listProjectCostAnalysis(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return Services.get(CBSService.class).listProjectCostAnalysis(condition);
 	}
 
 	@DataSet({ "成本管理/" + DataSet.COUNT, "预算成本对比分析/" + DataSet.COUNT })
-	private long countProject(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	private long countProject(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		return Services.get(CBSService.class).countProjectCost(filter);
 	}
 

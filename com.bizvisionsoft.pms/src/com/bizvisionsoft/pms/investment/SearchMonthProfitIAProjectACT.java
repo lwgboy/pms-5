@@ -23,8 +23,8 @@ public class SearchMonthProfitIAProjectACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Selector.open("EPS选择器", context, null, d -> {
 			if (d.size() == 0) {
 				Layer.message("请选择需要对比分析的范围。", Layer.ICON_CANCEL);

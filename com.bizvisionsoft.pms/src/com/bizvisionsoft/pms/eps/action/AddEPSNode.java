@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.eps.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -19,8 +17,7 @@ public class AddEPSNode {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_EVENT) Event event,
-			@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 			if (elem instanceof EPS) {
 

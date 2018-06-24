@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.RiskService;
@@ -40,7 +40,7 @@ public class ProjectRiskDS {
 	}
 
 	@DataSet(DataSet.LIST)
-	public List<RBSItem> listRootRBSItems(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<RBSItem> listRootRBSItems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -52,7 +52,7 @@ public class ProjectRiskDS {
 	}
 
 	@DataSet(DataSet.COUNT)
-	public long countRootRBSItem(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long countRootRBSItem(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
@@ -61,12 +61,12 @@ public class ProjectRiskDS {
 	}
 
 	@DataSet(DataSet.INSERT)
-	public RBSItem insertRBSItem(@ServiceParam(ServiceParam.OBJECT) RBSItem item) {
+	public RBSItem insertRBSItem(@MethodParam(MethodParam.OBJECT) RBSItem item) {
 		return Services.get(RiskService.class).insertRBSItem(item);
 	}
 	
 	@DataSet(DataSet.DELETE)
-	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
+	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
 		return Services.get(RiskService.class).deleteRBSItem(_id);
 	}
 

@@ -15,7 +15,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
@@ -48,7 +48,7 @@ public interface EPSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS管理/count", "EPS浏览/count", "EPS和项目集选择/count" })
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/_id/{_id}/count/eps")
@@ -61,14 +61,14 @@ public interface EPSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId get_id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 	@DELETE
 	@Path("/projectset/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS浏览/" + DataSet.DELETE)
-	public long deleteProjectSet(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId get_id);
+	public long deleteProjectSet(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 	@PUT
 	@Path("/")
@@ -81,7 +81,7 @@ public interface EPSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.INSERT)
-	public EPS insert(@ServiceParam(ServiceParam.OBJECT) EPS eps);
+	public EPS insert(@MethodParam(MethodParam.OBJECT) EPS eps);
 
 	@POST
 	@Path("/info/root/ds")

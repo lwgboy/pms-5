@@ -16,7 +16,7 @@ public class EstimateSchedule {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Integer result = Services.get(ProjectService.class)
 				.schedule(context.getRootInput(Project.class, false).get_id());
 		// TODO Ë¢ÐÂ

@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.mongodb.BasicDBObject;
@@ -35,7 +35,7 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目文件夹选择列表/list")
 	public List<Folder> listRootFolder(
-			@PathParam("project_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 
 	@POST
 	@Path("/folder/project_id/{project_id}/count")
@@ -90,7 +90,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.DELETE)
-	public long deleteDocument(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteDocument(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/docu/")
@@ -104,20 +104,20 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.LIST)
-	public List<Docu> listDocument(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @ServiceParam(ServiceParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
+	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
 
 	@POST
 	@Path("/docu/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.COUNT)
-	public long countDocument(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 }

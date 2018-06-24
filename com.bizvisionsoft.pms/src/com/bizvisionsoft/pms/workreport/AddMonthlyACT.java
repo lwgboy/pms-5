@@ -3,8 +3,6 @@ package com.bizvisionsoft.pms.workreport;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -24,8 +22,7 @@ public class AddMonthlyACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Selector.create("我的月报项目选择器", context, null).setTitle("请选择要填写月报的项目").open(em -> {
 			String reporter = brui.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();

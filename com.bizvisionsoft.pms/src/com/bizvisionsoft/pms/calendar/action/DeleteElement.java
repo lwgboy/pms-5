@@ -3,7 +3,6 @@ package com.bizvisionsoft.pms.calendar.action;
 import java.util.Optional;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -24,8 +23,7 @@ public class DeleteElement {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Object elem = context.getFirstElement();
 		if (elem instanceof Calendar) {
 			DeleteSelected.deleteElementInGrid(bruiService, context, elem);
@@ -35,7 +33,7 @@ public class DeleteElement {
 			if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "É¾³ý", message)) {
 				Services.get(CommonService.class).deleteCalendarWorkTime(((WorkTime) elem).get_id());
 				GridPart grid = ((GridPart) context.getContent());
-				grid.remove(grid.getParentElement(elem),elem);
+				grid.remove(grid.getParentElement(elem), elem);
 			}
 		}
 	}

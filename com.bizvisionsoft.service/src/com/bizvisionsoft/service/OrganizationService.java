@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.User;
@@ -28,14 +28,14 @@ public interface OrganizationService {
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.INSERT)
-	public Organization insert(@ServiceParam(ServiceParam.OBJECT) Organization orgInfo);
+	public Organization insert(@MethodParam(MethodParam.OBJECT) Organization orgInfo);
 
 	@POST
 	@Path("/role/")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织角色/" + DataSet.INSERT)
-	public Role insertRole(@ServiceParam(ServiceParam.OBJECT) Role role);
+	public Role insertRole(@MethodParam(MethodParam.OBJECT) Role role);
 
 	@GET
 	@Path("/{_id}")
@@ -130,27 +130,27 @@ public interface OrganizationService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器/" + DataSet.LIST)
-	public List<Organization> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<Organization> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器/" + DataSet.COUNT)
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@DELETE
 	@Path("/role/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织角色/" + DataSet.DELETE)
-	public long deleteRole(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRole(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 }

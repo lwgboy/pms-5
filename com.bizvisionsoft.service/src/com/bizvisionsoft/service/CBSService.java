@@ -16,7 +16,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
@@ -38,7 +38,7 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "CBS/list", "CBS£¨²é¿´£©/list" })
 	public List<CBSItem> getScopeRoot(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@POST
 	@Path("/{_id}/subcbs/ds")
@@ -88,7 +88,7 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
-	public void delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/period/")

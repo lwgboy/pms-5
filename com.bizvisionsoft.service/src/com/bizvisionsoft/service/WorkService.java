@@ -15,7 +15,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -38,13 +38,13 @@ public interface WorkService {
 	@Path("/gantt/tasks")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Work> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<Work> createTaskDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkLink> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<WorkLink> createLinkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/task/")
@@ -88,7 +88,7 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public Work getWork(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public Work getWork(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@GET
 	@Path("/link/_id/{_id}")
@@ -167,8 +167,8 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我的工作/list", "我的工作（日历牌）/list", "我的待处理工作（工作抽屉）/list" })
-	public List<Work> createProcessingWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Work> createProcessingWorkDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/processing/datemark")
@@ -176,31 +176,31 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的待处理工作日历选择器/list")
 	public List<DateMark> listMyWorksDateMark(
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我的工作/count", "我的待处理工作（工作抽屉）/count" })
-	public long countProcessingWorkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countProcessingWorkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/finished/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的工作（已完成）/list")
-	public List<Work> createFinishedWorkDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Work> createFinishedWorkDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/finished/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的工作（已完成）/count")
-	public long countFinishedWorkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countFinishedWorkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/package/ds/")

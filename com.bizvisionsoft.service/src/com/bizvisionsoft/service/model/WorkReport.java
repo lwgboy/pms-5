@@ -13,8 +13,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 
 @PersistenceCollection("workReport")
 public class WorkReport {
@@ -253,7 +253,7 @@ public class WorkReport {
 	}
 
 	@Behavior("确认报告")
-	private boolean behaviourConfirm(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userid) {
+	private boolean behaviourConfirm(@MethodParam(MethodParam.CURRENT_USER_ID) String userid) {
 		return STATUS_SUBMIT.equals(status) && userid.equals(pmId);
 	}
 

@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -19,7 +17,7 @@ public class OpenGantt {
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_ACTION) Action action, @MethodParam(Execute.PARAM_EVENT) Event event) {
+			@MethodParam(Execute.PARAM_ACTION) Action action) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		Assembly config;
 		Workspace workspace = rootInput.getWorkspace();

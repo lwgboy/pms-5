@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.mongodb.BasicDBObject;
 
@@ -42,13 +42,13 @@ public interface ProjectSetService {
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ProjectSet> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<ProjectSet> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@DELETE
 	@Path("/_id/{_id}")
@@ -61,5 +61,5 @@ public interface ProjectSetService {
 	@Path("/finish/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ProjectSet> listFinishProjectSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<ProjectSet> listFinishProjectSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 }

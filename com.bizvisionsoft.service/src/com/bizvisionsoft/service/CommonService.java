@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
@@ -35,30 +35,30 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.LIST)
-	public List<Message> listMessage(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+	public List<Message> listMessage(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
 	@Path("/msg/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.COUNT)
-	public long countMessage(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+	public long countMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
 	@Path("/cert/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.LIST)
-	public List<Certificate> getCertificates(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<Certificate> getCertificates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/cert/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.COUNT)
-	public long countCertificate(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long countCertificate(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 	
 	@POST
 	@Path("/cert/names/ds")
@@ -72,14 +72,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.INSERT)
-	public Certificate insertCertificate(@ServiceParam(ServiceParam.OBJECT) Certificate cert);
+	public Certificate insertCertificate(@MethodParam(MethodParam.OBJECT) Certificate cert);
 
 	@DELETE
 	@Path("/cert/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.DELETE)
-	public long deleteCertificate(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteCertificate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/cert/")
@@ -103,14 +103,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.INSERT)
-	public ResourceType insertResourceType(@ServiceParam(ServiceParam.OBJECT) ResourceType resourceType);
+	public ResourceType insertResourceType(@MethodParam(MethodParam.OBJECT) ResourceType resourceType);
 
 	@DELETE
 	@Path("/restype/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.DELETE)
-	public long deleteResourceType(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteResourceType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/restype/")
@@ -152,14 +152,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.INSERT)
-	public Equipment insertEquipment(@ServiceParam(ServiceParam.OBJECT) Equipment cert);
+	public Equipment insertEquipment(@MethodParam(MethodParam.OBJECT) Equipment cert);
 
 	@DELETE
 	@Path("/euip/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.DELETE)
-	public long deleteEquipment(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteEquipment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/euip/")
@@ -188,14 +188,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.INSERT)
-	public Calendar insertCalendar(@ServiceParam(ServiceParam.OBJECT) Calendar obj);
+	public Calendar insertCalendar(@MethodParam(MethodParam.OBJECT) Calendar obj);
 
 	@DELETE
 	@Path("/cal/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.DELETE)
-	public long deleteCalendar(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteCalendar(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/cal/{_id}/wt/")
@@ -254,14 +254,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.INSERT)
-	public Dictionary insertResourceType(@ServiceParam(ServiceParam.OBJECT) Dictionary resourceType);
+	public Dictionary insertResourceType(@MethodParam(MethodParam.OBJECT) Dictionary resourceType);
 
 	@DELETE
 	@Path("/dict/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.DELETE)
-	public long deleteDictionary(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteDictionary(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/dict/")
@@ -289,7 +289,7 @@ public interface CommonService {
 	@Path("/accountitem/parent/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> getAccoutItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public List<AccountItem> getAccoutItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/accountitem/parent/{_id}/count")
@@ -308,14 +308,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "财务科目设置/" + DataSet.INSERT })
-	public AccountItem insertAccountItem(@ServiceParam(ServiceParam.OBJECT) AccountItem ai);
+	public AccountItem insertAccountItem(@MethodParam(MethodParam.OBJECT) AccountItem ai);
 
 	@DELETE
 	@Path("/accountitem/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "财务科目设置/" + DataSet.DELETE })
-	public long deleteAccountItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteAccountItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/accountitem/")
@@ -344,14 +344,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.INSERT)
-	public TrackView insertTrackView(@ServiceParam(ServiceParam.OBJECT) TrackView trackView);
+	public TrackView insertTrackView(@MethodParam(MethodParam.OBJECT) TrackView trackView);
 
 	@DELETE
 	@Path("/track/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.DELETE)
-	public long deleteTrackView(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteTrackView(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/track/")

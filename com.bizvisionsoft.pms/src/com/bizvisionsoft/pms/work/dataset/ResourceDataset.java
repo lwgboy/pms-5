@@ -6,7 +6,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -30,7 +30,7 @@ public class ResourceDataset {
 	}
 
 	@DataSet(DataSet.DELETE)
-	private long delete(@ServiceParam(ServiceParam.OBJECT) ResourcePlan rp) {
+	private long delete(@MethodParam(MethodParam.OBJECT) ResourcePlan rp) {
 		ObjectId work_id = rp.getWork_id();
 		String resId = rp.getUsedHumanResId();
 		if (resId != null) {

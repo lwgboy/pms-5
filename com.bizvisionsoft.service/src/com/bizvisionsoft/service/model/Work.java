@@ -18,9 +18,9 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.RoleBased;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -770,12 +770,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure({ "进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
+	@Structure({ "项目WBS/list","进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure({ "进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
+	@Structure({ "项目WBS/count","进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
@@ -984,7 +984,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@Behavior("指派")
-	private boolean behaviourAssigner(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userid) {
+	private boolean behaviourAssigner(@MethodParam(MethodParam.CURRENT_USER_ID) String userid) {
 		return userid.equals(assignerId);
 	}
 
@@ -1105,8 +1105,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 获得给定用户在阶段中的角色
 	@RoleBased
-	private List<String> getStageRole(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userId) {
+	private List<String> getStageRole(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
 		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
+	
 
 }

@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
@@ -41,14 +41,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.INSERT)
-	public RBSType insertRBSType(@ServiceParam(ServiceParam.OBJECT) RBSType item);
+	public RBSType insertRBSType(@MethodParam(MethodParam.OBJECT) RBSType item);
 
 	@DELETE
 	@Path("/type/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.DELETE)
-	public long deleteRBSType(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRBSType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/type/")
@@ -108,14 +108,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险临近性指标设置/" + DataSet.INSERT)
-	public RiskUrgencyInd insertRiskUrgencyInd(@ServiceParam(ServiceParam.OBJECT) RiskUrgencyInd item);
+	public RiskUrgencyInd insertRiskUrgencyInd(@MethodParam(MethodParam.OBJECT) RiskUrgencyInd item);
 
 	@DELETE
 	@Path("/urgInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险临近性指标设置/" + DataSet.DELETE)
-	public long deleteRiskUrgencyInd(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRiskUrgencyInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/urgInds/")
@@ -145,14 +145,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.INSERT)
-	public QuanlityInfInd insertRiskQuanlityInfInd(@ServiceParam(ServiceParam.OBJECT) QuanlityInfInd item);
+	public QuanlityInfInd insertRiskQuanlityInfInd(@MethodParam(MethodParam.OBJECT) QuanlityInfInd item);
 
 	@DELETE
 	@Path("/qltyInfInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.DELETE)
-	public long deleteRiskQuanlityInfInd(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRiskQuanlityInfInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/qltyInfInds/")
@@ -175,14 +175,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.INSERT)
-	public DetectionInd insertRiskDetectionInd(@ServiceParam(ServiceParam.OBJECT) DetectionInd item);
+	public DetectionInd insertRiskDetectionInd(@MethodParam(MethodParam.OBJECT) DetectionInd item);
 
 	@DELETE
 	@Path("/detectInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.DELETE)
-	public long deleteRiskDetectionInd(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRiskDetectionInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/detectInds/")
@@ -206,14 +206,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.INSERT)
-	public RiskScore insertRiskScoreInd(@ServiceParam(ServiceParam.OBJECT) RiskScore item);
+	public RiskScore insertRiskScoreInd(@MethodParam(MethodParam.OBJECT) RiskScore item);
 
 	@DELETE
 	@Path("/scoreInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.DELETE)
-	public long deleteRiskScoreInd(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteRiskScoreInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/scoreInds/")

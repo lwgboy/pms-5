@@ -21,8 +21,8 @@ public class EditPassword {
 	private IBruiService bruiService;
 
 	@Execute
-	private void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		open(bruiService, context, "–ﬁ∏ƒ’Àªß√‹¬Î");
 	}
 

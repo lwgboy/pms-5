@@ -25,8 +25,8 @@ public class StartStage {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Work stage = (Work) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
 

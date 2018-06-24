@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.cbs.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,8 +18,7 @@ public class EditCBSBudget {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			CBSPeriod period = new CBSPeriod()//
 					.setCBSItem_id(((CBSItem) parent).get_id());
@@ -29,7 +26,7 @@ public class EditCBSBudget {
 
 			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
 				BudgetCBS grid = (BudgetCBS) context.getContent();
-				grid.updateCBSPeriodBudget(((CBSItem) parent),o);
+				grid.updateCBSPeriodBudget(((CBSItem) parent), o);
 			});
 
 		});

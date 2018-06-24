@@ -951,7 +951,7 @@ public class EditResourceASM extends GridPart {
 								} else {
 									Object day = workTime.get("day");
 									if (day instanceof List) {
-										result = ((List) day).contains(week);
+										result = ((List<?>) day).contains(week);
 									}
 								}
 							}

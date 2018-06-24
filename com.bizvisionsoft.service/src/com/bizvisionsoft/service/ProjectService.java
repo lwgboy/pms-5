@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
@@ -46,19 +46,19 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public Project get(@PathParam("_id") @ServiceParam("_id") ObjectId _id);
+	public Project get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Project> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<Project> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/_id/{_id}/daterange")
@@ -95,15 +95,15 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目干系人/list", "项目干系人（查看）/list" })
-	public List<Stockholder> getStockholders(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public List<Stockholder> getStockholders(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@Path("/_id/{_id}/stockholder/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目干系人/count", "项目干系人（查看）/count" })
-	public long countStockholders(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public long countStockholders(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/stockholder")
@@ -116,69 +116,69 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目干系人/" + DataSet.DELETE)
-	public long deleteStockholder(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId id);
+	public long deleteStockholder(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id);
 
 	@POST
 	@Path("/pm/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Project> listManagedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Project> listManagedProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/pm/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countManagedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countManagedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我的项目/list", "我的项目（首页小组件）/list", "我的项目选择列表/list" })
-	public List<Project> listParticipatedProjects(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Project> listParticipatedProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count" })
-	public long countParticipatedProjects(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countParticipatedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/daily/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-日报/list" })
-	public List<Project> listParticipatedProjectsInDaily(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Project> listParticipatedProjectsInDaily(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/daily/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-日报/count" })
-	public long countParticipatedProjectsInDaily(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countParticipatedProjectsInDaily(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/weekly/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-周报/list" })
-	public List<Project> listParticipatedProjectsInWeekly(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public List<Project> listParticipatedProjectsInWeekly(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/weekly/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-周报/count" })
-	public long countParticipatedProjectsInWeekly(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countParticipatedProjectsInWeekly(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/monthly/{userid}/ds")
@@ -186,23 +186,23 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-月报/list" })
 	public List<Project> listParticipatedProjectsInMonthly(
-			@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/member/monthly/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-月报/count" })
-	public long countParticipatedProjectsInMonthly(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter,
-			@ServiceParam(ServiceParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	public long countParticipatedProjectsInMonthly(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@DELETE
 	@Path("/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的项目/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id);
 
 	@GET
 	@Path("/workspace/{_id}")

@@ -17,8 +17,8 @@ public class EditLink {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.updateLink(wi);

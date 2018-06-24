@@ -18,8 +18,8 @@ public class AddTaskACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板工作编辑器"), context)
 				.setInput(WorkInTemplate.newInstance((WorkInTemplate) ((GanttEvent) event).task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();

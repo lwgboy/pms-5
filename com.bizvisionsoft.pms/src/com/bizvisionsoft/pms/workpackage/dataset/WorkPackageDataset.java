@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
@@ -37,12 +37,12 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.INSERT)
-	private WorkPackage insert(@ServiceParam(ServiceParam.OBJECT) WorkPackage wp) {
+	private WorkPackage insert(@MethodParam(MethodParam.OBJECT) WorkPackage wp) {
 		return Services.get(WorkService.class).insertWorkPackage(wp);
 	}
 
 	@DataSet(DataSet.DELETE)
-	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
+	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
 		return Services.get(WorkService.class).deleteWorkPackage(_id);
 	}
 
@@ -52,7 +52,7 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.LIST)
-	private List<WorkPackage> list(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	private List<WorkPackage> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -76,7 +76,7 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.COUNT)
-	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	private long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}

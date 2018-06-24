@@ -31,7 +31,7 @@ public class ProjectTemplateSwitchACT {
 	}
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_EVENT) Event event) {
 		boolean enabled = !projectTemplate.isEnabled();
 		Services.get(ProjectTemplateService.class).setEnabled(projectTemplate.get_id(), enabled);
 		projectTemplate.setEnabled(enabled);

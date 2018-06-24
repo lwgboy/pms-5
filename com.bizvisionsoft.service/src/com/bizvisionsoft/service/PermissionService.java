@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.FuncPermission;
 import com.mongodb.BasicDBObject;
 
@@ -26,7 +26,7 @@ public interface PermissionService {
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("功能权限设置/" + DataSet.INSERT)
-	public FuncPermission insertFunctionPermission(@ServiceParam(ServiceParam.OBJECT) FuncPermission fp);
+	public FuncPermission insertFunctionPermission(@MethodParam(MethodParam.OBJECT) FuncPermission fp);
 
 	@PUT
 	@Path("/func")
@@ -40,27 +40,27 @@ public interface PermissionService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("功能权限设置/" + DataSet.LIST)
-	public List<FuncPermission> listFunctionPermission(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<FuncPermission> listFunctionPermission(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/func/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("功能权限设置/" + DataSet.COUNT)
-	public long countFunctionPermission(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long countFunctionPermission(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@DELETE
 	@Path("/func/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("功能权限设置/" + DataSet.DELETE)
-	public long deleteFunctionPermission(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long deleteFunctionPermission(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@GET
 	@Path("/func/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("功能权限设置/" + DataSet.GET)
-	public FuncPermission getFunctionPermission(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public FuncPermission getFunctionPermission(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 }

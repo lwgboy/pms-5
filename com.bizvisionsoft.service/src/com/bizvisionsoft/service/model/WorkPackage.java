@@ -12,8 +12,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.tools.Util;
@@ -37,7 +37,7 @@ public class WorkPackage {
 	private ObjectId _id;
 
 	@Behavior("查看工作包进度")
-	public boolean behaviourOpenProgress(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
+	public boolean behaviourOpenProgress(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
 		return !(root instanceof ProjectTemplate);
 	}
 

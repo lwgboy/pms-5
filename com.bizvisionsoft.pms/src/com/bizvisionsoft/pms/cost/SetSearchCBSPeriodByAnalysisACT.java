@@ -10,7 +10,6 @@ import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridColumnGroup;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -31,8 +30,7 @@ public class SetSearchCBSPeriodByAnalysisACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
 		DateTimeInputDialog dtid = new DateTimeInputDialog(bruiService.getCurrentShell(), "查询期间", "请选择查询预算成本对比期间",
 				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)

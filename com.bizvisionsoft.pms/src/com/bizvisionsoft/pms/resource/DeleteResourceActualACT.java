@@ -18,8 +18,8 @@ public class DeleteResourceActualACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(em -> {
 			ResourceActual ra = (ResourceActual) em;
 			String usedEquipResId = ra.getUsedEquipResId();

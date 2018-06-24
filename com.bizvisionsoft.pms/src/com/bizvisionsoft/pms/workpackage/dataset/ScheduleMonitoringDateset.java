@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
@@ -138,26 +138,26 @@ public class ScheduleMonitoringDateset {
 	}
 
 	@DataSet("采购计划监控（项目管理）/" + DataSet.LIST)
-	public List<Work> listPurchaseForManagement(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<Work> listPurchaseForManagement(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		String catagory = "采购";
 		List<Work> listWorkPackageForSchedule = Services.get(WorkService.class).listWorkPackageForSchedule(condition, userid, catagory);
 		return listWorkPackageForSchedule;
 	}
 
 	@DataSet("采购计划监控（项目管理）/" + DataSet.COUNT)
-	public long countPurchaseForManagement(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long countPurchaseForManagement(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		String catagory = "采购";
 		return Services.get(WorkService.class).countWorkPackageForSchedule(filter, userid, catagory);
 	}
 
 	@DataSet("生产计划监控（项目管理）/" + DataSet.LIST)
-	public List<Work> listProduceForManagement(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<Work> listProduceForManagement(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		String catagory = "生产";
 		return Services.get(WorkService.class).listWorkPackageForSchedule(condition, userid, catagory);
 	}
 
 	@DataSet("生产计划监控（项目管理）/" + DataSet.COUNT)
-	public long countProduceForManagement(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long countProduceForManagement(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		String catagory = "生产";
 		return Services.get(WorkService.class).countWorkPackageForSchedule(filter, userid, catagory);
 	}

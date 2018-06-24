@@ -17,8 +17,8 @@ public class DeleteTaskACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
 			WorkInTemplate task = (WorkInTemplate) ((GanttEvent) event).task;
 			((GanttPart) context.getContent()).deleteTask(task.getId());

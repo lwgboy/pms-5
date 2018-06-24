@@ -16,9 +16,9 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -91,12 +91,12 @@ public class CBSItem {
 	public String scopeStatus;
 
 	@Behavior({ "CBS/编辑和设定" })
-	private boolean behaviourAdd(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+	private boolean behaviourAdd(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
 		return this.scope_id.equals(scope_id);
 	}
 
 	@Behavior({ "CBS/取消" })
-	private boolean behaviourUnDistribute(@ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
+	private boolean behaviourUnDistribute(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
 		return !this.scope_id.equals(scope_id) && scopeRoot;
 	}
 

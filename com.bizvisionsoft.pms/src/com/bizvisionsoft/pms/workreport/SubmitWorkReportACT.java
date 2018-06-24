@@ -24,7 +24,7 @@ public class SubmitWorkReportACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 
 		WorkReport input = (WorkReport) context.getInput();
 		Shell shell = brui.getCurrentShell();

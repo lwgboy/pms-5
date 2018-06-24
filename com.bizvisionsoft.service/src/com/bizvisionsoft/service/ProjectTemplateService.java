@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
@@ -31,35 +31,35 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.INSERT)
-	public ProjectTemplate insert(@ServiceParam(ServiceParam.OBJECT) ProjectTemplate project);
+	public ProjectTemplate insert(@MethodParam(MethodParam.OBJECT) ProjectTemplate project);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板/" + DataSet.INPUT)
-	public ProjectTemplate get(@PathParam("_id") @ServiceParam("_id") ObjectId _id);
+	public ProjectTemplate get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.COUNT)
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.LIST)
-	public List<ProjectTemplate> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<ProjectTemplate> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/work/_id/{_id}")
@@ -134,14 +134,14 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板组织结构图/list")
 	public List<OBSInTemplate> getOBSTemplate(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@DELETE
 	@Path("/obs/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目模板组织结构图/" + DataSet.DELETE })
-	public void deleteOBSItem(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public void deleteOBSItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 	
 	@POST
 	@Path("/id/{_id}/obs/role/ds")
@@ -149,7 +149,7 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("OBS模板节点选择器/list")
 	public List<OBSInTemplate> getOBSRoleTemplate(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@GET
 	@Path("/id/{_id}/hasOBS")
@@ -182,7 +182,7 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目模板WBS/" + DataSet.LIST, "项目模板WBS（分配角色）/" + DataSet.LIST })
 	public List<WorkInTemplate> listWBSRoot(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@POST
 	@Path("/_id/{_id}/wbs/root/count")
@@ -190,7 +190,7 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目模板WBS/" + DataSet.COUNT, "项目模板WBS（分配角色）/" + DataSet.COUNT })
 	public long countWBSRoot(
-			@PathParam("_id") @ServiceParam(ServiceParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@POST
 	@Path("/parent_id/{parent_id}/wbs/ds")

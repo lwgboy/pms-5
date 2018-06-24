@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.calendar.action;
 
 import org.bson.types.ObjectId;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -21,10 +20,9 @@ public class AddWorktimeToCalendar {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(cal -> {
-			Editor.create("工作时间编辑器", context, new WorkTime().set_id(new ObjectId()),false).ok((r, o) -> {
+			Editor.create("工作时间编辑器", context, new WorkTime().set_id(new ObjectId()), false).ok((r, o) -> {
 				GridPart grid = (GridPart) context.getContent();
 				Services.get(CommonService.class).addCalendarWorktime(r, ((Calendar) cal).get_id());
 				((Calendar) cal).addWorkTime(o);

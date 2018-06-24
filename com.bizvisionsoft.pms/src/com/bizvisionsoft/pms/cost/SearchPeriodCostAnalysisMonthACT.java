@@ -3,8 +3,6 @@ package com.bizvisionsoft.pms.cost;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -19,8 +17,7 @@ public class SearchPeriodCostAnalysisMonthACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
 		DateTimeInputDialog dtid = new DateTimeInputDialog(bruiService.getCurrentShell(), "设置期间", "请设置成本组成分析期间",
 				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)

@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
@@ -32,12 +32,12 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.INSERT)
-	private WorkPackageProgress insert(@ServiceParam(ServiceParam.OBJECT) WorkPackageProgress wp) {
+	private WorkPackageProgress insert(@MethodParam(MethodParam.OBJECT) WorkPackageProgress wp) {
 		return Services.get(WorkService.class).insertWorkPackageProgress(wp.setPackage_id(workPackage.get_id()));
 	}
 
 	@DataSet(DataSet.DELETE)
-	private long delete(@ServiceParam(ServiceParam._ID) ObjectId _id) {
+	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
 		return Services.get(WorkService.class).deleteWorkPackageProgress(_id);
 	}
 
@@ -47,7 +47,7 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.LIST)
-	private List<WorkPackageProgress> list(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition,
+	private List<WorkPackageProgress> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			ObjectId work_id) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
@@ -70,7 +70,7 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.COUNT)
-	private long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter, ObjectId work_id) {
+	private long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter, ObjectId work_id) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}

@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.cbs.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 import com.bizivisionsoft.widgets.util.Layer;
@@ -22,8 +21,7 @@ public class SubminBudgetSubject {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		CBSItem cbsItem = (CBSItem) context.getInput();
 		if (cbsItem == null) {
 			ICBSScope rootInput = (ICBSScope) context.getRootInput();

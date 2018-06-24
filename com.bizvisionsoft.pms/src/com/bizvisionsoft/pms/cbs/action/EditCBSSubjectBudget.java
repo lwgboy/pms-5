@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.cbs.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -21,8 +19,7 @@ public class EditCBSSubjectBudget {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			AccountItem account = (AccountItem) parent;
 			CBSSubject period;

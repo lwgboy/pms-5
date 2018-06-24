@@ -22,9 +22,9 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.RoleBased;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.OBSService;
@@ -865,7 +865,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 获得给定用户在项目中的角色
 	@RoleBased
-	private List<String> getProjectRole(@ServiceParam(ServiceParam.CURRENT_USER_ID) String userId) {
+	private List<String> getProjectRole(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
 		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
 

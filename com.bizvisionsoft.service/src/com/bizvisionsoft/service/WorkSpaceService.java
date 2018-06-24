@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
@@ -35,19 +35,19 @@ public interface WorkSpaceService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public WorkInfo getWorkInfo(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId _id);
+	public WorkInfo getWorkInfo(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/gantt/works")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> createTaskDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<WorkInfo> createTaskDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkLinkInfo> createLinkDataSet(@ServiceParam(ServiceParam.FILTER) BasicDBObject condition);
+	public List<WorkLinkInfo> createLinkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
 
 	@POST
 	@Path("/work/")
@@ -89,27 +89,27 @@ public interface WorkSpaceService {
 	@Path("/checkout/{userId}/{cancelCheckoutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace, @PathParam("userId") String userId,
+	public Result checkout(@MethodParam(MethodParam.OBJECT) Workspace workspace, @PathParam("userId") String userId,
 			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
 
 	@POST
 	@Path("/check/{checkManageItem}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result schedulePlanCheck(@ServiceParam(ServiceParam.OBJECT) Workspace workspace,
+	public Result schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,
 			@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@PUT
 	@Path("/checkin/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkin(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
+	public Result checkin(@MethodParam(MethodParam.OBJECT) Workspace workspace);
 
 	@PUT
 	@Path("/cancelcheckout/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result cancelCheckout(@ServiceParam(ServiceParam.OBJECT) Workspace workspace);
+	public Result cancelCheckout(@MethodParam(MethodParam.OBJECT) Workspace workspace);
 
 	@POST
 	@Path("/compare/{root_id}")

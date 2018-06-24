@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.OrganizationService;
@@ -37,29 +37,29 @@ public class OrganizationDataSet {
 	}
 
 	@DataSet({"组织成员/" + DataSet.LIST,"组织成员（浏览）/"+ DataSet.LIST})
-	public List<User> listMember(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<User> listMember(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return service.getMember(condition, org.get_id());
 	}
 
 	@DataSet({"组织成员/" + DataSet.COUNT,"组织成员（浏览）/"+ DataSet.COUNT})
-	public long countMember(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		return service.countMember(filter, org.get_id());
 	}
 
 	@DataSet("组织角色/" + DataSet.LIST)
-	public List<Role> listRole(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition) {
+	public List<Role> listRole(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return service.getRoles(condition, org.get_id());
 	}
 
 	@DataSet("组织角色/" + DataSet.COUNT)
-	public long countRole(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter) {
+	public long countRole(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		return service.countRoles(filter, org.get_id());
 	}
 
 	@DataSet("组织角色/" + DataSet.DELETE)
-	public long delete(@ServiceParam(ServiceParam._ID) ObjectId _id,
-			@ServiceParam(ServiceParam.PARENT_ID) ObjectId parent_id,
-			@ServiceParam(ServiceParam.OBJECT) Object target) {
+	public long delete(@MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.PARENT_ID) ObjectId parent_id,
+			@MethodParam(MethodParam.OBJECT) Object target) {
 		if (target instanceof Role) {
 			return service.deleteRole(_id);
 		} else if (target instanceof User) {

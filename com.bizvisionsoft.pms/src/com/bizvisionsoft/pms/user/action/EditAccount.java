@@ -21,8 +21,8 @@ public class EditAccount extends EditUser{
 	private IBruiService bruiService;
 
 	@Execute
-	private void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(elem -> {
 			UserService service = Services.get(UserService.class);
 			User user = service.get(((User) elem).getUserId());

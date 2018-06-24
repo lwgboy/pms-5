@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.work.workinfo.action;
+package com.bizvisionsoft.pms.work.gantt.action;
 
 import org.eclipse.swt.widgets.Event;
 
@@ -17,8 +17,8 @@ public class OpenWorkInfo {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(value = Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
+			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Work work = ((Work) ((GanttEvent) event).task);
 		if (work.isStage()) {
 			// TODO 区分状态，区分类型

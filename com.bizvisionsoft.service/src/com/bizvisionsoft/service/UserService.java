@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
-import com.bizvisionsoft.annotations.md.service.ServiceParam;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
 
@@ -38,7 +38,7 @@ public interface UserService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.LIST)
-	public List<User> createDataSet(@ServiceParam(ServiceParam.CONDITION) BasicDBObject condition);
+	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/check/{userId}/{password}")
@@ -57,14 +57,14 @@ public interface UserService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.COUNT)
-	public long count(@ServiceParam(ServiceParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
-	public long delete(@PathParam("_id") @ServiceParam(ServiceParam._ID) ObjectId get_id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 	@POST
 	@Path("/userid/{userid}/deptuser/ds")

@@ -14,8 +14,8 @@ public class DemoAction {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(value = Execute.PARAM_EVENT) Event event,
-			@MethodParam(value = Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.PARAM_EVENT) Event event,
+			@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 //		context.selected(elem -> {
 //			String userId = ((UserInfo) elem).getUserId();
 //			InputDialog id = new InputDialog(bruiService.getCurrentShell(), "菜单项编辑用户", "输入用户姓名", "username", null);
