@@ -8,6 +8,8 @@ public class Estimate {
 	
 	public Integer overdue;
 	
+	public Integer duration;
+	
 	public Date finish;
 	
 	public String msg;

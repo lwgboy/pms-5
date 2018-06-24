@@ -158,10 +158,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		pipeline.addAll(new JQ("项目sar管道").array());
 
 		// TODO 增加超期判断，
-		appendOverdue(pipeline);
+		// appendOverdue(pipeline);
 	}
 
-	private void appendOverdue(List<Bson> pipeline) {
+	/**
+	 *  通过排程估算替代
+	 * @param pipeline
+	 */
+	@Deprecated
+	void appendOverdue(List<Bson> pipeline) {
 		pipeline.addAll(
 				Arrays.asList(
 						new Document("$lookup", new Document("from", "work")
@@ -830,7 +835,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
 			message = new Document("date", new Date()).append("overdue", (int) overTime)
-					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期");
+					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期").append("duration", (int)gh.getT());
 
 		}
 		for (int i = 0; i < works.size(); i++) {
@@ -938,10 +943,20 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Date aFinish = doc.getDate("actualFinish");
 		Date pStart = doc.getDate("planStart");
 		Date pFinish = doc.getDate("planFinish");
-		Date finish = aFinish == null ? pFinish : aFinish;
-		Date start = aStart == null ? pStart : aStart;
-		long d = (finish.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-		Task task = new Task(id, d);
+
+		Date now = new Date();
+		long duration;
+		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
+			duration = aFinish.getTime() - aStart.getTime();
+		} else if (aStart != null) {// 如果工作已经开始，但是没有完成, 工期要在计划工期上加上偏移量
+			duration = aStart.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
+		} else if (now.after(pStart)) {// 如果工作还未开始，当前的日期已经超过计划开始日期，工期要在计划工期上加上偏移量
+			duration = now.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
+		} else {
+			duration = pFinish.getTime() - pStart.getTime();
+		}
+
+		Task task = new Task(id, duration / (1000 * 60 * 60 * 24));
 		task.setName(doc.getString("name"));
 		tasks.add(task);
 		return task;

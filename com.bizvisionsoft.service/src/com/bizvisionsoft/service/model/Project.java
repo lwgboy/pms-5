@@ -244,7 +244,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	/**
 	 * 计划工期
 	 **/
-	@ReadValue
+	@ReadValue("planDuration")
 	@GetValue("planDuration")
 	public int getPlanDuration() {
 		if (planFinish != null && planStart != null) {
@@ -789,8 +789,29 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return null;
 	}
 
+	// @SetValue
+	// private String overdueWarning;
+
 	@SetValue
-	private String overdueWarning;
+	private Integer overdueIndex;
+
+	@SetValue
+	private Estimate scheduleEst;
+	
+	@ReadValue("estFinish")
+	public Date getEstimateFinish() {
+		return Optional.ofNullable(scheduleEst).map(s->s.finish).orElse(null);
+	}
+	
+	@ReadValue("estDuration")
+	public Integer getEstimateDuration() {
+		return Optional.ofNullable(scheduleEst).map(s->s.duration).orElse(null);
+	}
+	
+	@ReadValue("estOverdue")
+	public Integer getEstimateOverdue() {
+		return Optional.ofNullable(scheduleEst).map(s->s.overdue).orElse(null);
+	}
 
 	@ReadValue("warningOverdue")
 	public String getOverdueHtml() {
@@ -799,15 +820,32 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (_actual == null) {
 			_actual = new Date();
 		}
-		if (_plan.before(_actual)) {
-			return "<span class='layui-badge layui-bg-red'>超期</span>";
+		// 如果当前时间或完成时间已经超过了计划完成，提示为超期
+		if (_actual.after(_plan)) {
+			return "<span class='layui-badge layui-bg-red' style='width:60px;'>超期</span>";
 		}
 
-		if ("预警".equals(overdueWarning)) {
-			return "<span class='layui-badge layui-bg-orange'>" + overdueWarning + "</span>";
-		} else {
-			return "";
+		if (overdueIndex != null) {
+			switch (overdueIndex) {
+			case 0:
+				return "<span class='layui-badge layui-bg-red' style='width:60px;'>Ⅰ级预警</span>";
+			case 1:
+				return "<span class='layui-badge layui-bg-orange' style='width:60px;'>Ⅱ级预警</span>";
+			case 2:
+				return "<span class='layui-badge layui-bg-blue' style='width:60px;'>Ⅲ级预警</span>";
+			}
 		}
+
+		return "";
+
+		//////////////////////////////////////
+		// 已经通过上面的排程估算替代
+		// if ("预警".equals(overdueWarning)) {
+		// return "<span class='layui-badge layui-bg-orange'>" + overdueWarning +
+		// "</span>";
+		// } else {
+		// return "";
+		// }
 	}
 
 	@ReadValue("warningOvercost")
