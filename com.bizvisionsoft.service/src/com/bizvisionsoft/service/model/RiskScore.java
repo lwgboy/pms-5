@@ -1,17 +1,14 @@
 package com.bizvisionsoft.service.model;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
-import com.bizvisionsoft.annotations.md.service.ReadOptions;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.RiskService;
-import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("riskScoreInd")
 public class RiskScore {
@@ -26,6 +23,12 @@ public class RiskScore {
 
 	@ReadValue
 	private double score;
+	
+	@Override
+	@Label
+	public String toString() {
+		return name +" ["+score+"]";
+	}
 
 	@WriteValue("score")
 	private void writeScroe(String _input) {
@@ -111,7 +114,7 @@ public class RiskScore {
 
 	@ReadValue
 	@WriteValue
-	private String quanlityImpact;
+	private List<QuanlityInfInd> quanlityImpact;
 
 	@ReadValue("timeImpact")
 	private String getTimeImpact() {
@@ -139,10 +142,29 @@ public class RiskScore {
 		return text;
 	}
 
-	@ReadOptions("quanlityImpact")
-	private Map<String, String> getQuanlityImpact() {
-		HashMap<String, String> result = new HashMap<String, String>();
-		ServicesLoader.get(RiskService.class).listRiskQuanlityInfInd().forEach(q -> result.put(q.text, q.value));
-		return result;
+
+	
+	public Double getMaxCostImpact() {
+		return maxCostImpact;
+	}
+	
+	public Integer getMaxTimeImpact() {
+		return maxTimeImpact;
+	}
+	
+	public Double getMinCostImpact() {
+		return minCostImpact;
+	}
+	
+	public Integer getMinTimeImpact() {
+		return minTimeImpact;
+	}
+	
+	public List<QuanlityInfInd> getQuanlityImpact() {
+		return quanlityImpact;
+	}
+	
+	public double getScore() {
+		return score;
 	}
 }

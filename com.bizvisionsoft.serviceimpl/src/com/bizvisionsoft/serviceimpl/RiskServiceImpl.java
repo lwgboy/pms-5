@@ -53,12 +53,57 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public RBSItem insertRBSItem(RBSItem item) {
-		//
+		// º∆À„–Ú∫≈
 		ObjectId pj_id = item.getProject_id();
 		String typeId = item.getRbsType().getId();
 		int idx = nextRBSItemIndex(pj_id, typeId);
 		item.setIndex(idx);
+		// º∆À„∆¿∑÷
+		String qty = item.getQtyInf();
+		double cost = item.getCostInf();
+		int time = item.getTimeInf();
+		Double score = calculateRiskInfValue(qty, cost, time);
+		item.setInfValue(score);
 		return insert(item);
+	}
+
+	private double calculateRiskInfValue(String qty, double cost, int time) {
+		List<RiskScore> stdlist = listRiskScoreInd();
+		Double score = null;
+		
+		for (int i = 0; i < stdlist.size(); i++) {
+			RiskScore std = stdlist.get(i);
+			if (std.getQuanlityImpact().stream().anyMatch(qid->qid.value.equals(qty))) {
+				if(score == null ||score.doubleValue()<std.getScore()) {
+					score = std.getScore();
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < stdlist.size(); i++) {
+			RiskScore std = stdlist.get(i);
+			double maxCost = Optional.ofNullable(std.getMaxCostImpact()).orElse(Double.MAX_VALUE);
+			double minCost = Optional.ofNullable(std.getMinCostImpact()).orElse(Double.MIN_VALUE);
+			if (cost <= maxCost && cost >= minCost) {
+				if(score == null ||score.doubleValue()<std.getScore()) {
+					score = std.getScore();
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < stdlist.size(); i++) {
+			RiskScore std = stdlist.get(i);
+			int maxTime = Optional.ofNullable(std.getMaxTimeImpact()).orElse(Integer.MAX_VALUE);
+			int minTime = Optional.ofNullable(std.getMinTimeImpact()).orElse(Integer.MIN_VALUE);
+			if (time <= maxTime && time >= minTime) {
+				if(score == null ||score.doubleValue()<std.getScore()) {
+					score = std.getScore();
+					break;
+				}
+			}
+		}
+
+		return score==null? 0d:score.doubleValue();
 	}
 
 	public int nextRBSItemIndex(ObjectId project_id, String type_id) {
@@ -76,7 +121,19 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public long updateRBSItem(BasicDBObject fu) {
-		return update(fu, RBSItem.class);
+		long count = update(fu, RBSItem.class);
+		
+		BasicDBObject filter = (BasicDBObject) fu.get("filter");
+		c("rbsItem").find(filter).forEach((Document doc) -> {
+			String qty = (String) doc.getString("qtyInf");
+			double cost = doc.getDouble("costInf");
+			int time = doc.getInteger("timeInf");
+			double score = calculateRiskInfValue(qty, cost, time);
+			c("rbsItem").updateOne(new Document("_id", doc.get("_id")),
+					new Document("$set", new Document("infValue", score)));
+		});
+		
+		return count;
 	}
 
 	@Override
@@ -118,7 +175,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public List<QuanlityInfInd> listRiskQuanlityInfInd() {
-		return c(QuanlityInfInd.class).find().sort(new BasicDBObject("_id",1)).into(new ArrayList<QuanlityInfInd>());
+		return c(QuanlityInfInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<QuanlityInfInd>());
 	}
 
 	@Override
@@ -139,7 +196,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public List<DetectionInd> listRiskDetectionInd() {
-		return c(DetectionInd.class).find().sort(new BasicDBObject("_id",1)).into(new ArrayList<DetectionInd>());
+		return c(DetectionInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<DetectionInd>());
 	}
 
 	@Override
@@ -159,7 +216,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public List<RiskScore> listRiskScoreInd() {
-		return c(RiskScore.class).find().sort(new BasicDBObject("score",1)).into(new ArrayList<RiskScore>());
+		return c(RiskScore.class).find().sort(new BasicDBObject("score", -1)).into(new ArrayList<RiskScore>());
 	}
 
 	@Override

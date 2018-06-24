@@ -104,7 +104,7 @@ public class RBSItem {
 	}
 
 	@ReadValue("timeInf")
-	private String getTimeInf() {
+	private String readTimeInf() {
 		if (timeInf > 0) {
 			return "+" + timeInf;
 		} else if (timeInf < 0) {
@@ -112,6 +112,10 @@ public class RBSItem {
 		} else {
 			return "";
 		}
+	}
+	
+	public int getTimeInf() {
+		return timeInf;
 	}
 
 	/**
@@ -125,7 +129,7 @@ public class RBSItem {
 	}
 
 	@ReadValue("costInf")
-	private String getCostInf() {
+	private String readCostInf() {
 		if (costInf > 0) {
 			return "+" + costInf;
 		} else if (costInf < 0) {
@@ -134,6 +138,12 @@ public class RBSItem {
 			return "";
 		}
 	}
+	
+	public double getCostInf() {
+		return costInf;
+	}
+	
+	
 
 	/**
 	 * 质量影响（等级）
@@ -141,14 +151,20 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String qtyInf;
+	
+	public String getQtyInf() {
+		return qtyInf;
+	}
 
 	/**
-	 * 量值
+	 * 量值评分
 	 */
 	@ReadValue
-	@WriteValue
-	@Exclude
 	private double infValue;
+	
+	public void setInfValue(double infValue) {
+		this.infValue = infValue;
+	}
 
 	/**
 	 * 预期发生时间

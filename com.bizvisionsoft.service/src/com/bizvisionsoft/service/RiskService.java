@@ -137,7 +137,7 @@ public interface RiskService {
 	@Path("/qltyInfInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("质量影响级别/" + DataSet.LIST)
+	@DataSet({"质量影响级别/" + DataSet.LIST})
 	public List<QuanlityInfInd> listRiskQuanlityInfInd();
 
 	@POST

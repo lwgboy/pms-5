@@ -3,6 +3,7 @@ package com.bizvisionsoft.service.model;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
@@ -20,5 +21,11 @@ public class QuanlityInfInd {
 	@ReadValue
 	@WriteValue 
 	public String value;
+	
+	@Override
+	@Label
+	public String toString() {
+		return text;
+	}
 
 }
