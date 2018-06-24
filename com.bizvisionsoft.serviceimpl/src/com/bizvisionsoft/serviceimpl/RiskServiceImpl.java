@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RiskService;
@@ -17,6 +18,7 @@ import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.result.DeleteResult;
 
 public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
@@ -232,6 +234,29 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long updateRiskScoreInd(BasicDBObject fu) {
 		return update(fu, RiskScore.class);
+	}
+
+	@Override
+	public List<RiskEffect> listRiskEffect(BasicDBObject bson) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match((Bson) bson.get("filter")));
+		appendWork(pipeline);
+		return c(RiskEffect.class).aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countRiskEffect(BasicDBObject filter) {
+		return count(filter, "riskEffect");
+	}
+
+	@Override
+	public long deleteRiskEffect(ObjectId _id) {
+		return delete(_id, RiskEffect.class);
+	}
+
+	@Override
+	public long updateRiskEffect(BasicDBObject fu) {
+		return update(fu, RiskEffect.class);
 	}
 
 }

@@ -6,12 +6,11 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("riskEffect")
@@ -27,16 +26,31 @@ public class RiskEffect {
 	@WriteValue
 	private ObjectId project_id;
 
+	@ReadValue
+	@WriteValue
 	private ObjectId work_id;
+	
+	@SetValue
+	private Work work;
 
-	@WriteValue("work ")
+	@WriteValue("work")
 	public void setWork(Work work) {
 		this.work_id = Optional.ofNullable(work).map(o -> o.get_id()).orElse(null);
+		this.work = work;
+	}
+	
+	@ReadValue("项目风险登记簿/name")
+	private String getName() {
+		if(positive) {
+			return "<span class=\"layui-badge layui-bg-green\">正面影响</span> "+work.getFullName();
+		}else {
+			return "<span class=\"layui-badge layui-bg-red\">负面影响</span> "+work.getFullName();
+		}
 	}
 
-	@ReadValue("work ")
+	@ReadValue("work")
 	public Work getWork() {
-		return Optional.ofNullable(work_id).map(_id -> ServicesLoader.get(WorkService.class).getWork(_id)).orElse(null);
+		return work;
 	}
 
 	@ReadValue

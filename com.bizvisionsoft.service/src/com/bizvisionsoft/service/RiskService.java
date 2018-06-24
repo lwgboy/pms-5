@@ -92,8 +92,30 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public RiskEffect addRiskEffect(RiskEffect re);
+
+	@POST
+	@Path("/effect/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<RiskEffect> listRiskEffect(BasicDBObject bson);
 	
+	@POST
+	@Path("/effect/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countRiskEffect(BasicDBObject filter);
 	
+	@DELETE
+	@Path("/effect/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteRiskEffect(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	
+	@PUT
+	@Path("/effect/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateRiskEffect(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -129,15 +151,14 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public String getUrgencyText(@PathParam("days") long days);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
 	@Path("/qltyInfInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"质量影响级别/" + DataSet.LIST})
+	@DataSet({ "质量影响级别/" + DataSet.LIST })
 	public List<QuanlityInfInd> listRiskQuanlityInfInd();
 
 	@POST
@@ -160,7 +181,7 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.UPDATE)
 	public long updateRiskQuanlityInfInd(BasicDBObject filterAndUpdate);
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -190,8 +211,7 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.UPDATE)
 	public long updateRiskDetectionInd(BasicDBObject filterAndUpdate);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST

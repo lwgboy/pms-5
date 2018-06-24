@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -208,15 +209,26 @@ public class RBSItem {
 	}
 
 	@Structure({ "项目风险登记簿/list", "项目风险登记簿（查看）/list" })
-	private List<RBSItem> listSecondryRisks() {
-		return ServicesLoader.get(RiskService.class).listRBSItem(
+	private List<Object> listSecondryRisksNEffect() {
+		ArrayList<Object> items = new ArrayList<Object>();
+		List<RiskEffect> effects = ServicesLoader.get(RiskService.class).listRiskEffect(
+				new Query().filter(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id)).bson());
+		items.addAll(effects);
+		List<RBSItem> sndRisks = ServicesLoader.get(RiskService.class).listRBSItem(
 				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
+		items.addAll(sndRisks);
+		return items;
 	}
 
 	@Structure({ "项目风险登记簿/count", "项目风险登记簿（查看）/count" })
-	private long countSecondryRisks() {
-		return ServicesLoader.get(RiskService.class)
+	private long countSecondryRisksNEffect() {
+		long cnt =  ServicesLoader.get(RiskService.class)
+				.countRiskEffect(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id));
+		
+		cnt +=  ServicesLoader.get(RiskService.class)
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
+		
+		return cnt;
 	}
 
 	@ReadOptions("qtyInf")
