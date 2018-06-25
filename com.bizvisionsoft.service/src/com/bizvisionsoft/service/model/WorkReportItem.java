@@ -118,6 +118,10 @@ public class WorkReportItem {
 	public WorkReport getWorkReport() {
 		return ServicesLoader.get(WorkReportService.class).getWorkReport(report_id);
 	}
+	
+	public ObjectId getReport_id() {
+		return report_id;
+	}
 
 	@Label
 	public String toString() {
