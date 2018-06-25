@@ -4,6 +4,7 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -21,7 +22,8 @@ public class CreateEffectACT {
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_ACTION) Action action) {
-		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id());
+		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id())
+				.setCreationInfo(brui.creationInfo());
 		context.selected(c -> {
 			re.setRBSItem_id(((RBSItem) c).get_id());
 			boolean positive = false;
@@ -36,6 +38,7 @@ public class CreateEffectACT {
 			re.setPositive(positive);
 			Editor.create("·çÏÕÓ°Ïì±à¼­Æ÷", context, re, false).setTitle(title).ok((r, o) -> {
 				o = Services.get(RiskService.class).addRiskEffect(o);
+				((GridPart) context.getContent()).add(c, o);
 			});
 		});
 	}

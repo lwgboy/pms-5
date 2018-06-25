@@ -13,6 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.RBSItem;
+import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -46,7 +47,7 @@ public class ProjectRiskDS {
 			filter = new BasicDBObject();
 			condition.append("filter", filter);
 		}
-		condition.append("sort", new BasicDBObject("rbsType.id",1).append("index", 1));
+		condition.append("sort", new BasicDBObject("rbsType.id", 1).append("index", 1));
 		filter.append("project_id", project_id).append("parent_id", null);
 		return Services.get(RiskService.class).listRBSItem(condition);
 	}
@@ -64,15 +65,25 @@ public class ProjectRiskDS {
 	public RBSItem insertRBSItem(@MethodParam(MethodParam.OBJECT) RBSItem item) {
 		return Services.get(RiskService.class).insertRBSItem(item);
 	}
-	
+
 	@DataSet(DataSet.DELETE)
-	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
-		return Services.get(RiskService.class).deleteRBSItem(_id);
+	private long delete(@MethodParam(MethodParam._ID) ObjectId _id, @MethodParam(MethodParam.OBJECT) Object selected) {
+		if (selected instanceof RBSItem) {
+			return Services.get(RiskService.class).deleteRBSItem(_id);
+		} else if (selected instanceof RiskEffect) {
+			return Services.get(RiskService.class).deleteRiskEffect(_id);
+		}
+		return 0l;
 	}
 
 	@DataSet(DataSet.UPDATE)
-	private long update(BasicDBObject filterAndUpdate) {
-		return Services.get(RiskService.class).updateRBSItem(filterAndUpdate);
+	private long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.OBJECT) Object selected) {
+		if (selected instanceof RBSItem)
+			return Services.get(RiskService.class).updateRBSItem(filterAndUpdate);
+		else if (selected instanceof RiskEffect)
+			return Services.get(RiskService.class).updateRiskEffect(filterAndUpdate);
+		return 0l;
 	}
 
 }

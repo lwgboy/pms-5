@@ -1109,5 +1109,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
 	
-
+	@ReadValue
+	private Double aci;
+	
+	public Double getACI() {
+		return aci;
+	}
+	
+	@ReadValue
+	private Double acp;
+	
+	public Double getACP() {
+		return acp;
+	}
+	
 }

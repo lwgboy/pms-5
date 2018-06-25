@@ -118,6 +118,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	public long deleteRBSItem(ObjectId _id) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(_id), "rbsItem", "parent_id");
 		DeleteResult rs = c("rbsItem").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", items)));
+		c("riskEffect").deleteMany(new BasicDBObject("rbsItem_id",_id));
 		return rs.getDeletedCount();
 	}
 
@@ -237,10 +238,33 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public List<RiskEffect> listRiskEffect(BasicDBObject bson) {
+	public List<RiskEffect> listRiskEffect(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match((Bson) bson.get("filter")));
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		
 		appendWork(pipeline);
+		
+		appendUserInfo(pipeline, "work.chargerId", "work.chargerInfo");
+		
+		pipeline.add(Aggregates.lookup("rbsItem", "rbsItem_id", "_id", "rbsItem"));
+		
+		pipeline.add(Aggregates.unwind("$rbsItem"));
+		
 		return c(RiskEffect.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 

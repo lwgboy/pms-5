@@ -21,10 +21,11 @@ public class CreateRootRBSItemACT {
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
-		Editor.open("·çÏÕÏî±à¼­Æ÷", context, new RBSItem().setProject_id(project.get_id()), (r, o) -> {
-			GridPart grid = (GridPart) context.getContent();
-			grid.doCreate(null, o);
-		});
+		Editor.open("·çÏÕÏî±à¼­Æ÷", context,
+				new RBSItem().setProject_id(project.get_id()).setCreationInfo(brui.creationInfo()), (r, o) -> {
+					GridPart grid = (GridPart) context.getContent();
+					grid.doCreate(null, o);
+				});
 
 	}
 
