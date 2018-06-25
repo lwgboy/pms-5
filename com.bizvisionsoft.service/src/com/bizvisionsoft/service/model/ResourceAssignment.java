@@ -3,6 +3,7 @@ package com.bizvisionsoft.service.model;
 import java.util.Date;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -108,6 +109,12 @@ public class ResourceAssignment {
 	public ResourceActual getResourceActual() {
 		return new ResourceActual().setWork_id(work_id).setUsedHumanResId(usedHumanResId)
 				.setUsedEquipResId(usedEquipResId).setUsedTypedResId(usedTypedResId).setResTypeId(resTypeId);
+	}
+
+	public Document getResourceActualDocument() {
+		return new Document("work_id", work_id).append("usedHumanResId", usedHumanResId)
+				.append("usedEquipResId", usedEquipResId).append("usedTypedResId", usedTypedResId)
+				.append("resTypeId", resTypeId);
 	}
 
 	@ReadValue

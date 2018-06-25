@@ -6,7 +6,8 @@
 					"resTypeId" : "$resTypeId",
 					"usedTypedResId" : "$usedTypedResId",
 					"usedHumanResId" : "$usedHumanResId",
-					"usedEquipResId" : "$usedEquipResId"
+					"usedEquipResId" : "$usedEquipResId",
+					"workReportItemId" : "$workReportItemId"
 				}
 			}
 		},
@@ -19,7 +20,8 @@
 				"resTypeId" : "$_id.resTypeId",
 				"usedTypedResId" : "$_id.usedTypedResId",
 				"usedHumanResId" : "$_id.usedHumanResId",
-				"usedEquipResId" : "$_id.usedEquipResId"
+				"usedEquipResId" : "$_id.usedEquipResId",
+				"workReportItemId" : "$_id.workReportItemId"
 			}
 		},
 		{
@@ -30,7 +32,8 @@
 					"resTypeId" : "$resTypeId",
 					"usedTypedResId" : "$usedTypedResId",
 					"usedHumanResId" : "$usedHumanResId",
-					"usedEquipResId" : "$usedEquipResId"
+					"usedEquipResId" : "$usedEquipResId",
+					"workReportItemId" : "$workReportItemId"
 				},
 				"pipeline" : [ {
 					"$match" : {
@@ -53,6 +56,10 @@
 									{
 										"$eq" : [ "$usedEquipResId",
 												"$$usedEquipResId" ]
+									},
+									{
+										"$eq" : [ "$workReportItemId",
+												"$$workReportItemId" ]
 									} ]
 						}
 					}

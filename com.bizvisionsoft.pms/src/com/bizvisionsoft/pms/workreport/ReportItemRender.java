@@ -99,6 +99,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 					rt.addWorkIds(work.get_id());
 					rt.setType(ResourceTransfer.TYPE_ACTUAL);
 					rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
+					rt.setIsReport(true);
+					rt.setWorkReportItemId(((WorkReportItem) item).get_id());
 
 					brui.openContent(brui.getAssembly("编辑资源情况"), rt);
 

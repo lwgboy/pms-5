@@ -50,12 +50,12 @@ public class ResourceActual {
 	private ResourceType resType;
 
 	@ReadValue("basicRate")
-	private double getBasicRate() {
+	public double getBasicRate() {
 		return resType.getBasicRate();
 	}
 
 	@ReadValue("overtimeRate")
-	private double getOvertimeRate() {
+	public double getOvertimeRate() {
 		return resType.getOvertimeRate();
 	}
 
@@ -68,6 +68,14 @@ public class ResourceActual {
 
 	public void setActualBasicQty(double actualBasicQty) {
 		this.actualBasicQty = actualBasicQty;
+	}
+
+	public double getActualBasicQty() {
+		return actualBasicQty;
+	}
+
+	public double getActualOverTimeQty() {
+		return actualOverTimeQty;
 	}
 
 	@ReadValue
@@ -139,6 +147,10 @@ public class ResourceActual {
 
 	public void setId(Date id) {
 		this.id = id;
+	}
+
+	public Date getId() {
+		return id;
 	}
 
 	public void setActualOverTimeQty(double actualOverTimeQty) {

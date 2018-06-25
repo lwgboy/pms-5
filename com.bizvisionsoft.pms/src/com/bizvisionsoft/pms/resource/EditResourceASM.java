@@ -340,7 +340,10 @@ public class EditResourceASM extends GridPart {
 						resas.add(ra);
 					});
 				});
-				workService.addResourceActual(resas);
+				if (rt.isReport())
+					workService.addWorkReportResourceActual(resas, rt.getWorkReportItemId());
+				else
+					workService.addResourceActual(resas);
 			}
 			doRefresh();
 		});
@@ -463,7 +466,11 @@ public class EditResourceASM extends GridPart {
 						} else if (text.startsWith("OverTime")) {
 							ra.setActualOverTimeQty(qty);
 						}
-						workService.insertResourceActual(ra);
+
+						if (rt.isReport())
+							workService.insertWorkReportResourceActual(ra, rt.getWorkReportItemId());
+						else
+							workService.insertResourceActual(ra);
 					}
 				} catch (ParseException e) {
 				}
@@ -482,8 +489,12 @@ public class EditResourceASM extends GridPart {
 					workService.updateResourcePlan(new FilterAndUpdate().filter(new Document("_id", _id))
 							.set(new Document("plan" + key, qty)).bson());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
-					workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
-							.set(new Document("actual" + key, qty)).bson());
+					if (rt.isReport())
+						workService.updateWorkReportResourceActual(new FilterAndUpdate()
+								.filter(new Document("_id", _id)).set(new Document("actual" + key, qty)).bson());
+					else
+						workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
+								.set(new Document("actual" + key, qty)).bson());
 				}
 
 			}
@@ -977,8 +988,9 @@ public class EditResourceASM extends GridPart {
 									Object value;
 									if (ResourceTransfer.TYPE_PLAN == rt.getType())
 										value = doc.get("plan" + key + "Qty");
-									else
+									else {
 										value = doc.get("actual" + key + "Qty");
+									}
 
 									if (value instanceof Number) {
 										workTime += ((Number) value).doubleValue();

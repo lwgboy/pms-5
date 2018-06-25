@@ -167,8 +167,8 @@ public class ResourceActualASM {
 		rt.addWorkIds(work.get_id());
 		rt.setType(ResourceTransfer.TYPE_ACTUAL);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
-		rt.setFrom(work.getPlanStart());
-		rt.setTo(work.getPlanFinish());
+		rt.setFrom(work.getStart_date());
+		rt.setTo(work.getEnd_date());
 		rt.setCanAdd(false);
 		rt.setCanDelete(true);
 		rt.setCanClose(false);

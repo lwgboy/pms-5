@@ -493,6 +493,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工作量完成率 百分比
+	@Persistence
+	private Date estimatedFinish;
+
 	@SetValue("summaryPlanDuration")
 	private double summaryPlanDuration;
 
@@ -507,19 +510,24 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (getActualFinish() != null) {
 			return 1d;
 		}
+		Double d = null;
 
 		if (summary) {
 			if (summaryPlanDuration != 0) {
-				double d = 1d * summaryActualDuration / summaryPlanDuration;
-				return d > 1d ? 1d : d;
+				d = 1d * summaryActualDuration / summaryPlanDuration;
 			}
 		} else {
-			if (getPlanDuration() != 0) {
-				double d = 1d * getActualDuration() / getPlanDuration();
-				return d > 1d ? 1d : d;
+			if (estimatedFinish != null && planStart != null) {
+				d = 1d * getActualDuration()
+						/ ((int) ((estimatedFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24)));
+			} else {
+				if (getPlanDuration() != 0) {
+					d = 1d * getActualDuration() / getPlanDuration();
+				}
 			}
 		}
-		return null;
+		d = (d != null && d > 1d) ? 1d : d;
+		return d;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -770,12 +778,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private ObjectId obs_id;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Structure({ "项目WBS/list","进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
+	@Structure({ "项目WBS/list", "进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
 	private List<Work> listChildren() {
 		return ServicesLoader.get(WorkService.class).listChildren(_id);
 	}
 
-	@Structure({ "项目WBS/count","进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
+	@Structure({ "项目WBS/count", "进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
 	private long countChildren() {
 		return ServicesLoader.get(WorkService.class).countChildren(_id);
 	}
@@ -1065,12 +1073,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private Date getEstimateFinish() {
 		return scheduleEst == null ? null : scheduleEst.finish;
 	}
-	
+
 	@ReadValue("estDate")
 	private Date getEstimateDate() {
 		return scheduleEst == null ? null : scheduleEst.date;
 	}
-
 
 	@SetValue
 	@ReadValue
@@ -1123,4 +1130,5 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return acp;
 	}
 	
+
 }
