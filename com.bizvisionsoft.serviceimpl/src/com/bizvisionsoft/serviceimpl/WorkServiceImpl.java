@@ -96,22 +96,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
 						.append("pipeline",
 								Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-												new Document("$eq",
-														Arrays.asList(new Document("$indexOfBytes",
-																Arrays.asList("$wbsCode",
-																		new Document("$concat",
-																				Arrays.asList("$$wbsCode", ".")))),
-																0)),
-												new Document("$eq", Arrays.asList("$summary", false)))))),
-										new Document().append(
-												"$addFields", new Document()
-														.append("planDuration", new Document("$divide",
-																Arrays.asList(
-																		new Document("$subtract",
-																				Arrays.asList("$planFinish",
-																						"$planStart")),
+										new Document("$match",
+												new Document("$expr", new Document(
+														"$and", Arrays.asList(
+																new Document("$eq",
+																		Arrays.asList("$project_id", "$$project_id")),
+																new Document("$eq", Arrays.asList(new Document(
+																		"$indexOfBytes",
+																		Arrays.asList("$wbsCode",
+																				new Document("$concat",
+																						Arrays.asList("$$wbsCode",
+																								".")))),
+																		0)),
+																new Document("$eq",
+																		Arrays.asList("$summary", false)))))),
+										new Document().append("$addFields",
+												new Document()
+														.append("planDuration",
+																new Document("$divide", Arrays.asList(new Document(
+																		"$subtract",
+																		Arrays.asList(
+																				new Document("$ifNull",
+																						Arrays.asList("$estimatedFinish",
+																								"$planFinish")),
+																				"$planStart")),
 																		1000 * 3600 * 24)))
 														.append("actualDuration", new Document("$divide", Arrays.asList(
 																new Document("$subtract", Arrays.asList(

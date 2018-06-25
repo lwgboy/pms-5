@@ -384,8 +384,19 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			result.add(Result.updateFailure("没有满足确认条件的报告。"));
 			return result;
 		}
+
 		ur = c(WorkReportItem.class).updateMany(new Document("report_id", new Document("$in", workReportIds)),
 				new Document("$set", new Document("confirmed", true)));
+
+		// TODO 更新工作预计完成时间
+		c(WorkReportItem.class).find(new Document("report_id", new Document("$in", workReportIds)))
+				.forEach((WorkReportItem wri) -> {
+					if (wri.getEstimatedFinish() != null) {
+						c("work").updateOne(new Document("_id", wri.getWork_id()),
+								new Document("$set", new Document("estimatedFinish", wri.getEstimatedFinish())));
+					}
+				});
+
 		return result;
 	}
 

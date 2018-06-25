@@ -98,6 +98,10 @@ public class WorkReportItem {
 		return work;
 	}
 
+	public ObjectId getWork_id() {
+		return work_id;
+	}
+
 	public boolean isConfirmed() {
 		return confirmed;
 	}

@@ -25,5 +25,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="com.bizvisionsoft.annotations@default:default,com.bizvisionsoft.mongocodex@default:default,com.bizvisionsoft.server.rs@default:default,com.bizvisionsoft.service@default:default,com.bizvisionsoft.serviceimpl@default:default"/>
+<stringAttribute key="workspace_bundles" value="com.bizvisionsoft.annotations@default:default,com.bizvisionsoft.math@default:default,com.bizvisionsoft.mongocodex@default:default,com.bizvisionsoft.server.rs@default:default,com.bizvisionsoft.service@default:default,com.bizvisionsoft.serviceimpl@default:default"/>
 </launchConfiguration>
