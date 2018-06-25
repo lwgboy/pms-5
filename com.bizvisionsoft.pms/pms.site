@@ -1566,12 +1566,14 @@
               {
                 "id": "16436807536",
                 "name": "ÃÉÌØ¿¨ÂÞÄ£Äâ",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.risk.MonteCarloSimulateACT",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "customized"
               },
               {
                 "id": "1628deccfe3",

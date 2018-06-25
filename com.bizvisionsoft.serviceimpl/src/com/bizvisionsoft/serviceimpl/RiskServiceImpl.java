@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
@@ -281,6 +282,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long updateRiskEffect(BasicDBObject fu) {
 		return update(fu, RiskEffect.class);
+	}
+
+	@Override
+	public List<Result> monteCarloSimulate(ObjectId project_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

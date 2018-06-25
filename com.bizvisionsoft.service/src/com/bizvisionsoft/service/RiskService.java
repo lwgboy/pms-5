@@ -19,6 +19,7 @@ import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
@@ -243,5 +244,11 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.UPDATE)
 	public long updateRiskScoreInd(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/mcs/project_id/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> monteCarloSimulate(@PathParam("project_id") ObjectId project_id);
 
 }
