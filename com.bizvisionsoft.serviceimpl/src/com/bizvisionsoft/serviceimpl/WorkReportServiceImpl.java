@@ -388,15 +388,49 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		ur = c(WorkReportItem.class).updateMany(new Document("report_id", new Document("$in", workReportIds)),
 				new Document("$set", new Document("confirmed", true)));
 
-		// TODO 更新工作预计完成时间
+		// 更新工作预计完成时间
 		c(WorkReportItem.class).find(new Document("report_id", new Document("$in", workReportIds)))
 				.forEach((WorkReportItem wri) -> {
 					if (wri.getEstimatedFinish() != null) {
 						c("work").updateOne(new Document("_id", wri.getWork_id()),
 								new Document("$set", new Document("estimatedFinish", wri.getEstimatedFinish())));
 					}
-					
-					//TODO 复制报告中的资源用量到resourceActual集合中
+				});
+
+		List<ObjectId> itemIds = c(WorkReportItem.class)
+				.distinct("_id", new Document("report_id", new Document("$in", workReportIds)), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		// 复制报告中的资源用量到resourceActual集合中
+		c("workReportResourceActual").find(new Document("workReportItemId", new Document("$in", itemIds)))
+				.forEach((Document doc) -> {
+					Document first = c("resourceActual").find(new Document("id", doc.get("id"))
+							.append("work_id", doc.get("work_id")).append("usedHumanResId", doc.get("usedHumanResId"))
+							.append("usedEquipResId", doc.get("usedEquipResId"))
+							.append("usedTypedResId", doc.get("usedTypedResId"))
+							.append("resTypeId", doc.get("resTypeId"))).first();
+					if (first != null) {
+						Object actualBasicQty = first.get("actualBasicQty");
+						if (actualBasicQty != null && doc.get("actualBasicQty") != null) {
+							actualBasicQty = ((Number) actualBasicQty).doubleValue() + doc.getDouble("actualBasicQty");
+						} else if (actualBasicQty == null && doc.get("actualBasicQty") != null) {
+							actualBasicQty = doc.get("actualBasicQty");
+						}
+
+						Object actualOverTimeQty = first.get("actualOverTimeQty");
+						if (actualOverTimeQty != null && doc.get("actualOverTimeQty") != null) {
+							actualOverTimeQty = ((Number) actualOverTimeQty).doubleValue()
+									+ doc.getDouble("actualOverTimeQty");
+						} else if (actualOverTimeQty == null && doc.get("actualOverTimeQty") != null) {
+							actualOverTimeQty = doc.get("actualOverTimeQty");
+						}
+						
+						c("resourceActual").updateOne(new Document("_id", first.get("_id")),
+								new Document("$set", new Document("actualBasicQty", actualBasicQty)
+										.append("actualOverTimeQty", actualOverTimeQty)));
+					} else {
+						doc.remove("workReportItemId");
+						c("resourceActual").insertOne(doc);
+					}
 				});
 
 		return result;
