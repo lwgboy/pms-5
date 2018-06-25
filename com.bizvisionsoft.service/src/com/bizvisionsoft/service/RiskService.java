@@ -97,13 +97,15 @@ public interface RiskService {
 	@Path("/effect/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<RiskEffect> listRiskEffect(BasicDBObject bson);
+	@DataSet("项目风险量化评估/list")
+	public List<RiskEffect> listRiskEffect(@MethodParam(MethodParam.CONDITION) BasicDBObject bson);
 	
 	@POST
 	@Path("/effect/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countRiskEffect(BasicDBObject filter);
+	@DataSet("项目风险量化评估/count")
+	public long countRiskEffect(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 	
 	@DELETE
 	@Path("/effect/_id/{_id}")

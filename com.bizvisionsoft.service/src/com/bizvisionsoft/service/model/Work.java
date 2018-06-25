@@ -1115,5 +1115,20 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private List<String> getStageRole(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
 		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
 	}
+	
+	@ReadValue
+	private Double aci;
+	
+	public Double getACI() {
+		return aci;
+	}
+	
+	@ReadValue
+	private Double acp;
+	
+	public Double getACP() {
+		return acp;
+	}
+	
 
 }

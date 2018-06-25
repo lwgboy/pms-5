@@ -11,7 +11,9 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
+import com.bizvisionsoft.annotations.md.service.ReadEditorConfig;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -44,9 +46,26 @@ public class RBSItem {
 	private int index;
 
 	@ReadValue("id")
-	private String getId() {
+	public String getId() {
 		return getRbsType().getId() + "." + String.format("%03d", index);
 	}
+
+	@Behavior("RBSItem操作")
+	@Exclude
+	private boolean rbsAction = true;
+
+	@ReadEditorConfig("项目风险登记簿/编辑")
+	private Object getEditorConfig() {
+		return "风险项编辑器";
+	}
+
+	@ReadValue("title")
+	private String getDisplayName() {
+		return getId() + " " + name;
+	}
+
+	@ReadValue
+	private CreationInfo creationInfo;
 
 	/**
 	 * 风险名称
@@ -61,6 +80,10 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String description;
+	
+	public String getDescription() {
+		return description;
+	}
 
 	/**
 	 * 阶段，这个字段是描述性的。不必和工作关联，但可选取阶段的名称
@@ -93,6 +116,10 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String result;
+	
+	public String getResult() {
+		return result;
+	}
 
 	/**
 	 * 工期影响（天）
@@ -114,7 +141,7 @@ public class RBSItem {
 			return "";
 		}
 	}
-	
+
 	public int getTimeInf() {
 		return timeInf;
 	}
@@ -139,12 +166,10 @@ public class RBSItem {
 			return "";
 		}
 	}
-	
+
 	public double getCostInf() {
 		return costInf;
 	}
-	
-	
 
 	/**
 	 * 质量影响（等级）
@@ -152,7 +177,7 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String qtyInf;
-	
+
 	public String getQtyInf() {
 		return qtyInf;
 	}
@@ -162,7 +187,7 @@ public class RBSItem {
 	 */
 	@ReadValue
 	private double infValue;
-	
+
 	public void setInfValue(double infValue) {
 		this.infValue = infValue;
 	}
@@ -222,12 +247,12 @@ public class RBSItem {
 
 	@Structure({ "项目风险登记簿/count", "项目风险登记簿（查看）/count" })
 	private long countSecondryRisksNEffect() {
-		long cnt =  ServicesLoader.get(RiskService.class)
+		long cnt = ServicesLoader.get(RiskService.class)
 				.countRiskEffect(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id));
-		
-		cnt +=  ServicesLoader.get(RiskService.class)
+
+		cnt += ServicesLoader.get(RiskService.class)
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
-		
+
 		return cnt;
 	}
 
@@ -270,6 +295,11 @@ public class RBSItem {
 
 	public ObjectId get_id() {
 		return _id;
+	}
+
+	public RBSItem setCreationInfo(CreationInfo creationInfo) {
+		this.creationInfo = creationInfo;
+		return this;
 	}
 
 }
