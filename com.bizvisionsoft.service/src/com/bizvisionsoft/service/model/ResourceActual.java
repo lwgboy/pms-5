@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("resourceActual")
 public class ResourceActual {
@@ -48,6 +49,15 @@ public class ResourceActual {
 
 	@SetValue
 	private ResourceType resType;
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private boolean confirmed;
+	
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
 
 	@ReadValue("basicRate")
 	private double getBasicRate() {

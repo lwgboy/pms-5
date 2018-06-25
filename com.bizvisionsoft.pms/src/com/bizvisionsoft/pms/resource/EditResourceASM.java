@@ -457,6 +457,7 @@ public class EditResourceASM extends GridPart {
 						ra.setUsedHumanResId(doc.getString("usedHumanResId"));
 						ra.setUsedTypedResId(doc.getString("usedTypedResId"));
 						ra.setResTypeId(doc.getObjectId("resTypeId"));
+						ra.setConfirmed(rt.isSaveConfirmed());
 						ra.setId(period);
 						if (text.startsWith("Basic")) {
 							ra.setActualBasicQty(qty);
@@ -483,7 +484,7 @@ public class EditResourceASM extends GridPart {
 							.set(new Document("plan" + key, qty)).bson());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 					workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
-							.set(new Document("actual" + key, qty)).bson());
+							.set(new Document("actual" + key, qty).append("confirmed", rt.isSaveConfirmed())).bson());
 				}
 
 			}
@@ -967,6 +968,7 @@ public class EditResourceASM extends GridPart {
 			public Color getBackground(Object element) {
 				if (rt.isCheckTime()) {
 					double workTime = 0;
+					BruiColor bruiColor = null;
 					Iterator<Document> iter = resource.iterator();
 					while (iter.hasNext()) {
 						Object obj = iter.next().get("resource");
@@ -977,8 +979,11 @@ public class EditResourceASM extends GridPart {
 									Object value;
 									if (ResourceTransfer.TYPE_PLAN == rt.getType())
 										value = doc.get("plan" + key + "Qty");
-									else
+									else {
 										value = doc.get("actual" + key + "Qty");
+										if (!Boolean.TRUE.equals(doc.get("confirmed")))
+											bruiColor = BruiColor.Red_50;
+									}
 
 									if (value instanceof Number) {
 										workTime += ((Number) value).doubleValue();
@@ -987,7 +992,24 @@ public class EditResourceASM extends GridPart {
 							}
 						}
 					}
-					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
+					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400)
+							: (bruiColor != null ? BruiColors.getColor(bruiColor) : null);
+				} else {
+					Iterator<Document> iter = resource.iterator();
+					while (iter.hasNext()) {
+						Object obj = iter.next().get("resource");
+						if (obj instanceof List) {
+							List<Document> list = (List<Document>) obj;
+							for (Document doc : list) {
+								if (id.equals(sdf.format(doc.get("id")))) {
+									if (ResourceTransfer.TYPE_ACTUAL == rt.getType()
+											&& !Boolean.TRUE.equals(doc.get("confirmed")))
+										return BruiColors.getColor(BruiColor.orange_50);
+								}
+
+							}
+						}
+					}
 				}
 
 				if (!isWorkDay((Document) element))

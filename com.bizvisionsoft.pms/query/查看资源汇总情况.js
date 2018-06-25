@@ -10,8 +10,18 @@
 		{
 			"$lookup" : {
 				"from" : "resourceActual",
-				"localField" : "_id",
-				"foreignField" : "work_id",
+				"let" : {
+					"work_id" : "$_id",
+				},
+				"pipeline" : [ {
+					"$match" : {
+						"$expr" : {
+							"$and" : [ {
+								"$eq" : [ "$work_id", "$$work_id" ]
+							}, "$confirmed" ]
+						}
+					}
+				} ],
 				"as" : "resourceActual"
 			}
 		},

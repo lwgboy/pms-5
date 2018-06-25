@@ -395,6 +395,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 						c("work").updateOne(new Document("_id", wri.getWork_id()),
 								new Document("$set", new Document("estimatedFinish", wri.getEstimatedFinish())));
 					}
+					c("resourceActual").updateMany(new BasicDBObject("work_id", wri.getWork_id()),
+							new Document("$set", new Document("confirmed", true)));
+
 				});
 
 		return result;

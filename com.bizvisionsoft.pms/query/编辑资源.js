@@ -129,7 +129,7 @@
 									{
 										"$eq" : [ "$usedEquipResId",
 												"$$usedEquipResId" ]
-									} ]
+									}, "$confirmed" ]
 						}
 					}
 				} ],

@@ -48,6 +48,8 @@ public class ResourceTransfer {
 
 	private boolean showFooter;
 
+	private boolean saveConfirmed;
+
 	public ResourceTransfer() {
 		this.canAdd = true;
 		this.canClose = true;
@@ -59,6 +61,7 @@ public class ResourceTransfer {
 		this.showResTypeInfo = false;
 		this.showConflict = false;
 		this.showFooter = false;
+		this.saveConfirmed = false;
 	}
 
 	public void setType(int type) {
@@ -186,6 +189,14 @@ public class ResourceTransfer {
 
 	public boolean isShowFooter() {
 		return showFooter;
+	}
+
+	public void setSaveConfirmed(boolean saveConfirmed) {
+		this.saveConfirmed = saveConfirmed;
+	}
+
+	public boolean isSaveConfirmed() {
+		return saveConfirmed;
 	}
 
 	private String usedHumanResId;
