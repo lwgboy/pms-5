@@ -48,7 +48,7 @@ public class ResourceTransfer {
 
 	private boolean showFooter;
 
-	private boolean saveConfirmed;
+	private boolean isReport;
 
 	public ResourceTransfer() {
 		this.canAdd = true;
@@ -61,7 +61,7 @@ public class ResourceTransfer {
 		this.showResTypeInfo = false;
 		this.showConflict = false;
 		this.showFooter = false;
-		this.saveConfirmed = false;
+		this.isReport = false;
 	}
 
 	public void setType(int type) {
@@ -191,12 +191,12 @@ public class ResourceTransfer {
 		return showFooter;
 	}
 
-	public void setSaveConfirmed(boolean saveConfirmed) {
-		this.saveConfirmed = saveConfirmed;
+	public void setIsReport(boolean isReport) {
+		this.isReport = isReport;
 	}
 
-	public boolean isSaveConfirmed() {
-		return saveConfirmed;
+	public boolean isReport() {
+		return isReport;
 	}
 
 	private String usedHumanResId;
@@ -237,5 +237,15 @@ public class ResourceTransfer {
 
 	public void setResTypeId(ObjectId resTypeId) {
 		this.resTypeId = resTypeId;
+	}
+
+	private ObjectId workReportItemId;
+
+	public ObjectId getWorkReportItemId() {
+		return workReportItemId;
+	}
+
+	public void setWorkReportItemId(ObjectId workReportItemId) {
+		this.workReportItemId = workReportItemId;
 	}
 }

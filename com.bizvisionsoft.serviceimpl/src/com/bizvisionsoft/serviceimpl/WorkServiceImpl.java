@@ -44,6 +44,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -96,32 +97,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
 						.append("pipeline",
 								Arrays.asList(
-										new Document("$match",
-												new Document("$expr", new Document(
-														"$and", Arrays.asList(
-																new Document("$eq",
-																		Arrays.asList("$project_id", "$$project_id")),
-																new Document("$eq", Arrays.asList(new Document(
-																		"$indexOfBytes",
-																		Arrays.asList("$wbsCode",
-																				new Document("$concat",
-																						Arrays.asList("$$wbsCode",
-																								".")))),
-																		0)),
-																new Document("$eq",
-																		Arrays.asList("$summary", false)))))),
-										new Document().append("$addFields",
-												new Document()
-														.append("planDuration",
-																new Document("$divide", Arrays.asList(new Document(
-																		"$subtract",
-																		Arrays.asList(
-																				new Document("$ifNull",
-																						Arrays.asList("$estimatedFinish",
-																								"$planFinish")),
+										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
+												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
+												new Document("$eq",
+														Arrays.asList(new Document("$indexOfBytes",
+																Arrays.asList("$wbsCode",
+																		new Document("$concat",
+																				Arrays.asList("$$wbsCode", ".")))),
+																0)),
+												new Document("$eq", Arrays.asList("$summary", false)))))),
+										new Document().append("$addFields", new Document()
+												.append("planDuration",
+														new Document("$divide", Arrays.asList(
+																new Document("$subtract",
+																		Arrays.asList(new Document("$ifNull",
+																				Arrays.asList("$estimatedFinish",
+																						"$planFinish")),
 																				"$planStart")),
-																		1000 * 3600 * 24)))
-														.append("actualDuration", new Document("$divide", Arrays.asList(
+																1000 * 3600 * 24)))
+												.append("actualDuration",
+														new Document("$divide", Arrays.asList(
 																new Document("$subtract", Arrays.asList(
 																		new Document("$ifNull",
 																				Arrays.asList("$actualFinish",
@@ -1045,10 +1040,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			Date planFinish = resa.to;
 			Calendar planStartCal = Calendar.getInstance();
 			planStartCal.setTime(planStart);
+			planStartCal.set(Calendar.HOUR_OF_DAY, 0);
+			planStartCal.set(Calendar.MINUTE, 0);
+			planStartCal.set(Calendar.SECOND, 0);
+			planStartCal.set(Calendar.MILLISECOND, 0);
 
 			Calendar planFinishCal = Calendar.getInstance();
 			planFinishCal.setTime(planFinish);
 			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+			planFinishCal.set(Calendar.HOUR_OF_DAY, 0);
+			planFinishCal.set(Calendar.MINUTE, 0);
+			planFinishCal.set(Calendar.SECOND, 0);
+			planFinishCal.set(Calendar.MILLISECOND, 0);
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
 				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
@@ -1230,7 +1233,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (ResourceTransfer.TYPE_PLAN == ra.getType()) {
 			resourceCollection = "resourcePlan";
 		} else {
-			resourceCollection = "resourceActual";
+			if (ra.isReport())
+				resourceCollection = "workReportResourceActual";
+			else
+				resourceCollection = "resourceActual";
 		}
 		Document match;
 		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == ra.getShowType()) {
@@ -1716,5 +1722,81 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new JQ("查看资源汇总情况-Dept").set("workMatch", new Document()).set("org_ids", new Document("$in", orgids))
 						.set("start", new Date(start)).set("end", new Date(end)).array())
 				.into(new ArrayList<Document>());
+	}
+
+	@Override
+	public List<Document> addWorkReportResourceActual(List<ResourceAssignment> resas, ObjectId workReportItemId) {
+		List<Document> documents = new ArrayList<Document>();
+		resas.forEach(resa -> {
+			Date planStart = resa.from;
+			Date planFinish = resa.to;
+			Calendar planStartCal = Calendar.getInstance();
+			planStartCal.setTime(planStart);
+			planStartCal.set(Calendar.HOUR_OF_DAY, 0);
+			planStartCal.set(Calendar.MINUTE, 0);
+			planStartCal.set(Calendar.SECOND, 0);
+			planStartCal.set(Calendar.MILLISECOND, 0);
+
+			Calendar planFinishCal = Calendar.getInstance();
+			planFinishCal.setTime(planFinish);
+			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
+			planFinishCal.set(Calendar.HOUR_OF_DAY, 0);
+			planFinishCal.set(Calendar.MINUTE, 0);
+			planFinishCal.set(Calendar.SECOND, 0);
+			planFinishCal.set(Calendar.MILLISECOND, 0);
+
+			while (planStartCal.getTime().before(planFinishCal.getTime())) {
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
+					Date time = planStartCal.getTime();
+					Document res = resa.getResourceActualDocument();
+					res.append("id", time);
+					res.append("workReportItemId", workReportItemId);
+					documents.add(res);
+
+					c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.get("work_id"))
+							.append("usedHumanResId", res.get("usedHumanResId"))
+							.append("usedEquipResId", res.get("usedEquipResId"))
+							.append("usedTypedResId", res.get("usedTypedResId"))
+							.append("resTypeId", res.get("resTypeId")).append("workReportItemId", workReportItemId));
+				}
+				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
+			}
+
+			double actualBasicQty = resa.actualBasicQty / documents.size();
+
+			double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
+			for (Document resourceActual : documents) {
+				resourceActual.append("actualBasicQty", actualBasicQty);
+				resourceActual.append("actualOverTimeQty", actualOverTimeQty);
+			}
+		});
+
+		c("workReportResourceActual").insertMany(documents);
+
+		return documents;
+	}
+
+	@Override
+	public Document insertWorkReportResourceActual(ResourceActual ra, ObjectId workReportItemId) {
+		Document doc = new Document("id", ra.getId()).append("work_id", ra.getWork_id())
+				.append("usedHumanResId", ra.getUsedHumanResId()).append("usedEquipResId", ra.getUsedEquipResId())
+				.append("usedTypedResId", ra.getUsedTypedResId()).append("resTypeId", ra.getResTypeId())
+				.append("workReportItemId", workReportItemId).append("actualBasicQty", ra.getActualBasicQty())
+				.append("actualOverTimeQty", ra.getActualOverTimeQty());
+
+		c("workReportResourceActual").insertOne(doc);
+		return doc;
+	}
+
+	@Override
+	public long updateWorkReportResourceActual(BasicDBObject filterAndUpdate) {
+		BasicDBObject filter = (BasicDBObject) filterAndUpdate.get("filter");
+		BasicDBObject update = (BasicDBObject) filterAndUpdate.get("update");
+		update.remove("_id");
+		UpdateOptions option = new UpdateOptions();
+		option.upsert(false);
+		UpdateResult updateMany = c("workReportResourceActual").updateMany(filter, update, option);
+		long cnt = updateMany.getModifiedCount();
+		return cnt;
 	}
 }

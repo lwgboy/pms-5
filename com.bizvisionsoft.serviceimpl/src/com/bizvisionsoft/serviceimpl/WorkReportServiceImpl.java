@@ -395,13 +395,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 						c("work").updateOne(new Document("_id", wri.getWork_id()),
 								new Document("$set", new Document("estimatedFinish", wri.getEstimatedFinish())));
 					}
-					WorkReport workReport = getWorkReport(wri.getReport_id());
-					c("resourceActual").updateMany(
-							new Document("work_id", wri.getWork_id()).append("$and",
-									Arrays.asList(new Document("id", new Document("$gte", workReport.getPeriodForm())),
-											new Document("id", new Document("$lte", workReport.getPeriodTo())))),
-							new Document("$set", new Document("confirmed", true)));
-
+					
+					//TODO 复制报告中的资源用量到resourceActual集合中
 				});
 
 		return result;

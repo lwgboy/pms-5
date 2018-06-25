@@ -1,10 +1,5 @@
 [
 		{
-			"$match" : {
-				"confirmed" : true
-			}
-		},
-		{
 			"$match" : "<match>"
 		},
 		{

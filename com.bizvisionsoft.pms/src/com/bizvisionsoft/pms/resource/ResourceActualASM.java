@@ -177,7 +177,6 @@ public class ResourceActualASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(false);
 		rt.setShowFooter(true);
-		rt.setSaveConfirmed(true);
 
 		grid.setResourceTransfer(rt);
 	}

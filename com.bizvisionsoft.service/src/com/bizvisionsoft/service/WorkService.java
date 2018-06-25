@@ -492,4 +492,24 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Document> getProjectResourceByDept(@PathParam("userid") String userid, @PathParam("start") long start,
 			@PathParam("end") long end);
+
+	@POST
+	@Path("/resourceactual/add/{workReportItemId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> addWorkReportResourceActual(List<ResourceAssignment> resas,
+			@PathParam("workReportItemId") ObjectId workReportItemId);
+
+	@POST
+	@Path("/resourceactual/insert/{workReportItemId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertWorkReportResourceActual(ResourceActual ra,
+			@PathParam("workReportItemId") ObjectId workReportItemId);
+
+	@PUT
+	@Path("/resourceactual/workreport/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateWorkReportResourceActual(BasicDBObject filterAndUpdate);
 }

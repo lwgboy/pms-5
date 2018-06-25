@@ -10,7 +10,6 @@ import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("resourceActual")
 public class ResourceActual {
@@ -49,23 +48,14 @@ public class ResourceActual {
 
 	@SetValue
 	private ResourceType resType;
-	
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private boolean confirmed;
-	
-	public void setConfirmed(boolean confirmed) {
-		this.confirmed = confirmed;
-	}
 
 	@ReadValue("basicRate")
-	private double getBasicRate() {
+	public double getBasicRate() {
 		return resType.getBasicRate();
 	}
 
 	@ReadValue("overtimeRate")
-	private double getOvertimeRate() {
+	public double getOvertimeRate() {
 		return resType.getOvertimeRate();
 	}
 
@@ -78,6 +68,14 @@ public class ResourceActual {
 
 	public void setActualBasicQty(double actualBasicQty) {
 		this.actualBasicQty = actualBasicQty;
+	}
+
+	public double getActualBasicQty() {
+		return actualBasicQty;
+	}
+
+	public double getActualOverTimeQty() {
+		return actualOverTimeQty;
 	}
 
 	@ReadValue
@@ -149,6 +147,10 @@ public class ResourceActual {
 
 	public void setId(Date id) {
 		this.id = id;
+	}
+
+	public Date getId() {
+		return id;
 	}
 
 	public void setActualOverTimeQty(double actualOverTimeQty) {

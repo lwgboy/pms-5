@@ -1,8 +1,4 @@
 [ {
-	"$match" : {
-		"confirmed" : true
-	}
-}, {
 	"$lookup" : {
 		"from" : "work",
 		"localField" : "work_id",
