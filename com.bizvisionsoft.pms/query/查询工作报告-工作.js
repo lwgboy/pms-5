@@ -4,15 +4,15 @@
 		"project_id" : "<project_id>",
 		"actualStart" : {
 			"$ne" : null
-		},{"$and":[{"$or" : [ {
+		}, "$and":[{"$or" : [ {
 			"actualFinish" : null
 		}, {
 			"actualFinish" : {"$gte" : "<actualFinish>"}
-		} ]},{"$or" : [ {
+		} ]}, {"$or" : [ {
 			"chargerId" : "<chargerid>"
 		}, {
 			"assignerId" : "<chargerid>"
-		} ]}]}
+		} ]}]
 		
 	}
 }, {

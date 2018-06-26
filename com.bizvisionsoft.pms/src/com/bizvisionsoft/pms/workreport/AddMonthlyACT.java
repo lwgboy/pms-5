@@ -23,7 +23,7 @@ public class AddMonthlyACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
-		Selector.create("我的月报项目选择器", context, null).setTitle("请选择要填写月报的项目").open(em -> {
+		Selector.create("月报项目选择器", context, null).setTitle("请选择要填写月报的项目").open(em -> {
 			String reporter = brui.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR_OF_DAY, 0);

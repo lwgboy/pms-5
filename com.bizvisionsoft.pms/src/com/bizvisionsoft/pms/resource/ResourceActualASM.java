@@ -67,7 +67,7 @@ public class ResourceActualASM {
 		fd.bottom = new FormAttachment(100, -8);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
 
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源分配）"))
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源实际分配）"))
 				.setServices(brui).create().getContext().getContent();
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_ACTUAL);
