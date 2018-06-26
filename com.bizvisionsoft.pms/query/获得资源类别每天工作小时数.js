@@ -21,6 +21,7 @@
 	}
 }, {
 	"$project" : {
-		"works" : true
+		"basicWorks" : true,
+		"overTimeWorks" : true
 	}
 } ]

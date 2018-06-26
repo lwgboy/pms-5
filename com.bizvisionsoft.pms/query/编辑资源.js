@@ -1,5 +1,18 @@
 [
 		{
+			"$match" : {
+				"$and" : [ {
+					"id" : {
+						"$gte" : "<from>"
+					}
+				}, {
+					"id" : {
+						"$lte" : "<to>"
+					}
+				} ]
+			}
+		},
+		{
 			"$group" : {
 				"_id" : {
 					"work_id" : "$work_id",

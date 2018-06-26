@@ -1228,26 +1228,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> getResource(ResourceTransfer ra) {
+	public List<Document> getResource(ResourceTransfer rt) {
 		String resourceCollection;
-		if (ResourceTransfer.TYPE_PLAN == ra.getType()) {
+		if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
 			resourceCollection = "resourcePlan";
 		} else {
-			if (ra.isReport())
+			if (rt.isReport())
 				resourceCollection = "workReportResourceActual";
 			else
 				resourceCollection = "resourceActual";
 		}
 		Document match;
-		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == ra.getShowType()) {
-			match = new Document("usedEquipResId", ra.getUsedEquipResId())
-					.append("usedHumanResId", ra.getUsedHumanResId()).append("usedTypedResId", ra.getUsedTypedResId())
-					.append("resTypeId", ra.getResTypeId());
+		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == rt.getShowType()) {
+			match = new Document("usedEquipResId", rt.getUsedEquipResId())
+					.append("usedHumanResId", rt.getUsedHumanResId()).append("usedTypedResId", rt.getUsedTypedResId())
+					.append("resTypeId", rt.getResTypeId());
 		} else {
-			match = new Document("work_id", new Document("$in", ra.getWorkIds()));
+			match = new Document("work_id", new Document("$in", rt.getWorkIds()));
 		}
-		return c(resourceCollection)
-				.aggregate(new JQ("编辑资源").set("match", match).set("resourceCollection", resourceCollection).array())
+		return c(resourceCollection).aggregate(new JQ("编辑资源").set("match", match)
+				.set("resourceCollection", resourceCollection).set("from", rt.getFrom()).set("to", rt.getTo()).array())
 				.into(new ArrayList<Document>());
 	}
 

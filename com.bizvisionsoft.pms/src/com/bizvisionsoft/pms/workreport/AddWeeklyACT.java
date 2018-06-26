@@ -23,7 +23,7 @@ public class AddWeeklyACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
-		Selector.create("我的周报项目选择器", context, null).setTitle("请选择要填写周报的项目").open(em -> {
+		Selector.create("周报项目选择器", context, null).setTitle("请选择要填写周报的项目").open(em -> {
 			String reporter = brui.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR_OF_DAY, 0);
