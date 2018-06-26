@@ -250,11 +250,15 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		BasicDBObject sort = new BasicDBObject("work.aci", -1).append("work.acp", -1);// (BasicDBObject)
+																						// condition.get("sort");//
+																						// 不接受客户端的排序
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
+
+		appendWork(pipeline);
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
@@ -265,15 +269,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		appendWork(pipeline);
-
 		appendUserInfo(pipeline, "work.chargerId", "work.chargerInfo");
 
 		pipeline.add(Aggregates.lookup("rbsItem", "rbsItem_id", "_id", "rbsItem"));
 
 		pipeline.add(Aggregates.unwind("$rbsItem"));
 
-		return c(RiskEffect.class).aggregate(pipeline).into(new ArrayList<>());
+		ArrayList<RiskEffect> result = c(RiskEffect.class).aggregate(pipeline).into(new ArrayList<>());
+		return result;
 	}
 
 	@Override
@@ -292,11 +295,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public List<Result> monteCarloSimulate(ObjectId project_id, int times) {
-		ArrayList<Document> works = c("work").find(new Document("project_id", project_id)).into(new ArrayList<>());
-		ArrayList<Document> links = c("worklinks").find(new Document("project_id", project_id)).into(new ArrayList<>());
+	public List<Result> monteCarloSimulate(ObjectId _id, int times) {
+		
+		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
+		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> riskEffect = c("rbsItem")
-				.aggregate(new JQ("查询项目风险用于构造Graphic-Risk模型").set("project_id", project_id).array())
+				.aggregate(new JQ("查询项目风险用于构造Graphic-Risk模型").set("project_id", _id).array())
 				.into(new ArrayList<>());
 
 		ArrayList<Task> tasks = new ArrayList<Task>();
@@ -308,19 +312,31 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		MonteCarloSimulate mcs = new MonteCarloSimulate(tasks, routes, risks);
 		mcs.simulate(times);
 
-		List<List<?>> tData = new ArrayList<>();
+		List<List<Double>> tData = new ArrayList<>();
 		mcs.TMap.entrySet().forEach(e -> {
 			double key = e.getKey();
-			double perc = new BigDecimal(100f * e.getValue() / times).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+			double perc = new BigDecimal(100f * e.getValue() / times).setScale(4, BigDecimal.ROUND_HALF_UP)
+					.doubleValue();
 			tData.add(Arrays.asList(key, perc));
 		});
 
-		Document simulateResult = new Document("project_id", project_id).append("times", times)
+		tData.sort((l1,l2)->(int) (l1.get(0) - l2.get(0)));
+		
+		Document simulateResult = new Document("project_id", _id).append("times", times)
 				.append("date", new Date()).append("Tdata", tData).append("noRiskT", mcs.noRiskT);
-		c("monteCarloSimulate").deleteMany(new Document("project_id", project_id));
+		c("monteCarloSimulate").deleteMany(new Document("project_id", _id));
 		c("monteCarloSimulate").insertOne(simulateResult);
 		System.out.println("MonteCarlo Simulate Finished. x" + times);
+
+		// 写入work
+		tasks.forEach(t -> updateWorkRiskIndicators(new ObjectId(t.getId()), t.getACI(), t.getACP()));
+
 		return new ArrayList<Result>();
+	}
+
+	private void updateWorkRiskIndicators(ObjectId _id, Float aci, Float acp) {
+		c("work").updateOne(new Document("_id", _id),
+				new Document("$set", new Document("aci", (double) aci).append("acp", (double) acp)));
 	}
 
 	@Override
@@ -333,6 +349,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		if (value == null)
 			value = new ArrayList<>();
 		return new JQ("蒙特卡洛单图").set("data", value).doc();
+	}
+
+	@Override
+	public Document qualitativeAnlysisChartData(ObjectId project_id) {
+		// TODO Auto-generated method stub
+		return new Document();
 	}
 
 }

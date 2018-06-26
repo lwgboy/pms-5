@@ -1,15 +1,21 @@
 {
     grid:{
-        top:48,
-        left:48
+        top:64,
+        left:64,
+        right:64,
+        bottom:64
     },
     xAxis: {
         type: "category",
-        name: "工期（天）"
+        name: "工期（天）",
+        nameLocation :"center",
+        nameGap :24
     },
     yAxis: {
         type: "value",
-        name:"概率（%）"
+        name:"概率（%）",
+        nameLocation :"center",
+        nameGap :24
     },
     legend: {
         data: ["工期概率"],
@@ -21,6 +27,17 @@
                 type: "cross"
             },
     	trigger: "axis"
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+        }
     },
     series: [{
         data: "<data>",
