@@ -817,6 +817,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public Integer schedule(ObjectId _id) {
+		Document pj = c("project").find(new Document("_id", _id)).first();
+		Date start = pj.getDate("planStart");
+		Date end = pj.getDate("planFinish");
+
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
 
@@ -826,12 +830,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		
 		Graphic gh = new Graphic(tasks, routes);
 		
-		Document pj = c("project").find(new Document("_id", _id)).first();
-		Date start = pj.getDate("planStart");
-		Date end = pj.getDate("planFinish");
-		setupStartDate(gh, works, start);
+		setupStartDate(gh, works, start,tasks);
 		gh.schedule();
-
+		
 		// 检查项目是否超期
 		int warningLevel = 999;
 		Document message = null;
@@ -878,7 +879,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 	}
 
-	private void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart) {
+	private void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart, ArrayList<Task> tasks) {
 		gh.setStartDate(pjStart);
 		gh.getStartRoute().forEach(r -> {
 			String id = r.end2.getId();
@@ -887,6 +888,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			Date aStart = doc.getDate("actualStart");
 			Date pStart = doc.getDate("planStart");
 			gh.setStartDate(id, aStart == null ? pStart : aStart);
+			Date aFinish = doc.getDate("actualFinish");
+			if(aFinish!=null) {//如果该工作已经完成，工期需要调整为实际工期
+				Task task = tasks.stream().filter(t->id.equals(t.getId())).findFirst().get();
+				float d = (aFinish.getTime()-aStart.getTime())/(1000*60*60*24);
+				task.setD(d);
+			}
 		});
 	}
 

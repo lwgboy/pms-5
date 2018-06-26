@@ -497,14 +497,12 @@ public class BasicServiceImpl {
 		Date pStart = doc.getDate("planStart");
 		Date pFinish = doc.getDate("planFinish");
 
-		Date now = new Date();
+		/////////////////////////////////
+		//只考虑完成时取实际工期
+		//未完成时取计划工期
 		long duration;
 		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
 			duration = aFinish.getTime() - aStart.getTime();
-		} else if (aStart != null) {// 如果工作已经开始，但是没有完成, 工期要在计划工期上加上偏移量
-			duration = aStart.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
-		} else if (now.after(pStart)) {// 如果工作还未开始，当前的日期已经超过计划开始日期，工期要在计划工期上加上偏移量
-			duration = now.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
 		} else {
 			duration = pFinish.getTime() - pStart.getTime();
 		}
