@@ -411,6 +411,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
+		} else if (actualStart != null) {
+			return new Date(planFinish.getTime() - planStart.getTime() + actualStart.getTime());
 		}
 		return planFinish;
 	}
@@ -1121,7 +1123,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("进度计划和监控/ACI")
 	public Double getACI() {
-		if(summary) {
+		if (summary) {
 			return null;
 		}
 		return aci;
@@ -1132,7 +1134,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("进度计划和监控/ACP")
 	public Double getACP() {
-		if(summary) {
+		if (summary) {
 			return null;
 		}
 		return acp;

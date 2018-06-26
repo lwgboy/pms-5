@@ -81,9 +81,8 @@ public class ResourcePlanASM {
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
 
-		grid = (EditResourceASM) new AssemblyContainer(content, context)
-				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
-				.getContent();
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
+				.setInput(rt).setServices(brui).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
@@ -162,7 +161,7 @@ public class ResourcePlanASM {
 		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setFrom(work.getPlanStart());
-		rt.setTo(work.getPlanFinish());
+		rt.setTo(work.getEnd_date());
 		rt.setCanAdd(false);
 		rt.setCanDelete(true);
 		rt.setCanClose(false);
