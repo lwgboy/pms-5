@@ -351,4 +351,10 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		return new JQ("ÃÉÌØ¿¨Âåµ¥Í¼").set("data", value).doc();
 	}
 
+	@Override
+	public Document qualitativeAnlysisChartData(ObjectId project_id) {
+		// TODO Auto-generated method stub
+		return new Document();
+	}
+
 }

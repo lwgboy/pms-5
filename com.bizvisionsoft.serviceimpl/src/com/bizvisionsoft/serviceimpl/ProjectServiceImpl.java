@@ -161,7 +161,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	/**
-	 *  通过排程估算替代
+	 * 通过排程估算替代
+	 * 
 	 * @param pipeline
 	 */
 	@Deprecated
@@ -826,13 +827,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
-		convertGraphic(works,links,tasks,routes);
-		
+		convertGraphic(works, links, tasks, routes);
+
 		Graphic gh = new Graphic(tasks, routes);
-		
-		setupStartDate(gh, works, start,tasks);
+
+		setupStartDate(gh, works, start, tasks);
 		gh.schedule();
-		
+
 		// 检查项目是否超期
 		int warningLevel = 999;
 		Document message = null;
@@ -841,23 +842,33 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
 			message = new Document("date", new Date()).append("overdue", (int) overTime)
-					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期").append("duration", (int)gh.getT());
+					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期").append("duration", (int) gh.getT());
 
 		}
 		for (int i = 0; i < works.size(); i++) {
 			Document doc = works.get(i);
+			Document update = null;
 			if ("1".equals(doc.getString("manageLevel"))) {
-				if (checkOverdue(gh, doc)) {
+				update = checkOverdue(gh, doc);
+				if (update != null) {
 					warningLevel = warningLevel > 1 ? 1 : warningLevel;
 					message = message == null ? new Document("date", new Date()).append("msg", "一级工作预计超期") : message;
 				}
 			}
 			if ("2".equals(doc.getString("manageLevel"))) {
-				if (checkOverdue(gh, doc)) {
+				update = checkOverdue(gh, doc);
+				if (update != null) {
 					warningLevel = warningLevel > 2 ? 2 : warningLevel;
 					message = message == null ? new Document("date", new Date()).append("msg", "二级工作预计超期") : message;
 				}
 			}
+
+			Task task = gh.getTask(doc.getObjectId("_id").toHexString());
+			if (update == null) {
+				update = new Document();
+			}
+			update.append("tf", (double) task.getTF()).append("ff", (double) task.getFF());
+			c("work").updateOne(new Document("_id", doc.getObjectId("_id")), new Document("$set", new Document("scheduleEst",update)));
 		}
 
 		c("project").updateOne(new Document("_id", _id),
@@ -865,17 +876,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return warningLevel;
 	}
 
-	private boolean checkOverdue(Graphic gh, Document doc) {
+	private Document checkOverdue(Graphic gh, Document doc) {
 		Date planFinish = doc.getDate("planFinish");
 		Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
 		long overTime = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
 		if (overTime > 0) {
-			c("work").updateOne(new Document("_id", doc.get("_id")),
-					new Document("$set", new Document("scheduleEst", new Document("date", new Date())
-							.append("overdue", (int) overTime).append("finish", estFinish).append("msg", "工作预计超期"))));
-			return true;
+			return new Document("date", new Date()).append("overdue", (int) overTime).append("finish", estFinish)
+					.append("msg", "工作预计超期");
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -889,9 +898,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			Date pStart = doc.getDate("planStart");
 			gh.setStartDate(id, aStart == null ? pStart : aStart);
 			Date aFinish = doc.getDate("actualFinish");
-			if(aFinish!=null) {//如果该工作已经完成，工期需要调整为实际工期
-				Task task = tasks.stream().filter(t->id.equals(t.getId())).findFirst().get();
-				float d = (aFinish.getTime()-aStart.getTime())/(1000*60*60*24);
+			if (aFinish != null) {// 如果该工作已经完成，工期需要调整为实际工期
+				Task task = tasks.stream().filter(t -> id.equals(t.getId())).findFirst().get();
+				float d = (aFinish.getTime() - aStart.getTime()) / (1000 * 60 * 60 * 24);
 				task.setD(d);
 			}
 		});
