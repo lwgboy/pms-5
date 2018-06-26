@@ -73,7 +73,7 @@ public class RiskResponse {
 				.orElse(null);
 	}
 
-	@ReadValue
+	@ReadValue({"action","项目风险应对计划/result"})
 	@WriteValue
 	private String action;
 

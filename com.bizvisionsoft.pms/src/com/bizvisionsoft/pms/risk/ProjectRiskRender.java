@@ -41,11 +41,14 @@ public class ProjectRiskRender extends GridPartDefaultRender {
 //			gridItem.setColumnSpan(1, 1);// 演示如何合并单元格
 			gridItem.setColumnSpan(5, 7);
 		} else if(cell.getElement() instanceof RiskResponseType) {
+			cell.setBackground(BruiColors.getColor(BruiColor.Grey_100));// 设置背景色
 			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-			gridItem.setColumnSpan(0, 2);
+			gridItem.setColumnSpan(0, 1);
+			gridItem.setColumnSpan(4, 2);
+			gridItem.setColumnSpan(7, 6);
 		} else if(cell.getElement() instanceof RiskResponse) {
 			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-			gridItem.setColumnSpan(0, 2);
+			gridItem.setColumnSpan(0, 1);
 			gridItem.setColumnSpan(4, 2);
 			gridItem.setColumnSpan(7, 6);
 		}

@@ -80,4 +80,18 @@ public class RiskResponseType {
 		return ServicesLoader.get(RiskService.class)
 				.countRiskResponse(new BasicDBObject("rbsItem_id", _id).append("type", type));
 	}
+	
+	@ReadValue({"项目风险应对计划/costInf"}) 
+	public String getOrganization() {
+		return "责任单位";
+	}
+	@ReadValue({"项目风险应对计划/timeInf"}) 
+	public String getCharger() {
+		return "责任人";
+	}
+	
+	@ReadValue({"项目风险应对计划/result"}) 
+	public String getHeaderResult() {
+		return "处置计划";
+	}
 }
