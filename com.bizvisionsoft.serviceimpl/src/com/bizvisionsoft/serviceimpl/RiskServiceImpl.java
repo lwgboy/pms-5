@@ -1,7 +1,9 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,10 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.math.scheduling.MonteCarloSimulate;
+import com.bizvisionsoft.math.scheduling.Risk;
+import com.bizvisionsoft.math.scheduling.Route;
+import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
@@ -18,6 +24,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.result.DeleteResult;
@@ -73,11 +80,11 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	private double calculateRiskInfValue(String qty, double cost, int time) {
 		List<RiskScore> stdlist = listRiskScoreInd();
 		Double score = null;
-		
+
 		for (int i = 0; i < stdlist.size(); i++) {
 			RiskScore std = stdlist.get(i);
-			if (std.getQuanlityImpact().stream().anyMatch(qid->qid.value.equals(qty))) {
-				if(score == null ||score.doubleValue()<std.getScore()) {
+			if (std.getQuanlityImpact().stream().anyMatch(qid -> qid.value.equals(qty))) {
+				if (score == null || score.doubleValue() < std.getScore()) {
 					score = std.getScore();
 					break;
 				}
@@ -88,7 +95,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 			double maxCost = Optional.ofNullable(std.getMaxCostImpact()).orElse(Double.MAX_VALUE);
 			double minCost = Optional.ofNullable(std.getMinCostImpact()).orElse(Double.MIN_VALUE);
 			if (cost <= maxCost && cost >= minCost) {
-				if(score == null ||score.doubleValue()<std.getScore()) {
+				if (score == null || score.doubleValue() < std.getScore()) {
 					score = std.getScore();
 					break;
 				}
@@ -99,14 +106,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 			int maxTime = Optional.ofNullable(std.getMaxTimeImpact()).orElse(Integer.MAX_VALUE);
 			int minTime = Optional.ofNullable(std.getMinTimeImpact()).orElse(Integer.MIN_VALUE);
 			if (time <= maxTime && time >= minTime) {
-				if(score == null ||score.doubleValue()<std.getScore()) {
+				if (score == null || score.doubleValue() < std.getScore()) {
 					score = std.getScore();
 					break;
 				}
 			}
 		}
 
-		return score==null? 0d:score.doubleValue();
+		return score == null ? 0d : score.doubleValue();
 	}
 
 	public int nextRBSItemIndex(ObjectId project_id, String type_id) {
@@ -119,14 +126,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	public long deleteRBSItem(ObjectId _id) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(_id), "rbsItem", "parent_id");
 		DeleteResult rs = c("rbsItem").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", items)));
-		c("riskEffect").deleteMany(new BasicDBObject("rbsItem_id",_id));
+		c("riskEffect").deleteMany(new BasicDBObject("rbsItem_id", _id));
 		return rs.getDeletedCount();
 	}
 
 	@Override
 	public long updateRBSItem(BasicDBObject fu) {
 		long count = update(fu, RBSItem.class);
-		
+
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
 		c("rbsItem").find(filter).forEach((Document doc) -> {
 			String qty = (String) doc.getString("qtyInf");
@@ -136,7 +143,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 			c("rbsItem").updateOne(new Document("_id", doc.get("_id")),
 					new Document("$set", new Document("infValue", score)));
 		});
-		
+
 		return count;
 	}
 
@@ -244,7 +251,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		
+
 		List<Bson> pipeline = new ArrayList<Bson>();
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -257,15 +264,15 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-		
+
 		appendWork(pipeline);
-		
+
 		appendUserInfo(pipeline, "work.chargerId", "work.chargerInfo");
-		
+
 		pipeline.add(Aggregates.lookup("rbsItem", "rbsItem_id", "_id", "rbsItem"));
-		
+
 		pipeline.add(Aggregates.unwind("$rbsItem"));
-		
+
 		return c(RiskEffect.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
@@ -285,9 +292,47 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public List<Result> monteCarloSimulate(ObjectId project_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Result> monteCarloSimulate(ObjectId project_id, int times) {
+		ArrayList<Document> works = c("work").find(new Document("project_id", project_id)).into(new ArrayList<>());
+		ArrayList<Document> links = c("worklinks").find(new Document("project_id", project_id)).into(new ArrayList<>());
+		ArrayList<Document> riskEffect = c("rbsItem")
+				.aggregate(new JQ("查询项目风险用于构造Graphic-Risk模型").set("project_id", project_id).array())
+				.into(new ArrayList<>());
+
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		ArrayList<Route> routes = new ArrayList<Route>();
+		ArrayList<Risk> risks = new ArrayList<Risk>();
+
+		convertGraphicWithRisks(works, links, riskEffect, tasks, routes, risks);
+
+		MonteCarloSimulate mcs = new MonteCarloSimulate(tasks, routes, risks);
+		mcs.simulate(times);
+
+		List<List<?>> tData = new ArrayList<>();
+		mcs.TMap.entrySet().forEach(e -> {
+			double key = e.getKey();
+			double perc = new BigDecimal(100f * e.getValue() / times).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+			tData.add(Arrays.asList(key, perc));
+		});
+
+		Document simulateResult = new Document("project_id", project_id).append("times", times)
+				.append("date", new Date()).append("Tdata", tData).append("noRiskT", mcs.noRiskT);
+		c("monteCarloSimulate").deleteMany(new Document("project_id", project_id));
+		c("monteCarloSimulate").insertOne(simulateResult);
+		System.out.println("MonteCarlo Simulate Finished. x" + times);
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public Document monteCarloSimulateChartData(ObjectId project_id) {
+		Document mcs = c("monteCarloSimulate").find(new Document("project_id", project_id)).first();
+		Object value = null;
+		if (mcs != null) {
+			value = mcs.get("Tdata");
+		}
+		if (value == null)
+			value = new ArrayList<>();
+		return new JQ("蒙特卡洛单图").set("data", value).doc();
 	}
 
 }
