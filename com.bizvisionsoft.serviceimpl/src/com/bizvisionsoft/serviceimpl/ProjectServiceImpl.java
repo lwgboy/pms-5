@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.math.scheduling.Graphic;
-import com.bizvisionsoft.math.scheduling.Relation;
 import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
@@ -820,10 +819,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public Integer schedule(ObjectId _id) {
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
+
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		ArrayList<Route> routes = new ArrayList<Route>();
+		convertGraphic(works,links,tasks,routes);
+		
+		Graphic gh = new Graphic(tasks, routes);
+		
 		Document pj = c("project").find(new Document("_id", _id)).first();
 		Date start = pj.getDate("planStart");
 		Date end = pj.getDate("planFinish");
-		Graphic gh = createGraphic(works, links);
 		setupStartDate(gh, works, start);
 		gh.schedule();
 
@@ -883,83 +888,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			Date pStart = doc.getDate("planStart");
 			gh.setStartDate(id, aStart == null ? pStart : aStart);
 		});
-	}
-
-	/**
-	 * 根据work 和 link 创建图
-	 * 
-	 * @param works
-	 * @param links
-	 * @return
-	 */
-	private Graphic createGraphic(ArrayList<Document> works, ArrayList<Document> links) {
-		final ArrayList<Task> tasks = new ArrayList<Task>();
-		works.forEach(doc -> createTask(tasks, doc));
-		works.forEach(doc -> setParent(tasks, doc));
-		final ArrayList<Route> routes = new ArrayList<Route>();
-		links.forEach(doc -> createRoute(routes, tasks, doc));
-		return new Graphic(tasks, routes);
-	}
-
-	private Route createRoute(ArrayList<Route> routes, ArrayList<Task> tasks, Document doc) {
-		String end1Id = doc.getObjectId("source").toHexString();
-		String end2Id = doc.getObjectId("target").toHexString();
-		Task end1 = tasks.stream().filter(t -> end1Id.equals(t.getId())).findFirst().orElse(null);
-		Task end2 = tasks.stream().filter(t -> end2Id.equals(t.getId())).findFirst().orElse(null);
-		if (end1 != null && end2 != null) {
-			String _type = doc.getString("type");
-			int type = Relation.FTS;
-			if ("FF".equals(_type)) {
-				type = Relation.FTF;
-			} else if ("SF".equals(_type)) {
-				type = Relation.STF;
-			} else if ("SS".equals(_type)) {
-				type = Relation.STS;
-			}
-			Number lag = (Number) doc.get("lag");
-			float interval = Optional.ofNullable(lag).map(l -> l.floatValue()).orElse(0f);
-			Relation rel = new Relation(type, interval);
-			Route route = new Route(end1, end2, rel);
-			routes.add(route);
-			return route;
-		}
-		return null;
-	}
-
-	private void setParent(final ArrayList<Task> tasks, final Document doc) {
-		Optional.ofNullable(doc.getObjectId("parent_id")).map(_id -> _id.toHexString()).ifPresent(parentId -> {
-			String id = doc.getObjectId("_id").toHexString();
-			Task subTask = tasks.stream().filter(t -> id.equals(t.getId())).findFirst().orElse(null);
-			Task parentTaskTask = tasks.stream().filter(t -> parentId.equals(t.getId())).findFirst().orElse(null);
-			if (subTask != null && parentTaskTask != null) {
-				parentTaskTask.addSubTask(subTask);
-			}
-		});
-	}
-
-	private Task createTask(ArrayList<Task> tasks, Document doc) {
-		String id = doc.getObjectId("_id").toHexString();
-		Date aStart = doc.getDate("actualStart");
-		Date aFinish = doc.getDate("actualFinish");
-		Date pStart = doc.getDate("planStart");
-		Date pFinish = doc.getDate("planFinish");
-
-		Date now = new Date();
-		long duration;
-		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
-			duration = aFinish.getTime() - aStart.getTime();
-		} else if (aStart != null) {// 如果工作已经开始，但是没有完成, 工期要在计划工期上加上偏移量
-			duration = aStart.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
-		} else if (now.after(pStart)) {// 如果工作还未开始，当前的日期已经超过计划开始日期，工期要在计划工期上加上偏移量
-			duration = now.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
-		} else {
-			duration = pFinish.getTime() - pStart.getTime();
-		}
-
-		Task task = new Task(id, duration / (1000 * 60 * 60 * 24));
-		task.setName(doc.getString("name"));
-		tasks.add(task);
-		return task;
 	}
 
 }

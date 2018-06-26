@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -19,6 +20,7 @@ import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
@@ -99,25 +101,26 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/list")
 	public List<RiskEffect> listRiskEffect(@MethodParam(MethodParam.CONDITION) BasicDBObject bson);
-	
+
 	@POST
 	@Path("/effect/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/count")
 	public long countRiskEffect(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
-	
+
 	@DELETE
 	@Path("/effect/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteRiskEffect(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-	
+
 	@PUT
 	@Path("/effect/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateRiskEffect(BasicDBObject filterAndUpdate);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -243,5 +246,18 @@ public interface RiskService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.UPDATE)
 	public long updateRiskScoreInd(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/mcs/project_id/{project_id}/times/{times}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> monteCarloSimulate(@PathParam("project_id") ObjectId project_id, @PathParam("times") int times);
+
+	@POST
+	@Path("/mcs/project_id/{project_id}/chart")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("蒙特卡洛分析展示/list")
+	public Document monteCarloSimulateChartData(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
 }

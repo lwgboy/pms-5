@@ -3,6 +3,7 @@ package com.bizvisionsoft.serviceimpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,11 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.math.scheduling.Consequence;
+import com.bizvisionsoft.math.scheduling.Relation;
+import com.bizvisionsoft.math.scheduling.Risk;
+import com.bizvisionsoft.math.scheduling.Route;
+import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -175,10 +181,11 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.addFields(
 				// info字段 去掉userid显示
-//				new Field<BasicDBObject>(userInfoField,
-//						new BasicDBObject("$concat",
-//								new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId", "]" })),
-				new Field<String>(userInfoField,"$" + tempField + ".name"),
+				// new Field<BasicDBObject>(userInfoField,
+				// new BasicDBObject("$concat",
+				// new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId",
+				// "]" })),
+				new Field<String>(userInfoField, "$" + tempField + ".name"),
 				// headPics字段
 				new Field<BasicDBObject>(headPicField,
 						new BasicDBObject("$arrayElemAt", new Object[] { "$" + tempField + ".headPics", 0 }))));
@@ -398,4 +405,113 @@ public class BasicServiceImpl {
 		return option;
 	}
 
+	protected void convertGraphic(ArrayList<Document> works, ArrayList<Document> links, final ArrayList<Task> tasks,
+			final ArrayList<Route> routes) {
+		works.forEach(doc -> createGraphicTaskNode(tasks, doc));
+		works.forEach(doc -> setGraphicTaskParent(tasks, doc));
+		links.forEach(doc -> createGrphicRoute(routes, tasks, doc));
+	}
+
+	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links,
+			ArrayList<Document> riskEffect, final ArrayList<Task> tasks, final ArrayList<Route> routes,
+			final ArrayList<Risk> risks) {
+		convertGraphic(works, links, tasks, routes);
+		riskEffect.forEach(doc -> createGraphicRiskNode(tasks, risks, doc));
+		riskEffect.forEach(doc -> setGraphicRiskParent(risks, doc));
+	}
+
+	private Route createGrphicRoute(ArrayList<Route> routes, ArrayList<Task> tasks, Document doc) {
+		String end1Id = doc.getObjectId("source").toHexString();
+		String end2Id = doc.getObjectId("target").toHexString();
+		Task end1 = tasks.stream().filter(t -> end1Id.equals(t.getId())).findFirst().orElse(null);
+		Task end2 = tasks.stream().filter(t -> end2Id.equals(t.getId())).findFirst().orElse(null);
+		if (end1 != null && end2 != null) {
+			String _type = doc.getString("type");
+			int type = Relation.FTS;
+			if ("FF".equals(_type)) {
+				type = Relation.FTF;
+			} else if ("SF".equals(_type)) {
+				type = Relation.STF;
+			} else if ("SS".equals(_type)) {
+				type = Relation.STS;
+			}
+			Number lag = (Number) doc.get("lag");
+			float interval = Optional.ofNullable(lag).map(l -> l.floatValue()).orElse(0f);
+			Relation rel = new Relation(type, interval);
+			Route route = new Route(end1, end2, rel);
+			routes.add(route);
+			return route;
+		}
+		return null;
+	}
+
+	private void setGraphicTaskParent(final ArrayList<Task> tasks, final Document doc) {
+		Optional.ofNullable(doc.getObjectId("parent_id")).map(_id -> _id.toHexString()).ifPresent(parentId -> {
+			String id = doc.getObjectId("_id").toHexString();
+			Task subTask = tasks.stream().filter(t -> id.equals(t.getId())).findFirst().orElse(null);
+			Task parentTask = tasks.stream().filter(t -> parentId.equals(t.getId())).findFirst().orElse(null);
+			if (subTask != null && parentTask != null) {
+				parentTask.addSubTask(subTask);
+			}
+		});
+	}
+
+	private void setGraphicRiskParent(ArrayList<Risk> risks, Document doc) {
+		Optional.ofNullable(doc.getObjectId("parent_id")).map(_id -> _id.toHexString()).ifPresent(parentId -> {
+			String id = doc.getObjectId("_id").toHexString();
+			Risk subRisk = risks.stream().filter(t -> id.equals(t.getId())).findFirst().orElse(null);
+			Risk parentRisk = risks.stream().filter(t -> parentId.equals(t.getId())).findFirst().orElse(null);
+			if (subRisk != null && parentRisk != null) {
+				parentRisk.addSecondaryRisks(subRisk);
+			}
+		});
+	}
+
+	private void createGraphicRiskNode(ArrayList<Task> tasks, ArrayList<Risk> risks, final Document doc) {
+		String id = doc.getObjectId("_id").toHexString();
+		double prob = doc.getDouble("probability");//取出的数字需要除100
+		List<?> riskEffects = (List<?>) doc.get("riskEffect");
+		List<Consequence> cons = new ArrayList<>();
+		if (riskEffects != null && !riskEffects.isEmpty()) {
+			for (int i = 0; i < riskEffects.size(); i++) {
+				Document rf = (Document) riskEffects.get(i);
+				Integer timeInf = rf.getInteger("timeInf");
+				if (timeInf != null) {
+					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString()))
+							.findFirst().orElse(null);
+					if (task != null) {
+						cons.add(new Consequence(task, timeInf.intValue()));
+					}
+				}
+			}
+		}
+		if(cons.size()>0) {
+			risks.add(new Risk(id, (float) prob/100, cons.toArray(new Consequence[0])));
+		}
+	}
+
+	private Task createGraphicTaskNode(ArrayList<Task> tasks, Document doc) {
+		String id = doc.getObjectId("_id").toHexString();
+		Date aStart = doc.getDate("actualStart");
+		Date aFinish = doc.getDate("actualFinish");
+		Date pStart = doc.getDate("planStart");
+		Date pFinish = doc.getDate("planFinish");
+
+		Date now = new Date();
+		long duration;
+		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
+			duration = aFinish.getTime() - aStart.getTime();
+		} else if (aStart != null) {// 如果工作已经开始，但是没有完成, 工期要在计划工期上加上偏移量
+			duration = aStart.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
+		} else if (now.after(pStart)) {// 如果工作还未开始，当前的日期已经超过计划开始日期，工期要在计划工期上加上偏移量
+			duration = now.getTime() - pStart.getTime() + pFinish.getTime() - pStart.getTime();
+		} else {
+			duration = pFinish.getTime() - pStart.getTime();
+		}
+
+		Task task = new Task(id, duration / (1000 * 60 * 60 * 24));
+		task.setName(doc.getString("name"));
+		tasks.add(task);
+		return task;
+	}
 }

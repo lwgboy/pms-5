@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.risk;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -18,8 +16,7 @@ public class CreateRootRBSItemACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		Editor.open("·çÏÕÏî±à¼­Æ÷", context,
 				new RBSItem().setProject_id(project.get_id()).setCreationInfo(brui.creationInfo()), (r, o) -> {
