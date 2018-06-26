@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RBSType;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskResponse;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -355,6 +356,31 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	public Document qualitativeAnlysisChartData(ObjectId project_id) {
 		// TODO Auto-generated method stub
 		return new Document();
+	}
+
+	@Override
+	public RiskResponse insertRiskResponse(RiskResponse resp) {
+		return insert(resp);
+	}
+
+	@Override
+	public long deleteRiskResponse(ObjectId _id) {
+		return delete(_id, RiskResponse.class);
+	}
+
+	@Override
+	public long updateRiskResponse(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, RiskResponse.class);
+	}
+
+	@Override
+	public List<RiskResponse> listRiskResponse(BasicDBObject cond) {
+		return createDataSet(cond, RiskResponse.class);
+	}
+
+	@Override
+	public long countRiskResponse(BasicDBObject filter) {
+		return count(filter, "riskResponse");
 	}
 
 }

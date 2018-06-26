@@ -16,6 +16,8 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskResponse;
+import com.bizvisionsoft.service.model.RiskResponseType;
 
 public class ProjectRiskRender extends GridPartDefaultRender {
 
@@ -38,7 +40,14 @@ public class ProjectRiskRender extends GridPartDefaultRender {
 			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 //			gridItem.setColumnSpan(1, 1);// 演示如何合并单元格
 			gridItem.setColumnSpan(5, 7);
-
+		} else if(cell.getElement() instanceof RiskResponseType) {
+			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
+			gridItem.setColumnSpan(0, 2);
+		} else if(cell.getElement() instanceof RiskResponse) {
+			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
+			gridItem.setColumnSpan(0, 2);
+			gridItem.setColumnSpan(4, 2);
+			gridItem.setColumnSpan(7, 6);
 		}
 	}
 

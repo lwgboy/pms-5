@@ -14,6 +14,8 @@ import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.RiskResponse;
+import com.bizvisionsoft.service.model.RiskResponseType;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -61,7 +63,7 @@ public class ProjectRiskDS {
 		return Services.get(RiskService.class).countRBSItem(filter);
 	}
 
-	@DataSet(DataSet.INSERT)
+	@DataSet({ "项目风险登记簿/" + DataSet.INSERT })
 	public RBSItem insertRBSItem(@MethodParam(MethodParam.OBJECT) RBSItem item) {
 		return Services.get(RiskService.class).insertRBSItem(item);
 	}
@@ -72,8 +74,17 @@ public class ProjectRiskDS {
 			return Services.get(RiskService.class).deleteRBSItem(_id);
 		} else if (selected instanceof RiskEffect) {
 			return Services.get(RiskService.class).deleteRiskEffect(_id);
+		} else if (selected instanceof RiskResponse) {
+			return Services.get(RiskService.class).deleteRiskResponse(_id);
 		}
 		return 0l;
+	}
+
+	@DataSet("项目风险应对计划/" + DataSet.INSERT)
+	public RiskResponse insertRiskResponse(@MethodParam(MethodParam.PARENT_OBJECT) RiskResponseType type,
+			@MethodParam(MethodParam.OBJECT) RiskResponse response) {
+		return Services.get(RiskService.class)
+				.insertRiskResponse(response.setType(type.getType()).setRBSItem_id(type.get_id()));
 	}
 
 	@DataSet(DataSet.UPDATE)
@@ -83,6 +94,8 @@ public class ProjectRiskDS {
 			return Services.get(RiskService.class).updateRBSItem(filterAndUpdate);
 		else if (selected instanceof RiskEffect)
 			return Services.get(RiskService.class).updateRiskEffect(filterAndUpdate);
+		else if (selected instanceof RiskResponse)
+			return Services.get(RiskService.class).updateRiskResponse(filterAndUpdate);
 		return 0l;
 	}
 
