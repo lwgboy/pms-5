@@ -48285,7 +48285,7 @@
         "description": "显示实际进度与计划进度拼合",
         "layout": [],
         "type": "gantt",
-        "stickerTitle": "进度计划甘特图",
+        "stickerTitle": "项目进展甘特图",
         "folderId": "1631b7e24e7",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,

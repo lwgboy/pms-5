@@ -20,12 +20,11 @@ public class CreateBaselineACT {
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
-		Editor.open("项目基线编辑器", context,
-				new Baseline().setProject_id(project.get_id()).setCreationInfo(brui.creationInfo()), (r, o) -> {
-					Baseline baseline = Services.get(ProjectService.class).insertBaseline(o);
-					GridPart grid = (GridPart) context.getContent();
-					grid.insert(baseline);
-				});
+		Editor.open("项目基线编辑器", context, new Baseline().setProject_id(project.get_id()), (r, o) -> {
+			Baseline baseline = Services.get(ProjectService.class).createBaseline(o);
+			GridPart grid = (GridPart) context.getContent();
+			grid.insert(baseline);
+		});
 
 	}
 }

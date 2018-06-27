@@ -18,6 +18,7 @@ public class Baseline {
 	@Persistence
 	private ObjectId project_id;
 
+	@WriteValue("creationInfo")
 	@ReadValue
 	private CreationInfo creationInfo;
 
@@ -34,19 +35,22 @@ public class Baseline {
 	public ObjectId get_id() {
 		return _id;
 	}
-	
+
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
+
 	public Baseline setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
 	}
-	
+
 	public ObjectId getProject_id() {
 		return project_id;
 	}
 
-	public Baseline setCreationInfo(CreationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
+	public CreationInfo getCreationInfo() {
+		return creationInfo;
 	}
 
 	@ReadValue("createDate")
@@ -59,4 +63,16 @@ public class Baseline {
 		return creationInfo.userName + "[" + creationInfo.userId + "]";
 	}
 
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Baseline setName(String name) {
+		this.name = name;
+		return this;
+	}
 }

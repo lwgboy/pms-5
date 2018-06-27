@@ -267,7 +267,21 @@ public interface ProjectService {
 	@Path("/baseline")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.INSERT)
-	public Baseline insertBaseline(Baseline baseline);
+	@DataSet("项目基线/" + DataSet.INSERT)
+	public Baseline createBaseline(Baseline baseline);
+
+	@DELETE
+	@Path("/baseline/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目基线/" + DataSet.DELETE)
+	public long deleteBaseline(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/baseline/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目基线/" + DataSet.UPDATE)
+	public long updateBaseline(BasicDBObject filterAndUpdate);
 
 }

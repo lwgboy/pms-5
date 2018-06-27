@@ -20,6 +20,7 @@ import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
@@ -914,12 +915,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Baseline> listBaseline(BasicDBObject condition, ObjectId _id) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort == null) {
+			sort = new BasicDBObject("_id", -1);
+		}
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.append("project_id", _id);
-		return query(skip, limit, filter, Baseline.class);
+		return query(skip, limit, filter, sort, Baseline.class);
 	}
 
 	@Override
@@ -933,14 +938,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public Baseline insertBaseline(Baseline baseline) {
+	public Baseline createBaseline(Baseline baseline) {
 		Baseline newBaseline = insert(baseline, Baseline.class);
 		ObjectId project_id = baseline.getProject_id();
 		// 获取要存储到基线的项目
 		Document projectDoc = c("project").find(new Document("_id", project_id)).first();
-		ObjectId newProject_id = new ObjectId();
-		projectDoc.append("_id", newProject_id);
-		projectDoc.append("baseline_id", baseline.get_id());
+		ObjectId newProject_id = newBaseline.get_id();
+		projectDoc.append("projectName", projectDoc.get("name"));
+		projectDoc.append("projectDescription", projectDoc.get("description"));
+		projectDoc.remove("description");
+		projectDoc.remove("name");
+		projectDoc.remove("_id");
 		projectDoc.remove("checkoutBy");
 		projectDoc.remove("space_id");
 
@@ -952,6 +960,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					ObjectId work_id = doc.getObjectId("_id");
 					ObjectId newWork_id = new ObjectId();
 					workIds.put(work_id, newWork_id);
+					doc.append("old_id", work_id);
 					doc.append("_id", newWork_id);
 
 					ObjectId parent_id = doc.getObjectId("parent_id");
@@ -961,7 +970,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					}
 
 					doc.append("project_id", newProject_id);
-					doc.append("baseline_id", baseline.get_id());
 
 					doc.remove("checkoutBy");
 					doc.remove("space_id");
@@ -976,7 +984,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			doc.append("target", workIds.get(target));
 			ObjectId source = doc.getObjectId("source");
 			doc.append("source", workIds.get(source));
-			doc.append("baseline_id", baseline.get_id());
 
 			doc.remove("_id");
 
@@ -984,13 +991,32 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		});
 
 		// 插入项目和工作数据
-		c("baselineProject").insertOne(projectDoc);
+		c(Baseline.class).updateMany(new Document("_id", baseline.get_id()), new Document("$set", projectDoc));
 
-		c("BaselineWork").insertMany(workDocs);
+		c("baselineWork").insertMany(workDocs);
 
-		c("BaselineWorklinks").insertMany(worklinkDocs);
+		c("baselineWorklinks").insertMany(worklinkDocs);
 
-		return newBaseline;
+		return get(newProject_id, Baseline.class);
+	}
+
+	@Override
+	public long deleteBaseline(ObjectId _id) {
+		c("baselineWork").deleteMany(new Document("project_id", _id));
+
+		c("baselineWorklinks").deleteMany(new Document("project_id", _id));
+
+		return delete(_id, Baseline.class);
+	}
+
+	@Override
+	public long updateBaseline(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, Baseline.class);
+	}
+
+	public BaselineComparable getBaselineComparable(List<ObjectId> projectIds) {
+
+		return null;
 	}
 
 }
