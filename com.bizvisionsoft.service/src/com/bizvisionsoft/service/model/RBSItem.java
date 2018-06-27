@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -53,7 +54,7 @@ public class RBSItem {
 	@Behavior("RBSItem操作")
 	@Exclude
 	private boolean rbsAction = true;
-
+	
 	@ReadEditorConfig("项目风险登记簿/编辑")
 	private Object getEditorConfig() {
 		return "风险项编辑器";
@@ -80,7 +81,7 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String description;
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -116,7 +117,7 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private String result;
-	
+
 	public String getResult() {
 		return result;
 	}
@@ -254,6 +255,17 @@ public class RBSItem {
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
 
 		return cnt;
+	}
+
+	@Structure("项目风险应对计划/list")
+	private List<RiskResponseType> listRiskResponseType() {
+		return Arrays.asList(RiskResponseType.pervent(_id), RiskResponseType.response(_id),
+				RiskResponseType.emergency(_id));
+	}
+
+	@Structure("项目风险应对计划/count")
+	private long countRiskResponseType() {
+		return listRiskResponseType().size();
 	}
 
 	@ReadOptions("qtyInf")
