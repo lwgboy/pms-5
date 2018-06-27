@@ -105,8 +105,8 @@ public class EPS implements Comparable<EPS> {
 		result.addAll(ServicesLoader.get(ProjectSetService.class)
 				.createDataSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
-		result.addAll(ServicesLoader.get(ProjectService.class)
-				.createDataSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
+		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
+				new Query().filter(new BasicDBObject("eps_id", _id).append("baseline_id", null)).bson()));
 
 		return result;
 	}
@@ -116,7 +116,8 @@ public class EPS implements Comparable<EPS> {
 		// 查下级
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
 		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id));
-		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
+		cnt += ServicesLoader.get(ProjectSetService.class)
+				.count(new BasicDBObject("eps_id", _id).append("baseline_id", null));
 		return cnt;
 	}
 
@@ -129,8 +130,9 @@ public class EPS implements Comparable<EPS> {
 		result.addAll(ServicesLoader.get(ProjectSetService.class)
 				.listFinishProjectSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
-		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
-				new Query().filter(new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed)).bson()));
+		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(new Query().filter(
+				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed).append("baseline_id", null))
+				.bson()));
 
 		return result;
 	}
@@ -140,8 +142,8 @@ public class EPS implements Comparable<EPS> {
 		// 查下级
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
 		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
-		cnt += ServicesLoader.get(ProjectService.class)
-				.count(new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
+		cnt += ServicesLoader.get(ProjectService.class).count(
+				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed).append("baseline_id", null));
 		return cnt;
 	}
 
@@ -195,7 +197,7 @@ public class EPS implements Comparable<EPS> {
 	public String toString() {
 		return name + " [" + id + "]";
 	}
-	
+
 	public String getName() {
 		return name;
 	}

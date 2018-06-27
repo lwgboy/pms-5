@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -17,6 +19,7 @@ import com.bizvisionsoft.math.scheduling.Graphic;
 import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
@@ -868,7 +871,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				update = new Document();
 			}
 			update.append("tf", (double) task.getTF()).append("ff", (double) task.getFF());
-			c("work").updateOne(new Document("_id", doc.getObjectId("_id")), new Document("$set", new Document("scheduleEst",update)));
+			c("work").updateOne(new Document("_id", doc.getObjectId("_id")),
+					new Document("$set", new Document("scheduleEst", update)));
 		}
 
 		c("project").updateOne(new Document("_id", _id),
@@ -904,6 +908,89 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				task.setD(d);
 			}
 		});
+	}
+
+	@Override
+	public List<Baseline> listBaseline(BasicDBObject condition, ObjectId _id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+		return query(skip, limit, filter, Baseline.class);
+	}
+
+	@Override
+	public long countBaseline(BasicDBObject filter, ObjectId _id) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		return count(filter, Baseline.class);
+	}
+
+	@Override
+	public Baseline insertBaseline(Baseline baseline) {
+		Baseline newBaseline = insert(baseline, Baseline.class);
+		ObjectId project_id = baseline.getProject_id();
+		// 获取要存储到基线的项目
+		Document projectDoc = c("project").find(new Document("_id", project_id)).first();
+		ObjectId newProject_id = new ObjectId();
+		projectDoc.append("_id", newProject_id);
+		projectDoc.append("baseline_id", baseline.get_id());
+		projectDoc.remove("checkoutBy");
+		projectDoc.remove("space_id");
+
+		// 获取要存储到基线的工作
+		Map<ObjectId, ObjectId> workIds = new HashMap<ObjectId, ObjectId>();
+		List<Document> workDocs = new ArrayList<Document>();
+		c("work").find(new Document("project_id", project_id)).sort(new Document("parent_id", 1))
+				.forEach((Document doc) -> {
+					ObjectId work_id = doc.getObjectId("_id");
+					ObjectId newWork_id = new ObjectId();
+					workIds.put(work_id, newWork_id);
+					doc.append("_id", newWork_id);
+
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id != null) {
+						ObjectId newParent_id = workIds.get(work_id);
+						doc.append("parent_id", newParent_id);
+					}
+
+					doc.append("project_id", newProject_id);
+					doc.append("baseline_id", baseline.get_id());
+
+					doc.remove("checkoutBy");
+					doc.remove("space_id");
+
+					workDocs.add(doc);
+				});
+
+		// 获取要存储到基线的工作关联关系
+		List<Document> worklinkDocs = new ArrayList<Document>();
+		c("worklinks").find(new Document("project_id", project_id)).forEach((Document doc) -> {
+			ObjectId target = doc.getObjectId("target");
+			doc.append("target", workIds.get(target));
+			ObjectId source = doc.getObjectId("source");
+			doc.append("source", workIds.get(source));
+			doc.append("baseline_id", baseline.get_id());
+
+			doc.remove("_id");
+
+			worklinkDocs.add(doc);
+		});
+
+		// 插入项目和工作数据
+		c("project").insertOne(projectDoc);
+
+		c("work").insertMany(workDocs);
+
+		c("worklinks").insertMany(worklinkDocs);
+
+		return newBaseline;
 	}
 
 }

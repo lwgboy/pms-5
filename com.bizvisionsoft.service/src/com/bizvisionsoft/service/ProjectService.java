@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
@@ -185,8 +186,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我报告的项目选择列表-月报/list" })
-	public List<Project> listParticipatedProjectsInMonthly(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<Project> listParticipatedProjectsInMonthly(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
@@ -215,7 +215,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> finishProject(Command command);
-	
+
 	@POST
 	@Path("/_id/{_id}/schedule/")
 	@Consumes("application/json; charset=UTF-8")
@@ -246,5 +246,28 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public SalesItem insertSalesItem(SalesItem salesItem);
-	
+
+	@POST
+	@Path("/_id/{_id}/baseline/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目基线/" + DataSet.LIST })
+	public List<Baseline> listBaseline(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/baseline/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目基线/" + DataSet.COUNT })
+	public long countBaseline(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/baseline")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet(DataSet.INSERT)
+	public Baseline insertBaseline(Baseline baseline);
+
 }
