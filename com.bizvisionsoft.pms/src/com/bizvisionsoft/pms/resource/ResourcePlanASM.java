@@ -161,7 +161,7 @@ public class ResourcePlanASM {
 		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setFrom(work.getPlanStart());
-		rt.setTo(work.getEnd_date());
+		rt.setTo(work.getPlanEndDate());
 		rt.setCanAdd(false);
 		rt.setCanDelete(true);
 		rt.setCanClose(false);
