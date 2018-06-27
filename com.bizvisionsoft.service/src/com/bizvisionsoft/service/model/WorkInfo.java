@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -310,6 +311,8 @@ public class WorkInfo {
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
+		} else if (actualStart != null) {
+			return new Date(planFinish.getTime() - planStart.getTime() + actualStart.getTime());
 		}
 		return planFinish;
 	}
@@ -460,6 +463,8 @@ public class WorkInfo {
 	public Date getEnd_date1() {
 		if (actualFinish1 != null) {
 			return actualFinish1;
+		} else if (actualStart1 != null) {
+			return new Date(planFinish1.getTime() - planStart1.getTime() + actualStart1.getTime());
 		}
 		return planFinish1;
 	}
@@ -661,25 +666,25 @@ public class WorkInfo {
 	private boolean behaviourDeleteTask() {
 		return actualStart == null;
 	}
-	
+
 	public WorkInfo setPlanStart(Date planStart) {
 		this.planStart = planStart;
 		return this;
 	}
-	
+
 	public WorkInfo setPlanFinish(Date planFinish) {
 		this.planFinish = planFinish;
 		return this;
 	}
-	
+
 	public Date getPlanFinish() {
 		return planFinish;
 	}
-	
+
 	public Date getPlanStart() {
 		return planStart;
 	}
-	
+
 	public WorkInfo setChargerId(String chargerId) {
 		this.chargerId = chargerId;
 		return this;
