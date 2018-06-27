@@ -2102,6 +2102,17 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch"
+              },
+              {
+                "id": "1643efee278",
+                "name": "项目进展甘特图",
+                "switchContentToAssemblyId": "1643ef819d9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
@@ -2629,6 +2640,17 @@
                 "name": "项目进度计划和监控（查看）",
                 "text": "项目进度计划和监控",
                 "switchContentToAssemblyId": "1641c25e273",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "1643efe5e9d",
+                "name": "项目进展甘特图",
+                "switchContentToAssemblyId": "1643ef819d9",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
