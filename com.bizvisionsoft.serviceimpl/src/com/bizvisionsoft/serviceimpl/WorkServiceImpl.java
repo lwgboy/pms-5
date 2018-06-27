@@ -336,7 +336,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.match(new BasicDBObject("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
 						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true)).append("baseline_id", null)));
+						.append("stage", new BasicDBObject("$ne", true))));
 
 		appendProject(pipeline);
 
@@ -374,7 +374,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
 				new BasicDBObject("assignerId", userid) });
 		filter.put("stage", new BasicDBObject("$ne", true));
-		filter.put("baseline_id", null);
 		return count(filter, Work.class);
 	}
 

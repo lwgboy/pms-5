@@ -123,7 +123,7 @@ public class ProjectSet {
 					.createDataSet(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
 
 			chileren.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
-					new Query().filter(new BasicDBObject("projectSet_id", _id).append("baseline_id", null)).bson()));
+					new Query().filter(new BasicDBObject("projectSet_id", _id)).bson()));
 		}
 		return chileren;
 	}
@@ -132,7 +132,7 @@ public class ProjectSet {
 	public long countSubProjectSetsAndProjects() {
 		// ²éÏÂ¼¶
 		long cnt = ServicesLoader.get(ProjectService.class)
-				.count(new BasicDBObject("projectSet_id", _id).append("baseline_id", null));
+				.count(new BasicDBObject("projectSet_id", _id));
 		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("parent_id", _id));
 		return cnt;
 	}

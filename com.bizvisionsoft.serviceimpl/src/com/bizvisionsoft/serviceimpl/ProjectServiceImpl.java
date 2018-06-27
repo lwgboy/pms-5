@@ -984,11 +984,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		});
 
 		// 插入项目和工作数据
-		c("project").insertOne(projectDoc);
+		c("baselineProject").insertOne(projectDoc);
 
-		c("work").insertMany(workDocs);
+		c("BaselineWork").insertMany(workDocs);
 
-		c("worklinks").insertMany(worklinkDocs);
+		c("BaselineWorklinks").insertMany(worklinkDocs);
 
 		return newBaseline;
 	}

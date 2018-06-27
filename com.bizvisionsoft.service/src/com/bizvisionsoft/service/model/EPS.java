@@ -106,7 +106,7 @@ public class EPS implements Comparable<EPS> {
 				.createDataSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
-				new Query().filter(new BasicDBObject("eps_id", _id).append("baseline_id", null)).bson()));
+				new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		return result;
 	}
@@ -117,7 +117,7 @@ public class EPS implements Comparable<EPS> {
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
 		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id));
 		cnt += ServicesLoader.get(ProjectSetService.class)
-				.count(new BasicDBObject("eps_id", _id).append("baseline_id", null));
+				.count(new BasicDBObject("eps_id", _id));
 		return cnt;
 	}
 
@@ -131,7 +131,7 @@ public class EPS implements Comparable<EPS> {
 				.listFinishProjectSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(new Query().filter(
-				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed).append("baseline_id", null))
+				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed))
 				.bson()));
 
 		return result;
@@ -143,7 +143,7 @@ public class EPS implements Comparable<EPS> {
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
 		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
 		cnt += ServicesLoader.get(ProjectService.class).count(
-				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed).append("baseline_id", null));
+				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
 		return cnt;
 	}
 
