@@ -66,13 +66,13 @@ public class WorkReport {
 	// }
 
 	@Exclude
-	public static String TYPE_DAILY = "日报";
+	public static final String TYPE_DAILY = "日报";
 
 	@Exclude
-	public static String TYPE_WEEKLY = "周报";
+	public static final String TYPE_WEEKLY = "周报";
 
 	@Exclude
-	public static String TYPE_MONTHLY = "月报";
+	public static final String TYPE_MONTHLY = "月报";
 
 	@WriteValue
 	@Persistence
@@ -177,13 +177,13 @@ public class WorkReport {
 	private String status;
 
 	@Exclude
-	public static String STATUS_CREATE = "创建";
+	public static final String STATUS_CREATE = "创建";
 
 	@Exclude
-	public static String STATUS_SUBMIT = "提交";
+	public static final String STATUS_SUBMIT = "提交";
 
 	@Exclude
-	public static String STATUS_CONFIRM = "确认";
+	public static final String STATUS_CONFIRM = "确认";
 
 	@Label
 	public String getLabel() {

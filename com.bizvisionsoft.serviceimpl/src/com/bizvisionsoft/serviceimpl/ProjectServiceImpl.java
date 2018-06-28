@@ -27,6 +27,8 @@ import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectChange;
+import com.bizvisionsoft.service.model.ProjectChangeTask;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SalesItem;
@@ -38,6 +40,8 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
+import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 public class ProjectServiceImpl extends BasicServiceImpl implements ProjectService {
@@ -1015,8 +1019,184 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	public BaselineComparable getBaselineComparable(List<ObjectId> projectIds) {
-
+		// TODO
 		return null;
+	}
+
+	@Override
+	public List<ProjectChange> listProjectChange(BasicDBObject condition, ObjectId _id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(filter));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("_id", -1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendUserInfo(pipeline, "pmId", "pmInfo");
+		appendUserInfo(pipeline, "deptId", "deptInfo");
+		appendUserInfo(pipeline, "psId", "psInfo");
+		appendUserInfo(pipeline, "psManagerId", "psManagerInfo");
+		appendUserInfo(pipeline, "chiefEngineerId", "chiefEngineerInfo");
+		appendUserInfo(pipeline, "consumerId", "consumerInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public long countProjectChange(BasicDBObject filter, ObjectId _id) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		return count(filter, ProjectChange.class);
+	}
+
+	@Override
+	public ProjectChange createProjectChange(ProjectChange pc) {
+		return insert(pc, ProjectChange.class);
+	}
+
+	@Override
+	public long deleteProjectChange(ObjectId _id) {
+		return delete(_id, ProjectChange.class);
+	}
+
+	@Override
+	public long updateProjectChange(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ProjectChange.class);
+	}
+
+	@Override
+	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("_id", _id)));
+
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"),new Field<String>("projectPMId", "$project.pmId"))));
+
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendUserInfo(pipeline, "pmId", "pmInfo");
+		appendUserInfo(pipeline, "deptId", "deptInfo");
+		appendUserInfo(pipeline, "psId", "psInfo");
+		appendUserInfo(pipeline, "psManagerId", "psManagerInfo");
+		appendUserInfo(pipeline, "chiefEngineerId", "chiefEngineerInfo");
+		appendUserInfo(pipeline, "consumerId", "consumerInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
+		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$applicantUnitId.fullName"),
+				new Field<String>("managerId", "$applicantUnitId.managerId"))));
+		pipeline.add(Aggregates.project(new Document("organization", false)));
+
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public List<Result> submitProjectChange(List<ObjectId> projectChangeIds) {
+		List<Result> result = submitProjectChangeCheck(projectChangeIds);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
+				new Document("$set",
+						new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足提交条件的变更申请。"));
+			return result;
+		}
+
+		return result;
+	}
+
+	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
+		List<Result> result = new ArrayList<Result>();
+		return result;
+	}
+
+	@Override
+	public List<Result> confirmProjectChange(ProjectChangeTask projectChangeTask) {
+		List<Result> result = confirmProjectChangeCheck(projectChangeTask);
+		if (!result.isEmpty()) {
+			return result;
+		}
+		Document set = new Document();
+		set.append(projectChangeTask.name + "Id", projectChangeTask.id);
+		set.append(projectChangeTask.name + "Choice", projectChangeTask.choice);
+		set.append(projectChangeTask.name + "Date", projectChangeTask.date);
+		set.append(projectChangeTask.name + "Comment", projectChangeTask.comment);
+
+		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
+				new Document("$set", set));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
+			return result;
+		}
+
+		// TODO 所有人审核完成后，修改状态。
+
+		long count = c(ProjectChange.class).count(new Document("pmId", new Document("$ne", null))
+				.append("deptId", new Document("$ne", null)).append("psId", new Document("$ne", null))
+				.append("psManagerId", new Document("$ne", null)).append("chiefEngineerId", new Document("$ne", null))
+				.append("consumerId", new Document("$ne", null)));
+		if (count > 0) {
+			ProjectChange pc = c(ProjectChange.class).findOneAndUpdate(
+					new Document("_id", projectChangeTask.projectChange_id),
+					new Document("$set", new Document("status", ProjectChange.STATUS_CONFIRM)));
+
+			Workspace workspace = getWorkspace(pc.getProject_id());
+			new WorkSpaceServiceImpl().checkout(workspace, pc.getApplicantId(), true);
+		}
+
+		return result;
+	}
+
+	private List<Result> confirmProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+		return new ArrayList<Result>();
+	}
+
+	public List<Result> cancelProjectChange(ProjectChangeTask projectChangeTask) {
+		List<Result> result = cancelProjectChangeCheck(projectChangeTask);
+		if (!result.isEmpty()) {
+			return result;
+		}
+		Document set = new Document();
+		set.append(projectChangeTask.name + "Id", projectChangeTask.id);
+		set.append(projectChangeTask.name + "Choice", projectChangeTask.choice);
+		set.append(projectChangeTask.name + "Date", projectChangeTask.date);
+		set.append(projectChangeTask.name + "Comment", projectChangeTask.comment);
+		set.append("status", ProjectChange.STATUS_CANCEL);
+		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
+				new Document("$set", set));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
+			return result;
+		}
+
+		return result;
+	}
+
+	private List<Result> cancelProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+		return new ArrayList<Result>();
 	}
 
 }

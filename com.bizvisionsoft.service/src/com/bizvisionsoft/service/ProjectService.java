@@ -20,6 +20,8 @@ import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectChange;
+import com.bizvisionsoft.service.model.ProjectChangeTask;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
@@ -283,5 +285,68 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目基线/" + DataSet.UPDATE)
 	public long updateBaseline(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/_id/{_id}/projectchange/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目变更/" + DataSet.LIST })
+	public List<ProjectChange> listProjectChange(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/projectchange/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目变更/" + DataSet.COUNT })
+	public long countProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/projectchange")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目变更/" + DataSet.INSERT)
+	public ProjectChange createProjectChange(ProjectChange pc);
+
+	@DELETE
+	@Path("/projectchange/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目变更/" + DataSet.DELETE)
+	public long deleteProjectChange(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/projectchange/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目变更/" + DataSet.UPDATE)
+	public long updateProjectChange(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/projectchange/{_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "变更详情信息面板/list", "变更审核信息面板/list" })
+	public List<ProjectChange> listProjectChangeInfo(
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/submitprojectchange")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> submitProjectChange(List<ObjectId> projectChangeIds);
+
+	@POST
+	@Path("/confirmprojectchange")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> confirmProjectChange(ProjectChangeTask projectChangeTask);
+
+	@POST
+	@Path("/cancelprojectchange")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> cancelProjectChange(ProjectChangeTask projectChangeTask);
 
 }
