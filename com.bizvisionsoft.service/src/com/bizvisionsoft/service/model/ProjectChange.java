@@ -229,7 +229,7 @@ public class ProjectChange {
 
 	@WriteValue
 	@ReadValue
-	private String psChocie;
+	private String psChoice;
 
 	@WriteValue
 	@ReadValue

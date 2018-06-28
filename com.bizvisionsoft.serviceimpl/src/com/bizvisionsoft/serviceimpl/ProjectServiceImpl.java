@@ -1103,7 +1103,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
 		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
 		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$applicantUnitId.fullName"),
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$organization.fullName"),
 				new Field<String>("managerId", "$applicantUnitId.managerId"))));
 		pipeline.add(Aggregates.project(new Document("organization", false)));
 

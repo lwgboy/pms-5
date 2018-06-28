@@ -49499,7 +49499,7 @@
           {
             "id": "164455cdc67",
             "name": "确认变更",
-            "text": "确认",
+            "text": "批准",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.projectchange.ConfirmProjectChangeACT",
             "openContent": false,
@@ -49513,7 +49513,7 @@
           {
             "id": "164455ce49d",
             "name": "取消变更",
-            "text": "取消",
+            "text": "否决",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.projectchange.CancelProjectChangeACT",
             "openContent": false,
