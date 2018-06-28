@@ -14,4 +14,9 @@ public class Estimate {
 	
 	public String msg;
 
+	public Double tf;
+	
+	public Double ff;
+
+
 }

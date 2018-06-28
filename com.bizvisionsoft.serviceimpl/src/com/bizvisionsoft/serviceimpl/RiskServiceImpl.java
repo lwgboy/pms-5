@@ -297,12 +297,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public List<Result> monteCarloSimulate(ObjectId _id, int times) {
-		
+		Date pjStart = c("project").find(new Document("_id", _id)).first().getDate("planStart");
+
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> riskEffect = c("rbsItem")
-				.aggregate(new JQ("查询项目风险用于构造Graphic-Risk模型").set("project_id", _id).array())
-				.into(new ArrayList<>());
+				.aggregate(new JQ("查询项目风险用于构造Graphic-Risk模型").set("project_id", _id).array()).into(new ArrayList<>());
 
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
@@ -310,7 +310,15 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		convertGraphicWithRisks(works, links, riskEffect, tasks, routes, risks);
 
-		MonteCarloSimulate mcs = new MonteCarloSimulate(tasks, routes, risks);
+		MonteCarloSimulate mcs = new MonteCarloSimulate(tasks, routes, risks, r -> {
+			// 处理项目开始后应立即开始但延迟开始的工作
+			String id = r.end2.getId();
+			Document doc = works.stream().filter(d -> id.equals(d.getObjectId("_id").toHexString())).findFirst().get();
+			Date aStart = doc.getDate("actualStart");
+			Date pStart = doc.getDate("planStart");
+			Date start = aStart == null ? pStart : aStart;
+			r.relations.get(0).interval = (int) ((start.getTime() - pjStart.getTime()) / (1000 * 60 * 60 * 24));
+		});
 		mcs.simulate(times);
 
 		List<List<Double>> tData = new ArrayList<>();
@@ -321,10 +329,10 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 			tData.add(Arrays.asList(key, perc));
 		});
 
-		tData.sort((l1,l2)->(int) (l1.get(0) - l2.get(0)));
-		
-		Document simulateResult = new Document("project_id", _id).append("times", times)
-				.append("date", new Date()).append("Tdata", tData).append("noRiskT", mcs.noRiskT);
+		tData.sort((l1, l2) -> (int) (l1.get(0) - l2.get(0)));
+
+		Document simulateResult = new Document("project_id", _id).append("times", times).append("date", new Date())
+				.append("Tdata", tData).append("noRiskT", mcs.noRiskT);
 		c("monteCarloSimulate").deleteMany(new Document("project_id", _id));
 		c("monteCarloSimulate").insertOne(simulateResult);
 		System.out.println("MonteCarlo Simulate Finished. x" + times);
@@ -353,12 +361,6 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public Document qualitativeAnlysisChartData(ObjectId project_id) {
-		// TODO Auto-generated method stub
-		return new Document();
-	}
-
-	@Override
 	public RiskResponse insertRiskResponse(RiskResponse resp) {
 		return insert(resp);
 	}
@@ -381,6 +383,23 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long countRiskResponse(BasicDBObject filter) {
 		return count(filter, "riskResponse");
+	}
+
+	@Override
+	public Double getDurationProbability(ObjectId project_id) {
+		Document pj = c("project").find(new Document("_id", project_id)).first();
+		if (pj == null) {
+			return null;
+		}
+		if (c("monteCarloSimulate").count(new Document("project_id", project_id)) == 0) {
+			return null;
+		}
+
+		long t = (pj.getDate("planFinish").getTime() - pj.getDate("planStart").getTime()) / (1000 * 60 * 60 * 24);
+		Document doc = c("monteCarloSimulate")
+				.aggregate(new JQ("查询项目某个工期的概率").set("project_id", project_id).set("T", t).array()).first();
+
+		return Optional.ofNullable(doc).map(d -> (Number) d.get("prob")).map(p -> p.doubleValue() / 100).orElse(0d);
 	}
 
 }

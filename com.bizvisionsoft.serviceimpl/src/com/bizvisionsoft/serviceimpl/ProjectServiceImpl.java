@@ -847,63 +847,34 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		for (int i = 0; i < works.size(); i++) {
 			Document doc = works.get(i);
-			Document update = null;
-			if ("1".equals(doc.getString("manageLevel"))) {
-				update = checkOverdue(gh, doc);
-				if (update != null) {
-					warningLevel = warningLevel > 1 ? 1 : warningLevel;
-					message = message == null ? new Document("date", new Date()).append("msg", "一级工作预计超期") : message;
-				}
-			}
-			if ("2".equals(doc.getString("manageLevel"))) {
-				update = checkOverdue(gh, doc);
-				if (update != null) {
-					warningLevel = warningLevel > 2 ? 2 : warningLevel;
-					message = message == null ? new Document("date", new Date()).append("msg", "二级工作预计超期") : message;
-				}
+			Date planFinish = doc.getDate("planFinish");
+			Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
+			Task task = gh.getTask((doc.getObjectId("_id").toHexString()));
+			long overdue = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
+			Document update = new Document("date", new Date()).append("duration", (int)task.getD().floatValue())
+					.append("overdue", (int) overdue).append("finish", estFinish);
+
+			if ("1".equals(doc.getString("manageLevel")) && overdue > 0) {
+				warningLevel = warningLevel > 1 ? 1 : warningLevel;
+				message = message == null ? new Document("date", new Date()).append("msg", "一级工作预计超期") : message;
 			}
 
-			Task task = gh.getTask(doc.getObjectId("_id").toHexString());
+			if ("2".equals(doc.getString("manageLevel")) && overdue > 0) {
+				warningLevel = warningLevel > 2 ? 2 : warningLevel;
+				message = message == null ? new Document("date", new Date()).append("msg", "二级工作预计超期") : message;
+			}
+
 			if (update == null) {
 				update = new Document();
 			}
 			update.append("tf", (double) task.getTF()).append("ff", (double) task.getFF());
-			c("work").updateOne(new Document("_id", doc.getObjectId("_id")), new Document("$set", new Document("scheduleEst",update)));
+			c("work").updateOne(new Document("_id", doc.getObjectId("_id")),
+					new Document("$set", new Document("scheduleEst", update)));
 		}
 
 		c("project").updateOne(new Document("_id", _id),
 				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", message)));
 		return warningLevel;
-	}
-
-	private Document checkOverdue(Graphic gh, Document doc) {
-		Date planFinish = doc.getDate("planFinish");
-		Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
-		long overTime = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
-		if (overTime > 0) {
-			return new Document("date", new Date()).append("overdue", (int) overTime).append("finish", estFinish)
-					.append("msg", "工作预计超期");
-		} else {
-			return null;
-		}
-	}
-
-	private void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart, ArrayList<Task> tasks) {
-		gh.setStartDate(pjStart);
-		gh.getStartRoute().forEach(r -> {
-			String id = r.end2.getId();
-			ObjectId _id = new ObjectId(id);
-			Document doc = works.stream().filter(d -> _id.equals(d.getObjectId("_id"))).findFirst().get();
-			Date aStart = doc.getDate("actualStart");
-			Date pStart = doc.getDate("planStart");
-			gh.setStartDate(id, aStart == null ? pStart : aStart);
-			Date aFinish = doc.getDate("actualFinish");
-			if (aFinish != null) {// 如果该工作已经完成，工期需要调整为实际工期
-				Task task = tasks.stream().filter(t -> id.equals(t.getId())).findFirst().get();
-				float d = (aFinish.getTime() - aStart.getTime()) / (1000 * 60 * 60 * 24);
-				task.setD(d);
-			}
-		});
 	}
 
 }

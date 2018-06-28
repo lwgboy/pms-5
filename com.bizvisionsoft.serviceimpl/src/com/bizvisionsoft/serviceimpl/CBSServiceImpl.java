@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -612,6 +613,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 				.append("data", data2));
 		return getPieChart(title, data1, series);
+	}
+	
+	@Override
+	public Document getMonthlyCostAndBudgetChart(ObjectId cbsScope_id) {
+		return getMonthCostCompositionAnalysis(cbsScope_id,new SimpleDateFormat("yyyy").format(new Date()));
 	}
 
 	@SuppressWarnings("unchecked")

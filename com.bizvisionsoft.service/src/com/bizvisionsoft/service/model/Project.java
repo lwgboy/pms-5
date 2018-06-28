@@ -31,6 +31,7 @@ import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
+import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
@@ -847,6 +848,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		// return "";
 		// }
 	}
+	
+	public Integer getOverdueIndex() {
+		return overdueIndex;
+	}
 
 	@ReadValue("warningOvercost")
 	private String getOvercostHtml() {
@@ -899,6 +904,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	public Project setName(String name) {
 		this.name = name;
 		return this;
+	}
+
+	public Double getDurationProbability() {
+		return ServicesLoader.get(RiskService.class).getDurationProbability(_id);
 	}
 
 }
