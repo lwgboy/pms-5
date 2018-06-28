@@ -20,6 +20,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
+import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
@@ -59,7 +60,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.COUNT)
 	public long countCertificate(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
-	
+
 	@POST
 	@Path("/cert/names/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -236,18 +237,18 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Map<String, String> getDictionary(@PathParam("type") String type);
-	
+
 	@POST
 	@Path("/dict/idname/{type}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Map<String, String> getDictionaryIdNamePair(@PathParam("type") String type);
-	
+
 	@POST
 	@Path("/dict/{type}/{valueField}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<String> listDictionary(@PathParam("type")String type, @PathParam("valueField")String valueField);
+	public List<String> listDictionary(@PathParam("type") String type, @PathParam("valueField") String valueField);
 
 	@POST
 	@Path("/dict/")
@@ -366,5 +367,42 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Date getCurrentCBSPeriod();
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/changeprocess/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("变更审核/" + DataSet.LIST)
+	public List<ChangeProcess> createChangeProcessDataSet();
+
+	@GET
+	@Path("/changeprocess/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("变更审核/" + DataSet.INPUT)
+	public ChangeProcess getChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@POST
+	@Path("/changeprocess/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("变更审核/" + DataSet.INSERT)
+	public ChangeProcess insertChangeProcess(@MethodParam(MethodParam.OBJECT) ChangeProcess changeProcess);
+
+	@DELETE
+	@Path("/changeprocess/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("变更审核/" + DataSet.DELETE)
+	public long deleteChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/changeprocess/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("变更审核/" + DataSet.UPDATE)
+	public long updateChangeProcess(BasicDBObject filterAndUpdate);
 
 }
