@@ -80,6 +80,10 @@ public class Organization {
 
 	@Persistence
 	private String managerId;
+	
+	public String getManagerId() {
+		return managerId;
+	}
 
 	@ReadValue("managerInfo")
 	@WriteValue("managerInfo")

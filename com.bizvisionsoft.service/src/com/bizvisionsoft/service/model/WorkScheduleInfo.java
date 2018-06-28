@@ -26,10 +26,7 @@ public class WorkScheduleInfo {
 
 	@ReadValue({ "start_date" })
 	public Date getStart_date1() {
-		if (work.getActualStart() != null) {
-			return work.getActualStart();
-		}
-		return work.getPlanStart();
+		return work.getStart_date();
 	}
 
 	@ReadValue({ "end_date1" })
@@ -39,10 +36,7 @@ public class WorkScheduleInfo {
 
 	@ReadValue({ "end_date" })
 	public Date getEnd_date1() {
-		if (work.getActualFinish() != null) {
-			return work.getActualFinish();
-		}
-		return work.getPlanFinish();
+		return work.getEnd_date();
 	}
 
 	@ReadValue("fullName")

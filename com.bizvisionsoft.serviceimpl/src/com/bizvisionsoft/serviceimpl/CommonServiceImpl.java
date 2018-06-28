@@ -15,6 +15,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
+import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
@@ -363,6 +364,31 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long countCertificate(BasicDBObject filter) {
 		return count(filter, Certificate.class);
+	}
+
+	@Override
+	public List<ChangeProcess> createChangeProcessDataSet() {
+		return c(ChangeProcess.class).find().into(new ArrayList<ChangeProcess>());
+	}
+
+	@Override
+	public ChangeProcess getChangeProcess(ObjectId _id) {
+		return get(_id, ChangeProcess.class);
+	}
+
+	@Override
+	public ChangeProcess insertChangeProcess(ChangeProcess changeProcess) {
+		return insert(changeProcess, ChangeProcess.class);
+	}
+
+	@Override
+	public long deleteChangeProcess(ObjectId _id) {
+		return delete(_id, ChangeProcess.class);
+	}
+
+	@Override
+	public long updateChangeProcess(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ChangeProcess.class);
 	}
 
 }

@@ -232,25 +232,15 @@ public class WorkInfo {
 	@WriteValue("项目甘特图（编辑）/start_date")
 	public boolean setStart_date(String start_date) {
 		Date newDate = Util.str_date(start_date);
-		if (actualStart != null) {
-			if (!Util.equals(newDate, this.actualStart)) {
-				actualStart = newDate;
-				return true;
-			}
-		} else {
-			if (!Util.equals(newDate, this.planStart)) {
-				planStart = newDate;
-				return true;
-			}
+		if (!Util.equals(newDate, this.planStart)) {
+			planStart = newDate;
+			return true;
 		}
 		return false;
 	}
 
 	@ReadValue({ "start_date" })
 	public Date getStart_date() {
-		if (actualStart != null) {
-			return actualStart;
-		}
 		return planStart;
 	}
 
@@ -269,11 +259,7 @@ public class WorkInfo {
 	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
 	public WorkInfo setEnd_date(Date end_date) {
 		checkDate(getStart_date(), end_date);
-		if (actualFinish != null) {
-			actualFinish = end_date;
-		} else {
-			planFinish = end_date;
-		}
+		planFinish = end_date;
 		return this;
 	}
 
@@ -292,25 +278,15 @@ public class WorkInfo {
 	@WriteValue("项目甘特图（编辑）/end_date")
 	public boolean setEnd_date(String end_date) {
 		Date newDate = Util.str_date(end_date);
-		if (actualFinish != null) {
-			if (!Util.equals(newDate, this.actualFinish)) {
-				actualFinish = newDate;
-				return true;
-			}
-		} else {
-			if (!Util.equals(newDate, this.planFinish)) {
-				planFinish = newDate;
-				return true;
-			}
+		if (!Util.equals(newDate, this.planFinish)) {
+			planFinish = newDate;
+			return true;
 		}
 		return false;
 	}
 
 	@ReadValue("end_date")
 	public Date getEnd_date() {
-		if (actualFinish != null) {
-			return actualFinish;
-		}
 		return planFinish;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -458,9 +434,6 @@ public class WorkInfo {
 
 	@ReadValue("end_date1")
 	public Date getEnd_date1() {
-		if (actualFinish1 != null) {
-			return actualFinish1;
-		}
 		return planFinish1;
 	}
 
@@ -478,9 +451,6 @@ public class WorkInfo {
 
 	@ReadValue("start_date1")
 	public Date getStart_date1() {
-		if (actualStart1 != null) {
-			return actualStart1;
-		}
 		return planStart1;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -661,25 +631,25 @@ public class WorkInfo {
 	private boolean behaviourDeleteTask() {
 		return actualStart == null;
 	}
-	
+
 	public WorkInfo setPlanStart(Date planStart) {
 		this.planStart = planStart;
 		return this;
 	}
-	
+
 	public WorkInfo setPlanFinish(Date planFinish) {
 		this.planFinish = planFinish;
 		return this;
 	}
-	
+
 	public Date getPlanFinish() {
 		return planFinish;
 	}
-	
+
 	public Date getPlanStart() {
 		return planStart;
 	}
-	
+
 	public WorkInfo setChargerId(String chargerId) {
 		this.chargerId = chargerId;
 		return this;

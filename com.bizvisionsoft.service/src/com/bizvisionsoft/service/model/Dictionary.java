@@ -14,12 +14,20 @@ public class Dictionary {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
+	
+	public ObjectId get_id() {
+		return _id;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Persistence
 	@ReadValue
 	@WriteValue
 	private String id;
+	
+	public String getId() {
+		return id;
+	}
 
 	@ReadValue
 	@WriteValue

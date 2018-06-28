@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -17,12 +19,16 @@ import com.bizvisionsoft.math.scheduling.Graphic;
 import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectChange;
+import com.bizvisionsoft.service.model.ProjectChangeTask;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SalesItem;
@@ -34,6 +40,8 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
+import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 public class ProjectServiceImpl extends BasicServiceImpl implements ProjectService {
@@ -875,6 +883,290 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("project").updateOne(new Document("_id", _id),
 				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", message)));
 		return warningLevel;
+	}
+
+	@Override
+	public List<Baseline> listBaseline(BasicDBObject condition, ObjectId _id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort == null) {
+			sort = new BasicDBObject("_id", -1);
+		}
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+		return query(skip, limit, filter, sort, Baseline.class);
+	}
+
+	@Override
+	public long countBaseline(BasicDBObject filter, ObjectId _id) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		return count(filter, Baseline.class);
+	}
+
+	@Override
+	public Baseline createBaseline(Baseline baseline) {
+		Baseline newBaseline = insert(baseline, Baseline.class);
+		ObjectId project_id = baseline.getProject_id();
+		// 获取要存储到基线的项目
+		Document projectDoc = c("project").find(new Document("_id", project_id)).first();
+		ObjectId newProject_id = newBaseline.get_id();
+		projectDoc.append("projectName", projectDoc.get("name"));
+		projectDoc.append("projectDescription", projectDoc.get("description"));
+		projectDoc.remove("description");
+		projectDoc.remove("name");
+		projectDoc.remove("_id");
+		projectDoc.remove("checkoutBy");
+		projectDoc.remove("space_id");
+
+		// 获取要存储到基线的工作
+		Map<ObjectId, ObjectId> workIds = new HashMap<ObjectId, ObjectId>();
+		List<Document> workDocs = new ArrayList<Document>();
+		c("work").find(new Document("project_id", project_id)).sort(new Document("parent_id", 1))
+				.forEach((Document doc) -> {
+					ObjectId work_id = doc.getObjectId("_id");
+					ObjectId newWork_id = new ObjectId();
+					workIds.put(work_id, newWork_id);
+					doc.append("old_id", work_id);
+					doc.append("_id", newWork_id);
+
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id != null) {
+						ObjectId newParent_id = workIds.get(work_id);
+						doc.append("parent_id", newParent_id);
+					}
+
+					doc.append("project_id", newProject_id);
+
+					doc.remove("checkoutBy");
+					doc.remove("space_id");
+
+					workDocs.add(doc);
+				});
+
+		// 获取要存储到基线的工作关联关系
+		List<Document> worklinkDocs = new ArrayList<Document>();
+		c("worklinks").find(new Document("project_id", project_id)).forEach((Document doc) -> {
+			ObjectId target = doc.getObjectId("target");
+			doc.append("target", workIds.get(target));
+			ObjectId source = doc.getObjectId("source");
+			doc.append("source", workIds.get(source));
+
+			doc.remove("_id");
+
+			worklinkDocs.add(doc);
+		});
+
+		// 插入项目和工作数据
+		c(Baseline.class).updateMany(new Document("_id", baseline.get_id()), new Document("$set", projectDoc));
+
+		c("baselineWork").insertMany(workDocs);
+
+		c("baselineWorklinks").insertMany(worklinkDocs);
+
+		return get(newProject_id, Baseline.class);
+	}
+
+	@Override
+	public long deleteBaseline(ObjectId _id) {
+		c("baselineWork").deleteMany(new Document("project_id", _id));
+
+		c("baselineWorklinks").deleteMany(new Document("project_id", _id));
+
+		return delete(_id, Baseline.class);
+	}
+
+	@Override
+	public long updateBaseline(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, Baseline.class);
+	}
+
+	public BaselineComparable getBaselineComparable(List<ObjectId> projectIds) {
+		// TODO
+		return null;
+	}
+
+	@Override
+	public List<ProjectChange> listProjectChange(BasicDBObject condition, ObjectId _id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(filter));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("_id", -1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendUserInfo(pipeline, "pmId", "pmInfo");
+		appendUserInfo(pipeline, "deptId", "deptInfo");
+		appendUserInfo(pipeline, "psId", "psInfo");
+		appendUserInfo(pipeline, "psManagerId", "psManagerInfo");
+		appendUserInfo(pipeline, "chiefEngineerId", "chiefEngineerInfo");
+		appendUserInfo(pipeline, "consumerId", "consumerInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public long countProjectChange(BasicDBObject filter, ObjectId _id) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("project_id", _id);
+
+		return count(filter, ProjectChange.class);
+	}
+
+	@Override
+	public ProjectChange createProjectChange(ProjectChange pc) {
+		return insert(pc, ProjectChange.class);
+	}
+
+	@Override
+	public long deleteProjectChange(ObjectId _id) {
+		return delete(_id, ProjectChange.class);
+	}
+
+	@Override
+	public long updateProjectChange(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ProjectChange.class);
+	}
+
+	@Override
+	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("_id", _id)));
+
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"),new Field<String>("projectPMId", "$project.pmId"))));
+
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendUserInfo(pipeline, "pmId", "pmInfo");
+		appendUserInfo(pipeline, "deptId", "deptInfo");
+		appendUserInfo(pipeline, "psId", "psInfo");
+		appendUserInfo(pipeline, "psManagerId", "psManagerInfo");
+		appendUserInfo(pipeline, "chiefEngineerId", "chiefEngineerInfo");
+		appendUserInfo(pipeline, "consumerId", "consumerInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
+		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$organization.fullName"),
+				new Field<String>("managerId", "$applicantUnitId.managerId"))));
+		pipeline.add(Aggregates.project(new Document("organization", false)));
+
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public List<Result> submitProjectChange(List<ObjectId> projectChangeIds) {
+		List<Result> result = submitProjectChangeCheck(projectChangeIds);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
+				new Document("$set",
+						new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足提交条件的变更申请。"));
+			return result;
+		}
+
+		return result;
+	}
+
+	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
+		List<Result> result = new ArrayList<Result>();
+		return result;
+	}
+
+	@Override
+	public List<Result> confirmProjectChange(ProjectChangeTask projectChangeTask) {
+		List<Result> result = confirmProjectChangeCheck(projectChangeTask);
+		if (!result.isEmpty()) {
+			return result;
+		}
+		Document set = new Document();
+		set.append(projectChangeTask.name + "Id", projectChangeTask.id);
+		set.append(projectChangeTask.name + "Choice", projectChangeTask.choice);
+		set.append(projectChangeTask.name + "Date", projectChangeTask.date);
+		set.append(projectChangeTask.name + "Comment", projectChangeTask.comment);
+
+		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
+				new Document("$set", set));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
+			return result;
+		}
+
+		// TODO 所有人审核完成后，修改状态。
+
+		long count = c(ProjectChange.class).count(new Document("pmId", new Document("$ne", null))
+				.append("deptId", new Document("$ne", null)).append("psId", new Document("$ne", null))
+				.append("psManagerId", new Document("$ne", null)).append("chiefEngineerId", new Document("$ne", null))
+				.append("consumerId", new Document("$ne", null)));
+		if (count > 0) {
+			ProjectChange pc = c(ProjectChange.class).findOneAndUpdate(
+					new Document("_id", projectChangeTask.projectChange_id),
+					new Document("$set", new Document("status", ProjectChange.STATUS_CONFIRM)));
+
+			Workspace workspace = getWorkspace(pc.getProject_id());
+			new WorkSpaceServiceImpl().checkout(workspace, pc.getApplicantId(), true);
+		}
+
+		return result;
+	}
+
+	private List<Result> confirmProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+		return new ArrayList<Result>();
+	}
+
+	public List<Result> cancelProjectChange(ProjectChangeTask projectChangeTask) {
+		List<Result> result = cancelProjectChangeCheck(projectChangeTask);
+		if (!result.isEmpty()) {
+			return result;
+		}
+		Document set = new Document();
+		set.append(projectChangeTask.name + "Id", projectChangeTask.id);
+		set.append(projectChangeTask.name + "Choice", projectChangeTask.choice);
+		set.append(projectChangeTask.name + "Date", projectChangeTask.date);
+		set.append(projectChangeTask.name + "Comment", projectChangeTask.comment);
+		set.append("status", ProjectChange.STATUS_CANCEL);
+		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
+				new Document("$set", set));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
+			return result;
+		}
+
+		return result;
+	}
+
+	private List<Result> cancelProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+		return new ArrayList<Result>();
 	}
 
 }

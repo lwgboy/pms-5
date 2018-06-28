@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
+import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
@@ -237,6 +238,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		if (workspace.getSpace_id() == null) {
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
 		}
+
+		new ProjectServiceImpl()
+				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setName("修改进度计划"));
+
 		List<ObjectId> workIds = c(Work.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
 				.into(new ArrayList<ObjectId>());

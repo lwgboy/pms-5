@@ -123,11 +123,13 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		c("projectSet", EPSInfo.class).find(new Document("parent_id", _id)).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECTSET));
 		});
-		List<? extends Bson> pipeline = new JQ("查询投资分析-Porject").set("match", new Document("eps_id", _id)).array();
+		List<? extends Bson> pipeline = new JQ("查询投资分析-Porject")
+				.set("match", new Document("eps_id", _id)).array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
-		pipeline = new JQ("查询投资分析-Porject").set("match", new Document("projectSet_id", _id)).array();
+		pipeline = new JQ("查询投资分析-Porject").set("match", new Document("projectSet_id", _id))
+				.array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
