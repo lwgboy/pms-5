@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
@@ -614,10 +616,70 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				.append("data", data2));
 		return getPieChart(title, data1, series);
 	}
-	
+
 	@Override
 	public Document getMonthlyCostAndBudgetChart(ObjectId cbsScope_id) {
-		return getMonthCostCompositionAnalysis(cbsScope_id,new SimpleDateFormat("yyyy").format(new Date()));
+		String year = new SimpleDateFormat("yyyy").format(new Date());
+
+		Document cbsSubjectMatch = new Document();
+		if (cbsScope_id != null)
+			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id)));
+
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$lookup",
+						new Document("from", "cbsSubject")
+								.append("let",
+										new Document("subjectNumber", "$id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
+												new Document("$eq", Arrays.asList("$subjectNumber", "$$subjectNumber")),
+												new Document("$eq",
+														Arrays.asList(new Document("$indexOfBytes",
+																Arrays.asList("$id", year)), 0)),
+												cbsSubjectMatch)))),
+										new Document("$group",
+												new Document("_id", "$id").append("cost", new Document("$sum", "$cost"))
+														.append("budget", new Document("$sum", "$budget"))),
+										new Document("$sort", new Document("_id", 1))))
+								.append("as", "cbsSubject")),
+				new Document("$sort", new Document("id", 1)));
+
+		Map<String, Double> costMap = new LinkedHashMap<String, Double>();
+		Map<String, Double> budgetMap = new LinkedHashMap<String, Double>();
+		for (int i = 1; i < 12; i++) {
+			String key = year + String.format("%02d", i);
+			costMap.put(key, 0d);
+			budgetMap.put(key, 0d);
+		}
+
+		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+			Object subjects = doc.get("cbsSubject");
+			if (subjects instanceof List && ((List<?>) subjects).size() > 0) {
+				((List<?>) subjects).forEach(item -> {
+					String id = ((Document) item).getString("_id");
+					Double costD = costMap.get(id);
+					if (costD != null) {
+						Object cost = ((Document) item).get("cost");
+						if (cost != null) {
+							costD += ((Number) cost).doubleValue();
+							costMap.put(id, (double)Math.round(costD*10)/10);
+						}
+					}
+
+					Double budgetD = budgetMap.get(id);
+					if (budgetD != null) {
+						Object budget = ((Document) item).get("budget");
+						if (budget != null) {
+							budgetD += ((Number) budget).doubleValue();
+							budgetMap.put(id, (double)Math.round(budgetD*10)/10);
+						}
+					}
+				});
+			}
+		});
+
+		return new JQ("项目首页资金预算和用量状况").set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
+		.set("cost",  Arrays.asList(costMap.values().toArray(new Double[0]))).doc();
 	}
 
 	@SuppressWarnings("unchecked")
