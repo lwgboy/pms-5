@@ -40,7 +40,82 @@
 		}
 	}
 }, {
+	"$lookup" : {
+		"from" : "projectChange",
+		"let" : {
+			"project_id" : "$_id"
+		},
+		"pipeline" : [ {
+			"$match" : {
+				"$expr" : {
+					"$and" : [ {
+						"$eq" : [ "$project_id", "$$project_id" ]
+					}, {
+						"$in" : [ "$status", [ "确认", "通过" ] ]
+					} ]
+				}
+			}
+		}, {
+			"$group" : {
+				"_id" : null,
+				"count" : {
+					"$sum" : 1.0
+				}
+			}
+		} ],
+		"as" : "_change"
+	}
+}, {
+	"$unwind" : {
+		"path" : "$_change",
+		"preserveNullAndEmptyArrays" : true
+	}
+}, {
+	"$lookup" : {
+		"from" : "projectChange",
+		"let" : {
+			"project_id" : "$_id"
+		},
+		"pipeline" : [ {
+			"$match" : {
+				"$expr" : {
+					"$and" : [ {
+						"$eq" : [ "$project_id", "$$project_id" ]
+					}, {
+						"$eq" : [ "$status", "通过" ]
+					} ]
+				}
+			}
+		}, {
+			"$group" : {
+				"_id" : null,
+				"count" : {
+					"$sum" : 1.0
+				}
+			}
+		} ],
+		"as" : "_changeStatus"
+	}
+}, {
+	"$unwind" : {
+		"path" : "$_changeStatus",
+		"preserveNullAndEmptyArrays" : true
+	}
+}, {
+	"$addFields" : {
+		"changeNo" : "$_change.count",
+		"changeStatus" : {
+			"$cond" : [ {
+				"$gt" : [ {
+					"$ifNull" : [ "$_changeStatus.count", 0.0 ]
+				}, 0.0 ]
+			}, "变更中", "" ]
+		}
+	}
+}, {
 	"$project" : {
+		"_change" : false,
+		"_changeStatus" : false,
 		"_stage" : false,
 		"_sar" : false
 	}

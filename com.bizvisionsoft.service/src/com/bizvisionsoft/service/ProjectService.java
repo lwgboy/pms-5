@@ -324,6 +324,12 @@ public interface ProjectService {
 	@DataSet("项目变更/" + DataSet.UPDATE)
 	public long updateProjectChange(BasicDBObject filterAndUpdate);
 
+	@PUT
+	@Path("/projectchange/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateProjectChange(ProjectChangeTask projectChangeTask, @PathParam("_id") ObjectId _id);
+
 	@POST
 	@Path("/projectchange/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -339,10 +345,10 @@ public interface ProjectService {
 	public List<Result> submitProjectChange(List<ObjectId> projectChangeIds);
 
 	@POST
-	@Path("/confirmprojectchange")
+	@Path("/passprojectchange")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> confirmProjectChange(ProjectChangeTask projectChangeTask);
+	public List<Result> passProjectChange(ProjectChangeTask projectChangeTask);
 
 	@POST
 	@Path("/cancelprojectchange")
@@ -355,5 +361,17 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<BaselineComparable> getBaselineComparable(List<ObjectId> projectIds);
+
+	@PUT
+	@Path("/projectchange/{_id}/createcheck")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long checkCreateProjectChange(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/confirmprojectchange/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> confirmProjectChange(List<ObjectId> projectChangeIds, @PathParam("userId") String userId);
 
 }

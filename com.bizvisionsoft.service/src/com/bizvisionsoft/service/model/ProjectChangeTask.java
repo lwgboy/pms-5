@@ -18,7 +18,7 @@ public class ProjectChangeTask {
 	public String user;
 
 	@ReadValue("userInfo")
-	private String getPM() {
+	public String getUser() {
 		return Optional.ofNullable(user).map(id -> ServicesLoader.get(UserService.class).get(id).toString()).orElse("");
 	}
 
@@ -38,10 +38,6 @@ public class ProjectChangeTask {
 	@ReadValue
 	@Persistence
 	public String name;
-
-	@ReadValue
-	@Persistence
-	public String reviewer;
 
 	@Exclude
 	public ObjectId projectChange_id;

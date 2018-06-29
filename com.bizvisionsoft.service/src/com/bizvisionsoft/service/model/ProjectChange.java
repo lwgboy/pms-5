@@ -3,7 +3,6 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -28,16 +27,19 @@ public class ProjectChange {
 	public static final String STATUS_SUBMIT = "提交";
 
 	@Exclude
+	public static final String STATUS_PASS = "通过";
+
+	@Exclude
 	public static final String STATUS_CONFIRM = "确认";
 
 	@Exclude
 	public static final String STATUS_CANCEL = "取消";
 
 	@Exclude
-	public static final String CHOICE_CONFIRM = "通过";
+	public static final String CHOICE_CONFIRM = "批准";
 
 	@Exclude
-	public static final String CHOICE_CANCEL = "取消";
+	public static final String CHOICE_CANCEL = "否决";
 
 	private ObjectId _id;
 
@@ -70,6 +72,10 @@ public class ProjectChange {
 	public ProjectChange setStatus(String status) {
 		this.status = status;
 		return this;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 
 	/**
@@ -163,159 +169,6 @@ public class ProjectChange {
 
 	private List<ProjectChangeTask> reviewer = new ArrayList<ProjectChangeTask>();
 
-	@WriteValue("reviewer1")
-	private void setReviewer1(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer1".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer1";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer2")
-	private void setReviewer2(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer2".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer2";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer3")
-	private void setReviewer3(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer3".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer3";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer4")
-	private void setReviewer4(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer4".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer4";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer5")
-	private void setReviewer5(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer5".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer5";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer6")
-	private void setReviewer6(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer6".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer6";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer7")
-	private void setReviewer7(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer7".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer7";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer8")
-	private void setReviewer8(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer8".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer8";
-			this.reviewer.add(pct);
-		}
-	}
-
-	@WriteValue("reviewer9")
-	private void setReviewer9(User reviewer) {
-		boolean b = true;
-		for (ProjectChangeTask pct : this.reviewer) {
-			if ("reviewer9".equals(pct.name)) {
-				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-				b = false;
-			}
-		}
-		if (b) {
-			ProjectChangeTask pct = new ProjectChangeTask();
-			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
-			pct.name = "reviewer9";
-			this.reviewer.add(pct);
-		}
-	}
-
 	public List<ProjectChangeTask> getReviewer() {
 		return reviewer;
 	}
@@ -325,11 +178,11 @@ public class ProjectChange {
 		return STATUS_CREATE.equals(status);
 	}
 
-	@Behavior({ "确认变更", "取消变更" })
+	@Behavior({ "否决变更", "批准变更" })
 	public boolean behaviourSubmit(@MethodParam(MethodParam.CURRENT_USER_ID) String userid) {
 		if (STATUS_SUBMIT.equals(status)) {
 			for (ProjectChangeTask re : reviewer) {
-				if (userid.equals(re.reviewer) && re.choice == null) {
+				if (userid.equals(re.user) && re.choice == null) {
 					return true;
 				}
 			}
@@ -338,9 +191,14 @@ public class ProjectChange {
 		return false;
 	}
 
+	@Behavior({ "确认变更" })
+	public boolean behaviourConfirm() {
+		return STATUS_PASS.equals(status);
+	}
+
 	public String getConfimName(String userid) {
 		for (ProjectChangeTask re : reviewer) {
-			if (userid.equals(re.reviewer) && re.choice == null) {
+			if (userid.equals(re.user) && re.choice == null) {
 				return re.name;
 			}
 		}

@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
@@ -1102,7 +1103,28 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public ProjectChange createProjectChange(ProjectChange pc) {
-		return insert(pc, ProjectChange.class);
+		List<ProjectChangeTask> reviewer = pc.getReviewer();
+		List<OBSItem> obsItems = new OBSServiceImpl().getScopeOBS(pc.getProject_id());
+		List<ChangeProcess> changeProcesss = new CommonServiceImpl().createChangeProcessDataSet();
+		for (ChangeProcess changeProcess : changeProcesss) {
+			if (changeProcess.getProjectOBSId() != null) {
+				for (OBSItem obsItem : obsItems) {
+					if (obsItem.getRoleId() != null && obsItem.getRoleId().equals(changeProcess.getProjectOBSId())) {
+						ProjectChangeTask pct = new ProjectChangeTask();
+						pct.user = obsItem.getManagerId();
+						pct.name = changeProcess.getTaskName();
+						reviewer.add(pct);
+					}
+				}
+			} else {
+				ProjectChangeTask pct = new ProjectChangeTask();
+				pct.name = changeProcess.getTaskName();
+				reviewer.add(pct);
+			}
+		}
+
+		ProjectChange newPC = insert(pc, ProjectChange.class);
+		return listProjectChangeInfo(newPC.get_id()).get(0);
 	}
 
 	@Override
@@ -1156,20 +1178,25 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
 		List<Result> result = new ArrayList<Result>();
+		long count = c(ProjectChange.class)
+				.count(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
+		if (count > 0) {
+			result.add(Result.submitProjectChangeError("缺少审核人员"));
+		}
 		return result;
 	}
 
 	@Override
-	public List<Result> confirmProjectChange(ProjectChangeTask projectChangeTask) {
-		List<Result> result = confirmProjectChangeCheck(projectChangeTask);
+	public List<Result> passProjectChange(ProjectChangeTask projectChangeTask) {
+		List<Result> result = passProjectChangeCheck(projectChangeTask);
 		if (!result.isEmpty()) {
 			return result;
 		}
 
 		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
 		List<ProjectChangeTask> reviewers = pc.getReviewer();
-		List<Document> reviewer = new ArrayList<Document>();
-		String status = ProjectChange.STATUS_CONFIRM;
+		List<BasicDBObject> reviewer = new ArrayList<BasicDBObject>();
+		String status = ProjectChange.STATUS_PASS;
 		for (ProjectChangeTask re : reviewers) {
 			if (re.choice == null && !re.name.equals(projectChangeTask.name)) {
 				status = ProjectChange.STATUS_SUBMIT;
@@ -1179,31 +1206,42 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				re.date = projectChangeTask.date;
 				re.comment = projectChangeTask.comment;
 			}
-			reviewer.add(getDocument(re));
+			reviewer.add(getBson(re));
 		}
 
-		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
-				new Document("$set", new Document("reviewer", reviewer).append("status", status)));
+		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
+				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer).append("status", status)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
 		}
 
-		if (status == ProjectChange.STATUS_CONFIRM) {
-			Workspace workspace = getWorkspace(pc.getProject_id());
-			new WorkSpaceServiceImpl().checkout(workspace, pc.getApplicantId(), true);
+		return result;
+	}
+
+	private List<Result> passProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> confirmProjectChange(List<ObjectId> projectChangeIds, String userId) {
+		List<Result> result = confirmProjectChangeCheck(projectChangeIds);
+		if (!result.isEmpty()) {
+			return result;
+		}
+
+		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
+				new Document("$set", new Document("verifyDate", new Date()).append("verify", userId).append("status",
+						ProjectChange.STATUS_CONFIRM)));
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
+			return result;
 		}
 
 		return result;
 	}
 
-	private Document getDocument(ProjectChangeTask re) {
-		return new Document().append("user", re.user).append("date", re.date).append("choice", re.choice)
-				.append("comment", re.comment).append("name", re.name).append("reviewer", re.reviewer);
-
-	}
-
-	private List<Result> confirmProjectChangeCheck(ProjectChangeTask projectChangeTask) {
+	private List<Result> confirmProjectChangeCheck(List<ObjectId> projectChangeIds) {
 		return new ArrayList<Result>();
 	}
 
@@ -1213,7 +1251,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
-		List<Document> reviewer = new ArrayList<Document>();
+		List<BasicDBObject> reviewer = new ArrayList<BasicDBObject>();
 		List<ProjectChangeTask> reviewers = pc.getReviewer();
 		for (ProjectChangeTask re : reviewers) {
 			if (re.name.equals(projectChangeTask.name)) {
@@ -1222,11 +1260,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				re.date = projectChangeTask.date;
 				re.comment = projectChangeTask.comment;
 			}
-			reviewer.add(getDocument(re));
+			reviewer.add(getBson(re));
 		}
 
-		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
-				new Document("$set", new Document("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
+		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
+				new BasicDBObject("$set",
+						new BasicDBObject("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足取消条件的变更申请。"));
 			return result;
@@ -1237,6 +1276,30 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	private List<Result> cancelProjectChangeCheck(ProjectChangeTask projectChangeTask) {
 		return new ArrayList<Result>();
+	}
+
+	@Override
+	public long updateProjectChange(ProjectChangeTask projectChangeTask, ObjectId projectChange_id) {
+		ProjectChange pc = get(projectChange_id, ProjectChange.class);
+		List<ProjectChangeTask> reviewers = pc.getReviewer();
+		List<BasicDBObject> reviewer = new ArrayList<BasicDBObject>();
+		for (ProjectChangeTask re : reviewers) {
+			if (re.name.equals(projectChangeTask.name)) {
+				re.user = projectChangeTask.user;
+			}
+			reviewer.add(getBson(re));
+		}
+
+		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChange_id),
+				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer)));
+
+		return ur.getModifiedCount();
+	}
+
+	@Override
+	public long checkCreateProjectChange(ObjectId _id) {
+		return c(ProjectChange.class).count(new Document("project_id", _id).append("status",
+				new Document("$nin", Arrays.asList(ProjectChange.STATUS_CANCEL, ProjectChange.STATUS_CONFIRM))));
 	}
 
 }

@@ -29,7 +29,9 @@ public class CheckSchedule {
 			if (workspace != null) {
 				Boolean checkManageItem = true;
 				if (rootInput instanceof Project) {
-					checkManageItem = false;
+					String changeStatus = ((Project) rootInput).getChangeStatus();
+					if (changeStatus != null && "变更中".equals(changeStatus))
+						checkManageItem = false;
 				}
 				Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
@@ -37,7 +39,7 @@ public class CheckSchedule {
 					Layer.message(result.message);
 				} else {
 					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
-							"管理节点 <b style='color:red;'>" + result.data + "</b> 完成时间超过限定。");
+							"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 				}
 			}
 		}

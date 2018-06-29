@@ -741,9 +741,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	private List<ObjectId> stage_ids;
 
-	@ReadValue("sar")
+	@SetValue("sar")
 	private Double sar;
 
+	@ReadValue("sar")
 	public Double getSAR() {
 		return sar;
 	}
@@ -798,20 +799,20 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@SetValue
 	private Estimate scheduleEst;
-	
+
 	@ReadValue("estFinish")
 	public Date getEstimateFinish() {
-		return Optional.ofNullable(scheduleEst).map(s->s.finish).orElse(null);
+		return Optional.ofNullable(scheduleEst).map(s -> s.finish).orElse(null);
 	}
-	
+
 	@ReadValue("estDuration")
 	public Integer getEstimateDuration() {
-		return Optional.ofNullable(scheduleEst).map(s->s.duration).orElse(null);
+		return Optional.ofNullable(scheduleEst).map(s -> s.duration).orElse(null);
 	}
-	
+
 	@ReadValue("estOverdue")
 	public Integer getEstimateOverdue() {
-		return Optional.ofNullable(scheduleEst).map(s->s.overdue).orElse(null);
+		return Optional.ofNullable(scheduleEst).map(s -> s.overdue).orElse(null);
 	}
 
 	@ReadValue("warningOverdue")
@@ -848,7 +849,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		// return "";
 		// }
 	}
-	
+
 	public Integer getOverdueIndex() {
 		return overdueIndex;
 	}
@@ -912,6 +913,18 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	public List<List<Double>> getDurationForcast() {
 		return ServicesLoader.get(RiskService.class).getDurationForcast(_id);
+	}
+
+	@ReadValue
+	@SetValue
+	private Integer changeNo;
+
+	@ReadValue
+	@SetValue
+	private String changeStatus;
+
+	public String getChangeStatus() {
+		return changeStatus;
 	}
 
 }

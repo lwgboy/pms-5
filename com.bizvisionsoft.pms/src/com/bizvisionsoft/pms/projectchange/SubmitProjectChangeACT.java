@@ -26,8 +26,7 @@ public class SubmitProjectChangeACT {
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "提交变更申请",
-				"请确认提交变更申请。\n系统将记录现在时刻为变更申请提交时间，提交后该变更申请将无法进行修改。");
+		boolean ok = MessageDialog.openConfirm(shell, "提交变更申请", "请确认提交变更申请。\n系统将记录现在时刻为变更申请提交时间，提交后该变更申请将无法进行修改。");
 		if (!ok) {
 			return;
 		}
@@ -35,6 +34,9 @@ public class SubmitProjectChangeACT {
 		if (result.isEmpty()) {
 			Layer.message("变更申请已提交。");
 			brui.closeCurrentContent();
+		} else {
+			if(result.get(0).code==Result.CODE_PROJECTCHANGE_NOTASKUSER)
+				Layer.message("请为所有审核环节填写审核人员后，再进行提交。",Layer.ICON_CANCEL);
 		}
 	}
 }

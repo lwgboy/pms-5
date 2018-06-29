@@ -1,14 +1,19 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.EncoderContext;
 import org.bson.conversions.Bson;
+import org.bson.json.JsonWriter;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.math.scheduling.Consequence;
@@ -17,6 +22,7 @@ import com.bizvisionsoft.math.scheduling.Relation;
 import com.bizvisionsoft.math.scheduling.Risk;
 import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
+import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -470,7 +476,7 @@ public class BasicServiceImpl {
 
 	private void createGraphicRiskNode(ArrayList<Task> tasks, ArrayList<Risk> risks, final Document doc) {
 		String id = doc.getObjectId("_id").toHexString();
-		double prob = doc.getDouble("probability");//取出的数字需要除100
+		double prob = doc.getDouble("probability");// 取出的数字需要除100
 		List<?> riskEffects = (List<?>) doc.get("riskEffect");
 		List<Consequence> cons = new ArrayList<>();
 		if (riskEffects != null && !riskEffects.isEmpty()) {
@@ -486,8 +492,8 @@ public class BasicServiceImpl {
 				}
 			}
 		}
-		if(cons.size()>0) {
-			risks.add(new Risk(id, (float) prob/100, cons.toArray(new Consequence[0])));
+		if (cons.size() > 0) {
+			risks.add(new Risk(id, (float) prob / 100, cons.toArray(new Consequence[0])));
 		}
 	}
 
@@ -499,18 +505,18 @@ public class BasicServiceImpl {
 		Date pFinish = doc.getDate("planFinish");
 		Date now = new Date();
 		/////////////////////////////////
-		//只考虑完成时取实际工期
-		//未完成时取计划工期
+		// 只考虑完成时取实际工期
+		// 未完成时取计划工期
 		long duration;
 		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
 			duration = aFinish.getTime() - aStart.getTime();
-		} else if(aStart!=null) {//如果工作已开始
-			if(now.after(pFinish)) {//如果超过完成时间还未完成，视作可能立即完成
+		} else if (aStart != null) {// 如果工作已开始
+			if (now.after(pFinish)) {// 如果超过完成时间还未完成，视作可能立即完成
 				duration = now.getTime() - aStart.getTime() + aStart.getTime() - pStart.getTime();
-			}else {
+			} else {
 				duration = pFinish.getTime() - pStart.getTime() + aStart.getTime() - pStart.getTime();
 			}
-		} else if(now.after(pStart)) {
+		} else if (now.after(pStart)) {
 			duration = pFinish.getTime() - pStart.getTime() + now.getTime() - pStart.getTime();
 		} else {
 			duration = pFinish.getTime() - pStart.getTime();
@@ -521,7 +527,7 @@ public class BasicServiceImpl {
 		tasks.add(task);
 		return task;
 	}
-	
+
 	protected void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart, ArrayList<Task> tasks) {
 		gh.setStartDate(pjStart);
 		gh.getStartRoute().forEach(r -> {
@@ -532,5 +538,30 @@ public class BasicServiceImpl {
 			Date pStart = doc.getDate("planStart");
 			gh.setStartDate(id, aStart == null ? pStart : aStart);
 		});
+	}
+
+	protected static BasicDBObject getBson(Object input) {
+		return getBson(input, true);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static BasicDBObject getBson(Object input, boolean ignoreNull) {
+		Codec codec = CodexProvider.getRegistry().get(input.getClass());
+		StringWriter sw = new StringWriter();
+		codec.encode(new JsonWriter(sw), input, EncoderContext.builder().build());
+		String json = sw.toString();
+		BasicDBObject result = BasicDBObject.parse(json);
+
+		BasicDBObject _result = new BasicDBObject();
+		Iterator<String> iter = result.keySet().iterator();
+		while (iter.hasNext()) {
+			String k = iter.next();
+			Object v = result.get(k);
+			if (v == null && ignoreNull) {
+				continue;
+			}
+			_result.append(k, v);
+		}
+		return _result;
 	}
 }

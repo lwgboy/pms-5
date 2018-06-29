@@ -23,7 +23,7 @@ public class EditProjectChangeACT {
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
-		Editor.open("项目变更编辑器—无角色", context, input, (r, o) -> {
+		Editor.open("项目变更编辑器", context, input, (r, o) -> {
 			ServicesLoader.get(ProjectService.class).updateProjectChange(new FilterAndUpdate()
 					.filter(new BasicDBObject("_id", o.get_id())).set(Util.getBson((ProjectChange) o, "_id")).bson());
 			AUtil.simpleCopy(o, input);
