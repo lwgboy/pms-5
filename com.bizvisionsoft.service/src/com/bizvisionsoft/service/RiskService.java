@@ -263,12 +263,16 @@ public interface RiskService {
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
 	@POST
-	@Path("/qlt/project_id/{project_id}/chart")
+	@Path("/mcs/project_id/{project_id}/durProb")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("蒙特卡洛分析展示/list")
-	public Document qualitativeAnlysisChartData(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+	public Double getDurationProbability(@PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/mcs/project_id/{project_id}/durForcast")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<List<Double>> getDurationForcast(@PathParam("project_id") ObjectId project_id);
 
 	@POST
 	@Path("/riskresp/")
@@ -280,7 +284,7 @@ public interface RiskService {
 	@Path("/riskresp/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteRiskResponse(@PathParam("_id")  ObjectId _id);
+	public long deleteRiskResponse(@PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/riskresp/")
@@ -299,5 +303,6 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject filter);
+
 
 }

@@ -186,6 +186,14 @@ public interface CBSService {
 			@PathParam("year") String year);
 
 	@POST
+	@Path("/chart/cbsscope_id/{cbsscope_id}/monthlyBudgetAndCost")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目预算成本对比（首页小组件）/list")
+	public Document getMonthlyCostAndBudgetChart(
+			@PathParam("cbsscope_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId cbsScope_id);
+
+	@POST
 	@Path("/costcompositionanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

@@ -27,15 +27,15 @@ public class MonteCarloSimulateACT {
 			public String isValid(String newText) {
 				try {
 					int value = Integer.parseInt(newText);
-					if (value <= 100000 && value > 1) {
+					if (value <= 10000 && value > 0) {
 						return null;
 					}
 				} catch (Exception e) {
 				}
-				return "请输入大于1小于等于100000的整数次数。";
+				return "请输入大于0小于等于10000的整数次数。";
 			}
 		};
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "运行蒙特卡洛模拟", "请输入模拟次数", "10000", v);
+		InputDialog id = new InputDialog(brui.getCurrentShell(), "运行蒙特卡洛模拟", "请输入模拟次数", "2000", v);
 		if (Window.OK == id.open()) {
 			String times = id.getValue();
 			Services.get(RiskService.class).monteCarloSimulate(context.getRootInput(Project.class, false).get_id(),

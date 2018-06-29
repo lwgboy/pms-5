@@ -1092,6 +1092,23 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private Date getEstimateDate() {
 		return scheduleEst == null ? null : scheduleEst.date;
 	}
+	
+	@ReadValue("estDuration")
+	private Integer getEstimateDuration() {
+		return scheduleEst == null ? null : scheduleEst.duration;
+	}
+	
+	@ReadValue("TF")
+	@SetValue
+	private Double getTF() {
+		return scheduleEst == null ? null : scheduleEst.tf;
+	}
+	
+	@ReadValue("FF")
+	@SetValue
+	private Double getFF() {
+		return scheduleEst == null ? null : scheduleEst.ff;
+	}
 
 	@SetValue
 	@ReadValue

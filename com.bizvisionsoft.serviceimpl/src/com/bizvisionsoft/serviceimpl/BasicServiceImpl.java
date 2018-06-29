@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.math.scheduling.Consequence;
+import com.bizvisionsoft.math.scheduling.Graphic;
 import com.bizvisionsoft.math.scheduling.Relation;
 import com.bizvisionsoft.math.scheduling.Risk;
 import com.bizvisionsoft.math.scheduling.Route;
@@ -504,7 +505,11 @@ public class BasicServiceImpl {
 		if (aFinish != null) {// 如果工作已经完成，工期为实际完成-实际开始
 			duration = aFinish.getTime() - aStart.getTime();
 		} else if(aStart!=null) {//如果工作已开始
-			duration = pFinish.getTime() - pStart.getTime() + aStart.getTime() - pStart.getTime();
+			if(now.after(pFinish)) {//如果超过完成时间还未完成，视作可能立即完成
+				duration = now.getTime() - aStart.getTime() + aStart.getTime() - pStart.getTime();
+			}else {
+				duration = pFinish.getTime() - pStart.getTime() + aStart.getTime() - pStart.getTime();
+			}
 		} else if(now.after(pStart)) {
 			duration = pFinish.getTime() - pStart.getTime() + now.getTime() - pStart.getTime();
 		} else {
@@ -515,5 +520,17 @@ public class BasicServiceImpl {
 		task.setName(doc.getString("name"));
 		tasks.add(task);
 		return task;
+	}
+	
+	protected void setupStartDate(Graphic gh, ArrayList<Document> works, Date pjStart, ArrayList<Task> tasks) {
+		gh.setStartDate(pjStart);
+		gh.getStartRoute().forEach(r -> {
+			String id = r.end2.getId();
+			ObjectId _id = new ObjectId(id);
+			Document doc = works.stream().filter(d -> _id.equals(d.getObjectId("_id"))).findFirst().get();
+			Date aStart = doc.getDate("actualStart");
+			Date pStart = doc.getDate("planStart");
+			gh.setStartDate(id, aStart == null ? pStart : aStart);
+		});
 	}
 }
