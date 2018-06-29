@@ -746,7 +746,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("sar")
 	public Double getSAR() {
-		return sar;
+		return sar != null ? (sar * Math.pow(0.8, getChangeNo())) : null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -916,8 +916,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@ReadValue
-	@SetValue
-	private Integer changeNo;
+	@SetValue("changeNo")
+	private Double changeNo;
+
+	public double getChangeNo() {
+		return changeNo != null ? changeNo.doubleValue() : 0;
+	}
 
 	@ReadValue
 	@SetValue
