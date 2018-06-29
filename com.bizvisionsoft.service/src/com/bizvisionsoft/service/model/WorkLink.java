@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -82,12 +83,12 @@ public class WorkLink {
 	@Persistence
 	private ObjectId _id;
 
-	@ReadValue({ "项目甘特图/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id" })
+	@ReadValue({ "项目甘特图/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id", "项目基线甘特图/id" })
 	public String getId() {
 		return _id.toHexString();
 	}
 
-	@WriteValue({ "项目甘特图/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id" })
+	@WriteValue({ "项目甘特图/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id", "项目基线甘特图/id" })
 	public WorkLink setId(String id) {
 		this._id = new ObjectId(id);
 		return this;
@@ -99,14 +100,14 @@ public class WorkLink {
 	@Persistence
 	private ObjectId project_id;
 
-	@ReadValue({ "项目甘特图/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project", "项目甘特图（资源分配）/project",
-			"项目进展甘特图/project" })
+	@ReadValue({ "项目甘特图/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project", "项目甘特图（资源分配）/project", "项目进展甘特图/project",
+			"项目基线甘特图/project" })
 	public String getProject() {
 		return project_id == null ? null : project_id.toHexString();
 	}
 
 	@WriteValue({ "项目甘特图/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project", "项目甘特图（资源分配）/project",
-			"项目进展甘特图/project" })
+			"项目进展甘特图/project", "项目基线甘特图/project" })
 	public WorkLink setProject(String project_id) {
 		this.project_id = project_id == null ? null : new ObjectId(project_id);
 		return this;
@@ -136,6 +137,19 @@ public class WorkLink {
 	public void setSourceId(ObjectId source_id) {
 		source = ServicesLoader.get(WorkService.class).getWork(source_id);
 	}
+
+	@Exclude
+	private Work sourceWork;
+
+	@SetValue("sourceWork")
+	public void setSourceWork(Work sourceWork) {
+		this.sourceWork = sourceWork;
+	}
+
+	@ReadValue({ "项目基线甘特图/source" })
+	public String getSourceWork() {
+		return sourceWork == null ? null : sourceWork.get_id().toHexString();
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +175,20 @@ public class WorkLink {
 	public void setTargetId(ObjectId target_id) {
 		target = ServicesLoader.get(WorkService.class).getWork(target_id);
 	}
+
+	@Exclude
+	private Work targetWork;
+
+	@SetValue("targetWork")
+	public void setTargetWork(Work targetWork) {
+		this.targetWork = targetWork;
+	}
+
+	@ReadValue({ "项目基线甘特图/target" })
+	public String getTargetWork() {
+		return targetWork == null ? null : targetWork.get_id().toHexString();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +201,8 @@ public class WorkLink {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
-	@ReadValue({ "项目甘特图/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag" })
-	@WriteValue({ "项目甘特图/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag" })
+	@ReadValue({ "项目甘特图/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag", "项目基线甘特图/lag" })
+	@WriteValue({ "项目甘特图/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag", "项目基线甘特图/lag" })
 	@Persistence
 	private int lag;
 

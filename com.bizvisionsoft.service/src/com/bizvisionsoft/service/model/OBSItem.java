@@ -163,6 +163,10 @@ public class OBSItem {
 		}).orElse(null);
 	}
 
+	public String getManagerId() {
+		return managerId;
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue
@@ -260,20 +264,20 @@ public class OBSItem {
 			if (Util.isEmptyOrNull(managerInfo)) {
 				return "[待定]";
 			} else {
-				return managerInfo;//.substring(0, managerInfo.indexOf("["));
+				return managerInfo;// .substring(0, managerInfo.indexOf("["));
 			}
 		} else {
 			if (Util.isEmptyOrNull(roleName)) {
 				if (Util.isEmptyOrNull(managerInfo)) {
 					return "团队";
 				} else {
-					return managerInfo;//.substring(0, managerInfo.indexOf("["));
+					return managerInfo;// .substring(0, managerInfo.indexOf("["));
 				}
 			} else {
 				if (Util.isEmptyOrNull(managerInfo)) {
 					return roleName + " [待定]";
 				} else {
-					return roleName + " " + managerInfo;//.substring(0, managerInfo.indexOf("["));
+					return roleName + " " + managerInfo;// .substring(0, managerInfo.indexOf("["));
 				}
 			}
 		}
@@ -301,6 +305,10 @@ public class OBSItem {
 	public OBSItem setRoleId(String roleId) {
 		this.roleId = roleId;
 		return this;
+	}
+
+	public String getRoleId() {
+		return roleId;
 	}
 
 	public OBSItem setRoleName(String roleName) {

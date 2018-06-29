@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -8,6 +9,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.WorkService;
 
 @PersistenceCollection("baseline")
 public class Baseline {
@@ -18,9 +21,9 @@ public class Baseline {
 	@Persistence
 	private ObjectId project_id;
 
-	@WriteValue("creationInfo")
 	@ReadValue
-	private CreationInfo creationInfo;
+	@Persistence
+	private Date creationDate;
 
 	@ReadValue
 	@WriteValue
@@ -49,30 +52,34 @@ public class Baseline {
 		return project_id;
 	}
 
-	public CreationInfo getCreationInfo() {
-		return creationInfo;
+	public Baseline setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+		return this;
 	}
 
 	@ReadValue("createDate")
 	public Date getCreateDate() {
-		return creationInfo.date;
-	}
-
-	@ReadValue("creater")
-	public String getCreater() {
-		return creationInfo.userName + "[" + creationInfo.userId + "]";
+		return creationDate;
 	}
 
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public Baseline setName(String name) {
 		this.name = name;
 		return this;
+	}
+
+	public List<Work> createGanttTaskDataSet() {
+		return ServicesLoader.get(WorkService.class).createBaselineTaskDataSet(_id);
+	}
+
+	public List<WorkLink> createGanttLinkDataSet() {
+		return ServicesLoader.get(WorkService.class).createBaselineLinkDataSet(_id);
 	}
 }

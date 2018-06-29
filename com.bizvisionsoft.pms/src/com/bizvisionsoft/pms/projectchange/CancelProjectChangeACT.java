@@ -25,12 +25,12 @@ public class CancelProjectChangeACT {
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		ProjectChangeTask task = new ProjectChangeTask();
-		task.id = brui.getCurrentUserId();
+		task.user = brui.getCurrentUserId();
 		task.projectChange_id = input.get_id();
-		task.id = brui.getCurrentUserId();
+		task.user = brui.getCurrentUserId();
 		task.date = new Date();
 		task.choice = ProjectChange.CHOICE_CANCEL;
-		task.name = input.getConfimName(task.id);
+		task.name = input.getConfimName(task.user);
 		Editor.open("取消变更编辑器", context, task, (r, o) -> {
 			List<Result> result = ServicesLoader.get(ProjectService.class).confirmProjectChange(o);
 			if (result.isEmpty()) {

@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -240,7 +241,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		new ProjectServiceImpl()
-				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setName("修改进度计划"));
+				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setCreationDate(new Date()).setName("修改进度计划"));
 
 		List<ObjectId> workIds = c(Work.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
