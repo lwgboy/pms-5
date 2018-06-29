@@ -27,7 +27,8 @@
   "series": [
     {
       "name": "计划",
-      "type": "bar",
+      "type": "line",
+      "areaStyle": {"normal": {}},
       "label": {
         "normal": {
           "show": true,
@@ -38,7 +39,8 @@
     },
     {
       "name": "实际",
-      "type": "bar",
+      "type": "line",
+      "areaStyle": {"normal": {}},
       "label": {
         "normal": {
           "show": true,

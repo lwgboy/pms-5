@@ -483,6 +483,15 @@ public interface WorkService {
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 
 	@POST
+	@Path("/chart/project_id/{project_id}/workScore")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目各类工作评分/list")
+	public Document getProjectWorkScroe(
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+
+	
+	@POST
 	@Path("/resourceallanalysis/{year}/{userid}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

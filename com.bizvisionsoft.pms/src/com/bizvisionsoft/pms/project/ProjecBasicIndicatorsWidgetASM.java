@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.project;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import org.eclipse.swt.SWT;
@@ -21,6 +22,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.model.Project;
 
@@ -68,13 +70,35 @@ public class ProjecBasicIndicatorsWidgetASM {
 		Carousel carousel = new Carousel(parent, SWT.NONE);
 		carousel.setAnimation("default");
 		carousel.setIndicator("none");
-		Composite page = createPage(parent, carousel);
+
+		Composite page = createPage(parent, carousel,3);
+		addIndicator(page, Util.getFormatText(project.getPlanStart()), "计划开始");
+		addIndicator(page, Util.getFormatText(project.getPlanFinish()), "计划完成");
+		addIndicator(page, project.getPlanDuration() + "天", "计划工期");
+		String overdue = getOverdueHtml();
+		if ("超期".equals(overdue)) {
+			addIndicator(page, overdue, "进度预警", "layui-bg-orange","#ffffff","#ffffff");
+		} else if ("Ⅰ级".equals(overdue)) {
+			addIndicator(page, overdue, "进度预警", "layui-bg-red","#ffffff","#ffffff");
+		} else if ("Ⅱ级".equals(overdue)) {
+			addIndicator(page, overdue, "进度预警", "layui-bg-orange","#ffffff","#ffffff");
+		} else if ("Ⅲ级".equals(overdue)) {
+			addIndicator(page, overdue, "进度预警", "layui-bg-blue","#ffffff","#ffffff");
+		} else {
+			addIndicator(page, "", "进度预警");
+		}
+		addIndicator(page, Util.getFormatText(project.getEstimateFinish()), "预计完成");
+		
+		addIndicator(page, Util.getFormatText(project.getEstimateDuration())+"天", "预计工期");
+		
+		
+		page = createPage(parent, carousel,2);
 		addIndicator(page, toString(project.getWAR()), "工作进度完成率");
 		addIndicator(page, toString(project.getDAR()), "工期完成率");
 		addIndicator(page, toString(project.getCAR()), "成本进度完成率");
 		addIndicator(page, toString(project.getBDR()), "预算偏差率");
 
-		page = createPage(parent, carousel);
+		page = createPage(parent, carousel,2);
 
 		Double probability = project.getDurationProbability();
 		if (probability == null) {
@@ -102,10 +126,10 @@ public class ProjecBasicIndicatorsWidgetASM {
 		fd.bottom = new FormAttachment(100);
 	}
 
-	private Composite createPage(Composite parent, Carousel carousel) {
+	private Composite createPage(Composite parent, Carousel carousel,int colCount) {
 		Composite page = carousel.addPage(new Composite(carousel, SWT.NONE));
 		page.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		GridLayout layout = new GridLayout(2, true);
+		GridLayout layout = new GridLayout(colCount, true);
 		layout.horizontalSpacing = 16;
 		layout.verticalSpacing = 16;
 		layout.marginHeight = 16;
@@ -125,7 +149,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		btn.setHtmlAttribute("class", css);
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='margin-top:16px;color:" + titleColor + ";'>" + title + "</div>");
-		sb.append("<div style='font-size:30px;text-align:center;color:" + textColor + ";margin-top:8px;'>" + ind
+		sb.append("<div style='font-size:24px;text-align:center;color:" + textColor + ";margin-top:8px;'>" + ind
 				+ "</div>");
 		btn.setText(sb.toString());
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -135,6 +159,30 @@ public class ProjecBasicIndicatorsWidgetASM {
 
 	private Control addIndicator(Composite parent, String ind, String title) {
 		return addIndicator(parent, ind, title, "brui_bg_lightgrey", "#757575", "#009688");
+	}
+	
+	private String getOverdueHtml() {
+		Date _actual = project.getActualFinish();
+		Date _plan = project.getPlanFinish();
+		if (_actual == null) {
+			_actual = new Date();
+		}
+		// 如果当前时间或完成时间已经超过了计划完成，提示为超期
+		if (_actual.after(_plan)) {
+			return "超期";
+		}
+
+		if (project.getOverdueIndex() != null) {
+			switch (project.getOverdueIndex()) {
+			case 0:
+				return "Ⅰ级";
+			case 1:
+				return "Ⅱ级";
+			case 2:
+				return "Ⅲ级";
+			}
+		}
+		return "";
 	}
 
 }

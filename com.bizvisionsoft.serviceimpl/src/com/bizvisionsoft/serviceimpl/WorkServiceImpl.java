@@ -1498,8 +1498,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Double> planWorks = Arrays.asList(planWorksMap.values().toArray(new Double[0]));
 		List<Double> actualWorks = Arrays.asList(actualWorksMap.values().toArray(new Double[0]));
-		return new JQ("项目首页资源计划和用量状况").set("title", "项目资源计划和用量状况（小时）")
-				.set("xAxis", xAxisDate).set("planWorks", planWorks).set("actualWorks", actualWorks).doc();
+		return new JQ("项目首页资源计划和用量状况").set("title", "项目资源计划和用量状况（小时）").set("xAxis", xAxisDate)
+				.set("planWorks", planWorks).set("actualWorks", actualWorks).doc();
 	}
 
 	@Override
@@ -1871,5 +1871,33 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		UpdateResult updateMany = c("workReportResourceActual").updateMany(filter, update, option);
 		long cnt = updateMany.getModifiedCount();
 		return cnt;
+	}
+
+	@Override
+	public Document getProjectWorkScroe(ObjectId project_id) {
+		List<Document> indicator = new ArrayList<>();
+		List<Double> avg = new ArrayList<>();
+
+		c("work").aggregate(new JQ("项目工作如期评分")
+				.set("match", new Document("actualStart", new Document("$ne", null))).set("now", new Date()).array())
+				.forEach((Document d) -> {
+					indicator.add(new Document("name", d.getString("_id")).append("max", 100));
+					avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
+				});
+
+		Double[] value = new Double[avg.size()];
+
+		c("work").aggregate(new JQ("项目工作如期评分")
+				.set("match", new Document("project_id", project_id).append("actualStart", new Document("$ne", null)))
+				.set("now", new Date()).array()).forEach((Document d) -> {
+					for (int i = 0; i < indicator.size(); i++) {
+						if(indicator.get(i).getString("name").equals(d.getString("_id"))) {
+							value[i] = (double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10;
+							break;
+						}
+					}
+				});
+
+		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value)).doc();
 	}
 }
