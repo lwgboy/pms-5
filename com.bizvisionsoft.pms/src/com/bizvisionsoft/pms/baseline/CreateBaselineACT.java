@@ -1,5 +1,7 @@
 package com.bizvisionsoft.pms.baseline;
 
+import java.util.Date;
+
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,11 +22,12 @@ public class CreateBaselineACT {
 	@Execute
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
-		Editor.open("项目基线编辑器", context, new Baseline().setProject_id(project.get_id()), (r, o) -> {
-			Baseline baseline = Services.get(ProjectService.class).createBaseline(o);
-			GridPart grid = (GridPart) context.getContent();
-			grid.insert(baseline);
-		});
+		Editor.open("项目基线编辑器", context, new Baseline().setProject_id(project.get_id()).setCreationDate(new Date()),
+				(r, o) -> {
+					Baseline baseline = Services.get(ProjectService.class).createBaseline(o);
+					GridPart grid = (GridPart) context.getContent();
+					grid.insert(baseline);
+				});
 
 	}
 }

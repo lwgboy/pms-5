@@ -529,4 +529,16 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkReportResourceActual(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/baseline_id/{baseline_id}/gantttasks")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> createBaselineTaskDataSet(@PathParam("baseline_id") ObjectId baseline_id);
+
+	@POST
+	@Path("/baseline_id/{baseline_id}/ganttlinks")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkLink> createBaselineLinkDataSet(@PathParam("baseline_id") ObjectId baseline_id);
 }

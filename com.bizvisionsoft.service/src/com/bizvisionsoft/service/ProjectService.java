@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
@@ -348,5 +349,11 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> cancelProjectChange(ProjectChangeTask projectChangeTask);
+
+	@POST
+	@Path("baselinevomparable")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<BaselineComparable> getBaselineComparable(List<ObjectId> projectIds);
 
 }

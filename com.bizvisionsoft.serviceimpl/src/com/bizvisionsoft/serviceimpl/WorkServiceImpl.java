@@ -1874,6 +1874,51 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	public List<Work> createBaselineTaskDataSet(ObjectId baseline_id) {
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new BasicDBObject("baseline_id", baseline_id)));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+
+		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+		pipeline.add(Aggregates.unwind("$project"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		// appendOverdue(pipeline);
+		//
+		// appendWorkTime(pipeline);
+
+		ArrayList<Work> into = c("baselineWork", Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+		return into;
+	}
+
+	@Override
+	public List<WorkLink> createBaselineLinkDataSet(ObjectId baseline_id) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("baseline_id", baseline_id)));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+
+		pipeline.add(Aggregates.lookup("baselineWork", "source", "_id", "sourceWork"));
+		pipeline.add(Aggregates.unwind("$sourceWork"));
+
+		pipeline.add(Aggregates.lookup("baselineWork", "target", "_id", "targetWork"));
+		pipeline.add(Aggregates.unwind("$targetWork"));
+
+		ArrayList<WorkLink> into = c("baselineWorkLinks", WorkLink.class).aggregate(pipeline)
+				.into(new ArrayList<WorkLink>());
+		return into;
+	}
+	
+	@Override
 	public Document getProjectWorkScroe(ObjectId project_id) {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();

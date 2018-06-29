@@ -1,17 +1,20 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 
@@ -46,15 +49,6 @@ public class ProjectChange {
 
 	public ObjectId getProject_id() {
 		return project_id;
-	}
-
-	private Project project;
-
-	private Project getProject() {
-		if (project == null) {
-			project = ServicesLoader.get(ProjectService.class).get(project_id);
-		}
-		return project;
 	}
 
 	@ReadValue
@@ -109,6 +103,7 @@ public class ProjectChange {
 	/**
 	 * 申请单位
 	 */
+	@Persistence
 	private ObjectId applicantUnitId;
 
 	@ReadValue
@@ -166,137 +161,164 @@ public class ProjectChange {
 	@ReadValue
 	private Date submitDate;
 
-	/**
-	 * 项目经理意见
-	 */
-	private String pmId;
+	private List<ProjectChangeTask> reviewer = new ArrayList<ProjectChangeTask>();
 
-	@SetValue
-	private String projectPMId;
+	@WriteValue("reviewer1")
+	private void setReviewer1(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer1".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer1";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@ReadValue
-	@SetValue
-	private String pmInfo;
+	@WriteValue("reviewer2")
+	private void setReviewer2(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer2".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer2";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@WriteValue
-	@ReadValue
-	private Date pmDate;
+	@WriteValue("reviewer3")
+	private void setReviewer3(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer3".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer3";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@WriteValue
-	@ReadValue
-	private String pmChoice;
+	@WriteValue("reviewer4")
+	private void setReviewer4(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer4".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer4";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@WriteValue
-	@ReadValue
-	private String pmComment;
+	@WriteValue("reviewer5")
+	private void setReviewer5(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer5".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer5";
+			this.reviewer.add(pct);
+		}
+	}
 
-	/**
-	 * 部门领导意见
-	 */
-	private String deptId;
+	@WriteValue("reviewer6")
+	private void setReviewer6(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer6".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer6";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@SetValue
-	private String managerId;
+	@WriteValue("reviewer7")
+	private void setReviewer7(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer7".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer7";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@ReadValue
-	@SetValue
-	private String deptInfo;
+	@WriteValue("reviewer8")
+	private void setReviewer8(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer8".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer8";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@WriteValue
-	@ReadValue
-	private Date deptDate;
+	@WriteValue("reviewer9")
+	private void setReviewer9(User reviewer) {
+		boolean b = true;
+		for (ProjectChangeTask pct : this.reviewer) {
+			if ("reviewer9".equals(pct.name)) {
+				pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+				b = false;
+			}
+		}
+		if (b) {
+			ProjectChangeTask pct = new ProjectChangeTask();
+			pct.reviewer = Optional.ofNullable(reviewer).map(o -> o.getUserId()).orElse(null);
+			pct.name = "reviewer9";
+			this.reviewer.add(pct);
+		}
+	}
 
-	@WriteValue
-	@ReadValue
-	private String deptChoice;
-
-	@WriteValue
-	@ReadValue
-	private String deptComment;
-
-	/**
-	 * 项目主管意见
-	 */
-	private String psId;
-
-	@ReadValue
-	@SetValue
-	private String psInfo;
-
-	@WriteValue
-	@ReadValue
-	private Date psDate;
-
-	@WriteValue
-	@ReadValue
-	private String psChoice;
-
-	@WriteValue
-	@ReadValue
-	private String psComment;
-
-	/**
-	 * 主管领导意见
-	 */
-	private String psManagerId;
-
-	@ReadValue
-	@SetValue
-	private String psManagerInfo;
-
-	@WriteValue
-	@ReadValue
-	private Date psManagerDate;
-
-	@WriteValue
-	@ReadValue
-	private String psManagerChoice;
-
-	@WriteValue
-	@ReadValue
-	private String psManagerComment;
-
-	/**
-	 * 总工程师意见
-	 */
-	private String chiefEngineerId;
-
-	@ReadValue
-	@SetValue
-	private String chiefEngineerInfo;
-
-	@WriteValue
-	@ReadValue
-	private Date chiefEngineerDate;
-
-	@WriteValue
-	@ReadValue
-	private String chiefEngineerChoice;
-
-	@WriteValue
-	@ReadValue
-	private String chiefEngineerComment;
-
-	/**
-	 * 用户代表意见
-	 */
-	private String consumerId;
-
-	@ReadValue
-	@SetValue
-	private String consumerInfo;
-
-	@WriteValue
-	@ReadValue
-	private Date consumerDate;
-
-	@WriteValue
-	@ReadValue
-	private String consumerChoice;
-
-	@WriteValue
-	@ReadValue
-	private String consumerComment;
+	public List<ProjectChangeTask> getReviewer() {
+		return reviewer;
+	}
 
 	@Behavior({ "删除变更", "编辑变更", "提交变更" })
 	public boolean behaviourDelete() {
@@ -305,78 +327,22 @@ public class ProjectChange {
 
 	@Behavior({ "确认变更", "取消变更" })
 	public boolean behaviourSubmit(@MethodParam(MethodParam.CURRENT_USER_ID) String userid) {
-		boolean submit = false;
 		if (STATUS_SUBMIT.equals(status)) {
-			// TODO 根据用户进行判断
-			if (isPM(userid)) {
-				submit = true;
-			} else if (isDept(userid)) {
-				submit = true;
-			} else if (isPS(userid)) {
-				submit = true;
-			} else if (isPSManager(userid)) {
-				submit = true;
-			} else if (isChiefEngineer(userid)) {
-				submit = true;
-			} else if (isConsumer(userid)) {
-				submit = true;
+			for (ProjectChangeTask re : reviewer) {
+				if (userid.equals(re.reviewer) && re.choice == null) {
+					return true;
+				}
 			}
 		}
 
-		return submit;
-	}
-
-	private boolean isConsumer(String userid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean isChiefEngineer(String userid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean isPSManager(String userid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean isPS(String userid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean isDept(String userid) {
-		if (deptId == null) {
-			if (userid.equals(managerId)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean isPM(String userid) {
-		if (pmId == null) {
-			if (userid.equals(projectPMId)) {
-				return true;
-			}
-		}
 		return false;
 	}
 
 	public String getConfimName(String userid) {
-		if (isPM(userid)) {
-			return "pm";
-		} else if (isDept(userid)) {
-			return "dept";
-		} else if (isPS(userid)) {
-			return "ps";
-		} else if (isPSManager(userid)) {
-			return "psManager";
-		} else if (isChiefEngineer(userid)) {
-			return "chiefEngineer";
-		} else if (isConsumer(userid)) {
-			return "consumer";
+		for (ProjectChangeTask re : reviewer) {
+			if (userid.equals(re.reviewer) && re.choice == null) {
+				return re.name;
+			}
 		}
 		return "";
 	}

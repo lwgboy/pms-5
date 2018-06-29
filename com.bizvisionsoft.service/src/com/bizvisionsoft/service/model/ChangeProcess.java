@@ -27,6 +27,10 @@ public class ChangeProcess {
 	@Persistence
 	private String taskName;
 
+	public String getTaskName() {
+		return taskName;
+	}
+
 	private String projectOBSId;
 
 	private String projectOBSName;
@@ -63,7 +67,7 @@ public class ChangeProcess {
 	public String getProjectOBSId() {
 		return projectOBSId;
 	}
-	
+
 	@Label
 	public String toString() {
 		return taskName;
