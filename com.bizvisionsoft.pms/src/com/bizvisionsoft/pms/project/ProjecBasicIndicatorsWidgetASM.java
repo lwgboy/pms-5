@@ -134,7 +134,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 	}
 
 	private Control addIndicator(Composite parent, String ind, String title) {
-		return addIndicator(parent, ind, title, "brui_bg_lightgrey", "#757575", "#3f51b5");
+		return addIndicator(parent, ind, title, "brui_bg_lightgrey", "#757575", "#009688");
 	}
 
 }

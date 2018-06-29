@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1251,6 +1252,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.into(new ArrayList<Document>());
 	}
 
+	/**
+	 * 垃圾
+	 * 
+	 * @param value
+	 * @return
+	 */
 	private String getStringValue(Object value) {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
@@ -1427,6 +1434,72 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		option.append("series", series);
 		return option;
 
+	}
+
+	@Override
+	public Document getProjectResourcePlanAndUsageChart(ObjectId project_id) {
+		Document project = c("project").find(new Document("_id", project_id)).first();
+		Date actualStart = project.getDate("actualStart");
+		Date actualFinish = project.getDate("actualFinish");
+		Date planStart = project.getDate("planStart");
+		Date planFinish = project.getDate("planFinish");
+
+		Calendar start = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+		if (actualFinish != null && actualFinish.after(planFinish))
+			end.setTime(actualFinish);
+		else
+			end.setTime(planFinish);
+
+		if (actualStart != null && actualStart.before(planStart))
+			start.setTime(actualStart);
+		else
+			start.setTime(planStart);
+
+		List<String> xAxisDate = new ArrayList<String>();
+		Map<String, Double> actualWorksMap = new LinkedHashMap<String, Double>();
+		Map<String, Double> planWorksMap = new LinkedHashMap<String, Double>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMM");
+		while (start.before(end) || start.equals(end)) {
+			String key = sdf1.format(start.getTime());
+			xAxisDate.add(sdf.format(start.getTime()));
+			actualWorksMap.put(key, 0d);
+			planWorksMap.put(key, 0d);
+			start.add(Calendar.MONTH, 1);
+		}
+
+		Document match = new Document("project_id", project_id);
+		c("resourcePlan").aggregate(new JQ("查询资源计划分析-Porject").set("match", match).array()).forEach((Document doc) -> {
+			String id = doc.getString("_id");
+			Double worksD = planWorksMap.get(id);
+			if (worksD != null) {
+				Object works = doc.get("planQty");
+				if (works != null) {
+					worksD += ((Number) works).doubleValue();
+					planWorksMap.put(id, (double) Math.round(worksD * 10) / 10);
+				}
+			}
+		});
+
+		c("resourceActual").aggregate(new JQ("查询资源实际分析-Porject").set("match", match).array())
+				.forEach((Document doc) -> {
+					String id = doc.getString("_id");
+					Double worksD = actualWorksMap.get(id);
+					if (worksD != null) {
+						Object works = doc.get("actualQty");
+						if (works != null) {
+							worksD += ((Number) works).doubleValue();
+							actualWorksMap.put(id, (double) Math.round(worksD * 10) / 10);
+						}
+					}
+				});
+
+		List<Double> planWorks = Arrays.asList(planWorksMap.values().toArray(new Double[0]));
+		List<Double> actualWorks = Arrays.asList(actualWorksMap.values().toArray(new Double[0]));
+		return new JQ("项目首页资源计划和用量状况").set("title", "项目资源计划和用量状况（小时）")
+				.set("xAxis", xAxisDate).set("planWorks", planWorks).set("actualWorks", actualWorks).doc();
 	}
 
 	@Override
