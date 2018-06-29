@@ -859,7 +859,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
 			Task task = gh.getTask((doc.getObjectId("_id").toHexString()));
 			long overdue = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
-			Document update = new Document("date", new Date()).append("duration", (int)task.getD().floatValue())
+			Document update = new Document("date", new Date()).append("duration", (int) task.getD().floatValue())
 					.append("overdue", (int) overdue).append("finish", estFinish);
 
 			if ("1".equals(doc.getString("manageLevel")) && overdue > 0) {
@@ -1167,17 +1167,19 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
-		List<ProjectChangeTask> reviewer = pc.getReviewer();
+		List<ProjectChangeTask> reviewers = pc.getReviewer();
+		List<Document> reviewer = new ArrayList<Document>();
 		String status = ProjectChange.STATUS_CONFIRM;
-		for (ProjectChangeTask doc : reviewer) {
-			if (doc.choice == null && !doc.name.equals(projectChangeTask.name)) {
+		for (ProjectChangeTask re : reviewers) {
+			if (re.choice == null && !re.name.equals(projectChangeTask.name)) {
 				status = ProjectChange.STATUS_SUBMIT;
-			} else if (doc.name.equals(projectChangeTask.name)) {
-				doc.user = projectChangeTask.user;
-				doc.choice = projectChangeTask.choice;
-				doc.date = projectChangeTask.date;
-				doc.comment = projectChangeTask.comment;
+			} else if (re.name.equals(projectChangeTask.name)) {
+				re.user = projectChangeTask.user;
+				re.choice = projectChangeTask.choice;
+				re.date = projectChangeTask.date;
+				re.comment = projectChangeTask.comment;
 			}
+			reviewer.add(getDocument(re));
 		}
 
 		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
@@ -1195,6 +1197,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return result;
 	}
 
+	private Document getDocument(ProjectChangeTask re) {
+		return new Document().append("user", re.user).append("date", re.date).append("choice", re.choice)
+				.append("comment", re.comment).append("name", re.name).append("reviewer", re.reviewer);
+
+	}
+
 	private List<Result> confirmProjectChangeCheck(ProjectChangeTask projectChangeTask) {
 		return new ArrayList<Result>();
 	}
@@ -1205,14 +1213,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
-		List<ProjectChangeTask> reviewer = pc.getReviewer();
-		for (ProjectChangeTask doc : reviewer) {
-			if (doc.name.equals(projectChangeTask.name)) {
-				doc.user = projectChangeTask.user;
-				doc.choice = projectChangeTask.choice;
-				doc.date = projectChangeTask.date;
-				doc.comment = projectChangeTask.comment;
+		List<Document> reviewer = new ArrayList<Document>();
+		List<ProjectChangeTask> reviewers = pc.getReviewer();
+		for (ProjectChangeTask re : reviewers) {
+			if (re.name.equals(projectChangeTask.name)) {
+				re.user = projectChangeTask.user;
+				re.choice = projectChangeTask.choice;
+				re.date = projectChangeTask.date;
+				re.comment = projectChangeTask.comment;
 			}
+			reviewer.add(getDocument(re));
 		}
 
 		UpdateResult ur = c(ProjectChange.class).updateOne(new Document("_id", projectChangeTask.projectChange_id),
