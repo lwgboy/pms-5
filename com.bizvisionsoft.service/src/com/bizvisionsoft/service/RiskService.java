@@ -269,6 +269,12 @@ public interface RiskService {
 	public Double getDurationProbability(@PathParam("project_id") ObjectId project_id);
 
 	@POST
+	@Path("/mcs/project_id/{project_id}/durForcast")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<List<Double>> getDurationForcast(@PathParam("project_id") ObjectId project_id);
+
+	@POST
 	@Path("/riskresp/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -297,5 +303,6 @@ public interface RiskService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject filter);
+
 
 }

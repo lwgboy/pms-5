@@ -16227,7 +16227,7 @@
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 2,
                 "horizontalSpan": 2,
                 "widthHint": -1,
@@ -16272,11 +16272,11 @@
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": false,
+                "grabExcessVerticalSpace": true,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": 300
+                "heightHint": -1
               }
             ]
           }
@@ -22092,21 +22092,21 @@
             "name": "д╛хо",
             "minimalDeviceWidth": 0,
             "maximalDeviceWidth": 0,
-            "columnCount": 2,
-            "horizontalSpacing": 0,
-            "verticalSpacing": 0,
+            "columnCount": 3,
+            "horizontalSpacing": 8,
+            "verticalSpacing": 8,
             "makeColumnsEqualWidth": true,
             "extendHorizontalSpace": false,
-            "extendVerticalSpace": true,
+            "extendVerticalSpace": false,
             "marginBottom": 0,
-            "marginHeight": 0,
+            "marginHeight": 8,
             "marginLeft": 0,
             "marginRight": 0,
             "marginTop": 0,
-            "marginWidth": 0,
+            "marginWidth": 7,
             "assemblys": [
               {
-                "id": "16305416779",
+                "id": "1643fd0eae0",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -22114,40 +22114,62 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "163056fb075",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": false,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
+                "heightHint": 280
               },
               {
                 "id": "1630607a1fb",
                 "horizontalAlignment": 4,
-                "verticalAlignment": 16777216,
+                "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
                 "grabExcessVerticalSpace": false,
-                "verticalSpan": 1,
+                "verticalSpan": 2,
                 "horizontalSpan": 2,
                 "widthHint": -1,
-                "heightHint": 500
+                "heightHint": -1
               },
               {
-                "id": "162e10dc2e4",
+                "id": "163ff61cdd6",
                 "horizontalAlignment": 4,
-                "verticalAlignment": 16777216,
+                "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
                 "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
-                "horizontalSpan": 2,
+                "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": 600
+                "heightHint": 280
+              },
+              {
+                "id": "16445283c81",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "16449080b74",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
+                "id": "164496357b8",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
               }
             ]
           }

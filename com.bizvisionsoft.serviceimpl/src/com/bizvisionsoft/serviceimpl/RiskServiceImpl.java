@@ -402,4 +402,29 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		return Optional.ofNullable(doc).map(d -> (Number) d.get("prob")).map(p -> p.doubleValue() / 100).orElse(0d);
 	}
 
+	@Override
+	public List<List<Double>> getDurationForcast(ObjectId project_id) {
+		Document doc = c("monteCarloSimulate")
+				.aggregate(new JQ("查询项目乐观悲观的估计工期").set("project_id", project_id).array()).first();
+		
+		if(doc == null) {
+			return null;
+		}
+		
+		Document minT = (Document) doc.get("minT");
+
+		Document maxT = (Document) doc.get("maxT");
+		
+		Document maxP = (Document) doc.get("maxP");
+		doc = c("monteCarloSimulate")
+				.aggregate(new JQ("查询项目某个工期的概率").set("project_id", project_id).set("T", maxP.get("t")).array()).first();
+		
+		ArrayList<List<Double>> result = new ArrayList<List<Double>>();
+		result.add(Arrays.asList(((Number)minT.get("t")).doubleValue() ,((Number)minT.get("p")).doubleValue() ));
+		result.add(Arrays.asList(((Number)maxT.get("t")).doubleValue() ,1d ));
+		result.add(Arrays.asList(((Number)maxP.get("t")).doubleValue() ,((Number)doc.get("prob")).doubleValue() ));
+		
+		return result;
+	}
+
 }

@@ -910,4 +910,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return ServicesLoader.get(RiskService.class).getDurationProbability(_id);
 	}
 
+	public List<List<Double>> getDurationForcast() {
+		return ServicesLoader.get(RiskService.class).getDurationForcast(_id);
+	}
+
 }

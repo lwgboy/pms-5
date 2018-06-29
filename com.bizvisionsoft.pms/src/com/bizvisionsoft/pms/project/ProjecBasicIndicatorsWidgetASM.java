@@ -1,7 +1,9 @@
 package com.bizvisionsoft.pms.project;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.swt.SWT;
@@ -69,53 +71,90 @@ public class ProjecBasicIndicatorsWidgetASM {
 
 		Carousel carousel = new Carousel(parent, SWT.NONE);
 		carousel.setAnimation("default");
+		carousel.setInterval(5000);
 		carousel.setIndicator("none");
 
-		Composite page = createPage(parent, carousel,3);
+		Composite page = createPage(parent, carousel, 3);
 		addIndicator(page, Util.getFormatText(project.getPlanStart()), "计划开始");
 		addIndicator(page, Util.getFormatText(project.getPlanFinish()), "计划完成");
 		addIndicator(page, project.getPlanDuration() + "天", "计划工期");
 		String overdue = getOverdueHtml();
 		if ("超期".equals(overdue)) {
-			addIndicator(page, overdue, "进度预警", "layui-bg-orange","#ffffff","#ffffff");
+			addIndicator(page, overdue, "进度预警", "layui-bg-orange", "#ffffff", "#ffffff");
 		} else if ("Ⅰ级".equals(overdue)) {
-			addIndicator(page, overdue, "进度预警", "layui-bg-red","#ffffff","#ffffff");
+			addIndicator(page, overdue, "进度预警", "layui-bg-red", "#ffffff", "#ffffff");
 		} else if ("Ⅱ级".equals(overdue)) {
-			addIndicator(page, overdue, "进度预警", "layui-bg-orange","#ffffff","#ffffff");
+			addIndicator(page, overdue, "进度预警", "layui-bg-orange", "#ffffff", "#ffffff");
 		} else if ("Ⅲ级".equals(overdue)) {
-			addIndicator(page, overdue, "进度预警", "layui-bg-blue","#ffffff","#ffffff");
+			addIndicator(page, overdue, "进度预警", "layui-bg-blue", "#ffffff", "#ffffff");
 		} else {
 			addIndicator(page, "", "进度预警");
 		}
-		addIndicator(page, Util.getFormatText(project.getEstimateFinish()), "预计完成");
-		
-		addIndicator(page, Util.getFormatText(project.getEstimateDuration())+"天", "预计工期");
-		
-		
-		page = createPage(parent, carousel,2);
+		addIndicator(page, Util.getFormatText(project.getEstimateFinish()), "估算完工日期");
+
+		addIndicator(page, Util.getFormatText(project.getEstimateDuration()) + "天", "估算工期");
+
+		page = createPage(parent, carousel, 2);
+
+		List<List<Double>> values = project.getDurationForcast();
+		if (values != null) {
+			// 乐观
+			Double t = values.get(0).get(0);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(project.getPlanStart());
+			cal.add(Calendar.DATE, t.intValue());
+			String text = Util.getFormatText(cal.getTime()) + " | "
+					+ toString(values.get(0).get(1).doubleValue() / 100);
+			addIndicator(page, text, "乐观估计", "brui_bg_lightgrey", "#757575", "#009688");
+
+			// 悲观
+			t = values.get(1).get(0);
+			cal.setTime(project.getPlanStart());
+			cal.add(Calendar.DATE, t.intValue());
+			text = Util.getFormatText(cal.getTime());
+			addIndicator(page, text, "悲观估计", "brui_bg_lightgrey", "#757575", "#ff9800");
+
+			// 最可能
+			t = values.get(2).get(0);
+			cal.setTime(project.getPlanStart());
+			cal.add(Calendar.DATE, t.intValue());
+			text = Util.getFormatText(cal.getTime()) + " | " + toString(values.get(2).get(1).doubleValue() / 100);
+			addIndicator(page, text, "最可能的完工日期", "brui_bg_lightgrey", "#757575", "#03a9f4");
+		}else {
+			addIndicator(page, "尚未计算", "乐观估计");
+			addIndicator(page, "尚未计算", "悲观估计");
+			addIndicator(page, "尚未计算", "最可能的完工日期");
+
+		}
+
+		Double probability = project.getDurationProbability();
+		if (probability == null) {
+			addIndicator(page, "尚未计算", "按期计划完工概率");
+		} else {
+			String text = Util.getFormatText(project.getPlanFinish()) + " | " + toString(probability);
+			if (probability >= 0.9) {
+				addIndicator(page, text, "按计划完工概率", "layui-bg-green", "#ffffff", "#ffffff");
+			} else if (probability >= 0.7) {
+				addIndicator(page, text, "按计划完工概率", "layui-bg-blue", "#ffffff", "#ffffff");
+			} else if (probability >= 0.5) {
+				addIndicator(page, text, "按计划完工概率", "layui-bg-orange", "#ffffff", "#ffffff");
+			} else {
+				addIndicator(page, text, "按期完工概率", "layui-bg-red", "#ffffff", "#ffffff");
+			}
+		}
+
+		page = createPage(parent, carousel, 2);
 		addIndicator(page, toString(project.getWAR()), "工作进度完成率");
 		addIndicator(page, toString(project.getDAR()), "工期完成率");
 		addIndicator(page, toString(project.getCAR()), "成本进度完成率");
 		addIndicator(page, toString(project.getBDR()), "预算偏差率");
 
-		page = createPage(parent, carousel,2);
-
-		Double probability = project.getDurationProbability();
-		if (probability == null) {
-			addIndicator(page, "尚未计算", "项目按期完工概率");
-		} else if (probability >= 0.9) {
-			addIndicator(page, toString(probability), "项目按期完工概率", "layui-bg-green", "#ffffff", "#ffffff");
-		} else if (probability >= 0.7) {
-			addIndicator(page, toString(probability), "项目按期完工概率", "layui-bg-blue", "#ffffff", "#ffffff");
-		} else if (probability >= 0.5) {
-			addIndicator(page, toString(probability), "项目按期完工概率", "layui-bg-orange", "#ffffff", "#ffffff");
-		} else {
-			addIndicator(page, toString(probability), "项目按期完工概率", "layui-bg-red", "#ffffff", "#ffffff");
-		}
+		page = createPage(parent, carousel, 2);
 
 		addIndicator(page, toString(project.getSAR()), "计划完成率");
 		addIndicator(page, toString(0.12), "一级计划如期完成率");// TODO
 
+		new Composite(page, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		new Composite(page, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		fd = new FormData();
@@ -126,7 +165,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		fd.bottom = new FormAttachment(100);
 	}
 
-	private Composite createPage(Composite parent, Carousel carousel,int colCount) {
+	private Composite createPage(Composite parent, Carousel carousel, int colCount) {
 		Composite page = carousel.addPage(new Composite(carousel, SWT.NONE));
 		page.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		GridLayout layout = new GridLayout(colCount, true);
@@ -160,7 +199,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 	private Control addIndicator(Composite parent, String ind, String title) {
 		return addIndicator(parent, ind, title, "brui_bg_lightgrey", "#757575", "#009688");
 	}
-	
+
 	private String getOverdueHtml() {
 		Date _actual = project.getActualFinish();
 		Date _plan = project.getPlanFinish();
