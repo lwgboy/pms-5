@@ -49113,7 +49113,7 @@
         "name": "变更详情信息面板",
         "layout": [],
         "type": "infopad",
-        "stickerTitle": "项目变更",
+        "stickerTitle": "变更申请",
         "folderId": "16441e49ba4",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -49435,6 +49435,7 @@
       {
         "id": "164450f5dfc",
         "name": "项目变更编辑器",
+        "title": "变更申请",
         "layout": [],
         "type": "editor",
         "folderId": "16441e49ba4",
@@ -50275,6 +50276,7 @@
       {
         "id": "1644acf2574",
         "name": "项目变更编辑器—无角色",
+        "title": "变更申请",
         "layout": [],
         "type": "editor",
         "folderId": "16441e49ba4",
