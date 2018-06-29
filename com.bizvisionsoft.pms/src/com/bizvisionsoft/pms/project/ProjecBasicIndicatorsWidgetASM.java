@@ -103,7 +103,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(project.getPlanStart());
 			cal.add(Calendar.DATE, t.intValue());
-			String text = Util.getFormatText(cal.getTime()) + " | "
+			String text = Util.getFormatText(cal.getTime()) + "<br/>"
 					+ toString(values.get(0).get(1).doubleValue() / 100);
 			addIndicator(page, text, "乐观估计", "brui_bg_lightgrey", "#757575", "#009688");
 
@@ -118,7 +118,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 			t = values.get(2).get(0);
 			cal.setTime(project.getPlanStart());
 			cal.add(Calendar.DATE, t.intValue());
-			text = Util.getFormatText(cal.getTime()) + " | " + toString(values.get(2).get(1).doubleValue() / 100);
+			text = Util.getFormatText(cal.getTime()) + "<br/>" + toString(values.get(2).get(1).doubleValue() / 100);
 			addIndicator(page, text, "最可能的完工日期", "brui_bg_lightgrey", "#757575", "#03a9f4");
 		}else {
 			addIndicator(page, "尚未计算", "乐观估计");
@@ -131,7 +131,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		if (probability == null) {
 			addIndicator(page, "尚未计算", "按期计划完工概率");
 		} else {
-			String text = Util.getFormatText(project.getPlanFinish()) + " | " + toString(probability);
+			String text = Util.getFormatText(project.getPlanFinish()) + "<br/>" + toString(probability)+"</span>";
 			if (probability >= 0.9) {
 				addIndicator(page, text, "按计划完工概率", "layui-bg-green", "#ffffff", "#ffffff");
 			} else if (probability >= 0.7) {
@@ -187,7 +187,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		UserSession.bruiToolkit().enableMarkup(btn);
 		btn.setHtmlAttribute("class", css);
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='margin-top:16px;color:" + titleColor + ";'>" + title + "</div>");
+		sb.append("<div style='margin-top:8px;color:" + titleColor + ";'>" + title + "</div>");
 		sb.append("<div style='font-size:24px;text-align:center;color:" + textColor + ";margin-top:8px;'>" + ind
 				+ "</div>");
 		btn.setText(sb.toString());
