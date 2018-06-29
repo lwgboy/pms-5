@@ -14,8 +14,10 @@ import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.pms.work.gantt.action.TimeScaleType;
 
 public class ProjectGanttViewWidgetASM {
 	
@@ -55,6 +57,17 @@ public class ProjectGanttViewWidgetASM {
 		btn.addListener(SWT.MouseUp, e->showCriticalPath());
 		btn.setToolTipText("显示关键路径");
 		
+		Label btn1 = new Label(parent,SWT.RIGHT);
+		UserSession.bruiToolkit().enableMarkup(btn1);
+		fd = new FormData();
+		btn1.setLayoutData(fd);
+		fd.top = new FormAttachment(0, 8);
+		fd.right = new FormAttachment(btn, -8);
+		fd.width = 24;
+		btn1.setText("<i class='layui-icon layui-icon-util' style='font-size:18px;cursor:pointer;'></i>");
+		btn1.addListener(SWT.MouseUp, e->setTimeScale());
+		btn1.setToolTipText("时间刻度");
+		
 		Label sep = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		sep.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 		
@@ -78,6 +91,13 @@ public class ProjectGanttViewWidgetASM {
 	private void showCriticalPath() {
 		GanttPart part = (GanttPart) context.getChildContextByName("gantt").getContent();
 		part.switchCriticalPathHighLight();
+	}
+	
+	private void setTimeScale() {
+		Editor.open("设置时间刻度", context, new TimeScaleType(), (d,r)->{
+			GanttPart part = (GanttPart) context.getChildContextByName("gantt").getContent();
+			part.setScaleType(r.type);
+		});
 	}
 
 }

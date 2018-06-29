@@ -6,6 +6,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 public class TimeScaleType {
 
 	@ReadValue
-	@WriteValue String type;
+	@WriteValue public String type;
 	
 }
