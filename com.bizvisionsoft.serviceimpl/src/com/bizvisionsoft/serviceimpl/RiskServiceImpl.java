@@ -447,4 +447,23 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		return new JQ("项目风险临近性图表").set("data", data).set("size", size).doc();
 	}
 
+	@Override
+	public Document getRiskProximityChart2(ObjectId project_id) {
+		String size = "function (data) {return Math.sqrt(data[2])*8;}";
+		ArrayList<List<Object>> data = new ArrayList<List<Object>>();
+		c("rbsItem").find(new Document("project_id", project_id)).forEach((Document d) -> {
+			Object _i = d.get("infValue");
+			Object _p = d.get("probability");
+			Object _d = d.get("detectable");
+			if (_i != null && _p != null && _d != null) {
+				Double rci = ((Number) _i).doubleValue() * ((Number) _p).doubleValue();
+				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
+						/ (24 * 60 * 60 * 1000));
+				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
+				data.add(Arrays.asList(urgency, detectable, rci,d.get("name")));
+			}
+		});
+		return new JQ("项目风险临近性图表2").set("data", data).set("size", size).doc();
+	}
+
 }
