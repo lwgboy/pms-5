@@ -34,7 +34,7 @@ public class CreateProjectChangeACT {
 				(r, o) -> {
 					ProjectChange pc = Services.get(ProjectService.class).createProjectChange(o);
 					GridPart grid = (GridPart) context.getContent();
-					grid.insert(pc);
+					grid.insert(pc,0);
 				});
 	}
 }
