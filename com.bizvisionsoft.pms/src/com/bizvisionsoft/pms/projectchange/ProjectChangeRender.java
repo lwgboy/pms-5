@@ -68,7 +68,7 @@ public class ProjectChangeRender extends GridPartDefaultRender {
 
 			if (ProjectChange.STATUS_CREATE.equals(pc.getStatus())) {
 				sb.append(
-						"<a href='userInfo/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+						"<a href='userInfo/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;right:0px;'>"
 								+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
 			}
 

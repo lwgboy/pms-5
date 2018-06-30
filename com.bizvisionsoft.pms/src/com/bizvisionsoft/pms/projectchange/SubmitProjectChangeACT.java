@@ -35,8 +35,8 @@ public class SubmitProjectChangeACT {
 			Layer.message("变更申请已提交。");
 			brui.closeCurrentContent();
 		} else {
-			if(result.get(0).code==Result.CODE_PROJECTCHANGE_NOTASKUSER)
-				Layer.message("请为所有审核环节填写审核人员后，再进行提交。",Layer.ICON_CANCEL);
+			if (result.get(0).code == Result.CODE_PROJECTCHANGE_NOTASKUSER)
+				Layer.message("请为所有审核环节指定审核人员后，再进行提交。", Layer.ICON_CANCEL);
 		}
 	}
 }
