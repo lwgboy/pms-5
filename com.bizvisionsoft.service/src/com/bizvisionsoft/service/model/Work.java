@@ -1092,18 +1092,18 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private Date getEstimateDate() {
 		return scheduleEst == null ? null : scheduleEst.date;
 	}
-	
+
 	@ReadValue("estDuration")
 	private Integer getEstimateDuration() {
 		return scheduleEst == null ? null : scheduleEst.duration;
 	}
-	
+
 	@ReadValue("TF")
 	@SetValue
 	private Double getTF() {
 		return scheduleEst == null ? null : scheduleEst.tf;
 	}
-	
+
 	@ReadValue("FF")
 	@SetValue
 	private Double getFF() {
@@ -1183,6 +1183,25 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	public ObjectId getBaseline_id() {
 		return baseline_id;
+	}
+
+	@ReadValue("statusHtml")
+	public String getStatusHtml() {
+		if (ProjectStatus.Created.equals(status)) {
+			return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Processing.equals(status)) {
+			return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Closing.equals(status)) {
+			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Closed.equals(status)) {
+			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Suspended.equals(status)) {
+			return "<span class='layui-badge layui-bg-gray layui-btn-fluid'>" + status + "</span>";
+		} else if (ProjectStatus.Terminated.equals(status)) {
+			return "<span class='layui-badge layui-bg-black layui-btn-fluid'>" + status + "</span>";
+		} else {
+			return "";
+		}
 	}
 
 }

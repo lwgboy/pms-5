@@ -11,7 +11,7 @@ import com.bizvisionsoft.pms.work.action.OpenWorkPackage;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Work;
 
-public class OpenStageOrWorkPackage extends OpenWorkPackage{
+public class OpenStagACT extends OpenWorkPackage{
 
 	@Inject
 	private IBruiService bruiService;
@@ -31,8 +31,6 @@ public class OpenStageOrWorkPackage extends OpenWorkPackage{
 				} else if (ProjectStatus.Closed.equals(work.getStatus())) {
 					bruiService.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", work.get_id().toHexString());
 				}
-			} else {
-				openWorkPackageMenu(work);
 			}
 
 		});
