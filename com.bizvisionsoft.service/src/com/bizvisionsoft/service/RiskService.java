@@ -261,7 +261,12 @@ public interface RiskService {
 	@DataSet("蒙特卡洛分析展示/list")
 	public Document monteCarloSimulateChartData(
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
-
+	@POST
+	@Path("/prox/project_id/{project_id}/chart")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getRiskProximityChart(@PathParam("project_id") ObjectId project_id);
+	
 	@POST
 	@Path("/mcs/project_id/{project_id}/durProb")
 	@Consumes("application/json; charset=UTF-8")

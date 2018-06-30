@@ -427,4 +427,9 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		return result;
 	}
 
+	@Override
+	public Document getRiskProximityChart(ObjectId project_id) {
+		return new JQ("项目风险临近性图表").doc();
+	}
+
 }
