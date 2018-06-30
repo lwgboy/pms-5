@@ -30,7 +30,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long countRootFolder(ObjectId project_id) {
-		return c("folder").count(new Document("project_id", project_id).append("parent_id", null));
+		return c("folder").countDocuments(new Document("project_id", project_id).append("parent_id", null));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long countChildrenFolder(ObjectId parent_id) {
-		return c("folder").count(new Document("parent_id", parent_id));
+		return c("folder").countDocuments(new Document("parent_id", parent_id));
 	}
 
 	@Override

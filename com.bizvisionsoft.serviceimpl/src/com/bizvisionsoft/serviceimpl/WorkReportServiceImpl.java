@@ -237,7 +237,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public WorkReport insert(WorkReport workReport) {
-		if (c("workReport").count(new Document("project_id", workReport.getProject_id())
+		if (c("workReport").countDocuments(new Document("project_id", workReport.getProject_id())
 				.append("period", workReport.getPeriod()).append("type", workReport.getType())) > 0) {
 			throw new ServiceException("已经创建报告。");
 		}
@@ -363,7 +363,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	private List<Result> submitWorkReportCheck(List<ObjectId> workReportIds) {
 		List<Result> result = new ArrayList<Result>();
 		Document doc = new Document("statement", null).append("report_id", new Document("$in", workReportIds));
-		long count = c(WorkReportItem.class).count(doc);
+		long count = c(WorkReportItem.class).countDocuments(doc);
 		if (count > 0) {
 			result.add(Result.submitWorkReportError("存在为填写完成情况的工作"));
 		}

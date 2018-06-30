@@ -3,6 +3,7 @@ package com.bizvisionsoft.serviceimpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public long countRBSItem(BasicDBObject filter) {
-		return c("rbsItem").count(filter);
+		return c("rbsItem").countDocuments(filter);
 	}
 
 	@Override
@@ -391,7 +392,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		if (pj == null) {
 			return null;
 		}
-		if (c("monteCarloSimulate").count(new Document("project_id", project_id)) == 0) {
+		if (c("monteCarloSimulate").countDocuments(new Document("project_id", project_id)) == 0) {
 			return null;
 		}
 
@@ -404,32 +405,46 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public List<List<Double>> getDurationForcast(ObjectId project_id) {
-		Document doc = c("monteCarloSimulate")
-				.aggregate(new JQ("查询项目乐观悲观的估计工期").set("project_id", project_id).array()).first();
-		
-		if(doc == null) {
+		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询项目乐观悲观的估计工期").set("project_id", project_id).array())
+				.first();
+
+		if (doc == null) {
 			return null;
 		}
-		
+
 		Document minT = (Document) doc.get("minT");
 
 		Document maxT = (Document) doc.get("maxT");
-		
+
 		Document maxP = (Document) doc.get("maxP");
 		doc = c("monteCarloSimulate")
 				.aggregate(new JQ("查询项目某个工期的概率").set("project_id", project_id).set("T", maxP.get("t")).array()).first();
-		
+
 		ArrayList<List<Double>> result = new ArrayList<List<Double>>();
-		result.add(Arrays.asList(((Number)minT.get("t")).doubleValue() ,((Number)minT.get("p")).doubleValue() ));
-		result.add(Arrays.asList(((Number)maxT.get("t")).doubleValue() ,1d ));
-		result.add(Arrays.asList(((Number)maxP.get("t")).doubleValue() ,((Number)doc.get("prob")).doubleValue() ));
-		
+		result.add(Arrays.asList(((Number) minT.get("t")).doubleValue(), ((Number) minT.get("p")).doubleValue()));
+		result.add(Arrays.asList(((Number) maxT.get("t")).doubleValue(), 1d));
+		result.add(Arrays.asList(((Number) maxP.get("t")).doubleValue(), ((Number) doc.get("prob")).doubleValue()));
+
 		return result;
 	}
 
 	@Override
 	public Document getRiskProximityChart(ObjectId project_id) {
-		return new JQ("项目风险临近性图表").doc();
+		String size = "function (data) {return Math.sqrt(data[2])*8;}";
+		ArrayList<List<Object>> data = new ArrayList<List<Object>>();
+		c("rbsItem").find(new Document("project_id", project_id)).forEach((Document d) -> {
+			Object _i = d.get("infValue");
+			Object _p = d.get("probability");
+			Object _d = d.get("detectable");
+			if (_i != null && _p != null && _d != null) {
+				Double rci = ((Number) _i).doubleValue() * ((Number) _p).doubleValue();
+				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
+						/ (24 * 60 * 60 * 1000));
+				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
+				data.add(Arrays.asList(urgency, detectable, rci,d.get("name")));
+			}
+		});
+		return new JQ("项目风险临近性图表").set("data", data).set("size", size).doc();
 	}
 
 }

@@ -60,7 +60,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 	@Override
 	public long countSubOBSItem(ObjectId _id) {
-		return c(OBSItem.class).count(new BasicDBObject("parent_id", _id));
+		return c(OBSItem.class).countDocuments(new BasicDBObject("parent_id", _id));
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 				new Document("scope_id", scope_id).append("$or",
 						Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
 				String.class).into(new ArrayList<>());
-		if (c("obs").count(new Document("scope_id", scope_id).append("member", userId)) != 0) {
+		if (c("obs").countDocuments(new Document("scope_id", scope_id).append("member", userId)) != 0) {
 			result.add("member");
 		}
 		return result;

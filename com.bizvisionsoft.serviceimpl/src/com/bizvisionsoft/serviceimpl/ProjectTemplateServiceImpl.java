@@ -128,7 +128,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public boolean hasOBS(ObjectId _id) {
-		return c("obsInTemplate").count(new BasicDBObject("scope_id", _id)) > 0;
+		return c("obsInTemplate").countDocuments(new BasicDBObject("scope_id", _id)) > 0;
 	}
 
 	@Override
