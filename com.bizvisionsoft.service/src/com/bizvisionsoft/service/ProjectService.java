@@ -83,6 +83,18 @@ public interface ProjectService {
 	public long countStage(@PathParam("_id") ObjectId _id);
 
 	@POST
+	@Path("/mystage/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Work> listMyStage(@PathParam("userId") String userId);
+
+	@POST
+	@Path("/mystage/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countMyStage(@PathParam("userId") String userId);
+
+	@POST
 	@Path("/command/start/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -302,6 +314,14 @@ public interface ProjectService {
 	@DataSet({ "项目变更/" + DataSet.COUNT })
 	public long countProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/projectchange/reviewer/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待审批的项目变更/" + DataSet.LIST })
+	public List<ProjectChange> listReviewerProjectChange(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
 	@Path("/projectchange")

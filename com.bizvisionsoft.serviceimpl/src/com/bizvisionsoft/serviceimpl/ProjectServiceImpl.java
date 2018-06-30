@@ -375,7 +375,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		Document query = new Document("project_id", com._id).append("parent_id", null)
+		Document query = new Document("project_id", com._id)// .append("parent_id", null)
 				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
 
 		final List<ObjectId> ids = new ArrayList<>();
@@ -420,6 +420,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long countStage(ObjectId _id) {
 		return c("work").count(new BasicDBObject("project_id", _id).append("stage", true));
+	}
+
+	@Override
+	public List<Work> listMyStage(String userId) {
+		return new WorkServiceImpl().createTaskDataSet(new BasicDBObject("$or",
+				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
+						.append("stage", true));
+	}
+
+	@Override
+	public long countMyStage(String userId) {
+		return count(new BasicDBObject("$or",
+				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
+						.append("stage", true),
+				"work");
 	}
 
 	@Override
@@ -1217,8 +1232,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
 		}
-		
-		//TODO 
+
+		// TODO
 
 		return result;
 	}
@@ -1305,6 +1320,37 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long checkCreateProjectChange(ObjectId _id) {
 		return c(ProjectChange.class).count(new Document("project_id", _id).append("status",
 				new Document("$nin", Arrays.asList(ProjectChange.STATUS_CANCEL, ProjectChange.STATUS_CONFIRM))));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProjectChange> listReviewerProjectChange(BasicDBObject condition, String userId) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+
+		List<Bson> pipeline = (List<Bson>) new JQ("待审批的项目变更").set("userId", userId)
+				.set("status", ProjectChange.STATUS_SUBMIT).array();
+
+		pipeline.add(Aggregates.match(filter));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("_id", -1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
+		return into;
 	}
 
 }
