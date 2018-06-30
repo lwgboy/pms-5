@@ -813,7 +813,7 @@
               {
                 "id": "161989cc742",
                 "name": "我的工作",
-                "text": "我的工作",
+                "text": "我的待处理工作",
                 "switchContentToAssemblyId": "163624f036e",
                 "openContent": false,
                 "propagate": false,
@@ -822,6 +822,28 @@
                 "objectBehavier": false,
                 "type": "switch",
                 "role": ""
+              },
+              {
+                "id": "1644e8490d8",
+                "name": "待审批的项目变更",
+                "text": "待审批的项目变更",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "1644e84a945",
+                "name": "我负责的项目阶段",
+                "text": "我负责的项目阶段",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
               },
               {
                 "id": "161989cc80d",

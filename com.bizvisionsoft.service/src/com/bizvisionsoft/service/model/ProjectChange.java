@@ -30,7 +30,7 @@ public class ProjectChange {
 	public static final String STATUS_PASS = "通过";
 
 	@Exclude
-	public static final String STATUS_CONFIRM = "确认";
+	public static final String STATUS_CONFIRM = "关闭";
 
 	@Exclude
 	public static final String STATUS_CANCEL = "取消";

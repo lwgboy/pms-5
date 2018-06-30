@@ -51,7 +51,7 @@
 					"$and" : [ {
 						"$eq" : [ "$project_id", "$$project_id" ]
 					}, {
-						"$in" : [ "$status", [ "确认", "通过" ] ]
+						"$in" : [ "$status", [ "关闭", "通过" ] ]
 					} ]
 				}
 			}

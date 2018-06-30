@@ -1173,6 +1173,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
+		// TODO 发送通知
+
 		return result;
 	}
 
@@ -1215,6 +1217,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
 		}
+		
+		//TODO 
 
 		return result;
 	}
@@ -1237,6 +1241,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
 		}
+		// TODO 发送通知
 
 		return result;
 	}
