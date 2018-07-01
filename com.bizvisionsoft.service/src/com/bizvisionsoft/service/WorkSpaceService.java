@@ -19,6 +19,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.mongodb.BasicDBObject;
 
 @Path("/workspace")
@@ -116,5 +117,11 @@ public interface WorkSpaceService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id") ObjectId root_id);
+
+	@PUT
+	@Path("/ganttdata/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result updateGanttData(WorkspaceGanttData ganttData);
 
 }

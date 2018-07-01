@@ -18659,6 +18659,20 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "164554de05f",
+            "name": "±£´æ",
+            "text": "±£´æ",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.gantt.action.SaveGantt",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ],
         "rowActions": [
