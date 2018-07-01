@@ -57,7 +57,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public List<WorkInTemplate> listWorks(ObjectId template_id) {
 		return c(WorkInTemplate.class).find(new BasicDBObject("template_id", template_id))
-				.into(new ArrayList<WorkInTemplate>());
+				.sort(new BasicDBObject("index", 1)).into(new ArrayList<WorkInTemplate>());
 	}
 
 	@Override
