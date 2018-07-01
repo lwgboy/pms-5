@@ -1801,17 +1801,6 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
-          },
-          {
-            "id": "164558a564e",
-            "name": "ÐÂ²Ù×÷Ïî2",
-            "switchContentToAssemblyId": "163feddb1a7",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           }
         ]
       },
