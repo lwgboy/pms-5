@@ -44,7 +44,7 @@ public class CreateRootTask {
 
 		new Editor<WorkInfo>(editor, context).setTitle(title).setInput(workInfo).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
-			content.addTask(wi, wi.index());
+			content.addTask(wi);
 		});
 	}
 

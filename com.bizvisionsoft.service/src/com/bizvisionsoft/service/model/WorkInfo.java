@@ -19,10 +19,8 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.sn.WorkGenerator;
 import com.bizvisionsoft.service.tools.Util;
-import com.mongodb.BasicDBObject;
 
 //implements IWBSScope 
 @PersistenceCollection("workspace")
@@ -126,29 +124,10 @@ public class WorkInfo {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// index, 在gantt图中用于排序
 	@ReadValue
-	@WriteValue
+	@WriteValue("$index")
 	@Persistence
 	private int index;
-
-	public int index() {
-		return index;
-	}
-
-	/**
-	 * 生成本层的顺序号
-	 * 
-	 * @param projectId
-	 * @param parentId
-	 * @return
-	 */
-	private WorkInfo generateIndex() {
-		index = ServicesLoader.get(WorkSpaceService.class)
-				.nextWBSIndex(new BasicDBObject("project_id", project_id).append("parent_id", parent_id));
-		return this;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码 TODO 自动生成的方法
@@ -156,16 +135,6 @@ public class WorkInfo {
 	@ReadValue
 	@Persistence
 	private String wbsCode;
-
-	private WorkInfo setWBSCode(String parentWBSCode) {
-		if (parentWBSCode != null) {
-			this.wbsCode = parentWBSCode + "." + index;
-		} else {
-			this.wbsCode = "" + index;
-		}
-
-		return this;
-	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,20 +453,18 @@ public class WorkInfo {
 
 	public static WorkInfo newInstance(Project project) {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id())
-				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber()).generateIndex()
-				.setWBSCode(null);
+				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber());
 	}
 
 	public static WorkInfo newInstance(Work work) {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
-				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber()).generateIndex()
-				.setWBSCode(work.getWBSCode());
+				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber());
 	}
 
 	public static WorkInfo newInstance(WorkInfo workinfo) {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id())
 				.setParent_id(workinfo.get_id()).setProjectName(workinfo.projectName)
-				.setProjectNumber(workinfo.projectNumber).generateIndex().setWBSCode(workinfo.wbsCode);
+				.setProjectNumber(workinfo.projectNumber);
 	}
 
 	private void checkDate(Date start_date, Date end_date) {

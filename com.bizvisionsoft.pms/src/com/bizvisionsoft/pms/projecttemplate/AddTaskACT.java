@@ -23,7 +23,7 @@ public class AddTaskACT {
 		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板工作编辑器"), context)
 				.setInput(WorkInTemplate.newInstance((WorkInTemplate) ((GanttEvent) event).task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
-					content.addTask(wi, wi.index());
+					content.addTask(wi);
 				});
 	}
 

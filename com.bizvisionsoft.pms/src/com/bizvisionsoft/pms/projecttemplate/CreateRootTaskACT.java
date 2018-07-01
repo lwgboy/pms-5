@@ -28,7 +28,7 @@ public class CreateRootTaskACT {
 
 		new Editor<WorkInTemplate>(editor, context).setTitle(title).setInput(workInT).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
-			content.addTask(wi, wi.index());
+			content.addTask(wi);
 		});
 	}
 
