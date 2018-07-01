@@ -26,7 +26,6 @@ public class SubmitSchedule {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		if (rootInput != null) {
-
 			GanttPart ganttPart = (GanttPart) context.getContent();
 			if (ganttPart.isDirty()) {
 				Layer.message("当前的项目计划还未保存。", Layer.ICON_CANCEL);
