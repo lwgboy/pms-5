@@ -92,14 +92,14 @@ public class BasicServiceImpl {
 
 	protected <T> long count(BasicDBObject filter, Class<T> clazz) {
 		if (filter != null)
-			return c(clazz).count(filter);
-		return c(clazz).count();
+			return c(clazz).countDocuments(filter);
+		return c(clazz).countDocuments();
 	}
 
 	protected <T> long count(BasicDBObject filter, String colName) {
 		if (filter != null)
-			return c(colName).count(filter);
-		return c(colName).count();
+			return c(colName).countDocuments(filter);
+		return c(colName).countDocuments();
 	}
 
 	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz) {

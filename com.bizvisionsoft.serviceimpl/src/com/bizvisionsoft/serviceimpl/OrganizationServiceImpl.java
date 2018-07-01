@@ -75,11 +75,11 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	}
 
 	private long countOrganizations(BasicDBObject match) {
-		return c(Organization.class).count(match);
+		return c(Organization.class).countDocuments(match);
 	}
 
 	public long countMember(ObjectId _id) {
-		return c(User.class).count(new BasicDBObject("org_id", _id));
+		return c(User.class).countDocuments(new BasicDBObject("org_id", _id));
 	}
 
 	@Override

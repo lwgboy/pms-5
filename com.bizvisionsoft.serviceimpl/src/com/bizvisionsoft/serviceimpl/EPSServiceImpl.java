@@ -55,16 +55,16 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	@Override
 	public long delete(ObjectId _id) {
 		// 检查有没有下级的EPS节点
-		if (c(EPS.class).count(new Document("parent_id", _id)) > 0) {
+		if (c(EPS.class).countDocuments(new Document("parent_id", _id)) > 0) {
 			throw new ServiceException("不允许删除有下级节点的EPS记录");
 		}
 		// 检查有没有下级的项目集节点
-		if (c(ProjectSet.class).count(new Document("eps_id", _id)) > 0) {
+		if (c(ProjectSet.class).countDocuments(new Document("eps_id", _id)) > 0) {
 			throw new ServiceException("不允许删除有下级节点的EPS记录");
 		}
 
 		// 检查有没有下级的项目节点
-		if (c(Project.class).count(new Document("eps_id", _id)) > 0) {
+		if (c(Project.class).countDocuments(new Document("eps_id", _id)) > 0) {
 			throw new ServiceException("不允许删除有下级节点的EPS记录");
 		}
 
@@ -81,17 +81,17 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 	@Override
 	public long countSubEPS(ObjectId _id) {
-		return c(EPS.class).count(new Document("parent_id", _id));
+		return c(EPS.class).countDocuments(new Document("parent_id", _id));
 	}
 
 	@Override
 	public long deleteProjectSet(ObjectId _id) {
 		// 如果有下级项目集不可被删除
-		if (c(ProjectSet.class).count(new Document("parent_id", _id)) > 0)
+		if (c(ProjectSet.class).countDocuments(new Document("parent_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目集的项目集记录");
 
 		// 如果有项目引用了该项目集，不可删除
-		if (c(Project.class).count(new Document("projectSet_id", _id)) > 0)
+		if (c(Project.class).countDocuments(new Document("projectSet_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目的项目集记录");
 
 		return delete(_id, ProjectSet.class);
@@ -108,7 +108,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 	@Override
 	public long countRootEPSInfo() {
-		return c("eps").count(new Document("parent_id", null));
+		return c("eps").countDocuments(new Document("parent_id", null));
 	}
 
 	@Override
@@ -138,12 +138,12 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 	@Override
 	public long countSubEPSInfo(ObjectId _id) {
-		long count = c("eps").count(new Document("parent_id", _id));
-		count += c("projectSet").count(new Document("eps_id", _id));
-		count += c("projectSet").count(new Document("parent_id", _id));
-		count += c("project").count(new Document("eps_id", _id));
-		count += c("project").count(new Document("projectSet_id", _id));
-		return count;
+		long countDocuments = c("eps").countDocuments(new Document("parent_id", _id));
+		countDocuments += c("projectSet").countDocuments(new Document("eps_id", _id));
+		countDocuments += c("projectSet").countDocuments(new Document("parent_id", _id));
+		countDocuments += c("project").countDocuments(new Document("eps_id", _id));
+		countDocuments += c("project").countDocuments(new Document("projectSet_id", _id));
+		return countDocuments;
 	}
 
 	@Override

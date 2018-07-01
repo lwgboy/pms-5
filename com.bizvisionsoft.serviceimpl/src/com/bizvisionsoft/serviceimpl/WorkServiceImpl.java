@@ -651,7 +651,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	private void finishParentWork(ObjectId _id, Date finishDate) {
 		// 判断该工作是否存在未完成的子工作，存在则不更新该工作实际完成时间
-		long count = c("work").count(new BasicDBObject("parent_id", _id).append("actualFinish", null));
+		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
 		if (count == 0) {
 			// 工作没有完成时间或完成时间小于当前时间段且不为阶段时，更新工作的完成时间为当前时间，并获取更新的工作
 			Document doc = c("work")
@@ -716,7 +716,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 须检查的信息
 		// 1. 检查所属该阶段的工作是否全部完工，若没有，错误。根据工作完工后，自动向上级汇总实际完成的规则，只需要判断阶段下一级工作是否全部完工。
 		ArrayList<Result> result = new ArrayList<Result>();
-		long count = c("work").count(new BasicDBObject("parent_id", _id).append("actualFinish", null));
+		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
 		if (count > 0) {
 			result.add(Result.finishError("阶段存在没有完工的工作。"));
 		}
@@ -948,7 +948,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
 		return c("work")
-				.count(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
+				.countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -974,7 +974,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long countWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
-		return c("work").count(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id",
+		return c("work").countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id",
 				new BasicDBObject("$in", items)));
 	}
 
@@ -1029,7 +1029,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<ObjectId> items = getProject_id(userid);
 		if (filter == null)
 			filter = new BasicDBObject();
-		return c("work").count(filter.append("workPackageSetting.catagory", catagory).append("project_id",
+		return c("work").countDocuments(filter.append("workPackageSetting.catagory", catagory).append("project_id",
 				new BasicDBObject("$in", items)));
 	}
 

@@ -419,7 +419,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long countStage(ObjectId _id) {
-		return c("work").count(new BasicDBObject("project_id", _id).append("stage", true));
+		return c("work").countDocuments(new BasicDBObject("project_id", _id).append("stage", true));
 	}
 
 	@Override
@@ -722,7 +722,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 须检查的信息
 		// 1. 检查所属该项目的工作是否全部完工，若没有，错误。
 		ArrayList<Result> result = new ArrayList<Result>();
-		long count = c("work").count(new BasicDBObject("project_id", _id).append("actualFinish", null));
+		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
 		if (count > 0) {
 			result.add(Result.finishError("项目存在没有完工的工作。"));
 		}
@@ -1198,7 +1198,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
 		List<Result> result = new ArrayList<Result>();
 		long count = c(ProjectChange.class)
-				.count(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
+				.countDocuments(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
 		if (count > 0) {
 			result.add(Result.submitProjectChangeError("缺少审核人员"));
 		}
@@ -1320,7 +1320,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long checkCreateProjectChange(ObjectId _id) {
-		return c(ProjectChange.class).count(new Document("project_id", _id).append("status",
+		return c(ProjectChange.class).countDocuments(new Document("project_id", _id).append("status",
 				new Document("$nin", Arrays.asList(ProjectChange.STATUS_CANCEL, ProjectChange.STATUS_CONFIRM))));
 	}
 

@@ -1,22 +1,12 @@
 {
     title: {
-        text: '项目风险可监测性和临近性分析',
-        	textStyle: {
-		        color: "#757575",
-		        fontFamily: "Microsoft YaHei",
-		        fontWeight: 400.0,
-		        fontSize: "14"
-		      },
-		    padding: 8.0
-    },
-    tooltip: {
-    	formatter: "function (param) { return param.data[3];}"
+        show:false
     },
     grid: {
-        top: 32.0,
-        bottom: 32.0,
-        left: 32.0,
-        right: 32.0
+        top: 64.0,
+        bottom: 64.0,
+        left: 64.0,
+        right: 64.0
    },
    xAxis: {
         splitLine: {
@@ -54,6 +44,11 @@
                 shadowColor: 'rgba(120, 36, 50, 0.5)',
                 shadowOffsetY: 5
             }
+        },
+        label: {
+        	show:true,
+        	position:"bottom",
+        	formatter: "function (param) {  return param.data[3];     }"
         }
     }],
     toolbox: {

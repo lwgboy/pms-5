@@ -104,7 +104,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long countERResources(ObjectId _id) {
-		return c(Equipment.class).count(new BasicDBObject("resourceType_id", _id));
+		return c(Equipment.class).countDocuments(new BasicDBObject("resourceType_id", _id));
 	}
 
 	@Override
