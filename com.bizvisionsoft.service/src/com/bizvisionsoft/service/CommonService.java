@@ -405,4 +405,10 @@ public interface CommonService {
 	@DataSet("±ä¸üÉóºË/" + DataSet.UPDATE)
 	public long updateChangeProcess(BasicDBObject filterAndUpdate);
 
+	@POST
+	@Path("/createindex/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void createIndex();
+
 }

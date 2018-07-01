@@ -110,7 +110,7 @@ project_id
 user->
 userid
 org_id
-"resourceType_id" : ObjectId("5b04cc227fbf7437fc19985f")
+resourceType_id
 work->
 project_id
 planStart

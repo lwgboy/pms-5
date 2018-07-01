@@ -664,6 +664,21 @@
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "children": [
+              {
+                "id": "164541255ff",
+                "name": "创建索引",
+                "text": "创建索引",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
+                "openContent": false,
+                "propagate": false,
+                "forceText": true,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
+              }
+            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
@@ -1786,6 +1801,17 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
+          },
+          {
+            "id": "164558a564e",
+            "name": "新操作项2",
+            "switchContentToAssemblyId": "163feddb1a7",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
           }
         ]
       },
