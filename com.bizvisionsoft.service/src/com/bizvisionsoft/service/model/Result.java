@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 
 public class Result {
 
-	public static final int TYPE_ERROR = 0;
+	public static final int TYPE_ERROR = 999;
 
 	public static final int TYPE_WARNING = 1;
 
