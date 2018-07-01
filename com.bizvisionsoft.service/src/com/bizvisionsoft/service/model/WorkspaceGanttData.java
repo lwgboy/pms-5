@@ -7,37 +7,36 @@ import org.bson.types.ObjectId;
 public class WorkspaceGanttData {
 
 	private ObjectId space_id;
-	
-	private List<Object> tasks;
-	
-	private List<Object> links;
+
+	private List<WorkInfo> tasks;
+
+	private List<WorkLinkInfo> links;
 
 	public WorkspaceGanttData setWorkspaceId(ObjectId space_id) {
 		this.space_id = space_id;
 		return this;
 	}
-	
+
 	public ObjectId getSpace_id() {
 		return space_id;
 	}
 
-	public WorkspaceGanttData setWorks(List<Object> tasks) {
+	public WorkspaceGanttData setWorks(List<WorkInfo> tasks) {
 		this.tasks = tasks;
 		return this;
 	}
-	
-	public WorkspaceGanttData setLinks(List<Object> links) {
+
+	public WorkspaceGanttData setLinks(List<WorkLinkInfo> links) {
 		this.links = links;
 		return this;
 	}
-	
-	public List<Object> getLinks() {
+
+	public List<WorkLinkInfo> getLinks() {
 		return links;
 	}
-	
-	public List<Object> getTasks() {
+
+	public List<WorkInfo> getTasks() {
 		return tasks;
 	}
-	
 
 }

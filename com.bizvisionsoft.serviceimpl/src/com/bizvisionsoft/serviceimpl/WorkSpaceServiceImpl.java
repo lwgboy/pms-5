@@ -412,6 +412,20 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	@Override
 	public Result updateGanttData(WorkspaceGanttData ganttData) {
 		// TODO Auto-generated method stub
+		ObjectId space_id = ganttData.getSpace_id();
+		
+		c(WorkInfo.class).deleteMany(new Document("space_id",space_id));
+		
+		
+		c(WorkLinkInfo.class).deleteMany(new Document("space_id",space_id));
+		
+		List<WorkInfo> tasks = ganttData.getTasks();
+		List<WorkLinkInfo> links = ganttData.getLinks();
+		if(tasks.size()>0)
+			c(WorkInfo.class).insertMany(tasks);
+		
+		if(links.size()>0)
+			c(WorkLinkInfo.class).insertMany(links);
 		return new Result();
 	}
 }
