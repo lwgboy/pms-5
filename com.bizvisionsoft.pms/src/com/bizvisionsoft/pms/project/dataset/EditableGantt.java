@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.project.dataset;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -18,6 +19,7 @@ import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -72,6 +74,7 @@ public class EditableGantt {
 	public void onAfterTaskUpdateInSpace(GanttEvent e) {
 		workSpaceService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
 				.set(Util.getBson((WorkInfo) e.task, "_id")).bson());
+		System.out.println(e.text);
 	}
 
 	@Listener("onAfterTaskDelete")
@@ -103,7 +106,15 @@ public class EditableGantt {
 
 	@Listener("onAfterAutoSchedule")
 	public void onAfterAutoScheduleInSpace(GanttEvent e) {
-
+		ArrayList<String> ts = e.updatedTasks;
+		System.out.println(ts);
 		System.out.println("--------------------onAfterAutoSchedule--------------------");
+	}
+
+	@Listener("save")
+	public void onSave(GanttEvent e) {
+		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(workspace.getSpace_id())
+				.setWorks(e.tasks).setLinks(e.links);
+		workSpaceService.updateGanttData(ganttData);
 	}
 }

@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -406,5 +407,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				new Document().append("$project", new Document().append("work", false)));
 
 		return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
+	}
+
+	@Override
+	public Result updateGanttData(WorkspaceGanttData ganttData) {
+		// TODO Auto-generated method stub
+		return new Result();
 	}
 }
