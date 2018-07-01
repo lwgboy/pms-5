@@ -985,9 +985,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 插入项目和工作数据
 		c(Baseline.class).updateMany(new Document("_id", baseline.get_id()), new Document("$set", projectDoc));
 
-		c("baselineWork").insertMany(workDocs);
+		if (workDocs.size() > 0)
+			c("baselineWork").insertMany(workDocs);
 
-		c("baselineWorkLinks").insertMany(worklinkDocs);
+		if (worklinkDocs.size() > 0)
+			c("baselineWorkLinks").insertMany(worklinkDocs);
 
 		return get(newBaseline_id, Baseline.class);
 	}
