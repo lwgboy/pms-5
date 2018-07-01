@@ -114,16 +114,21 @@ public class EditableGantt {
 	@Listener("save")
 	public void onSave(GanttEvent e) {
 		System.out.println("--------------------save--------------------");
+		ObjectId space_id = workspace.getSpace_id();
 		List<WorkInfo> tasks = new ArrayList<WorkInfo>();
 		e.tasks.forEach(task->{
-			tasks.add((WorkInfo) task);
+			WorkInfo task2 = (WorkInfo) task;
+			task2.setSpaceId(space_id);
+			tasks.add(task2);
 		});
 		List<WorkLinkInfo>  links = new ArrayList<WorkLinkInfo>();
 		e.links.forEach(link->{
-			links.add((WorkLinkInfo) link);
+			WorkLinkInfo link2 = (WorkLinkInfo) link;
+			link2.setSpaceId(space_id);
+			links.add(link2);
 		});
 		
-		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(workspace.getSpace_id())
+WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(space_id)
 				.setWorks(tasks).setLinks(links);
 		workSpaceService.updateGanttData(ganttData);
 	}
