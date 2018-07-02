@@ -19,7 +19,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.tools.Util;
-import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("workInTemplate")
 @Strict
@@ -82,8 +81,7 @@ public class WorkInTemplate implements IWorkPackageMaster{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// index, 在gantt图中用于排序
-	@ReadValue
-	@WriteValue
+	@WriteValue("$index")
 	@Persistence
 	private int index;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,19 +89,9 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码
 	@WriteValue
-	@ReadValue
 	@Persistence
 	private String wbsCode;
 
-	private WorkInTemplate setWBSCode(String parentWBSCode) {
-		if (parentWBSCode != null) {
-			this.wbsCode = parentWBSCode + "." + index;
-		} else {
-			this.wbsCode = "" + index;
-		}
-
-		return this;
-	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -391,11 +379,6 @@ public class WorkInTemplate implements IWorkPackageMaster{
 		}
 	}
 
-	public WorkInTemplate setIndex(int index) {
-		this.index = index;
-		return this;
-	}
-
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -420,31 +403,18 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	}
 
 	public static WorkInTemplate newInstance(ProjectTemplate template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).generateIndex()
-				.setWBSCode(null);
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
 	}
 
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id)
-				.setParent_id(parentTask._id).generateIndex().setWBSCode(parentTask.wbsCode);
+				.setParent_id(parentTask._id);
 	}
 
 	public int index() {
 		return index;
 	}
 
-	/**
-	 * 生成本层的顺序号
-	 * 
-	 * @param projectId
-	 * @param parentId
-	 * @return
-	 */
-	private WorkInTemplate generateIndex() {
-		index = ServicesLoader.get(ProjectTemplateService.class)
-				.nextWBSIndex(new BasicDBObject("template_id", template_id).append("parent_id", parent_id));
-		return this;
-	}
 
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
 		this.workPackageSetting = workPackageSetting;

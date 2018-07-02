@@ -19,8 +19,10 @@ import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.mongodb.BasicDBObject;
 
 @Path("/projectTemplate")
@@ -142,7 +144,7 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目模板组织结构图/" + DataSet.DELETE })
 	public void deleteOBSItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-	
+
 	@POST
 	@Path("/id/{_id}/obs/role/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -252,4 +254,10 @@ public interface ProjectTemplateService {
 	@Produces("application/json; charset=UTF-8")
 	public void useTemplate(@PathParam("_id") ObjectId _id, @PathParam("project_id") ObjectId project_id,
 			@PathParam("checkoutBy") String checkoutBy);
+
+	@PUT
+	@Path("/ganttdata/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Result updateGanttData(WorkspaceGanttData ganttData);
 }

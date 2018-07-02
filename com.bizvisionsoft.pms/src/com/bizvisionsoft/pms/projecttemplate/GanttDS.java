@@ -1,10 +1,12 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
@@ -15,8 +17,12 @@ import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInTemplate;
+import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
+import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -35,7 +41,7 @@ public class GanttDS {
 	@Init
 	private void init() {
 		service = Services.get(ProjectTemplateService.class);
-		template_id = context.getRootInput(ProjectTemplate.class,false).get_id();
+		template_id = context.getRootInput(ProjectTemplate.class, false).get_id();
 	}
 
 	@DataSet("data")
@@ -82,6 +88,33 @@ public class GanttDS {
 	@Listener("onAfterLinkDelete")
 	public void onAfterLinkDeleteInSpace(GanttEvent e) {
 		service.deleteLink(new ObjectId(e.id));
+	}
+
+	@Listener("save")
+	public void onSave(GanttEvent e) {
+		List<WorkInTemplate> tasks = new ArrayList<WorkInTemplate>();
+		e.tasks.forEach(task -> {
+			WorkInTemplate task2 = (WorkInTemplate) task;
+			task2.setTemplate_id(template_id);
+			tasks.add(task2);
+		});
+		List<WorkLinkInTemplate> links = new ArrayList<WorkLinkInTemplate>();
+		e.links.forEach(link -> {
+			WorkLinkInTemplate link2 = (WorkLinkInTemplate) link;
+			link2.setTemplate_id(template_id);
+			links.add(link2);
+		});
+
+		WorkspaceGanttData ganttData = new WorkspaceGanttData().setTemplateId(template_id).setWorkInTemplates(tasks)
+				.setLinkInTemplates(links);
+		Result result = service.updateGanttData(ganttData);
+		// TODO 错误处理
+		if (result.type != Result.TYPE_ERROR) {
+			Layer.message("计划数据已保存。");
+			e.gantt.setDirty(false);
+		} else {
+			Layer.message(result.message, Layer.ICON_CANCEL);
+		}
 	}
 
 }

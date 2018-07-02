@@ -20,8 +20,10 @@ import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
+import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -357,6 +359,25 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public void deleteOBSItem(ObjectId _id) {
 		delete(_id, OBSInTemplate.class);
+	}
+
+	@Override
+	public Result updateGanttData(WorkspaceGanttData ganttData) {
+		ObjectId template_id = ganttData.getTemplate_id();
+
+		c(WorkInTemplate.class).deleteMany(new Document("template_id", template_id));
+
+		c(WorkLinkInTemplate.class).deleteMany(new Document("template_id", template_id));
+
+		List<WorkInTemplate> workInTemplates = ganttData.getWorkInTemplates();
+		if (workInTemplates.size() > 0)
+			c(WorkInTemplate.class).insertMany(workInTemplates);
+
+		List<WorkLinkInTemplate> workLinkInTemplates = ganttData.getWorkLinkInTemplates();
+		if (workLinkInTemplates.size() > 0)
+			c(WorkLinkInTemplate.class).insertMany(workLinkInTemplates);
+
+		return new Result();
 	}
 
 }
