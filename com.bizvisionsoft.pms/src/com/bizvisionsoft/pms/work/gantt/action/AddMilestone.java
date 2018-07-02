@@ -12,7 +12,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.WorkInfo;
 
-public class EditTask {
+public class AddMilestone {
 
 	@Inject
 	private IBruiService bruiService;
@@ -20,22 +20,16 @@ public class EditTask {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;
-		String editor;
-		if (workinfo.isStage()) {
-			editor = "甘特图阶段工作编辑器";
-		} else if (workinfo.isSummary()) {
-			editor = "甘特图总成工作编辑器";
-		} else if (workinfo.isMilestone()) {
-			editor = "甘特图里程碑工作编辑器";
-		} else {
-			editor = "甘特图工作编辑器";
-		}
-		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
-			GanttPart content = (GanttPart) context.getContent();
-			content.updateTask(wi);
-		});
+		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
+		// 显示编辑器
 
+		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) ((GanttEvent) event).task).setMilestone(true);
+		new Editor<WorkInfo>(bruiService.getAssembly("甘特图里程碑工作编辑器"), context)
+				.setInput(workInfo).ok((r, wi) -> {
+					wi.setPlanFinish(wi.getPlanStart());
+					GanttPart content = (GanttPart) context.getContent();
+					content.addTask(wi);
+				});
 	}
 
 }

@@ -80,6 +80,8 @@ public class EventHandler {
 			editor = "甘特图阶段工作编辑器";
 		} else if (((WorkInfo) event.task).isSummary()) {
 			editor = "甘特图总成工作编辑器";
+		} else if (((WorkInfo) event.task).isMilestone()) {
+			editor = "甘特图里程碑工作编辑器";
 		} else {
 			editor = "甘特图工作编辑器";
 		}
