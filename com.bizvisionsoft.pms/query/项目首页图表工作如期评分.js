@@ -10,7 +10,7 @@
 		    "padding": 8.0
 		  },
 		    legend: {
-		        data: ["项目","均值"],
+		        data: ["均值","项目"],
 		    "orient": "horizontal",
 		    "left": 12,
 		    "top": 24
@@ -32,8 +32,8 @@
         name:"各类工作"
         areaStyle: {normal: {}},
         data : [
-        	{ value : "<value>",name: "项目"},
-            { value : "<avg>",name: "均值" }
+        	{ value : "<avg>",name: "均值" },
+        	{ value : "<value>",name: "项目"}
         ]
     }],
     toolbox: {

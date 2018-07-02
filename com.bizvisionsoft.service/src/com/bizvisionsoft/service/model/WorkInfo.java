@@ -522,6 +522,8 @@ public class WorkInfo {
 	// 如果是里程碑，gantt的type为milestone，否则为task。
 	// 如果在gantt中更新了task,使得他有子工作，gantt将type改为project
 	@Persistence
+	@ReadValue
+	@WriteValue
 	private boolean milestone;
 
 	@Persistence
