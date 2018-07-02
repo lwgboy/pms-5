@@ -338,7 +338,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
-		sendMessage("项目启动", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+		sendMessage("项目启动通知",
+				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
 				com.userId, memberIds, null);
 		return result;
 	}
@@ -384,10 +385,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		String pjName = getName("project", com._id);
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("新下达的工作计划",
-					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + " - "
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")),
+			messages.add(Message.newInstance("工作计划下达通知",
+					"您参与的项目 " + pjName + "，工作 " + w.getString("fullName") + "， 预计从 "
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
 					com.userId, w.getString("chargerId"), null));
 		});
 
@@ -711,7 +712,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
-		sendMessage("项目完工", "项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完工。",
+		sendMessage("项目收尾通知",
+				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
 				com.userId, memberIds, null);
 
 		return result;
@@ -747,8 +749,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		// TODO 通知项目团队成员，项目已经关闭
-
+		// 通知项目团队成员，项目已经关闭
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目关闭通知",
+				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+				com.userId, memberIds, null);
 		return result;
 	}
 
@@ -1190,15 +1196,39 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		// TODO 发送通知
+		// 发送通知
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", projectChangeIds))));
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		c(ProjectChange.class).aggregate(pipeline).forEach((ProjectChange projectChange) -> {
+			List<String> receivers = new ArrayList<String>();
+			projectChange.getReviewer().forEach((ProjectChangeTask receiver) -> {
+				receivers.add(receiver.user);
+			});
+			sendMessage("项目变更申请",
+					"" + projectChange.getApplicantInfo() + "发起了项目" + projectChange.getProjectName() + "的变更申请，请您进行审核。",
+					projectChange.getApplicantId(), receivers, null);
+
+			String pmId = c("project")
+					.distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
+			if (!receivers.contains(pmId))
+				sendMessage("项目变更申请",
+						"" + projectChange.getApplicantInfo() + "发起了项目" + projectChange.getProjectName() + "的变更申请，",
+						projectChange.getApplicantId(), receivers, null);
+
+		});
 
 		return result;
 	}
 
 	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
 		List<Result> result = new ArrayList<Result>();
-		long count = c(ProjectChange.class)
-				.countDocuments(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
+		long count = c(ProjectChange.class).countDocuments(
+				new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
 		if (count > 0) {
 			result.add(Result.submitProjectChangeError("缺少审核人员"));
 		}
@@ -1235,7 +1265,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		// TODO
+		// 发送变更批准通知
+		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + "批准了项目" + pc.getProjectName() + "的变更申请，",
+				projectChangeTask.user, pc.getApplicantId(), null);
+		if (ProjectChange.STATUS_PASS.equals(status)) {
+			String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
+			sendMessage("项目变更申请已通过", "项目" + pc.getProjectName() + "的变更申请已审核通过，", pc.getApplicantId(), pmId, null);
+		}
 
 		return result;
 	}
@@ -1258,8 +1294,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
 		}
-		// TODO 发送通知
+		// 发送通知
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", projectChangeIds))));
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		c(ProjectChange.class).aggregate(pipeline).forEach((ProjectChange pc) -> {
+			sendMessage("项目变更申请已关闭", "项目" + pc.getProjectName() + "的变更已关闭，", userId, pc.getApplicantId(), null);
+		});
 		return result;
 	}
 
@@ -1292,6 +1337,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足取消条件的变更申请。"));
 			return result;
 		}
+		String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
+		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + "否决了项目" + pc.getProjectName() + "的变更申请，",
+				projectChangeTask.user, Arrays.asList(pmId, pc.getApplicantId()), null);
 
 		return result;
 	}

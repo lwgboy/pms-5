@@ -57,6 +57,10 @@ public class ProjectChange {
 	@SetValue
 	private String projectName;
 
+	public String getProjectName() {
+		return projectName;
+	}
+
 	@ReadValue
 	@SetValue
 	private String projectNumber;
@@ -105,6 +109,10 @@ public class ProjectChange {
 	@ReadValue
 	@SetValue
 	private String applicantInfo;
+
+	public String getApplicantInfo() {
+		return applicantInfo;
+	}
 
 	/**
 	 * …Í«Îµ•Œª

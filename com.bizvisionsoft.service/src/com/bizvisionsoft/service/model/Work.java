@@ -742,7 +742,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue("部门工作日程表/section_id")
-	private String getSectionId() {
+	public String getChargerId() {
 		return chargerId;
 	}
 
