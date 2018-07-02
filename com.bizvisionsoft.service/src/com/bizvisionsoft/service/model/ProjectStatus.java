@@ -12,7 +12,7 @@ public interface ProjectStatus {
 
 	public final String Suspended="已暂停";
 	
-	public final String Terminated="已中止";
+	public final String Terminated="已中止";//已撤项
 	
 
 }
