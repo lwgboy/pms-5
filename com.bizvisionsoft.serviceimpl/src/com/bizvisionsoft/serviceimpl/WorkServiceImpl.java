@@ -674,6 +674,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
 					com.userId, memberIds, null);
 
+		List<ObjectId> milestoneWorkId = new ArrayList<ObjectId>();
+
 		c(WorkLink.class).find(new Document("source", com._id)).forEach((WorkLink workLink) -> {
 			ObjectId targetId = workLink.getTargetId();
 			Work work = getWork(targetId);
@@ -681,8 +683,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
 					com.userId, work.getChargerId(), null);
+			if (work.isMilestone()) {
+				milestoneWorkId.add(work.get_id());
+			}
 		});
 
+		milestoneWorkId.forEach(work_id -> {
+			Command newComm = Command.newInstance(null, com.userId, com.date, work_id);
+			List<Result> startWork = startWork(newComm);
+			if (startWork.isEmpty()) {
+				List<Result> finishWork = finishWork(newComm);
+				result.addAll(finishWork);
+			}
+			result.addAll(startWork);
+		});
 		return result;
 	}
 
