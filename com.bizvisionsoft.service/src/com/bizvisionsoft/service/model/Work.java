@@ -575,7 +575,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ImageURL("milestoneIcon")
 	private String getMilestoneIcon() {
 		if (milestone)
-			return "/img/milestone_c.svg";
+			return "/img/flag_blue.svg";
 		return null;
 	}
 
@@ -1022,7 +1022,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Behavior({ "打开工作包", "设置工作包" })
 	private boolean behaviourOpenWorkPackage() {
-		return !summary && !stage;
+		return !summary && !stage && !milestone;
 	}
 
 	@Structure({ "我的待处理工作（工作抽屉）/list" })
@@ -1116,7 +1116,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue({ "我的工作/workpackageHtml", "进度计划/workpackageHtml", "进度计划（查看）/workpackageHtml" })
 	public String getWorkPackageActionHtml() {
-		if (summary) {
+		if (summary || milestone) {
 			return "";
 		}
 

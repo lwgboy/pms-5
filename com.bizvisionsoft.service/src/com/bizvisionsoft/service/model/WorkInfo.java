@@ -181,7 +181,7 @@ public class WorkInfo {
 	@Persistence("actualStart")
 	private Date actualStart;
 
-	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date" })
+	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date", "甘特图里程碑工作编辑器/start_date" })
 	public WorkInfo setStart_date(Date start_date) {
 		checkDate(start_date, this.getEnd_date());
 		if (actualStart != null) {
@@ -522,6 +522,8 @@ public class WorkInfo {
 	// 如果是里程碑，gantt的type为milestone，否则为task。
 	// 如果在gantt中更新了task,使得他有子工作，gantt将type改为project
 	@Persistence
+	@ReadValue
+	@WriteValue
 	private boolean milestone;
 
 	@Persistence
@@ -578,12 +580,12 @@ public class WorkInfo {
 		this.workPackageSetting = workPackageSetting;
 	}
 
-	@Behavior("创建子任务")
+	@Behavior({ "创建子任务", "创建里程碑" })
 	private boolean behaviourAddTask() {
 		return actualFinish == null;
 	}
 
-	@Behavior("编辑工作包")
+	@Behavior("设置工作包")
 	private boolean behaviourEditWPS() {
 		return !summary && !stage;
 	}
@@ -613,6 +615,11 @@ public class WorkInfo {
 
 	public WorkInfo setChargerId(String chargerId) {
 		this.chargerId = chargerId;
+		return this;
+	}
+
+	public WorkInfo setMilestone(boolean milestone) {
+		this.milestone = milestone;
 		return this;
 	}
 

@@ -402,7 +402,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// project_id
 		// creationDate
 		c("baseline").createIndex(new Document("project_id", 1));
-		c("baseline").createIndex(new Document("creationDate", 1));
+		c("baseline").createIndex(new Document("creationDate", -1));//°´Ê±¼äµ¹Ðò
 		// baselineWork->
 		// project_id
 		// wbsCode
@@ -524,7 +524,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		c("project").createIndex(new Document("workOrder", 1));
 		c("project").createIndex(new Document("obs_id", 1));
 		c("project").createIndex(new Document("planStart", 1));
-		c("project").createIndex(new Document("planFinish", 1));
+		c("project").createIndex(new Document("planFinish", -1));
 		c("project").createIndex(new Document("actualStart", 1));
 		c("project").createIndex(new Document("actualFinish", 1));
 		c("project").createIndex(new Document("eps_id", 1));
@@ -532,7 +532,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// project_id
 		// applicantDate
 		c("projectChange").createIndex(new Document("project_id", 1));
-		c("projectChange").createIndex(new Document("applicantDate", 1));
+		c("projectChange").createIndex(new Document("applicantDate", -1));
 		// projectSet->
 		// workOrder
 		// eps_id
