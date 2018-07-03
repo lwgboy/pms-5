@@ -122,10 +122,10 @@ public interface CBSService {
 	public CBSItem unallocateBudget(@PathParam("_id") ObjectId _id, @PathParam("parent_id") ObjectId parent_id);
 
 	@PUT
-	@Path("/_id/{_id}/calculation/")
+	@Path("/_id/{_id}/calculation/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result calculationBudget(@PathParam("_id") ObjectId _id);
+	public Result calculationBudget(@PathParam("_id") ObjectId _id, @PathParam("userId") String userId);
 
 	@PUT
 	@Path("/_id/{_id}/addcbsbystage/{project_id}")

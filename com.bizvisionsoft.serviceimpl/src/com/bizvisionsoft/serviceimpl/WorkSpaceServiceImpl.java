@@ -14,6 +14,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
@@ -241,8 +243,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
 		}
 
-		new ProjectServiceImpl()
-				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setCreationDate(new Date()).setName("修改进度计划"));
+		new ProjectServiceImpl().createBaseline(
+				new Baseline().setProject_id(workspace.getProject_id()).setCreationDate(new Date()).setName("修改进度计划"));
 
 		List<ObjectId> workIds = c(Work.class)
 				.distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
@@ -341,6 +343,22 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
+			Project project = c(Project.class).find(new Document("_id", workspace.getProject_id())).first();
+			if (ProjectStatus.Created.equals(project.getStatus())) {
+				sendMessage("项目进度计划编制完成", "您负责的项目" + project.getName() + "已完成进度计划的制定。", workspace.getCheckoutBy(),
+						project.getPmId(), null);
+			} else {
+				List<ObjectId> parentIds = c("obs")
+						.distinct("_id", new BasicDBObject("scope_id", workspace.getProject_id()), ObjectId.class)
+						.into(new ArrayList<>());
+				List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
+				ArrayList<String> memberIds = c("obs")
+						.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids))
+								.append("managerId", new BasicDBObject("$ne", null)), String.class)
+						.into(new ArrayList<>());
+				sendMessage("项目进度计划已更新", "您参与的项目" + project.getName() + "进度计划已调整。", workspace.getCheckoutBy(),
+						memberIds, null);
+			}
 			return Result.checkoutSuccess("已成功提交。");
 		} else {
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
@@ -413,18 +431,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	public Result updateGanttData(WorkspaceGanttData ganttData) {
 		// TODO Auto-generated method stub
 		ObjectId space_id = ganttData.getSpace_id();
-		
-		c(WorkInfo.class).deleteMany(new Document("space_id",space_id));
-		
-		
-		c(WorkLinkInfo.class).deleteMany(new Document("space_id",space_id));
-		
+
+		c(WorkInfo.class).deleteMany(new Document("space_id", space_id));
+
+		c(WorkLinkInfo.class).deleteMany(new Document("space_id", space_id));
+
 		List<WorkInfo> tasks = ganttData.getTasks();
 		List<WorkLinkInfo> links = ganttData.getLinks();
-		if(tasks.size()>0)
+		if (tasks.size() > 0)
 			c(WorkInfo.class).insertMany(tasks);
-		
-		if(links.size()>0)
+
+		if (links.size() > 0)
 			c(WorkLinkInfo.class).insertMany(links);
 		return new Result();
 	}

@@ -301,7 +301,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Result calculationBudget(ObjectId _id) {
+	public Result calculationBudget(ObjectId _id, String userId) {
 		Double totalBudget = 0.0;
 		List<CBSSubject> subjectBudget = getCBSSubject(_id);
 		Map<String, Double> cbsPeriodMap = new HashMap<String, Double>();
@@ -332,6 +332,16 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			cbsPeriods.add(cbsPeriod);
 		}
 		c(CBSPeriod.class).insertMany(cbsPeriods);
+
+		ObjectId scope_id = c(CBSItem.class).distinct("scope_id", new Document("_id", _id), ObjectId.class).first();
+		Project project = c(Project.class).find(new Document("_id", scope_id)).first();
+		if (project == null) {
+			ObjectId project_id = c(Work.class).distinct("project_id", new Document("_id", scope_id), ObjectId.class)
+					.first();
+			project = c(Project.class).find(new Document("_id", project_id)).first();
+		}
+
+		sendMessage("项目预算编制完成", "您负责的项目" + project.getName() + "XXX雷达探测已完成项目预算。", userId, project.getPmId(), null);
 
 		return Result.cbsSuccess("提交预算成功");
 	}
@@ -662,7 +672,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 						Object cost = ((Document) item).get("cost");
 						if (cost != null) {
 							costD += ((Number) cost).doubleValue();
-							costMap.put(id, (double)Math.round(costD*10)/10);
+							costMap.put(id, (double) Math.round(costD * 10) / 10);
 						}
 					}
 
@@ -671,7 +681,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 						Object budget = ((Document) item).get("budget");
 						if (budget != null) {
 							budgetD += ((Number) budget).doubleValue();
-							budgetMap.put(id, (double)Math.round(budgetD*10)/10);
+							budgetMap.put(id, (double) Math.round(budgetD * 10) / 10);
 						}
 					}
 				});
@@ -679,7 +689,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		});
 
 		return new JQ("项目首页资金预算和用量状况").set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
-		.set("cost",  Arrays.asList(costMap.values().toArray(new Double[0]))).doc();
+				.set("cost", Arrays.asList(costMap.values().toArray(new Double[0]))).doc();
 	}
 
 	@SuppressWarnings("unchecked")

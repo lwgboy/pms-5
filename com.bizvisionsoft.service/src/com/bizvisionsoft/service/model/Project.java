@@ -931,4 +931,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return changeStatus;
 	}
 
+	public String getPPMId() {
+		return null;
+	}
+
 }

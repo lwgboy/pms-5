@@ -33,7 +33,7 @@ public class SubminBudgetSubject {
 			return;
 		}
 
-		Result result = Services.get(CBSService.class).calculationBudget(cbsItem.get_id());
+		Result result = Services.get(CBSService.class).calculationBudget(cbsItem.get_id(), brui.getCurrentUserId());
 		if (result.code == Result.CODE_CBS_SUCCESS) {
 			Layer.message("科目预算已提交。");
 		} else {

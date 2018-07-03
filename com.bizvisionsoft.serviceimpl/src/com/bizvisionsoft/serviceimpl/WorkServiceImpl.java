@@ -259,8 +259,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			throw new ServiceException("无法更新项目当前状态。");
 		}
 
-		// TODO 通知团队成员，工作已经启动
-
+		// 通知团队成员，工作已经启动
+		List<String> memberIds = getStageMembers(com._id);
+		String name = getName("work", com._id);
+		String projectName = getName("project", project_id);
+		sendMessage("阶段启动通知",
+				"您参与的项目" + projectName + " 阶段" + name + "已于"
+						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+				com.userId, memberIds, null);
 		return result;
 	}
 
@@ -546,10 +552,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		String pjName = getName("project", work.getProject_id());
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("新下达的工作计划",
-					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，计划 "
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + " - "
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")),
+			messages.add(Message.newInstance("工作计划下达通知",
+					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
 					com.userId, w.getString("chargerId"), null));
 		});
 
@@ -646,7 +652,61 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (parent_id != null)
 			finishParentWork(parent_id, com.date);
 
+		ObjectId stage_id = getStageId(com._id);
+		List<String> memberIds = new ArrayList<String>();
+		String workName = getName("work", com._id);
+		Work stage = c(Work.class).find(new Document("_id", stage_id)).first();
+		Project project = c(Project.class).find(new Document("_id", doc.getObjectId("project_id"))).first();
+		memberIds.add(stage.getChargerId());
+		memberIds.add(project.getPmId());
+		c("obs").distinct("managerId", new Document("scope_id", project.get_id()).append("project", "PPM"),
+				String.class).forEach((String userId) -> {
+					memberIds.add(userId);
+				});
+		if (doc.getBoolean("stage", false))
+			sendMessage("工作完成通知",
+					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + workName + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
+					com.userId, memberIds, null);
+		else
+			sendMessage("里程碑完成通知",
+					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + workName + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
+					com.userId, memberIds, null);
+
+		List<ObjectId> milestoneWorkId = new ArrayList<ObjectId>();
+
+		c(WorkLink.class).find(new Document("source", com._id)).forEach((WorkLink workLink) -> {
+			ObjectId targetId = workLink.getTargetId();
+			Work work = getWork(targetId);
+			sendMessage("前序工作完成通知",
+					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
+					com.userId, work.getChargerId(), null);
+			if (work.isMilestone()) {
+				milestoneWorkId.add(work.get_id());
+			}
+		});
+
+		milestoneWorkId.forEach(work_id -> {
+			Command newComm = Command.newInstance(null, com.userId, com.date, work_id);
+			List<Result> startWork = startWork(newComm);
+			if (startWork.isEmpty()) {
+				List<Result> finishWork = finishWork(newComm);
+				result.addAll(finishWork);
+			}
+			result.addAll(startWork);
+		});
 		return result;
+	}
+
+	private ObjectId getStageId(ObjectId work_id) {
+		ObjectId parent_id = c("work").distinct("parent_id", new Document("_id", work_id), ObjectId.class).first();
+		if (parent_id != null) {
+			return getStageId(parent_id);
+		} else {
+			return work_id;
+		}
 	}
 
 	private void finishParentWork(ObjectId _id, Date finishDate) {
@@ -708,6 +768,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		// TODO 处理阶段实际工期
 
+		// 阶段收尾通知
+		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
+				.first();
+		List<String> memberIds = getStageMembers(com._id);
+		String name = getName("work", com._id);
+		String projectName = getName("project", project_id);
+		sendMessage("阶段收尾通知",
+				"您参与的项目" + projectName + " 阶段" + name + "已于"
+						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+				com.userId, memberIds, null);
 		return result;
 	}
 
@@ -740,9 +810,29 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			throw new ServiceException("没有满足关闭条件的工作。");
 		}
 
-		// TODO 通知团队成员，工作已经关闭
+		// 通知团队成员，工作已经关闭
+		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
+				.first();
+		List<String> memberIds = getStageMembers(com._id);
+		String name = getName("work", com._id);
+		String projectName = getName("project", project_id);
+		sendMessage("阶段关闭通知",
+				"您参与的项目" + projectName + " 阶段" + name + "已于"
+						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+				com.userId, memberIds, null);
 
 		return result;
+	}
+
+	private List<String> getStageMembers(ObjectId _id) {
+		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
+		ArrayList<String> memberIds = c("obs")
+				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
+						new BasicDBObject("$ne", null)), String.class)
+				.into(new ArrayList<>());
+		return memberIds;
 	}
 
 	private List<Result> closeStageCheck(ObjectId _id, String executeBy) {
@@ -947,8 +1037,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
-		return c("work")
-				.countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
+		return c("work").countDocuments(
+				new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1917,15 +2007,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.into(new ArrayList<WorkLink>());
 		return into;
 	}
-	
+
 	@Override
 	public Document getProjectWorkScroe(ObjectId project_id) {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();
 
-		c("work").aggregate(new JQ("项目工作如期评分")
-				.set("match", new Document("actualStart", new Document("$ne", null))).set("now", new Date()).array())
-				.forEach((Document d) -> {
+		c("work").aggregate(new JQ("项目工作如期评分").set("match", new Document("actualStart", new Document("$ne", null)))
+				.set("now", new Date()).array()).forEach((Document d) -> {
 					indicator.add(new Document("name", d.getString("_id")).append("max", 100));
 					avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
 				});
@@ -1936,13 +2025,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.set("match", new Document("project_id", project_id).append("actualStart", new Document("$ne", null)))
 				.set("now", new Date()).array()).forEach((Document d) -> {
 					for (int i = 0; i < indicator.size(); i++) {
-						if(indicator.get(i).getString("name").equals(d.getString("_id"))) {
+						if (indicator.get(i).getString("name").equals(d.getString("_id"))) {
 							value[i] = (double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10;
 							break;
 						}
 					}
 				});
 
-		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value)).doc();
+		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
+				.doc();
 	}
 }
