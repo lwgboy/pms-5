@@ -394,4 +394,19 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> confirmProjectChange(List<ObjectId> projectChangeIds, @PathParam("userId") String userId);
 
+	@POST
+	@Path("/managedby/{managerId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我管理的项目清单/list")
+	public List<Project> listAdministratedProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
+
+	@POST
+	@Path("/managedby/{managerId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我管理的项目清单/count")
+	public long countAdministratedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
 }
