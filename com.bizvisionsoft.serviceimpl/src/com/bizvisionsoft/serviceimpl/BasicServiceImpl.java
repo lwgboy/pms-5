@@ -564,4 +564,17 @@ public class BasicServiceImpl {
 		}
 		return _result;
 	}
+
+	/**
+	 * TODO 获得userId 管理的项目
+	 * @param condition
+	 * @param userId
+	 * @return
+	 */
+	protected List<ObjectId> getAdministratedProjects(String userId) {
+		return c("project").distinct("_id",
+				new Document("actualStart", new Document("$ne", null)).append("actualPlan", null), ObjectId.class)
+				.into(new ArrayList<>());
+	}
+
 }

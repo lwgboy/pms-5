@@ -487,9 +487,17 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目各类工作评分/list")
-	public Document getProjectWorkScroe(
+	public Document getProjectWorkScoreChart(
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 
+	@POST
+	@Path("/chart/{managerId}/workScore")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我管理的项目各类工作评分/list")
+	public Document getAdministratedProjectWorkScoreChart(
+			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
+	
 	
 	@POST
 	@Path("/resourceallanalysis/{year}/{userid}/")

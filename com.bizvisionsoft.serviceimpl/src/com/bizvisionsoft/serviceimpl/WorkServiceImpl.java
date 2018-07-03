@@ -2009,7 +2009,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public Document getProjectWorkScroe(ObjectId project_id) {
+	public Document getProjectWorkScoreChart(ObjectId project_id) {
+		Document workFilter = new Document("project_id", project_id).append("actualStart", new Document("$ne", null));
+		return getWorkScoreChart(workFilter);
+	}
+
+	@Override
+	public Document getAdministratedProjectWorkScoreChart(String managerId) {
+		List<ObjectId> pjIdList = getAdministratedProjects(managerId);
+		Document workFilter = new Document("project_id", new Document("$in", pjIdList)).append("actualStart",
+				new Document("$ne", null));
+		return getWorkScoreChart(workFilter);
+	}
+
+	private Document getWorkScoreChart(Document workFilter) {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();
 
@@ -2021,9 +2034,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		Double[] value = new Double[avg.size()];
 
-		c("work").aggregate(new JQ("项目工作如期评分")
-				.set("match", new Document("project_id", project_id).append("actualStart", new Document("$ne", null)))
-				.set("now", new Date()).array()).forEach((Document d) -> {
+		c("work").aggregate(new JQ("项目工作如期评分").set("match", workFilter).set("now", new Date()).array())
+				.forEach((Document d) -> {
 					for (int i = 0; i < indicator.size(); i++) {
 						if (indicator.get(i).getString("name").equals(d.getString("_id"))) {
 							value[i] = (double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10;
@@ -2035,4 +2047,5 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
 				.doc();
 	}
+
 }

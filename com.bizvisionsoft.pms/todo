@@ -128,8 +128,8 @@ MCS每次模拟都应该记录
 			WCP(Rate of Work Complete on time)各类工作按期完成率			投资回收期(PP)
 			
 工作指标体系：
-			TF Total Float 总时差：在不延误项目完成日期或违反进度因素的前提下，该工作可以推迟的时间。 
-			FF Free Float 自由时差：在不影响紧后活动最早开始的情况下，该工作可以推迟的时间。
+			TF Total Float 总时差：	在不延误项目完成日期或违反进度因素的前提下，该工作可以推迟的时间。 
+			FF Free Float 自由时差：	在不影响紧后活动最早开始的情况下，该工作可以推迟的时间。
 			ACP Activity Critical Probability 工作关键概率：指在考虑风险情况下，该工作成为关键路径工作的概率。
 			ACI Activity Critical Index 工作关键序数：指在考虑风险情况下，该工作工期对项目工期造成影响的大小程度。
 

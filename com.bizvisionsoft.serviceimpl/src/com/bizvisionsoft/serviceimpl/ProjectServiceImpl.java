@@ -1412,4 +1412,26 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return into;
 	}
 
+	@Override
+	public List<Project> listAdministratedProjects(BasicDBObject condition, String managerId) {
+		List<ObjectId> projectIds = getAdministratedProjects(managerId);
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("_id", new BasicDBObject("$in", projectIds));
+		return createDataSet(condition);
+	}
+
+	@Override
+	public long countAdministratedProjects(BasicDBObject filter, String managerId) {
+		List<ObjectId> projectIds = getAdministratedProjects(managerId);
+		if(filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("_id", new BasicDBObject("$in", projectIds));
+		return count(filter);
+	}
+
 }
