@@ -119,13 +119,19 @@ MCS每次模拟都应该记录
 我关注的项目清单（只考虑进行中的项目）
 
 项目指标体系：
-			进行中					已完成
-			进度预警级别				计划完成率
-			按计划完工概率			一级计划完成率
-			工期完成率				各类工作按期完成率
-			工作进度完成率			预算偏差率
-			成本进度完成率			投资回报率
-			各类工作按期完成率			投资回收期
+			进行中														已完成
+			SWL(Schedule Warning Level):进度预警级别						计划完成率(SAR Schedule Accomplishment Rate)
+			PCP(Probability of Completion by Plan)按计划完工概率			一级计划完成率(SAR_L1)
+			DAR(Duration Accomplishment Rate)工期完成率					各类工作按期完成率WCP(Rate of Work Complete on time)
+			WAR(Work Accomplishment Rate = Progress)工作进度完成率		预算偏差率(BDR Budgetary Deviation Rate)
+			CAR(Cost Accomplishment Rate)成本进度完成率					投资回报率(ROI)
+			WCP(Rate of Work Complete on time)各类工作按期完成率			投资回收期(PP)
+			
+工作指标体系：
+			TF Total Float 总时差：在不延误项目完成日期或违反进度因素的前提下，该工作可以推迟的时间。 
+			FF Free Float 自由时差：在不影响紧后活动最早开始的情况下，该工作可以推迟的时间。
+			ACP Activity Critical Probability 工作关键概率：指在考虑风险情况下，该工作成为关键路径工作的概率。
+			ACI Activity Critical Index 工作关键序数：指在考虑风险情况下，该工作工期对项目工期造成影响的大小程度。
 
 项目进展状态：我关注的项目，显示主要指标
 		
