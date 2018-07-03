@@ -372,6 +372,8 @@ public class BasicServiceImpl {
 
 	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url) {
 		List<Message> toBeInsert = new ArrayList<>();
+		
+		//TODO ШЅжи
 		receivers.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert);
 	}

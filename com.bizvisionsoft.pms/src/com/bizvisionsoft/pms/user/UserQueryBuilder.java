@@ -49,7 +49,7 @@ public class UserQueryBuilder {
 		if (orgText==null) {
 			org_id = null;
 		} else {
-			BasicDBObject condition = new Query().filter(new BasicDBObject("name",orgText)).bson();
+			BasicDBObject condition = new Query().filter(new BasicDBObject("fullName",orgText)).bson();
 			List<Organization> orgs = Services.get(OrganizationService.class).createDataSet(condition);
 			org_id = new BasicDBObject("$in", Util.getList(orgs, Organization::get_id));
 		}
