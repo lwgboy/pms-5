@@ -365,6 +365,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 5. 没有做预算，警告
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
+		// 8. 必须要有工作令号，错误。
 
 		return new ArrayList<Result>();
 	}

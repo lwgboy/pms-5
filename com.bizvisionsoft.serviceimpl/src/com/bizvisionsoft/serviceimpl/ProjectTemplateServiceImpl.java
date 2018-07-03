@@ -304,7 +304,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					} else if (stageEnable) {
 						doc.put("status", ProjectStatus.Created);
 					}
-
+					// TODO 更新计划开始、完成时间
+					
 					doc.remove("template_id");
 					tobeInsert.add(doc);
 				});
