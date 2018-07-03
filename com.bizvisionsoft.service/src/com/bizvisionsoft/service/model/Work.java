@@ -540,7 +540,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				}
 			}
 		}
-		d = (d != null && d > 1d) ? 1d : d;
+		d = d == null ? 0d : ((d != null && d > 1d) ? 1d : d);
 		return d;
 	}
 
@@ -1101,13 +1101,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("TF")
 	@SetValue
 	private Double getTF() {
-		return summary||scheduleEst == null ? null : scheduleEst.tf;
+		return summary || scheduleEst == null ? null : scheduleEst.tf;
 	}
 
 	@ReadValue("FF")
 	@SetValue
 	private Double getFF() {
-		return summary||scheduleEst == null ? null : scheduleEst.ff;
+		return summary || scheduleEst == null ? null : scheduleEst.ff;
 	}
 
 	@SetValue

@@ -376,7 +376,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		Document query = new Document("project_id", com._id)// .append("parent_id", null)
+		Document query = new Document("project_id", com._id).append("parent_id", null)
 				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
 
 		final List<ObjectId> ids = new ArrayList<>();
@@ -545,8 +545,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Project> listParticipatedProjectsInDaily(BasicDBObject condition, String userId) {
-		Date startWorkFinish = new Date();
-		return listParticipatedProjects(condition, userId, startWorkFinish);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return listParticipatedProjects(condition, userId, cal.getTime());
 	}
 
 	@Override
@@ -610,7 +614,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
-		List<Bson> pipeline = new ArrayList<Bson>();
 		List<ObjectId> project_ids = c("work")
 				.distinct("project_id",
 						new Document("summary", false)
@@ -628,6 +631,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
+		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids))));
 
 		if (filter != null)
@@ -642,8 +646,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
+		
+		pipeline.forEach(a ->{
+			System.out.println(getBson(a).toJson());
+		});
 
-		return c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		ArrayList<Project> into = c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		return into;
 	}
 
 	private long countParticipatedProjects(BasicDBObject filter, String userId, Date startWorkFinish) {
