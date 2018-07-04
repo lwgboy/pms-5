@@ -220,6 +220,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
+	public List<CBSPeriod> getCBSPeriod(ObjectId cbs_id) {
+		return c(CBSPeriod.class).find(new BasicDBObject("cbsItem_id", cbs_id)).into(new ArrayList<CBSPeriod>());
+	}
+
+	@Override
 	public List<CBSSubject> getAllSubCBSSubjectByNumber(ObjectId cbs_id, String number) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
 		return c(CBSSubject.class)

@@ -15,6 +15,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
+import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -270,6 +272,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		// 10. 清除cbs
 		c("cbs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
 				new Document("scopeRoot", false).append("scope_id", project_id))));
+		// 11. 清除folder
+		c("folder").deleteMany(new Document("project_id", project_id));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 检出项目
@@ -360,7 +364,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					ObjectId newWorkId = idMap.get(work_id);
 					ObjectId resTypeId = d.getObjectId("resTypeId");
 					d.append("work_id", newWorkId);
-					List<Calendar> workDate = workDates.get(work_id);
+					List<Calendar> workDate = workDates.get(newWorkId);
 					Calendar planStartCal = workDate.get(0);
 					Calendar planFinishCal = workDate.get(1);
 
@@ -414,6 +418,21 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 			tobeInsert.clear();
 		}
 		idMap.clear();
+
+		c("folderInTemplate").find(new Document("template_id", template_id)).sort(new Document("parent_id", 1))
+				.forEach((Document doc) -> {
+					ObjectId folder_id = new ObjectId();
+					idMap.put(doc.getObjectId("_id"), folder_id);
+					doc.append("_id", folder_id).append("project_id", project_id).append("parent_id",
+							idMap.get(doc.getObjectId("parent_id")));
+					tobeInsert.add(doc);
+				});
+		if (!tobeInsert.isEmpty()) {
+			c("folder").insertMany(tobeInsert);
+			tobeInsert.clear();
+		}
+		idMap.clear();
+
 	}
 
 	@Override
@@ -458,6 +477,58 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		}
 		filter.append("enabled", true);
 		return createDataSet(condition, ProjectTemplate.class);
+	}
+
+	@Override
+	public FolderInTemplate insertFolderInTemplate(FolderInTemplate folder) {
+		return insert(folder, FolderInTemplate.class);
+	}
+
+	@Override
+	public long deleteFolderInTemplate(ObjectId _id) {
+		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "folderInTemplate", "parent_id");
+		return c(FolderInTemplate.class).deleteOne(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)))
+				.getDeletedCount();
+	}
+
+	@Override
+	public FolderInTemplate getFolderInTemplate(ObjectId _id) {
+		return get(_id, FolderInTemplate.class);
+	}
+
+	@Override
+	public long countFolderInTemplate(BasicDBObject filter, ObjectId _id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.append("template_id", _id);
+		filter.append("parent_id", null);
+		return count(filter, FolderInTemplate.class);
+	}
+
+	@Override
+	public List<FolderInTemplate> createFolderInTemplateDataSet(BasicDBObject condition, ObjectId _id) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.append("filter", filter);
+		}
+		filter.append("template_id", _id);
+		filter.append("parent_id", null);
+		return createDataSet(condition, FolderInTemplate.class);
+	}
+
+	public long updateFolderInTemplate(BasicDBObject fu) {
+		return update(fu, FolderInTemplate.class);
+	}
+
+	@Override
+	public List<FolderInTemplate> listChildrenFolderInTemplate(ObjectId _id) {
+		return createDataSet(new Query().filter(new BasicDBObject("parent_id", _id)).bson(), FolderInTemplate.class);
+	}
+
+	@Override
+	public long countChildrenFolderInTemplate(ObjectId _id) {
+		return count(new BasicDBObject("parent_id", _id), FolderInTemplate.class);
 	}
 
 }

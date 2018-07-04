@@ -107,28 +107,7 @@ public abstract class BudgetGrid extends GridPart {
 			if (!nYear.equals(year)) {
 				// 创建合计列
 				if (grp != null) {
-					final Column ySumCol = new Column();
-					ySumCol.setName("" + (start.get(Calendar.YEAR) - 1));
-					ySumCol.setText("合计");
-					ySumCol.setWidth(88);
-					ySumCol.setAlignment(SWT.RIGHT);
-					ySumCol.setMoveable(false);
-					ySumCol.setResizeable(true);
-					ySumCol.setDetail(true);
-					ySumCol.setSummary(true);
-					vcol = createColumn(grp, ySumCol);
-					vcol.setLabelProvider(new ColumnLabelProvider() {
-						@Override
-						public String getText(Object element) {
-							return getBudgetYearSummaryText(element, ySumCol.getName());
-						}
-
-						@Override
-						public Color getForeground(Object element) {
-							return getNumberColor(element);
-						}
-					});
-					vcol.getColumn().setFooterText(getBudgetYearSummaryFootText(ySumCol.getName()));
+					createYearTotal("" + (start.get(Calendar.YEAR) - 1), grp);
 
 				}
 
@@ -166,6 +145,33 @@ public abstract class BudgetGrid extends GridPart {
 
 			start.add(Calendar.MONTH, 1);
 		}
+		createYearTotal(year, grp);
+	}
+
+	private void createYearTotal(String year, GridColumnGroup grp) {
+		GridViewerColumn vcol;
+		final Column ySumCol = new Column();
+		ySumCol.setName(year);
+		ySumCol.setText("合计");
+		ySumCol.setWidth(88);
+		ySumCol.setAlignment(SWT.RIGHT);
+		ySumCol.setMoveable(false);
+		ySumCol.setResizeable(true);
+		ySumCol.setDetail(true);
+		ySumCol.setSummary(true);
+		vcol = createColumn(grp, ySumCol);
+		vcol.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return getBudgetYearSummaryText(element, ySumCol.getName());
+			}
+
+			@Override
+			public Color getForeground(Object element) {
+				return getNumberColor(element);
+			}
+		});
+		vcol.getColumn().setFooterText(getBudgetYearSummaryFootText(ySumCol.getName()));
 	}
 
 	protected String getBudgetFootText(String name) {
