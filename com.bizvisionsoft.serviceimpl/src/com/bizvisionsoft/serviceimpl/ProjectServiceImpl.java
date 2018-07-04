@@ -319,7 +319,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Result> startProject(Command com) {
 		List<Result> result = startProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
-			return result;
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
 		}
 
 		// 修改项目状态
@@ -367,7 +371,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 7. 预算没有分配，警告
 		// 8. 必须要有工作令号，错误。
 
-		return new ArrayList<Result>();
+		List<Result> result = new ArrayList<Result>();
+		Project project = get(_id);
+		if (project.getWorkOrder() == null) {
+			result.add(Result.startProjectError("项目必须存在工作令号."));
+		}
+
+		return result;
 	}
 
 	@Override
@@ -459,6 +469,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public Stockholder insertStockholder(Stockholder c) {
 		return insert(c, Stockholder.class);
+	}
+
+	@Override
+	public long updateStockholder(BasicDBObject fu) {
+		return update(fu, Stockholder.class);
 	}
 
 	@Override
@@ -647,8 +662,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
-		
-		pipeline.forEach(a ->{
+
+		pipeline.forEach(a -> {
 			System.out.println(getBson(a).toJson());
 		});
 
@@ -1428,7 +1443,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long countAdministratedProjects(BasicDBObject filter, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
-		if(filter == null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));

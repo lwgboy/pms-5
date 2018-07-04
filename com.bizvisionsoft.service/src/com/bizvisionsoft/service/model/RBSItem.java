@@ -54,7 +54,7 @@ public class RBSItem {
 	@Behavior("RBSItem操作")
 	@Exclude
 	private boolean rbsAction = true;
-	
+
 	@ReadEditorConfig("项目风险登记簿/编辑")
 	private Object getEditorConfig() {
 		return "风险项编辑器";
@@ -238,7 +238,8 @@ public class RBSItem {
 	private List<Object> listSecondryRisksNEffect() {
 		ArrayList<Object> items = new ArrayList<Object>();
 		List<RiskEffect> effects = ServicesLoader.get(RiskService.class).listRiskEffect(
-				new Query().filter(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id)).bson());
+				new Query().filter(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id)).bson(),
+				project_id);
 		items.addAll(effects);
 		List<RBSItem> sndRisks = ServicesLoader.get(RiskService.class).listRBSItem(
 				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
@@ -248,8 +249,8 @@ public class RBSItem {
 
 	@Structure({ "项目风险登记簿/count", "项目风险登记簿（查看）/count" })
 	private long countSecondryRisksNEffect() {
-		long cnt = ServicesLoader.get(RiskService.class)
-				.countRiskEffect(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id));
+		long cnt = ServicesLoader.get(RiskService.class).countRiskEffect(new BasicDBObject("rbsItem_id", _id),
+				project_id);
 
 		cnt += ServicesLoader.get(RiskService.class)
 				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));

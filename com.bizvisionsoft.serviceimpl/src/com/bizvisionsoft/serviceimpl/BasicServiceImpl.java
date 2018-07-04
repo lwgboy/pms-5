@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -372,9 +373,9 @@ public class BasicServiceImpl {
 
 	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url) {
 		List<Message> toBeInsert = new ArrayList<>();
-		
-		//TODO 去重
-		receivers.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
+		// TODO 去重
+		new HashSet<String>(receivers)
+				.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert);
 	}
 
@@ -569,6 +570,7 @@ public class BasicServiceImpl {
 
 	/**
 	 * TODO 获得userId 管理的项目
+	 * 
 	 * @param condition
 	 * @param userId
 	 * @return

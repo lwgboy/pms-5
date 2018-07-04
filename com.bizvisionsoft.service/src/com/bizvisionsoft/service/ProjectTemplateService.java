@@ -260,4 +260,19 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result updateGanttData(WorkspaceGanttData ganttData);
+	
+
+	@POST
+	@Path("/enabledtemplate/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板选择器列表/" + DataSet.COUNT)
+	public long countEnabledTemplate(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/enabledtemplate/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板选择器列表/" + DataSet.LIST)
+	public List<ProjectTemplate> createEnabledTemplateDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 }
