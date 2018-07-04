@@ -1016,7 +1016,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return update(filterAndUpdate, WorkPackageProgress.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
 		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("project_id", project_id))
@@ -1041,7 +1040,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
@@ -1068,7 +1066,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new BasicDBObject("$in", items)));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
 		// List<ObjectId> items = getProject_id(userid);

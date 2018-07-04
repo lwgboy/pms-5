@@ -1382,7 +1382,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				new Document("$nin", Arrays.asList(ProjectChange.STATUS_CANCEL, ProjectChange.STATUS_CONFIRM))));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProjectChange> listReviewerProjectChange(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");

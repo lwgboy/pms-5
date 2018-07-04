@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
+import com.bizvisionsoft.service.model.WorkReportSummary;
 import com.mongodb.BasicDBObject;
 
 @Path("/workreport")
@@ -60,8 +61,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "月报/" + DataSet.LIST })
-	public List<WorkReport> createWorkReportMonthlyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportMonthlyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
@@ -215,8 +215,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作报告基本信息面板/list")
-	public List<WorkReport> listInfo(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public List<WorkReport> listInfo(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/")
@@ -249,7 +248,6 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	public long updateWorkReportItem(BasicDBObject filterAndUpdate);
 
-
 	@POST
 	@Path("/submitworkreport")
 	@Consumes("application/json; charset=UTF-8")
@@ -261,4 +259,22 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> confirmWorkReport(List<ObjectId> workReportIds, @PathParam("userId") String userId);
+
+	@POST
+	@Path("/summary/project/manageBy/{managerId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目本周报告摘要/" + DataSet.LIST })
+	public List<WorkReportSummary> listWeeklyAdministeredProjectReportSummary(
+			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("managerId") String managerId);
+
+	@POST
+	@Path("/summary/project/manageBy/{managerId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目本周报告摘要/" + DataSet.COUNT })
+	public long countWeeklyAdministeredProjectReportSummary(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("managerId") String managerId);
+
 }
