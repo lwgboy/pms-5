@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -453,8 +454,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			pipeline.add(Aggregates.match(filter));
 
 		pipeline.add(Aggregates.lookup(master, "work_id", "_id", "work"));
-		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("deadline",
-				new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 }))));
+		pipeline.add(Aggregates.addFields(
+				new Field<BasicDBObject>("deadline",
+						new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 })),
+				new Field<BasicDBObject>("actualFinish",
+						new BasicDBObject("$arrayElemAt", new Object[] { "$work.actualFinish", 0 }))));
 		pipeline.add(Aggregates.project(new BasicDBObject("work", false)));
 
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
@@ -543,7 +547,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.append("$or",
 						new BasicDBObject[] { new BasicDBObject("chargerId", new Document("$ne", null)),
 								new BasicDBObject("assignerId", new Document("$ne", null)) })
-				.append("distributed", new BasicDBObject("$ne", true));
+				.append("distributed", new BasicDBObject("$ne", true)).append("actualFinish", null);
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
@@ -552,11 +556,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		String pjName = getName("project", work.getProject_id());
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
+			String chargerId = w.getString("chargerId");
 			messages.add(Message.newInstance("工作计划下达通知",
-					"项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+					"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-					com.userId, w.getString("chargerId"), null));
+					com.userId, chargerId, null));
+			String assignerId = w.getString("assignerId");
+			messages.add(Message.newInstance("工作计划下达通知",
+					"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
+					com.userId, assignerId, null));
 		});
 
 		if (ids.isEmpty()) {
@@ -679,10 +690,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		c(WorkLink.class).find(new Document("source", com._id)).forEach((WorkLink workLink) -> {
 			ObjectId targetId = workLink.getTargetId();
 			Work work = getWork(targetId);
-			sendMessage("前序工作完成通知",
-					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
-					com.userId, work.getChargerId(), null);
+			String chargerId = work.getChargerId();
+			if (chargerId != null)
+				sendMessage("前序工作完成通知",
+						"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
+						com.userId, chargerId, null);
+
+			String assignerId = work.getAssignerId();
+			if (assignerId != null)
+				sendMessage("前序工作完成通知",
+						"您指派的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
+						com.userId, assignerId, null);
 			if (work.isMilestone()) {
 				milestoneWorkId.add(work.get_id());
 			}
@@ -2046,6 +2066,23 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
 				.doc();
+	}
+
+	@Override
+	public Work getOpenStage(ObjectId _id, String userId) {
+		Work work = getWork(_id);
+		if (userId.equals(work.getChargerId())) {
+			return work;
+		}
+		ObjectId project_id = work.getProject_id();
+		long l = c(OBSItem.class)
+				.countDocuments(new Document("scope_id", new Document("$in", Arrays.asList(_id, project_id)))
+						.append("managerId", userId)
+						.append("roleId", new Document("$in", Arrays.asList("PPM", "PFM"))));
+		if (l > 0) {
+			return work;
+		}
+		return null;
 	}
 
 }

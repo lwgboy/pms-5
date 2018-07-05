@@ -943,4 +943,17 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 								.append("budget", new Document("$sum", "$budget"))));
 		return c("cbs").aggregate(pipeline).first();
 	}
+
+	@Override
+	public Project getICBSScopeRootProject(ObjectId scope_id) {
+		Work work = getICBSScopeRootWork(scope_id);
+		if (work != null)
+			return work.getProject();
+		return new ProjectServiceImpl().get(scope_id);
+	}
+
+	@Override
+	public Work getICBSScopeRootWork(ObjectId scope_id) {
+		return new WorkServiceImpl().getWork(scope_id);
+	}
 }

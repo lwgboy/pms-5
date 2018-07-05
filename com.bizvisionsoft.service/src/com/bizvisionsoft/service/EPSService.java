@@ -74,6 +74,7 @@ public interface EPSService {
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet("EPSπ‹¿Ì/" + DataSet.UPDATE)
 	public long update(BasicDBObject filterAndUpdate);
 
 	@POST

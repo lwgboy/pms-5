@@ -20,7 +20,9 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.CBSSubject;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
 
 @Path("/cbs")
@@ -38,6 +40,20 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "CBS/list", "CBS£¨²é¿´£©/list" })
 	public List<CBSItem> getScopeRoot(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	
+	@POST
+	@Path("/icbsscope/root/project/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Project getICBSScopeRootProject(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	
+	@POST
+	@Path("/icbsscope/root/work/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Work getICBSScopeRootWork(
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@POST

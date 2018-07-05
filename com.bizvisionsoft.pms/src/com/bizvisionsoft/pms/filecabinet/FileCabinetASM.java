@@ -27,9 +27,12 @@ import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.IWBSScope;
+import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -47,10 +50,13 @@ public class FileCabinetASM {
 
 	private ObjectId project_id;
 
+	private Project project;
+
 	@Init
 	private void init() {
 		IWBSScope scope = (IWBSScope) context.getRootInput();
 		this.project_id = scope.getProject_id();
+		this.project = Services.get(ProjectService.class).get(project_id);
 	}
 
 	@CreateUI
@@ -105,8 +111,14 @@ public class FileCabinetASM {
 	}
 
 	private Composite createFilePane(Composite parent) {
-		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表"))
-				.setServices(brui).create();
+		AssemblyContainer right;
+		if (!ProjectStatus.Closed.equals(project.getStatus()))
+			right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表")).setServices(brui)
+					.create();
+		else
+			right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表（查看）")).setServices(brui)
+					.create();
+
 		filePane = (GridPart) right.getContext().getContent();
 		select(null);
 		folderPane.getViewer().addPostSelectionChangedListener(e -> {
@@ -125,8 +137,14 @@ public class FileCabinetASM {
 	}
 
 	private Composite createFolderPane(Composite parent) {
-		AssemblyContainer left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹"))
-				.setServices(brui).create();
+		AssemblyContainer left;
+		if (!ProjectStatus.Closed.equals(project.getStatus()))
+			left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹")).setServices(brui)
+					.create();
+		else
+			left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹（查看）")).setServices(brui)
+					.create();
+
 		folderPane = (GridPart) left.getContext().getContent();
 		folderPane.getViewer().getControl().addListener(SWT.Selection, e -> {
 			if ("open/".equals(e.text)) {
@@ -220,7 +238,13 @@ public class FileCabinetASM {
 		b.setTooltips("查询项目文档");
 		b.setStyle("info");
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b))
+		List<Action> rightActions;
+		if (ProjectStatus.Closed.equals(project.getStatus()))
+			rightActions = Arrays.asList(b);
+		else
+			rightActions = Arrays.asList(a, b);
+
+		StickerTitlebar bar = new StickerTitlebar(parent, null, rightActions)
 				.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());
 		bar.addListener(SWT.Selection, l -> {
 			if ("创建项目根文件夹".equals(((Action) l.data).getName())) {

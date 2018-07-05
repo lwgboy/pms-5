@@ -79,15 +79,17 @@ public class ProjectBoardRender {
 	}
 
 	private void openStage(ObjectId workId) {
-		Work work = Services.get(WorkService.class).getWork(workId);
-		if (ProjectStatus.Created.equals(work.getStatus())) {
-			bruiService.switchPage("阶段首页（启动）", workId.toHexString());
-		} else if (ProjectStatus.Processing.equals(work.getStatus())) {
-			bruiService.switchPage("阶段首页（执行）", workId.toHexString());
-		} else if (ProjectStatus.Closing.equals(work.getStatus())) {
-			bruiService.switchPage("阶段首页（收尾）", workId.toHexString());
-		} else if (ProjectStatus.Closed.equals(work.getStatus())) {
-			bruiService.switchPage("阶段首页（关闭）", workId.toHexString());
+		Work work = Services.get(WorkService.class).getOpenStage(workId, bruiService.getCurrentUserId());
+		if (work != null) {
+			if (ProjectStatus.Created.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（启动）", workId.toHexString());
+			} else if (ProjectStatus.Processing.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（执行）", workId.toHexString());
+			} else if (ProjectStatus.Closing.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（收尾）", workId.toHexString());
+			} else if (ProjectStatus.Closed.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（关闭）", workId.toHexString());
+			}
 		}
 	}
 
@@ -162,29 +164,28 @@ public class ProjectBoardRender {
 
 		String ind = Optional.ofNullable(pj.getWAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
-		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>" + ind + "</div>");
 		sb.append("<div>工作执行</div></div>");
 
 		ind = Optional.ofNullable(pj.getDAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
-		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>" + ind + "</div>");
 		sb.append("<div>工期完成</div></div>");
-		
+
 		ind = Optional.ofNullable(pj.getSAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
-		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>" + ind + "</div>");
 		sb.append("<div>进度完成</div></div>");
-		
+
 		ind = Optional.ofNullable(pj.getCAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
-		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>" + ind + "</div>");
 		sb.append("<div>成本执行</div></div>");
 
 		ind = Optional.ofNullable(pj.getBDR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;'>");
-		sb.append("<div>"+ind+"</div>");
+		sb.append("<div>" + ind + "</div>");
 		sb.append("<div>预算偏差</div></div>");
-
 
 		sb.append("</div>");
 

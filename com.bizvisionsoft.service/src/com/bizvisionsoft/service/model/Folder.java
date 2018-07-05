@@ -40,7 +40,7 @@ public class Folder {
 	@WriteValue
 	private String name;
 
-	@ReadValue({"项目档案库文件夹/folderName"})
+	@ReadValue({ "项目档案库文件夹/folderName" })
 	private String getHTMLName() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -50,14 +50,15 @@ public class Folder {
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" 
-				+ "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" 
-				+ "<div style='flex:auto;'>"+name+"</div>"
-				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a></div>";
+		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" + "<img src="
+				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
+				+ name + "</div>"
+				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a>"
+				+ "</div>";
 		return html;
 	}
-	
-	@ReadValue({"项目文件夹选择列表/folderName"})
+
+	@ReadValue({ "项目文件夹选择列表/folderName", "项目档案库文件夹（查看）/folderName" })
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -67,10 +68,9 @@ public class Folder {
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" 
-				+ "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" 
-				+ "<div style='flex:auto;'>"+name+"</div>"
-				+ "</div>";
+		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" + "<img src="
+				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
+				+ name + "</div>" + "</div>";
 		return html;
 	}
 

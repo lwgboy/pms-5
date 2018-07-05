@@ -941,6 +941,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		this.obs_id = obs_id;
 	}
 
+	@Override
 	public String getStatus() {
 		return status;
 	}
@@ -1023,6 +1024,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Behavior({ "打开工作包", "设置工作包" })
 	private boolean behaviourOpenWorkPackage() {
 		return !summary && !stage && !milestone;
+	}
+
+	@Behavior("创建工作包")
+	private boolean behaviourCreateWorkPackage() {
+		return actualFinish == null;
 	}
 
 	@Structure({ "我的待处理工作（工作抽屉）/list" })

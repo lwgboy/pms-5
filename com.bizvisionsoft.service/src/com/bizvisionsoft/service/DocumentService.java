@@ -103,7 +103,7 @@ public interface DocumentService {
 	@Path("/docu/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目档案库文件列表/" + DataSet.LIST)
+	@DataSet({ "项目档案库文件列表/" + DataSet.LIST, "项目档案库文件列表（查看）/" + DataSet.LIST })
 	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
@@ -111,13 +111,14 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
+	public List<Docu> listWorkPackageDocument(
+			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
 
 	@POST
 	@Path("/docu/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目档案库文件列表/" + DataSet.COUNT)
+	@DataSet({ "项目档案库文件列表/" + DataSet.COUNT, "项目档案库文件列表（查看）/" + DataSet.COUNT })
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 }

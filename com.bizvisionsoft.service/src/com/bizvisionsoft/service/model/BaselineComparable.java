@@ -26,6 +26,10 @@ public class BaselineComparable {
 		return work1;
 	}
 
+	public Work getWork2() {
+		return work2;
+	}
+
 	@ReadValue({ "start_date1" })
 	public Date getStart_date() {
 		return work2 != null ? work2.getStart_date() : null;

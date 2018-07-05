@@ -18,6 +18,7 @@
 }, {
 	"$project" : {
 		"work_id" : "$_id",
+		"estimatedFinish" : "$estimatedFinish",
 		"_id" : false
 	}
 }, {

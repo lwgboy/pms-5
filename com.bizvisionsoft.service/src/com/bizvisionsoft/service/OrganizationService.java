@@ -139,6 +139,20 @@ public interface OrganizationService {
 	@DataSet("组织选择器/" + DataSet.COUNT)
 	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
+	@POST
+	@Path("/projectbuilder/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织选择器（项目承担单位）/" + DataSet.LIST)
+	public List<Organization> createProjectBuilderDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/projectbuilder/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织选择器（项目承担单位）/" + DataSet.COUNT)
+	public long countProjectBuilder(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")

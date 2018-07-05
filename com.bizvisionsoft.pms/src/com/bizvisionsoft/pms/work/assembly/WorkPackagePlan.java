@@ -17,6 +17,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 
 public class WorkPackagePlan {
@@ -53,7 +54,8 @@ public class WorkPackagePlan {
 			title = view.toString() + "：" + work;
 		}
 		bar.setText(title);
-		bar.setActions(context.getAssembly().getActions());
+		if (!(work instanceof Work) || ((Work) work).getActualFinish() == null)
+			bar.setActions(context.getAssembly().getActions());
 
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -86,7 +88,8 @@ public class WorkPackagePlan {
 		parent.setLayout(new FillLayout());
 		BruiAssemblyContext gridContext;
 		if (view == null) {
-			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create().getContext();
+			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
+					.setServices(brui).create().getContext();
 		} else {
 			gridContext = new AssemblyContainer(parent, context).setInput(view)
 					.setAssembly(brui.getAssembly(view.getPackageAssembly())).setServices(brui).create().getContext();

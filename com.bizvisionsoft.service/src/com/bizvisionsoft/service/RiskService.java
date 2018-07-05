@@ -260,7 +260,7 @@ public interface RiskService {
 	@Path("/mcs/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("蒙特卡洛分析展示/list")
+	@DataSet({ "蒙特卡洛分析展示/list", "蒙特卡洛分析展示（查看）/list" })
 	public Document monteCarloSimulateChartData(
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 

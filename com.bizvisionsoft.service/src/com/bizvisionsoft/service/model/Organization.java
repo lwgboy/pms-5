@@ -89,6 +89,11 @@ public class Organization {
 	@WriteValue("managerInfo")
 	@Exclude
 	private String managerInfo;
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private Boolean projectBuilder;
 
 	@WriteValue("manager")
 	private void setManager(User manager) {

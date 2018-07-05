@@ -273,7 +273,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/baseline/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目基线/" + DataSet.LIST })
+	@DataSet({ "项目基线/" + DataSet.LIST, "项目基线（查看）/" + DataSet.LIST })
 	public List<Baseline> listBaseline(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
@@ -281,7 +281,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/baseline/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目基线/" + DataSet.COUNT })
+	@DataSet({ "项目基线/" + DataSet.COUNT, "项目基线（查看）/" + DataSet.COUNT })
 	public long countBaseline(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
@@ -310,7 +310,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/projectchange/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目变更/" + DataSet.LIST })
+	@DataSet({ "项目变更/" + DataSet.LIST, "项目变更（查看）/" + DataSet.LIST })
 	public List<ProjectChange> listProjectChange(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
@@ -318,7 +318,7 @@ public interface ProjectService {
 	@Path("/_id/{_id}/projectchange/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目变更/" + DataSet.COUNT })
+	@DataSet({ "项目变更/" + DataSet.COUNT, "项目变更（查看）/" + DataSet.COUNT })
 	public long countProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
@@ -361,7 +361,7 @@ public interface ProjectService {
 	@Path("/projectchange/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "变更详情信息面板/list", "变更审核信息面板/list" })
+	@DataSet({ "变更详情信息面板/list", "变更审核信息面板/list", "变更详情信息面板（查看）/list", "变更审核信息面板（查看）/list" })
 	public List<ProjectChange> listProjectChangeInfo(
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 

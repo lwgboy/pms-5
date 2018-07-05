@@ -388,7 +388,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		Document query = new Document("project_id", com._id).append("parent_id", null)
-				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true));
+				.append("chargerId", new Document("$ne", null))
+				.append("distributed", new Document("$ne", true).append("actualFinish", null));
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
@@ -438,7 +439,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Work> listMyStage(String userId) {
 		return new WorkServiceImpl().createTaskDataSet(new BasicDBObject("$or",
 				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
-						.append("stage", true));
+						.append("stage", true).append("status", new BasicDBObject("$in", Arrays
+								.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Closing))));
 	}
 
 	@Override
@@ -1055,7 +1057,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("baseline_id", new Document("$in", projectIds))));
-		pipeline.add(Aggregates.sort(new Document("project_id", 1).append("index", 1)));
+		pipeline.add(Aggregates.sort(new Document("baseline_id", 1).append("index", 1)));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
 		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
@@ -1085,18 +1087,38 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				boolean add = true;
 				for (BaselineComparable bc : result) {
 					Work work1 = bc.getWork1();
-					ObjectId work1Old_id = work1.getOld_id();
-					if (work1Old_id != null) {
-						if (work1Old_id.equals(work.getOld_id())) {
+					if (work1 != null) {
+						ObjectId work1Old_id = work1.getOld_id();
+						if (work1Old_id != null && work1Old_id.equals(work.getOld_id())) {
+							bc.setWork2(work);
+							add = false;
+							break;
+						} else if (work1.get_id().equals(work.getOld_id())) {
+							bc.setWork2(work);
+							add = false;
+							break;
+						} else if (work1.getFullName().equals(work.getFullName())) {
 							bc.setWork2(work);
 							add = false;
 							break;
 						}
 					} else {
-						if (work1.get_id().equals(work.getOld_id())) {
-							bc.setWork2(work);
-							add = false;
-							break;
+						Work work2 = bc.getWork2();
+						if (work2 != null) {
+							ObjectId work2Old_id = work2.getOld_id();
+							if (work2Old_id != null && work2Old_id.equals(work.getOld_id())) {
+								bc.setWork1(work);
+								add = false;
+								break;
+							} else if (work2.get_id().equals(work.getOld_id())) {
+								bc.setWork1(work);
+								add = false;
+								break;
+							} else if (work2.getFullName().equals(work.getFullName())) {
+								bc.setWork1(work);
+								add = false;
+								break;
+							}
 						}
 					}
 				}

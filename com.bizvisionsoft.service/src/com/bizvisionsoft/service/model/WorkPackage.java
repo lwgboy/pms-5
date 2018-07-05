@@ -38,7 +38,12 @@ public class WorkPackage {
 
 	@Behavior("查看工作包进度")
 	public boolean behaviourOpenProgress(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
-		return !(root instanceof ProjectTemplate);
+		return !(root instanceof ProjectTemplate) && actualFinish == null;
+	}
+
+	@Behavior({ "删除工作包", "编辑工作包", "文档" })
+	public boolean behaviourEdit(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
+		return actualFinish == null;
 	}
 
 	public ObjectId get_id() {
@@ -132,6 +137,8 @@ public class WorkPackage {
 
 	@ReadValue
 	private double planQty;
+
+	private Date actualFinish;
 
 	@WriteValue("planQty")
 	private void setPlanQty(String _planQty) {

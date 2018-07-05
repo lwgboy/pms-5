@@ -256,13 +256,20 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 	private boolean behaviourEdit() {
 		Calendar cal = Calendar.getInstance();
 		Date date = cbsItem.getNextSettlementDate();
-		int newYear = cal.get(Calendar.YEAR);
-		int newMonth = cal.get(Calendar.MONTH);
-		cal.setTime(date);
-		if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
-			return false;
+		ICBSScope scopeRootObject = cbsItem.getScopeRootObject();
+
+		String status = scopeRootObject.getStatus();
+		if (ProjectStatus.Processing.equals(status) || ProjectStatus.Closing.equals(status)) {
+
+			int newYear = cal.get(Calendar.YEAR);
+			int newMonth = cal.get(Calendar.MONTH);
+			cal.setTime(date);
+			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
+				return false;
+			}
+			return children.size() == 0;
 		}
-		return children.size() == 0;
+		return false;
 	}
 
 	public CBSSubject getCBSSubjects(String id) {

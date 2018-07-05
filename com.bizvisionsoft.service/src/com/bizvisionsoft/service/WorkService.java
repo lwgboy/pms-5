@@ -497,8 +497,7 @@ public interface WorkService {
 	@DataSet("我管理的项目各类工作评分/list")
 	public Document getAdministratedProjectWorkScoreChart(
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
-	
-	
+
 	@POST
 	@Path("/resourceallanalysis/{year}/{userid}/")
 	@Consumes("application/json; charset=UTF-8")
@@ -549,4 +548,11 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkLink> createBaselineLinkDataSet(@PathParam("baseline_id") ObjectId baseline_id);
+
+	@GET
+	@Path("/task/_id/{_id}/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Work getOpenStage(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 }

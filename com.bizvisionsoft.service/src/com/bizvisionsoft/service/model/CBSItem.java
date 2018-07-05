@@ -608,4 +608,17 @@ public class CBSItem {
 	public double getOverspendSummary() {
 		return getCostSummary() - getBudgetSummary();
 	}
+
+	@Exclude
+	private ICBSScope scopeRootObject;
+
+	public ICBSScope getScopeRootObject() {
+		if (scopeRootObject == null) {
+			scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootWork(scope_id);
+			if (scopeRootObject == null) {
+				scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootProject(scope_id);
+			}
+		}
+		return scopeRootObject;
+	}
 }

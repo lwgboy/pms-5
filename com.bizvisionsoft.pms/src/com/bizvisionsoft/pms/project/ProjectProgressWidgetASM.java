@@ -27,6 +27,7 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.RiskService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -56,16 +57,16 @@ public class ProjectProgressWidgetASM {
 		carousel.setInterval(5000);
 		carousel.setIndicator("none");
 
-		createProgressPage(carousel.addPage(new Composite(carousel,SWT.NONE)));
-		
-		createRiskPage(carousel.addPage(new Composite(carousel,SWT.NONE)));
+		createProgressPage(carousel.addPage(new Composite(carousel, SWT.NONE)));
+
+		createRiskPage(carousel.addPage(new Composite(carousel, SWT.NONE)));
 
 	}
 
 	private void createRiskPage(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		parent.setLayout(new FillLayout());
-		ECharts chart = new ECharts(parent,SWT.NONE);
+		ECharts chart = new ECharts(parent, SWT.NONE);
 		Document data = Services.get(RiskService.class).getRiskProximityChart(project.get_id());
 		chart.setOption(JsonObject.readFrom(data.toJson()));
 	}
@@ -74,36 +75,36 @@ public class ProjectProgressWidgetASM {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
-		
-		Label title = new Label(parent,SWT.NONE);
+
+		Label title = new Label(parent, SWT.NONE);
 		title.setText("项目进展摘要");
 		title.setForeground(BruiColors.getColor(BruiColor.Grey_600));
-				
+
 		FormData fd = new FormData();
 		title.setLayoutData(fd);
-		fd.left = new FormAttachment(0,8);
-		fd.top = new FormAttachment(0,8);
-		fd.right = new FormAttachment(100,-8);
-		
-		Label sep = new Label(parent,SWT.SEPARATOR|SWT.HORIZONTAL);
+		fd.left = new FormAttachment(0, 8);
+		fd.top = new FormAttachment(0, 8);
+		fd.right = new FormAttachment(100, -8);
+
+		Label sep = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		sep.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 
 		fd = new FormData();
 		sep.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(title,4);
+		fd.top = new FormAttachment(title, 4);
 		fd.right = new FormAttachment(100);
 		fd.height = 1;
-		
+
 		Composite stage = null;
 		if (project.isStageEnable()) {
 			stage = createStagePanel(parent);
 			fd = new FormData();
 			stage.setLayoutData(fd);
-			fd.right = new FormAttachment(100,-16);
+			fd.right = new FormAttachment(100, -16);
 			fd.height = 32;
-			fd.left = new FormAttachment(0,16);
-			fd.top = new FormAttachment(sep,16);
+			fd.left = new FormAttachment(0, 16);
+			fd.top = new FormAttachment(sep, 16);
 		}
 
 		Composite timeline = new Composite(parent, SWT.NONE);
@@ -111,16 +112,15 @@ public class ProjectProgressWidgetASM {
 
 		fd = new FormData();
 		timeline.setLayoutData(fd);
-		fd.right = new FormAttachment(100,-16);
+		fd.right = new FormAttachment(100, -16);
 		fd.bottom = new FormAttachment(100);
-		if(stage==null) {
+		if (stage == null) {
 			fd.top = new FormAttachment();
-		}else {
-			fd.top = new FormAttachment(stage,16);
+		} else {
+			fd.top = new FormAttachment(stage, 16);
 		}
-		fd.left = new FormAttachment(0,16);
+		fd.left = new FormAttachment(0, 16);
 	}
-
 
 	private Composite createStagePanel(Composite content) {
 		Composite panel = new Composite(content, SWT.NONE);
@@ -153,14 +153,17 @@ public class ProjectProgressWidgetASM {
 	}
 
 	private void openStage(Work work) {
-		if (ProjectStatus.Created.equals(work.getStatus())) {
-			brui.switchPage("阶段首页（启动）", work.get_id().toHexString());
-		} else if (ProjectStatus.Processing.equals(work.getStatus())) {
-			brui.switchPage("阶段首页（执行）", work.get_id().toHexString());
-		} else if (ProjectStatus.Closing.equals(work.getStatus())) {
-			brui.switchPage("阶段首页（收尾）", work.get_id().toHexString());
-		} else if (ProjectStatus.Closed.equals(work.getStatus())) {
-			brui.switchPage("阶段首页（关闭）", work.get_id().toHexString());
+		Work stage = Services.get(WorkService.class).getOpenStage(work.get_id(), brui.getCurrentUserId());
+		if (stage != null) {
+			if (ProjectStatus.Created.equals(stage.getStatus())) {
+				brui.switchPage("阶段首页（启动）", stage.get_id().toHexString());
+			} else if (ProjectStatus.Processing.equals(stage.getStatus())) {
+				brui.switchPage("阶段首页（执行）", stage.get_id().toHexString());
+			} else if (ProjectStatus.Closing.equals(stage.getStatus())) {
+				brui.switchPage("阶段首页（收尾）", stage.get_id().toHexString());
+			} else if (ProjectStatus.Closed.equals(stage.getStatus())) {
+				brui.switchPage("阶段首页（关闭）", stage.get_id().toHexString());
+			}
 		}
 	}
 
@@ -186,6 +189,5 @@ public class ProjectProgressWidgetASM {
 
 		return sb.toString();
 	}
-
 
 }

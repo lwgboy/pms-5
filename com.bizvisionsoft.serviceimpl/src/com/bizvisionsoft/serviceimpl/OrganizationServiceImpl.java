@@ -62,7 +62,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 
 		pipeline.add(Aggregates.match(match));
 
-		appendUserInfo(pipeline,"managerId","managerInfo");
+		appendUserInfo(pipeline, "managerId", "managerInfo");
 
 		List<Organization> result = new ArrayList<Organization>();
 		c(Organization.class).aggregate(pipeline).into(result);
@@ -183,8 +183,8 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 				new Object[] { new BasicDBObject("$arrayElemAt", new Object[] { "$user", 0 }), "$$ROOT" })));
 
 		pipeline.add(Aggregates.project(new BasicDBObject("user", false)));
-		
-		pipeline.add(Aggregates.sort(new BasicDBObject("userId",1)));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("userId", 1)));
 
 		List<User> result = new ArrayList<User>();
 		c(Role.class).aggregate(pipeline, User.class).into(result);
@@ -201,6 +201,25 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 		if (users instanceof List<?>)
 			return ((List<?>) users).size();
 		return 0;
+	}
+
+	@Override
+	public List<Organization> createProjectBuilderDataSet(BasicDBObject condition) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("projectBuilder", true);
+		return createDataSet(condition, Organization.class);
+	}
+
+	@Override
+	public long countProjectBuilder(BasicDBObject filter) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.append("projectBuilder", true);
+		return count(filter, Organization.class);
 	}
 
 }

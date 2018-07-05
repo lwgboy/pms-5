@@ -17,8 +17,10 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ScheduleRender extends GridPartDefaultRender {
 
@@ -36,16 +38,17 @@ public class ScheduleRender extends GridPartDefaultRender {
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				if (e.text.startsWith("openStage/")) {
-					Work work = (Work) ((GridItem) e.item).getData();
-					if (work.isStage()) {
-						if (ProjectStatus.Created.equals(work.getStatus())) {
-							bruiService.switchPage("½×¶ÎÊ×Ò³£¨Æô¶¯£©", work.get_id().toHexString());
-						} else if (ProjectStatus.Processing.equals(work.getStatus())) {
-							bruiService.switchPage("½×¶ÎÊ×Ò³£¨Ö´ÐÐ£©", work.get_id().toHexString());
-						} else if (ProjectStatus.Closing.equals(work.getStatus())) {
-							bruiService.switchPage("½×¶ÎÊ×Ò³£¨ÊÕÎ²£©", work.get_id().toHexString());
-						} else if (ProjectStatus.Closed.equals(work.getStatus())) {
-							bruiService.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", work.get_id().toHexString());
+					Work stage = Services.get(WorkService.class).getOpenStage(
+							((Work) ((GridItem) e.item).getData()).get_id(), bruiService.getCurrentUserId());
+					if (stage != null && stage.isStage()) {
+						if (ProjectStatus.Created.equals(stage.getStatus())) {
+							bruiService.switchPage("½×¶ÎÊ×Ò³£¨Æô¶¯£©", stage.get_id().toHexString());
+						} else if (ProjectStatus.Processing.equals(stage.getStatus())) {
+							bruiService.switchPage("½×¶ÎÊ×Ò³£¨Ö´ÐÐ£©", stage.get_id().toHexString());
+						} else if (ProjectStatus.Closing.equals(stage.getStatus())) {
+							bruiService.switchPage("½×¶ÎÊ×Ò³£¨ÊÕÎ²£©", stage.get_id().toHexString());
+						} else if (ProjectStatus.Closed.equals(stage.getStatus())) {
+							bruiService.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", stage.get_id().toHexString());
 						}
 					}
 				}
