@@ -671,4 +671,9 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		c("workspace").createIndex(new Document("space_id", 1));
 	}
 
+	@Override
+	public List<String> listWorkTag() {
+		return new ArrayList<String>(getDictionaryIdNamePair("¹¤×÷±êÇ©").values());
+	}
+
 }

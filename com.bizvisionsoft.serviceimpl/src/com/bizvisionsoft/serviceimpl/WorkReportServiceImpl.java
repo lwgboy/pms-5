@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
+import com.bizvisionsoft.service.model.WorkReportSummary;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -22,7 +23,6 @@ import com.mongodb.client.result.UpdateResult;
 
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
-	@SuppressWarnings("unchecked")
 	private List<WorkReport> query(BasicDBObject condition, Document match) {
 		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告").set("match", match).array();
 
@@ -423,7 +423,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 						} else if (actualOverTimeQty == null && doc.get("actualOverTimeQty") != null) {
 							actualOverTimeQty = doc.get("actualOverTimeQty");
 						}
-						
+
 						c("resourceActual").updateOne(new Document("_id", first.get("_id")),
 								new Document("$set", new Document("actualBasicQty", actualBasicQty)
 										.append("actualOverTimeQty", actualOverTimeQty)));
@@ -439,6 +439,71 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	private List<Result> confirmWorkReportCheck(List<ObjectId> workReportIds) {
 		// TODO 检查是否可以进行确认
 		return new ArrayList<Result>();
+	}
+
+	public static void main(String[] args) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		cal.add(Calendar.DATE, -7);
+		System.out.println(cal.getTime());
+	}
+
+	@Override
+	public List<WorkReportSummary> listWeeklyAdministeredProjectReportSummary(BasicDBObject condition,
+			String managerId) {
+		List<ObjectId> ids = getAdministratedProjects(managerId);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);// 本周一
+		Date to = cal.getTime();
+		cal.add(Calendar.DATE, -7);// 上周一
+		Date from = cal.getTime();
+		List<Bson> pipeline = new JQ("查询工作报告-周报告项").set("project_id", new Document("$in", ids)).set("from", from)
+				.set("to", to).array();
+
+		if (condition != null) {
+			BasicDBObject filter = (BasicDBObject) condition.get("filter");
+			if (filter != null)
+				pipeline.add(Aggregates.match(filter));
+
+			BasicDBObject sort = (BasicDBObject) condition.get("sort");
+			if (sort != null)
+				pipeline.add(Aggregates.sort(sort));
+
+			Integer skip = (Integer) condition.get("skip");
+			if (skip != null)
+				pipeline.add(Aggregates.skip(skip));
+
+			Integer limit = (Integer) condition.get("limit");
+			if (limit != null)
+				pipeline.add(Aggregates.limit(limit));
+
+		}
+
+		return c("workReport").aggregate(pipeline, WorkReportSummary.class).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countWeeklyAdministeredProjectReportSummary(BasicDBObject filter, String managerId) {
+		List<ObjectId> ids = getAdministratedProjects(managerId);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);// 本周一
+		Date to = cal.getTime();
+		cal.add(Calendar.DATE, -7);// 上周一
+		Date from = cal.getTime();
+
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+
+		return c("workReport")
+				.countDocuments(filter.append("status", "确认").append("project_id", new Document("$in", ids))
+						.append("reportDate", new Document("$gte", from).append("$lte", to)));
 	}
 
 }

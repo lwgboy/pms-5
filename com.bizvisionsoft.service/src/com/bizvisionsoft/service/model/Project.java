@@ -958,6 +958,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return this;
 	}
 
+	@ReadValue("pcp")
 	public Double getDurationProbability() {
 		return ServicesLoader.get(RiskService.class).getDurationProbability(_id);
 	}

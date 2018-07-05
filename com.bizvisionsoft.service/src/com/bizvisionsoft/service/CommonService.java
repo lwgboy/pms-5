@@ -30,6 +30,14 @@ import com.mongodb.BasicDBObject;
 
 @Path("/common")
 public interface CommonService {
+	
+	@GET
+	@Path("/workTag/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("¹¤×÷±êÇ©/" + DataSet.LIST)
+	public List<String> listWorkTag();
+	
 
 	@POST
 	@Path("/msg/userId/{userId}/ds")

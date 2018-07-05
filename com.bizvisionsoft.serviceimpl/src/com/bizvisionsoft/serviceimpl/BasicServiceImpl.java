@@ -577,7 +577,7 @@ public class BasicServiceImpl {
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId) {
 		return c("project").distinct("_id",
-				new Document("actualStart", new Document("$ne", null)).append("actualPlan", null), ObjectId.class)
+				new Document("status", "½øÐÐÖÐ"), ObjectId.class)
 				.into(new ArrayList<>());
 	}
 
