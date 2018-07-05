@@ -28,6 +28,8 @@ public class Result {
 
 	public static final int CODE_PROJECTCHANGE_NOTASKUSER = 300;
 
+	public static final int CODE_PROJECT_NOWORKORDER = 101;
+
 	public int code;
 
 	public String message;
@@ -100,6 +102,14 @@ public class Result {
 	public static Result submitProjectChangeError(String message) {
 		Result e = new Result();
 		e.code = Result.CODE_PROJECTCHANGE_NOTASKUSER;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
+		return e;
+	}
+
+	public static Result startProjectError(String message) {
+		Result e = new Result();
+		e.code = Result.CODE_PROJECT_NOWORKORDER;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;

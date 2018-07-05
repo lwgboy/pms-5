@@ -172,7 +172,7 @@ public class CBSItem {
 		return children.size();
 	}
 
-	@Structure({ "项目成本管理/list","项目成本管理（查看）/list", "项目预算成本对比分析/list" })
+	@Structure({ "项目成本管理/list", "项目成本管理（查看）/list", "项目预算成本对比分析/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
 		children.forEach(c -> {
 			c.parent = this;
@@ -194,7 +194,7 @@ public class CBSItem {
 		return result;
 	}
 
-	@Structure({ "项目成本管理/count", "项目成本管理（查看）/count","项目预算成本对比分析/count" })
+	@Structure({ "项目成本管理/count", "项目成本管理（查看）/count", "项目预算成本对比分析/count" })
 	public long countSubCBSItemsAndSubjects() {
 		long result = children.size();
 		if (result == 0) {
@@ -290,6 +290,13 @@ public class CBSItem {
 			for (CBSSubject cbsSubject : cbsSubjects) {
 				summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
 			}
+		} else {
+			List<CBSPeriod> cbsPeriods = listCBSPeriods();
+			if (cbsPeriods.size() > 0) {
+				for (CBSPeriod cbsPeriod : cbsPeriods) {
+					summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+				}
+			}
 		}
 		return summary;
 	}
@@ -309,6 +316,15 @@ public class CBSItem {
 					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
 				}
 			}
+		} else {
+			List<CBSPeriod> cbsPeriods = listCBSPeriods();
+			if (cbsPeriods.size() > 0) {
+				for (CBSPeriod cbsPeriod : cbsPeriods) {
+					if (period.equals(cbsPeriod.getId())) {
+						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+					}
+				}
+			}
 		}
 		return summary;
 	}
@@ -326,6 +342,15 @@ public class CBSItem {
 			for (CBSSubject cbsSubject : cbsSubjects) {
 				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			}
+		} else {
+			List<CBSPeriod> cbsPeriods = listCBSPeriods();
+			if (cbsPeriods.size() > 0) {
+				for (CBSPeriod cbsPeriod : cbsPeriods) {
+					if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -362,6 +387,9 @@ public class CBSItem {
 	private List<CBSSubject> cbsSubjects;
 
 	@Exclude
+	private List<CBSPeriod> cbsPeriods;
+
+	@Exclude
 	private Date settlementDate;
 
 	public double getCostSummary() {
@@ -386,6 +414,13 @@ public class CBSItem {
 			cbsSubjects = ServicesLoader.get(CBSService.class).getCBSSubject(_id);
 		}
 		return cbsSubjects;
+	}
+
+	public List<CBSPeriod> listCBSPeriods() {
+		if (cbsPeriods == null) {
+			cbsPeriods = ServicesLoader.get(CBSService.class).getCBSPeriod(_id);
+		}
+		return cbsPeriods;
 	}
 
 	public double getCost(String period) {

@@ -127,6 +127,13 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public Stockholder insertStockholder(Stockholder c);
 
+	@PUT
+	@Path("/stockholder")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目干系人/" + DataSet.UPDATE)
+	public long updateStockholder(BasicDBObject filterAndUpdate);
+
 	@DELETE
 	@Path("/stockholder/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")

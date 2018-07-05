@@ -37,7 +37,6 @@ import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.sn.ProjectGenerator;
-import com.bizvisionsoft.service.sn.WorkOrderGenerator;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -100,8 +99,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
+//	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String workOrder;
+	
+	public String getWorkOrder() {
+		return workOrder;
+	}
 
 	/**
 	 * 项目集Id
@@ -467,12 +470,60 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private List<String> area;
 
 	/**
-	 * 客户
+	 * 主管机关
 	 */
 	@ReadValue
 	@WriteValue
 	@Persistence
 	private String customer;
+	
+	/**
+	 * 主机厂所
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customer2;
+	
+	/**
+	 * 目标值
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String target;
+	
+	/**
+	 * 成果形式
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String achievement;
+	
+	/**
+	 * 重大专项类别
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String majorCategory;
+
+	/**
+	 * 所属平台/配套系统
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String platform;
+	
+	/**
+	 * 用户代表
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customerRepresentative;
 
 	@WriteValue("eps_or_projectset_id")
 	public void setEPSorProjectSet(Object element) {

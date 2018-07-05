@@ -97,18 +97,20 @@ public interface RiskService {
 	public RiskEffect addRiskEffect(RiskEffect re);
 
 	@POST
-	@Path("/effect/ds")
+	@Path("/effect/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/list")
-	public List<RiskEffect> listRiskEffect(@MethodParam(MethodParam.CONDITION) BasicDBObject bson);
+	public List<RiskEffect> listRiskEffect(@MethodParam(MethodParam.CONDITION) BasicDBObject bson,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 	@POST
 	@Path("/effect/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/count")
-	public long countRiskEffect(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countRiskEffect(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 	@DELETE
 	@Path("/effect/_id/{_id}")

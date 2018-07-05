@@ -59,6 +59,12 @@ public interface CBSService {
 	public List<CBSSubject> getCBSSubject(@PathParam("_id") ObjectId cbs_id);
 
 	@POST
+	@Path("/{_id}/period/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<CBSPeriod> getCBSPeriod(@PathParam("_id") ObjectId cbs_id);
+
+	@POST
 	@Path("/{_id}/subject/{number}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

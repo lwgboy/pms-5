@@ -248,7 +248,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public List<RiskEffect> listRiskEffect(BasicDBObject condition) {
+	public List<RiskEffect> listRiskEffect(BasicDBObject condition, ObjectId _id) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -257,8 +257,10 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 																						// 不接受客户端的排序
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
+		if (filter == null)
+			filter = new BasicDBObject("project_id", _id);
+
+		pipeline.add(Aggregates.match(filter));
 
 		appendWork(pipeline);
 
@@ -282,7 +284,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	@Override
-	public long countRiskEffect(BasicDBObject filter) {
+	public long countRiskEffect(BasicDBObject filter, ObjectId _id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.append("project_id", _id);
+
 		return count(filter, "riskEffect");
 	}
 
@@ -441,7 +448,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
 						/ (24 * 60 * 60 * 1000));
 				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
-				data.add(Arrays.asList(urgency, detectable, rci,d.get("name")));
+				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
 			}
 		});
 		return new JQ("项目风险临近性图表").set("data", data).set("size", size).doc();
@@ -460,7 +467,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
 						/ (24 * 60 * 60 * 1000));
 				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
-				data.add(Arrays.asList(urgency, detectable, rci,d.get("name")));
+				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
 			}
 		});
 		return new JQ("项目风险临近性图表2").set("data", data).set("size", size).doc();

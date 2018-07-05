@@ -623,4 +623,14 @@ public class WorkInfo {
 		return this;
 	}
 
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String chargerRoleId;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String assignerRoleId;
+
 }
