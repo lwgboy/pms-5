@@ -416,4 +416,18 @@ public interface ProjectService {
 	@DataSet("我管理的项目清单/count")
 	public long countAdministratedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
+
+	@POST
+	@Path("/all/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "所有项目/list" })
+	public List<Project> listAllProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/all/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "所有项目/count" })
+	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 }

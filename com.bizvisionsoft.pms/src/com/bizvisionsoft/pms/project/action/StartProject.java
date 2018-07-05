@@ -33,8 +33,17 @@ public class StartProject {
 		if (!ok) {
 			return;
 		}
-		List<Result> result = Services.get(ProjectService.class).startProject(brui.command(project.get_id(),new Date()));
-		if (result.isEmpty()) {
+		List<Result> result = Services.get(ProjectService.class)
+				.startProject(brui.command(project.get_id(), new Date()));
+		boolean b = true;
+		if (!result.isEmpty())
+			for (Result r : result)
+				if (Result.TYPE_ERROR == r.type) {
+					Layer.message(r.message, Layer.ICON_CANCEL);
+					b = false;
+				}
+
+		if (b) {
 			Layer.message("项目已启动。");
 			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
 		}

@@ -22,6 +22,8 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.model.CBSPeriod;
+import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
@@ -370,9 +372,36 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
 		// 8. 必须要有工作令号，错误。
-
 		List<Result> result = new ArrayList<Result>();
+
+		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
+		if (l == 0)
+			result.add(Result.startProjectWarning("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+
+		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
+				.append("chargerId : String", null).append("assignerId", null));
+		if (l == 0)
+			result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
+
+		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+		if (l > 1)
+			result.add(Result.startProjectWarning("项目沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
+
+		l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
+		if (l > 1)
+			result.add(Result.startProjectWarning("项目沒有创建干系人.", Result.CODE_PROJECT_NOSTOCKHOLDER));
+
 		Project project = get(_id);
+
+		ObjectId cbs_id = project.getCBS_id();
+		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
+		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+		if (l == 0) {
+			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+			if (l == 0)
+				result.add(Result.startProjectWarning("项目沒有编制预算.", Result.CODE_PROJECT_NOCBS));
+		}
+
 		if (project.getWorkOrder() == null) {
 			result.add(Result.startProjectError("项目必须存在工作令号."));
 		}
@@ -1471,4 +1500,62 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return count(filter);
 	}
 
+	@Override
+	public List<Project> listAllProjects(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		appendAllProjectQuery(pipeline);
+
+		appendQueryPipeline(skip, limit, filter, pipeline);
+
+		pipeline.add(Aggregates.sort(new Document("creationInfo.date", -1)));
+
+		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+	}
+
+	@Override
+	public long countAllProjects(BasicDBObject filter) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		appendAllProjectQuery(pipeline);
+
+		if (filter != null)
+			pipeline.add(new Document("$match", filter));
+
+		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
+	}
+
+	private void appendAllProjectQuery(List<Bson> pipeline) {
+
+		pipeline.add(new Document("$lookup", new Document("from", "work").append("localField", "scope_id")
+				.append("foreignField", "_id").append("as", "work")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "scope_id")
+				.append("foreignField", "_id").append("as", "project")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "work.project_id")
+				.append("foreignField", "_id").append("as", "project2")));
+
+		pipeline.add(
+				new Document("$unwind", new Document("path", "$project").append("preserveNullAndEmptyArrays", true)));
+
+		pipeline.add(
+				new Document("$unwind", new Document("path", "$project2").append("preserveNullAndEmptyArrays", true)));
+
+		pipeline.add(
+				new Document("$addFields", new Document("project_id", new Document("$cond", Arrays.asList("$project",
+						"$project._id", new Document("$cond", Arrays.asList("$project2", "$project2._id", null)))))));
+
+		pipeline.add(new Document("$group", new Document("_id", "$project_id")));
+
+		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
+				.append("foreignField", "_id").append("as", "project")));
+
+		pipeline.add(new Document("$replaceRoot",
+				new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
+	}
 }

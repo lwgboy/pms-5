@@ -30,6 +30,16 @@ public class Result {
 
 	public static final int CODE_PROJECT_NOWORKORDER = 101;
 
+	public static final int CODE_PROJECT_NOWORK = 102;
+
+	public static final int CODE_PROJECT_NOOBS = 103;
+
+	public static final int CODE_PROJECT_NOWORKROLE = 104;
+
+	public static final int CODE_PROJECT_NOSTOCKHOLDER = 105;
+
+	public static final int CODE_PROJECT_NOCBS = 106;
+
 	public int code;
 
 	public String message;
@@ -112,6 +122,14 @@ public class Result {
 		e.code = Result.CODE_PROJECT_NOWORKORDER;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
+		return e;
+	}
+
+	public static Result startProjectWarning(String message, int code) {
+		Result e = new Result();
+		e.code = code;
+		e.message = message;
+		e.type = Result.TYPE_WARNING;
 		return e;
 	}
 

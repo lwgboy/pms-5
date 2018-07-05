@@ -506,4 +506,31 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 						.append("reportDate", new Document("$gte", from).append("$lte", to)));
 	}
 
+	@Override
+	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid) {
+		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		Document match = new Document("type", WorkReport.TYPE_DAILY);
+		match.put("status", WorkReport.STATUS_SUBMIT);
+		match.put("project_id", new BasicDBObject("$in", projectIds));
+
+		return query(condition, match);
+	}
+
+	@Override
+	public long countWorkReportDataSet(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+
+		filter.put("type", WorkReport.TYPE_DAILY);
+		filter.put("status", WorkReport.STATUS_SUBMIT);
+		filter.put("project_id", new BasicDBObject("$in", projectIds));
+
+		return count(filter, WorkReport.class);
+	}
+
 }

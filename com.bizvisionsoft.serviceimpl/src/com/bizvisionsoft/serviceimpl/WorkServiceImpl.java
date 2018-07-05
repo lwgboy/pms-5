@@ -2082,4 +2082,112 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return null;
 	}
 
+	@Override
+	public List<Work> createChargerProcessingWorkDataSet(BasicDBObject condition, String userid) {
+
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
+
+		int warningDay = (int) getSystemSetting(WARNING_DAY);
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new BasicDBObject("chargerId", userid)
+						.append("summary", false).append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true))));
+
+		appendProject(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countChargerProcessingWorkDataSet(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("summary", false);
+		filter.put("actualFinish", null);
+		filter.put("distributed", true);
+		filter.put("chargerId", userid);
+		filter.put("stage", new BasicDBObject("$ne", true));
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> createAssignerProcessingWorkDataSet(BasicDBObject condition, String userid) {
+
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
+
+		int warningDay = (int) getSystemSetting(WARNING_DAY);
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match( new BasicDBObject("assignerId", userid)
+						.append("summary", false).append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true))));
+
+		appendProject(pipeline);
+
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+
+		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
+
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countAssignerProcessingWorkDataSet(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.put("summary", false);
+		filter.put("actualFinish", null);
+		filter.put("distributed", true);
+		filter.put("assignerId", userid);
+		filter.put("stage", new BasicDBObject("$ne", true));
+		return count(filter, Work.class);
+	}
+
 }

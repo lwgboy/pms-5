@@ -99,11 +99,18 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
-//	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
+	// @Generator(name = Generator.DEFAULT_NAME, key = "project", generator =
+	// WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String workOrder;
-	
+
 	public String getWorkOrder() {
 		return workOrder;
+	}
+
+	public Project generateWorkOrder() {
+		this.workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(getCatalog(), getParentProject_id(),
+				getImpUnit_id());
+		return this;
 	}
 
 	/**
@@ -147,6 +154,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	@ReadValue
 	private EPS eps;
+
+	@ReadValue("epsName")
+	public String getEPSName() {
+		return eps.getName();
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
@@ -476,7 +488,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String customer;
-	
+
 	/**
 	 * 主机厂所
 	 */
@@ -484,7 +496,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String customer2;
-	
+
 	/**
 	 * 目标值
 	 */
@@ -492,7 +504,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String target;
-	
+
 	/**
 	 * 成果形式
 	 */
@@ -500,7 +512,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String achievement;
-	
+
 	/**
 	 * 重大专项类别
 	 */
@@ -516,7 +528,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String platform;
-	
+
 	/**
 	 * 用户代表
 	 */
@@ -524,6 +536,22 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String customerRepresentative;
+
+	/**
+	 * 助记码
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	@WriteValue("eps_or_projectset_id")
 	public void setEPSorProjectSet(Object element) {

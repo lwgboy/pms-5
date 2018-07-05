@@ -75,6 +75,7 @@ public class WorkReport {
 	public static final String TYPE_MONTHLY = "ÔÂ±¨";
 
 	@WriteValue
+	@ReadValue
 	@Persistence
 	private String type;
 
