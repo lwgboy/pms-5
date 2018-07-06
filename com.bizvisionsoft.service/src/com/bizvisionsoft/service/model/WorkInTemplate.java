@@ -22,7 +22,7 @@ import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("workInTemplate")
 @Strict
-public class WorkInTemplate implements IWorkPackageMaster{
+public class WorkInTemplate implements IWorkPackageMaster {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -135,7 +135,7 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	 */
 	@ReadValue("start_date")
 	@Persistence
-	@WriteValue("项目模板工作编辑器/start_date")
+	@WriteValue({ "项目模板工作编辑器/start_date", "项目模板里程碑工作编辑器/start_date" })
 	private Date planStart;
 
 	@WriteValue("项目模板甘特图/start_date")
@@ -146,6 +146,14 @@ public class WorkInTemplate implements IWorkPackageMaster{
 			return true;
 		}
 		return false;
+	}
+
+	public Date getPlanStart() {
+		return planStart;
+	}
+
+	public void setPlanStart(Date planStart) {
+		this.planStart = planStart;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +173,15 @@ public class WorkInTemplate implements IWorkPackageMaster{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+
+	public void setPlanFinish(Date planFinish) {
+		this.planFinish = planFinish;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,6 +215,8 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 如果是里程碑，gantt的type为milestone，否则为task。
 	// 如果在gantt中更新了task,使得他有子工作，gantt将type改为project
+	@ReadValue
+	@WriteValue
 	@Persistence
 	private boolean milestone;
 
@@ -227,6 +246,10 @@ public class WorkInTemplate implements IWorkPackageMaster{
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean isMilestone() {
+		return milestone;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -289,7 +312,7 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	@WriteValue
 	private List<String> certificates;
 
-	@ReadValue({"项目模板WBS/wpsText","项目模板WBS（分配角色）/wpsText"})
+	@ReadValue({ "项目模板WBS/wpsText", "项目模板WBS（分配角色）/wpsText" })
 	private String getWorkPackageSettingText() {
 		if (Util.isEmptyOrNull(workPackageSetting)) {
 			return "";
@@ -300,7 +323,7 @@ public class WorkInTemplate implements IWorkPackageMaster{
 		}
 	}
 
-	@ReadValue({"项目模板WBS/manageLevelHtml","项目模板WBS（分配角色）/manageLevelHtml"})
+	@ReadValue({ "项目模板WBS/manageLevelHtml", "项目模板WBS（分配角色）/manageLevelHtml" })
 	private String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
 			return "<span class='layui-badge level1_task'>1</span>";
@@ -313,19 +336,19 @@ public class WorkInTemplate implements IWorkPackageMaster{
 		}
 	}
 
-	@ImageURL({"项目模板WBS/milestoneIcon","项目模板WBS（分配角色）/milestoneIcon"})
+	@ImageURL({ "项目模板WBS/milestoneIcon", "项目模板WBS（分配角色）/milestoneIcon" })
 	private String getMilestoneIcon() {
 		if (milestone)
 			return "/img/milestone_c.svg";
 		return null;
 	}
 
-	@Structure({"项目模板WBS/list","项目模板WBS（分配角色）/list"})
+	@Structure({ "项目模板WBS/list", "项目模板WBS（分配角色）/list" })
 	private List<WorkInTemplate> listChildren() {
 		return ServicesLoader.get(ProjectTemplateService.class).listWBSChildren(_id);
 	}
 
-	@Structure({"项目模板WBS/count","项目模板WBS（分配角色）/count"})
+	@Structure({ "项目模板WBS/count", "项目模板WBS（分配角色）/count" })
 	private long countChildren() {
 		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id);
 	}
@@ -334,7 +357,7 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	private boolean behaviourEditWPS() {
 		return !summary && !stage;
 	}
-	
+
 	@Behavior("工作包")
 	private boolean behaviourOpenWorkpackagePlan() {
 		return !Util.isEmptyOrNull(workPackageSetting);
@@ -367,7 +390,6 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	@WriteValue
 	@Persistence
 	private String assignerRoleId;
-	
 
 	@WriteValue("assignerRole")
 	public void setAssignerRole(OBSInTemplate obsItem) {
@@ -415,7 +437,6 @@ public class WorkInTemplate implements IWorkPackageMaster{
 		return index;
 	}
 
-
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
 		this.workPackageSetting = workPackageSetting;
 	}
@@ -425,13 +446,13 @@ public class WorkInTemplate implements IWorkPackageMaster{
 	}
 
 	@Override
-	public Date getPlanFinish() {
-		return planFinish;
-	}
-
-	@Override
 	public boolean isTemplate() {
 		return true;
+	}
+
+	public WorkInTemplate setMilestone(boolean milestone) {
+		this.milestone = milestone;
+		return this;
 	}
 
 }
