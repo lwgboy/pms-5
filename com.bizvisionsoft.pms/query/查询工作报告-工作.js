@@ -19,6 +19,10 @@
 	"$project" : {
 		"work_id" : "$_id",
 		"estimatedFinish" : "$estimatedFinish",
+		"planStart" : "$planStart",
+		"planFinish" : "$planFinish",
+		"actualStart" : "$actualStart",
+		"actualFinish" : "$actualFinish",
 		"_id" : false
 	}
 }, {

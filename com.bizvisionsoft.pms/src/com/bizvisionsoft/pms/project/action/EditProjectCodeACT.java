@@ -25,15 +25,15 @@ public class EditProjectCodeACT {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(se -> {
 			Project project = (Project) se;
-			InputDialog id = new InputDialog(brui.getCurrentShell(), "÷˙º«¬Î", "±‡º≠÷˙º«¬Î", project.getCode(), t -> {
-				return t.trim().isEmpty() ? "«Î ‰»Î÷˙º«¬Î" : null;
+			InputDialog id = new InputDialog(brui.getCurrentShell(), "œÓƒø±‡∫≈", "±‡º≠œÓƒø±‡∫≈", project.getCode(), t -> {
+				return t.trim().isEmpty() ? "«Î ‰»ÎœÓƒø±‡∫≈" : null;
 			});
 			if (InputDialog.OK == id.open()) {
 				String code = id.getValue();
 				String workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(project.get_id());
 				ServicesLoader.get(ProjectService.class)
 						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id()))
-								.set(new BasicDBObject("code", code).append("workOrder", workOrder)).bson());
+								.set(new BasicDBObject("id", code).append("workOrder", workOrder)).bson());
 				GridPart gp = (GridPart) context.getContent();
 				gp.refreshAll();
 			}

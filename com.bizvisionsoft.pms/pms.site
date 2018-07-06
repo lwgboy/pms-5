@@ -836,7 +836,7 @@
               {
                 "id": "1632e57b7a5",
                 "name": "我的项目",
-                "text": "我的项目",
+                "text": "我负责和参与的项目",
                 "switchContentToAssemblyId": "1632e5a7502",
                 "openContent": false,
                 "propagate": false,
@@ -844,19 +844,6 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch",
-                "role": ""
-              },
-              {
-                "id": "16406b99e36",
-                "name": "创建项目",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized",
                 "role": ""
               },
               {
@@ -870,6 +857,19 @@
                 "objectBehavier": false,
                 "type": "switch",
                 "role": "项目管理员#项目总监"
+              },
+              {
+                "id": "16406b99e36",
+                "name": "创建项目",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized",
+                "role": ""
               }
             ],
             "editorAssemblyEditable": false,
@@ -5770,7 +5770,7 @@
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
-                "optionText": "海军#陆军#空军#火箭军#战略资源部队#天军#网军",
+                "optionText": "海军#陆军#空军#火箭军#战略支援部队#天军#网军",
                 "radioStyle": "横向分段（默认）",
                 "maxFileSize": 0,
                 "timeLimit": 0,
@@ -11203,7 +11203,40 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646fbf3825",
+            "name": "id",
+            "text": "编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646fbf3ad1",
+            "name": "name",
+            "text": "名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": true,
         "actions": [
           {
@@ -11222,6 +11255,19 @@
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Equipment"
+          },
+          {
+            "id": "1646fbeb105",
+            "name": "查询设备设施",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
           }
         ],
         "rowActions": [
@@ -13400,6 +13446,56 @@
                 "staticContent": false
               },
               {
+                "id": "1646fc933a1",
+                "name": "新字段11",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1646fc9d5ae",
+                    "name": "target",
+                    "text": "目标值",
+                    "type": "单选框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": true,
+                    "textLimit": 0,
+                    "optionText": "设计定型#设计鉴定#技术鉴定#结题验收",
+                    "radioStyle": "横向分段（默认）",
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  },
+                  {
+                    "id": "1646fc9d681",
+                    "name": "achievement",
+                    "text": "成果形式",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": true,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  }
+                ],
+                "hasInfoLabel": false,
+                "textPasswordStyle": false,
+                "readOnly": false,
+                "required": false,
+                "textLimit": 0,
+                "maxFileSize": 0,
+                "timeLimit": 0,
+                "height": 0,
+                "staticContent": false
+              },
+              {
                 "id": "162d0ecdeb5",
                 "name": "新字段22",
                 "type": "行",
@@ -13452,9 +13548,57 @@
                 "staticContent": false
               },
               {
+                "id": "1646fcad7a1",
+                "name": "新字段14",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1646fcae545",
+                    "name": "majorCategory",
+                    "text": "重大专项类别",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  },
+                  {
+                    "id": "1646fcae678",
+                    "name": "platform",
+                    "text": "所属平台",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  }
+                ],
+                "hasInfoLabel": false,
+                "textPasswordStyle": false,
+                "readOnly": false,
+                "required": false,
+                "textLimit": 0,
+                "maxFileSize": 0,
+                "timeLimit": 0,
+                "height": 0,
+                "staticContent": false
+              },
+              {
                 "id": "1626b29218a",
                 "name": "arms",
-                "text": "产品特性",
+                "text": "军兵种",
                 "type": "多项勾选框",
                 "formFields": [],
                 "hasInfoLabel": false,
@@ -13462,7 +13606,7 @@
                 "readOnly": false,
                 "required": true,
                 "textLimit": 0,
-                "optionText": "智能#教育#功能#传统",
+                "optionText": "海军#陆军#空军#火箭军#战略支援部队#天军#网军",
                 "radioStyle": "横向分段（默认）",
                 "maxFileSize": 0,
                 "timeLimit": 0,
@@ -13472,7 +13616,7 @@
               {
                 "id": "1626b292226",
                 "name": "area",
-                "text": "目标地域",
+                "text": "战区",
                 "type": "多项勾选框",
                 "formFields": [],
                 "hasInfoLabel": false,
@@ -13480,8 +13624,103 @@
                 "readOnly": false,
                 "required": true,
                 "textLimit": 0,
-                "optionText": "欧美#亚洲#南美#非洲#城市#农村",
+                "optionText": "东部战区#西部战区#南部战区#北部战区#中部战区",
                 "radioStyle": "横向分段（默认）",
+                "maxFileSize": 0,
+                "timeLimit": 0,
+                "height": 0,
+                "staticContent": false
+              },
+              {
+                "id": "1646fcbefc9",
+                "name": "新字段17",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1646fcc11e9",
+                    "name": "customer",
+                    "text": "主管机关",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  },
+                  {
+                    "id": "1646fcc12c4",
+                    "name": "customer2",
+                    "text": "主机厂所",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  }
+                ],
+                "hasInfoLabel": false,
+                "textPasswordStyle": false,
+                "readOnly": false,
+                "required": false,
+                "textLimit": 0,
+                "maxFileSize": 0,
+                "timeLimit": 0,
+                "height": 0,
+                "staticContent": false
+              },
+              {
+                "id": "1646fcbf4c5",
+                "name": "新字段18",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1646fcc17d9",
+                    "name": "customerRepresentative",
+                    "text": "用户代表",
+                    "type": "单行文本框",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  },
+                  {
+                    "id": "1646fcc1889",
+                    "name": "新字段22",
+                    "type": "行",
+                    "formFields": [],
+                    "hasInfoLabel": false,
+                    "textPasswordStyle": false,
+                    "readOnly": false,
+                    "required": false,
+                    "textLimit": 0,
+                    "maxFileSize": 0,
+                    "timeLimit": 0,
+                    "height": 0,
+                    "staticContent": false
+                  }
+                ],
+                "hasInfoLabel": false,
+                "textPasswordStyle": false,
+                "readOnly": false,
+                "required": false,
+                "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
                 "height": 0,
@@ -18232,7 +18471,7 @@
             "name": "默认",
             "minimalDeviceWidth": 0,
             "maximalDeviceWidth": 0,
-            "columnCount": 2,
+            "columnCount": 1,
             "horizontalSpacing": 0,
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
@@ -18245,28 +18484,6 @@
             "marginTop": 0,
             "marginWidth": 0,
             "assemblys": [
-              {
-                "id": "16305416779",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": false,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "163056fb075",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": false,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
               {
                 "id": "162d1fc8443",
                 "horizontalAlignment": 4,
@@ -31874,13 +32091,13 @@
         "folderId": "1646952b89d",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
+        "gridMarkupEnabled": true,
         "gridLineVisiable": true,
         "gridMultiSelection": false,
         "gridHeaderVisiable": true,
         "gridFooterVisiable": false,
         "gridHasBorder": false,
-        "gridHasHScroll": false,
+        "gridHasHScroll": true,
         "gridHasVScroll": true,
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
@@ -33389,6 +33606,21 @@
             "image": "/img/add_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.projecttemplate.AddTaskACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "164701bc522",
+            "name": "创建里程碑",
+            "text": "里程碑",
+            "image": "/img/add_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projecttemplate.AddMilestoneACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -39999,7 +40231,41 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646fc30a1f",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646fc30d5c",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -40015,6 +40281,19 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1646fc1eeb0",
+            "name": "查询报告",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
           }
         ],
         "rowActions": [
@@ -41318,7 +41597,41 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646fc32629",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646fc32a5c",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -41334,6 +41647,19 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1646fc249c5",
+            "name": "查询报告",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
           }
         ],
         "rowActions": [
@@ -41574,7 +41900,41 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646fc33e9c",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646fc33f85",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": false,
         "actions": [
           {
@@ -41590,6 +41950,19 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1646fc25e9e",
+            "name": "查询报告",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
           }
         ],
         "rowActions": [
@@ -50609,9 +50982,88 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646ff40b80",
+            "name": "projectName",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646ff40da2",
+            "name": "applicantInfo",
+            "text": "申请人",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646ff40e57",
+            "name": "applicantDate",
+            "text": "申请时间",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646ff40f06",
+            "name": "applicantUnit",
+            "text": "申请单位",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "1646ff3c33f",
+            "name": "查询项目变更",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
+          }
+        ],
         "rowActions": [
           {
             "id": "16445030a08",
@@ -54677,26 +55129,6 @@
             "expanded": false,
             "columns": [
               {
-                "id": "1646ab162ee",
-                "name": "code",
-                "text": "助记码",
-                "alignment": 16384,
-                "width": 120,
-                "minimumWidth": 0,
-                "moveable": false,
-                "resizeable": true,
-                "detail": true,
-                "summary": true,
-                "expanded": false,
-                "columns": [],
-                "markupEnabled": false,
-                "sort": 0,
-                "forceDisplayZero": false,
-                "hide": false,
-                "element": false,
-                "noToggleGridColumnGroup": false
-              },
-              {
                 "id": "1646ab163a2",
                 "name": "target",
                 "text": "目标值",
@@ -55742,9 +56174,57 @@
             "noToggleGridColumnGroup": false
           }
         ],
-        "fields": [],
+        "fields": [
+          {
+            "id": "1646fc0c58f",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "1646fc10f08",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "1646fc01233",
+            "name": "查询报告",
+            "text": "查询",
+            "image": "/img/search_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "query"
+          }
+        ],
         "rowActions": [
           {
             "id": "163f2dc8560",
@@ -56220,6 +56700,100 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "addToParentContext": false
+      },
+      {
+        "id": "164702eb88c",
+        "name": "项目模板里程碑工作编辑器",
+        "title": "创建里程碑",
+        "description": "用于项目模板里程碑工作创建和编辑",
+        "layout": [],
+        "type": "editor",
+        "folderId": "163cd3ebfd0",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "162905df447",
+            "name": "text",
+            "text": "工作名称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "162905df52c",
+            "name": "fullName",
+            "text": "全称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textMessage": "请填写在项目中能识别的名称，默认为工作名称",
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          },
+          {
+            "id": "162905df5d4",
+            "name": "start_date",
+            "text": "日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "nullValueAllowedFields": "",
+        "smallEditor": true,
         "addToParentContext": false
       }
     ]

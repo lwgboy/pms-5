@@ -351,8 +351,8 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	private void updateWorkRiskIndicators(ObjectId _id, Float aci, Float acp) {
-		c("work").updateOne(new Document("_id", _id), new Document("$set",
-				new Document("aci", (double) (aci != null ? aci : 0)).append("acp", (double) (acp != null ? acp : 0))));
+		c("work").updateOne(new Document("_id", _id),
+				new Document("$set", new Document("aci", aci).append("acp", acp)));
 	}
 
 	@Override

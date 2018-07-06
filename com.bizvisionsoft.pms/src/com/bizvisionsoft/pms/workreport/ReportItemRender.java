@@ -223,9 +223,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 		sb.append("<div style='height:104px;display:block;'>");
 
 		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
-		sb.append("<div>计划进度：" + formatText(work.getPlanStart()) + " ~ " + formatText(work.getPlanFinish()) + "</div>");
-		sb.append("<div>实际进度：" + formatText(work.getActualStart()) + " ~ " + formatText(work.getActualFinish())
-				+ "</div>");
+		sb.append("<div>计划进度：" + formatText(ri.getPlanStart()) + " ~ " + formatText(ri.getPlanFinish()) + "</div>");
+		sb.append("<div>实际进度：" + formatText(ri.getActualStart()) + " ~ " + formatText(ri.getActualFinish()) + "</div>");
 		sb.append("<div>预计完成：" + formatText(ri.getEstimatedFinish()));
 		if (ri.getEstimatedFinish() != null && work.getPlanFinish().before(ri.getEstimatedFinish()))
 			sb.append("<span class='layui-badge'>预计超期</span>");

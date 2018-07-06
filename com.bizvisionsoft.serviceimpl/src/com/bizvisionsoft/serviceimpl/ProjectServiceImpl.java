@@ -403,7 +403,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		if (project.getWorkOrder() == null) {
-			result.add(Result.startProjectError("项目必须存在工作令号."));
+			result.add(Result.startProjectError("项目没有工作令号."));
 		}
 
 		return result;
@@ -1463,6 +1463,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Bson> pipeline = (List<Bson>) new JQ("待审批的项目变更").set("userId", userId)
 				.set("status", ProjectChange.STATUS_SUBMIT).array();
 
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
 		pipeline.add(Aggregates.match(filter));
 
 		pipeline.add(Aggregates.sort(new BasicDBObject("_id", -1)));
@@ -1472,10 +1476,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-
-		appendProject(pipeline);
-		appendUserInfo(pipeline, "applicant", "applicantInfo");
-		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
 
 		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 		return into;

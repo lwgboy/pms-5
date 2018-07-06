@@ -12,24 +12,22 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 
-public class EditTaskACT {
+public class AddMilestoneACT {
+
 	@Inject
 	private IBruiService bruiService;
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		WorkInTemplate workinfo = (WorkInTemplate) ((GanttEvent) event).task;
-		String editor = "项目模板工作编辑器";
-		if (workinfo.isMilestone()) {
-			editor = "项目模板里程碑工作编辑器";
-		} else {
-			editor = "项目模板工作编辑器";
-		}
-		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
-			GanttPart content = (GanttPart) context.getContent();
-			content.updateTask(wi);
-		});
-
+		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
+		// 显示编辑器
+		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板里程碑工作编辑器"), context)
+				.setInput(WorkInTemplate.newInstance((WorkInTemplate) ((GanttEvent) event).task).setMilestone(true))
+				.ok((r, wi) -> {
+					wi.setPlanFinish(wi.getPlanStart());
+					GanttPart content = (GanttPart) context.getContent();
+					content.addTask(wi);
+				});
 	}
 }
