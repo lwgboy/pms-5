@@ -403,7 +403,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		if (project.getWorkOrder() == null) {
-			result.add(Result.startProjectError("项目必须存在工作令号."));
+			result.add(Result.startProjectError("项目没有工作令号."));
 		}
 
 		return result;

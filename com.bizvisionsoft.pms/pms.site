@@ -5770,7 +5770,7 @@
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
-                "optionText": "海军#陆军#空军#火箭军#战略资源部队#天军#网军",
+                "optionText": "海军#陆军#空军#火箭军#战略支援部队#天军#网军",
                 "radioStyle": "横向分段（默认）",
                 "maxFileSize": 0,
                 "timeLimit": 0,
