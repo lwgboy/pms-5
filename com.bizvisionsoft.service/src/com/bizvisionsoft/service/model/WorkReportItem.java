@@ -58,8 +58,32 @@ public class WorkReportItem {
 	@SetValue
 	private List<String> pmIds;
 
+	private Date planStart;
+
+	private Date actualStart;
+
+	private Date planFinish;
+
+	private Date actualFinish;
+
 	public ObjectId get_id() {
 		return _id;
+	}
+
+	public Date getPlanStart() {
+		return planStart;
+	}
+
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+
+	public Date getActualStart() {
+		return actualStart;
+	}
+
+	public Date getActualFinish() {
+		return actualFinish;
 	}
 
 	public String getPmRemark() {
@@ -118,7 +142,7 @@ public class WorkReportItem {
 	public WorkReport getWorkReport() {
 		return ServicesLoader.get(WorkReportService.class).getWorkReport(report_id);
 	}
-	
+
 	public ObjectId getReport_id() {
 		return report_id;
 	}

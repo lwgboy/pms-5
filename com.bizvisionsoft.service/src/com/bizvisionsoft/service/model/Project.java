@@ -10,7 +10,6 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -36,7 +35,6 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.sn.ProjectGenerator;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -85,7 +83,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Label(Label.ID_LABEL)
 	@WriteValue
 	@Persistence
-	@Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY, generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
+//	@Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY, generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
 	@Override

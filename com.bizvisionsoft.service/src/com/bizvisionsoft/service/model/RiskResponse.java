@@ -38,13 +38,12 @@ public class RiskResponse {
 	@WriteValue
 	private String chargerId;
 
-
 	@WriteValue("charger")
 	private void setCharger(User charger) {
 		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
 	}
 
-	@ReadValue({"charger","项目风险应对计划/timeInf"})
+	@ReadValue({ "charger", "项目风险应对计划/timeInf", "项目风险应对计划（查看）/timeInf" })
 	private User getCharger() {
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
@@ -67,17 +66,17 @@ public class RiskResponse {
 		this.impUnit_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
 	}
 
-	@ReadValue({"impUnit","项目风险应对计划/costInf"}) // 编辑器用
+	@ReadValue({ "impUnit", "项目风险应对计划/costInf", "项目风险应对计划（查看）/costInf" }) // 编辑器用
 	public Organization getOrganization() {
 		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
 				.orElse(null);
 	}
 
-	@ReadValue({"action","项目风险应对计划/result"})
+	@ReadValue({ "action", "项目风险应对计划/result", "项目风险应对计划（查看）/result" })
 	@WriteValue
 	private String action;
 
-	@ReadValue({"plan","项目风险应对计划/title"})
+	@ReadValue({ "plan", "项目风险应对计划/title", "项目风险应对计划（查看）/title" })
 	@WriteValue
 	private String plan;
 

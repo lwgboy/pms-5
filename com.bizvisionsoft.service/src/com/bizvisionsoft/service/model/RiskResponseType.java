@@ -69,28 +69,29 @@ public class RiskResponseType {
 		return type;
 	}
 
-	@Structure("项目风险应对计划/list")
+	@Structure({ "项目风险应对计划/list", "项目风险应对计划（查看）/list" })
 	private List<RiskResponse> listRiskResponse() {
 		return ServicesLoader.get(RiskService.class)
 				.listRiskResponse(new Query().filter(new BasicDBObject("rbsItem_id", _id).append("type", type)).bson());
 	}
 
-	@Structure("项目风险应对计划/count")
+	@Structure({ "项目风险应对计划/count", "项目风险应对计划（查看）/count" })
 	private long countRiskResponse() {
 		return ServicesLoader.get(RiskService.class)
 				.countRiskResponse(new BasicDBObject("rbsItem_id", _id).append("type", type));
 	}
-	
-	@ReadValue({"项目风险应对计划/costInf"}) 
+
+	@ReadValue({ "项目风险应对计划/costInf", "项目风险应对计划（查看）/costInf" })
 	public String getOrganization() {
 		return "责任单位";
 	}
-	@ReadValue({"项目风险应对计划/timeInf"}) 
+
+	@ReadValue({ "项目风险应对计划/timeInf", "项目风险应对计划（查看）/costInf" })
 	public String getCharger() {
 		return "责任人";
 	}
-	
-	@ReadValue({"项目风险应对计划/result"}) 
+
+	@ReadValue({ "项目风险应对计划/result", "项目风险应对计划（查看）/result" })
 	public String getHeaderResult() {
 		return "处置计划";
 	}

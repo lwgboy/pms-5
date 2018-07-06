@@ -105,7 +105,7 @@ public interface RiskService {
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 	@POST
-	@Path("/effect/count")
+	@Path("/effect/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/count")
