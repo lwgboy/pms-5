@@ -120,6 +120,11 @@ public class ProjectChange {
 	@Persistence
 	private ObjectId applicantUnitId;
 
+	public ProjectChange setApplicantUnitId(ObjectId applicantUnitId) {
+		this.applicantUnitId = applicantUnitId;
+		return this;
+	}
+
 	@ReadValue
 	@SetValue
 	private String applicantUnit;

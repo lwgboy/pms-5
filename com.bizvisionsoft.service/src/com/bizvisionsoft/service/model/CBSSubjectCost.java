@@ -260,10 +260,11 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 
 		String status = scopeRootObject.getStatus();
 		if (ProjectStatus.Processing.equals(status) || ProjectStatus.Closing.equals(status)) {
-
+			cal.add(Calendar.MONTH, -1);
 			int newYear = cal.get(Calendar.YEAR);
 			int newMonth = cal.get(Calendar.MONTH);
 			cal.setTime(date);
+			cal.add(Calendar.MONTH, 1);
 			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
 				return false;
 			}

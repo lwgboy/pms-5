@@ -185,7 +185,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSInTemplate> getOBSRoleTemplate(ObjectId template_id) {
-		return queryOBSTemplate(new BasicDBObject("scope_id", template_id).append("isRole", true));
+		return queryOBSTemplate(new BasicDBObject("scope_id", template_id).append("$or",
+				Arrays.asList(new BasicDBObject("isRole", true), new BasicDBObject("roleId", "PM"))));
 	}
 
 	@Override
@@ -425,6 +426,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					idMap.put(doc.getObjectId("_id"), folder_id);
 					doc.append("_id", folder_id).append("project_id", project_id).append("parent_id",
 							idMap.get(doc.getObjectId("parent_id")));
+					doc.remove("template_id");
 					tobeInsert.add(doc);
 				});
 		if (!tobeInsert.isEmpty()) {

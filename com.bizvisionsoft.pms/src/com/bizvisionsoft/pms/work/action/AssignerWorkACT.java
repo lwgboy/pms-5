@@ -28,7 +28,7 @@ public class AssignerWorkACT {
 			Selector.open("用户选择器—单选", context, null, l -> {
 				ServicesLoader.get(WorkService.class)
 						.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) e).get_id()))
-								.set(new BasicDBObject("assignerId", ((User) l.get(0)).getUserId())).bson());
+								.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
 				GridPart view = (GridPart) context.getContent();
 				view.refreshAll();

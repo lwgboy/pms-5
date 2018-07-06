@@ -108,8 +108,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	public Project generateWorkOrder() {
-		this.workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(getCatalog(), getParentProject_id(),
-				getImpUnit_id());
+		this.workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(get_id());
 		return this;
 	}
 
@@ -157,7 +156,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("epsName")
 	public String getEPSName() {
-		return eps.getName();
+		if (eps != null)
+			return eps.getName();
+
+		return "";
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
