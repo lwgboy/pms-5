@@ -39,14 +39,17 @@ public class SubmitSchedule {
 		Workspace workspace = rootInput.getWorkspace();
 		if (workspace != null) {
 			Boolean checkManageItem = true;
+			Boolean canCheck = true;
 			if (rootInput instanceof Project) {
 				String changeStatus = ((Project) rootInput).getChangeStatus();
 				if (changeStatus != null && "±ä¸üÖÐ".equals(changeStatus))
-					checkManageItem = false;
+					canCheck = false;
 			}
-			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
+			Result result = null;
+			if (canCheck)
+				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
-			if (Result.CODE_WORK_SUCCESS == result.code) {
+			if (result == null || Result.CODE_WORK_SUCCESS == result.code) {
 				result = Services.get(WorkSpaceService.class).checkin(workspace);
 
 				if (Result.CODE_WORK_SUCCESS == result.code) {

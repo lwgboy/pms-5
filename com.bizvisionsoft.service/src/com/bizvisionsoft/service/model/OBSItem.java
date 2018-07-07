@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
@@ -195,13 +197,25 @@ public class OBSItem {
 	private boolean isRole;
 
 	@Structure("项目团队/list")
-	public List<OBSItem> listSubOBSItem() {
-		return ServicesLoader.get(OBSService.class).getSubOBSItem(_id);
+	public List<Object> listSubOBSItem() {
+		List<Object> result = new ArrayList<Object>();
+		result.addAll(ServicesLoader.get(OBSService.class).getMember(new Query().bson(), _id));
+		result.addAll(ServicesLoader.get(OBSService.class).getSubOBSItem(_id));
+		User manager = getManager();
+		if (manager != null && !result.contains(manager))
+			result.add(manager);
+		return result;
 	}
 
 	@Structure("项目团队/count")
 	public long countSubOBSItem() {
-		return ServicesLoader.get(OBSService.class).countSubOBSItem(_id);
+		long l = ServicesLoader.get(OBSService.class).countMember((BasicDBObject) new Query().bson().get("filter"),
+				_id);
+		l += ServicesLoader.get(OBSService.class).countSubOBSItem(_id);
+		User manager = getManager();
+		if (manager != null)
+			l += 1;
+		return l;
 	}
 
 	@ReadOptions("selectedRole")

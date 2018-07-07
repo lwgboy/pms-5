@@ -244,18 +244,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 		// 返回检查结果
 
-//		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
-//		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-//
-//		ArrayList<Task> tasks = new ArrayList<Task>();
-//		ArrayList<Route> routes = new ArrayList<Route>();
-//		convertGraphic(works, links, tasks, routes);
-//
-//		Graphic gh = new Graphic(tasks, routes);
-//
-//		setupStartDate(gh, works, start, tasks);
-//		gh.schedule();
-		
 		return Result.checkoutSuccess("已通过检查。");
 	}
 
