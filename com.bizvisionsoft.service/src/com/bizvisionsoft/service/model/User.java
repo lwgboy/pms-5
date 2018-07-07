@@ -144,7 +144,7 @@ public class User implements IResourceAssignment {
 
 	@Override
 	@Label
-	@ReadValue("部门工作日程表/label")
+	@ReadValue({ "部门工作日程表/label", "项目团队/label" })
 	public String toString() {
 		return name;// + " [" + userId + "]";
 	}
