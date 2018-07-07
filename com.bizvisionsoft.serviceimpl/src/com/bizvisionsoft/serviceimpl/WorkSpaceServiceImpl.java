@@ -12,9 +12,6 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.math.scheduling.Graphic;
-import com.bizvisionsoft.math.scheduling.Route;
-import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Project;
