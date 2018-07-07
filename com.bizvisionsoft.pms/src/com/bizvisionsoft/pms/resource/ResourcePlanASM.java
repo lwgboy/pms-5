@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -28,6 +29,7 @@ import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourceTransfer;
+import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -94,6 +96,9 @@ public class ResourcePlanASM {
 				} else if (this.work.isSummary()) {
 					Layer.message("无需对总成型工作分配资源。");
 					return;
+				} else if (this.work.isMilestone()) {
+					Layer.message("无需对里程碑分配资源。");
+					return;
 				}
 				allocateResource();
 			}
@@ -101,7 +106,7 @@ public class ResourcePlanASM {
 
 		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
 			Work work = (Work) ((GanttEvent) l).task;
-			if (work != null && !work.isSummary()) {
+			if (work != null && !work.isSummary() && !work.isMilestone()) {
 				allocateResource();
 			}
 		});
@@ -144,7 +149,28 @@ public class ResourcePlanASM {
 	private void addResource(String selectorId) {
 		Selector.open(selectorId, context, null, l -> {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
-			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
+			l.forEach(o -> {
+				ResourceAssignment ra = new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id());
+				if (o instanceof ResourceType) {
+					InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源 " + o.toString() + " 数量",
+							null, t -> {
+								if (t.trim().isEmpty())
+									return "请输入资源数量";
+								try {
+									Integer.parseInt(t);
+								} catch (Exception e) {
+									return "输入的类型错误";
+								}
+								return null;
+							});
+					if (InputDialog.OK == id.open()) {
+						ra.qty = Integer.parseInt(id.getValue());
+					}
+				} else {
+					ra.qty = 1;
+				}
+				resa.add(ra);
+			});
 			Services.get(WorkService.class).addResourcePlan(resa);
 			grid.doRefresh();
 		});

@@ -19,6 +19,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
@@ -439,6 +440,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition) {
 		return listWorkPackage(condition, "work");
+	}
+
+	public WorkPackage getWorkPackage(ObjectId _id) {
+		return listWorkPackage(new Query().filter(new BasicDBObject("_id", _id)).bson(), "work").get(0);
 	}
 
 	@Override
@@ -940,7 +945,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 					ResourcePlan res = resa.getResourcePlan();
 					res.setId(planStartCal.getTime());
-					res.setPlanBasicQty(works);
+					res.setPlanBasicQty(works * resa.qty);
+					res.setQty(resa.qty);
 
 					documents.add(res);
 				}
@@ -2094,9 +2100,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		pipeline.add(Aggregates.match(new BasicDBObject("chargerId", userid)
-						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true))));
+		pipeline.add(Aggregates
+				.match(new BasicDBObject("chargerId", userid).append("summary", false).append("actualFinish", null)
+						.append("distributed", true).append("stage", new BasicDBObject("$ne", true))));
 
 		appendProject(pipeline);
 
@@ -2148,9 +2154,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		pipeline.add(Aggregates.match( new BasicDBObject("assignerId", userid)
-						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true))));
+		pipeline.add(Aggregates
+				.match(new BasicDBObject("assignerId", userid).append("summary", false).append("actualFinish", null)
+						.append("distributed", true).append("stage", new BasicDBObject("$ne", true))));
 
 		appendProject(pipeline);
 

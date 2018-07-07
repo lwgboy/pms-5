@@ -136,7 +136,21 @@
 								"$sum" : "$actualOverTimeQty"
 							}, "$resType.overtimeRate" ]
 						} ]
-					}
+					},
+					"totalPlanQty" : {
+						"$sum" : [ {
+							"$sum" : "$planBasicQty"
+						}, {
+							"$sum" : "$planOverTimeQty"
+						} ]
+					},
+					"totalActualQty" : {
+						"$sum" : [ {
+							"$sum" : "$actualBasicQty"
+						}, {
+							"$sum" : "$actualOverTimeQty"
+						} ]
+					},
 				}
 			}
 		},
@@ -174,6 +188,12 @@
 				},
 				"planOverTimeQty" : {
 					"$sum" : "$resource.planOverTimeQty"
+				},
+				"totalPlanQty" : {
+					"$sum" : "$resource.totalPlanQty"
+				},
+				"totalActualQty" : {
+					"$sum" : "$resource.totalActualQty"
 				}
 			}
 		},

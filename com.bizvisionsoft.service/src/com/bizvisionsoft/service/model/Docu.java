@@ -79,6 +79,10 @@ public class Docu {
 	public String toString() {
 		return name + " [" + id + "]";
 	}
+	
+	public ObjectId get_id() {
+		return _id;
+	}
 
 	public Docu setFolder_id(ObjectId folder_id) {
 		this.folder_id = folder_id;

@@ -7,9 +7,13 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("workPackageProgress")
@@ -24,11 +28,25 @@ public class WorkPackageProgress {
 		return this;
 	}
 
+	private WorkPackage workPackage;
+
+	public WorkPackage getWorkPackage() {
+		if (workPackage == null) {
+			workPackage = ServicesLoader.get(WorkService.class).getWorkPackage(package_id);
+		}
+		return workPackage;
+	}
+
 	public Date updateTime;
 
 	public WorkPackageProgress setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 		return this;
+	}
+
+	@Behavior({ "编辑研发进展", "删除研发进展" })
+	public boolean behaviourAdd(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
+		return getWorkPackage().getActualFinish() == null;
 	}
 
 	@ReadValue
@@ -49,7 +67,7 @@ public class WorkPackageProgress {
 	@ReadValue
 	@WriteValue
 	private Date time;
-	
+
 	@ReadValue
 	@SetValue
 	private String unit;

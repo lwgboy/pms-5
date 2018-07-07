@@ -50,6 +50,8 @@ public class ResourceTransfer {
 
 	private boolean isReport;
 
+	private String title;
+
 	public ResourceTransfer() {
 		this.canAdd = true;
 		this.canClose = true;
@@ -247,5 +249,13 @@ public class ResourceTransfer {
 
 	public void setWorkReportItemId(ObjectId workReportItemId) {
 		this.workReportItemId = workReportItemId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

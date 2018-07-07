@@ -196,11 +196,12 @@ public class EditResourceASM extends GridPart {
 			fd.right = new FormAttachment(100);
 			fd.height = 48;
 
-			String barText;
-			if (ResourceTransfer.TYPE_PLAN == rt.getType())
-				barText = "资源计划用量 ";
-			else
-				barText = "资源实际用量 ";
+			String barText = rt.getTitle();
+			if (barText == null)
+				if (ResourceTransfer.TYPE_PLAN == rt.getType())
+					barText = "资源计划用量 ";
+				else
+					barText = "资源实际用量 ";
 			bar.setText(barText);
 		}
 
@@ -391,6 +392,8 @@ public class EditResourceASM extends GridPart {
 		newRT.setResTypeId(doc.getObjectId("resTypeId"));
 		newRT.setCheckTime(true);
 		newRT.setCanAdd(false);
+		// 二次测试
+		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 
 		brui.openContent(brui.getAssembly("编辑资源情况"), newRT);
 	}
@@ -423,10 +426,15 @@ public class EditResourceASM extends GridPart {
 				return "输入的类型错误";
 			}
 			try {
-				if (text.startsWith("Basic") && d > doc.getDouble("basicWorks")) {
-					return "资源标准用量不能大于:" + doc.getDouble("basicWorks");
-				} else if (text.startsWith("OverTime") && d > doc.getDouble("overTimeWorks")) {
-					return "资源加班用量不能大于:" + doc.getDouble("overTimeWorks");
+				Double basicWorks = doc.getDouble("basicWorks");
+				Double overTimeWorks = doc.getDouble("overTimeWorks");
+				Integer qty = doc.getInteger("overTimeWorks");
+				if (text.startsWith("Basic") && d > basicWorks * qty) {
+					return "资源标准用量不能大于:" + basicWorks * qty;
+				} else {
+					if (text.startsWith("OverTime") && d > overTimeWorks * qty) {
+						return "资源加班用量不能大于:" + overTimeWorks * qty;
+					}
 				}
 			} catch (Exception e) {
 				return e.getMessage();
@@ -654,6 +662,20 @@ public class EditResourceASM extends GridPart {
 			grp.setExpanded(true);
 
 			GridColumn col = new GridColumn(grp, SWT.CENTER);
+			col.setText("数量");
+			col.setData("name", "qty");
+			col.setWidth(50);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("qty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
 			col.setText("标准用量");
 			col.setData("name", "planBasicQty");
 			col.setWidth(80);
@@ -667,7 +689,7 @@ public class EditResourceASM extends GridPart {
 			if (showFooter)
 				footerCols.add(col);
 
-			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("planBasicQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
@@ -686,6 +708,23 @@ public class EditResourceASM extends GridPart {
 
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("planOverTimeQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "totalPlanQty");
+			col.setText("合计");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("totalPlanQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
 			col.setData("name", "planAmount");
@@ -743,6 +782,23 @@ public class EditResourceASM extends GridPart {
 
 			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("actualOverTimeQty"));
+
+			col = new GridColumn(grp, SWT.CENTER);
+			col.setData("name", "totalActualQty");
+			col.setText("合计");
+			col.setWidth(80);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+
+			if (showFooter)
+				footerCols.add(col);
+
+			vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("totalActualQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
 			col.setData("name", "actualAmount");
@@ -821,10 +877,9 @@ public class EditResourceASM extends GridPart {
 	private void createDateColumn() {
 		Calendar now = Calendar.getInstance();
 		now.setTime(start.getTime());
-		createDateColumn(now.getTime());
 		while (now.before(end)) {
-			now.add(Calendar.DATE, 1);
 			createDateColumn(now.getTime());
+			now.add(Calendar.DATE, 1);
 		}
 
 		Column c = new Column();
@@ -881,6 +936,19 @@ public class EditResourceASM extends GridPart {
 			@Override
 			public String getText(Object element) {
 				Object obj = ((Document) element).get("resource");
+				Object eStart;
+				Object eFinish;
+				if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
+					eStart = ((Document) element).get("planStart");
+					eFinish = ((Document) element).get("planFinish");
+				} else {
+					eStart = ((Document) element).get("actualStart");
+					if (eStart == null)
+						eStart = ((Document) element).get("planStart");
+					eFinish = ((Document) element).get("actualFinish");
+					if (eFinish == null)
+						eFinish = ((Document) element).get("planFinish");
+				}
 				if (obj instanceof List) {
 					List<Document> list = (List<Document>) obj;
 					for (Document doc : list) {
@@ -892,7 +960,9 @@ public class EditResourceASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							if (canEditDateValue && isWorkDay((Document) element))
+							if (canEditDateValue && isWorkDay((Document) element)
+									&& (now.before((Date) eFinish) || now.equals((Date) eFinish))
+									&& (now.after((Date) eStart) || now.equals((Date) eStart)))
 								return "<a href='" + key + doc.get("_id").toString()
 										+ "' target='_rwt' style='width: 100%;'>"
 										+ ("0.0".equals(text)
@@ -907,7 +977,8 @@ public class EditResourceASM extends GridPart {
 
 				}
 
-				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)))
+				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
+						&& now.before((Date) eFinish) && now.after((Date) eStart))
 					return "<a href='" + key + "-" + id
 							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";
@@ -999,6 +1070,16 @@ public class EditResourceASM extends GridPart {
 							}
 						}
 					}
+					if (key.startsWith("Basic")) {
+						return workTime > ((Document) element).getDouble("basicWorks")
+								? BruiColors.getColor(BruiColor.Red_400)
+								: null;
+					} else if (key.startsWith("OverTime")) {
+						return workTime > ((Document) element).getDouble("overTimeWorks")
+								? BruiColors.getColor(BruiColor.Red_400)
+								: null;
+					}
+
 					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
 				}
 
@@ -1030,25 +1111,24 @@ public class EditResourceASM extends GridPart {
 				String format = null;
 				Object value;
 				if ("startDate".equals(name)) {
-					if (((Document) element).get("actualStart") != null) {
-						value = ((Document) element).get("actualStart");
-					} else {
+					if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
 						value = ((Document) element).get("planStart");
+					} else {
+						value = ((Document) element).get("actualStart");
 					}
 				} else if ("endDate".equals(name)) {
-					if (((Document) element).get("actualFinish") != null) {
-						value = ((Document) element).get("actualFinish");
-					} else {
+					if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
 						value = ((Document) element).get("planFinish");
+					} else {
+						value = ((Document) element).get("actualFinish");
 					}
-				} else if ("planAmount".equals(name)) {
-					format = "#,###.0";
-					value = ((Document) element).get(name);
-				} else if ("actualAmount".equals(name)) {
+				} else if ("planAmount".equals(name) || "totalPlanQty".equals(name) || "actualAmount".equals(name)
+						|| "totalActualQty".equals(name)) {
 					format = "#,###.0";
 					value = ((Document) element).get(name);
 				} else if ("conflict".equals(name)) {
-					if (Boolean.TRUE.equals(((Document) element).get("conflict")))
+					if (Boolean.TRUE.equals(((Document) element).get("conflict"))
+							&& !"资源类型".equals(((Document) element).get("type")))
 						if (canEditDateValue)
 							value = "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>冲突</a>";
 						else

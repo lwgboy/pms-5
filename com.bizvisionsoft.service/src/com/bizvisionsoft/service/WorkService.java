@@ -207,6 +207,12 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
+	
+	@POST
+	@Path("/package/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public WorkPackage getWorkPackage(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/templatepackage/ds/")

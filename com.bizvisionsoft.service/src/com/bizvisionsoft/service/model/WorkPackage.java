@@ -38,10 +38,10 @@ public class WorkPackage {
 
 	@Behavior("查看工作包进度")
 	public boolean behaviourOpenProgress(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
-		return !(root instanceof ProjectTemplate) && actualFinish == null;
+		return !(root instanceof ProjectTemplate);
 	}
 
-	@Behavior({ "删除工作包", "编辑工作包", "文档" })
+	@Behavior({ "删除工作包", "编辑工作包" })
 	public boolean behaviourEdit(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
 		return actualFinish == null;
 	}
@@ -140,6 +140,10 @@ public class WorkPackage {
 
 	private Date actualFinish;
 
+	public Date getActualFinish() {
+		return actualFinish;
+	}
+
 	@WriteValue("planQty")
 	private void setPlanQty(String _planQty) {
 		planQty = Util.str_double(_planQty, "计划数量要求为数值。");
@@ -181,7 +185,7 @@ public class WorkPackage {
 
 	@ReadValue
 	@WriteValue
-	private String planStatus;
+	private Boolean planStatus;
 
 	@ReadValue
 	@WriteValue

@@ -20,7 +20,8 @@
 					"usedTypedResId" : "$usedTypedResId",
 					"usedHumanResId" : "$usedHumanResId",
 					"usedEquipResId" : "$usedEquipResId",
-					"workReportItemId" : "$workReportItemId"
+					"workReportItemId" : "$workReportItemId",
+					"qty" : "$qty"
 				}
 			}
 		},
@@ -34,7 +35,10 @@
 				"usedTypedResId" : "$_id.usedTypedResId",
 				"usedHumanResId" : "$_id.usedHumanResId",
 				"usedEquipResId" : "$_id.usedEquipResId",
-				"workReportItemId" : "$_id.workReportItemId"
+				"workReportItemId" : "$_id.workReportItemId",
+				"qty" : {
+					"$ifNull" : [ "$_id.qty", 1 ]
+				}
 			}
 		},
 		{
@@ -397,11 +401,25 @@
 				"planOverTimeQty" : {
 					"$sum" : "$resourcePlan.planOverTimeQty"
 				},
+				"totalPlanQty" : {
+					"$sum" : [ {
+						"$sum" : "$resourcePlan.planBasicQty"
+					}, {
+						"$sum" : "$resourcePlan.planOverTimeQty"
+					} ]
+				},
 				"actualBasicQty" : {
 					"$sum" : "$resourceActual.actualBasicQty"
 				},
 				"actualOverTimeQty" : {
 					"$sum" : "$resourceActual.actualOverTimeQty"
+				},
+				"totalActualQty" : {
+					"$sum" : [ {
+						"$sum" : "$resourceActual.actualBasicQty"
+					}, {
+						"$sum" : "$resourceActual.actualOverTimeQty"
+					} ]
 				},
 				"overtimeRate" : "$resType.overtimeRate",
 				"basicRate" : "$resType.basicRate",

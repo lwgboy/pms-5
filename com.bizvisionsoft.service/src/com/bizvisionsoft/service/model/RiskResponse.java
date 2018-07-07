@@ -9,6 +9,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.OrganizationService;
@@ -92,6 +93,12 @@ public class RiskResponse {
 	public RiskResponse setRBSItem_id(ObjectId rbsItem_id) {
 		this.rbsItem_id = rbsItem_id;
 		return this;
+	}
+
+	@Override
+	@Label
+	public String toString() {
+		return plan;
 	}
 
 }

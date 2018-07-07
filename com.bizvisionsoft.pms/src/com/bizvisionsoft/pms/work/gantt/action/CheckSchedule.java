@@ -39,7 +39,7 @@ public class CheckSchedule {
 					Layer.message(result.message);
 				} else {
 					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
-							"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
+							"节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 				}
 			}
 		}

@@ -131,7 +131,7 @@ public class ShowResourceASM extends GridPart {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		bar.setText("资源详情 ");
+		bar.setText("资源数据表 ");
 
 		content = UserSession.bruiToolkit().newContentPanel(parent);
 		fd = new FormData();
@@ -308,6 +308,22 @@ public class ShowResourceASM extends GridPart {
 		vcol.setLabelProvider(getTitleLabelProvider("planOverTimeQty"));
 
 		col = new GridColumn(grp, SWT.CENTER);
+		col.setData("name", "totalPlanQty");
+		col.setText("合计");
+		col.setWidth(80);
+		col.setMoveable(false);
+		col.setResizeable(false);
+		col.setAlignment(SWT.RIGHT);
+		col.setResizeable(true);
+		col.setDetail(true);
+		col.setSummary(true);
+
+		footerTotalCols.add(col);
+
+		vcol = new GridViewerColumn(viewer, col);
+		vcol.setLabelProvider(getTitleLabelProvider("totalPlanQty"));
+
+		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "planAmount");
 		col.setText("金额（万元）");
 		col.setWidth(110);
@@ -359,6 +375,22 @@ public class ShowResourceASM extends GridPart {
 
 		vcol = new GridViewerColumn(viewer, col);
 		vcol.setLabelProvider(getTitleLabelProvider("actualOverTimeQty"));
+
+		col = new GridColumn(grp, SWT.CENTER);
+		col.setData("name", "totalActualQty");
+		col.setText("合计");
+		col.setWidth(80);
+		col.setMoveable(false);
+		col.setResizeable(false);
+		col.setAlignment(SWT.RIGHT);
+		col.setResizeable(true);
+		col.setDetail(true);
+		col.setSummary(true);
+
+		footerTotalCols.add(col);
+
+		vcol = new GridViewerColumn(viewer, col);
+		vcol.setLabelProvider(getTitleLabelProvider("totalActualQty"));
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "actualAmount");
@@ -596,10 +628,8 @@ public class ShowResourceASM extends GridPart {
 			public String getText(Object element) {
 				String format = null;
 				Object value;
-				if ("planAmount".equals(name)) {
-					format = "#,##0.0";
-					value = ((Document) element).get(name);
-				} else if ("actualAmount".equals(name)) {
+				if ("planAmount".equals(name) || "actualAmount".equals(name) || "totalPlanAmount".equals(name)
+						|| "totalActualAmount".equals(name)) {
 					format = "#,##0.0";
 					value = ((Document) element).get(name);
 				} else {
