@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
 
@@ -102,6 +103,12 @@ public interface OBSService {
 	@Path("/scope/id/{_id}/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<String> getScopeRoleofUser(@PathParam("_id")  ObjectId scope_id, @PathParam("userId")  String userId);
+	public List<String> getScopeRoleofUser(@PathParam("_id") ObjectId scope_id, @PathParam("userId") String userId);
+
+	@POST
+	@Path("/obsitemwarpper/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, @PathParam("_id") ObjectId scope_id);
 
 }

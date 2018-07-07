@@ -38,18 +38,13 @@ public class SubmitSchedule {
 	private void submit(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
 		if (workspace != null) {
-			Boolean checkManageItem = true;
-			Boolean canCheck = true;
-			if (rootInput instanceof Project) {
-				String changeStatus = ((Project) rootInput).getChangeStatus();
-				if (changeStatus != null && "变更中".equals(changeStatus))
-					canCheck = false;
-			}
 			Result result = null;
-			if (canCheck)
-				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
+			if (!(rootInput instanceof Project) || !"变更中".equals(((Project) rootInput).getChangeStatus()))
+				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true);
+			else
+				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false);
 
-			if (result == null || Result.CODE_WORK_SUCCESS == result.code) {
+			if (Result.CODE_WORK_SUCCESS == result.code) {
 				result = Services.get(WorkSpaceService.class).checkin(workspace);
 
 				if (Result.CODE_WORK_SUCCESS == result.code) {

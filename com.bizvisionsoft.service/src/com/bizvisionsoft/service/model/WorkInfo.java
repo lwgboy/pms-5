@@ -343,7 +343,7 @@ public class WorkInfo {
 	private String chargerInfo;
 
 	@WriteValue("charger")
-	private void setCharger(User charger) {
+	private void setCharger(OBSItemWarpper charger) {
 		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
 	}
 
@@ -362,7 +362,7 @@ public class WorkInfo {
 	private String assignerInfo;
 
 	@WriteValue("assigner")
-	private void setAssigner(User assigner) {
+	private void setAssigner(OBSItemWarpper assigner) {
 		this.assignerId = Optional.ofNullable(assigner).map(o -> o.getUserId()).orElse(null);
 	}
 

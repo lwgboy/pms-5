@@ -129,15 +129,13 @@ public class CBSItem {
 
 		String status = scopeRootObject.getStatus();
 		if (ProjectStatus.Processing.equals(status) || ProjectStatus.Closing.equals(status)) {
-			cal.add(Calendar.MONTH, -1);
 			int newYear = cal.get(Calendar.YEAR);
 			int newMonth = cal.get(Calendar.MONTH);
 			cal.setTime(date);
-			cal.add(Calendar.MONTH, 1);
 			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
 				return false;
 			}
-			return children.size() == 0;
+			return children.size() == 0 && listSubjects().size() == 0;
 		}
 		return false;
 	}
@@ -203,11 +201,8 @@ public class CBSItem {
 		List<Object> result = new ArrayList<Object>(children);
 
 		if (result.size() == 0) {
-			if (subjects == null) {
-				subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
-			}
 			List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
-			subjects.forEach(s -> {
+			listSubjects().forEach(s -> {
 				cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
 
 			});

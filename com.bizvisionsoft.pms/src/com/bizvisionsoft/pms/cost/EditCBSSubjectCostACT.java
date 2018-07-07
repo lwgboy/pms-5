@@ -28,7 +28,6 @@ public class EditCBSSubjectCostACT {
 				Date settlementDate = ((CBSSubjectCost) em).getCbsItem().getNextSettlementDate();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(settlementDate);
-				cal.add(Calendar.MONTH, 1);
 				String id = "" + cal.get(Calendar.YEAR);
 				id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
 				// 从CBSSubjectCost对象中获取该期间所对应的CBSSubject，为空时创建新的CBSSubject

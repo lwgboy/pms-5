@@ -53,13 +53,19 @@ public class SubmitCBSSubjectCostACT {
 				return;
 			}
 			// 提交当前期间成本
-			String id = "" + cal.get(Calendar.YEAR);
-			id += String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
+			// cal.set(Calendar.DATE, 1);
+			// cal.set(Calendar.HOUR, 0);
+			// cal.set(Calendar.MINUTE, 0);
+			// cal.set(Calendar.SECOND, 0);
+			// cal.set(Calendar.MILLISECOND, 0);
+			// cal.add(Calendar.MILLISECOND, -1);
+
 			if (MessageDialog.openConfirm(brui.getCurrentShell(), "确认期间成本",
 					"请确认提交当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月"
 							+ "）的成本。\n提交后将无法修改该期间的成本数据。")) {
-				List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cbsItem.getScope_id(), id);
+				List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cal.getTime(),
+						cbsItem.getScope_id());
 				if (result.isEmpty()) {
 					Layer.message("已完成当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本提交。");

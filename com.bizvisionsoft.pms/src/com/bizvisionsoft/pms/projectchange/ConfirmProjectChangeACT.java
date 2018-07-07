@@ -26,14 +26,14 @@ public class ConfirmProjectChangeACT {
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "确认已完成变更", "请确认已完成项目变更。");
+		boolean ok = MessageDialog.openConfirm(shell, "关闭变更申请", "请确认变更后的项目进度计划已编制完成并提交。");
 		if (!ok) {
 			return;
 		}
 		List<Result> result = Services.get(ProjectService.class).confirmProjectChange(Arrays.asList(input.get_id()),
 				brui.getCurrentUserId());
 		if (result.isEmpty()) {
-			Layer.message("变更已完成。");
+			Layer.message("变更已关闭。");
 			brui.closeCurrentContent();
 		}
 	}

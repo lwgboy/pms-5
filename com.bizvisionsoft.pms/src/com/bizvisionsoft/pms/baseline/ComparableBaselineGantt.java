@@ -29,6 +29,8 @@ public class ComparableBaselineGantt {
 		ObjectId[] input = (ObjectId[]) context.getInput();
 		projectIds.add(input[0]);
 		projectIds.add(input[1]);
+		
+		
 	}
 
 	@DataSet("data")

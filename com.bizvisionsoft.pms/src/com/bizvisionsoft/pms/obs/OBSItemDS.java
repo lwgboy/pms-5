@@ -13,7 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.model.IOBSScope;
-import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.mongodb.BasicDBObject;
 
 public class OBSItemDS {
@@ -34,8 +34,8 @@ public class OBSItemDS {
 	}
 
 	@DataSet(DataSet.LIST)
-	public List<OBSItem> listOBSItem() {
-		return ServicesLoader.get(OBSService.class).getScopeRootOBS(obsScope_id);
+	public List<OBSItemWarpper> listOBSItem(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
+		return ServicesLoader.get(OBSService.class).getOBSItemWarpper(condition, obsScope_id);
 	}
 
 	@DataSet(DataSet.COUNT)

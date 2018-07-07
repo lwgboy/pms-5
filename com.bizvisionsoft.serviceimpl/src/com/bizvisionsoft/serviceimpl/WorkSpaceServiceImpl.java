@@ -177,73 +177,46 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	@Override
 	public Result schedulePlanCheck(Workspace workspace, Boolean checkManageItem) {
 		// 获取需检查的节点。
-		List<ObjectId> checkIds = new ArrayList<ObjectId>();
 		if (checkManageItem) {
-			checkIds.addAll(
-					c(Work.class)
-							.distinct("_id",
-									new BasicDBObject("space_id", workspace.getSpace_id()).append("manageLevel",
-											new BasicDBObject("$ne", null)),
-									ObjectId.class)
-							.into(new ArrayList<ObjectId>()));
-		}
-
-		if (workspace.getWork_id() != null) {
-			checkIds.add(workspace.getWork_id());
-		} else {
-			checkIds.addAll(c(Work.class).distinct("_id",
-					new BasicDBObject("project_id", workspace.getProject_id()).append("parent_id", null),
-					ObjectId.class).into(new ArrayList<ObjectId>()));
-		}
-
-		// 根据检查检点构建查询语句
-
-		/**
-		 * { "$match" : { "_id" : { "$in" : [] } } }, { "$lookup" : { "from" : "work",
-		 * "localField" : "_id", "foreignField" : "_id", "as" : "work" } }, { "$unwind"
-		 * : "$work" }, { "$lookup" : { "from" : "project", "localField" : "project_id",
-		 * "foreignField" : "_id", "as" : "project" }}, { "$unwind" : "$project" }, {
-		 * "$project" : { "fullName" : true, "stage" : true, "project_id" : true, "name"
-		 * : true, "parent_id" : true, "planFinish" : true, "wpf" : { "$gt" : [
-		 * "$planFinish", "$work.planFinish" ] }, "ppf" : { "$gt" : [ "$planFinish",
-		 * "$project.planFinish" ] } } },
-		 * 
-		 * { "$match" : { "$or" : [ { "stage" : true, "ppf" : true }, { "stage" : false,
-		 * "wpf" : true } ] } }
-		 **/
-
-		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new BasicDBObject("_id", new BasicDBObject("$in", checkIds))));
-		pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
-		pipeline.add(Aggregates.unwind("$work"));
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.project(new BasicDBObject("stage", Boolean.TRUE).append("name", Boolean.TRUE)
-				.append("wpf", new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))
-				.append("ppf", new BasicDBObject("$gt", new String[] { "$planFinish", "$project.planFinish" }))));
-		// 查询不满足条件的节点数量
-		pipeline.add(Aggregates.match(new BasicDBObject("$or",
-				new BasicDBObject[] { new BasicDBObject("stage", Boolean.TRUE).append("ppf", Boolean.TRUE),
-						new BasicDBObject("stage", Boolean.FALSE).append("wpf", Boolean.TRUE) })));
-		WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
-		if (workInfo != null) {
-			Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
-			result.data = new BasicDBObject("name", workInfo.getText());
-			return result;
-		}
-		if (workspace.getWork_id() != null) {
-			Document doc = c("workspace").aggregate(Arrays.asList(new Document("$group",
-					new Document("_id", null).append("finish", new Document("$max", "$planFinish"))))).first();
-			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
-
-			if (work.getPlanFinish().after(doc.getDate("finish"))) {
-				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATEMANAGEITEM);
-				result.data = new BasicDBObject("name", work.getText());
+			List<Bson> pipeline = new ArrayList<Bson>();
+			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id()).append("manageLevel",
+					new BasicDBObject("$ne", null))));
+			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
+			pipeline.add(Aggregates.unwind("$work"));
+			pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
+			pipeline.add(Aggregates.unwind("$project"));
+			pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("wpf",
+					new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))));
+			pipeline.add(Aggregates.match(new BasicDBObject("wpf", Boolean.TRUE)));
+			WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
+			if (workInfo != null) {
+				Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+				result.data = new BasicDBObject("name", workInfo.getText());
 				return result;
+			}
+		} else {
+			Document doc = c("workspace")
+					.aggregate(Arrays.asList(new Document("$match", new Document("_id", workspace.getSpace_id())),
+							new Document("$group",
+									new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
+					.first();
+			if (workspace.getWork_id() != null) {
+				Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
+				if (work.getPlanFinish().after(doc.getDate("finish"))) {
+					Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATEMANAGEITEM);
+					result.data = new BasicDBObject("name", work.getText());
+					return result;
+				}
+			} else {
+				Project project = new ProjectServiceImpl().get(workspace.getProject_id());
+				if (project.getPlanFinish().after(doc.getDate("finish"))) {
+					Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEMANAGEITEM);
+					result.data = new BasicDBObject("name", project.getName());
+					return result;
+				}
 			}
 		}
 		// 返回检查结果
-
 		return Result.checkoutSuccess("已通过检查。");
 	}
 

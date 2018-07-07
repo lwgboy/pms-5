@@ -11,7 +11,9 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.User;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -143,6 +145,32 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			result.add("member");
 		}
 		return result;
+	}
+
+	@Override
+	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, ObjectId scope_id) {
+		List<ObjectId> obsIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		obsIds = getDesentOBSItem(obsIds);
+		JQ jq = new JQ("获取团队成员").set("match", new Document("_id", new Document("$in", obsIds)));
+
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter != null)
+			jq.set("filter", filter);
+		else
+			jq.set("filter", new Document());
+
+		List<Bson> pipeline = jq.array();
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		return c("obs", OBSItemWarpper.class).aggregate(pipeline).into(new ArrayList<OBSItemWarpper>());
 	}
 
 }

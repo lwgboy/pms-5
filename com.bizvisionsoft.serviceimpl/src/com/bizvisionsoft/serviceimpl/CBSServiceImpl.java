@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -481,7 +480,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			Date actualStart = doc.getDate("actualStart");
 			if (settlementDate != null) {
 				cal.setTime(settlementDate);
-				cal.add(java.util.Calendar.MONTH, -1);
+				cal.add(java.util.Calendar.MONTH, 1);
 			} else if (actualStart != null) {
 				cal.setTime(actualStart);
 			}
@@ -490,22 +489,19 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public List<Result> submitCBSSubjectCost(ObjectId scope_id, String id) {
+	public List<Result> submitCBSSubjectCost(Date id, ObjectId scope_id) {
 		List<Result> result = submitCBSSubjectCostCheck(scope_id, id);
 		if (!result.isEmpty()) {
 			return result;
 		}
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, Integer.parseInt(id.substring(0, 4)));
-		cal.set(Calendar.MONTH, Integer.parseInt(id.substring(4, 6)));
 		// 修改项目结算时间
 		c(Project.class).updateOne(new BasicDBObject("_id", scope_id),
-				new BasicDBObject("$set", new BasicDBObject("settlementDate", cal.getTime())));
+				new BasicDBObject("$set", new BasicDBObject("settlementDate", id)));
 
 		return result;
 	}
 
-	private List<Result> submitCBSSubjectCostCheck(ObjectId scope_id, String id) {
+	private List<Result> submitCBSSubjectCostCheck(ObjectId scope_id, Date id) {
 		return new ArrayList<Result>();
 	}
 

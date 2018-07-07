@@ -41,14 +41,14 @@ public interface CBSService {
 	@DataSet({ "CBS/list", "CBS£¨²é¿´£©/list" })
 	public List<CBSItem> getScopeRoot(
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
-	
+
 	@POST
 	@Path("/icbsscope/root/project/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Project getICBSScopeRootProject(
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
-	
+
 	@POST
 	@Path("/icbsscope/root/work/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -181,10 +181,10 @@ public interface CBSService {
 	public Date getNextSettlementDate(@PathParam("scope_id") ObjectId scope_id);
 
 	@PUT
-	@Path("/submitcost/{scope_id}/{id}")
+	@Path("/submitcost/{scope_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> submitCBSSubjectCost(@PathParam("scope_id") ObjectId scope_id, @PathParam("id") String id);
+	public List<Result> submitCBSSubjectCost(Date id, @PathParam("scope_id") ObjectId scope_id);
 
 	@POST
 	@Path("/costcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/")
