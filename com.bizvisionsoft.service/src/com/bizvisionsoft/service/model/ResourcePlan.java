@@ -89,7 +89,7 @@ public class ResourcePlan {
 
 	@ReadValue
 	private double planOverTimeQty;
-	
+
 	public void setPlanOverTimeQty(double planOverTimeQty) {
 		this.planOverTimeQty = planOverTimeQty;
 	}
@@ -99,6 +99,17 @@ public class ResourcePlan {
 
 	@Persistence
 	private Date id;
+
+	@Persistence
+	private int qty;
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public int getQty() {
+		return qty;
+	}
 
 	@ReadValue("planAmount")
 	private Double getPlanAmount() {
@@ -151,7 +162,7 @@ public class ResourcePlan {
 		this.resTypeId = resTypeId;
 		return this;
 	}
-	
+
 	public ObjectId getResTypeId() {
 		return resTypeId;
 	}

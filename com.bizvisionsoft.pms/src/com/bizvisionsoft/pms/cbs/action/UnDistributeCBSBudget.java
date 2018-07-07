@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.cbs.action;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -28,7 +29,7 @@ public class UnDistributeCBSBudget {
 				CBSItem parent = item.getParent();
 				grid.replaceItem(item, cbsItem);
 				item.setParent(parent);
-				grid.refresh(item);
+				grid.refresh(AUtil.simpleCopy(cbsItem, item));
 			}
 
 		});

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -65,7 +65,7 @@ public class BudgetSubject extends BudgetGrid {
 		if (cbsItem != null) {
 			super.createUI(parent);
 		} else {
-			MessageDialog.openError(bruiService.getCurrentShell(), "编辑预算科目", "未创建成本项或未为成本项分配预算科目，无法进行科目预算。");
+			Layer.message("无法编制科目预算。", Layer.ICON_CANCEL);
 		}
 	}
 

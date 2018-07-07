@@ -12,6 +12,9 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.math.scheduling.Graphic;
+import com.bizvisionsoft.math.scheduling.Route;
+import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Project;
@@ -231,9 +234,31 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			result.data = new BasicDBObject("name", workInfo.getText());
 			return result;
 		}
+		if (workspace.getWork_id() != null) {
+			Document doc = c("workspace").aggregate(Arrays.asList(new Document("$group",
+					new Document("_id", null).append("finish", new Document("$max", "$planFinish"))))).first();
+			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
 
+			if (work.getPlanFinish().after(doc.getDate("finish"))) {
+				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATEMANAGEITEM);
+				result.data = new BasicDBObject("name", work.getText());
+				return result;
+			}
+		}
 		// 返回检查结果
 
+//		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
+//		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
+//
+//		ArrayList<Task> tasks = new ArrayList<Task>();
+//		ArrayList<Route> routes = new ArrayList<Route>();
+//		convertGraphic(works, links, tasks, routes);
+//
+//		Graphic gh = new Graphic(tasks, routes);
+//
+//		setupStartDate(gh, works, start, tasks);
+//		gh.schedule();
+		
 		return Result.checkoutSuccess("已通过检查。");
 	}
 

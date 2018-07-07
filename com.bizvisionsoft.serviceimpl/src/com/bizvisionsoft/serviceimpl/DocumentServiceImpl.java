@@ -35,7 +35,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Folder> listChildrenFolder(ObjectId parent_id) {
-		return c(Folder.class).find(new Document("parent_id", parent_id))//.sort(new Document("name", 1))
+		return c(Folder.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
 				.into(new ArrayList<>());
 	}
 
@@ -78,7 +78,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			Integer skip = (Integer) condition.get("skip");
 			Integer limit = (Integer) condition.get("limit");
 			BasicDBObject filter = (BasicDBObject) condition.get("filter");
-			if(filter == null) {
+			if (filter == null) {
 				return new ArrayList<>();
 			}
 			BasicDBObject sort = (BasicDBObject) condition.get("sort");
@@ -104,13 +104,60 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
+	public List<Docu> listProjectDocument(BasicDBObject condition, ObjectId project_id) {
+		if (condition != null) {
+			Integer skip = (Integer) condition.get("skip");
+			Integer limit = (Integer) condition.get("limit");
+			BasicDBObject filter = (BasicDBObject) condition.get("filter");
+			BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+			List<ObjectId> folder_id = c(Folder.class)
+					.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+					.into(new ArrayList<ObjectId>());
+
+			ArrayList<Bson> pipeline = new ArrayList<Bson>();
+			pipeline.add(Aggregates.match(new Document("folder_id", new Document("$in", folder_id))));
+
+			if (filter != null)
+				pipeline.add(Aggregates.match(filter));
+
+			if (sort != null)
+				pipeline.add(Aggregates.sort(sort));
+
+			if (skip != null)
+				pipeline.add(Aggregates.skip(skip));
+
+			if (limit != null)
+				pipeline.add(Aggregates.limit(limit));
+
+			appendUserInfo(pipeline, "createBy", "createByInfo");
+
+			return c(Docu.class).aggregate(pipeline).into(new ArrayList<>());
+		}
+		return new ArrayList<Docu>();
+	}
+
+	@Override
+	public long countProjectDocument(BasicDBObject filter, ObjectId project_id) {
+		List<ObjectId> folder_id = c(Folder.class)
+				.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		filter.append("folder_id", new Document("$in", folder_id));
+		
+		return count(filter, Docu.class);
+	}
+
+	@Override
 	public long countDocument(BasicDBObject filter) {
 		return count(filter, Docu.class);
 	}
 
 	@Override
 	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
-		return listDocument(new Query().filter(new BasicDBObject("workPackage_id",wp_id)).bson());
+		return listDocument(new Query().filter(new BasicDBObject("workPackage_id", wp_id)).bson());
 	}
 
 }

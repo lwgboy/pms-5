@@ -20,15 +20,20 @@ import com.bizvisionsoft.annotations.ui.grid.GridRenderUICreated;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class WorkBoardRender {
 
@@ -80,9 +85,16 @@ public class WorkBoardRender {
 		}
 	}
 
-	private void assignWork(WorkBoardInfo work) {
-		// TODO Auto-generated method stub
+	private void assignWork(WorkBoardInfo workInfo) {
+		Work work = workInfo.getWork();
+		Selector.open("用户选择器—单选", context, work, l -> {
+			ServicesLoader.get(WorkService.class)
+					.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
+							.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
+			work.setChargerId(((User) l.get(0)).getUserId());
+			viewer.update(work, null);
+		});
 	}
 
 	private void finishWork(Work work) {
@@ -137,7 +149,7 @@ public class WorkBoardRender {
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
 		if (!"".equals(warrningText) && warrningText != null)
-			sb.append("  "+work.getWarningIcon());
+			sb.append("  " + work.getWarningIcon());
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfo();
 		sb.append("<div style='margin-right:16px;'>负责: "

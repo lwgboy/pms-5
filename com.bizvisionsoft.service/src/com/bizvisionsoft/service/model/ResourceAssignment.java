@@ -21,6 +21,8 @@ public class ResourceAssignment {
 
 	public ObjectId resTypeId;
 
+	public int qty;
+
 	@WriteValue("usedHumanRes")
 	public void setHumanResource(User res) {
 		usedHumanResId = Optional.ofNullable(res).map(h -> h.getUserId()).orElse(null);

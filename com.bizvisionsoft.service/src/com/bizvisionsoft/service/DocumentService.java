@@ -107,6 +107,20 @@ public interface DocumentService {
 	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
+	@Path("/docu/{_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Docu> listProjectDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") ObjectId project_id);
+
+	@POST
+	@Path("/docu/{_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") ObjectId project_id);
+
+	@POST
 	@Path("/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

@@ -95,6 +95,9 @@ public class ResourceActualASM {
 				} else if (this.work.isSummary()) {
 					Layer.message("无需对总成型工作添加资源用量。");
 					return;
+				} else if (this.work.isMilestone()) {
+					Layer.message("无需对里程碑添加资源用量。");
+					return;
 				}
 				allocateResource();
 			}
@@ -102,7 +105,7 @@ public class ResourceActualASM {
 
 		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
 			Work work = (Work) ((GanttEvent) l).task;
-			if (work != null && !work.isSummary()) {
+			if (work != null && !work.isSummary() && !work.isMilestone()) {
 				allocateResource();
 			}
 		});
