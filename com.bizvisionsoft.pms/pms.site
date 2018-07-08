@@ -4344,49 +4344,17 @@
             "type": "switch"
           },
           {
-            "id": "1640e3f2bd1",
+            "id": "1640e3fa0d1",
             "name": "权限管理",
+            "bundleId": "",
+            "className": "",
+            "switchContentToAssemblyId": "1640675398d",
             "openContent": false,
             "propagate": false,
             "forceText": false,
-            "children": [
-              {
-                "id": "1640e3fa0d1",
-                "name": "功能权限",
-                "bundleId": "",
-                "className": "",
-                "switchContentToAssemblyId": "1640675398d",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "1640e3fb3bf",
-                "name": "项目数据权限",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized"
-              },
-              {
-                "id": "1640e46d3e8",
-                "name": "视图数据权限",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized"
-              }
-            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "type": "customized"
+            "type": "switch"
           }
         ]
       },
@@ -15936,7 +15904,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
-        "addToParentContext": false
+        "addToParentContext": true
       },
       {
         "id": "16305416779",
@@ -27876,20 +27844,6 @@
         "actions": [],
         "rowActions": [
           {
-            "id": "1647415a5e0",
-            "name": "设置工作包",
-            "text": "设置",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.SetWorkPackage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          },
-          {
             "id": "16385f8e0a3",
             "name": "打开工作包",
             "text": "工作包",
@@ -28362,20 +28316,6 @@
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
-          {
-            "id": "1647415937c",
-            "name": "设置工作包",
-            "text": "设置",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.SetWorkPackage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          },
           {
             "id": "16385f8e0a3",
             "name": "打开工作包",
@@ -28850,20 +28790,6 @@
         "actions": [],
         "rowActions": [
           {
-            "id": "16474157e92",
-            "name": "设置工作包",
-            "text": "设置",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.SetWorkPackage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          },
-          {
             "id": "16385f8e0a3",
             "name": "打开工作包",
             "text": "工作包",
@@ -29336,20 +29262,6 @@
         "gridAutoColumnWidth": false,
         "actions": [],
         "rowActions": [
-          {
-            "id": "16474154ef0",
-            "name": "设置工作包",
-            "text": "设置",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.SetWorkPackage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          },
           {
             "id": "16385f8e0a3",
             "name": "打开工作包",
@@ -31703,7 +31615,7 @@
             "switchContentToAssemblyId": "16385fa5fa3",
             "openContent": true,
             "propagate": false,
-            "forceText": true,
+            "forceText": false,
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,

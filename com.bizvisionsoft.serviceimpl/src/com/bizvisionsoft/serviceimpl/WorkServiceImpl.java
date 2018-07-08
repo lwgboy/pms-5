@@ -2065,6 +2065,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					}
 				});
 
+		if (indicator.size() == 0)
+			indicator.add(new Document("name", "").append("max", 100));
+
 		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
 				.doc();
 	}

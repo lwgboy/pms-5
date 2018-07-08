@@ -161,7 +161,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			jq.set("filter", filter);
 		else
 			jq.set("filter", new Document());
-
+		
 		List<Bson> pipeline = jq.array();
 
 		if (skip != null)

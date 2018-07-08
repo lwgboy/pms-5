@@ -633,4 +633,7 @@ public class WorkInfo {
 	@Persistence
 	private String assignerRoleId;
 
+	@Persistence
+	private boolean distributed;
+
 }
