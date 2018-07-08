@@ -105,8 +105,13 @@ public class WorkPackage {
 
 	@WriteValue("charger")
 	private void setCharger(User charger) {
-		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
-		this.chargerInfo = charger.toString();
+		if (charger != null) {
+			this.chargerId = charger.getUserId();
+			this.chargerInfo = charger.toString();
+		} else {
+			this.chargerId = null;
+			this.chargerInfo = null;
+		}
 	}
 
 	@ReadValue("charger")
