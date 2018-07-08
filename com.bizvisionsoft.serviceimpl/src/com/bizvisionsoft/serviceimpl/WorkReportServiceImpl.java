@@ -231,8 +231,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public WorkReport insert(WorkReport workReport) {
-		if (c("workReport").countDocuments(new Document("project_id", workReport.getProject_id())
-				.append("period", workReport.getPeriod()).append("type", workReport.getType())) > 0) {
+		if (c("workReport").countDocuments(
+				new Document("project_id", workReport.getProject_id()).append("period", workReport.getPeriod())
+						.append("type", workReport.getType()).append("reporter", workReport.getReporter())) > 0) {
 			throw new ServiceException("已经创建报告。");
 		}
 		Date period = workReport.getPeriod();

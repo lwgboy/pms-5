@@ -428,7 +428,7 @@ public class EditResourceASM extends GridPart {
 			try {
 				Double basicWorks = doc.getDouble("basicWorks");
 				Double overTimeWorks = doc.getDouble("overTimeWorks");
-				Integer qty = doc.getInteger("overTimeWorks");
+				Integer qty = doc.getInteger("qty");
 				if (text.startsWith("Basic") && d > basicWorks * qty) {
 					return "资源标准用量不能大于:" + basicWorks * qty;
 				} else {

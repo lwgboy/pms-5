@@ -12,6 +12,8 @@ import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ICBSScope;
+import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.Work;
 
 public class EditCBSSubjectBudget {
 
@@ -23,12 +25,14 @@ public class EditCBSSubjectBudget {
 		context.selected(parent -> {
 			AccountItem account = (AccountItem) parent;
 			CBSSubject period;
-			CBSItem cbs = (CBSItem) context.getInput();
+			Object cbs = context.getInput();
 			if (cbs == null) {
 				ICBSScope rootInput = (ICBSScope) context.getRootInput();
 				period = new CBSSubject().setCBSItem_id(rootInput.getCBS_id()).setSubjectNumber(account.getId());
+			} else if (cbs instanceof Work || cbs instanceof Project) {
+				period = new CBSSubject().setCBSItem_id(((ICBSScope) cbs).getCBS_id()).setSubjectNumber(account.getId());
 			} else {
-				period = new CBSSubject().setCBSItem_id(cbs.get_id()).setSubjectNumber(account.getId());
+				period = new CBSSubject().setCBSItem_id(((CBSItem) cbs).get_id()).setSubjectNumber(account.getId());
 			}
 
 			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
