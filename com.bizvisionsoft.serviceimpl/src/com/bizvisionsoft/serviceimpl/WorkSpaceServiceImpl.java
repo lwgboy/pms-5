@@ -302,7 +302,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 		});
-		sendMessages(messages);
+		if (messages.size() > 0)
+			sendMessages(messages);
 
 		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();
 		Set<ObjectId> updateWorksId = new HashSet<ObjectId>();
