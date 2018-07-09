@@ -45,7 +45,8 @@ public class WorkReportSummary {
 	private String readPlanHtml() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='label_subhead'>" + projectName + " [" + projectId + "]</div>");
-		sb.append("<div>" + stageName + " / " + workName + " 报告人:" + reportBy + "</div>");
+		sb.append("<div>" + stageName + " / " + workName + "</div>");
+		sb.append("<div> 报告人:" + reportBy + "</div>");
 
 		if (estimatedFinish != null) {
 			int days = (int) ((estimatedFinish.getTime() - workPlanFinish.getTime()) / (1000 * 24 * 60 * 60));
@@ -55,8 +56,7 @@ public class WorkReportSummary {
 					+ "</div>");
 		}
 		sb.append("<div style='margin-top:16px;display:flex;justify-content:flex-start;align-items:center;'>");
-		sb.append(
-				"<a href='tag' target='_rwt'><i class='layui-icon layui-icon-note' style='color:#3f51b5;'></i></a>");
+		sb.append("<a href='tag' target='_rwt'><i class='layui-icon layui-icon-note' style='color:#3f51b5;'></i></a>");
 		if (tags != null && tags.size() > 0) {
 			tags.forEach(t -> {
 				sb.append("<span class='layui-badge layui-bg-orange' style='margin-left:8px;'>" + t + "</span>");

@@ -221,12 +221,23 @@ public class EditResourceASM extends GridPart {
 		}
 		content.setLayout(new FillLayout(SWT.VERTICAL));
 		start = Calendar.getInstance();
-		if (rt.getFrom() != null)
+		if (rt.getFrom() != null) {
 			start.setTime(rt.getFrom());
+			start.set(Calendar.HOUR, 0);
+			start.set(Calendar.MINUTE, 0);
+			start.set(Calendar.SECOND, 0);
+			start.set(Calendar.MILLISECOND, 0);
+		}
 
 		end = Calendar.getInstance();
-		if (rt.getTo() != null)
+		if (rt.getTo() != null) {
 			end.setTime(rt.getTo());
+			end.set(Calendar.HOUR, 0);
+			end.set(Calendar.MINUTE, 0);
+			end.set(Calendar.SECOND, 0);
+			end.set(Calendar.MILLISECOND, 0);
+		}
+
 		showType = rt.getShowType();
 		showResTypeInfo = rt.isShowResTypeInfo();
 		showResPlan = rt.isShowResPlan();
@@ -875,11 +886,15 @@ public class EditResourceASM extends GridPart {
 	}
 
 	private void createDateColumn() {
-		Calendar now = Calendar.getInstance();
-		now.setTime(start.getTime());
-		while (now.before(end)) {
-			createDateColumn(now.getTime());
-			now.add(Calendar.DATE, 1);
+		if (start.equals(end)) {
+			createDateColumn(start.getTime());
+		} else {
+			Calendar now = Calendar.getInstance();
+			now.setTime(start.getTime());
+			while (now.before(end)) {
+				createDateColumn(now.getTime());
+				now.add(Calendar.DATE, 1);
+			}
 		}
 
 		Column c = new Column();

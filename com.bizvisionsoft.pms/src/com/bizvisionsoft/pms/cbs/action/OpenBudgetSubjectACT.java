@@ -17,7 +17,7 @@ public class OpenBudgetSubjectACT {
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		Object rootInput = context.getRootInput();
 		if (rootInput instanceof Work && ((Work) rootInput).getCBS_id() != null) {
-			bruiService.openContent(bruiService.getAssembly("CBSSubject"), rootInput);
+			bruiService.openContent(bruiService.getAssembly("科目预算"), rootInput);
 		} else {
 			Layer.message("无法编制科目预算。", Layer.ICON_CANCEL);
 		}

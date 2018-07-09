@@ -31,8 +31,7 @@ public class CreateProject {
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {
-						Services.get(WorkSpaceService.class).checkout(pj.getWorkspace(), bruiService.getCurrentUserId(),
-								true);
+						Services.get(WorkSpaceService.class).checkout(pj.getWorkspace(), pj.getPmId(), true);
 						if (MessageDialog.openQuestion(bruiService.getCurrentShell(), "创建项目", "项目创建成功，是否进入项目主页？")) {
 							bruiService.switchPage("项目首页（启动）", pj.get_id().toHexString());
 						}

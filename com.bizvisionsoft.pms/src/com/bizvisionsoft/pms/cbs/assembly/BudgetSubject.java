@@ -47,7 +47,10 @@ public class BudgetSubject extends BudgetGrid {
 		setConfig(context.getAssembly());
 		setBruiService(bruiService);
 		scope = (ICBSScope) context.getRootInput();
-		cbsItem = (CBSItem) context.getParentContext().getInput();
+		Object parentInput = context.getParentContext().getInput();
+		if (parentInput instanceof CBSItem)
+			cbsItem = (CBSItem) parentInput;
+		
 		if (cbsItem == null) {
 			ObjectId cbs_id = scope.getCBS_id();
 			if (cbs_id != null) {

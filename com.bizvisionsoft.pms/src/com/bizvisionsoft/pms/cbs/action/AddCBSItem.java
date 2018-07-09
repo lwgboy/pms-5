@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.cbs.action;
 
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,6 +21,7 @@ public class AddCBSItem {
 			Editor.create("成本项编辑器", context, CBSItem.getInstance((CBSItem) parent), true).setTitle("添加子项")
 					.ok((r, o) -> {
 						BudgetCBS cbsGrid = (BudgetCBS) context.getContent();
+						AUtil.simpleCopy(cbsGrid, o);
 						cbsGrid.addCBSItem((CBSItem) parent, o);
 					});
 

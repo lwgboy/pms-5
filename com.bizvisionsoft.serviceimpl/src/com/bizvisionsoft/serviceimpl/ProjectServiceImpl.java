@@ -379,7 +379,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.startProjectWarning("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
 
 		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
-				.append("chargerId : String", null).append("assignerId", null));
+				.append("chargerId", null).append("assignerId", null));
 		if (l == 0)
 			result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
 
@@ -403,7 +403,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		if (project.getWorkOrder() == null) {
-			result.add(Result.startProjectError("项目没有工作令号."));
+			result.add(Result.startProjectError("项目没有工作令号.", Result.CODE_PROJECT_NOWORKORDER));
 		}
 
 		return result;
@@ -815,8 +815,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	private List<Result> closeProjectCheck(ObjectId _id, String executeBy) {
 		//////////////////////////////////////////////////////////////////////
 		// 须检查的信息
+		List<Result> result = new ArrayList<Result>();
+		long l = c("work").countDocuments(new Document("project_id", _id).append("stage", true).append("status",
+				new Document("$nin", Arrays.asList(ProjectStatus.Closed, ProjectStatus.Terminated))));
+		if (l > 0)
+			result.add(Result.startProjectError("项目存在没有关闭的阶段.", Result.CODE_PROJECT_NOWORK));
 
-		return new ArrayList<Result>();
+		return result;
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package com.bizvisionsoft.pms.cbs.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -25,8 +30,16 @@ public class EditCBSBudget {
 			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
-				BudgetCBS grid = (BudgetCBS) context.getContent();
-				grid.updateCBSPeriodBudget(((CBSItem) parent), o);
+				try {
+					Date periodDate = new SimpleDateFormat("yyyyMM").parse(o.getId());
+					o.checkRange(periodDate);
+					
+					BudgetCBS grid = (BudgetCBS) context.getContent();
+					grid.updateCBSPeriodBudget(((CBSItem) parent), o);
+
+				} catch (ParseException e) {
+					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+				}
 			});
 
 		});
