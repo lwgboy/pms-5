@@ -84,8 +84,10 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	public void delete(ObjectId _id) {
 		// TODO Auto-generated method stub
 		// 级联删除下级节点
+		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "obs", "parent_id");
+		c(OBSItem.class).deleteMany(new Document("_id", new Document("$in", desentItems)));
 		// 不能删除的情况
-		delete(_id, OBSItem.class);
+		// delete(_id, OBSItem.class);
 	}
 
 	@Override
@@ -161,7 +163,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			jq.set("filter", filter);
 		else
 			jq.set("filter", new Document());
-		
+
 		List<Bson> pipeline = jq.array();
 
 		if (skip != null)

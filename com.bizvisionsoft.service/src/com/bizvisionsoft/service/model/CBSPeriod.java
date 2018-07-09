@@ -95,6 +95,7 @@ public class CBSPeriod {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.MILLISECOND, -1);
 		Date _to = cal.getTime();
 
 		this.range = new Date[] { _from, _to };

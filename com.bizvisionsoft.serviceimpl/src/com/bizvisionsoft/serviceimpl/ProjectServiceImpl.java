@@ -416,9 +416,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		Document query = new Document("project_id", com._id).append("parent_id", null)
-				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true))
-				.append("actualFinish", null);
+		Document query = new Document("project_id", com._id).append("chargerId", new Document("$ne", null))
+				.append("distributed", new Document("$ne", true)).append("actualFinish", null);
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();

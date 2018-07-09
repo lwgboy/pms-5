@@ -439,7 +439,9 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public void deleteOBSItem(ObjectId _id) {
-		delete(_id, OBSInTemplate.class);
+		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "obsInTemplate", "parent_id");
+		c(OBSInTemplate.class).deleteMany(new Document("_id", new Document("$in", desentItems)));
+		// delete(_id, OBSInTemplate.class);
 	}
 
 	@Override

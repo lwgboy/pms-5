@@ -22,7 +22,11 @@ public class SubminBudgetSubject {
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
-		CBSItem cbsItem = (CBSItem) context.getInput();
+		CBSItem cbsItem = null;
+		Object input = context.getInput();
+		if (input instanceof CBSItem)
+			cbsItem = (CBSItem) input;
+
 		if (cbsItem == null) {
 			ICBSScope rootInput = (ICBSScope) context.getRootInput();
 			cbsItem = Services.get(CBSService.class).get(rootInput.getCBS_id());
