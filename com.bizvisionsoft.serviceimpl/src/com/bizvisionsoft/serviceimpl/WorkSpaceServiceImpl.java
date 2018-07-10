@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourcePlan;
@@ -23,6 +25,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
+import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -183,8 +186,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 					new BasicDBObject("$ne", null))));
 			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
 			pipeline.add(Aggregates.unwind("$work"));
-			pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-			pipeline.add(Aggregates.unwind("$project"));
 			pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("wpf",
 					new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))));
 			pipeline.add(Aggregates.match(new BasicDBObject("wpf", Boolean.TRUE)));
@@ -268,21 +269,41 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("work").insertMany(insertDoc);
 		}
 
-		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
-			// TODO 实际工时的调整
-			// Date oldActualStart = doc.getDate("actualStart");
-			// Date oldActualFinish = doc.getDate("actualFinish");
-			// Date newActualStart = d.getDate("actualStart");
-			// Date newActualFinish = d.getDate("actualFinish");
+		Project project = c(Project.class).find(new Document("_id", workspace.getProject_id())).first();
+		final List<Message> messages = new ArrayList<>();
 
+		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
 			// 更新Work
 			Object _id = d.get("_id");
 			d.remove("_id");
 			d.remove("space_id");
-			d.append("distributed", false);
+			// TODO 下达状态，发送修改通知
+			boolean distributed = d.getBoolean("distributed", false);
+			if (distributed) {
+				Document doc = c("work").find(new Document("_id", _id)).first();
+				Date oldActualStart = doc.getDate("actualStart");
+				Date newActualStart = d.getDate("actualStart");
+				Date oldActualFinish = doc.getDate("actualFinish");
+				Date newActualFinish = d.getDate("actualFinish");
+				if (!oldActualStart.equals(newActualStart) || !oldActualFinish.equals(newActualFinish)) {
+					String chargerId = doc.getString("chargerId");
+					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
+							+ doc.getString("fullName") + "，预计从"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
+							workspace.getCheckoutBy(), chargerId, null));
+					String assignerId = doc.getString("assignerId");
+					messages.add(Message.newInstance("工作计划下达通知", "您指派的项目 " + project.getName() + "，工作 "
+							+ doc.getString("fullName") + "，预计从"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
+							workspace.getCheckoutBy(), assignerId, null));
+				}
+			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
-
 		});
+		if (messages.size() > 0)
+			sendMessages(messages);
 
 		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();
 		Set<ObjectId> updateWorksId = new HashSet<ObjectId>();
@@ -326,7 +347,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
-			Project project = c(Project.class).find(new Document("_id", workspace.getProject_id())).first();
 			if (ProjectStatus.Created.equals(project.getStatus())) {
 				sendMessage("项目进度计划编制完成", "您负责的项目" + project.getName() + "已完成进度计划的制定。", workspace.getCheckoutBy(),
 						project.getPmId(), null);
@@ -339,6 +359,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids))
 								.append("managerId", new BasicDBObject("$ne", null)), String.class)
 						.into(new ArrayList<>());
+
 				sendMessage("项目进度计划已更新", "您参与的项目" + project.getName() + "进度计划已调整。", workspace.getCheckoutBy(),
 						memberIds, null);
 			}

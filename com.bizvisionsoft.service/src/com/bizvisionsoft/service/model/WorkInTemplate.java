@@ -355,7 +355,12 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@Behavior("设定工作包类型")
 	private boolean behaviourEditWPS() {
-		return !summary && !stage;
+		return !summary && !stage && !milestone;
+	}
+	
+	@Behavior("角色")
+	private boolean behaviourEditRole() {
+		return !milestone;
 	}
 
 	@Behavior("工作包")

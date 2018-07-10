@@ -35,7 +35,15 @@ public class CloseProject {
 		}
 		List<Result> result = Services.get(ProjectService.class)
 				.closeProject(brui.command(project.get_id(), new Date()));
-		if (result.isEmpty()) {
+		boolean b = true;
+		if (!result.isEmpty())
+			for (Result r : result)
+				if (Result.TYPE_ERROR == r.type) {
+					Layer.message(r.message, Layer.ICON_CANCEL);
+					b = false;
+				}
+		
+		if (b) {
 			Layer.message("项目已关闭。");
 			brui.switchPage("项目首页（关闭）", ((Project) project).get_id().toHexString());
 		}

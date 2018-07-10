@@ -20,6 +20,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.model.CBSPeriod;
+import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
@@ -239,7 +241,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Result> startStage(Command com) {
 		List<Result> result = startStageCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
-			return result;
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
 		}
 
 		// 修改状态
@@ -263,12 +269,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		// 通知团队成员，工作已经启动
 		List<String> memberIds = getStageMembers(com._id);
-		String name = getName("work", com._id);
-		String projectName = getName("project", project_id);
-		sendMessage("阶段启动通知",
-				"您参与的项目" + projectName + " 阶段" + name + "已于"
-						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-				com.userId, memberIds, null);
+		if (memberIds.size() > 0) {
+			String name = getName("work", com._id);
+			String projectName = getName("project", project_id);
+			sendMessage("阶段启动通知",
+					"您参与的项目" + projectName + " 阶段" + name + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+					com.userId, memberIds, null);
+		}
 		return result;
 	}
 
@@ -278,10 +286,34 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 1. 检查是否创建了第一层的WBS，并有计划，如果没有，提示警告
 		// 2. 检查组织结构是否完成，如果只有根，警告
 		// 3. 检查第一层的WBS是否指定了必要的角色，如果没有负责人角色，提示警告。
-		// 4. 缺少干系人，警告
-		// 5. 没有做预算，警告
-		// 6. 预算没做完，警告
-		// 7. 预算没有分配，警告
+		// 4. 没有做预算，警告
+		// 5. 预算没做完，警告
+		// 6. 预算没有分配，警告
+		List<Result> result = new ArrayList<Result>();
+
+		long l = c(Work.class).countDocuments(new Document("parent_id", _id));
+		if (l == 0)
+			result.add(Result.startProjectWarning("阶段沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+
+		l = c(Work.class)
+				.countDocuments(new Document("parent_id", _id).append("chargerId", null).append("assignerId", null));
+		if (l == 0)
+			result.add(Result.startProjectWarning("段进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
+
+		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+		if (l > 1)
+			result.add(Result.startProjectWarning("阶段沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
+
+		Work work = getWork(_id);
+
+		ObjectId cbs_id = work.getCBS_id();
+		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
+		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+		if (l == 0) {
+			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+			if (l == 0)
+				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
+		}
 
 		return new ArrayList<Result>();
 	}
@@ -359,7 +391,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+			pipeline.add(Aggregates.sort(new BasicDBObject("planStart", 1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));

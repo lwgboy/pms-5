@@ -49,10 +49,10 @@ public class CBSPeriod {
 		this.id += String.format("%02d", cal.get(Calendar.MONTH) + 1);
 	}
 
-	private void checkRange(Date period) {
+	public void checkRange(Date period) {
 		if (range != null) {
 			if (period.before(range[0]) || period.after(range[1])) {
-				throw new RuntimeException("超过范围限定。要求范围：" + new SimpleDateFormat("yyyy-MM").format(range[0]) + "  "
+				throw new RuntimeException("超过预算范围限定。要求范围：" + new SimpleDateFormat("yyyy-MM").format(range[0]) + "  "
 						+ new SimpleDateFormat("yyyy-MM").format(range[1]));
 			}
 		}
@@ -95,6 +95,7 @@ public class CBSPeriod {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.MILLISECOND, -1);
 		Date _to = cal.getTime();
 
 		this.range = new Date[] { _from, _to };

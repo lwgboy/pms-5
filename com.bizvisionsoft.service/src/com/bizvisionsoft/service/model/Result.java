@@ -117,9 +117,9 @@ public class Result {
 		return e;
 	}
 
-	public static Result startProjectError(String message) {
+	public static Result startProjectError(String message, int code) {
 		Result e = new Result();
-		e.code = Result.CODE_PROJECT_NOWORKORDER;
+		e.code = code;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;

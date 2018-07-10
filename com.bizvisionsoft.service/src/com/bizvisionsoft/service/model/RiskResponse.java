@@ -85,9 +85,17 @@ public class RiskResponse {
 	@WriteValue
 	private List<RemoteFile> attachment;
 
+	public ObjectId get_id() {
+		return _id;
+	}
+	
 	public RiskResponse setType(String type) {
 		this.type = type;
 		return this;
+	}
+	
+	public String getType() {
+		return type;
 	}
 
 	public RiskResponse setRBSItem_id(ObjectId rbsItem_id) {

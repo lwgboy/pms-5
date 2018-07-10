@@ -30,7 +30,6 @@ public class AddRiskResponseTypeACT {
 						GridPart viewer = (GridPart) context.getContent();
 						viewer.insert(r);
 					});
-			System.out.println();
 		});
 	}
 }

@@ -9,8 +9,8 @@ public class WorkGenerator implements IAutoGenerator<WorkInfo> {
 
 	@Override
 	public Object generate(WorkInfo wi, String name, String key, Class<?> t) {
-		int index = ServicesLoader.get(CommonService.class).generateCode(name, key);
-		return wi.getProjectNumber()+ String.format("%04d", index);
+		int index = ServicesLoader.get(CommonService.class).generateCode(name, key + wi.getProjectId());
+		return String.format("%06d", index);
 	}
 
 }

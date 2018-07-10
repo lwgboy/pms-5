@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizivisionsoft.widgets.gantt.GanttEventCode;
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
@@ -85,9 +86,17 @@ public class ResourceReqASM {
 
 		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
 			WorkInTemplate work = (WorkInTemplate) ((GanttEvent) l).task;
-			if (work != null && !work.isSummary()) {
-				allocateResource();
+			if (work == null) {
+				Layer.message("请先选择将要分配资源的工作。");
+				return;
+			} else if (work.isSummary()) {
+				Layer.message("无需对总成型工作分配资源。");
+				return;
+			} else if (work.isMilestone()) {
+				Layer.message("无需对里程碑分配资源。");
+				return;
 			}
+			allocateResource();
 		});
 
 	}
