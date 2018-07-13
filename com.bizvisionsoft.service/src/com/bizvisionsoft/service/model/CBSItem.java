@@ -301,17 +301,18 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getBudgetSummary();
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -325,20 +326,21 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getBudget(period);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (period.equals(cbsSubject.getId())) {
-					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-				}
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					if (period.equals(cbsPeriod.getId())) {
-						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (period.equals(cbsSubject.getId())) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						if (period.equals(cbsPeriod.getId())) {
+							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+						}
 					}
 				}
 			}
@@ -353,20 +355,23 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getBudget(startPeriod, endPeriod);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
-					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-				}
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
-						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0
+								&& endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+						}
 					}
 				}
 			}
@@ -416,11 +421,12 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getCostSummary();
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+				}
 			}
 		}
 		return summary;
@@ -447,12 +453,13 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getCost(period);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (period.equals(cbsSubject.getId())) {
-					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (period.equals(cbsSubject.getId())) {
+						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -466,12 +473,14 @@ public class CBSItem {
 			while (iter.hasNext()) {
 				summary += iter.next().getCost(startPeriod, endPeriod);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
-					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -565,7 +574,7 @@ public class CBSItem {
 		if (budgetSummary != 0d) {
 			return 1d * getCostSummary() / budgetSummary;
 		}
-		return "--";
+		return "";
 	}
 
 	public Object getCAR(String period) {
@@ -573,7 +582,7 @@ public class CBSItem {
 		if (budget != 0d) {
 			return 1d * getCost(period) / budget;
 		}
-		return "--";
+		return "";
 	}
 
 	public Object getCAR(String startPeriod, String endPeriod) {
@@ -581,7 +590,7 @@ public class CBSItem {
 		if (budget != 0d) {
 			return 1d * getCost(startPeriod, endPeriod) / budget;
 		}
-		return "--";
+		return "";
 	}
 
 	public Object getBDRSummary() {
@@ -589,7 +598,7 @@ public class CBSItem {
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
 		}
-		return "--";
+		return "";
 	}
 
 	public Object getBDR(String period) {
@@ -597,7 +606,7 @@ public class CBSItem {
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
 		}
-		return "--";
+		return "";
 	}
 
 	public Object getBDR(String startPeriod, String endPeriod) {
@@ -605,7 +614,7 @@ public class CBSItem {
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
 		}
-		return "--";
+		return "";
 	}
 
 	@SetValue

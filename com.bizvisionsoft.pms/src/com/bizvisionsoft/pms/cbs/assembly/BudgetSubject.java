@@ -219,9 +219,9 @@ public class BudgetSubject extends BudgetGrid {
 		if (item instanceof AccountItem && ((AccountItem) item).countSubAccountItems() == 0) {
 			return null;
 		} else if (item instanceof CBSItem) {
-			return BruiColors.getColor(BruiColor.Grey_900);
+			return BruiColors.getColor(BruiColor.Grey_50);
 		}
-		return BruiColors.getColor(BruiColor.Grey_500);
+		return BruiColors.getColor(BruiColor.Grey_50);
 	}
 
 	@Override

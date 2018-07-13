@@ -1,10 +1,17 @@
 package com.bizvisionsoft.pms.cbs.assembly;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -56,7 +63,7 @@ public class BudgetCBS extends BudgetGrid {
 		}
 		Services.get(CBSService.class).delete(cbsItem.get_id());
 		parentCBSItem.removeChild(cbsItem);
-		viewer.refresh(parentCBSItem, true);
+		viewer.refresh();
 	}
 
 	public void updateCBSPeriodBudget(CBSItem cbsItem, CBSPeriod periodData) {
@@ -76,7 +83,7 @@ public class BudgetCBS extends BudgetGrid {
 	protected Date[] getRange() {
 		return scope.getCBSRange();
 	}
-	
+
 	public ICBSScope getScope() {
 		return scope;
 	}
@@ -86,7 +93,7 @@ public class BudgetCBS extends BudgetGrid {
 		if (((CBSItem) item).countSubCBSItems() == 0) {
 			return null;
 		} else {
-			return BruiColors.getColor(BruiColor.Grey_500);
+			return BruiColors.getColor(BruiColor.Grey_50);
 		}
 	}
 
@@ -100,10 +107,68 @@ public class BudgetCBS extends BudgetGrid {
 		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudgetYearSummary(year));
 	}
 
-
 	@Override
 	protected String getBudgetText(Object element, String name) {
 		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudget(name));
+	}
+
+	/**
+	 * 编辑各月预算 TODO : 考虑权限
+	 */
+	@Override
+	protected EditingSupport supportMonthlyEdit(GridViewerColumn vcol) {
+		final String name = (String) vcol.getColumn().getData("name");
+		return new EditingSupport(viewer) {
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				try {
+					saveCBSItemPeriodBudgetInput((CBSItem) element, name, value);
+				} catch (Exception e) {
+					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+				}
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				return Optional.ofNullable(((CBSItem) element).getBudget(name)).map(v -> {
+					if (v == 0)
+						return "";
+					return "" + v;
+				}).orElse("");
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new TextCellEditor(viewer.getGrid());
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return ((CBSItem) element).countSubCBSItems()==0;
+			}
+		};
+	}
+
+	protected void saveCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
+		double amount;
+		try {
+			if("".equals(input)) {
+				amount = 0;
+			}else {
+				amount = Double.parseDouble(input.toString());
+			}
+		} catch (Exception e) {
+			throw new Exception("请输入数字");
+		}
+		CBSPeriod period = new CBSPeriod()//
+				.setCBSItem_id(((CBSItem) item).get_id());
+		Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+		period.setBudget(amount);
+		period.setId(name);
+		Date periodDate = new SimpleDateFormat("yyyyMM").parse(period.getId());
+		period.checkRange(periodDate);
+		updateCBSPeriodBudget(((CBSItem) item), period);
 	}
 
 }
