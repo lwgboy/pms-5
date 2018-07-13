@@ -51,9 +51,15 @@ public class SubmitSchedule {
 					Layer.message(result.message);
 					brui.switchContent("项目甘特图", null);
 				}
-			} else {
-				MessageDialog.openError(brui.getCurrentShell(), "提交计划",
+			}  else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
+				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
 						"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
+			} else if (Result.CODE_UPDATESTAGE == result.code) {
+				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
+						"工作计划中最晚完成时间超过阶段  <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
+			} else if (Result.CODE_UPDATEPROJECT == result.code) {
+				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
+						"工作计划中最晚完成时间超过项目 <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
 			}
 		}
 	}

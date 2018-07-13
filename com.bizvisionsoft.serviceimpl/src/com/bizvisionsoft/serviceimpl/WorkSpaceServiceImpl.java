@@ -195,26 +195,25 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				result.data = new BasicDBObject("name", workInfo.getText());
 				return result;
 			}
+		}
+		Document doc = c("workspace")
+				.aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
+						new Document("$group",
+								new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
+				.first();
+		if (workspace.getWork_id() != null) {
+			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
+			if (work.getPlanFinish().before(doc.getDate("finish"))) {
+				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATESTAGE);
+				result.data = new BasicDBObject("name", work.getText());
+				return result;
+			}
 		} else {
-			Document doc = c("workspace")
-					.aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
-							new Document("$group",
-									new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
-					.first();
-			if (workspace.getWork_id() != null) {
-				Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
-				if (work.getPlanFinish().before(doc.getDate("finish"))) {
-					Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATEMANAGEITEM);
-					result.data = new BasicDBObject("name", work.getText());
-					return result;
-				}
-			} else {
-				Project project = new ProjectServiceImpl().get(workspace.getProject_id());
-				if (project.getPlanFinish().before(doc.getDate("finish"))) {
-					Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEMANAGEITEM);
-					result.data = new BasicDBObject("name", project.getName());
-					return result;
-				}
+			Project project = new ProjectServiceImpl().get(workspace.getProject_id());
+			if (project.getPlanFinish().before(doc.getDate("finish"))) {
+				Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEPROJECT);
+				result.data = new BasicDBObject("name", project.getName());
+				return result;
 			}
 		}
 		// 返回检查结果
