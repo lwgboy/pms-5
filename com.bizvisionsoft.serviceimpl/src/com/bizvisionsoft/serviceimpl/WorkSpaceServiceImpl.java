@@ -197,7 +197,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 		} else {
 			Document doc = c("workspace")
-					.aggregate(Arrays.asList(new Document("$match", new Document("_id", workspace.getSpace_id())),
+					.aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
 							new Document("$group",
 									new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
 					.first();
@@ -281,11 +281,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			boolean distributed = d.getBoolean("distributed", false);
 			if (distributed) {
 				Document doc = c("work").find(new Document("_id", _id)).first();
-				Date oldActualStart = doc.getDate("actualStart");
-				Date newActualStart = d.getDate("actualStart");
-				Date oldActualFinish = doc.getDate("actualFinish");
-				Date newActualFinish = d.getDate("actualFinish");
-				if (!oldActualStart.equals(newActualStart) || !oldActualFinish.equals(newActualFinish)) {
+				Date oldPlanStart = doc.getDate("planStart");
+				Date newPlanStart = d.getDate("planStart");
+				Date oldPlanFinish = doc.getDate("planFinish");
+				Date newPlanFinish = d.getDate("planFinish");
+				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
 					String chargerId = doc.getString("chargerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
 							+ doc.getString("fullName") + "，预计从"
