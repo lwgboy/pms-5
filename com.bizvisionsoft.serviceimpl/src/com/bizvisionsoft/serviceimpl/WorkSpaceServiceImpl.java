@@ -281,10 +281,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			boolean distributed = d.getBoolean("distributed", false);
 			if (distributed) {
 				Document doc = c("work").find(new Document("_id", _id)).first();
-				Date oldActualStart = doc.getDate("actualStart");
-				Date newActualStart = d.getDate("actualStart");
-				Date oldActualFinish = doc.getDate("actualFinish");
-				Date newActualFinish = d.getDate("actualFinish");
+				Date oldActualStart = doc.getDate("planStart");
+				Date newActualStart = d.getDate("planStart");
+				Date oldActualFinish = doc.getDate("planFinish");
+				Date newActualFinish = d.getDate("planFinish");
 				if (!oldActualStart.equals(newActualStart) || !oldActualFinish.equals(newActualFinish)) {
 					String chargerId = doc.getString("chargerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
