@@ -424,7 +424,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date",
-			"项目基线甘特图/end_date", "我的工作（日历牌）/end_date","部门工作日程表/end_date" })
+			"项目基线甘特图/end_date","部门工作日程表/end_date" })
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
@@ -434,7 +434,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return planFinish;
 	}
 
-	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date" })
+	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date", "我的工作（日历牌）/end_date" })
 	public Date getPlanEndDate() {
 		return planFinish;
 	}

@@ -204,52 +204,52 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
 		return summary;
 	}
 
-	public Object getCARSummary() {
+	public Double getCARSummary() {
 		Double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * getCostSummary() / budgetSummary;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getCAR(String period) {
+	public Double getCAR(String period) {
 		Double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * getCost(period) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getCAR(String startPeriod, String endPeriod) {
+	public Double getCAR(String startPeriod, String endPeriod) {
 		Double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * getCost(startPeriod, endPeriod) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDRSummary() {
+	public Double getBDRSummary() {
 		Double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDR(String period) {
+	public Double getBDR(String period) {
 		Double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDR(String startPeriod, String endPeriod) {
+	public Double getBDR(String startPeriod, String endPeriod) {
 		Double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
 		}
-		return "--";
+		return null;
 	}
 
 	@Behavior("项目成本管理/编辑成本")

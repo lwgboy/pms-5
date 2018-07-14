@@ -952,4 +952,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	public Work getICBSScopeRootWork(ObjectId scope_id) {
 		return new WorkServiceImpl().getWork(scope_id);
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	//// BUG: 在预算编辑页面上的编辑CBSItem保存没有起作用
+	//////////////////////////////////////////////////////////////////////
+	@Override
+	public long update(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, CBSItem.class);
+	}
 }

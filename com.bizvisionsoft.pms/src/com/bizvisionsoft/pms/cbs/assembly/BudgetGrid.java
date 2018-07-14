@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -16,12 +17,14 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
 public abstract class BudgetGrid extends GridPart {
 
 	@Override
 	protected GridTreeViewer createGridViewer(Composite parent) {
-		GridTreeViewer viewer = new GridTreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new GridTreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setAutoExpandLevel(GridTreeViewer.ALL_LEVELS);
 		viewer.setUseHashlookup(false);
 
@@ -43,7 +46,7 @@ public abstract class BudgetGrid extends GridPart {
 		Column c = new Column();
 		c.setName("id");
 		c.setText("编号");
-		c.setWidth(140);
+		c.setWidth(120);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -52,25 +55,27 @@ public abstract class BudgetGrid extends GridPart {
 		c = new Column();
 		c.setName("name");
 		c.setText("名称");
-		c.setWidth(120);
+		c.setWidth(160);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
 		createColumn(grid, c).getColumn().setFooterText("CBS总预算");
 
-		c = new Column();
-		c.setName("scopename");
-		c.setText("范围");
-		c.setWidth(120);
-		c.setAlignment(SWT.LEFT);
-		c.setMoveable(false);
-		c.setResizeable(true);
-		createColumn(grid, c);
+		// Note: 这个范围意义不大
+		// c = new Column();
+		// c.setName("scopename");
+		// c.setText("范围");
+		// c.setWidth(120);
+		// c.setAlignment(SWT.LEFT);
+		// c.setMoveable(false);
+		// c.setResizeable(true);
+		// createColumn(grid, c);
 
 		c = new Column();
 		c.setName("budgetTotal");
-		c.setText("合计");
+		c.setText("各月<br/>合计");
 		c.setWidth(88);
+		c.setMarkupEnabled(true);
 		c.setAlignment(SWT.RIGHT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -82,8 +87,8 @@ public abstract class BudgetGrid extends GridPart {
 			}
 
 			@Override
-			public Color getForeground(Object element) {
-				return getNumberColor(element);
+			public Color getBackground(Object element) {
+				return BruiColors.getColor(BruiColor.Grey_50);
 			}
 
 		});
@@ -136,16 +141,27 @@ public abstract class BudgetGrid extends GridPart {
 				}
 
 				@Override
-				public Color getForeground(Object element) {
+				public Color getBackground(Object element) {
 					return getNumberColor(element);
 				}
 
 			});
 			vcol.getColumn().setFooterText(getBudgetFootText(monthCol.getName()));
-
+			EditingSupport editingSupport = supportMonthlyEdit(vcol);
+			if (editingSupport != null)
+				vcol.setEditingSupport(editingSupport);
 			start.add(Calendar.MONTH, 1);
 		}
 		createYearTotal(year, grp);
+	}
+
+	/**
+	 * 子类覆盖 编辑各月预算
+	 * @param vcol
+	 * @return
+	 */
+	protected EditingSupport supportMonthlyEdit(GridViewerColumn vcol) {
+		return null;
 	}
 
 	private void createYearTotal(String year, GridColumnGroup grp) {
@@ -167,8 +183,8 @@ public abstract class BudgetGrid extends GridPart {
 			}
 
 			@Override
-			public Color getForeground(Object element) {
-				return getNumberColor(element);
+			public Color getBackground(Object element) {
+				return BruiColors.getColor(BruiColor.Grey_50);
 			}
 		});
 		vcol.getColumn().setFooterText(getBudgetYearSummaryFootText(ySumCol.getName()));

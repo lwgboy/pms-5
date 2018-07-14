@@ -295,23 +295,27 @@ public class CBSItem {
 	}
 
 	public double getBudgetSummary() {
-		Double summary = 0d;
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudgetSummary();
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -319,26 +323,30 @@ public class CBSItem {
 	}
 
 	public double getBudget(String period) {
-		Double summary = 0d;
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudget(period);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (period.equals(cbsSubject.getId())) {
-					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-				}
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					if (period.equals(cbsPeriod.getId())) {
-						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (period.equals(cbsSubject.getId())) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						if (period.equals(cbsPeriod.getId())) {
+							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+						}
 					}
 				}
 			}
@@ -347,26 +355,32 @@ public class CBSItem {
 	}
 
 	public double getBudget(String startPeriod, String endPeriod) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudget(startPeriod, endPeriod);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
-					summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
-				}
-			}
 		} else {
-			List<CBSPeriod> cbsPeriods = listCBSPeriods();
-			if (cbsPeriods.size() > 0) {
-				for (CBSPeriod cbsPeriod : cbsPeriods) {
-					if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
-						summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0
+								&& endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+						}
 					}
 				}
 			}
@@ -375,7 +389,10 @@ public class CBSItem {
 	}
 
 	public double getBudgetYearSummary(String year) {
-		Double summary = 0d;
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
+		double summary = 0d;
 		if (countSubCBSItems() == 0) {
 			if (budget == null || budget.isEmpty()) {
 				return 0d;
@@ -410,17 +427,21 @@ public class CBSItem {
 	private Date settlementDate;
 
 	public double getCostSummary() {
-		Double summary = 0d;
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getCostSummary();
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+				}
 			}
 		}
 		return summary;
@@ -441,18 +462,22 @@ public class CBSItem {
 	}
 
 	public double getCost(String period) {
-		Double summary = 0d;
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getCost(period);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (period.equals(cbsSubject.getId())) {
-					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (period.equals(cbsSubject.getId())) {
+						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -460,18 +485,23 @@ public class CBSItem {
 	}
 
 	public double getCost(String startPeriod, String endPeriod) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getCost(startPeriod, endPeriod);
 			}
-		}
-		List<CBSSubject> cbsSubjects = listCBSSubjects();
-		if (cbsSubjects.size() > 0) {
-			for (CBSSubject cbsSubject : cbsSubjects) {
-				if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
-					summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
+					}
 				}
 			}
 		}
@@ -560,52 +590,52 @@ public class CBSItem {
 		}
 	}
 
-	public Object getCARSummary() {
-		Double budgetSummary = getBudgetSummary();
+	public Double getCARSummary() {
+		double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * getCostSummary() / budgetSummary;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getCAR(String period) {
-		Double budget = getBudget(period);
+	public Double getCAR(String period) {
+		double budget = getBudget(period);
 		if (budget != 0d) {
-			return 1d * getCost(period) / budget;
+			return getCost(period) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getCAR(String startPeriod, String endPeriod) {
-		Double budget = getBudget(startPeriod, endPeriod);
+	public Double getCAR(String startPeriod, String endPeriod) {
+		double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * getCost(startPeriod, endPeriod) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDRSummary() {
-		Double budgetSummary = getBudgetSummary();
+	public Double getBDRSummary() {
+		double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDR(String period) {
-		Double budget = getBudget(period);
+	public Double getBDR(String period) {
+		double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
 		}
-		return "--";
+		return null;
 	}
 
-	public Object getBDR(String startPeriod, String endPeriod) {
-		Double budget = getBudget(startPeriod, endPeriod);
+	public Double getBDR(String startPeriod, String endPeriod) {
+		double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
 		}
-		return "--";
+		return null;
 	}
 
 	@SetValue

@@ -24,9 +24,9 @@ public class EditCBSBudget {
 
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
-		context.selected(parent -> {
+		context.selected(item -> {
 			CBSPeriod period = new CBSPeriod()//
-					.setCBSItem_id(((CBSItem) parent).get_id());
+					.setCBSItem_id(((CBSItem) item).get_id());
 			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
@@ -35,7 +35,7 @@ public class EditCBSBudget {
 					o.checkRange(periodDate);
 					
 					BudgetCBS grid = (BudgetCBS) context.getContent();
-					grid.updateCBSPeriodBudget(((CBSItem) parent), o);
+					grid.updateCBSPeriodBudget(((CBSItem) item), o);
 
 				} catch (ParseException e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);

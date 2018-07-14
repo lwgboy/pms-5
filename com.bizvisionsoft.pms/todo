@@ -152,10 +152,14 @@ MCS每次模拟都应该记录
 			投资回收期
 			
 			
-				
+
+我的待处理工作，按钮要调整，只有一个，没必要用菜单
 
 
-
+CBSItem public double getBudget(String period) {//显示数据没有取合计值 public double getBudgetSummary() {	public double getBudget(String startPeriod, String endPeriod) {
+合计值计算错误
+修改CBSItem名称 bug com.bizvisionsoft.service.CBSService 没有更改成本项名称的服务
+CBSItem取指标 null错误，逻辑错误
 
 
 

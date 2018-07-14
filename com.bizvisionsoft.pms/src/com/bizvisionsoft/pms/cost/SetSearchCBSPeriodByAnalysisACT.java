@@ -112,58 +112,83 @@ public class SetSearchCBSPeriodByAnalysisACT {
 			@Override
 			public String getText(Object element) {
 				if (element instanceof CBSItem) {
+					CBSItem itm = (CBSItem) element;
 					if ("cost".equals(type)) {
-						double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
+						double cost = itm.getCost(startPeriod, endPeriod);
 						if (cost != 0)
 							return new DecimalFormat("#.0").format(cost);
 					} else if ("budget".equals(type)) {
-						double budget = ((CBSItem) element).getBudget(startPeriod, endPeriod);
+						double budget = itm.getBudget(startPeriod, endPeriod);
 						if (budget != 0)
 							return new DecimalFormat("#.0").format(budget);
 					} else if ("car".equals(type)) {
-						Object car = ((CBSItem) element).getCAR(startPeriod, endPeriod);
-						if (car instanceof Number)
-							if (((Number) car).doubleValue() != 0)
-								return new DecimalFormat("#.0%").format(car);
-							else
-								return car.toString();
+						//////////////////////////////////////////////////////////////////////
+						//// BUG: 去指标方法更新为可以返回null, Double类型
+						//////////////////////////////////////////////////////////////////////
+						// Object car = ((CBSItem) element).getCAR(startPeriod, endPeriod);
+						// if (car instanceof Number)
+						// if (((Number) car).doubleValue() != 0)
+						// return new DecimalFormat("#.0%").format(car);
+						// else
+						// return car.toString();
+						Double car = itm.getCAR(startPeriod, endPeriod);
+						if (car != null && car != 0)
+							return new DecimalFormat("#.0%").format(car);
 					} else if ("bv".equals(type)) {
-						Object bdr = ((CBSItem) element).getBDR(startPeriod, endPeriod);
-						if (bdr instanceof Number)
-							if (((Number) bdr).doubleValue() != 0)
-								return new DecimalFormat("#.0%").format(bdr);
-							else
-								return bdr.toString();
+						//////////////////////////////////////////////////////////////////////
+						//// BUG: 去指标方法更新为可以返回null, Double类型
+						//////////////////////////////////////////////////////////////////////
+						// Object bdr = itm.getBDR(startPeriod, endPeriod);
+						// if (bdr instanceof Number)
+						// if (((Number) bdr).doubleValue() != 0)
+						// return new DecimalFormat("#.0%").format(bdr);
+						// else
+						// return bdr.toString();
+						Double bdr = itm.getBDR(startPeriod, endPeriod);
+						if (bdr != null && bdr != 0)
+							return new DecimalFormat("#.0%").format(bdr);
 					} else if ("overspend".equals(type)) {
-						double overspend = ((CBSItem) element).getOverspend(startPeriod, endPeriod);
+						double overspend = itm.getOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
 							return new DecimalFormat("#.0").format(overspend);
 					}
 				} else if (element instanceof CBSSubjectCost) {
+					CBSSubjectCost itm = (CBSSubjectCost) element;
 					if ("cost".equals(type)) {
-						double cost = ((CBSSubjectCost) element).getCost(startPeriod, endPeriod);
+						double cost = itm.getCost(startPeriod, endPeriod);
 						if (cost != 0)
 							return new DecimalFormat("#.0").format(cost);
 					} else if ("budget".equals(type)) {
-						double budget = ((CBSSubjectCost) element).getBudget(startPeriod, endPeriod);
+						double budget = itm.getBudget(startPeriod, endPeriod);
 						if (budget != 0)
 							return new DecimalFormat("#.0").format(budget);
+						//////////////////////////////////////////////////////////////////////
+						//// BUG: 去指标方法更新为可以返回null, Double类型
+						//////////////////////////////////////////////////////////////////////
+						// } else if ("car".equals(type)) {
+						// Object car = sbj.getCAR(startPeriod, endPeriod);
+						// if (car instanceof Number)
+						// if (((Number) car).doubleValue() != 0)
+						// return new DecimalFormat("#.0%").format(car);
+						// else
+						// return car.toString();
+						// } else if ("bv".equals(type)) {
+						// Object bdr = sbj.getBDR(startPeriod, endPeriod);
+						// if (bdr instanceof Number)
+						// if (((Number) bdr).doubleValue() != 0)
+						// return new DecimalFormat("#.0%").format(bdr);
+						// else
+						// return bdr.toString();
 					} else if ("car".equals(type)) {
-						Object car = ((CBSSubjectCost) element).getCAR(startPeriod, endPeriod);
-						if (car instanceof Number)
-							if (((Number) car).doubleValue() != 0)
-								return new DecimalFormat("#.0%").format(car);
-							else
-								return car.toString();
+						Double car = itm.getCAR(startPeriod, endPeriod);
+						if (car != null && car != 0)
+							return new DecimalFormat("#.0%").format(car);
 					} else if ("bv".equals(type)) {
-						Object bdr = ((CBSSubjectCost) element).getBDR(startPeriod, endPeriod);
-						if (bdr instanceof Number)
-							if (((Number) bdr).doubleValue() != 0)
-								return new DecimalFormat("#.0%").format(bdr);
-							else
-								return bdr.toString();
+						Double bdr = itm.getBDR(startPeriod, endPeriod);
+						if (bdr != null && bdr != 0)
+							return new DecimalFormat("#.0%").format(bdr);
 					} else if ("overspend".equals(type)) {
-						double overspend = ((CBSSubjectCost) element).getOverspend(startPeriod, endPeriod);
+						double overspend = itm.getOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
 							return new DecimalFormat("#.0").format(overspend);
 					}
