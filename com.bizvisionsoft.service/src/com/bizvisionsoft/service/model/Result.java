@@ -18,6 +18,10 @@ public class Result {
 
 	public static final int CODE_UPDATEMANAGEITEM = 603;
 
+	public static final int CODE_UPDATESTAGE = 604;
+
+	public static final int CODE_UPDATEPROJECT = 605;
+
 	public static final int CODE_ERROR = 699;
 
 	public static final int CODE_CBS_DEFF_BUDGET = 901;

@@ -195,26 +195,25 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				result.data = new BasicDBObject("name", workInfo.getText());
 				return result;
 			}
+		}
+		Document doc = c("workspace")
+				.aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
+						new Document("$group",
+								new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
+				.first();
+		if (workspace.getWork_id() != null) {
+			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
+			if (work.getPlanFinish().before(doc.getDate("finish"))) {
+				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATESTAGE);
+				result.data = new BasicDBObject("name", work.getText());
+				return result;
+			}
 		} else {
-			Document doc = c("workspace")
-					.aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
-							new Document("$group",
-									new Document("_id", null).append("finish", new Document("$max", "$planFinish")))))
-					.first();
-			if (workspace.getWork_id() != null) {
-				Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
-				if (work.getPlanFinish().before(doc.getDate("finish"))) {
-					Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATEMANAGEITEM);
-					result.data = new BasicDBObject("name", work.getText());
-					return result;
-				}
-			} else {
-				Project project = new ProjectServiceImpl().get(workspace.getProject_id());
-				if (project.getPlanFinish().before(doc.getDate("finish"))) {
-					Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEMANAGEITEM);
-					result.data = new BasicDBObject("name", project.getName());
-					return result;
-				}
+			Project project = new ProjectServiceImpl().get(workspace.getProject_id());
+			if (project.getPlanFinish().before(doc.getDate("finish"))) {
+				Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEPROJECT);
+				result.data = new BasicDBObject("name", project.getName());
+				return result;
 			}
 		}
 		// 返回检查结果
@@ -281,11 +280,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			boolean distributed = d.getBoolean("distributed", false);
 			if (distributed) {
 				Document doc = c("work").find(new Document("_id", _id)).first();
-				Date oldActualStart = doc.getDate("planStart");
-				Date newActualStart = d.getDate("planStart");
-				Date oldActualFinish = doc.getDate("planFinish");
-				Date newActualFinish = d.getDate("planFinish");
-				if (!oldActualStart.equals(newActualStart) || !oldActualFinish.equals(newActualFinish)) {
+				Date oldPlanStart = doc.getDate("planStart");
+				Date newPlanStart = d.getDate("planStart");
+				Date oldPlanFinish = doc.getDate("planFinish");
+				Date newPlanFinish = d.getDate("planFinish");
+				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
 					String chargerId = doc.getString("chargerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
 							+ doc.getString("fullName") + "，预计从"

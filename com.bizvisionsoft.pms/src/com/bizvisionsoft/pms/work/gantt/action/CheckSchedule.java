@@ -37,9 +37,15 @@ public class CheckSchedule {
 
 				if (Result.CODE_WORK_SUCCESS == result.code) {
 					Layer.message(result.message);
-				} else {
+				} else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
 					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
-							"节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
+							"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
+				} else if (Result.CODE_UPDATESTAGE == result.code) {
+					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
+							"工作计划中最晚完成时间超过阶段  <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
+				} else if (Result.CODE_UPDATEPROJECT == result.code) {
+					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
+							"工作计划中最晚完成时间超过项目 <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
 				}
 			}
 		}
