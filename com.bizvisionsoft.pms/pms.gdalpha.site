@@ -6372,7 +6372,7 @@
           {
             "id": "16275cd4215",
             "name": "资金",
-            "text": "资金（人名币万元）",
+            "text": "资金",
             "alignment": 16777216,
             "width": 80,
             "minimumWidth": 0,
@@ -15468,7 +15468,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "预算（币种:人民币 单位:万元）",
+        "stickerTitle": "预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -15639,7 +15639,7 @@
             "type": "单行文本框",
             "formFields": [],
             "hasInfoLabel": false,
-            "textMessage": "人民币 万元",
+            "textMessage": "",
             "textPasswordStyle": false,
             "readOnly": false,
             "required": true,
@@ -15767,7 +15767,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "科目预算（人民币万元）",
+        "stickerTitle": "科目预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -17963,7 +17963,7 @@
           {
             "id": "1632e744d66",
             "name": "资金",
-            "text": "资金（人名币万元）",
+            "text": "资金",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -19468,7 +19468,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "预算（人民币万元）",
+        "stickerTitle": "预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -21782,7 +21782,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "预算（人民币万元）",
+        "stickerTitle": "预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -22127,7 +22127,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "科目预算（人民币万元）",
+        "stickerTitle": "科目预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -22243,7 +22243,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "预算（人民币万元）",
+        "stickerTitle": "预算",
         "folderId": "16390fa07d3",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -34070,7 +34070,7 @@
           {
             "id": "163c9009744",
             "name": "totalCost",
-            "text": "累计成本（单位：万元）",
+            "text": "累计成本",
             "alignment": 131072,
             "width": 240,
             "minimumWidth": 0,
@@ -34341,7 +34341,7 @@
           {
             "id": "163c9009744",
             "name": "totalCost",
-            "text": "累计成本（万元）",
+            "text": "累计成本",
             "alignment": 131072,
             "width": 160,
             "minimumWidth": 0,
@@ -35568,7 +35568,7 @@
             "type": "单行文本框",
             "formFields": [],
             "hasInfoLabel": false,
-            "textMessage": "人民币 万元",
+            "textMessage": "币种:人民币 单位:元",
             "textPasswordStyle": false,
             "readOnly": false,
             "required": true,
@@ -35751,7 +35751,7 @@
           {
             "id": "163c9009744",
             "name": "合计",
-            "text": "合计（万元）",
+            "text": "合计",
             "alignment": 16777216,
             "width": 160,
             "minimumWidth": 0,
@@ -35874,7 +35874,7 @@
           {
             "id": "163c9657747",
             "name": "period",
-            "text": "当期（万元）",
+            "text": "当期",
             "alignment": 16777216,
             "width": 160,
             "minimumWidth": 0,
@@ -36180,7 +36180,7 @@
           {
             "id": "163c9009744",
             "name": "合计",
-            "text": "总计（万元）",
+            "text": "总计",
             "alignment": 16777216,
             "width": 160,
             "minimumWidth": 0,
@@ -36303,7 +36303,7 @@
           {
             "id": "163c9657747",
             "name": "period",
-            "text": "今年（万元）",
+            "text": "今年",
             "alignment": 16777216,
             "width": 160,
             "minimumWidth": 0,
@@ -38648,7 +38648,7 @@
           {
             "id": "163e93703e7",
             "name": "period",
-            "text": "今年 销售利润（万元）",
+            "text": "今年 销售利润",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -39068,7 +39068,7 @@
           {
             "id": "163c9009744",
             "name": "totalCost",
-            "text": "累计成本（万元）",
+            "text": "累计成本",
             "alignment": 131072,
             "width": 160,
             "minimumWidth": 0,
@@ -47333,7 +47333,7 @@
           {
             "id": "1642fcfaa05",
             "name": "costImpact",
-            "text": "成本(万元)",
+            "text": "成本",
             "alignment": 131072,
             "width": 80,
             "minimumWidth": 0,
@@ -55773,7 +55773,7 @@
           {
             "id": "1632e744d66",
             "name": "资金",
-            "text": "资金（人名币万元）",
+            "text": "资金",
             "alignment": 16384,
             "width": 80,
             "minimumWidth": 0,
@@ -58135,5 +58135,8 @@
       }
     ]
   },
-  "password": "admin"
+  "password": "admin",
+  "footLeftText": "武汉曜正科技有限公司 版权所有  版本: 5.0.20.180714",
+  "headLogo": "/cust/gdalphalogo.png",
+  "pageBackgroundImage": "/cust/gdalphabg.jpg"
 }

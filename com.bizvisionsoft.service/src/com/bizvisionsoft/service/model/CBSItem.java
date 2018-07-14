@@ -295,6 +295,9 @@ public class CBSItem {
 	}
 
 	public double getBudgetSummary() {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -320,6 +323,9 @@ public class CBSItem {
 	}
 
 	public double getBudget(String period) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -349,6 +355,9 @@ public class CBSItem {
 	}
 
 	public double getBudget(String startPeriod, String endPeriod) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -380,6 +389,9 @@ public class CBSItem {
 	}
 
 	public double getBudgetYearSummary(String year) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() == 0) {
 			if (budget == null || budget.isEmpty()) {
@@ -415,6 +427,9 @@ public class CBSItem {
 	private Date settlementDate;
 
 	public double getCostSummary() {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -447,6 +462,9 @@ public class CBSItem {
 	}
 
 	public double getCost(String period) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -467,6 +485,9 @@ public class CBSItem {
 	}
 
 	public double getCost(String startPeriod, String endPeriod) {
+		//////////////////////////////////////////////////////////////////////
+		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
+		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();

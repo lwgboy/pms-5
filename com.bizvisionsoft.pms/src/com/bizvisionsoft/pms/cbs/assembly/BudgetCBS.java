@@ -145,26 +145,35 @@ public class BudgetCBS extends BudgetGrid {
 
 			@Override
 			protected boolean canEdit(Object element) {
-				return ((CBSItem) element).countSubCBSItems()==0;
+				return ((CBSItem) element).countSubCBSItems() == 0;
 			}
 		};
 	}
 
 	protected void saveCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
-		double amount;
+		double inputAmount;
 		try {
-			if("".equals(input)) {
-				amount = 0;
-			}else {
-				amount = Double.parseDouble(input.toString());
+			if ("".equals(input)) {
+				inputAmount = 0;
+			} else {
+				inputAmount = Double.parseDouble(input.toString());
 			}
 		} catch (Exception e) {
 			throw new Exception("请输入数字");
 		}
+
+		///////////////////////////////////////
+		// 避免在没有修改的时候调用服务端程序
+		double oldAmount = item.getBudget(name);
+		if (inputAmount == oldAmount) {
+			return;
+		}
+		///////////////////////////////////////
+
 		CBSPeriod period = new CBSPeriod()//
 				.setCBSItem_id(((CBSItem) item).get_id());
 		Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
-		period.setBudget(amount);
+		period.setBudget(inputAmount);
 		period.setId(name);
 		Date periodDate = new SimpleDateFormat("yyyyMM").parse(period.getId());
 		period.checkRange(periodDate);

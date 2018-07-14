@@ -111,6 +111,13 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
 	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	
+	@PUT
+	@Path("/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("CBS/update")
+	public long update(BasicDBObject filterAndUpdate);
 
 	@PUT
 	@Path("/period/")
