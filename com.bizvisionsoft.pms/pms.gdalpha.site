@@ -58138,5 +58138,6 @@
   "password": "admin",
   "footLeftText": "武汉曜正科技有限公司 版权所有  版本: 5.0.20.180714",
   "headLogo": "/cust/gdalphalogo.png",
-  "pageBackgroundImage": "/cust/gdalphabg.jpg"
+  "pageBackgroundImage": "/cust/gdalphabg.jpg",
+  "welcome": "登录奥飞娱乐i2M平台"
 }
