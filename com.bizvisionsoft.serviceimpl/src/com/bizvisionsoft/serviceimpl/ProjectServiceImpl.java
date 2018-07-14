@@ -445,7 +445,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 							Arrays.asList(new Document("chargerId", new Document("$ne", null)),
 									new Document("assignerId", new Document("$ne", null))))
 					.append("distributed", new Document("$ne", true)).append("actualFinish", null);
-			System.out.println(query1.toJson());
 			c("work").find(query1).forEach((Document w) -> {
 				ids.add(w.getObjectId("_id"));
 				String chargerId = w.getString("chargerId");
