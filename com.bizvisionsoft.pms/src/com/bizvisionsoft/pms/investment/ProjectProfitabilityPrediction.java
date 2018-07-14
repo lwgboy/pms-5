@@ -83,8 +83,12 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 		Document row = (Document) cell.getElement();
 		String name = column.getName();
 		Object cellValue = getCellValue(row, name);
-		if (isPercentRow(row) || isPercentCell(row, name)) {
-			cellValue = Util.getFormatText(cellValue, "0.0%", null);
+		if (cellValue instanceof Number) {
+			if (isPercentRow(row) || isPercentCell(row, name)) {
+				cellValue = Util.getFormatText(cellValue, "0.0%", null);
+			} else {
+				// cellValue = Util.getFormatText(cellValue, "0", null);
+			}
 		}
 
 		super.renderCell(cell, column, cellValue, image);
@@ -141,8 +145,8 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 				createRowData("模具投入", "3.3"), createRowData("手板投入", "3.4"), createRowData("市场费用", "3.5"),
 
 				createRowData("设计费", "3.6"), createRowData("咨询费/会议费", "3.7"), createRowData("报关商检费/检验测试费", "3.8"),
-				createRowData("运输费", "3.9"), createRowData("部门日常营运费用（薪酬/场地/七项/其他）", "3.10"),
-				createRowData("营销专项-创新研发部投入", "3.11"), createRowData("分摊前利润", "4"), createRowData("分摊前利润率", "4.1"),
+				createRowData("运输费", "3.9"), createRowData("部门日常营运费用（薪酬/场地/七项/其他）", "3.A"),
+				createRowData("营销专项-创新研发部投入", "3.B"), createRowData("分摊前利润", "4"), createRowData("分摊前利润率", "4.1"),
 				createRowData("职能分摊费用", "4.1.1"), createRowData("营销分摊费用", "4.1.2"), createRowData("营销专项-其他", "4.1.3"),
 				createRowData("存货减值", "4.1.4"), createRowData("利润总额", "5"), createRowData("减：所得税费用", "5.1"),
 				createRowData("净利润", "6"),
@@ -153,7 +157,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 				createRowData("安全库存成本", "7.4"), createRowData("保本不含税不含返利销售额", "7.5"),
 				createRowData("保本含税含返利销售额", "7.6"), createRowData("投资回报期", "8"),
 
-				createRowData("净现金流", "8.1"), createRowData("PV（净现金流现值）", "8.2"), createRowData("投资回收期(年)", "8.3"));
+				createRowData("净现金流", "8.1"), createRowData("PV（净现金流现值）", "8.2"), createRowData("投资回收期(月)", "8.3"));
 
 		Services.get(CommonService.class).insertStructuredData(result);
 		return result;
@@ -446,16 +450,110 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 				return g4 - g8 - g15 - g16;
 			}
 
-			if ("8.2".equals(index)) {
-				//TODO
-			}
 
 			if ("8.3".equals(index)) {
-				//TODO
+				// =IF(D59+E59+F59=3,"投资回报期超过36个月","投资回报期为"&IF(F59>0,ROUND((E59+D59+F59)*12,0),IF(E59>0,ROUND((E59+D59)*12,0),ROUND(D59*12,0)))&"个月")
+				// double d59 = getRowValue(getRow("1"), "玩具板块_合并");
+				double rate = 1.0435;
+
+				//
+				double g11 = getRowValue(getRow("2.2"), "玩具板块_合并");
+				double d44 = getRowValue(getRow("7.3"), "玩具板块_第一年");
+				double base = -g11 - d44;
+
+				// 计算1年期
+				double d4 = getRowValue(getRow("1"), "玩具板块_第一年");
+				double d8 = getRowValue(getRow("2"), "玩具板块_第一年");
+				double d15 = getRowValue(getRow("2.5"), "玩具板块_第一年");
+				double d16 = getRowValue(getRow("3"), "玩具板块_第一年");
+				double d11 = getRowValue(getRow("2.2"), "玩具板块_第一年");
+				double fv1 = d4 - d8 - d15 - d16 + d11 - g11;
+				double pv1 = fv1 / Math.pow(rate, 1);
+				double sv1 = pv1 + base;
+				double pp1 = Math.max(0, sv1 < 0 ? 1 : (-base / pv1));
+
+				// 计算2年期
+				double e4 = getRowValue(getRow("1"), "玩具板块_第二年");
+				double e8 = getRowValue(getRow("2"), "玩具板块_第二年");
+				double e15 = getRowValue(getRow("2.5"), "玩具板块_第二年");
+				double e16 = getRowValue(getRow("3"), "玩具板块_第二年");
+				double e11 = getRowValue(getRow("2.2"), "玩具板块_第二年");
+				double fv2 = e4 - e8 - e15 - e16 + e11;
+				double pv2 = fv2 / Math.pow(rate, 2);
+				double sv2 = pv2 + sv1;
+				double pp2 = pp1 < 1 ? 0 : (Math.max(0, sv2 < 0 ? 1 : (-sv1 / pv2)));
+
+				// 计算3年期
+				double f4 = getRowValue(getRow("1"), "玩具板块_第三年");
+				double f8 = getRowValue(getRow("2"), "玩具板块_第三年");
+				double f15 = getRowValue(getRow("2.5"), "玩具板块_第三年");
+				double f16 = getRowValue(getRow("3"), "玩具板块_第三年");
+				double f11 = getRowValue(getRow("2.2"), "玩具板块_第三年");
+				double fv3 = f4 - f8 - f15 - f16 + f11;
+				double pv3 = fv3 / Math.pow(rate, 3);
+				double sv3 = pv3 + sv2;
+				double pp3 = pp2 < 1 ? 0 : (Math.max(0, sv3 < 0 ? 1 : (-sv2 / pv3)));
+
+				if (pp1 + pp2 + pp3 >= 3) {
+					return 3 * 12;
+				} else {
+					if (pp3 > 0) {
+						return Math.round((pp1 + pp2 + pp3) * 12);
+					} else if (pp2 > 0) {
+						return Math.round((pp1 + pp2) * 12);
+					} else {
+						return Math.round(pp1 * 12);
+					}
+				}
+
 			}
 
 		}
+		
+		if("8.2".equals(index)) {
+			double rate = 1.0435;
 
+			//
+			double g11 = getRowValue(getRow("2.2"), "玩具板块_合并");
+
+			// 计算1年期
+			double d4 = getRowValue(getRow("1"), "玩具板块_第一年");
+			double d8 = getRowValue(getRow("2"), "玩具板块_第一年");
+			double d15 = getRowValue(getRow("2.5"), "玩具板块_第一年");
+			double d16 = getRowValue(getRow("3"), "玩具板块_第一年");
+			double d11 = getRowValue(getRow("2.2"), "玩具板块_第一年");
+			double fv1 = d4 - d8 - d15 - d16 + d11 - g11;
+			double pv1 = fv1 / Math.pow(rate, 1);
+			
+			if ("玩具板块_第一年".equals(name)) {
+				return pv1;
+			}
+			// 计算2年期
+			double e4 = getRowValue(getRow("1"), "玩具板块_第二年");
+			double e8 = getRowValue(getRow("2"), "玩具板块_第二年");
+			double e15 = getRowValue(getRow("2.5"), "玩具板块_第二年");
+			double e16 = getRowValue(getRow("3"), "玩具板块_第二年");
+			double e11 = getRowValue(getRow("2.2"), "玩具板块_第二年");
+			double fv2 = e4 - e8 - e15 - e16 + e11;
+			double pv2 = fv2 / Math.pow(rate, 2);
+
+			if ("玩具板块_第二年".equals(name)) {
+				return pv2;
+			}
+			// 计算3年期
+			double f4 = getRowValue(getRow("1"), "玩具板块_第三年");
+			double f8 = getRowValue(getRow("2"), "玩具板块_第三年");
+			double f15 = getRowValue(getRow("2.5"), "玩具板块_第三年");
+			double f16 = getRowValue(getRow("3"), "玩具板块_第三年");
+			double f11 = getRowValue(getRow("2.2"), "玩具板块_第三年");
+			double fv3 = f4 - f8 - f15 - f16 + f11;
+			double pv3 = fv3 / Math.pow(rate, 3);
+			if ("玩具板块_第三年".equals(name)) {
+				return pv3;
+			}
+
+
+		}
 		return 0d;
 	}
 
@@ -532,7 +630,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 
 				@Override
 				protected Object getValue(Object element) {
-					return getNumberText(getRowValue((Document) element, name), "0.0");
+					return getNumberText(getRowValue((Document) element, name), "0");
 				}
 
 				@Override
@@ -552,6 +650,10 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 	}
 
 	private boolean inputableCell(Document element, String name) {
+		if (!inputableCol(name)) {
+			return false;
+		}
+
 		if ("玩具板块_第一年".equals(name)) {
 			return "7.3".equals(element.get("index"));
 		}
