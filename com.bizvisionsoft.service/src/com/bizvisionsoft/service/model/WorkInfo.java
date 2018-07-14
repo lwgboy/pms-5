@@ -344,12 +344,19 @@ public class WorkInfo {
 
 	@WriteValue("charger")
 	private void setCharger(OBSItemWarpper charger) {
-		this.chargerId = Optional.ofNullable(charger).map(o -> o.getUserId()).orElse(null);
+		if (charger != null) {
+			this.chargerId = charger.getUserId();
+			this.chargerInfo = charger.getUserName();
+		} else {
+			this.chargerId = null;
+			this.chargerInfo = null;
+		}
 	}
 
 	@ReadValue("charger")
-	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	private OBSItemWarpper getCharger() {
+		return Optional.ofNullable(chargerId)
+				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
 	}
 
 	@ReadValue
@@ -363,12 +370,19 @@ public class WorkInfo {
 
 	@WriteValue("assigner")
 	private void setAssigner(OBSItemWarpper assigner) {
-		this.assignerId = Optional.ofNullable(assigner).map(o -> o.getUserId()).orElse(null);
+		if (assigner != null) {
+			this.assignerId = assigner.getUserId();
+			this.assignerInfo = assigner.getUserName();
+		} else {
+			this.assignerId = null;
+			this.assignerInfo = null;
+		}
 	}
 
 	@ReadValue("assigner")
-	private User getAssigner() {
-		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	private OBSItemWarpper getAssigner() {
+		return Optional.ofNullable(assignerId)
+				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -637,5 +651,30 @@ public class WorkInfo {
 	@WriteValue
 	@Persistence
 	private boolean distributed;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkInfo other = (WorkInfo) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		return true;
+	}
 
 }

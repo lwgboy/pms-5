@@ -402,7 +402,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				result.add(Result.startProjectWarning("项目沒有编制预算.", Result.CODE_PROJECT_NOCBS));
 		}
 
-		if (project.getWorkOrder() == null) {
+		String workOrder = project.getWorkOrder();
+		if (workOrder == null || "".equals(workOrder)) {
 			result.add(Result.startProjectError("项目没有工作令号.", Result.CODE_PROJECT_NOWORKORDER));
 		}
 
@@ -417,7 +418,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		Document query = new Document("project_id", com._id).append("chargerId", new Document("$ne", null))
-				.append("distributed", new Document("$ne", true)).append("actualFinish", null);
+				.append("distributed", new Document("$ne", true)).append("actualFinish", null).append("stage", true);
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
@@ -426,11 +427,45 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
 			messages.add(Message.newInstance("工作计划下达通知",
-					"您参与的项目 " + pjName + "，工作 " + w.getString("fullName") + "， 预计从 "
+					"您参与的项目 " + pjName + "，阶段 " + w.getString("fullName") + "， 预计从 "
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
 							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
 					com.userId, w.getString("chargerId"), null));
 		});
+
+		List<ObjectId> stageIds = c("work").distinct("_id",
+				new Document("project_id", com._id).append("stage", true).append("status", ProjectStatus.Processing),
+				ObjectId.class).into(new ArrayList<ObjectId>());
+
+		if (!stageIds.isEmpty()) {
+			List<ObjectId> stageWorkIds = getDesentItems(stageIds, "work", "parent_id");
+			stageWorkIds.removeAll(stageIds);
+			Document query1 = new Document("_id", new Document("$in", stageWorkIds))
+					.append("$or",
+							Arrays.asList(new Document("chargerId", new Document("$ne", null)),
+									new Document("assignerId", new Document("$ne", null))))
+					.append("distributed", new Document("$ne", true)).append("actualFinish", null);
+			System.out.println(query1.toJson());
+			c("work").find(query1).forEach((Document w) -> {
+				ids.add(w.getObjectId("_id"));
+				String chargerId = w.getString("chargerId");
+				if (chargerId != null && !"".equals(chargerId))
+					messages.add(Message.newInstance("工作计划下达通知",
+							"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish"))
+									+ "结束",
+							com.userId, chargerId, null));
+				String assignerId = w.getString("assignerId");
+				if (assignerId != null && !"".equals(assignerId))
+					messages.add(Message.newInstance("工作计划下达通知",
+							"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish"))
+									+ "结束",
+							com.userId, assignerId, null));
+			});
+		}
 
 		if (ids.isEmpty()) {
 			result.add(Result.updateFailure("没有需要下达的计划。"));

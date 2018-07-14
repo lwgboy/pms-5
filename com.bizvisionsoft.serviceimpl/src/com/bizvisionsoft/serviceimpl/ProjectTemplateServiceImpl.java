@@ -290,7 +290,6 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		List<Document> tobeInsert = new ArrayList<>();
 
 		boolean stageEnable = Boolean.TRUE.equals(project.getBoolean("stageEnable"));
-		String pjNo = project.getString("id");
 		ObjectId obs_id = project.getObjectId("obs_id");
 
 		Date planStartInProject = project.getDate("planStart");
@@ -310,7 +309,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					idMap.put(doc.getObjectId("_id"), _id);
 
 					int index = generateCode(Generator.DEFAULT_NAME, "work");
-					String code = pjNo + String.format("%04d", index);
+					String code = String.format("%06d", index);
 
 					ObjectId parent_id = doc.getObjectId("parent_id");
 					doc.append("_id", _id).append("space_id", space_id)

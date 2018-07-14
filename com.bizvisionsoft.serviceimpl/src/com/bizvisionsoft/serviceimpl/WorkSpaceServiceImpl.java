@@ -204,15 +204,21 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		if (workspace.getWork_id() != null) {
 			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
 			if (work.getPlanFinish().before(doc.getDate("finish"))) {
+				String name = c("workspace").distinct("name",
+						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
+						String.class).first();
 				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATESTAGE);
-				result.data = new BasicDBObject("name", work.getText());
+				result.data = new BasicDBObject("name", name).append("planFinish", work.getPlanFinish());
 				return result;
 			}
 		} else {
 			Project project = new ProjectServiceImpl().get(workspace.getProject_id());
 			if (project.getPlanFinish().before(doc.getDate("finish"))) {
+				String name = c("workspace").distinct("name",
+						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
+						String.class).first();
 				Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEPROJECT);
-				result.data = new BasicDBObject("name", project.getName());
+				result.data = new BasicDBObject("name", name).append("planFinish", project.getPlanFinish());
 				return result;
 			}
 		}

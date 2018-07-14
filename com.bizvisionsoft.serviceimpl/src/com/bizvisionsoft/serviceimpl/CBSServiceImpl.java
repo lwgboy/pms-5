@@ -25,8 +25,10 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -117,8 +119,15 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public CBSItem insertCBSItem(CBSItem o) {
-		CBSItem item = insert(o, CBSItem.class);
-		return query(new BasicDBObject("_id", item.get_id())).first();
+		try {
+			CBSItem item = insert(o, CBSItem.class);
+			return query(new BasicDBObject("_id", item.get_id())).first();
+		} catch (Exception e) {
+			if (e instanceof MongoBulkWriteException) {
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -137,12 +146,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		deletecbsIds.add(_id);
 		listDescendants(_id, cId -> deletecbsIds.add(cId));
 
-		ArrayList<ObjectId> deletePeriodIds = c(CBSPeriod.class)
-				.distinct("_id", new Document("cbsItem_id", new Document("$in", deletecbsIds)), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		Document query = new Document("cbsItem_id", new Document("$in", deletecbsIds));
 
-		if (!deletePeriodIds.isEmpty())
-			c(CBSPeriod.class).deleteMany(new Document("_id", new Document("$in", deletePeriodIds)));
+		c(CBSPeriod.class).deleteMany(query);
+		c(CBSSubject.class).deleteMany(query);
 
 		c(CBSItem.class).deleteMany(new Document("_id", new Document("$in", deletecbsIds)));
 	}
@@ -367,7 +374,13 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				cbsItemList.add(cbsItem);
 				cbsItemIdList.add(cbsItem.get_id());
 			}
-			c(CBSItem.class).insertMany(cbsItemList);
+			try {
+				c(CBSItem.class).insertMany(cbsItemList);
+			} catch (Exception e) {
+				if (e instanceof MongoBulkWriteException) {
+					throw new ServiceException(e.getMessage());
+				}
+			}
 		}
 		return query(new BasicDBObject("_id", new BasicDBObject("$in", cbsItemIdList))).into(new ArrayList<CBSItem>());
 	}
@@ -502,7 +515,13 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	private List<Result> submitCBSSubjectCostCheck(ObjectId scope_id, Date id) {
-		return new ArrayList<Result>();
+		List<Result> result = new ArrayList<Result>();
+		Date date = getNextSettlementDate(scope_id);
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		if (format.format(date).equals(format.format(id))) {
+			result.add(Result.submitCBSSubjectError("重复提交期间费用"));
+		}
+		return result;
 	}
 
 	@Override

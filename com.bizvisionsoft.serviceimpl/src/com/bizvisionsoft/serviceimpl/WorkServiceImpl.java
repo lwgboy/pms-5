@@ -580,11 +580,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<ObjectId> inputIds = getDesentItems(Arrays.asList(com._id), "work", "parent_id");
 
-		BasicDBObject query = new BasicDBObject("_id", new BasicDBObject("$in", inputIds))
+		Document query = new Document("_id", new Document("$in", inputIds))
 				.append("$or",
-						new BasicDBObject[] { new BasicDBObject("chargerId", new Document("$ne", null)),
-								new BasicDBObject("assignerId", new Document("$ne", null)) })
-				.append("distributed", new BasicDBObject("$ne", true)).append("actualFinish", null);
+						Arrays.asList(new Document("chargerId", new Document("$ne", null)),
+								new Document("assignerId", new Document("$ne", null))))
+				.append("distributed", new Document("$ne", true)).append("actualFinish", null);
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
@@ -594,17 +594,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		c("work").find(query).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
 			String chargerId = w.getString("chargerId");
-			messages.add(Message.newInstance("工作计划下达通知",
-					"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-					com.userId, chargerId, null));
+			if (chargerId != null && !"".equals(chargerId))
+				messages.add(Message.newInstance("工作计划下达通知",
+						"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
+						com.userId, chargerId, null));
 			String assignerId = w.getString("assignerId");
-			messages.add(Message.newInstance("工作计划下达通知",
-					"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-					com.userId, assignerId, null));
+			if (assignerId != null && !"".equals(assignerId))
+				messages.add(Message.newInstance("工作计划下达通知",
+						"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
+								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
+						com.userId, assignerId, null));
 		});
 
 		if (ids.isEmpty()) {

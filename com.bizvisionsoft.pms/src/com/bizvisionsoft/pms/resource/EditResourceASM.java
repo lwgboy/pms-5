@@ -975,12 +975,13 @@ public class EditResourceASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Util.getFormatText(value, null, locale);
-							if (canEditDateValue && isWorkDay((Document) element)
-									&& (now.before((Date) eFinish) || now.equals((Date) eFinish))
-									&& (now.after((Date) eStart) || now.equals((Date) eStart)))
+							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
+									&& (now.before((Date) eFinish)
+											|| sdf.format(now).equals(sdf.format((Date) eFinish)))
+									&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
 								return "<a href='" + key + doc.get("_id").toString()
 										+ "' target='_rwt' style='width: 100%;'>"
-										+ ("0.0".equals(text)
+										+ ("0.0".equals(text) || "".equals(text)
 												? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 														+ "<i class='layui-icon  layui-icon-edit'></i></button>")
 												: text)
@@ -993,7 +994,8 @@ public class EditResourceASM extends GridPart {
 				}
 
 				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
-						&& now.before((Date) eFinish) && now.after((Date) eStart))
+						&& (now.before((Date) eFinish) || now.equals((Date) eFinish))
+						&& (now.after((Date) eStart) || now.equals((Date) eStart)))
 					return "<a href='" + key + "-" + id
 							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i></button></a>";

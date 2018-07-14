@@ -424,7 +424,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date",
-			"项目基线甘特图/end_date","部门工作日程表/end_date" })
+			"项目基线甘特图/end_date", "部门工作日程表/end_date" })
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
@@ -508,7 +508,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 工期完成率 百分比
 	@ReadValue("dar")
 	public Double getDAR() {
-		if (planDuration != 0) {
+		if (planDuration != 0 && !milestone) {
 			return 1d * getActualDuration() / planDuration;
 		}
 		return null;
@@ -528,12 +528,15 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("war")
 	public Double getWAR() {
-		if (getActualStart() == null) {
+		if (milestone)
+			return null;
+
+		if (getActualStart() == null)
 			return 0d;
-		}
-		if (getActualFinish() != null) {
+
+		if (getActualFinish() != null)
 			return 1d;
-		}
+
 		Double d = null;
 
 		if (summary) {
@@ -566,7 +569,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 进度完成率指标 百分比
 	@ReadValue("sar")
 	public Double getSAR() {
-		if (stage && actualFinish != null) {
+		if (stage && actualFinish != null && !milestone) {
 			double d = 1d * (planFinish.getTime() - planStart.getTime())
 					/ (actualFinish.getTime() - actualStart.getTime());
 			return d > 1d ? 1d : d;
@@ -1168,7 +1171,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("进度计划和监控/ACI")
 	public Double getACI() {
-		if (summary) {
+		if (summary || milestone) {
 			return null;
 		}
 		return aci;
@@ -1179,7 +1182,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("进度计划和监控/ACP")
 	public Double getACP() {
-		if (summary) {
+		if (summary || milestone) {
 			return null;
 		}
 		return acp;

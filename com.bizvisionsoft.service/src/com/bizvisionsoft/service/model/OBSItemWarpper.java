@@ -26,14 +26,34 @@ public class OBSItemWarpper {
 	@SetValue
 	private String name;
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
-	
+
+	public String getUserName() {
+		return userName;
+	}
+
 	@Override
 	@Label
 	public String toString() {
 		return userName;
+	}
+
+	public OBSItemWarpper setUser(User user) {
+		if (user != null) {
+			this.userId = user.getUserId();
+			this.userName = user.getName();
+		}
+		return this;
 	}
 
 }

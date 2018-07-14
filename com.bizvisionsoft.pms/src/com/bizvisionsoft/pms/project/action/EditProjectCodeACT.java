@@ -27,7 +27,7 @@ public class EditProjectCodeACT {
 			Editor.open("±à¼­ÏîÄ¿±à¼­Æ÷", context, (Project) se, (b, o) -> {
 				Object code = b.get("id");
 				Object workOrder = b.get("workOrder");
-				if (code != null && workOrder == null) {
+				if (code != null && (workOrder == null || "".equals(workOrder))) {
 					workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(o.get_id());
 					b.put("workOrder", workOrder);
 				}

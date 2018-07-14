@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.cbs.action;
 
 import java.util.List;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -23,13 +24,20 @@ public class AddCBSItemByStage {
 		Object rootInput = context.getRootInput();
 		if (rootInput instanceof Project) {
 			Project project = (Project) rootInput;
-			List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
-					project.get_id());
-			BudgetCBS budgetCBS = (BudgetCBS) context.getChildContextByName("cbs").getContent();
-			CBSItem cbsRoot = (CBSItem) budgetCBS.getViewerInput().get(0);
-			cbsRoot.addChild(cbsItems);
-			budgetCBS.refresh(cbsRoot);
-			budgetCBS.expandToLevel(cbsRoot, -1);
+			try {
+				List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
+						project.get_id());
+				BudgetCBS budgetCBS = (BudgetCBS) context.getChildContextByName("cbs").getContent();
+				CBSItem cbsRoot = (CBSItem) budgetCBS.getViewerInput().get(0);
+				cbsRoot.addChild(cbsItems);
+				budgetCBS.refresh(cbsRoot);
+				budgetCBS.expandToLevel(cbsRoot, -1);
+			} catch (Exception e) {
+				String message = e.getMessage();
+				if (message.indexOf("index") >= 0) {
+					Layer.message("请勿在同一范围内重复添加相同编号的成本项。", Layer.ICON_CANCEL);
+				}
+			}
 		}
 	}
 }

@@ -23,13 +23,13 @@ public class AddMilestone {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
 
-		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) ((GanttEvent) event).task).setMilestone(true);
-		new Editor<WorkInfo>(bruiService.getAssembly("甘特图里程碑工作编辑器"), context)
-				.setInput(workInfo).ok((r, wi) -> {
-					wi.setPlanFinish(wi.getPlanStart());
-					GanttPart content = (GanttPart) context.getContent();
-					content.addTask(wi);
-				});
+		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) ((GanttEvent) event).task).setMilestone(true)
+				.setManageLevel("1");
+		new Editor<WorkInfo>(bruiService.getAssembly("甘特图里程碑工作编辑器"), context).setInput(workInfo).ok((r, wi) -> {
+			wi.setPlanFinish(wi.getPlanStart());
+			GanttPart content = (GanttPart) context.getContent();
+			content.addTask(wi);
+		});
 	}
 
 }
