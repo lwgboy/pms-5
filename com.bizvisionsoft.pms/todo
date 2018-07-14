@@ -161,5 +161,6 @@ CBSItem public double getBudget(String period) {//显示数据没有取合计值 public do
 修改CBSItem名称 bug com.bizvisionsoft.service.CBSService 没有更改成本项名称的服务
 CBSItem取指标 null错误，逻辑错误
 
-
+1. 设定销售业务部门，组织上设定
+2. 设定分析年
 

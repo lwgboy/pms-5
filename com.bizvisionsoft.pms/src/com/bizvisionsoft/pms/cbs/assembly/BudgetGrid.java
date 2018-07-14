@@ -60,6 +60,10 @@ public abstract class BudgetGrid extends GridPart {
 		c.setMoveable(false);
 		c.setResizeable(true);
 		createColumn(grid, c).getColumn().setFooterText("CBS总预算");
+		
+		createEstimationColumns(grid);
+		
+		//////////////////////////////////////////////////////////////////////////////
 
 		// Note: 这个范围意义不大
 		// c = new Column();
@@ -153,6 +157,14 @@ public abstract class BudgetGrid extends GridPart {
 			start.add(Calendar.MONTH, 1);
 		}
 		createYearTotal(year, grp);
+	}
+
+	/**
+	 * 子类覆盖 增加列
+	 * @param grid
+	 */
+	protected void createEstimationColumns(Grid grid) {
+		
 	}
 
 	/**
