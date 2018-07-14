@@ -402,7 +402,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// project_id
 		// creationDate
 		c("baseline").createIndex(new Document("project_id", 1));
-		c("baseline").createIndex(new Document("creationDate", -1));//按时间倒序
+		c("baseline").createIndex(new Document("creationDate", -1));// 按时间倒序
 		// baselineWork->
 		// project_id
 		// wbsCode
@@ -674,6 +674,21 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public List<String> listWorkTag() {
 		return new ArrayList<String>(getDictionaryIdNamePair("工作标签").values());
+	}
+
+	@Override
+	public List<Document> listStructuredData(BasicDBObject query) {
+		return c("structuredData").find(query).sort(new Document("index", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public void insertStructuredData(List<Document> result) {
+		c("structuredData").insertMany(result);
+	}
+
+	@Override
+	public void updateStructuredData(BasicDBObject fu) {
+		update(fu, "structuredData");
 	}
 
 }
