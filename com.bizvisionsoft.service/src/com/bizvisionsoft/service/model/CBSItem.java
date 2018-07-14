@@ -295,7 +295,7 @@ public class CBSItem {
 	}
 
 	public double getBudgetSummary() {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
@@ -320,7 +320,7 @@ public class CBSItem {
 	}
 
 	public double getBudget(String period) {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
@@ -380,7 +380,7 @@ public class CBSItem {
 	}
 
 	public double getBudgetYearSummary(String year) {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() == 0) {
 			if (budget == null || budget.isEmpty()) {
 				return 0d;
@@ -415,7 +415,7 @@ public class CBSItem {
 	private Date settlementDate;
 
 	public double getCostSummary() {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
@@ -447,7 +447,7 @@ public class CBSItem {
 	}
 
 	public double getCost(String period) {
-		Double summary = 0d;
+		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
@@ -569,52 +569,52 @@ public class CBSItem {
 		}
 	}
 
-	public Object getCARSummary() {
-		Double budgetSummary = getBudgetSummary();
+	public Double getCARSummary() {
+		double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * getCostSummary() / budgetSummary;
 		}
-		return "";
+		return null;
 	}
 
-	public Object getCAR(String period) {
-		Double budget = getBudget(period);
+	public Double getCAR(String period) {
+		double budget = getBudget(period);
 		if (budget != 0d) {
-			return 1d * getCost(period) / budget;
+			return getCost(period) / budget;
 		}
-		return "";
+		return null;
 	}
 
-	public Object getCAR(String startPeriod, String endPeriod) {
-		Double budget = getBudget(startPeriod, endPeriod);
+	public Double getCAR(String startPeriod, String endPeriod) {
+		double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * getCost(startPeriod, endPeriod) / budget;
 		}
-		return "";
+		return null;
 	}
 
-	public Object getBDRSummary() {
-		Double budgetSummary = getBudgetSummary();
+	public Double getBDRSummary() {
+		double budgetSummary = getBudgetSummary();
 		if (budgetSummary != 0d) {
 			return 1d * (getCostSummary() - budgetSummary) / budgetSummary;
 		}
-		return "";
+		return null;
 	}
 
-	public Object getBDR(String period) {
-		Double budget = getBudget(period);
+	public Double getBDR(String period) {
+		double budget = getBudget(period);
 		if (budget != 0d) {
 			return 1d * (getCost(period) - budget) / budget;
 		}
-		return "";
+		return null;
 	}
 
-	public Object getBDR(String startPeriod, String endPeriod) {
-		Double budget = getBudget(startPeriod, endPeriod);
+	public Double getBDR(String startPeriod, String endPeriod) {
+		double budget = getBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
 			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
 		}
-		return "";
+		return null;
 	}
 
 	@SetValue
