@@ -1,13 +1,18 @@
 package com.bizvisionsoft.pms.product;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
@@ -47,6 +52,18 @@ import com.mongodb.Function;
 
 public class ProductProfitabilityPrediction extends GridPart {
 
+	private static final String L = "项目进度";
+
+	private static final String D = "项目比例";
+
+	private static final String K = "SKU合计";
+
+	private static final String B = "序号";
+
+	private static final String A = "项目";
+
+	private static final String C = "立项总体";
+
 	static class ExtendLabel extends ColumnLabelProvider {
 
 		private Function<Document, String> func;
@@ -78,9 +95,12 @@ public class ProductProfitabilityPrediction extends GridPart {
 			}
 			return null;
 		}
+
 	}
 
 	private static final String type = "SKU盈利预测";
+
+	private static final String[] option = new String[] { "3K", "5K", "10K", "20K" };
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -89,6 +109,12 @@ public class ProductProfitabilityPrediction extends GridPart {
 	private IBruiService bruiService;
 
 	private Project project;
+
+	private List<Document> input;
+
+	private List<String> pCol = new ArrayList<>();
+
+	private Map<String, Map<String, Object>> matrix = new HashMap<>();
 
 	@Init
 	public void init() {
@@ -151,12 +177,12 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 	@Override
 	public void setViewerInput() {
-		List<Document> result = Services.get(CommonService.class)
+		input = Services.get(CommonService.class)
 				.listStructuredData(new BasicDBObject("host_id", project.get_id()).append("type", type));
-		if (result.isEmpty()) {
-			result = initStructuredData();
+		if (input.isEmpty()) {
+			input = initStructuredData();
 		}
-		setViewerInput(result);
+		setViewerInput(input);
 	}
 
 	private List<Document> initStructuredData() {
@@ -184,22 +210,8 @@ public class ProductProfitabilityPrediction extends GridPart {
 	}
 
 	private StickerTitlebar createBar(Composite parent) {
-		Action a = new Action();
-		a.setName("创建项目根文件夹");
-		a.setImage("/img/add_16_w.svg");
-		a.setTooltips("创建项目根文件夹");
-		a.setStyle("normal");
 
-		Action b = new Action();
-		b.setName("查询");
-		b.setImage("/img/search_w.svg");
-		b.setTooltips("查询项目文档");
-		b.setStyle("info");
-
-		List<Action> rightActions;
-		rightActions = Arrays.asList(a, b);
-
-		StickerTitlebar bar = new StickerTitlebar(parent, null, rightActions)
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null)
 				.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());
 		bar.addListener(SWT.Selection, l -> {
 			if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
@@ -211,18 +223,18 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 	@Override
 	protected void createColumns(Grid grid) {
-		createColumn(grid, "项目", 240, SWT.LEFT);
-		createColumn(grid, "序号", 60, SWT.CENTER);
-		createColumn(grid, "立项总体", 80, SWT.RIGHT);
-		createColumn(grid, "项目比例", 80, SWT.RIGHT);
+		createColumn(grid, A, 240, SWT.LEFT);
+		createColumn(grid, B, 60, SWT.CENTER);
+		createColumn(grid, C, 80, SWT.RIGHT);
+		createColumn(grid, D, 80, SWT.RIGHT);
 		// 创建产品列
 		createProductColumns(grid);
 
-		createColumn(grid, "SKU合计", 160, SWT.RIGHT);
-		createColumn(grid, "项目进度", 160, SWT.RIGHT);
+		createColumn(grid, K, 100, SWT.RIGHT);
+		createColumn(grid, L, 100, SWT.RIGHT);
 
 	}
-	
+
 	private void createColumn(Grid grid, final String name, int width, int style) {
 		Column c = new Column();
 		c.setName(name);
@@ -237,17 +249,279 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 	private String getCellText(Document d, String col) {
 		String index = d.getString("index");
-		if ("序号".equals(col)) {
-			return index;
-		} else if ("项目".equals(col)) {
-			return d.getString("name");
+		Object value = getCellValue(d, col);
+		if (value instanceof String) {
+			return (String) value;
 		}
-		
-		if(Arrays.asList("04","05","03","11","14","15").contains(index) && isProductCol(col)) {
-			return Util.getFormatText(d.get(col), "0.0", null);
+		String format = getFormat(index, col);
+		if (format == null) {
+			return "";
+		}
+		return Util.getFormatText(value, format, null);
+	}
+
+	private String getFormat(String row, String col) {
+		if (C.equals(col) || K.equals(col)) {
+			if (Arrays.asList("01", "02", "03", "04", "05").contains(row)) {
+				return null;
+			} else if ("10".equals(row) || "17".equals(row)) {
+				return "0.0%";
+			} else {
+				return "0";
+			}
 		}
 
-		return "";
+		if (D.equals(col)) {
+			if (Arrays.asList("01", "02", "03", "04", "05", "10", "17").contains(row)) {
+				return null;
+			} else {
+				return "0.0%";
+			}
+		}
+
+		if (isProductCol(col)) {
+			if ("10".equals(row) || "17".equals(row)) {
+				return "0.0%";
+			} else {
+				return "0";
+			}
+		}
+
+		if (L.equals(col))
+			return "0.0%";
+
+		return null;
+	}
+
+	private Object getCellValue(Document d, String col) {
+		String index = d.getString("index");
+		try {
+			return readMatrixValue(index, col);
+		} catch (Exception e) {
+		}
+		Object value = readCellValue(d, col);
+		writeMatrixValue(index, col, value);
+		return value;
+	}
+
+	private Object readCellValue(Document d, String col) {
+		String index = d.getString("index");
+
+		if (A.equals(col))
+			return d.getString("name");
+
+		if (B.equals(col))
+			return index;
+
+		if (Arrays.asList("04", "05", "03", "11", "14", "15").contains(index) && isProductCol(col))
+			return d.get(col);
+
+		if ("01".equals(index) && !isComputeCell("01", col))
+			return Boolean.TRUE.equals(d.get(col)) ? "是" : "否";
+
+		if ("02".equals(index) && !isComputeCell("01", col))
+			return d.getString(col);
+
+		// 计算值
+		if ("06".equals(index)) {
+			Document row07 = getRow("07");
+			if (C.equals(col) || K.equals(col) || isComputeCell(index, col))
+				return getCellValue(row07, col);
+
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("07".equals(index)) {
+			if (C.equals(col))
+				return search("1.1", "scy1", "scy2", "scy3");
+
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+
+			if (isComputeCell(index, col))
+				return getDoubleValue("03", col) * getDoubleValue("04", col) / (1.17 * 0.95);
+
+			if (K.equals(col))
+				return summaryProduct(d);
+
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("08".equals(index)) {
+			if (C.equals(col))
+				return getDoubleValue("09", C) + getDoubleValue("11", C);
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (isComputeCell("08", col) || K.equals(col))
+				return getDoubleValue("09", col) + getDoubleValue("11", col);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("09".equals(index)) {
+			if (C.equals(col))
+				return search("2.1", "scy1", "scy2", "scy3");
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (isComputeCell(index, col))
+				return getDoubleValue("03", col) * getDoubleValue("05", col);
+			if (K.equals(col))
+				return summaryProduct(d);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("10".equals(index)) {
+			if (C.equals(col))
+				return 1 - getDoubleValue("09", C) / getDoubleValue("07", C);
+			if (isComputeCell("10", col) || K.equals(col))
+				return divide("09", col, "07", col);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("11".equals(index)) {
+			if (C.equals(col))
+				return search("2.4", "scy1", "scy2", "scy3");
+			if (D.equals(col))
+				return divide(index, C, "07", C);
+			if (K.equals(col))
+				return summaryProduct(d);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("12".equals(index)) {
+			if (C.equals(col))
+				return (search("1.1", "scy1", "scy2", "scy3") + search("1.2", "scy1", "scy2", "scy3")
+						+ search("1.3", "scy1", "scy2", "scy3") - search("2.1", "scy1", "scy2", "scy3")
+						- search("2.2", "scy1", "scy2", "scy3") - search("2.3", "scy1", "scy2", "scy3")
+						- search("2.4", "scy1", "scy2", "scy3")) * 0.17 * 0.12;
+
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (isComputeCell("12", col))
+				return (getDoubleValue("07", col) - getDoubleValue("09", col)) * 0.17 * 0.12;
+			if (K.equals(col))
+				return summaryProduct(d);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("13".equals(index)) {
+			if (C.equals(col) || K.equals(col) || isComputeCell(index, col))
+				return getDoubleValue("14", C) + getDoubleValue("15", C);
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("14".equals(index)) {
+			if (C.equals(col))
+				return search("3.3", "scy1", "scy2", "scy3");
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (K.equals(col))
+				return summaryProduct(d);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("15".equals(index)) {
+			if (C.equals(col))
+				return search("3.4", "scy1", "scy2", "scy3");
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (K.equals(col))
+				return summaryProduct(d);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("16".equals(index)) {
+			if (C.equals(col) || K.equals(col) || isComputeCell(index, col))
+				return getDoubleValue("06", col) - getDoubleValue("08", col) - getDoubleValue("12", col)
+						- getDoubleValue("13", col);
+
+			if (D.equals(col))
+				return divide(index, C, "06", C);
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		if ("17".equals(index)) {
+			if (C.equals(col) || K.equals(col) || isComputeCell(index, col))
+				return divide("16", col, "07", col);
+
+			if (L.equals(col))
+				return divideKC(d);
+		}
+
+		return null;
+	}
+
+	private Object readMatrixValue(String index, String col) throws Exception {
+		Map<String, Object> _r = matrix.get(index);
+		if (_r == null)
+			throw new Exception();
+		if (!_r.containsKey(col))
+			throw new Exception();
+		return _r.get(col);
+	}
+
+	private void writeMatrixValue(String index, String col, Object value) {
+		Map<String, Object> _r = matrix.get(index);
+		if (_r == null) {
+			_r = new HashMap<>();
+			matrix.put(index, _r);
+		}
+		_r.put(col, value);
+	}
+
+	private double divideKC(Document d) {
+		double j10 = getDoubleValue(d, K);
+		double b10 = getDoubleValue(d, C);
+		if (b10 != 0)
+			return j10 / b10;
+		return 0d;
+	}
+
+	private double divide(String row1, String col1, String row2, String col2) {
+		double j10 = getDoubleValue(row1, col1);
+		double b10 = getDoubleValue(row2, col2);
+		if (b10 != 0)
+			return j10 / b10;
+		return 0d;
+	}
+
+	private Object summaryProduct(Document d) {
+		double sum = 0;
+		for (int i = 0; i < pCol.size(); i++) {
+			sum += getDoubleValue(d, pCol.get(i));
+		}
+		return sum;
+	}
+
+	private double search(String index, String... cols) {
+		List<Document> refRows = Services.get(CommonService.class).listStructuredData(
+				new BasicDBObject("host_id", project.get_id()).append("type", "项目盈利预测分析").append("index", index));
+		if (!refRows.isEmpty()) {
+			Document ref = refRows.get(0);
+			double sum = 0d;
+			for (int i = 0; i < cols.length; i++) {
+				sum += Optional.ofNullable(ref.getDouble(cols[i])).orElse(0d);
+			}
+			return sum;
+		} else {
+			return 0d;
+		}
+	}
+
+	private Document getRow(String index) {
+		return input.stream().filter(d -> d.getString("index").equals(index)).findFirst().orElse(null);
 	}
 
 	private Color getColor(String row, String col) {
@@ -255,12 +529,11 @@ public class ProductProfitabilityPrediction extends GridPart {
 	}
 
 	private boolean isComputeCell(String row, String col) {
-		return Arrays.asList("06", "07", "08", "09", "10", "12", "13", "16", "17").contains(row)
-				|| !isProductCol(col);
+		return Arrays.asList("06", "07", "08", "09", "10", "12", "13", "16", "17").contains(row) || !isProductCol(col);
 	}
-	
+
 	private boolean isProductCol(String col) {
-		return !Arrays.asList("项目", "序号", "立项总体", "项目比例", "SKU合计", "项目进度").contains(col);
+		return !Arrays.asList(A, B, C, D, K, L).contains(col);
 	}
 
 	private void createProductColumns(Grid grid) {
@@ -275,9 +548,10 @@ public class ProductProfitabilityPrediction extends GridPart {
 	private void createProductColumn(GridColumnGroup grp, Product p) {
 		Column c = new Column();
 		final String col = p.getId();
+		pCol.add(col);
 		c.setName(col);
 		c.setText(col);
-		c.setWidth(120);
+		c.setWidth(100);
 		c.setAlignment(SWT.RIGHT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -290,8 +564,16 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 			@Override
 			protected void setValue(Object element, Object value) {
+				Document row = (Document) element;
+				String index = row.getString("index");
 				try {
-					update((Document) element, col, value);
+					if ("01".equals(index)) {
+						updateBooleanValue(row, col, value);
+					} else if ("02".equals(index)) {
+						updateOptionValue(row, col, value);
+					} else {
+						updateNumberValue(row, col, value);
+					}
 					viewer.refresh();
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
@@ -300,12 +582,29 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 			@Override
 			protected Object getValue(Object element) {
+				Document row = (Document) element;
+				String index = row.getString("index");
+				Object value = row.get(col);
+				if ("01".equals(index)) {
+					return Boolean.TRUE.equals(value);
+				} else if ("02".equals(index)) {
+					return Arrays.asList(option).indexOf(value);
+				}
+
 				return getCellText((Document) element, col);
 			}
 
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				return new TextCellEditor(viewer.getGrid());
+				Grid parent = viewer.getGrid();
+				Document row = (Document) element;
+				String index = row.getString("index");
+				if ("01".equals(index)) {// 是否OEM
+					return new CheckboxCellEditor(parent);
+				} else if ("02".equals(index)) {
+					return new ComboBoxCellEditor(parent, option, SWT.READ_ONLY);
+				}
+				return new TextCellEditor(parent);
 			}
 
 			@Override
@@ -316,24 +615,55 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 	}
 
-	private void update(Document row, String col, Object input) throws Exception {
-		double v = getDoubleValue(input);
+	private void updateNumberValue(Document row, String col, Object input) throws Exception {
+		double v = str_double(input);
 		double oldValue = Optional.ofNullable((Double) row.get(col)).orElse(0d);
 		if (v == oldValue)
 			return;
+		update(row, col, v);
+	}
+
+	private void updateOptionValue(Document row, String col, Object input) throws Exception {
+		String v;
+		if (((Integer) input).intValue() == -1) {
+			v = null;
+		}else {
+			v = option[(Integer) input];
+		}
+		String oldValue = row.getString(col);
+		if(v ==null && oldValue==null) {
+			return;
+		}
+		
+		if(v!=null&& v.equals(oldValue)) {
+			return;
+		}
+		
+		update(row, col, v);
+	}
+
+	private void updateBooleanValue(Document row, String col, Object input) throws Exception {
+		boolean v = Boolean.TRUE.equals(input);
+		boolean oldValue = Boolean.TRUE.equals(row.get(col));
+		if (v == oldValue)
+			return;
+		update(row, col, v);
+	}
+
+	private void update(Document row, String col, Object v) {
 		row.put(col, v);
+		matrix.clear();
 		BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", row.get("_id")))
 				.set(new BasicDBObject(col, v)).bson();
 		Services.get(CommonService.class).updateStructuredData(fu);
-
 	}
 
 	private Document createRowData(String name, String index) {
 		return new Document("name", name).append("index", index).append("_id", new ObjectId())
 				.append("host_id", project.get_id()).append("type", type);
 	}
-	
-	private double getDoubleValue(Object input) throws Exception {
+
+	private double str_double(Object input) throws Exception {
 		double inputAmount;
 		try {
 			if ("".equals(input)) {
@@ -345,6 +675,22 @@ public class ProductProfitabilityPrediction extends GridPart {
 			throw new Exception("请输入数字");
 		}
 		return inputAmount;
+	}
+
+	private double getDoubleValue(Object value) {
+		if (value instanceof Number) {
+			return ((Number) value).doubleValue();
+		} else {
+			return 0d;
+		}
+	}
+
+	private double getDoubleValue(String row, String col) {
+		return getDoubleValue(getRow(row), col);
+	}
+
+	private double getDoubleValue(Document d, String col) {
+		return getDoubleValue(getCellValue(d, col));
 	}
 
 }
