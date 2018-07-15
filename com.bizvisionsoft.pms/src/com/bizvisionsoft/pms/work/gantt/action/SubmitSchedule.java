@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -38,11 +39,18 @@ public class SubmitSchedule {
 	private void submit(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
 		if (workspace != null) {
-			Result result = null;
-			if (!(rootInput instanceof Project) || !"变更中".equals(((Project) rootInput).getChangeStatus()))
-				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true);
-			else
-				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false);
+
+			Boolean checkManageItem = true;
+			Project project = null;
+			if (rootInput instanceof Project) {
+				project = (Project) rootInput;
+			} else if (rootInput instanceof Work) {
+				project = ((Work) rootInput).getProject();
+			}
+			if (project != null && project.getChangeStatus() != null && "变更中".equals(project.getChangeStatus()))
+				checkManageItem = false;
+			
+			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				result = Services.get(WorkSpaceService.class).checkin(workspace);

@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,14 +73,14 @@ public class Docu {
 
 	@ReadValue
 	@WriteValue
-	private ObjectId workPackage_id;
+	private List<ObjectId> workPackage_id;
 
 	@Override
 	@Label
 	public String toString() {
 		return name + " [" + id + "]";
 	}
-	
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -97,7 +98,10 @@ public class Docu {
 	}
 
 	public Docu addWorkPackageId(ObjectId workPackage_id) {
-		this.workPackage_id = workPackage_id;
+		if (this.workPackage_id == null) {
+			this.workPackage_id = new ArrayList<ObjectId>();
+		}
+		this.workPackage_id.add(workPackage_id);
 		return this;
 	}
 }

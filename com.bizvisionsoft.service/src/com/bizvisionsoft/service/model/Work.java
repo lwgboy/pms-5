@@ -1034,9 +1034,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return actualStart != null;
 	}
 
-	@Behavior({ "打开工作包", "设置工作包" })
+	@Behavior({ "打开工作包" })
 	private boolean behaviourOpenWorkPackage() {
 		return !summary && !stage && !milestone;
+	}
+
+	@Behavior({ "设置工作包" })
+	private boolean behaviourSetWorkPackage() {
+		return !summary && !stage && !milestone && actualStart == null;
 	}
 
 	@Behavior("创建工作包")

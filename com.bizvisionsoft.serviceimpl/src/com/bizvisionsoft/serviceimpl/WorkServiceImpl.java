@@ -33,6 +33,7 @@ import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -219,7 +220,24 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long deleteWork(ObjectId _id) {
-		return delete(_id, Work.class);
+		Work work = getWork(_id);
+		if (work.isStage()) {
+			ObjectId obs_id = work.getOBS_id();
+			if (obs_id != null)
+				new OBSServiceImpl().delete(obs_id);
+
+			ObjectId cbs_id = work.getCBS_id();
+			if (cbs_id != null)
+				new CBSServiceImpl().delete(cbs_id);
+		}
+		List<ObjectId> workIds = getDesentItems(Arrays.asList(_id), "work", "parent_id");
+
+		// 删除风险
+		c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
+		// 删除资源计划
+		c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
+
+		return c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", workIds))).getDeletedCount();
 	}
 
 	@Override
@@ -262,21 +280,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.first();
 		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
 				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			throw new ServiceException("无法更新项目当前状态。");
-		}
-
-		// 通知团队成员，工作已经启动
-		List<String> memberIds = getStageMembers(com._id);
-		if (memberIds.size() > 0) {
-			String name = getName("work", com._id);
-			String projectName = getName("project", project_id);
-			sendMessage("阶段启动通知",
-					"您参与的项目" + projectName + " 阶段" + name + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-					com.userId, memberIds, null);
-		}
+		// // 根据ur构造下面的结果
+		// if (ur.getModifiedCount() == 0) {
+		// throw new ServiceException("无法更新项目当前状态。");
+		// }
+		//
+		// // 通知团队成员，工作已经启动
+		// List<String> memberIds = getStageMembers(com._id);
+		// if (memberIds.size() > 0) {
+		// String name = getName("work", com._id);
+		// String projectName = getName("project", project_id);
+		// sendMessage("阶段启动通知",
+		// "您参与的项目" + projectName + " 阶段" + name + "已于"
+		// + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+		// com.userId, memberIds, null);
+		// }
 		return result;
 	}
 
@@ -315,7 +333,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
 		}
 
-		return new ArrayList<Result>();
+		return result;
 	}
 
 	@Override
@@ -975,10 +993,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// planFinishCal.add(Calendar.DAY_OF_MONTH, 1);//与甘特图保持一致，不计算尾部日期
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
+				Date time = planStartCal.getTime();
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourcePlan", time,
+						resa.work_id, resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
 
 					ResourcePlan res = resa.getResourcePlan();
-					res.setId(planStartCal.getTime());
+					res.setId(time);
 					res.setPlanBasicQty(works * resa.qty);
 					res.setQty(resa.qty);
 
@@ -1202,16 +1222,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			planFinishCal.set(Calendar.MILLISECOND, 0);
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId)) {
-					Date time = planStartCal.getTime();
+				Date time = planStartCal.getTime();
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourceActual", time,
+						resa.work_id, resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
 					ResourceActual res = resa.getResourceActual();
 					res.setId(time);
 					documents.add(res);
 
-					c(ResourceActual.class).deleteMany(new Document("id", time).append("work_id", res.getWork_id())
-							.append("usedHumanResId", res.getUsedHumanResId())
-							.append("usedEquipResId", res.getUsedEquipResId())
-							.append("usedTypedResId", res.getUsedTypedResId()).append("resTypeId", res.getResTypeId()));
 				}
 				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
 			}
@@ -1228,6 +1245,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		c(ResourceActual.class).insertMany(documents);
 
 		return documents;
+	}
+
+	private boolean hasResource(String col, Date time, ObjectId work_id, String usedHumanResId, String usedEquipResId,
+			String usedTypedResId, ObjectId resTypeId) {
+		return c(col).countDocuments(new Document("id", time).append("work_id", work_id)
+				.append("usedHumanResId", usedHumanResId).append("usedEquipResId", usedEquipResId)
+				.append("usedTypedResId", usedTypedResId).append("resTypeId", resTypeId)) == 0;
 	}
 
 	@Override
@@ -1318,7 +1342,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public void assignRoleToProject(ObjectId project_id) {
 		List<ObjectId> ids = getScopeOBS(project_id);
-		Document condition = new Document("project_id", project_id);
+		Document condition = new Document("project_id", project_id).append("actualFinish", null);
 		updateWorkRoleAssignment(c("work"), ids, condition);
 		updateWorkRoleAssignment(c("workspace"), ids, condition);
 	}
@@ -1326,21 +1350,25 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition) {
 		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
-					String roleId = d.getString("chargerRoleId");
-					if (!Util.isEmptyOrNull(roleId)) {
-						String userId = getManagerIdOfRole(ids, roleId);
-						if (!Util.isEmptyOrNull(userId)) {
-							c.updateOne(new Document("_id", d.get("_id")),
-									new Document("$set", new Document("chargerId", userId)));
+					if (d.get("chargerId") == null) {
+						String roleId = d.getString("chargerRoleId");
+						if (!Util.isEmptyOrNull(roleId)) {
+							String userId = getManagerIdOfRole(ids, roleId);
+							if (!Util.isEmptyOrNull(userId)) {
+								c.updateOne(new Document("_id", d.get("_id")),
+										new Document("$set", new Document("chargerId", userId)));
+							}
 						}
 					}
 
-					roleId = d.getString("assignerRoleId");
-					if (!Util.isEmptyOrNull(roleId)) {
-						String userId = getManagerIdOfRole(ids, roleId);
-						if (!Util.isEmptyOrNull(userId)) {
-							c.updateOne(new Document("_id", d.get("_id")),
-									new Document("$set", new Document("assignerId", userId)));
+					if (d.get("assignerId") == null) {
+						String roleId = d.getString("assignerRoleId");
+						if (!Util.isEmptyOrNull(roleId)) {
+							String userId = getManagerIdOfRole(ids, roleId);
+							if (!Util.isEmptyOrNull(userId)) {
+								c.updateOne(new Document("_id", d.get("_id")),
+										new Document("$set", new Document("assignerId", userId)));
+							}
 						}
 					}
 				});
@@ -1348,7 +1376,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public void assignRoleToStage(ObjectId work_id) {
-
+		List<ObjectId> ids = getScopeOBS(work_id);
+		List<ObjectId> workIds = getDesentItems(Arrays.asList(work_id), "work", "parent_id");
+		Document condition = new Document("_id", new Document("$in", workIds)).append("actualFinish", null);
+		updateWorkRoleAssignment(c("work"), ids, condition);
+		updateWorkRoleAssignment(c("workspace"), ids, condition);
 	}
 
 	private String getManagerIdOfRole(List<ObjectId> ids, String roleId) {

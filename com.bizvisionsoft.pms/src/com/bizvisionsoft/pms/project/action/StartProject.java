@@ -36,15 +36,20 @@ public class StartProject {
 		List<Result> result = Services.get(ProjectService.class)
 				.startProject(brui.command(project.get_id(), new Date()));
 		boolean b = true;
-		if (!result.isEmpty())
+		String message = "";
+		if (!result.isEmpty()) {
 			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
 					Layer.message(r.message, Layer.ICON_CANCEL);
 					b = false;
+				} else {
+					message += r.message + "<br>";
 				}
+		}
 
 		if (b) {
-			Layer.message("项目已启动。");
+			message = "项目已启动。<br>" + message;
+			Layer.message(message);
 			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法

@@ -815,6 +815,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (count > 0) {
 			result.add(Result.finishError("项目存在没有完工的工作。"));
 		}
+
+		count = c("work").countDocuments(
+				new BasicDBObject("project_id", _id).append("stage", true).append("status", new BasicDBObject("$nin",
+						Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Suspended))));
+		if (count > 0) {
+			result.add(Result.finishError("项目存在没有收尾和完工的阶段。"));
+		}
+
 		return result;
 	}
 

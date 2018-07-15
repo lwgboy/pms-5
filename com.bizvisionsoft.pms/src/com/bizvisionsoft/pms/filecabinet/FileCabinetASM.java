@@ -116,8 +116,8 @@ public class FileCabinetASM {
 			right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表")).setServices(brui)
 					.create();
 		else
-			right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表（查看）")).setServices(brui)
-					.create();
+			right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表（查看）"))
+					.setServices(brui).create();
 
 		filePane = (GridPart) right.getContext().getContent();
 		select(null);
@@ -142,8 +142,8 @@ public class FileCabinetASM {
 			left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹")).setServices(brui)
 					.create();
 		else
-			left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹（查看）")).setServices(brui)
-					.create();
+			left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹（查看）"))
+					.setServices(brui).create();
 
 		folderPane = (GridPart) left.getContext().getContent();
 		folderPane.getViewer().getControl().addListener(SWT.Selection, e -> {
@@ -238,11 +238,14 @@ public class FileCabinetASM {
 		b.setTooltips("查询项目文档");
 		b.setStyle("info");
 
-		List<Action> rightActions;
-		if (ProjectStatus.Closed.equals(project.getStatus()))
-			rightActions = Arrays.asList(b);
-		else
-			rightActions = Arrays.asList(a, b);
+		List<Action> rightActions = null;
+		if (!ProjectStatus.Closed.equals(project.getStatus()))
+			rightActions = Arrays.asList(a);
+		
+		// if (ProjectStatus.Closed.equals(project.getStatus()))
+		// rightActions = Arrays.asList(b);
+		// else
+		// rightActions = Arrays.asList(a, b);
 
 		StickerTitlebar bar = new StickerTitlebar(parent, null, rightActions)
 				.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());

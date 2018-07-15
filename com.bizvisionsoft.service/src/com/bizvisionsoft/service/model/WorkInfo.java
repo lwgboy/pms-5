@@ -343,14 +343,17 @@ public class WorkInfo {
 	private String chargerInfo;
 
 	@WriteValue("charger")
-	private void setCharger(OBSItemWarpper charger) {
-		if (charger != null) {
-			this.chargerId = charger.getUserId();
-			this.chargerInfo = charger.getUserName();
-		} else {
-			this.chargerId = null;
-			this.chargerInfo = null;
-		}
+	private void setCharger(OBSItemWarpper charger) throws Exception {
+		if (actualFinish == null)
+			if (charger != null) {
+				this.chargerId = charger.getUserId();
+				this.chargerInfo = charger.getUserName();
+			} else {
+				this.chargerId = null;
+				this.chargerInfo = null;
+			}
+		else
+			throw new Exception("工作已完成，不允许编辑指派者");
 	}
 
 	@ReadValue("charger")
@@ -369,14 +372,17 @@ public class WorkInfo {
 	private String assignerInfo;
 
 	@WriteValue("assigner")
-	private void setAssigner(OBSItemWarpper assigner) {
-		if (assigner != null) {
-			this.assignerId = assigner.getUserId();
-			this.assignerInfo = assigner.getUserName();
-		} else {
-			this.assignerId = null;
-			this.assignerInfo = null;
-		}
+	private void setAssigner(OBSItemWarpper assigner) throws Exception {
+		if (actualFinish == null)
+			if (assigner != null) {
+				this.assignerId = assigner.getUserId();
+				this.assignerInfo = assigner.getUserName();
+			} else {
+				this.assignerId = null;
+				this.assignerInfo = null;
+			}
+		else
+			throw new Exception("工作已完成，不允许编辑指派者");
 	}
 
 	@ReadValue("assigner")
@@ -606,7 +612,11 @@ public class WorkInfo {
 
 	@Behavior("删除任务")
 	private boolean behaviourDeleteTask() {
-		return actualStart == null;
+		Project project = getProject();
+		if (project != null && !ProjectStatus.Created.equals(project.getStatus()) && getManageLevel() != null)
+			return false;
+
+		return (stage && ProjectStatus.Created.equals(status)) || (!stage && actualStart == null);
 	}
 
 	public WorkInfo setPlanStart(Date planStart) {

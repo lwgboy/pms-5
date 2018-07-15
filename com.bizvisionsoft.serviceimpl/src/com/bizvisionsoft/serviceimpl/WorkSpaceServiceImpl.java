@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
@@ -254,12 +255,34 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		deleteIds.addAll(workIds);
 		deleteIds.removeAll(workspaceIds);
 
+		deleteIds = getDesentItems(deleteIds, "work", "parent_id");
+
 		// 获取修改集合
 		List<ObjectId> updateIds = new ArrayList<ObjectId>();
 		updateIds.addAll(workspaceIds);
 		updateIds.removeAll(insertIds);
+		updateIds.removeAll(deleteIds);
 
 		if (!deleteIds.isEmpty()) {
+
+			List<Work> stages = c(Work.class)
+					.find(new Document("_id", new Document("$in", deleteIds)).append("stage", true))
+					.into(new ArrayList<Work>());
+			if (!stages.isEmpty()) {
+				stages.forEach(stage -> {
+					ObjectId obs_id = stage.getOBS_id();
+					if (obs_id != null)
+						new OBSServiceImpl().delete(obs_id);
+
+					ObjectId cbs_id = stage.getCBS_id();
+					if (cbs_id != null)
+						new CBSServiceImpl().delete(cbs_id);
+				});
+			}
+			// 删除风险
+			c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+			// 删除资源计划
+			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 			// 根据删除集合删除Work
 			c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
 			// 根据删除集合删除资源计划
@@ -286,10 +309,34 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			boolean distributed = d.getBoolean("distributed", false);
 			if (distributed) {
 				Document doc = c("work").find(new Document("_id", _id)).first();
+				Object oldAssignerId = doc.get("assignerId");
+				Object newAssignerId = d.get("assignerId");
+				Object oldChargerId = doc.get("chargerId");
+				Object newChargerId = d.get("chargerId");
 				Date oldPlanStart = doc.getDate("planStart");
 				Date newPlanStart = d.getDate("planStart");
 				Date oldPlanFinish = doc.getDate("planFinish");
 				Date newPlanFinish = d.getDate("planFinish");
+				if (oldAssignerId != null && newAssignerId != null && !newAssignerId.equals(oldAssignerId)) {
+					messages.add(Message.newInstance("工作计划通知",
+							"您指派的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定指派者。",
+							workspace.getCheckoutBy(), (String) oldAssignerId, null));
+				} else if (oldAssignerId != null && newAssignerId == null) {
+					messages.add(Message.newInstance("工作计划通知",
+							"您指派的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定指派者。",
+							workspace.getCheckoutBy(), (String) oldAssignerId, null));
+				}
+
+				if (oldChargerId != null && newChargerId != null && !newChargerId.equals(oldChargerId)) {
+					messages.add(Message.newInstance("工作计划通知",
+							"您负责的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定负责人。",
+							workspace.getCheckoutBy(), (String) oldChargerId, null));
+				} else if (oldChargerId != null && newChargerId == null) {
+					messages.add(Message.newInstance("工作计划通知",
+							"您负责的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定负责人。",
+							workspace.getCheckoutBy(), (String) oldChargerId, null));
+				}
+
 				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
 					String chargerId = doc.getString("chargerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
@@ -307,7 +354,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 		});
-		if (messages.size() > 0)
+		if (messages.size() > 0 && !ProjectStatus.Created.equals(project.getStatus()))
 			sendMessages(messages);
 
 		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();

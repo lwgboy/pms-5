@@ -172,7 +172,7 @@ public class ResourceActualASM {
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setFrom(work.getStart_date());
 		rt.setTo(work.getEnd_date());
-		rt.setCanAdd(false);
+		rt.setCanAdd(work.getActualStart() != null);
 		rt.setCanDelete(true);
 		rt.setCanClose(false);
 		rt.setShowResActual(true);
