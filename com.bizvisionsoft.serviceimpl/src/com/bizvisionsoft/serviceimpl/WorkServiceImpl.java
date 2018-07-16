@@ -1008,7 +1008,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 			workIds.add(resa.work_id);
 		});
-		c(ResourcePlan.class).insertMany(documents);
+		if (documents.size() > 0)
+			c(ResourcePlan.class).insertMany(documents);
 		workIds.forEach(work_id -> {
 			updateWorkPlanWorks(work_id);
 		});
