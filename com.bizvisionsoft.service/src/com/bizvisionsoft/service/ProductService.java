@@ -92,15 +92,8 @@ public interface ProductService {
 	@Path("/product_id/{product_id}/benchmarking/income/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("单一产品对标分析-销售额/list")
+	@DataSet("单一产品销售分析/list")
 	public Document productIncomeBenchMarkingChartData(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id);
-	@POST
-	@Path("/product_id/{product_id}/benchmarking/volumn/chart")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("单一产品对标分析-销售量/list")
-	public Document productVolumnBenchMarkingChartData(
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id);
 
 }

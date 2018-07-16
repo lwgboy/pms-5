@@ -214,10 +214,14 @@
                 "series_profit" : "$seriesSum.profit", 
                 "series_income" : "$seriesSum.income", 
                 "series_volumn" : "$seriesSum.volumn", 
+                "bm_profit" : "$bm_sum.profit", 
+                "bm_income" : "$bm_sum.income", 
+                "bm_volumn" : "$bm_sum.volumn", 
                 "bm_name" : "$_bmproduct.name", 
                 "bm_salesItem" : true, 
                 "salesItem" : true, 
-                "seriesSalesItem" : true
+                "seriesSalesItem" : true,
+                "series":true
             }
         }
     ]
