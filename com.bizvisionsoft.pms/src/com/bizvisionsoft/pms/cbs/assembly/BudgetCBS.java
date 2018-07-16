@@ -101,9 +101,16 @@ public class BudgetCBS extends BudgetGrid {
 	}
 
 	public void addCBSItem(CBSItem parentCBSItem, CBSItem cbsItemData) {
-		CBSItem child = Services.get(CBSService.class).insertCBSItem(cbsItemData);
-		parentCBSItem.addChild(child);
-		viewer.refresh(parentCBSItem, true);
+		try {
+			CBSItem child = Services.get(CBSService.class).insertCBSItem(cbsItemData);
+			parentCBSItem.addChild(child);
+			viewer.refresh(parentCBSItem, true);
+		} catch (Exception e) {
+			String message = e.getMessage();
+			if (message.indexOf("index") >= 0) {
+				Layer.message("请勿在同一范围内重复添加相同编号的成本项。", Layer.ICON_CANCEL);
+			}
+		}
 	}
 
 	public void deleteCBSItem(CBSItem cbsItem) {

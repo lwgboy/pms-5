@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -38,11 +39,18 @@ public class SubmitSchedule {
 	private void submit(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
 		if (workspace != null) {
-			Result result = null;
-			if (!(rootInput instanceof Project) || !"变更中".equals(((Project) rootInput).getChangeStatus()))
-				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true);
-			else
-				result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false);
+
+			Boolean checkManageItem = true;
+			Project project = null;
+			if (rootInput instanceof Project) {
+				project = (Project) rootInput;
+			} else if (rootInput instanceof Work) {
+				project = ((Work) rootInput).getProject();
+			}
+			if (project != null && project.getChangeStatus() != null && "变更中".equals(project.getChangeStatus()))
+				checkManageItem = false;
+			
+			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				result = Services.get(WorkSpaceService.class).checkin(workspace);
@@ -51,15 +59,15 @@ public class SubmitSchedule {
 					Layer.message(result.message);
 					brui.switchContent("项目甘特图", null);
 				}
-			}  else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
+			} else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
 				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
 						"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 			} else if (Result.CODE_UPDATESTAGE == result.code) {
 				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
-						"工作计划中最晚完成时间超过阶段  <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
+						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过阶段限定。");
 			} else if (Result.CODE_UPDATEPROJECT == result.code) {
 				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
-						"工作计划中最晚完成时间超过项目 <b style='color:red;'>" + result.data.getString("name") + "</b>限定。");
+						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过項目限定。");
 			}
 		}
 	}

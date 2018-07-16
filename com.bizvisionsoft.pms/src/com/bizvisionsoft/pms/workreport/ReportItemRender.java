@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.workreport;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -88,9 +89,15 @@ public class ReportItemRender extends GridPartDefaultRender {
 					Date actualStart = work.getActualStart();
 					Date actualFinish = work.getActualFinish();
 
-					if (periodForm.before(actualStart))
-						periodForm = actualStart;
-
+					if (periodForm.before(actualStart)) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(actualStart);
+						cal.set(Calendar.HOUR_OF_DAY, 0);
+						cal.set(Calendar.MINUTE, 0);
+						cal.set(Calendar.SECOND, 0);
+						cal.set(Calendar.MILLISECOND, 0);
+						periodForm = cal.getTime();
+					}
 					if (actualFinish != null && periodTo.after(actualFinish))
 						periodTo = actualFinish;
 

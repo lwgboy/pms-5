@@ -22,8 +22,8 @@ public class AddMilestoneACT {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
-		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板里程碑工作编辑器"), context)
-				.setInput(WorkInTemplate.newInstance((WorkInTemplate) ((GanttEvent) event).task).setMilestone(true))
+		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板里程碑工作编辑器"), context).setInput(WorkInTemplate
+				.newInstance((WorkInTemplate) ((GanttEvent) event).task).setMilestone(true).setManageLevel("1"))
 				.ok((r, wi) -> {
 					wi.setPlanFinish(wi.getPlanStart());
 					GanttPart content = (GanttPart) context.getContent();

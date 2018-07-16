@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.filecabinet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -33,11 +34,16 @@ public class AddDocuToPackageACT {
 					docuIds.add(((Docu) docu).get_id());
 				});
 				ServicesLoader.get(DocumentService.class)
-						.updateDocument(new FilterAndUpdate().filter(new Document("_id", new Document("$in", docuIds)))
-								.set(new Document("workPackage_id", wp.get_id())).bson());
+						.updateDocument(
+								new FilterAndUpdate()
+										.filter(new Document("_id", new Document("$in", docuIds))).update(
+												new Document("$addToSet",
+														new Document("workPackage_id",
+																new Document("$each", Arrays.asList(wp.get_id())))))
+										.bson());
 
 				GridPart viewr = (GridPart) context.getContent();
-				viewr.refreshAll();
+				viewr.setViewerInput();
 			}
 		});
 	}

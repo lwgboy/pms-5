@@ -35,15 +35,23 @@ public class FinishProject {
 		}
 		List<Result> result = Services.get(ProjectService.class)
 				.finishProject(brui.command(project.get_id(), new Date()));
-		if (result.isEmpty()) {
-			Layer.message("项目已完工。");
-			brui.switchPage("项目首页（收尾）", ((Project) project).get_id().toHexString());
-		} else {
-			for (Result r : result) {
+
+		boolean b = true;
+		String message = "";
+		if (!result.isEmpty()) {
+			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
 					Layer.message(r.message, Layer.ICON_CANCEL);
+					b = false;
+				} else {
+					message += r.message + "<br>";
 				}
-			}
+		}
+
+		if (b) {
+			message = "项目已完工。<br>" + message;
+			Layer.message(message);
+			brui.switchPage("项目首页（收尾）", ((Project) project).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法
 	}

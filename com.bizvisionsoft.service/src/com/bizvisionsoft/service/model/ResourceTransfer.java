@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,13 @@ public class ResourceTransfer {
 	}
 
 	public void setFrom(Date from) {
-		this.from = from;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(from);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		this.from = cal.getTime();
 	}
 
 	public Date getTo() {
@@ -110,7 +117,13 @@ public class ResourceTransfer {
 	}
 
 	public void setTo(Date to) {
-		this.to = to;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(to);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		this.to = cal.getTime();
 	}
 
 	public boolean isCheckTime() {

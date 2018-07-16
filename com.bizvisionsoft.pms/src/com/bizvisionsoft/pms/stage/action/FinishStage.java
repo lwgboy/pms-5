@@ -40,8 +40,21 @@ public class FinishStage {
 				return;
 			}
 			List<Result> result = Services.get(WorkService.class).finishStage(brui.command(stage.get_id(), new Date()));
-			if (result.isEmpty()) {
-				Layer.message("阶段已完工。");
+			boolean b = true;
+			String message = "";
+			if (!result.isEmpty()) {
+				for (Result r : result)
+					if (Result.TYPE_ERROR == r.type) {
+						Layer.message(r.message, Layer.ICON_CANCEL);
+						b = false;
+					} else {
+						message += r.message + "<br>";
+					}
+			}
+
+			if (b) {
+				message = "阶段已完工。<br>" + message;
+				Layer.message(message);
 				brui.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());
 			}
 			// TODO 显示多条错误信息的通用方法

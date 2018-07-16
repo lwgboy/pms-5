@@ -28,6 +28,8 @@ public class Result {
 
 	public static final int CODE_CBS_SUCCESS = 900;
 
+	public static final int CODE_CBS_REPEATSUBMIT = 902;
+
 	public static final int CODE_WORKREPORT_HASNOSTATEMENTWORK = 610;
 
 	public static final int CODE_PROJECTCHANGE_NOTASKUSER = 300;
@@ -137,4 +139,11 @@ public class Result {
 		return e;
 	}
 
+	public static Result submitCBSSubjectError(String message) {
+		Result e = new Result();
+		e.code = CODE_CBS_REPEATSUBMIT;
+		e.message = message;
+		e.type = Result.TYPE_WARNING;
+		return e;
+	}
 }
