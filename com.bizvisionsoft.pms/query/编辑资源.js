@@ -327,7 +327,7 @@
 												"$gte" : [ "$id", "$$planStart" ]
 											},
 											{
-												"$lte" : [ "$id",
+												"$lt" : [ "$id",
 														"$$planFinish" ]
 											},
 											{
