@@ -280,21 +280,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.first();
 		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
 				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
-		// // 根据ur构造下面的结果
-		// if (ur.getModifiedCount() == 0) {
-		// throw new ServiceException("无法更新项目当前状态。");
-		// }
-		//
-		// // 通知团队成员，工作已经启动
-		// List<String> memberIds = getStageMembers(com._id);
-		// if (memberIds.size() > 0) {
-		// String name = getName("work", com._id);
-		// String projectName = getName("project", project_id);
-		// sendMessage("阶段启动通知",
-		// "您参与的项目" + projectName + " 阶段" + name + "已于"
-		// + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-		// com.userId, memberIds, null);
-		// }
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			throw new ServiceException("无法更新项目当前状态。");
+		}
+
+		// 通知团队成员，工作已经启动
+		List<String> memberIds = getStageMembers(com._id);
+		if (memberIds.size() > 0) {
+			String name = getName("work", com._id);
+			String projectName = getName("project", project_id);
+			sendMessage("阶段启动通知",
+					"您参与的项目" + projectName + " 阶段" + name + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+					com.userId, memberIds, null);
+		}
 		return result;
 	}
 
