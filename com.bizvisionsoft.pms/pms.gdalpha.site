@@ -1254,6 +1254,17 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "系统管理员"
+          },
+          {
+            "id": "164a04f70ae",
+            "name": "项目仪表台",
+            "switchContentToAssemblyId": "1645e38b730",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
           }
         ]
       },
@@ -21544,7 +21555,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#PPM#WM"
+            "role": ""
           },
           {
             "id": "16371879a6b",
@@ -21560,7 +21571,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#PFM#WM"
+            "role": ""
           },
           {
             "id": "16371883c6b",
@@ -21591,7 +21602,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#WM"
+            "role": ""
           }
         ],
         "borderTop": false,

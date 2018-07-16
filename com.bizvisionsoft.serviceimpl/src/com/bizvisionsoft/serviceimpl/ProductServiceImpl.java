@@ -73,7 +73,7 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 
 		List<Document> salesItem = (List<Document>) data.get("salesItem");
 		List<Document> bm_salesItem = (List<Document>) data.get("bm_salesItem");
-		List<Document> seriesSalesItem = (List<Document>) data.get("seriesSalesItem");
+//		List<Document> seriesSalesItem = (List<Document>) data.get("seriesSalesItem");
 		int count = Math.max(salesItem.size(), bm_salesItem.size());
 		List<String> month = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
@@ -112,6 +112,7 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 				.set("bm", bm1).set("prodname", prodname).set("bmname", bmname).doc();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Document productVolumnBenchMarkingChartData(ObjectId product_id) {
 		Document data = c("product").aggregate(new JQ("单一产品对比分析取数").set("product_id", product_id).array()).first();
@@ -120,7 +121,7 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 
 		List<Document> salesItem = (List<Document>) data.get("salesItem");
 		List<Document> bm_salesItem = (List<Document>) data.get("bm_salesItem");
-		List<Document> seriesSalesItem = (List<Document>) data.get("seriesSalesItem");
+//		List<Document> seriesSalesItem = (List<Document>) data.get("seriesSalesItem");
 		int count = Math.max(salesItem.size(), bm_salesItem.size());
 		List<String> month = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
