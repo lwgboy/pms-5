@@ -887,6 +887,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = get(_id);
 		String catalog = project.getCatalog();
 		ObjectId parentproject_id = project.getParentProject_id();
+		ObjectId projectSet_id = project.getProjectSet_id();
 		ObjectId impunit_id = project.getImpUnit_id();
 
 		String workOrder;
@@ -907,9 +908,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					.distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + workorders[1]);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 
+		} else if (projectSet_id != null) {
+			String projectSetWorkOrder = c("projectSet")
+					.distinct("workOrder", new Document("_id", projectSet_id), String.class).first();
+			String[] workorders = projectSetWorkOrder.split("-");
+			workOrder += "-" + workorders[1];
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + projectSetWorkOrder);
+			workOrder += "-" + String.format("%02d", index);
 		} else {
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);
 			workOrder += "-" + String.format("%02d", index);

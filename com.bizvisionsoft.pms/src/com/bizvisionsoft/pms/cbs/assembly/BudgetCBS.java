@@ -2,11 +2,8 @@ package com.bizvisionsoft.pms.cbs.assembly;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -124,37 +121,38 @@ public class BudgetCBS extends BudgetGrid {
 	 */
 	@Override
 	protected EditingSupport supportMonthlyEdit(GridViewerColumn vcol) {
-		final String name = (String) vcol.getColumn().getData("name");
-		return new EditingSupport(viewer) {
-
-			@Override
-			protected void setValue(Object element, Object value) {
-				try {
-					saveCBSItemPeriodBudgetInput((CBSItem) element, name, value);
-				} catch (Exception e) {
-					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
-				}
-			}
-
-			@Override
-			protected Object getValue(Object element) {
-				return Optional.ofNullable(((CBSItem) element).getBudget(name)).map(v -> {
-					if (v == 0)
-						return "";
-					return "" + v;
-				}).orElse("");
-			}
-
-			@Override
-			protected CellEditor getCellEditor(Object element) {
-				return new TextCellEditor(viewer.getGrid());
-			}
-
-			@Override
-			protected boolean canEdit(Object element) {
-				return ((CBSItem) element).countSubCBSItems() == 0;
-			}
-		};
+		return null;
+		// final String name = (String) vcol.getColumn().getData("name");
+		// return new EditingSupport(viewer) {
+		//
+		// @Override
+		// protected void setValue(Object element, Object value) {
+		// try {
+		// saveCBSItemPeriodBudgetInput((CBSItem) element, name, value);
+		// } catch (Exception e) {
+		// Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+		// }
+		// }
+		//
+		// @Override
+		// protected Object getValue(Object element) {
+		// return Optional.ofNullable(((CBSItem) element).getBudget(name)).map(v -> {
+		// if (v == 0)
+		// return "";
+		// return "" + v;
+		// }).orElse("");
+		// }
+		//
+		// @Override
+		// protected CellEditor getCellEditor(Object element) {
+		// return new TextCellEditor(viewer.getGrid());
+		// }
+		//
+		// @Override
+		// protected boolean canEdit(Object element) {
+		// return ((CBSItem) element).countSubCBSItems() == 0;
+		// }
+		// };
 	}
 
 	protected void saveCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
