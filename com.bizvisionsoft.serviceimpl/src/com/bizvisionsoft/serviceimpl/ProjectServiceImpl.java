@@ -378,6 +378,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (l == 0)
 			result.add(Result.startProjectWarning("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
 
+		l = c(Work.class).countDocuments(new Document("project_id", _id).append("manageLevel", "1").append("$or",
+				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
+		if (l == 0)
+			result.add(Result.startProjectError("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+
 		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
 				.append("chargerId", null).append("assignerId", null));
 		if (l == 0)
