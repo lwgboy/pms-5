@@ -767,6 +767,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long delete(ObjectId _id) {
 		// TODO É¾³ý¼ì²é
+		
+		
 		return delete(_id, Project.class);
 	}
 
