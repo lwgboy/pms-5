@@ -101,24 +101,6 @@ public interface ProjectService {
 	public List<Result> startProject(Command command);
 
 	@POST
-	@Path("/command/restart/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> restartProject(Command command);
-
-	@POST
-	@Path("/command/suspend/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> suspendProject(Command command);
-
-	@POST
-	@Path("/command/terminate/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> terminateProject(Command command);
-
-	@POST
 	@Path("/command/distribute/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

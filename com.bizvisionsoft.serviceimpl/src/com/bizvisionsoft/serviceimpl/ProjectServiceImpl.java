@@ -416,124 +416,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Result> restartProject(Command com) {
-		List<Result> result = restartProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
-			}
-		}
-
-		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("restartOn", com.date).append("restartBy", com.userId)));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足重新启动条件的项目。"));
-			return result;
-		}
-
-		// 通知项目团队成员，项目已经启动
-		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目重新启动通知",
-				"您参与的项目" + name + "已重新于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-				com.userId, memberIds, null);
-		return result;
-	}
-
-	private List<Result> restartProjectCheck(ObjectId _id, String userId) {
-		return new ArrayList<Result>();
-	}
-
-	@Override
-	public List<Result> suspendProject(Command com) {
-		List<Result> result = suspendProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
-			}
-		}
-
-		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Suspended)
-						.append("suspendOn", com.date).append("suspendBy", com.userId)));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足暂停条件的项目。"));
-			return result;
-		}
-
-		// 通知项目团队成员，项目已经启动
-		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目暂停通知",
-				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "暂停。",
-				com.userId, memberIds, null);
-		return result;
-	}
-
-	private List<Result> suspendProjectCheck(ObjectId _id, String userId) {
-		return new ArrayList<Result>();
-	}
-
-	@Override
-	public List<Result> terminateProject(Command com) {
-		List<Result> result = terminateProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
-			}
-		}
-
-		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Terminated)
-						.append("terminateOn", com.date).append("terminateBy", com.userId)));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足中止条件的项目。"));
-			return result;
-		}
-		// 修改阶段状态
-		c(Work.class).updateMany(
-				new BasicDBObject("project_id", com._id).append("stage", true).append("status",
-						new BasicDBObject("$ne", ProjectStatus.Closed)),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Terminated)
-						.append("terminateOn", com.date).append("terminateBy", com.userId)));
-
-		// TODO 修改工作完成时间，不应该修改实际完成时间，对于中止时，所有关于实际完成时间的判断都要进行修改。
-		c(Work.class).updateMany(
-				new BasicDBObject("project_id", com._id).append("stage", false).append("actualFinish",
-						new BasicDBObject("$ne", null)),
-				new BasicDBObject("$set", new BasicDBObject("actualFinish", com.date).append("terminateOn", com.date)
-						.append("terminateBy", com.userId)));
-
-		// 通知项目团队成员，项目已经启动
-		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目中止通知",
-				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "中止。",
-				com.userId, memberIds, null);
-		return result;
-	}
-
-	private List<Result> terminateProjectCheck(ObjectId _id, String userId) {
-		return new ArrayList<Result>();
-	}
-
-	@Override
 	public List<Result> distributeProjectPlan(Command com) {
 		List<Result> result = distributeProjectPlanCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
@@ -967,7 +849,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Result> finishProject(Command com) {
 		List<Result> result = finishProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
-			return result;
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
 		}
 
 		Document doc = c("work").find(new BasicDBObject("project_id", com._id))
@@ -986,6 +872,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足完工条件的项目。"));
 			return result;
 		}
+		
+		//TODO 未完成工作的处理
 
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
@@ -1014,7 +902,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.finishError("项目存在没有收尾和完工的阶段。"));
 		}
 
-		return result;
+		return new ArrayList<Result>();
 	}
 
 	@Override
