@@ -83,7 +83,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Label(Label.ID_LABEL)
 	@WriteValue
 	@Persistence
-//	@Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY, generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
+	// @Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY,
+	// generator = ProjectGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
 	@Override
@@ -1013,6 +1014,32 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	public String getPPMId() {
 		return null;
+	}
+
+	@Behavior({ "编辑助记码" })
+	private boolean behaviourEdit() {
+		return !ProjectStatus.Closing.equals(status) && !ProjectStatus.Terminated.equals(status);
+	}
+
+	@Behavior({ "删除" })
+	private boolean behaviourDelete() {
+		return ProjectStatus.Created.equals(status);
+	}
+
+	@Behavior({ "中止" })
+	private boolean behaviourTerminate() {
+		return !ProjectStatus.Created.equals(status) && !ProjectStatus.Closed.equals(status)
+				&& !ProjectStatus.Terminated.equals(status);
+	}
+
+	@Behavior({ "暂停" })
+	private boolean behaviourSuspend() {
+		return ProjectStatus.Processing.equals(status);
+	}
+
+	@Behavior({ "重新开始" })
+	private boolean behaviourReStart() {
+		return ProjectStatus.Suspended.equals(status);
 	}
 
 }

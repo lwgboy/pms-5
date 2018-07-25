@@ -33,6 +33,10 @@ public class OpenWorkInfo {
 				bruiService.switchPage("½×¶ÎÊ×Ò³£¨ÊÕÎ²£©", stage.get_id().toHexString());
 			} else if (ProjectStatus.Closed.equals(stage.getStatus())) {
 				bruiService.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", stage.get_id().toHexString());
+			} else if (ProjectStatus.Suspended.equals(stage.getStatus())) {
+				bruiService.switchPage("½×¶ÎÊ×Ò³£¨ÔÝÍ££©", stage.get_id().toHexString());
+			} else if (ProjectStatus.Terminated.equals(stage.getStatus())) {
+				bruiService.switchPage("½×¶ÎÊ×Ò³£¨ÖÐÖ¹£©", stage.get_id().toHexString());
 			}
 		}
 	}

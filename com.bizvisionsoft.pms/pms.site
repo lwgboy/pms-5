@@ -4343,6 +4343,125 @@
       "home": false,
       "checkLogin": false,
       "forceCheckLogin": true
+    },
+    {
+      "typeName": "页面",
+      "id": "164d096ef48",
+      "name": "项目首页（暂停）",
+      "title": "项目首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": false,
+        "toolbarItems": [],
+        "sidebarItems": []
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": []
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "164d09f80a5",
+      "name": "项目首页（中止）",
+      "title": "项目首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": false,
+        "toolbarItems": [],
+        "sidebarItems": []
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": []
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "164d09fe3ab",
+      "name": "阶段首页（暂停）",
+      "title": "阶段首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": false,
+        "toolbarItems": [],
+        "sidebarItems": []
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": []
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false
+    },
+    {
+      "typeName": "页面",
+      "id": "164d09fe830",
+      "name": "阶段首页（中止）",
+      "title": "阶段首页",
+      "behavior": true,
+      "headbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "sidebar": {
+        "behavior": true,
+        "enabled": false,
+        "toolbarItems": [],
+        "sidebarItems": []
+      },
+      "footbar": {
+        "behavior": true,
+        "enabled": false
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "behavior": true,
+        "assemblyLinks": []
+      },
+      "home": false,
+      "checkLogin": false,
+      "forceCheckLogin": false,
+      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
     }
   ],
   "assyLib": {
@@ -56082,6 +56201,7 @@
           {
             "id": "1646abf731d",
             "name": "编辑助记码",
+            "text": "编辑助记码",
             "image": "/img/edit_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.project.action.EditProjectCodeACT",
@@ -56090,7 +56210,63 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
+            "type": "customized"
+          },
+          {
+            "id": "164d056c9a4",
+            "name": "删除",
+            "text": "删除",
+            "image": "/img/minus_16_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "delete"
+          },
+          {
+            "id": "164d05b4ddc",
+            "name": "中止",
+            "text": "中止",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.TerminateProject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "customized"
+          },
+          {
+            "id": "164d05b543b",
+            "name": "暂停",
+            "text": "暂停",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.SuspendProject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "customized"
+          },
+          {
+            "id": "164d05b816e",
+            "name": "重新开始",
+            "text": "重新开始",
+            "image": "/img/start_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.RestartProject",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {

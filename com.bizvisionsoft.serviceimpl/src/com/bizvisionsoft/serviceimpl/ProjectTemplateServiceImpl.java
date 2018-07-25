@@ -252,12 +252,12 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 清除当前的编辑数据
 		// 1. 获得所有的work
-		List<ObjectId> ids = c("work").distinct("_id", new Document("project_id", project_id), ObjectId.class)
+		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", project_id), ObjectId.class)
 				.into(new ArrayList<>());
 		// 2.清除关联的resourcePlan
-		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", ids)));
+		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", workIds)));
 		// 3. 清除关联的workPackage
-		c("workPackage").deleteMany(new Document("work_id", new Document("$in", ids)));
+		c("workPackage").deleteMany(new Document("work_id", new Document("$in", workIds)));
 		// 4. 清除worklinks
 		c("worklinks").deleteMany(new Document("project_id", project_id));
 		// 5. 清除work
@@ -268,11 +268,19 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("worklinksspace").deleteMany(new Document("project_id", project_id));
 
 		// 9. 清除obs
-		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
+		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
 				new Document("scopeRoot", false).append("scope_id", project_id))));
 		// 10. 清除cbs
-		c("cbs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", ids)),
-				new Document("scopeRoot", false).append("scope_id", project_id))));
+		List<ObjectId> cbsIds = c("cbs").distinct("_id",
+				new Document("$or",
+						Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+								new Document("scopeRoot", false).append("scope_id", project_id))),
+				ObjectId.class).into(new ArrayList<>());
+
+		c("cbs").deleteMany(new Document("_id", new Document("$in", cbsIds)));
+		c("cbsPeriod").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+		c("cbsSubject").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+
 		// 11. 清除folder
 		c("folder").deleteMany(new Document("project_id", project_id));
 

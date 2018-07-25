@@ -101,6 +101,24 @@ public interface ProjectService {
 	public List<Result> startProject(Command command);
 
 	@POST
+	@Path("/command/restart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> restartProject(Command command);
+
+	@POST
+	@Path("/command/suspend/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> suspendProject(Command command);
+
+	@POST
+	@Path("/command/terminate/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> terminateProject(Command command);
+
+	@POST
 	@Path("/command/distribute/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -223,7 +241,7 @@ public interface ProjectService {
 	@Path("/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的项目/" + DataSet.DELETE)
+	@DataSet({ "我的项目/" + DataSet.DELETE, "所有项目/" + DataSet.DELETE })
 	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id);
 
 	@GET

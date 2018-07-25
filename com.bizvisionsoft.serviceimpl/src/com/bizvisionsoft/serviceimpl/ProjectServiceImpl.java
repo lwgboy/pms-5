@@ -416,6 +416,124 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
+	public List<Result> restartProject(Command com) {
+		List<Result> result = restartProjectCheck(com._id, com.userId);
+		if (!result.isEmpty()) {
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
+		}
+
+		// 修改项目状态
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
+						.append("restartOn", com.date).append("restartBy", com.userId)));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足重新启动条件的项目。"));
+			return result;
+		}
+
+		// 通知项目团队成员，项目已经启动
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目重新启动通知",
+				"您参与的项目" + name + "已重新于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
+				com.userId, memberIds, null);
+		return result;
+	}
+
+	private List<Result> restartProjectCheck(ObjectId _id, String userId) {
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> suspendProject(Command com) {
+		List<Result> result = suspendProjectCheck(com._id, com.userId);
+		if (!result.isEmpty()) {
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
+		}
+
+		// 修改项目状态
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Suspended)
+						.append("suspendOn", com.date).append("suspendBy", com.userId)));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足暂停条件的项目。"));
+			return result;
+		}
+
+		// 通知项目团队成员，项目已经启动
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目暂停通知",
+				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "暂停。",
+				com.userId, memberIds, null);
+		return result;
+	}
+
+	private List<Result> suspendProjectCheck(ObjectId _id, String userId) {
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> terminateProject(Command com) {
+		List<Result> result = terminateProjectCheck(com._id, com.userId);
+		if (!result.isEmpty()) {
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
+		}
+
+		// 修改项目状态
+		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Terminated)
+						.append("terminateOn", com.date).append("terminateBy", com.userId)));
+
+		// 根据ur构造下面的结果
+		if (ur.getModifiedCount() == 0) {
+			result.add(Result.updateFailure("没有满足中止条件的项目。"));
+			return result;
+		}
+		// 修改阶段状态
+		c(Work.class).updateMany(
+				new BasicDBObject("project_id", com._id).append("stage", true).append("status",
+						new BasicDBObject("$ne", ProjectStatus.Closed)),
+				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Terminated)
+						.append("terminateOn", com.date).append("terminateBy", com.userId)));
+
+		// TODO 修改工作完成时间，不应该修改实际完成时间，对于中止时，所有关于实际完成时间的判断都要进行修改。
+		c(Work.class).updateMany(
+				new BasicDBObject("project_id", com._id).append("stage", false).append("actualFinish",
+						new BasicDBObject("$ne", null)),
+				new BasicDBObject("$set", new BasicDBObject("actualFinish", com.date).append("terminateOn", com.date)
+						.append("terminateBy", com.userId)));
+
+		// 通知项目团队成员，项目已经启动
+		List<String> memberIds = getProjectMembers(com._id);
+		String name = getName("project", com._id);
+		sendMessage("项目中止通知",
+				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "中止。",
+				com.userId, memberIds, null);
+		return result;
+	}
+
+	private List<Result> terminateProjectCheck(ObjectId _id, String userId) {
+		return new ArrayList<Result>();
+	}
+
+	@Override
 	public List<Result> distributeProjectPlan(Command com) {
 		List<Result> result = distributeProjectPlanCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
@@ -767,8 +885,74 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long delete(ObjectId _id) {
 		// TODO 删除检查
-		
-		
+		Project project = get(_id);
+		if (!ProjectStatus.Created.equals(project.getStatus())) {
+			throw new ServiceException("当前项目不允许删除，只能删除已创建状态的项目。");
+		}
+		// 获得所有的work
+		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		// 清除关联的resourcePlan
+		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		// 清除关联的resourceActual
+		c("resourceActual").deleteMany(new Document("work_id", new Document("$in", workIds)));
+
+		// 清除关联的workPackage
+		c("workPackage").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		// 清除worklinks
+		c("worklinks").deleteMany(new Document("project_id", _id));
+		// 清除work
+		c("work").deleteMany(new Document("project_id", _id));
+		// 清除workspace
+		c("workspace").deleteMany(new Document("project_id", _id));
+		// 清除worklinksspace
+		c("worklinksspace").deleteMany(new Document("project_id", _id));
+
+		// 清除obs
+		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+				new Document("scopeRoot", false).append("scope_id", _id))));
+
+		// 清除cbs
+		List<ObjectId> cbsIds = c("cbs")
+				.distinct("_id",
+						new Document("$or",
+								Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+										new Document("scopeRoot", false).append("scope_id", _id))),
+						ObjectId.class)
+				.into(new ArrayList<>());
+		c("cbs").deleteMany(new Document("_id", new Document("$in", cbsIds)));
+		c("cbsPeriod").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+		c("cbsSubject").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+
+		// 清除folder
+		c("folder").deleteMany(new Document("project_id", _id));
+
+		// 清除baseline
+		c("baseline").deleteMany(new Document("project_id", _id));
+		c("baselineWork").deleteMany(new Document("project_id", _id));
+		c("baselineWorkLinks").deleteMany(new Document("project_id", _id));
+
+		// 清除projectChange
+		c("projectChange").deleteMany(new Document("project_id", _id));
+
+		// 清除rbs
+		List<ObjectId> rbsIds = c("rbsItem").distinct("_id", new Document("project_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		c("rbsItem").deleteMany(new Document("project_id", _id));
+		c("riskEffect").deleteMany(new Document("project_id", _id));
+		c("riskResponse").deleteMany(new Document("rbsItem_id", new Document("$in", rbsIds)));
+
+		// 清除salesItem
+		c("salesItem").deleteMany(new Document("project_id", _id));
+
+		// 清除stockholder
+		c("stockholder").deleteMany(new Document("project_id", _id));
+
+		// 清除workReport
+		c("workReport").deleteMany(new Document("project_id", _id));
+		c("workReportItem").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		c("workReportResourceActual").deleteMany(new Document("work_id", new Document("$in", workIds)));
+
 		return delete(_id, Project.class);
 	}
 

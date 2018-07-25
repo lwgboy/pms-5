@@ -11,6 +11,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
@@ -18,7 +19,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class StartProject {
+public class TerminateProject {
 
 	@Inject
 	private IBruiService brui;
@@ -26,32 +27,33 @@ public class StartProject {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		Project project = (Project) context.getRootInput();
-		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "启动项目",
-				"请确认启动项目" + project + "。\n系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
-		if (!ok) {
-			return;
-		}
-		List<Result> result = Services.get(ProjectService.class)
-				.startProject(brui.command(project.get_id(), new Date()));
-		boolean b = true;
-		String message = "";
-		if (!result.isEmpty()) {
-			for (Result r : result)
-				if (Result.TYPE_ERROR == r.type) {
-					Layer.message(r.message, Layer.ICON_CANCEL);
-					b = false;
-				} else {
-					message += r.message + "<br>";
-				}
-		}
+		context.selected(se -> {
+			Project project = (Project) se;
+			Shell shell = brui.getCurrentShell();
+			boolean ok = MessageDialog.openConfirm(shell, "中止项目",
+					"请确认中止项目" + project + "。\n系统将取消所有未完成的工作，并向项目组成员发出中止通知。");
+			if (!ok) {
+				return;
+			}
+			List<Result> result = Services.get(ProjectService.class)
+					.terminateProject(brui.command(project.get_id(), new Date()));
+			boolean b = true;
+			String message = "";
+			if (!result.isEmpty()) {
+				for (Result r : result)
+					if (Result.TYPE_ERROR == r.type) {
+						Layer.message(r.message, Layer.ICON_CANCEL);
+						b = false;
+					} else {
+						message += r.message + "<br>";
+					}
+			}
 
-		if (b) {
-			message = "项目已启动。<br>" + message;
-			Layer.message(message);
-			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
-		}
+			if (b) {
+				message = "项目已中止。<br>" + message;
+				Layer.message(message);
+				((GridPart) context.getContent()).refreshAll();
+			}
+		});
 	}
-
 }

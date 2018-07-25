@@ -384,6 +384,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@ReadValue("terminateOn")
+	@Persistence("terminateOn")
+	private Date terminateOn;
+
+	@ReadValue()
+	@Persistence()
+	private String terminateBy;
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 计划完成日期, 编辑器保存时需要校验
 	@ReadValue("planFinish")
