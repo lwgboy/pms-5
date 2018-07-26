@@ -900,6 +900,56 @@
             "type": "customized"
           },
           {
+            "id": "163e433adcb",
+            "name": "项目组合管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "163e433dc1d",
+                "name": "投资回报分析",
+                "text": "投资回报分析",
+                "description": "",
+                "switchContentToAssemblyId": "163e45c5275",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163eac70578",
+                "name": "销售利润分析",
+                "text": "销售利润分析",
+                "switchContentToAssemblyId": "163eac35519",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163eb063278",
+                "name": "资金投入分析",
+                "text": "资金投入分析",
+                "switchContentToAssemblyId": "163eb0672aa",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch",
+            "role": "投资规划#项目总监"
+          },
+          {
             "id": "161989cc406",
             "name": "企业项目结构",
             "text": "企业项目结构",
@@ -1150,56 +1200,6 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "财务管理#项目总监"
-          },
-          {
-            "id": "163e433adcb",
-            "name": "投资分析",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "163e433dc1d",
-                "name": "投资回报分析",
-                "text": "投资回报分析",
-                "description": "",
-                "switchContentToAssemblyId": "163e45c5275",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "163eac70578",
-                "name": "销售利润分析",
-                "text": "销售利润分析",
-                "switchContentToAssemblyId": "163eac35519",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "163eb063278",
-                "name": "资金投入分析",
-                "text": "资金投入分析",
-                "switchContentToAssemblyId": "163eb0672aa",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": "投资规划#项目总监"
           },
           {
             "id": "161989cbe38",
