@@ -32,6 +32,10 @@ public class OpenProjectOrProjectSet {
 					bruiService.switchPage("项目首页（收尾）", ((Project) em).get_id().toHexString());
 				} else if (ProjectStatus.Closed.equals(((Project) em).getStatus())) {
 					bruiService.switchPage("项目首页（关闭）", ((Project) em).get_id().toHexString());
+				} else if (ProjectStatus.Suspended.equals(((Project) em).getStatus())) {
+					bruiService.switchPage("项目首页（暂停）", ((Project) em).get_id().toHexString());
+				} else if (ProjectStatus.Terminated.equals(((Project) em).getStatus())) {
+					bruiService.switchPage("项目首页（中止）", ((Project) em).get_id().toHexString());
 				}
 			} else if (em instanceof EPSInfo) {
 				if (((EPSInfo) em).getType().equals(EPSInfo.TYPE_PROJECT)) {
@@ -43,6 +47,10 @@ public class OpenProjectOrProjectSet {
 						bruiService.switchPage("项目首页（收尾）", ((EPSInfo) em).get_id().toHexString());
 					} else if (ProjectStatus.Closed.equals(((EPSInfo) em).getStatus())) {
 						bruiService.switchPage("项目首页（关闭）", ((EPSInfo) em).get_id().toHexString());
+					} else if (ProjectStatus.Suspended.equals(((Project) em).getStatus())) {
+						bruiService.switchPage("项目首页（暂停）", ((Project) em).get_id().toHexString());
+					} else if (ProjectStatus.Terminated.equals(((Project) em).getStatus())) {
+						bruiService.switchPage("项目首页（中止）", ((Project) em).get_id().toHexString());
 					}
 				}
 			}

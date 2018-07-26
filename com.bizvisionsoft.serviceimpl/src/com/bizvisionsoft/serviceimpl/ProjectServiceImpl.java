@@ -378,6 +378,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (l == 0)
 			result.add(Result.startProjectWarning("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
 
+		l = c(Work.class).countDocuments(new Document("project_id", _id).append("manageLevel", "1").append("$or",
+				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
+		if (l == 0)
+			result.add(Result.startProjectError("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+
 		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
 				.append("chargerId", null).append("assignerId", null));
 		if (l == 0)
@@ -758,6 +763,74 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long delete(ObjectId _id) {
 		// TODO 删除检查
+		Project project = get(_id);
+		if (!ProjectStatus.Created.equals(project.getStatus())) {
+			throw new ServiceException("当前项目不允许删除，只能删除已创建状态的项目。");
+		}
+		// 获得所有的work
+		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		// 清除关联的resourcePlan
+		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		// 清除关联的resourceActual
+		c("resourceActual").deleteMany(new Document("work_id", new Document("$in", workIds)));
+
+		// 清除关联的workPackage
+		c("workPackage").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		// 清除worklinks
+		c("worklinks").deleteMany(new Document("project_id", _id));
+		// 清除work
+		c("work").deleteMany(new Document("project_id", _id));
+		// 清除workspace
+		c("workspace").deleteMany(new Document("project_id", _id));
+		// 清除worklinksspace
+		c("worklinksspace").deleteMany(new Document("project_id", _id));
+
+		// 清除obs
+		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+				new Document("scopeRoot", false).append("scope_id", _id))));
+
+		// 清除cbs
+		List<ObjectId> cbsIds = c("cbs")
+				.distinct("_id",
+						new Document("$or",
+								Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+										new Document("scopeRoot", false).append("scope_id", _id))),
+						ObjectId.class)
+				.into(new ArrayList<>());
+		c("cbs").deleteMany(new Document("_id", new Document("$in", cbsIds)));
+		c("cbsPeriod").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+		c("cbsSubject").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
+
+		// 清除folder
+		c("folder").deleteMany(new Document("project_id", _id));
+
+		// 清除baseline
+		c("baseline").deleteMany(new Document("project_id", _id));
+		c("baselineWork").deleteMany(new Document("project_id", _id));
+		c("baselineWorkLinks").deleteMany(new Document("project_id", _id));
+
+		// 清除projectChange
+		c("projectChange").deleteMany(new Document("project_id", _id));
+
+		// 清除rbs
+		List<ObjectId> rbsIds = c("rbsItem").distinct("_id", new Document("project_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
+		c("rbsItem").deleteMany(new Document("project_id", _id));
+		c("riskEffect").deleteMany(new Document("project_id", _id));
+		c("riskResponse").deleteMany(new Document("rbsItem_id", new Document("$in", rbsIds)));
+
+		// 清除salesItem
+		c("salesItem").deleteMany(new Document("project_id", _id));
+
+		// 清除stockholder
+		c("stockholder").deleteMany(new Document("project_id", _id));
+
+		// 清除workReport
+		c("workReport").deleteMany(new Document("project_id", _id));
+		c("workReportItem").deleteMany(new Document("work_id", new Document("$in", workIds)));
+		c("workReportResourceActual").deleteMany(new Document("work_id", new Document("$in", workIds)));
+
 		return delete(_id, Project.class);
 	}
 
@@ -772,7 +845,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Result> finishProject(Command com) {
 		List<Result> result = finishProjectCheck(com._id, com.userId);
 		if (!result.isEmpty()) {
-			return result;
+			for (Result r : result) {
+				if (Result.TYPE_ERROR == r.type) {
+					return result;
+				}
+			}
 		}
 
 		Document doc = c("work").find(new BasicDBObject("project_id", com._id))
@@ -791,6 +868,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足完工条件的项目。"));
 			return result;
 		}
+		
+		//TODO 未完成工作的处理
 
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
@@ -819,7 +898,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.finishError("项目存在没有收尾和完工的阶段。"));
 		}
 
-		return result;
+		return new ArrayList<Result>();
 	}
 
 	@Override
@@ -883,6 +962,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = get(_id);
 		String catalog = project.getCatalog();
 		ObjectId parentproject_id = project.getParentProject_id();
+		ObjectId projectSet_id = project.getProjectSet_id();
 		ObjectId impunit_id = project.getImpUnit_id();
 
 		String workOrder;
@@ -903,9 +983,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					.distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + workorders[1]);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 
+		} else if (projectSet_id != null) {
+			String projectSetWorkOrder = c("projectSet")
+					.distinct("workOrder", new Document("_id", projectSet_id), String.class).first();
+			String[] workorders = projectSetWorkOrder.split("-");
+			workOrder += "-" + workorders[1];
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + projectSetWorkOrder);
+			workOrder += "-" + String.format("%02d", index);
 		} else {
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);
 			workOrder += "-" + String.format("%02d", index);

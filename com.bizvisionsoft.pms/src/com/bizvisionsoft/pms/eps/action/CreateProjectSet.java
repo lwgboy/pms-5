@@ -32,17 +32,13 @@ public class CreateProjectSet {
 						"只能在EPS节点或项目集下创建新的项目集。\n请选择EPS节点或项目集节点。");
 				return;
 			}
-			new Editor<ProjectSet>(bruiService.getAssembly("项目集编辑器"), context)
-
-					.setInput(input)
-
-					.ok((r, pjset) -> {
-						pjset = Services.get(ProjectSetService.class).insert(pjset);
-						if (pjset != null) {
-							GridPart grid = (GridPart) context.getContent();
-							grid.add(em, pjset);
-						}
-					});
+			new Editor<ProjectSet>(bruiService.getAssembly("项目集编辑器"), context).setInput(input).ok((r, pjset) -> {
+				pjset = Services.get(ProjectSetService.class).insert(pjset);
+				if (pjset != null) {
+					GridPart grid = (GridPart) context.getContent();
+					grid.add(em, pjset);
+				}
+			});
 
 		});
 	}

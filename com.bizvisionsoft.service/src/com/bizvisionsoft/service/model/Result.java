@@ -89,7 +89,15 @@ public class Result {
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
-	};
+	}
+
+	public static Result finishWarning(String message) {
+		Result e = new Result();
+		e.code = 100;
+		e.message = message;
+		e.type = Result.TYPE_WARNING;
+		return e;
+	}
 
 	public static Result cbsError(String message, int code) {
 		Result e = new Result();
@@ -97,7 +105,7 @@ public class Result {
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
-	};
+	}
 
 	public static Result cbsSuccess(String message) {
 		Result e = new Result();

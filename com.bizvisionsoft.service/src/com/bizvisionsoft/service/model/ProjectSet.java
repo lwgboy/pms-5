@@ -2,7 +2,10 @@ package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -10,12 +13,15 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
+import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -43,6 +49,7 @@ public class ProjectSet {
 	private String id;
 
 	@ImageURL("name")
+	@Exclude
 	private String icon = "/img/project_set_c.svg";
 
 	/**
@@ -52,13 +59,25 @@ public class ProjectSet {
 	@WriteValue
 	@Persistence
 	private String workOrder;
+	
+	public void setWorkOrder(String workOrder) {
+		this.workOrder = workOrder;
+	}
+
+	public String getWorkOrder() {
+		return workOrder;
+	}
+
+	public ProjectSet generateWorkOrder() {
+		this.workOrder = ServicesLoader.get(ProjectSetService.class).generateWorkOrder(this);
+		return this;
+	}
 
 	/**
 	 * 上级项目集Id
 	 */
 	@ReadValue
 	@WriteValue
-	@Persistence
 	private ObjectId parent_id;
 
 	/**
@@ -98,6 +117,56 @@ public class ProjectSet {
 	@Persistence
 	private ObjectId wbs_id;
 
+	/**
+	 * 类别：预研、科研(下级：新研、改性、适应性改造)、CBB
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String catalog;
+
+	public String getCatalog() {
+		return catalog;
+	}
+
+	@ReadOptions("catalog")
+	public Map<String, Object> getCatalogOptions() {
+		LinkedHashMap<String, Object> options = new LinkedHashMap<String, Object>();
+		options.put("预研", "预研");
+		options.put("科研-新研", "科研-新研");
+		options.put("科研-改性", "科研-改性");
+		options.put("科研-适应性改造", "科研-适应性改造");
+		options.put("CBB", "CBB");
+		return options;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * 承担单位
+	 */
+	@Persistence // 数据库存取
+	private ObjectId impUnit_id;
+
+	@SetValue // 查询服务设置
+	@ReadValue // 表格用
+	private String impUnitOrgFullName;
+
+	public ObjectId getImpUnit_id() {
+		return impUnit_id;
+	}
+
+	@WriteValue("impUnit") // 编辑器用
+	public void setOrganization(Organization org) {
+		this.impUnit_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
+	}
+
+	@ReadValue("impUnit") // 编辑器用
+	public Organization getOrganization() {
+		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
+				.orElse(null);
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public ProjectSet setEps_id(ObjectId eps_id) {
 		this.eps_id = eps_id;
 		return this;
@@ -112,6 +181,7 @@ public class ProjectSet {
 		return _id;
 	}
 
+	@Exclude
 	private List<Object> chileren;
 
 	@Structure("EPS浏览 /list")
@@ -122,8 +192,8 @@ public class ProjectSet {
 			chileren.addAll(ServicesLoader.get(ProjectSetService.class)
 					.createDataSet(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
 
-			chileren.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
-					new Query().filter(new BasicDBObject("projectSet_id", _id)).bson()));
+			chileren.addAll(ServicesLoader.get(ProjectService.class)
+					.createDataSet(new Query().filter(new BasicDBObject("projectSet_id", _id)).bson()));
 		}
 		return chileren;
 	}
@@ -131,8 +201,7 @@ public class ProjectSet {
 	@Structure("EPS浏览/count")
 	public long countSubProjectSetsAndProjects() {
 		// 查下级
-		long cnt = ServicesLoader.get(ProjectService.class)
-				.count(new BasicDBObject("projectSet_id", _id));
+		long cnt = ServicesLoader.get(ProjectService.class).count(new BasicDBObject("projectSet_id", _id));
 		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("parent_id", _id));
 		return cnt;
 	}

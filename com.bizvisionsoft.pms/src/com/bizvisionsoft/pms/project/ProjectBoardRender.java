@@ -75,6 +75,10 @@ public class ProjectBoardRender {
 			bruiService.switchPage("项目首页（收尾）", _id.toHexString());
 		} else if (ProjectStatus.Closed.equals(pj.getStatus())) {
 			bruiService.switchPage("项目首页（关闭）", _id.toHexString());
+		} else if (ProjectStatus.Suspended.equals(pj.getStatus())) {
+			bruiService.switchPage("项目首页（暂停）", _id.toHexString());
+		} else if (ProjectStatus.Terminated.equals(pj.getStatus())) {
+			bruiService.switchPage("项目首页（中止）", _id.toHexString());
 		}
 	}
 
@@ -89,6 +93,10 @@ public class ProjectBoardRender {
 				bruiService.switchPage("阶段首页（收尾）", workId.toHexString());
 			} else if (ProjectStatus.Closed.equals(work.getStatus())) {
 				bruiService.switchPage("阶段首页（关闭）", workId.toHexString());
+			} else if (ProjectStatus.Suspended.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（暂停）", workId.toHexString());
+			} else if (ProjectStatus.Terminated.equals(work.getStatus())) {
+				bruiService.switchPage("阶段首页（中止）", workId.toHexString());
 			}
 		}
 	}

@@ -52,7 +52,6 @@ public class StartProject {
 			Layer.message(message);
 			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
 		}
-		// TODO 显示多条错误信息的通用方法
 	}
 
 }
