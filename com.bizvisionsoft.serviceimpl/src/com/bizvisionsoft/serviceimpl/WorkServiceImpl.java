@@ -332,13 +332,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			if (l == 0)
 				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
 		}
-		
+
 		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work", "parent_id");
-		l = c(Work.class).countDocuments(new Document("_id", desentItems).append("manageLevel", "1").append("$or",
-				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
+		l = c(Work.class).countDocuments(new Document("_id", new Document("$in", desentItems))
+				.append("manageLevel", "1").append("milestone", false)
+				.append("$or", Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
 		if (l == 0)
 			result.add(Result.startProjectError("未完成阶段一级进度计划的编制.", Result.CODE_PROJECT_NOWORK));
-
 
 		return result;
 	}

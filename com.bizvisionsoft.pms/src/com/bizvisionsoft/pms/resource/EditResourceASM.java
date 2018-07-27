@@ -414,6 +414,7 @@ public class EditResourceASM extends GridPart {
 			return;
 
 		Document doc = (Document) data;
+		Integer qty = doc.getInteger("qty");
 
 		String dialogTitle = "";
 		String dialogMessage = "";
@@ -439,7 +440,6 @@ public class EditResourceASM extends GridPart {
 			try {
 				Double basicWorks = doc.getDouble("basicWorks");
 				Double overTimeWorks = doc.getDouble("overTimeWorks");
-				Integer qty = doc.getInteger("qty");
 				if (text.startsWith("Basic") && d > basicWorks * qty) {
 					return "资源标准用量不能大于:" + basicWorks * qty;
 				} else {
@@ -453,7 +453,7 @@ public class EditResourceASM extends GridPart {
 			return null;
 		});
 		if (InputDialog.OK == id.open()) {
-			double qty = Double.parseDouble(id.getValue());
+			double userQty = Double.parseDouble(id.getValue());
 			if (text.indexOf("-") > 0) {
 				Date period = null;
 				try {
@@ -466,10 +466,11 @@ public class EditResourceASM extends GridPart {
 						rp.setUsedTypedResId(doc.getString("usedTypedResId"));
 						rp.setResTypeId(doc.getObjectId("resTypeId"));
 						rp.setId(period);
+						rp.setQty(qty);
 						if (text.startsWith("Basic")) {
-							rp.setPlanBasicQty(qty);
+							rp.setPlanBasicQty(userQty);
 						} else if (text.startsWith("OverTime")) {
-							rp.setPlanOverTimeQty(qty);
+							rp.setPlanOverTimeQty(userQty);
 						}
 						workService.insertResourcePlan(rp);
 					} else if (period != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
@@ -481,9 +482,9 @@ public class EditResourceASM extends GridPart {
 						ra.setResTypeId(doc.getObjectId("resTypeId"));
 						ra.setId(period);
 						if (text.startsWith("Basic")) {
-							ra.setActualBasicQty(qty);
+							ra.setActualBasicQty(userQty);
 						} else if (text.startsWith("OverTime")) {
-							ra.setActualOverTimeQty(qty);
+							ra.setActualOverTimeQty(userQty);
 						}
 
 						if (rt.isReport())
@@ -506,14 +507,14 @@ public class EditResourceASM extends GridPart {
 				}
 				if (_id != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
 					workService.updateResourcePlan(new FilterAndUpdate().filter(new Document("_id", _id))
-							.set(new Document("plan" + key, qty)).bson());
+							.set(new Document("plan" + key, userQty)).bson());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 					if (rt.isReport())
 						workService.updateWorkReportResourceActual(new FilterAndUpdate()
-								.filter(new Document("_id", _id)).set(new Document("actual" + key, qty)).bson());
+								.filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
 					else
 						workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
-								.set(new Document("actual" + key, qty)).bson());
+								.set(new Document("actual" + key, userQty)).bson());
 				}
 
 			}

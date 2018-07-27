@@ -4687,26 +4687,6 @@
                 "hide": false,
                 "element": false,
                 "noToggleGridColumnGroup": false
-              },
-              {
-                "id": "161e5ada2aa",
-                "name": "weixin",
-                "text": "н╒пе",
-                "alignment": 16384,
-                "width": 120,
-                "minimumWidth": 0,
-                "moveable": false,
-                "resizeable": true,
-                "detail": true,
-                "summary": false,
-                "expanded": false,
-                "columns": [],
-                "markupEnabled": false,
-                "sort": 0,
-                "forceDisplayZero": false,
-                "hide": false,
-                "element": false,
-                "noToggleGridColumnGroup": false
               }
             ],
             "markupEnabled": false,

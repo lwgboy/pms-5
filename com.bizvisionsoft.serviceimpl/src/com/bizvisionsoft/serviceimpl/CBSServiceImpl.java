@@ -334,15 +334,15 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		c("cbsPeriod").deleteMany(new BasicDBObject("cbsItem_id", _id));
 
-		List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
-		for (String id : cbsPeriodMap.keySet()) {
-			CBSPeriod cbsPeriod = new CBSPeriod();
-			cbsPeriod.setCBSItem_id(_id);
-			cbsPeriod.setId(id);
-			cbsPeriod.setBudget(cbsPeriodMap.get(id));
-			cbsPeriods.add(cbsPeriod);
-		}
-		c(CBSPeriod.class).insertMany(cbsPeriods);
+//		List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
+//		for (String id : cbsPeriodMap.keySet()) {
+//			CBSPeriod cbsPeriod = new CBSPeriod();
+//			cbsPeriod.setCBSItem_id(_id);
+//			cbsPeriod.setId(id);
+//			cbsPeriod.setBudget(cbsPeriodMap.get(id));
+//			cbsPeriods.add(cbsPeriod);
+//		}
+//		c(CBSPeriod.class).insertMany(cbsPeriods);
 
 		ObjectId scope_id = c(CBSItem.class).distinct("scope_id", new Document("_id", _id), ObjectId.class).first();
 		Project project = c(Project.class).find(new Document("_id", scope_id)).first();
