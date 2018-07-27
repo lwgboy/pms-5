@@ -1020,7 +1020,7 @@
               },
               {
                 "id": "1642aaac69a",
-                "name": "资源详情",
+                "name": "资源数据表",
                 "switchContentToAssemblyId": "1642c5411bf",
                 "openContent": false,
                 "propagate": false,
@@ -47157,7 +47157,7 @@
       {
         "id": "1642c5411bf",
         "name": "查看部门资源汇总情况",
-        "title": "资源详情",
+        "title": "资源数据表",
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.resource.ShowDeptResourceASM",
         "layout": [],

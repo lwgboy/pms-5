@@ -826,70 +826,6 @@
             "role": ""
           },
           {
-            "id": "161985c99a8",
-            "name": "项目管理",
-            "text": "项目管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "1632e57b7a5",
-                "name": "我的项目",
-                "text": "我负责和参与的项目",
-                "switchContentToAssemblyId": "1632e5a7502",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch",
-                "role": ""
-              },
-              {
-                "id": "1646aa835c4",
-                "name": "所有项目",
-                "switchContentToAssemblyId": "1646aa864c4",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch",
-                "role": "项目管理员#项目总监"
-              },
-              {
-                "id": "16406b99e36",
-                "name": "创建项目",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized",
-                "role": ""
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "161989cc406",
-            "name": "企业项目结构",
-            "text": "企业项目结构",
-            "switchContentToAssemblyId": "16275cba497",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": "项目管理员#项目总监"
-          },
-          {
             "id": "161985cac4c",
             "name": "我的工作",
             "text": "我的工作",
@@ -981,6 +917,19 @@
                 "objectBehavier": false,
                 "type": "switch",
                 "role": ""
+              },
+              {
+                "id": "161989cc8b9",
+                "name": "部门工作",
+                "text": "部门工作",
+                "switchContentToAssemblyId": "1635d7d0d35",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch",
+                "role": "部门经理"
               }
             ],
             "editorAssemblyEditable": false,
@@ -988,17 +937,118 @@
             "type": "customized"
           },
           {
-            "id": "161989cc8b9",
-            "name": "部门工作",
-            "text": "部门工作",
-            "switchContentToAssemblyId": "1635d7d0d35",
+            "id": "161985c99a8",
+            "name": "项目管理",
+            "text": "项目管理",
             "openContent": false,
             "propagate": false,
             "forceText": false,
+            "children": [
+              {
+                "id": "1632e57b7a5",
+                "name": "我的项目",
+                "text": "我的项目",
+                "switchContentToAssemblyId": "1632e5a7502",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch",
+                "role": ""
+              },
+              {
+                "id": "16406b99e36",
+                "name": "创建项目",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized",
+                "role": ""
+              },
+              {
+                "id": "161989cc406",
+                "name": "企业项目结构",
+                "text": "企业项目结构",
+                "switchContentToAssemblyId": "16275cba497",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch",
+                "role": "项目管理员#项目总监"
+              },
+              {
+                "id": "1646aa835c4",
+                "name": "所有项目",
+                "switchContentToAssemblyId": "1646aa864c4",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch",
+                "role": "项目管理员#项目总监"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          },
+          {
+            "id": "163e433adcb",
+            "name": "项目组合管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "163e433dc1d",
+                "name": "投资回报分析",
+                "text": "投资回报分析",
+                "description": "",
+                "switchContentToAssemblyId": "163e45c5275",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163eac70578",
+                "name": "销售利润分析",
+                "text": "销售利润分析",
+                "switchContentToAssemblyId": "163eac35519",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "163eb063278",
+                "name": "资金投入分析",
+                "text": "资金投入分析",
+                "switchContentToAssemblyId": "163eb0672aa",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
+              }
+            ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch",
-            "role": "部门经理"
+            "role": "投资规划#项目总监"
           },
           {
             "id": "1642aaa73c6",
@@ -1009,7 +1059,8 @@
             "children": [
               {
                 "id": "1642aaac170",
-                "name": "资源用量综合分析",
+                "name": "资源图表",
+                "text": "资源图表",
                 "switchContentToAssemblyId": "1642c544f01",
                 "openContent": false,
                 "propagate": false,
@@ -1020,7 +1071,7 @@
               },
               {
                 "id": "1642aaac69a",
-                "name": "资源详情",
+                "name": "资源数据表",
                 "switchContentToAssemblyId": "1642c5411bf",
                 "openContent": false,
                 "propagate": false,
@@ -1127,56 +1178,6 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "财务管理#项目总监"
-          },
-          {
-            "id": "163e433adcb",
-            "name": "投资分析",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "163e433dc1d",
-                "name": "投资回报分析",
-                "text": "投资回报分析",
-                "description": "",
-                "switchContentToAssemblyId": "163e45c5275",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "163eac70578",
-                "name": "销售利润分析",
-                "text": "销售利润分析",
-                "switchContentToAssemblyId": "163eac35519",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "163eb063278",
-                "name": "资金投入分析",
-                "text": "资金投入分析",
-                "switchContentToAssemblyId": "163eb0672aa",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": "投资规划#项目总监"
           },
           {
             "id": "161989cbe38",
@@ -47157,7 +47158,7 @@
       {
         "id": "1642c5411bf",
         "name": "查看部门资源汇总情况",
-        "title": "资源详情",
+        "title": "资源数据表",
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.resource.ShowDeptResourceASM",
         "layout": [],
@@ -47305,7 +47306,7 @@
           }
         ],
         "type": "sticker",
-        "stickerTitle": "资源用量综合分析",
+        "stickerTitle": "资源图表",
         "folderId": "1642c54b54c",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -58307,8 +58308,9 @@
     ]
   },
   "password": "admin",
-  "headLogo": "",
+  "headLogo": "/cust/logo_w.svg",
   "pageBackgroundImage": "",
-  "headLogoWidth": 150,
+  "welcome": "登录项目管理系统",
+  "headLogoWidth": 235,
   "headLogoHeight": 60
 }

@@ -132,7 +132,7 @@ public class ShowDeptResourceASM extends GridPart {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		bar.setText("资源详情 ");
+		bar.setText("资源数据表");
 
 		content = UserSession.bruiToolkit().newContentPanel(parent);
 		fd = new FormData();
