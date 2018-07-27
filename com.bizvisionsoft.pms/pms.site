@@ -58307,8 +58307,6 @@
     ]
   },
   "password": "admin",
-  "headLogo": "",
-  "pageBackgroundImage": "",
-  "headLogoWidth": 150,
-  "headLogoHeight": 60
+  "headLogoWidth": 250,
+  "headLogoHeight": 64
 }
