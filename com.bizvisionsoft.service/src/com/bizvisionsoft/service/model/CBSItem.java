@@ -393,24 +393,28 @@ public class CBSItem {
 		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
 		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
-		if (countSubCBSItems() == 0) {
-			if (budget == null || budget.isEmpty()) {
-				return 0d;
-			}
-			Iterator<String> iter = budget.keySet().iterator();
-			while (iter.hasNext()) {
-				String k = iter.next();
-				if (k.startsWith(year)) {
-					Object v = budget.get(k);
-					if (v instanceof Number) {
-						summary += ((Number) v).doubleValue();
-					}
-				}
-			}
-		} else {
+		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
 				summary += iter.next().getBudgetYearSummary(year);
+			}
+		} else {
+			List<CBSSubject> cbsSubjects = listCBSSubjects();
+			if (cbsSubjects.size() > 0) {
+				for (CBSSubject cbsSubject : cbsSubjects) {
+					if (cbsSubject.getId().startsWith(year)) {
+						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
+					}
+				}
+			} else {
+				List<CBSPeriod> cbsPeriods = listCBSPeriods();
+				if (cbsPeriods.size() > 0) {
+					for (CBSPeriod cbsPeriod : cbsPeriods) {
+						if (cbsPeriod.getId().startsWith(year)) {
+							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
+						}
+					}
+				}
 			}
 		}
 		return summary;
