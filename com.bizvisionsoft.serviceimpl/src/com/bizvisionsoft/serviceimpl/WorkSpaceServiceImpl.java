@@ -492,11 +492,18 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		c(WorkLinkInfo.class).deleteMany(new Document("space_id", space_id));
 
-		List<WorkInfo> tasks = ganttData.getTasks();
-		List<WorkLinkInfo> links = ganttData.getLinks();
-		if (tasks.size() > 0)
-			c(WorkInfo.class).insertMany(tasks);
+		List<WorkInfo> workInfos = ganttData.getTasks();
+		for (int i = 0; i < workInfos.size(); i++) {
+			workInfos.get(i).setIndex(i);
+			if (workInfos.get(i).getParent_id() == null && ganttData.getWork_id() != null) {
+				workInfos.get(i).setParent_id(ganttData.getWork_id());
+			}
+		}
 
+		if (workInfos.size() > 0)
+			c(WorkInfo.class).insertMany(workInfos);
+
+		List<WorkLinkInfo> links = ganttData.getLinks();
 		if (links.size() > 0)
 			c(WorkLinkInfo.class).insertMany(links);
 		return new Result();

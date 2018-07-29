@@ -3971,17 +3971,6 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch"
-              },
-              {
-                "id": "162c9010168",
-                "name": "ÕË»§²Ù×÷Éó¼Æ",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "children": [],
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,

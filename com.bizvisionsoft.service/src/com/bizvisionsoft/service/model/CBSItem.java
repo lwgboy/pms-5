@@ -11,6 +11,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
@@ -23,6 +24,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.sn.CBSItemGenerator;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("cbs")
@@ -42,7 +44,7 @@ public class CBSItem {
 
 	/** ±àºÅ Y **/
 	@ReadValue
-	@WriteValue
+	@Generator(name = Generator.DEFAULT_NAME, key = Generator.DEFAULT_KEY, generator = CBSItemGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
 	@ReadValue

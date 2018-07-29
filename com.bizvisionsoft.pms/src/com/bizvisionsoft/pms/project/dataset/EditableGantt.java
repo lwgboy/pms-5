@@ -130,8 +130,8 @@ public class EditableGantt {
 			links.add(link2);
 		});
 
-		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(space_id).setWorks(tasks)
-				.setLinks(links);
+		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(space_id).setWorks(tasks).setLinks(links)
+				.setWork_id(workspace.getWork_id()).setProject_id(workspace.getProject_id());
 		Result result = workSpaceService.updateGanttData(ganttData);
 		// TODO ¥ÌŒÛ¥¶¿Ì
 		if (result.type != Result.TYPE_ERROR) {

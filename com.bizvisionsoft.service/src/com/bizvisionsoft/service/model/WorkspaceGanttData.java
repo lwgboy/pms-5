@@ -14,6 +14,10 @@ public class WorkspaceGanttData {
 
 	private ObjectId template_id;
 
+	private ObjectId work_id;
+
+	private ObjectId project_id;
+
 	private List<WorkInTemplate> taskInTemplates;
 
 	private List<WorkLinkInTemplate> linkInTemplates;
@@ -70,6 +74,24 @@ public class WorkspaceGanttData {
 
 	public List<WorkLinkInTemplate> getWorkLinkInTemplates() {
 		return linkInTemplates;
+	}
+
+	public WorkspaceGanttData setWork_id(ObjectId work_id) {
+		this.work_id = work_id;
+		return this;
+	}
+
+	public ObjectId getWork_id() {
+		return work_id;
+	}
+
+	public WorkspaceGanttData setProject_id(ObjectId project_id) {
+		this.project_id = project_id;
+		return this;
+	}
+
+	public ObjectId getProject_id() {
+		return project_id;
 	}
 
 }

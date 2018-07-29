@@ -270,9 +270,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// index, 在gantt图中用于排序
 	@ReadValue
-	@WriteValue
-	@Persistence
+	@GetValue
 	private int index;
+
+	public Work setIndex(int index) {
+		this.index = index;
+		return this;
+	}
 
 	public int getIndex() {
 		return index;
@@ -948,11 +952,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				.setScopeRoot(true);// 区分这个节点是范围内的根节点
 
 		return obsRoot;
-	}
-
-	public Work setIndex(int index) {
-		this.index = index;
-		return this;
 	}
 
 	@Override
