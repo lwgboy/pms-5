@@ -24,9 +24,11 @@ import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.model.IndexOptions;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -398,119 +400,119 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// accountItem->
 		// id
 		// parent_id
-		c("accountItem").createIndex(new Document("id", 1));
-		c("accountItem").createIndex(new Document("parent_id", 1));
+		createIndex("accountItem", new Document("id", 1), "id");
+		createIndex("accountItem", new Document("parent_id", 1), "parent_id");
 		// baseline->
 		// project_id
 		// creationDate
-		c("baseline").createIndex(new Document("project_id", 1));
-		c("baseline").createIndex(new Document("creationDate", -1));// 按时间倒序
+		createIndex("baseline", new Document("project_id", 1), "project_id");
+		createIndex("baseline", new Document("creationDate", -1), "creationDate");// 按时间倒序
 		// baselineWork->
 		// project_id
 		// wbsCode
 		// index
 		// baseline_id
 		// parent_id
-		c("baselineWork").createIndex(new Document("project_id", 1));
-		c("baselineWork").createIndex(new Document("wbsCode", 1));
-		c("baselineWork").createIndex(new Document("index", 1));
-		c("baselineWork").createIndex(new Document("baseline_id", 1));
-		c("baselineWork").createIndex(new Document("parent_id", 1));
+		createIndex("baselineWork", new Document("project_id", 1), "project_id");
+		createIndex("baselineWork", new Document("wbsCode", 1), "wbsCode");
+		createIndex("baselineWork", new Document("index", 1), "index");
+		createIndex("baselineWork", new Document("baseline_id", 1), "baseline_id");
+		createIndex("baselineWork", new Document("parent_id", 1), "parent_id");
 		// baselineWorkLinks->
 		// project_id
 		// source
 		// target
 		// baseline_id
-		c("baselineWorkLinks").createIndex(new Document("project_id", 1));
-		c("baselineWorkLinks").createIndex(new Document("source", 1));
-		c("baselineWorkLinks").createIndex(new Document("target", 1));
-		c("baselineWorkLinks").createIndex(new Document("baseline_id", 1));
+		createIndex("baselineWorkLinks", new Document("project_id", 1), "project_id");
+		createIndex("baselineWorkLinks", new Document("source", 1), "source");
+		createIndex("baselineWorkLinks", new Document("target", 1), "target");
+		createIndex("baselineWorkLinks", new Document("baseline_id", 1), "baseline_id");
 		// cbs->
 		// scope_id
 		// parent_id
-		c("cbs").createIndex(new Document("scope_id", 1));
-		c("cbs").createIndex(new Document("parent_id", 1));
+		createIndex("cbs", new Document("scope_id", 1), "scope_id");
+		createIndex("cbs", new Document("parent_id", 1), "parent_id");
 		// cbsPeriod->
 		// cbsItem_id
 		// id
-		c("cbsPeriod").createIndex(new Document("cbsItem_id", 1));
-		c("cbsPeriod").createIndex(new Document("id", 1));
+		createIndex("cbsPeriod", new Document("cbsItem_id", 1), "cbsItem_id");
+		createIndex("cbsPeriod", new Document("id", 1), "id");
 		// cbsSubject->
 		// cbsItem_id
 		// id
 		// subjectNumber
-		c("cbsSubject").createIndex(new Document("cbsItem_id", 1));
-		c("cbsSubject").createIndex(new Document("id", 1));
-		c("cbsSubject").createIndex(new Document("subjectNumber", 1));
+		createIndex("cbsSubject", new Document("cbsItem_id", 1), "cbsItem_id");
+		createIndex("cbsSubject", new Document("id", 1), "id");
+		createIndex("cbsSubject", new Document("subjectNumber", 1), "subjectNumber");
 		// dictionary->
 		// id+type
-		c("cbsSubject").createIndex(new Document("id", 1).append("type", 1));
+		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type");
 		// docu->
 		// folder_id
 		// tag
 		// category
 		// name
 		// id
-		c("docu").createIndex(new Document("folder_id", 1));
-		c("docu").createIndex(new Document("tag", 1));
-		c("docu").createIndex(new Document("category", 1));
-		c("docu").createIndex(new Document("name", 1));
-		c("docu").createIndex(new Document("id", 1));
+		createIndex("docu", new Document("folder_id", 1), "folder_id");
+		createIndex("docu", new Document("tag", 1), "tag");
+		createIndex("docu", new Document("category", 1), "category");
+		createIndex("docu", new Document("name", 1), "name");
+		createIndex("docu", new Document("id", 1), "id");
 		// eps->
 		// id
-		c("eps").createIndex(new Document("id", 1));
+		createIndex("eps", new Document("id", 1), "id");
 		// equipment->
 		// org_id
 		// id
 		// resourceType_id
-		c("equipment").createIndex(new Document("org_id", 1));
-		c("equipment").createIndex(new Document("id", 1));
-		c("equipment").createIndex(new Document("resourceType_id", 1));
+		createIndex("equipment", new Document("org_id", 1), "org_id");
+		createIndex("equipment", new Document("id", 1), "id");
+		createIndex("equipment", new Document("resourceType_id", 1), "resourceType_id");
 		// folder->
 		// project_id
 		// parent_id
-		c("folder").createIndex(new Document("project_id", 1));
-		c("folder").createIndex(new Document("parent_id", 1));
+		createIndex("folder", new Document("project_id", 1), "project_id");
+		createIndex("folder", new Document("parent_id", 1), "parent_id");
 		// funcPermission->
 		// id+type
-		c("funcPermission").createIndex(new Document("id", 1).append("type", 1));
+		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type");
 		// message->
 		// receiver
 		// sendDate
 		// content
-		c("message").createIndex(new Document("receiver", 1));
-		c("message").createIndex(new Document("sendDate", 1));
-		c("message").createIndex(new Document("content", 1));
+		createIndex("message", new Document("receiver", 1), "receiver");
+		createIndex("message", new Document("sendDate", 1), "sendDate");
+		createIndex("message", new Document("content", 1), "content");
 		// monteCarloSimulate->
 		// project_id
-		c("monteCarloSimulate").createIndex(new Document("project_id", 1));
+		createIndex("monteCarloSimulate", new Document("project_id", 1), "project_id");
 		// obs->
 		// scope_id
 		// roleId
 		// managerId
 		// parent_id
 		// seq
-		c("obs").createIndex(new Document("scope_id", 1));
-		c("obs").createIndex(new Document("roleId", 1));
-		c("obs").createIndex(new Document("managerId", 1));
-		c("obs").createIndex(new Document("parent_id", 1));
-		c("obs").createIndex(new Document("seq", 1));
+		createIndex("obs", new Document("scope_id", 1), "scope_id");
+		createIndex("obs", new Document("roleId", 1), "roleId");
+		createIndex("obs", new Document("managerId", 1), "managerId");
+		createIndex("obs", new Document("parent_id", 1), "parent_id");
+		createIndex("obs", new Document("seq", 1), "seq");
 		// obs->
 		// scope_id
 		// roleId
 		// parent_id
 		// seq
-		c("obsInTemplate").createIndex(new Document("scope_id", 1));
-		c("obsInTemplate").createIndex(new Document("roleId", 1));
-		c("obsInTemplate").createIndex(new Document("parent_id", 1));
-		c("obsInTemplate").createIndex(new Document("seq", 1));
+		createIndex("obsInTemplate", new Document("scope_id", 1), "scope_id");
+		createIndex("obsInTemplate", new Document("roleId", 1), "roleId");
+		createIndex("obsInTemplate", new Document("parent_id", 1), "parent_id");
+		createIndex("obsInTemplate", new Document("seq", 1), "seq");
 		// organization->
 		// id
 		// managerId
 		// parent_id
-		c("organization").createIndex(new Document("id", 1));
-		c("organization").createIndex(new Document("managerId", 1));
-		c("organization").createIndex(new Document("parent_id", 1));
+		createIndex("organization", new Document("id", 1), "id");
+		createIndex("organization", new Document("managerId", 1), "managerId");
+		createIndex("organization", new Document("parent_id", 1), "parent_id");
 		// project->
 		// pmId
 		// cbs_id
@@ -521,76 +523,82 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// actualStart
 		// actualFinish
 		// eps_id
-		c("project").createIndex(new Document("pmId", 1));
-		c("project").createIndex(new Document("cbs_id", 1));
-		c("project").createIndex(new Document("workOrder", 1));
-		c("project").createIndex(new Document("obs_id", 1));
-		c("project").createIndex(new Document("planStart", 1));
-		c("project").createIndex(new Document("planFinish", -1));
-		c("project").createIndex(new Document("actualStart", 1));
-		c("project").createIndex(new Document("actualFinish", 1));
-		c("project").createIndex(new Document("eps_id", 1));
+		createIndex("project", new Document("pmId", 1), "pmId");
+		createIndex("project", new Document("cbs_id", 1), "cbs_id");
+		createIndex("project", new Document("workOrder", 1), "workOrder");
+		createIndex("project", new Document("obs_id", 1), "obs_id");
+		createIndex("project", new Document("planStart", 1), "planStart");
+		createIndex("project", new Document("planFinish", -1), "planFinish");
+		createIndex("project", new Document("actualStart", 1), "actualStart");
+		createIndex("project", new Document("actualFinish", 1), "actualFinish");
+		createIndex("project", new Document("eps_id", 1), "eps_id");
 		// projectChange->
 		// project_id
 		// applicantDate
-		c("projectChange").createIndex(new Document("project_id", 1));
-		c("projectChange").createIndex(new Document("applicantDate", -1));
+		createIndex("projectChange", new Document("project_id", 1), "project_id");
+		createIndex("projectChange", new Document("applicantDate", -1), "applicantDate");
 		// projectSet->
 		// workOrder
 		// eps_id
-		c("projectSet").createIndex(new Document("workOrder", 1));
-		c("projectSet").createIndex(new Document("eps_id", 1));
+		createIndex("projectSet", new Document("workOrder", 1), "workOrder");
+		createIndex("projectSet", new Document("eps_id", 1), "eps_id");
 		// projectTemplate->
 		// id
-		c("projectTemplate").createIndex(new Document("id", 1));
+		createIndex("projectTemplate", new Document("id", 1), "id");
 		// rbsItem->
 		// project_id
 		// parent_id
 		// index
-		c("rbsItem").createIndex(new Document("project_id", 1));
-		c("rbsItem").createIndex(new Document("parent_id", 1));
-		c("rbsItem").createIndex(new Document("index", 1));
+		createIndex("rbsItem", new Document("project_id", 1), "project_id");
+		createIndex("rbsItem", new Document("parent_id", 1), "parent_id");
+		createIndex("rbsItem", new Document("index", 1), "index");
 		// resourceActual->
 		// work_id+resTypeId+usedEquipResId
 		// work_id+resTypeId+usedTypedResId
 		// work_id+resTypeId+usedHumanResId
 		// id
-		c("resourceActual").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1));
-		c("resourceActual").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1));
-		c("resourceActual").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1));
-		c("resourceActual").createIndex(new Document("id", 1));
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"work_id_resTypeId_usedEquipResId");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"work_id_resTypeId_usedTypedResId");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"work_id_resTypeId_usedHumanResId");
+		createIndex("resourceActual", new Document("id", 1), "id");
 		// resourcePlan->
 		// work_id+resTypeId+usedEquipResId
 		// work_id+resTypeId+usedTypedResId
 		// work_id+resTypeId+usedHumanResId
 		// id
-		c("resourcePlan").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1));
-		c("resourcePlan").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1));
-		c("resourcePlan").createIndex(new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1));
-		c("resourcePlan").createIndex(new Document("id", 1));
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"work_id_resTypeId_usedEquipResId");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"work_id_resTypeId_usedTypedResId");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"work_id_resTypeId_usedHumanResId");
+		createIndex("resourcePlan", new Document("id", 1), "id");
 		// resourceType->
 		// id
-		c("resourceType").createIndex(new Document("id", 1));
+		createIndex("resourceType", new Document("id", 1), "id");
 		// riskEffect->
 		// project_id
 		// rbsItem_id
-		c("riskEffect").createIndex(new Document("project_id", 1));
-		c("riskEffect").createIndex(new Document("rbsItem_id", 1));
+		createIndex("riskEffect", new Document("project_id", 1), "project_id");
+		createIndex("riskEffect", new Document("rbsItem_id", 1), "rbsItem_id");
 		// salesItem->
 		// period
 		// project_id
-		c("salesItem").createIndex(new Document("period", 1));
-		c("salesItem").createIndex(new Document("project_id", 1));
+		createIndex("salesItem", new Document("period", 1), "period");
+		createIndex("salesItem", new Document("project_id", 1), "project_id");
 		// stockholder->
 		// project_id
-		c("stockholder").createIndex(new Document("project_id", 1));
+		createIndex("stockholder", new Document("project_id", 1), "project_id");
 		// user->
 		// userid
 		// org_id
 		// resourceType_id
-		c("user").createIndex(new Document("userId", 1));
-		c("user").createIndex(new Document("org_id", 1));
-		c("user").createIndex(new Document("resourceType_id", 1));
+		createIndex("user", new Document("userId", 1), "userId");
+		createIndex("user", new Document("org_id", 1), "org_id");
+		createIndex("user", new Document("resourceType_id", 1), "resourceType_id");
 		// work->
 		// project_id
 		// planStart
@@ -603,74 +611,207 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// chargerId
 		// assignerId
 		// manageLevel
-		c("work").createIndex(new Document("project_id", 1));
-		c("work").createIndex(new Document("planStart", 1));
-		c("work").createIndex(new Document("planFinish", 1));
-		c("work").createIndex(new Document("actualStart", 1));
-		c("work").createIndex(new Document("actualFinish", 1));
-		c("work").createIndex(new Document("wbsCode", 1));
-		c("work").createIndex(new Document("index", 1));
-		c("work").createIndex(new Document("parent_id", 1));
-		c("work").createIndex(new Document("chargerId", 1));
-		c("work").createIndex(new Document("assignerId", 1));
-		c("work").createIndex(new Document("manageLevel", 1));
+		createIndex("work", new Document("project_id", 1), "project_id");
+		createIndex("work", new Document("planStart", 1), "planStart");
+		createIndex("work", new Document("planFinish", 1), "planFinish");
+		createIndex("work", new Document("actualStart", 1), "actualStart");
+		createIndex("work", new Document("actualFinish", 1), "actualFinish");
+		createIndex("work", new Document("wbsCode", 1), "wbsCode");
+		createIndex("work", new Document("index", 1), "index");
+		createIndex("work", new Document("parent_id", 1), "parent_id");
+		createIndex("work", new Document("chargerId", 1), "chargerId");
+		createIndex("work", new Document("assignerId", 1), "assignerId");
+		createIndex("work", new Document("manageLevel", 1), "manageLevel");
 		// workInTemplate->
 		// wbsCode
 		// index
 		// parent_id
 		// template_id
-		c("workInTemplate").createIndex(new Document("wbsCode", 1));
-		c("workInTemplate").createIndex(new Document("index", 1));
-		c("workInTemplate").createIndex(new Document("parent_id", 1));
-		c("workInTemplate").createIndex(new Document("template_id", 1));
+		createIndex("workInTemplate", new Document("wbsCode", 1), "wbsCode");
+		createIndex("workInTemplate", new Document("index", 1), "index");
+		createIndex("workInTemplate", new Document("parent_id", 1), "parent_id");
+		createIndex("workInTemplate", new Document("template_id", 1), "template_id");
 		// workPackage->
 		// work_id
-		c("workPackage").createIndex(new Document("work_id", 1));
+		createIndex("workPackage", new Document("work_id", 1), "work_id");
 		// workPackageProgress->
 		// package_id
 		// time:-1
-		c("workPackageProgress").createIndex(new Document("package_id", 1));
-		c("workPackageProgress").createIndex(new Document("time", -1));
+		createIndex("workPackageProgress", new Document("package_id", 1), "package_id");
+		createIndex("workPackageProgress", new Document("time", -1), "time");
 		// workReport->
 		// project_id+type
 		// period
 		// reporter+type
-		c("workReport").createIndex(new Document("project_id", 1).append("type", 1));
-		c("workReport").createIndex(new Document("period", 1));
-		c("workReport").createIndex(new Document("reporter", 1).append("type", 1));
+		createIndex("workReport", new Document("project_id", 1).append("type", 1), "project_id_type");
+		createIndex("workReport", new Document("period", 1), "period");
+		createIndex("workReport", new Document("reporter", 1).append("type", 1), "reporter_type");
 		// workReportItem->
 		// report_id
 		// project_id
-		c("workReportItem").createIndex(new Document("report_id", 1));
-		c("workReportItem").createIndex(new Document("project_id", 1));
+		createIndex("workReportItem", new Document("report_id", 1), "report_id");
+		createIndex("workReportItem", new Document("project_id", 1), "project_id");
 		// workReportResourceActual->
 		// workReportItem_id+work_id+resTypeId+usedEquipResId
 		// workReportItem_id+work_id+resTypeId+usedTypedResId
 		// workReportItem_id+work_id+resTypeId+usedHumanResId
 		// id
-		c("workReportResourceActual").createIndex(new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedEquipResId", 1));
-		c("workReportResourceActual").createIndex(new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedTypedResId", 1));
-		c("workReportResourceActual").createIndex(new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedHumanResId", 1));
-		c("workReportResourceActual").createIndex(new Document("id", 1));
+		createIndex(
+				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+						.append("resTypeId", 1).append("usedEquipResId", 1),
+				"workReportItem_id_work_id_resTypeId_usedEquipResId");
+		createIndex(
+				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+						.append("resTypeId", 1).append("usedTypedResId", 1),
+				"workReportItem_id_work_id_resTypeId_usedTypedResId");
+		createIndex(
+				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+						.append("resTypeId", 1).append("usedHumanResId", 1),
+				"workReportItem_id_work_id_resTypeId_usedHumanResId");
+		createIndex("workReportResourceActual", new Document("id", 1), "id");
 		// worklinks->
 		// project_id
 		// space_id
-		c("worklinks").createIndex(new Document("project_id", 1));
-		c("worklinks").createIndex(new Document("space_id", 1));
+		createIndex("worklinks", new Document("project_id", 1), "project_id");
+		createIndex("worklinks", new Document("space_id", 1), "space_id");
 		// workspace->
 		// project_id
 		// wbsCode
 		// index
 		// parent_id
 		// space_id
-		c("workspace").createIndex(new Document("project_id", 1));
-		c("workspace").createIndex(new Document("wbsCode", 1));
-		c("workspace").createIndex(new Document("index", 1));
-		c("workspace").createIndex(new Document("parent_id", 1));
-		c("workspace").createIndex(new Document("space_id", 1));
+		createIndex("workspace", new Document("project_id", 1), "project_id");
+		createIndex("workspace", new Document("wbsCode", 1), "wbsCode");
+		createIndex("workspace", new Document("index", 1), "index");
+		createIndex("workspace", new Document("parent_id", 1), "parent_id");
+		createIndex("workspace", new Document("space_id", 1), "space_id");
+
+		// cbs->
+		// id、scope_id
+		createUniqueIndex("cbs", new Document("id", 1).append("scope_id", 1), "id_scope_id");
+
+		// project->
+		// id
+		createUniqueIndex("project", new Document("id", 1), "id");
+
+		// obs->
+		// roleId、scope_id
+		createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1), "roleId_scope_id");
+
+		// obsInTemplate->
+		// roleId、template_id
+		createUniqueIndex("obsInTemplate", new Document("roleId", 1).append("template_id", 1), "roleId_template_id");
+
+		// resourcePlan->
+		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
+		createUniqueIndex("resourcePlan",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+
+		// resourcePlanInTemplate->
+		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
+		createUniqueIndex("resourcePlanInTemplate",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+
+		// resourceActual->
+		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
+		createUniqueIndex("resourceActual",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+
+		// workReportResourceActual->
+		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId、workReportItemId
+		createUniqueIndex("workReportResourceActual",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_workReportItemId");
+
+		// work->
+		// project_id、fullName
+		createUniqueIndex("work", new Document("project_id", 1).append("fullName", 1), "project_id_fullName");
+
+		// workspace->
+		// project_id、fullName、space_id
+		createUniqueIndex("workspace", new Document("project_id", 1).append("fullName", 1).append("space_id", 1),
+				"project_id_fullName_space_id");
+
+		// workInTemplate->
+		// template_id、fullName
+		createUniqueIndex("workInTemplate", new Document("template_id", 1).append("fullName", 1),
+				"template_id_fullName");
+
+		// workLinks->
+		// project_id、source、target
+		createUniqueIndex("workLinks", new Document("project_id", 1).append("source", 1).append("target", 1),
+				"project_id_source_target");
+
+		// workLinksspace->
+		// project_id、source、target、space_id
+		createUniqueIndex("workLinksspace",
+				new Document("project_id", 1).append("source", 1).append("target", 1).append("space_id", 1),
+				"project_id_source_target_space_id");
+
+		// folder->
+		// name、project_id、parent_id
+		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1),
+				"name_project_id_parent_id");
+
+		// folderInTemplate->
+		// name、template_id、parent_id
+		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1),
+				"name_template_id_parent_id");
+
+		// eps->
+		// id
+		createUniqueIndex("eps", new Document("id", 1), "id");
+
+		// cbsSubject->
+		// cbsItem_id、id、subjectNumber
+		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1),
+				"cbsItem_id_id_subjectNumber");
+
+		// cbsPeriod->
+		// cbsItem_id、id
+		createUniqueIndex("cbsPeriod", new Document("cbsItem_id", 1).append("id", 1), "cbsItem_id_id");
+
+		// accountItem->
+		// id
+		createUniqueIndex("accountItem", new Document("id", 1), "id");
+
+		// dictionary -》
+		// id,type
+		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type_id");
+
+	}
+
+	private void createIndex(String collectionName, Document keys, String name) {
+		try {
+			c(collectionName).listIndexes().forEach((Document doc) -> {
+				System.out.println(doc);
+				if(doc.get("key").equals(keys));
+				c(collectionName).dropIndex(keys);
+					
+			});
+			c(collectionName).createIndex(keys, new IndexOptions().name(name));
+		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建索引错误。" + e.getMessage());
+		}
+	}
+
+	private void createUniqueIndex(String collectionName, Document keys, String name) {
+		try {
+			c(collectionName).listIndexes().forEach((Document doc) -> {
+				System.out.println(doc);
+			});
+			c(collectionName).dropIndex(keys);
+			c(collectionName).createIndex(keys, new IndexOptions().name(name).unique(true));
+		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
+		}
 	}
 
 	@Override

@@ -334,15 +334,15 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		c("cbsPeriod").deleteMany(new BasicDBObject("cbsItem_id", _id));
 
-//		List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
-//		for (String id : cbsPeriodMap.keySet()) {
-//			CBSPeriod cbsPeriod = new CBSPeriod();
-//			cbsPeriod.setCBSItem_id(_id);
-//			cbsPeriod.setId(id);
-//			cbsPeriod.setBudget(cbsPeriodMap.get(id));
-//			cbsPeriods.add(cbsPeriod);
-//		}
-//		c(CBSPeriod.class).insertMany(cbsPeriods);
+		// List<CBSPeriod> cbsPeriods = new ArrayList<CBSPeriod>();
+		// for (String id : cbsPeriodMap.keySet()) {
+		// CBSPeriod cbsPeriod = new CBSPeriod();
+		// cbsPeriod.setCBSItem_id(_id);
+		// cbsPeriod.setId(id);
+		// cbsPeriod.setBudget(cbsPeriodMap.get(id));
+		// cbsPeriods.add(cbsPeriod);
+		// }
+		// c(CBSPeriod.class).insertMany(cbsPeriods);
 
 		ObjectId scope_id = c(CBSItem.class).distinct("scope_id", new Document("_id", _id), ObjectId.class).first();
 		Project project = c(Project.class).find(new Document("_id", scope_id)).first();
@@ -368,7 +368,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		if (workList.size() > 0) {
 			for (Work work : workList) {
 				CBSItem cbsItem = CBSItem.getInstance(parentCBSItem);
-				cbsItem.setId(work.getCode());
 				cbsItem.setName(work.toString());
 				cbsItem.setParent_id(_id);
 				cbsItemList.add(cbsItem);
@@ -818,6 +817,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		List<ObjectId> cbsItem_id = c("cbs").distinct("_id", new Document("scope_id", cbsScope_id), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		cbsItem_id = getDesentItems(cbsItem_id, "cbs", "parent_id");
+		List<ObjectId> parent_ids = c("cbs").distinct("parent_id",
+				new Document("_id", new Document("$in", cbsItem_id)).append("parent_id", new Document("$ne", null)),
+				ObjectId.class).into(new ArrayList<ObjectId>());
+		cbsItem_id.removeAll(parent_ids);
 		return cbsItem_id;
 	}
 

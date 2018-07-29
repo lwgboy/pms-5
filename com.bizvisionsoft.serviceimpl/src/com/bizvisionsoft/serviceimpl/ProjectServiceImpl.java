@@ -93,7 +93,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			CBSItem cbsRoot = CBSItem.getInstance(project, true);//
 			cbsRoot.set_id(cbsRoot_id);//
 			cbsRoot.setParent_id(cbsParent_id);//
-			cbsRoot.setId(project.getId());
 			cbsRoot.setName(project.getName());
 			insert(cbsRoot, CBSItem.class);
 
