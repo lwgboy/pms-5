@@ -226,6 +226,10 @@ public class OBSInTemplate {
 		}
 		return "";
 	}
+	
+	@ReadValue
+	@WriteValue
+	private String dir;
 
 	public OBSInTemplate setRoleId(String roleId) {
 		this.roleId = roleId;

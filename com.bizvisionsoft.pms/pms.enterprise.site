@@ -34916,6 +34916,25 @@
             "timeLimit": 0,
             "height": 0,
             "staticContent": false
+          },
+          {
+            "id": "164e54d4539",
+            "name": "dir",
+            "text": "排列方向",
+            "type": "单选框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "optionValue": "horizontal#vertical",
+            "optionText": "横向排列#垂直排列",
+            "radioStyle": "横向分段（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false
           }
         ],
         "gridAutoColumnWidth": false,
