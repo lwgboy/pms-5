@@ -92,6 +92,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码
 	@WriteValue
+	@ReadValue("项目模板WBS（分配角色）/wbsCode")
 	@Persistence
 	private String wbsCode;
 
