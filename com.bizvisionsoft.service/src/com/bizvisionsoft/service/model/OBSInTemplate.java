@@ -47,7 +47,7 @@ public class OBSInTemplate {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队" })
+	@Behavior({ "添加角色", "创建团队" , "编辑" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -184,6 +184,13 @@ public class OBSInTemplate {
 			roleId = selectedRole.split("#")[0];
 			roleName = selectedRole.split("#")[1];
 		}
+	}
+
+	@ReadValue("selectedRole")
+	private String readSelectedRole() {
+		if (roleId != null && roleName != null)
+			return roleId + "#" + roleName;
+		return "";
 	}
 
 	@GetValue("roleId")

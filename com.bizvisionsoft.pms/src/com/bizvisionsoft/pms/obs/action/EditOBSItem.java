@@ -25,9 +25,11 @@ public class EditOBSItem {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(em -> {
 			Assembly assembly;
-			if(((OBSItem)em).isRole()) {
+			if (((OBSItem) em).isRole()) {
 				assembly = bruiService.getAssembly("OBS节点编辑器（角色）");
-			}else {
+			} else if (((OBSItem) em).isRole()) {
+				assembly = bruiService.getAssembly("OBS节点编辑器（根）");
+			} else {
 				assembly = bruiService.getAssembly("OBS节点编辑器（团队）");
 			}
 			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");

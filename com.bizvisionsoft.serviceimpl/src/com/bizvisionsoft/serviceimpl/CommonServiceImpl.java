@@ -692,22 +692,22 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		// project->
 		// id
-		createUniqueIndex("project", new Document("id", 1), "id");
+		createUniqueIndex("project", new Document("id", 1), new IndexOptions().name("id").unique(true).sparse(true));
 
 		// obs->
 		// roleId、scope_id
 		createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1), "roleId_scope_id");
 
 		// obsInTemplate->
-		// roleId、template_id
-		createUniqueIndex("obsInTemplate", new Document("roleId", 1).append("template_id", 1), "roleId_template_id");
+		// roleId、scope_id
+		createUniqueIndex("obsInTemplate", new Document("roleId", 1).append("scope_id", 1), "roleId_scope_id");
 
 		// resourcePlan->
-		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
+		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId、id
 		createUniqueIndex("resourcePlan",
 				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_id");
 
 		// resourcePlanInTemplate->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
@@ -720,15 +720,16 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
 		createUniqueIndex("resourceActual",
 				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_id");
 
 		// workReportResourceActual->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId、workReportItemId
 		createUniqueIndex("workReportResourceActual",
 				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_workReportItemId");
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1)
+						.append("id", 1),
+				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_workReportItemId_id");
 
 		// work->
 		// project_id、fullName
@@ -788,13 +789,28 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	}
 
-	private void createIndex(String collectionName, Document keys, String name) {
+	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
 		try {
 			c(collectionName).listIndexes().forEach((Document doc) -> {
-				System.out.println(doc);
-				if(doc.get("key").equals(keys));
-				c(collectionName).dropIndex(keys);
-					
+				if (doc.get("key").equals(keys)) {
+					c(collectionName).dropIndex((Bson) doc.get("key"));
+					return;
+				}
+			});
+			c(collectionName).createIndex(keys, indexOptions);
+		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
+		}
+	}
+
+	private void createIndex(String collectionName, final Document keys, String name) {
+		try {
+			c(collectionName).listIndexes().forEach((Document doc) -> {
+				if (doc.get("key").equals(keys)) {
+					c(collectionName).dropIndex((Bson) doc.get("key"));
+					return;
+				}
+
 			});
 			c(collectionName).createIndex(keys, new IndexOptions().name(name));
 		} catch (Exception e) {
@@ -802,12 +818,14 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		}
 	}
 
-	private void createUniqueIndex(String collectionName, Document keys, String name) {
+	private void createUniqueIndex(String collectionName, final Document keys, String name) {
 		try {
 			c(collectionName).listIndexes().forEach((Document doc) -> {
-				System.out.println(doc);
+				if (doc.get("key").equals(keys)) {
+					c(collectionName).dropIndex((Bson) doc.get("key"));
+					return;
+				}
 			});
-			c(collectionName).dropIndex(keys);
 			c(collectionName).createIndex(keys, new IndexOptions().name(name).unique(true));
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());

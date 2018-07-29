@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.project.action;
 
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -31,10 +32,17 @@ public class EditProjectCodeACT {
 					workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(o.get_id());
 					b.put("workOrder", workOrder);
 				}
-				ServicesLoader.get(ProjectService.class)
-						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id())).set(b).bson());
-				GridPart gp = (GridPart) context.getContent();
-				gp.refreshAll();
+				try {
+					ServicesLoader.get(ProjectService.class)
+							.update(new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id())).set(b).bson());
+					GridPart gp = (GridPart) context.getContent();
+					gp.refreshAll();
+				} catch (Exception e) {
+					String message = e.getMessage();
+					if (message.indexOf("index") >= 0) {
+						Layer.message("请勿录入相同的项目编号。", Layer.ICON_CANCEL);
+					}
+				}
 			});
 		});
 	}
