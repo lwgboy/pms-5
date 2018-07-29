@@ -42,6 +42,7 @@ import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
@@ -52,7 +53,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public Project insert(Project input) {
 		// TODO 记录创建者
-		Project project;
+		Project project = null;
 		if (input.getProjectTemplate_id() == null) {
 			/////////////////////////////////////////////////////////////////////////////
 			// 数据准备
@@ -72,8 +73,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			}
 			/////////////////////////////////////////////////////////////////////////////
 			// 0. 创建项目
-			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class);
-
+			try {
+				project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class);
+			} catch (Exception e) {
+				if (e instanceof MongoBulkWriteException) {
+					throw new ServiceException(e.getMessage());
+				}
+			}
 			/////////////////////////////////////////////////////////////////////////////
 			// 1. 项目团队初始化
 			OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
@@ -98,8 +104,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		} else {
 			// TODO 根据模板创建
-
-			project = insert(input, Project.class);
+			try {
+				project = insert(input, Project.class);
+			} catch (Exception e) {
+				if (e instanceof MongoBulkWriteException) {
+					throw new ServiceException(e.getMessage());
+				}
+			}
 		}
 
 		return get(project.get_id());
@@ -313,7 +324,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long update(BasicDBObject fu) {
-		return update(fu, Project.class);
+		try {
+			return update(fu, Project.class);
+		} catch (Exception e) {
+			if (e instanceof MongoBulkWriteException) {
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		return 0;
 	}
 
 	@Override
@@ -405,7 +423,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			if (l == 0)
 				result.add(Result.startProjectWarning("项目沒有编制预算.", Result.CODE_PROJECT_NOCBS));
 		}
-
 
 		return result;
 	}
@@ -867,8 +884,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.updateFailure("没有满足完工条件的项目。"));
 			return result;
 		}
-		
-		//TODO 未完成工作的处理
+
+		// TODO 未完成工作的处理
 
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);

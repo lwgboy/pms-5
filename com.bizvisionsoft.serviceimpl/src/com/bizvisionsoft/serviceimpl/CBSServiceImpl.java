@@ -980,6 +980,13 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	//////////////////////////////////////////////////////////////////////
 	@Override
 	public long update(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, CBSItem.class);
+		try {
+			return update(filterAndUpdate, CBSItem.class);
+		} catch (Exception e) {
+			if (e instanceof MongoBulkWriteException) {
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		return 0;
 	}
 }

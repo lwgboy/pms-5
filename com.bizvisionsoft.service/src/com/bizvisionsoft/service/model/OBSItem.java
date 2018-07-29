@@ -64,12 +64,12 @@ public class OBSItem {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队" })
+	@Behavior({ "添加角色", "创建团队", "编辑" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
 
-	@Behavior({ "删除", "编辑" })
+	@Behavior({ "删除" })
 	public boolean behaviorEditOrDeleteItem() {
 		return !scopeRoot;
 	}
@@ -102,6 +102,10 @@ public class OBSItem {
 
 	@ReadValue
 	private Integer seq;
+
+	@ReadValue
+	@WriteValue
+	private String dir;
 
 	/**
 	 * 生成本层的顺序号
