@@ -1434,6 +1434,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					.append("resTypeId", rt.getResTypeId());
 		} else {
 			match = new Document("work_id", new Document("$in", rt.getWorkIds()));
+			if (rt.isReport())
+				match.append("workReportItemId", rt.getWorkReportItemId());
 		}
 		return c(resourceCollection).aggregate(new JQ("±à¼­×ÊÔ´").set("match", match)
 				.set("resourceCollection", resourceCollection).set("from", rt.getFrom()).set("to", rt.getTo()).array())
