@@ -3203,21 +3203,6 @@
             "type": "switch"
           },
           {
-            "id": "1631ac46b97",
-            "name": "组织管理",
-            "text": "组织管理",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.obs.action.OpenOBSScopeRootDiagram",
-            "switchContentToAssemblyId": "162e10dc2e4",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
             "id": "1631b47e1fd",
             "name": "进度计划",
             "bundleId": "com.bizvisionsoft.pms",
@@ -3301,20 +3286,6 @@
             "openContent": false,
             "propagate": false,
             "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
-            "id": "16324c59e18",
-            "name": "组织管理",
-            "bundleId": "",
-            "className": "",
-            "switchContentToAssemblyId": "162e10dc2e4",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "switch"
@@ -3489,18 +3460,6 @@
             "type": "switch"
           },
           {
-            "id": "96324c59e18",
-            "name": "组织管理",
-            "switchContentToAssemblyId": "16371c338b9",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "96324c5b264",
             "name": "进度管理",
             "openContent": false,
@@ -3666,18 +3625,6 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "99324c59e18",
-            "name": "组织管理",
-            "switchContentToAssemblyId": "16371c338b9",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           },
           {
             "id": "99324c5b264",
@@ -21689,22 +21636,6 @@
         "actions": [],
         "rowActions": [
           {
-            "id": "16371883c6b",
-            "name": "组建阶段团队",
-            "text": "组建阶段团队",
-            "image": "/img/org_c.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.obs.action.OpenOBSScopeRootDiagram",
-            "switchContentToAssemblyId": "162e10dc2e4",
-            "openContent": true,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized",
-            "role": ""
-          },
-          {
             "id": "1637186d409",
             "name": "制定阶段计划",
             "text": "制定阶段计划",
@@ -21717,7 +21648,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#PPM#WM"
+            "role": ""
           },
           {
             "id": "16371879a6b",
@@ -21733,7 +21664,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#PFM#WM"
+            "role": ""
           },
           {
             "id": "1637188d16a",
@@ -21748,7 +21679,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized",
-            "role": "PM#WM"
+            "role": ""
           }
         ],
         "borderTop": false,
@@ -21763,7 +21694,7 @@
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
-        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e阶段已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动阶段以前，您还需要完善一些信息，组建阶段的初始团队，制定阶段的进度计划，编制阶段预算。\u003c/div\u003e\n\u003cdiv\u003e制定阶段的进度计划，编制阶段预算前，请先创建阶段团队，并分配阶段各角色的担当者。\u003c/div\u003e\n",
+        "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e阶段已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动阶段以前，您还需要完善一些信息，制定阶段的进度计划，编制阶段预算。\u003c/div\u003e\n",
         "actionPanelColumnCount": 3,
         "smallEditor": false,
         "addToParentContext": false
