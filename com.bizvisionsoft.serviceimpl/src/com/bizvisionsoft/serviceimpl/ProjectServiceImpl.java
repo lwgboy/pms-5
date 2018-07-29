@@ -803,8 +803,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("worklinksspace").deleteMany(new Document("project_id", _id));
 
 		// Çå³ýobs
-		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
-				new Document("scopeRoot", false).append("scope_id", _id))));
+		c("obs").deleteMany(new Document("$or",
+				Arrays.asList(new Document("scope_id", new Document("$in", workIds)), new Document("scope_id", _id))));
 
 		// Çå³ýcbs
 		List<ObjectId> cbsIds = c("cbs")
