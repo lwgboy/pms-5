@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -269,9 +270,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// index, 在gantt图中用于排序
+	@WriteValue
 	@ReadValue
-	@GetValue
-	private int index;
+	@Persistence
+	private Integer index;
 
 	public Work setIndex(int index) {
 		this.index = index;
@@ -319,7 +321,15 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
 					+ text + "</div>";
-			html += "<a href='openStage/' target='_rwt'><img src='rwt-resources/extres/img/open_c.svg' style='cursor:pointer;' width='20px' height='20px'/></a></div>";
+			if (ProjectStatus.Created.equals(status))
+				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
+						+ "start/" + "' target='_rwt'>" + "启动" + "</a>";
+			else if (ProjectStatus.Processing.equals(status))
+				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
+						+ "closing/" + "' target='_rwt'>" + "收尾" + "</a>";
+			else if (ProjectStatus.Closing.equals(status))
+				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
+						+ "closed/" + "' target='_rwt'>" + "完工" + "</a>";
 			return html;
 		} else {
 			return "<div>" + text + "</div>";
@@ -610,6 +620,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Persistence
 	@Behavior("进入阶段页面")
 	private boolean stage;
+
+	@ReadValue
+	@Exclude
+	private String stageName;
+
+	public void setStageName(String stageName) {
+		this.stageName = stageName;
+	}
 
 	@Persistence
 	private boolean distributed;

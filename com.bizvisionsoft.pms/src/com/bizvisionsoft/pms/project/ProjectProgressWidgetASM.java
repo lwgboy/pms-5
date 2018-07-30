@@ -27,10 +27,8 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.RiskService;
-import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -146,29 +144,9 @@ public class ProjectProgressWidgetASM {
 				b.setBackground(BruiColors.getColor(BruiColor.light_blue_500));
 				b.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
-			b.addListener(SWT.Selection, e -> openStage(work));
 		}
 
 		return panel;
-	}
-
-	private void openStage(Work work) {
-		Work stage = Services.get(WorkService.class).getOpenStage(work.get_id(), brui.getCurrentUserId());
-		if (stage != null) {
-			if (ProjectStatus.Created.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨Æô¶¯£©", stage.get_id().toHexString());
-			} else if (ProjectStatus.Processing.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨Ö´ÐÐ£©", stage.get_id().toHexString());
-			} else if (ProjectStatus.Closing.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨ÊÕÎ²£©", stage.get_id().toHexString());
-			} else if (ProjectStatus.Closed.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", stage.get_id().toHexString());
-			}else if (ProjectStatus.Suspended.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨ÔÝÍ££©", stage.get_id().toHexString());
-			} else if (ProjectStatus.Terminated.equals(stage.getStatus())) {
-				brui.switchPage("½×¶ÎÊ×Ò³£¨ÖÐÖ¹£©", stage.get_id().toHexString());
-			}
-		}
 	}
 
 	private String getTimeHtml() {

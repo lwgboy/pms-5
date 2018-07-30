@@ -81,8 +81,10 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// index, 在gantt图中用于排序
-	@GetValue
-	private int index;
+	@WriteValue
+	@ReadValue
+	@Persistence
+	private Integer index;
 	
 	public void setIndex(int index) {
 		this.index = index;

@@ -21,12 +21,10 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectBoardInfo;
 import com.bizvisionsoft.service.model.ProjectStatus;
-import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -46,10 +44,7 @@ public class ProjectBoardRender {
 		viewer.getGrid().setBackground(BruiColors.getColor(BruiColor.Grey_50));
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
-				if (e.text.startsWith("openStage/")) {
-					String stageId = e.text.split("/")[1];
-					openStage(new ObjectId(stageId));
-				} else if (e.text.startsWith("openProject/")) {
+				 if (e.text.startsWith("openProject/")) {
 					String id = e.text.split("/")[1];
 					openProject(new ObjectId(id));
 				}
@@ -79,25 +74,6 @@ public class ProjectBoardRender {
 			bruiService.switchPage("项目首页（暂停）", _id.toHexString());
 		} else if (ProjectStatus.Terminated.equals(pj.getStatus())) {
 			bruiService.switchPage("项目首页（中止）", _id.toHexString());
-		}
-	}
-
-	private void openStage(ObjectId workId) {
-		Work work = Services.get(WorkService.class).getOpenStage(workId, bruiService.getCurrentUserId());
-		if (work != null) {
-			if (ProjectStatus.Created.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（启动）", workId.toHexString());
-			} else if (ProjectStatus.Processing.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（执行）", workId.toHexString());
-			} else if (ProjectStatus.Closing.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（收尾）", workId.toHexString());
-			} else if (ProjectStatus.Closed.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（关闭）", workId.toHexString());
-			} else if (ProjectStatus.Suspended.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（暂停）", workId.toHexString());
-			} else if (ProjectStatus.Terminated.equals(work.getStatus())) {
-				bruiService.switchPage("阶段首页（中止）", workId.toHexString());
-			}
 		}
 	}
 
@@ -215,8 +191,7 @@ public class ProjectBoardRender {
 			} else {
 				style = "layui-btn layui-btn-primary layui-btn-sm";
 			}
-			text.append("<a class='" + style + "' style='flex:auto;' href='openStage/" + work.getId()
-					+ "' target='_rwt'>" + work.getText() + "</a>");
+			text.append("<div class='" + style + "' style='width: 100%;'>" + work.getText() + "</div>");
 		});
 		text.append("</div>");
 		return text.toString();

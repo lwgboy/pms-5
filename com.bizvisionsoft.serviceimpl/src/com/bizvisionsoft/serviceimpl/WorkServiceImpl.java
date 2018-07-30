@@ -278,12 +278,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
 				.first();
-		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
-				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			throw new ServiceException("无法更新项目当前状态。");
-		}
+		// ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
+		// new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
+		// // 根据ur构造下面的结果
+		// if (ur.getModifiedCount() == 0) {
+		// throw new ServiceException("无法更新项目当前状态。");
+		// }
 
 		// 通知团队成员，工作已经启动
 		List<String> memberIds = getStageMembers(com._id);
@@ -1120,7 +1120,29 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
-		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+		pipeline.add(Aggregates.sort(new Document("index", 1)));
+
+		List<Work> result = new ArrayList<Work>();
+
+		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+			if (work.getParent_id() != null)
+				work.setStageName(getStageName(work.getParent_id()));
+			else
+				work.setStageName(work.getText());
+			result.add(work);
+		});
+
+		return result;
+	}
+
+	private String getStageName(ObjectId _id) {
+		Document first = c("work").find(new Document("_id", _id))
+				.projection(new Document("name", 1).append("parent_id", 1)).first();
+		ObjectId parent_id = first.get("parent_id", ObjectId.class);
+		if (parent_id != null) {
+			return getStageName(parent_id);
+		}
+		return first.get("name", String.class);
 	}
 
 	@Override
@@ -1144,6 +1166,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+
+		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
@@ -1181,7 +1205,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 		else
-			pipeline.add(Aggregates.sort(new Document("planFinish", 1)));
+			pipeline.add(Aggregates.sort(new Document("project_id", 1).append("planFinish", 1)));
 
 		Integer skip = (Integer) condition.get("skip");
 		if (skip != null)
@@ -1191,7 +1215,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+		List<Work> result = new ArrayList<Work>();
+
+		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+			if (work.getParent_id() != null)
+				work.setStageName(getStageName(work.getParent_id()));
+			else
+				work.setStageName(work.getText());
+			result.add(work);
+		});
+
+		return result;
 	}
 
 	private List<ObjectId> getProject_id(String userid) {
@@ -2159,7 +2193,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		long l = c(OBSItem.class)
 				.countDocuments(new Document("scope_id", new Document("$in", Arrays.asList(_id, project_id)))
 						.append("managerId", userId)
-						.append("roleId", new Document("$in", Arrays.asList("PPM", "PFM"))));
+						.append("roleId", new Document("$in", Arrays.asList("PPM", "PFM", "PM", "WM"))));
 		if (l > 0) {
 			return work;
 		}
