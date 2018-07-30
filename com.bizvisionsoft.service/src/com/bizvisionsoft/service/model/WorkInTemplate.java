@@ -94,7 +94,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码
 	@WriteValue
-	@ReadValue("项目模板WBS（分配角色）/wbsCode")
+	@ReadValue({"项目模板WBS（分配角色）/wbsCode","项目模板WBS/wbsCode"})
 	@Persistence
 	private String wbsCode;
 
@@ -345,7 +345,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@ImageURL({ "项目模板WBS/milestoneIcon", "项目模板WBS（分配角色）/milestoneIcon" })
 	private String getMilestoneIcon() {
 		if (milestone)
-			return "/img/milestone_c.svg";
+			return "/img/flag_blue.svg";
 		return null;
 	}
 

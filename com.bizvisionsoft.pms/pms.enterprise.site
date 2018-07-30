@@ -881,18 +881,6 @@
                 "type": "switch"
               },
               {
-                "id": "1644e84a945",
-                "name": "我负责的项目阶段",
-                "text": "我负责的项目阶段",
-                "switchContentToAssemblyId": "1644f7c77d6",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "161989cc80d",
                 "name": "我的日程表",
                 "text": "我的日程表",
@@ -956,6 +944,18 @@
                 "objectBehavier": false,
                 "type": "switch",
                 "role": ""
+              },
+              {
+                "id": "1644e84a945",
+                "name": "项目阶段",
+                "text": "项目阶段",
+                "switchContentToAssemblyId": "1644f7c77d6",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "switch"
               },
               {
                 "id": "16406b99e36",
@@ -19425,7 +19425,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "optionText": "研发#采购#生产#质量",
+            "optionText": "研发#采购#生产#质量#管理",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -34968,7 +34968,7 @@
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": true,
         "gridLineVisiable": true,
-        "gridMultiSelection": false,
+        "gridMultiSelection": true,
         "gridHeaderVisiable": true,
         "gridFooterVisiable": false,
         "gridHasBorder": false,
@@ -35064,15 +35064,15 @@
             "noToggleGridColumnGroup": false
           },
           {
-            "id": "1631b8556a6",
-            "name": "planDuration",
-            "text": "工期",
-            "alignment": 131072,
-            "width": 64,
+            "id": "164eb09274a",
+            "name": "chargerRole",
+            "text": "负责人角色",
+            "alignment": 16384,
+            "width": 160,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
-            "detail": true,
+            "detail": false,
             "summary": false,
             "expanded": false,
             "columns": [],
@@ -35084,9 +35084,9 @@
             "noToggleGridColumnGroup": false
           },
           {
-            "id": "1631b85c485",
-            "name": "planWorks",
-            "text": "工时",
+            "id": "1631b8556a6",
+            "name": "planDuration",
+            "text": "工期",
             "alignment": 131072,
             "width": 64,
             "minimumWidth": 0,
@@ -35126,7 +35126,22 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "164eaf679af",
+            "name": "类型",
+            "text": "类型",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projecttemplate.WorkpackageBatchSettingACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "1638c11bccd",
@@ -53337,7 +53352,7 @@
         "name": "文件夹结构",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "文档结构",
+        "stickerTitle": "文件夹结构",
         "folderId": "16464eebefb",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
