@@ -586,7 +586,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Override
 	@Label
 	public String toString() {
-		return name + " [" + id + "]";
+		if (id != null)
+			return name + " [" + id + "]";
+		return name;
 	}
 
 	@ImageURL("name")
