@@ -8,6 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.WBSModule;
 
 public class OpenProjectTemplateACT {
 
@@ -18,7 +19,11 @@ public class OpenProjectTemplateACT {
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(em->{
-			brui.switchPage("项目模板", ((ProjectTemplate)em).get_id().toHexString());
+			if(em instanceof WBSModule) {
+				brui.openContent(brui.getAssembly("项目模板甘特图"), em);
+			}else {
+				brui.switchPage("项目模板", ((ProjectTemplate)em).get_id().toHexString());
+			}
 		});
 	}
 	

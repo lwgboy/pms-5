@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.WBSModule;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
@@ -36,8 +37,13 @@ import com.mongodb.client.result.DeleteResult;
 public class ProjectTemplateServiceImpl extends BasicServiceImpl implements ProjectTemplateService {
 
 	@Override
-	public ProjectTemplate insert(ProjectTemplate prjt) {
-		return insert(prjt, ProjectTemplate.class);
+	public ProjectTemplate insertProjectTemplate(ProjectTemplate prjt) {
+		return insert(prjt);
+	}
+	
+	@Override
+	public WBSModule insertWBSModule(WBSModule prjt) {
+		return insert(prjt);
 	}
 
 	@Override
@@ -46,13 +52,38 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public long count(BasicDBObject filter) {
+	public long countProjectTemplate(BasicDBObject filter) {
+		filter.append("module", false);
 		return count(filter, ProjectTemplate.class);
 	}
+	
+	@Override
+	public long countWBSModule(BasicDBObject filter) {
+		filter.append("module", true);
+		return count(filter, ProjectTemplate.class);
+	}
+	
 
 	@Override
-	public List<ProjectTemplate> createDataSet(BasicDBObject condition) {
+	public List<ProjectTemplate> listProjectTemplate(BasicDBObject condition) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if(filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("module", new BasicDBObject("$ne", true));
 		return createDataSet(condition, ProjectTemplate.class);
+	}
+	
+	@Override
+	public List<WBSModule> listWBSModule(BasicDBObject condition) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if(filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("module", true);
+		return createDataSet(condition, WBSModule.class);
 	}
 
 	@Override
@@ -545,6 +576,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public long countChildrenFolderInTemplate(ObjectId _id) {
 		return count(new BasicDBObject("parent_id", _id), FolderInTemplate.class);
+	}
+
+	@Override
+	public long update(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "projectTemplate");
 	}
 
 }

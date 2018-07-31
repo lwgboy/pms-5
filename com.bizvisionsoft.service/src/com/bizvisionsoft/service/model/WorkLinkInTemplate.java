@@ -63,7 +63,7 @@ public class WorkLinkInTemplate {
 	}
 
 	@SetValue("source")
-	public void setSourceId(ObjectId source_id) {
+	public void setSource(ObjectId source_id) {
 		source = ServicesLoader.get(ProjectTemplateService.class).getWorkInTemplate(source_id);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ public class WorkLinkInTemplate {
 	}
 
 	@SetValue("target")
-	public void setTargetId(ObjectId target_id) {
+	public void setTarget(ObjectId target_id) {
 		target = ServicesLoader.get(ProjectTemplateService.class).getWorkInTemplate(target_id);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
