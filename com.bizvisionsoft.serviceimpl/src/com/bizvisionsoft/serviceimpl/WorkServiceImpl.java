@@ -278,12 +278,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
 				.first();
-		// ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
-		// new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
-		// // 根据ur构造下面的结果
-		// if (ur.getModifiedCount() == 0) {
-		// throw new ServiceException("无法更新项目当前状态。");
-		// }
+		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
+				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
+		// 根据ur构造下面的结果
+//		if (ur.getModifiedCount() == 0) {
+//			throw new ServiceException("无法更新项目当前状态。");
+//		}
 
 		// 通知团队成员，工作已经启动
 		List<String> memberIds = getStageMembers(com._id);
@@ -871,10 +871,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 须检查的信息
 		// 1. 检查所属该阶段的工作是否全部完工，若没有，错误。根据工作完工后，自动向上级汇总实际完成的规则，只需要判断阶段下一级工作是否全部完工。
 		ArrayList<Result> result = new ArrayList<Result>();
-		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
-		if (count > 0) {
-			result.add(Result.finishError("阶段存在没有完工的工作。"));
-		}
+//		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
+//		if (count > 0) {
+//			result.add(Result.finishError("阶段存在没有完工的工作。"));
+//		}
 		return result;
 	}
 
