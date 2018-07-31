@@ -836,7 +836,7 @@
               {
                 "id": "1632e57b7a5",
                 "name": "我的项目",
-                "text": "我负责和参与的项目",
+                "text": "我的项目",
                 "switchContentToAssemblyId": "1632e5a7502",
                 "openContent": false,
                 "propagate": false,
@@ -859,16 +859,17 @@
                 "role": "项目管理员#项目总监"
               },
               {
-                "id": "1644e84a945",
-                "name": "我负责的项目阶段",
-                "text": "我负责的项目阶段",
-                "switchContentToAssemblyId": "1644f7c77d6",
+                "id": "161989cc406",
+                "name": "企业项目结构",
+                "text": "企业项目结构",
+                "switchContentToAssemblyId": "16275cba497",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "switch"
+                "type": "switch",
+                "role": "项目管理员#项目总监"
               },
               {
                 "id": "16406b99e36",
@@ -887,19 +888,6 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "161989cc406",
-            "name": "企业项目结构",
-            "text": "企业项目结构",
-            "switchContentToAssemblyId": "16275cba497",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": "项目管理员#项目总监"
           },
           {
             "id": "161985cac4c",
@@ -58485,6 +58473,7 @@
     ]
   },
   "password": "admin",
-  "headLogoWidth": 250,
-  "headLogoHeight": 64
+  "pageBackgroundImageCSS": "brui_blur",
+  "headLogoWidth": 150,
+  "headLogoHeight": 38
 }
