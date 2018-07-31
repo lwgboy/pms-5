@@ -11,6 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.ProjectTemplate;
+import com.bizvisionsoft.service.model.WBSModule;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 
 public class CreateRootTaskACT {
@@ -21,15 +22,24 @@ public class CreateRootTaskACT {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		ProjectTemplate template = context.getRootInput(ProjectTemplate.class,false);
 		String title = "创建工作";
 		Assembly editor = bruiService.getAssembly("项目模板工作编辑器");
-		WorkInTemplate workInT  = WorkInTemplate.newInstance(template);
+
+		WorkInTemplate workInT = createWork(context);
 
 		new Editor<WorkInTemplate>(editor, context).setTitle(title).setInput(workInT).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addTask(wi);
 		});
+	}
+
+	private WorkInTemplate createWork(IBruiContext context) {
+		Object input = context.getInput();
+		if (input instanceof WBSModule) {
+			return WorkInTemplate.newInstance((WBSModule) input);
+		} else {
+			return WorkInTemplate.newInstance(context.getRootInput(ProjectTemplate.class, false));
+		}
 	}
 
 }

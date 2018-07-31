@@ -18,6 +18,7 @@ import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.WBSModule;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
@@ -39,7 +40,13 @@ public class GanttDS {
 	@Init
 	private void init() {
 		service = Services.get(ProjectTemplateService.class);
-		template_id = context.getRootInput(ProjectTemplate.class, false).get_id();
+		Object input = context.getInput();
+		if (input instanceof WBSModule) {
+			template_id = ((WBSModule) input).get_id();
+		} else {
+			template_id = context.getRootInput(ProjectTemplate.class, false).get_id();
+		}
+
 	}
 
 	@DataSet("data")

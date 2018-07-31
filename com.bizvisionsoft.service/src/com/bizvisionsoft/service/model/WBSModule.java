@@ -19,7 +19,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
  */
 @Strict
 @PersistenceCollection("projectTemplate")
-public class ProjectTemplate {
+public class WBSModule {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 标识属性
@@ -38,11 +38,14 @@ public class ProjectTemplate {
 	@WriteValue
 	@Persistence
 	private String id;
-
+	
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private boolean enabled;
+	private String var;
+
+	@Persistence
+	private boolean enabled = true;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
@@ -78,26 +81,14 @@ public class ProjectTemplate {
 	}
 
 	@ReadValue(ReadValue.TYPE)
-	private String typeName = "项目模板";
+	private String typeName = "WBS模块";
 
 	@Persistence
-	private boolean module = false;
+	private boolean module = true;
 
-	public boolean isEnabled() {
-		return enabled;
-	}
 
-	public ProjectTemplate setEnabled(boolean enabled) {
-		this.enabled = enabled;
-		return this;
-	}
-
-	public void setModule(boolean module) {
-		this.module = module;
-	}
-	
-	public boolean isModule() {
-		return module;
+	public String getVar() {
+		return var;
 	}
 
 }

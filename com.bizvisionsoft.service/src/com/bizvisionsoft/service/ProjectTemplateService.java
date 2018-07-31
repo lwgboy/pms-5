@@ -21,6 +21,7 @@ import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.WBSModule;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
@@ -34,13 +35,13 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.INSERT)
-	public ProjectTemplate insert(@MethodParam(MethodParam.OBJECT) ProjectTemplate project);
+	public ProjectTemplate insertProjectTemplate(@MethodParam(MethodParam.OBJECT) ProjectTemplate project);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板管理/" + DataSet.DELETE)
+	@DataSet({ "项目模板管理/" + DataSet.DELETE, "WBS模块/" + DataSet.DELETE })
 	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@GET
@@ -55,14 +56,42 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.COUNT)
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countProjectTemplate(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@PUT
+	@Path("/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目模板管理/" + DataSet.UPDATE, "WBS模块/" + DataSet.UPDATE })
+	public long update(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板管理/" + DataSet.LIST)
-	public List<ProjectTemplate> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<ProjectTemplate> listProjectTemplate(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("wbsModule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("WBS模块/" + DataSet.INSERT)
+	public WBSModule insertWBSModule(@MethodParam(MethodParam.OBJECT) WBSModule wbsModule);
+
+	@POST
+	@Path("/wbsmodule/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("WBS模块/" + DataSet.COUNT)
+	public long countWBSModule(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/wbsmodule/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("WBS模块/" + DataSet.LIST)
+	public List<WBSModule> listWBSModule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/work/_id/{_id}")

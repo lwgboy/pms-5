@@ -118,7 +118,16 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@Persistence("name")
 	@Label(Label.NAME_LABEL)
 	private String text;
-
+	
+	public String getText() {
+		return text;
+	}
+	
+	public WorkInTemplate setText(String text) {
+		this.text = text;
+		return this;
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// fullName, 在gantt图，编辑器中，数据库中均使用
 	@WriteValue
@@ -134,6 +143,12 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		return fullName;
 	}
 
+	public WorkInTemplate setFullName(String fullName) {
+		this.fullName = fullName;
+		return this;
+	}
+
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -439,6 +454,10 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
 	}
 
+	public static WorkInTemplate newInstance(WBSModule template) {
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
+	}
+	
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id)
 				.setParent_id(parentTask._id);
