@@ -267,9 +267,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		// 修改状态
-		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("startOn", com.date).append("startBy", com.userId)));
+		BasicDBObject set = new BasicDBObject("status", ProjectStatus.Processing).append("startOn", com.date)
+				.append("startBy", com.userId);
+		if (c(Work.class).countDocuments(new BasicDBObject("parent_id", com._id)) == 0)
+			set.append("actualStart", new Date());
+
+		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("_id", com._id), new BasicDBObject("$set", set));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -281,9 +284,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		ur = c(Project.class).updateOne(new BasicDBObject("_id", project_id),
 				new BasicDBObject("$set", new BasicDBObject("stage_id", com._id)));
 		// 根据ur构造下面的结果
-//		if (ur.getModifiedCount() == 0) {
-//			throw new ServiceException("无法更新项目当前状态。");
-//		}
+		// if (ur.getModifiedCount() == 0) {
+		// throw new ServiceException("无法更新项目当前状态。");
+		// }
 
 		// 通知团队成员，工作已经启动
 		List<String> memberIds = getStageMembers(com._id);
@@ -839,10 +842,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.first();
 
 		// 修改项目状态
+		Object actualFinish = null;
+		if (doc == null) {
+			actualFinish = new Date();
+		} else {
+			actualFinish = doc.get("actualFinish");
+			if (actualFinish == null)
+				actualFinish = new Date();
+		}
 		UpdateResult ur = c("work").updateOne(new BasicDBObject("_id", com._id),
 				new BasicDBObject("$set",
 						new BasicDBObject("status", ProjectStatus.Closing).append("finishOn", com.date)
-								.append("finishBy", com.userId).append("actualFinish", doc.get("actualFinish"))
+								.append("finishBy", com.userId).append("actualFinish", actualFinish)
 								.append("progress", 1d)));
 
 		// 根据ur构造下面的结果
@@ -859,10 +870,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<String> memberIds = getStageMembers(com._id);
 		String name = getName("work", com._id);
 		String projectName = getName("project", project_id);
-		sendMessage("阶段收尾通知",
-				"您参与的项目" + projectName + " 阶段" + name + "已于"
-						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
-				com.userId, memberIds, null);
+		if (memberIds.size() > 0)
+			sendMessage("阶段收尾通知",
+					"您参与的项目" + projectName + " 阶段" + name + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+					com.userId, memberIds, null);
 		return result;
 	}
 
@@ -871,10 +883,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 须检查的信息
 		// 1. 检查所属该阶段的工作是否全部完工，若没有，错误。根据工作完工后，自动向上级汇总实际完成的规则，只需要判断阶段下一级工作是否全部完工。
 		ArrayList<Result> result = new ArrayList<Result>();
-//		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
-//		if (count > 0) {
-//			result.add(Result.finishError("阶段存在没有完工的工作。"));
-//		}
+		// long count = c("work").countDocuments(new BasicDBObject("parent_id",
+		// _id).append("actualFinish", null));
+		// if (count > 0) {
+		// result.add(Result.finishError("阶段存在没有完工的工作。"));
+		// }
 		return result;
 	}
 
@@ -901,10 +914,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<String> memberIds = getStageMembers(com._id);
 		String name = getName("work", com._id);
 		String projectName = getName("project", project_id);
-		sendMessage("阶段关闭通知",
-				"您参与的项目" + projectName + " 阶段" + name + "已于"
-						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
-				com.userId, memberIds, null);
+		if (memberIds.size() > 0)
+			sendMessage("阶段关闭通知",
+					"您参与的项目" + projectName + " 阶段" + name + "已于"
+							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+					com.userId, memberIds, null);
 
 		return result;
 	}
@@ -917,6 +931,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
 						new BasicDBObject("$ne", null)), String.class)
 				.into(new ArrayList<>());
+		memberIds.addAll(
+				c("work").distinct("chargerId", new Document("_id", _id), String.class).into(new ArrayList<String>()));
 		return memberIds;
 	}
 
