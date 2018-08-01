@@ -357,6 +357,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private boolean stageEnable;
+	
 
 	/**
 	 * ½×¶Î

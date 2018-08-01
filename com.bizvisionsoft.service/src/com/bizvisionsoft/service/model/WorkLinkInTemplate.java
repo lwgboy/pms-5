@@ -37,7 +37,7 @@ public class WorkLinkInTemplate {
 	//
 	@Persistence
 	private ObjectId template_id;
-	
+
 	@ReadValue("project")
 	public String getTemplateId() {
 		return template_id == null ? null : template_id.toHexString();
@@ -103,8 +103,8 @@ public class WorkLinkInTemplate {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
-	@ReadValue( "项目模板甘特图/lag")
-	@WriteValue( "项目模板甘特图/lag")
+	@ReadValue("项目模板甘特图/lag")
+	@WriteValue("项目模板甘特图/lag")
 	@Persistence
 	private int lag;
 
@@ -184,5 +184,4 @@ public class WorkLinkInTemplate {
 			return false;
 		return true;
 	}
-
 }
