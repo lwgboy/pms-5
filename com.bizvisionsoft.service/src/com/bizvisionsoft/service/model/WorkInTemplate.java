@@ -85,7 +85,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@ReadValue
 	@Persistence
 	private Integer index;
-	
+
 	public void setIndex(int index) {
 		this.index = index;
 	}
@@ -94,7 +94,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WBS代码
 	@WriteValue
-	@ReadValue({"项目模板WBS（分配角色）/wbsCode","项目模板WBS/wbsCode"})
+	@ReadValue({ "项目模板WBS（分配角色）/wbsCode", "项目模板WBS/wbsCode" })
 	@Persistence
 	private String wbsCode;
 
@@ -118,16 +118,16 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@Persistence("name")
 	@Label(Label.NAME_LABEL)
 	private String text;
-	
+
 	public String getText() {
 		return text;
 	}
-	
+
 	public WorkInTemplate setText(String text) {
 		this.text = text;
 		return this;
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// fullName, 在gantt图，编辑器中，数据库中均使用
 	@WriteValue
@@ -148,7 +148,6 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		return this;
 	}
 
-	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -268,7 +267,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		}
 		return false;
 	}
-	
+
 	public boolean isMilestone() {
 		return milestone;
 	}
@@ -378,7 +377,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	private boolean behaviourEditWPS() {
 		return !summary && !stage && !milestone;
 	}
-	
+
 	@Behavior("角色")
 	private boolean behaviourEditRole() {
 		return !milestone;
@@ -457,7 +456,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	public static WorkInTemplate newInstance(WBSModule template) {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
 	}
-	
+
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id)
 				.setParent_id(parentTask._id);
@@ -505,5 +504,4 @@ public class WorkInTemplate implements IWorkPackageMaster {
 			return false;
 		return true;
 	}
-
 }

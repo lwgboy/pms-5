@@ -128,7 +128,7 @@ public class WorkInfo {
 	@ReadValue
 	@Persistence
 	private Integer index;
-	
+
 	public void setIndex(int index) {
 		this.index = index;
 	}
@@ -166,11 +166,15 @@ public class WorkInfo {
 
 	@ReadValue("fullName")
 	@GetValue("fullName")
-	private String getFullName() {
+	public String getFullName() {
 		if (fullName == null || fullName.trim().isEmpty()) {
 			fullName = text;
 		}
 		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
