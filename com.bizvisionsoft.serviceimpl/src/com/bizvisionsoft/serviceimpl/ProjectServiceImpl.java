@@ -636,7 +636,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		if (filter != null)
 			pipeline.add(new Document("$match", filter));
-
+		
 		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
@@ -1656,54 +1656,25 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		appendAllProjectQuery(pipeline);
+//		appendAllProjectQuery(pipeline);
 
 		appendQueryPipeline(skip, limit, filter, pipeline);
 
 		pipeline.add(Aggregates.sort(new Document("creationInfo.date", -1)));
 
-		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		return c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 	}
 
 	@Override
 	public long countAllProjects(BasicDBObject filter) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		appendAllProjectQuery(pipeline);
+//		appendAllProjectQuery(pipeline);
 
 		if (filter != null)
 			pipeline.add(new Document("$match", filter));
 
-		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
+		return c("project").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
-	private void appendAllProjectQuery(List<Bson> pipeline) {
-
-		pipeline.add(new Document("$lookup", new Document("from", "work").append("localField", "scope_id")
-				.append("foreignField", "_id").append("as", "work")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "scope_id")
-				.append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "work.project_id")
-				.append("foreignField", "_id").append("as", "project2")));
-
-		pipeline.add(
-				new Document("$unwind", new Document("path", "$project").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(
-				new Document("$unwind", new Document("path", "$project2").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(
-				new Document("$addFields", new Document("project_id", new Document("$cond", Arrays.asList("$project",
-						"$project._id", new Document("$cond", Arrays.asList("$project2", "$project2._id", null)))))));
-
-		pipeline.add(new Document("$group", new Document("_id", "$project_id")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
-				.append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$replaceRoot",
-				new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
-	}
 }
