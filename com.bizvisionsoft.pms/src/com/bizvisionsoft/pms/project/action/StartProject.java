@@ -29,29 +29,44 @@ public class StartProject {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "启动项目",
-				"请确认启动项目" + project + "。\n系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
+				"请确认启动项目" + project + "。</p>系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
 		if (!ok) {
 			return;
 		}
 		List<Result> result = Services.get(ProjectService.class)
 				.startProject(brui.command(project.get_id(), new Date()));
-		boolean b = true;
+		boolean hasError = false;
+		boolean hasWarning = false;
+
 		String message = "";
 		if (!result.isEmpty()) {
 			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
-					Layer.message(r.message, Layer.ICON_CANCEL);
-					b = false;
+					hasError = true;
+					message += "错误：" + r.message + "<br>";
+				} else if (Result.TYPE_WARNING == r.type) {
+					hasError = true;
+					message += "警告：" + r.message + "<br>";
 				} else {
-					message += r.message + "<br>";
+					message += "信息：" + r.message + "<br>";
 				}
 		}
 
-		if (b) {
-			message = "项目已启动。<br>" + message;
-			Layer.message(message);
-			brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
+		if (message.isEmpty()) {
+			Layer.message("项目已启动");
+		} else {
+			if (hasError) {
+				MessageDialog.openError(shell, "启动项目", message);
+				return;
+			} else if (hasWarning) {
+				MessageDialog.openWarning(shell, "启动项目", "项目已启动，请注意以下提示信息：<br>" + message);
+			} else {
+				MessageDialog.openInformation(shell, "启动项目", "项目已启动，请注意以下提示信息：<br>" + message);
+			}
 		}
+
+		brui.switchPage("项目首页（执行）", ((Project) project).get_id().toHexString());
+
 	}
 
 }
