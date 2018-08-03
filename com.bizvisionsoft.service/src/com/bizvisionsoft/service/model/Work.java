@@ -479,7 +479,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@GetValue("actualDuration")
-	@ReadValue({ "我的工作（已完成）/actualDuration", "我的工作/actualDuration" })
+	@ReadValue("actualDuration")
 	public int getActualDuration() {
 		if (actualFinish != null && actualStart != null) {
 			return (int) ((actualFinish.getTime() - actualStart.getTime()) / (1000 * 3600 * 24));

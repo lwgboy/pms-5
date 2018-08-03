@@ -13,6 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -35,7 +36,7 @@ public class MySchedule {
 	@DataSet({ "部门工作日程表/section" })
 	public List<User> createDeptUser() {
 		String userid = brui.getCurrentUserId();
-		return Services.get(UserService.class).createDeptUserDataSet(userid);
+		return Services.get(UserService.class).createDeptUserDataSet(new Query().bson(), userid);
 	}
 
 	@Execute

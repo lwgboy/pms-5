@@ -25,7 +25,7 @@ public class AssignerWorkACT {
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(e -> {
-			Selector.open("用户选择器—单选", context, (Work) e, l -> {
+			Selector.open("指派用户选择器", context, (Work) e, l -> {
 				ServicesLoader.get(WorkService.class)
 						.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) e).get_id()))
 								.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());

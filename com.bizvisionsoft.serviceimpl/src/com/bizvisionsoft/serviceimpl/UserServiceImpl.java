@@ -47,13 +47,16 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			});
 		}
 
-		ArrayList<String> functionPermissions = c("funcPermission").distinct("role",
-				new Document("$or", Arrays.asList(new Document("type", "组织").append("id", new Document("$in", orgIds)),
-						new Document("type", "用户").append("id", user.getUserId()))),
-				String.class).into(new ArrayList<>());
-		
+		ArrayList<String> functionPermissions = c("funcPermission")
+				.distinct("role",
+						new Document("$or",
+								Arrays.asList(new Document("type", "组织").append("id", new Document("$in", orgIds)),
+										new Document("type", "用户").append("id", user.getUserId()))),
+						String.class)
+				.into(new ArrayList<>());
+
 		user.setRoles(functionPermissions);
-		
+
 		return user;
 	}
 
@@ -134,13 +137,37 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> createDeptUserDataSet(String userid) {
-		ObjectId organization_id = c("user").distinct("org_id", new BasicDBObject("userId", userid), ObjectId.class)
-				.first();
-		if (organization_id != null)
-			return query(null, null, new BasicDBObject("org_id", organization_id));
-		else
+	public List<User> createDeptUserDataSet(BasicDBObject condition, String userId) {
+		// 获取我所管理的组织及其下级组织
+		List<ObjectId> orgIds = c("organization").distinct("_id", new Document("managerId", userId), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		orgIds = getDesentItems(orgIds, "organization", "parent_id");
+
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter"))
+				.orElse(new BasicDBObject());
+
+		if (orgIds.size() > 0) {
+			filter.append("org_id", new BasicDBObject("$in", orgIds));
+			return query(null, null, filter);
+		} else
 			return new ArrayList<User>();
+	}
+
+	@Override
+	public long countDeptUser(BasicDBObject filter, String userId) {
+		// 获取我所管理的组织及其下级组织
+		List<ObjectId> orgIds = c("organization").distinct("_id", new Document("managerId", userId), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		orgIds = getDesentItems(orgIds, "organization", "parent_id");
+
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		if (orgIds.size() > 0) {
+			filter.append("org_id", new BasicDBObject("$in", orgIds));
+			return count(filter);
+		} else
+			return 0;
 	}
 
 }
