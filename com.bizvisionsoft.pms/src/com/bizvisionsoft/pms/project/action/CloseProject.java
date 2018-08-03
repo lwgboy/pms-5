@@ -44,7 +44,7 @@ public class CloseProject {
 				}
 		
 		if (b) {
-			Layer.message("项目已关闭。");
+			Layer.message("项目已关闭");
 			brui.switchPage("项目首页（关闭）", ((Project) project).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法

@@ -43,7 +43,7 @@ public class DistributeProjectAndStagePlan {
 				List<Result> result = Services.get(ProjectService.class)
 						.distributeProjectPlan(brui.command(project.get_id(), new Date()));
 				if (result.isEmpty()) {
-					Layer.message("项目阶段计划下达完成。");
+					Layer.message("项目阶段计划下达完成");
 				} else {
 					// TODO 显示多条错误信息的通用方法
 					MessageDialog.openError(s, "下达项目阶段计划", "项目阶段计划下达失败。</p>" + result.get(0).message);

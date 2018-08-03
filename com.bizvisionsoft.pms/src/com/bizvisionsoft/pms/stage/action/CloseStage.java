@@ -36,7 +36,7 @@ public class CloseStage {
 		}
 		List<Result> result = Services.get(WorkService.class).closeStage(brui.command(stage.get_id(), new Date()));
 		if (result.isEmpty()) {
-			Layer.message("阶段已关闭。");
+			Layer.message("阶段已关闭");
 			brui.switchPage("阶段首页（关闭）", ((Work) stage).get_id().toHexString());
 		}
 		// TODO 显示多条错误信息的通用方法

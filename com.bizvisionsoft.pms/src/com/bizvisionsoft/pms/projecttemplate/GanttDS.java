@@ -115,7 +115,7 @@ public class GanttDS {
 		Result result = service.updateGanttData(ganttData);
 		// TODO 错误处理
 		if (result.type != Result.TYPE_ERROR) {
-			Layer.message("计划数据已保存。");
+			Layer.message("计划数据已保存");
 			e.gantt.setDirty(false);
 		} else {
 			Layer.message(result.message, Layer.ICON_CANCEL);

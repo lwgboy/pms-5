@@ -91,13 +91,13 @@ public class ResourcePlanASM {
 		bar.addListener(SWT.Selection, l -> {
 			if ("分配资源".equals(((Action) l.data).getName())) {
 				if (this.work == null) {
-					Layer.message("请先选择将要分配资源的工作。");
+					Layer.message("请先选择将要分配资源的工作");
 					return;
 				} else if (this.work.isSummary()) {
-					Layer.message("无需对总成型工作分配资源。");
+					Layer.message("无需对总成型工作分配资源");
 					return;
 				} else if (this.work.isMilestone()) {
-					Layer.message("无需对里程碑分配资源。");
+					Layer.message("无需对里程碑分配资源");
 					return;
 				}
 				allocateResource();
@@ -110,7 +110,7 @@ public class ResourcePlanASM {
 				allocateResource();
 			}
 		});
-		Layer.message("提示： 您可以双击叶子任务选择要添加的资源。");
+		Layer.message("提示： 您可以双击叶子任务选择要添加的资源");
 	}
 
 	private void allocateResource() {

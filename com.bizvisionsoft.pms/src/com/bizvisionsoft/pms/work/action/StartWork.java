@@ -28,7 +28,7 @@ public class StartWork {
 			if (brui.confirm("启动工作", "请确认启动工作" + elem + "。\n系统将记录现在时刻为工作的实际开始时间。")) {
 				if (Services.get(WorkService.class).startWork(brui.command(((Work) elem).get_id(), new Date()))
 						.isEmpty()) {
-					Layer.message("工作已启动。");
+					Layer.message("工作已启动");
 					Work t = Services.get(WorkService.class).getWork(((Work) elem).get_id());
 					GridPart grid = (GridPart) context.getContent();
 					grid.replaceItem(elem, t);

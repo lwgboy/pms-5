@@ -19,7 +19,7 @@ public class OpenBudgetSubjectACT {
 		if (rootInput instanceof Work && ((Work) rootInput).getCBS_id() != null) {
 			bruiService.openContent(bruiService.getAssembly("科目预算"), rootInput);
 		} else {
-			Layer.message("无法编制科目预算。", Layer.ICON_CANCEL);
+			Layer.message("无法编制科目预算", Layer.ICON_CANCEL);
 		}
 	}
 }

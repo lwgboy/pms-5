@@ -29,7 +29,7 @@ public class CompareSchedule {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		GanttPart ganttPart = (GanttPart) context.getContent();
 		if (ganttPart.isDirty()) {
-			Layer.message("当前的项目计划还未保存。", Layer.ICON_CANCEL);
+			Layer.message("当前的项目计划还未保存", Layer.ICON_CANCEL);
 		} else {
 			IWBSScope root = (IWBSScope) context.getRootInput();
 			Workspace ws = root.getWorkspace();

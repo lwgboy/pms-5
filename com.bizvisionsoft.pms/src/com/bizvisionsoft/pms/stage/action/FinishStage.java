@@ -53,7 +53,7 @@ public class FinishStage {
 			}
 
 			if (b) {
-				message = "阶段已完工。<br>" + message;
+				message = "阶段已完工<br>" + message;
 				Layer.message(message);
 				brui.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());
 			}

@@ -29,10 +29,10 @@ public class ComparisonBaselineACT {
 		StructuredSelection selection = context.getSelection();
 		List<Baseline> list = selection.toList();
 		if (list.size() > 2) {
-			Layer.message("只允许对两个基线进行对比。", Layer.ICON_CANCEL);
+			Layer.message("只允许对两个基线进行对比", Layer.ICON_CANCEL);
 			return;
 		} else if (list.size() == 0) {
-			Layer.message("最少选择一个基线与当前进度进行对比。", Layer.ICON_CANCEL);
+			Layer.message("最少选择一个基线与当前进度进行对比", Layer.ICON_CANCEL);
 			return;
 		}
 

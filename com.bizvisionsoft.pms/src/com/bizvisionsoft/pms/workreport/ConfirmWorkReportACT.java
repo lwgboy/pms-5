@@ -37,7 +37,7 @@ public class ConfirmWorkReportACT {
 		List<Result> result = Services.get(WorkReportService.class).confirmWorkReport(Arrays.asList(input.get_id()),
 				brui.getCurrentUserId());
 		if (result.isEmpty()) {
-			Layer.message("报告已确认。");
+			Layer.message("报告已确认");
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
 			brui.closeCurrentContent();

@@ -72,13 +72,13 @@ public class ScheduleRender extends GridPartDefaultRender {
 						}
 
 						if (b) {
-							message = "阶段已启动。<br>" + message;
+							message = "阶段已启动<br>" + message;
 							Layer.message(message);
 							GridPart content = (GridPart) context.getContent();
 							content.setViewerInput();
 						}
 					} else {
-						Layer.message("阶段所在项目未启动，无法启动阶段。", Layer.ICON_CANCEL);
+						Layer.message("阶段所在项目未启动，无法启动阶段", Layer.ICON_CANCEL);
 					}
 				} else if (e.text.startsWith("closing/")) {
 					if (project != null && ProjectStatus.Processing.equals(project.getStatus())) {
@@ -110,7 +110,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 						}
 						// TODO 显示多条错误信息的通用方法
 					} else {
-						Layer.message("阶段所在项目未启动，无法完工阶段。", Layer.ICON_CANCEL);
+						Layer.message("阶段所在项目未启动，无法完工阶段", Layer.ICON_CANCEL);
 					}
 				} else if (e.text.startsWith("closed/")) {
 					boolean ok = MessageDialog.openConfirm(shell, "关闭阶段",

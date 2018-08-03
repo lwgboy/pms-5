@@ -35,7 +35,7 @@ public class SubmitWorkReportACT {
 		}
 		List<Result> result = Services.get(WorkReportService.class).submitWorkReport(Arrays.asList(input.get_id()));
 		if (result.isEmpty()) {
-			Layer.message("报告已提交。");
+			Layer.message("报告已提交");
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
 			brui.closeCurrentContent();

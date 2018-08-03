@@ -32,11 +32,11 @@ public class SubmitProjectChangeACT {
 		}
 		List<Result> result = Services.get(ProjectService.class).submitProjectChange(Arrays.asList(input.get_id()));
 		if (result.isEmpty()) {
-			Layer.message("变更申请已提交。");
+			Layer.message("变更申请已提交");
 			brui.closeCurrentContent();
 		} else {
 			if (result.get(0).code == Result.CODE_PROJECTCHANGE_NOTASKUSER)
-				Layer.message("请为所有审核环节指定审核人员后，再进行提交。", Layer.ICON_CANCEL);
+				Layer.message("请为所有审核环节指定审核人员后，再进行提交", Layer.ICON_CANCEL);
 		}
 	}
 }

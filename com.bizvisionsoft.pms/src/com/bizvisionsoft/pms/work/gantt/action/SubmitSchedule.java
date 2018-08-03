@@ -29,7 +29,7 @@ public class SubmitSchedule {
 		if (rootInput != null) {
 			GanttPart ganttPart = (GanttPart) context.getContent();
 			if (ganttPart.isDirty()) {
-				Layer.message("当前的项目计划还未保存。", Layer.ICON_CANCEL);
+				Layer.message("当前的项目计划还未保存", Layer.ICON_CANCEL);
 			} else if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交计划", "请确认提交当前计划。")) {
 				submit(rootInput);
 			}

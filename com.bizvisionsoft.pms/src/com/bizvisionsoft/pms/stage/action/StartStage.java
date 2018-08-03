@@ -52,13 +52,13 @@ public class StartStage {
 			}
 
 			if (b) {
-				message = "阶段已启动。<br>" + message;
+				message = "阶段已启动<br>" + message;
 				Layer.message(message);
 				brui.switchPage("阶段首页（执行）", ((Work) stage).get_id().toHexString());
 			}
 			// TODO 显示多条错误信息的通用方法
 		} else {
-			Layer.message("阶段所在项目未启动，无法启动阶段。", Layer.ICON_CANCEL);
+			Layer.message("阶段所在项目未启动，无法启动阶段", Layer.ICON_CANCEL);
 		}
 	}
 

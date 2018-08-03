@@ -92,7 +92,7 @@ public class BudgetCBS extends BudgetGrid {
 		} catch (Exception e) {
 			String message = e.getMessage();
 			if (message.indexOf("index") >= 0) {
-				Layer.message("请勿在同一范围内重复添加相同编号的成本项。", Layer.ICON_CANCEL);
+				Layer.message("请勿在同一范围内重复添加相同编号的成本项", Layer.ICON_CANCEL);
 			}
 		}
 	}

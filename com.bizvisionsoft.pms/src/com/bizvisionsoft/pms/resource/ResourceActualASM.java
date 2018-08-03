@@ -90,13 +90,13 @@ public class ResourceActualASM {
 		bar.addListener(SWT.Selection, l -> {
 			if ("添加资源用量".equals(((Action) l.data).getName())) {
 				if (this.work == null) {
-					Layer.message("请先选择将要添加资源用量的工作。");
+					Layer.message("请先选择将要添加资源用量的工作");
 					return;
 				} else if (this.work.isSummary()) {
-					Layer.message("无需对总成型工作添加资源用量。");
+					Layer.message("无需对总成型工作添加资源用量");
 					return;
 				} else if (this.work.isMilestone()) {
-					Layer.message("无需对里程碑添加资源用量。");
+					Layer.message("无需对里程碑添加资源用量");
 					return;
 				}
 				allocateResource();

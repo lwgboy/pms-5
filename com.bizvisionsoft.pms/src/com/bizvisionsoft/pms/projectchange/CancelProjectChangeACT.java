@@ -38,7 +38,7 @@ public class CancelProjectChangeACT {
 			task.comment = id.getValue();
 			List<Result> result = ServicesLoader.get(ProjectService.class).cancelProjectChange(task);
 			if (result.isEmpty()) {
-				Layer.message("变更申请已否决。");
+				Layer.message("变更申请已否决");
 				brui.closeCurrentContent();
 			}
 		}

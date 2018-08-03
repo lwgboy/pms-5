@@ -49,7 +49,7 @@ public class FinishProject {
 		}
 
 		if (b) {
-			message = "项目已完工。<br>" + message;
+			message = "项目已完工<br>" + message;
 			Layer.message(message);
 			brui.switchPage("项目首页（收尾）", ((Project) project).get_id().toHexString());
 		}

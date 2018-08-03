@@ -68,7 +68,7 @@ public class BudgetSubject extends BudgetGrid {
 		if (cbsItem != null) {
 			super.createUI(parent);
 		} else {
-			Layer.message("无法编制科目预算。", Layer.ICON_CANCEL);
+			Layer.message("无法编制科目预算", Layer.ICON_CANCEL);
 		}
 	}
 

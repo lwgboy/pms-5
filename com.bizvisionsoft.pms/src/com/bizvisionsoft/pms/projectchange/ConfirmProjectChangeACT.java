@@ -33,7 +33,7 @@ public class ConfirmProjectChangeACT {
 		List<Result> result = Services.get(ProjectService.class).confirmProjectChange(Arrays.asList(input.get_id()),
 				brui.getCurrentUserId());
 		if (result.isEmpty()) {
-			Layer.message("变更已关闭。");
+			Layer.message("变更已关闭");
 			brui.closeCurrentContent();
 		}
 	}

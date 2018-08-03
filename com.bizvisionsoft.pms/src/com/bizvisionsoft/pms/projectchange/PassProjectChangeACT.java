@@ -37,7 +37,7 @@ public class PassProjectChangeACT {
 			task.comment = id.getValue();
 			List<Result> result = ServicesLoader.get(ProjectService.class).passProjectChange(task);
 			if (result.isEmpty()) {
-				Layer.message("变更申请已确认。");
+				Layer.message("变更申请已确认");
 				brui.closeCurrentContent();
 			}
 		}

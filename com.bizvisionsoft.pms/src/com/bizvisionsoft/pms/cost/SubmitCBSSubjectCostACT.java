@@ -68,7 +68,7 @@ public class SubmitCBSSubjectCostACT {
 						cbsItem.getScope_id());
 				if (result.isEmpty()) {
 					Layer.message("已完成当前期间（" + cal.get(Calendar.YEAR) + "年"
-							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本提交。");
+							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本提交");
 					GridPart grid = (GridPart) context.getContent();
 					grid.refreshAll();
 					grid.getViewer().expandAll();

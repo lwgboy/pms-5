@@ -23,7 +23,7 @@ public class AssignToWork {
 			} else if (input instanceof Work) {
 				Services.get(WorkService.class).assignRoleToStage(((Work) input).get_id());
 			}
-			Layer.message("已完成角色的工作分配。");
+			Layer.message("已完成角色的工作分配");
 		}
 	}
 }

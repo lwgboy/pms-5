@@ -81,7 +81,7 @@ public class CarouselDemo {
 		btn.setData(RWT.CUSTOM_VARIANT, BruiToolkit.CSS_NORMAL);
 		btn.setText("确定");
 		btn.addListener(SWT.Selection, e->{
-			Layer.message("<div style='color=#ff0000'>预算已成功分配到阶段。<p>啊士大夫萨芬。</div>");
+			Layer.message("<div style='color=#ff0000'>预算已成功分配到阶段<p>啊士大夫萨芬</div>");
 		});
 		fd = new FormData();
 		btn.setLayoutData(fd);
