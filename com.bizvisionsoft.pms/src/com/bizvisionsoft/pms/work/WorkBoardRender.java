@@ -87,7 +87,7 @@ public class WorkBoardRender {
 
 	private void assignWork(WorkBoardInfo workInfo) {
 		Work work = workInfo.getWork();
-		Selector.open("用户选择器—单选", context, work, l -> {
+		Selector.open("指派用户选择器", context, work, l -> {
 			ServicesLoader.get(WorkService.class)
 					.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
 							.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());

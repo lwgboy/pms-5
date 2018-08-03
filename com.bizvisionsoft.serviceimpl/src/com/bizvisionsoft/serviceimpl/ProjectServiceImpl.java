@@ -1657,25 +1657,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-//		appendAllProjectQuery(pipeline);
-
 		appendQueryPipeline(skip, limit, filter, pipeline);
 
 		pipeline.add(Aggregates.sort(new Document("creationInfo.date", -1)));
 
-		return c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
 	@Override
 	public long countAllProjects(BasicDBObject filter) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-
-//		appendAllProjectQuery(pipeline);
-
-		if (filter != null)
-			pipeline.add(new Document("$match", filter));
-
-		return c("project").aggregate(pipeline).into(new ArrayList<>()).size();
+		return count(filter);
 	}
-
 }

@@ -41,7 +41,7 @@ public class RiskEffect {
 
 	@SetValue
 	private Work work;
-	
+
 	@SetValue
 	private RBSItem rbsItem;
 
@@ -72,7 +72,7 @@ public class RiskEffect {
 		return work.getFullName();
 	}
 
-	@ReadValue("项目风险登记簿/title")
+	@ReadValue({ "项目风险登记簿/title", "项目风险登记簿（查看）/title" })
 	private String getTitle() {
 		if (positive) {
 			return "<span class='layui-badge layui-bg-green' style='float:right;margin-right:10px;'>正面影响</span>";
@@ -173,57 +173,55 @@ public class RiskEffect {
 		this.creationInfo = creationInfo;
 		return this;
 	}
-	
+
 	@ReadValue("项目风险量化评估/wbsCode")
 	private String readWorkWBSCode() {
 		return work.getWBSCode();
 	}
-	
+
 	@ReadValue("项目风险量化评估/workName")
 	private String readWorkName() {
 		return work.getFullName();
 	}
-	
+
 	@ReadValue("项目风险量化评估/charger")
 	private String readWorkCharger() {
 		return work.getChargerInfo();
 	}
-	
+
 	@ReadValue("项目风险量化评估/planFinish")
 	private Date readWorkPlanFinish() {
 		return work.getPlanFinish();
 	}
-	
+
 	@ReadValue("项目风险量化评估/rbsCode")
 	private String readRBSCode() {
 		return rbsItem.getId();
 	}
-	
+
 	@ReadValue("项目风险量化评估/riskDescription")
 	private String readRiskDescription() {
 		return rbsItem.getDescription();
 	}
-	
+
 	@ReadValue("项目风险量化评估/riskResult")
 	private String readRiskResult() {
 		return rbsItem.getResult();
 	}
-	
+
 	@ReadValue("项目风险量化评估/rbsType")
 	private RBSType readRBSType() {
 		return rbsItem.getRbsType();
 	}
-	
+
 	@ReadValue("项目风险量化评估/ACP")
 	private Double getACP() {
 		return work.getACP();
 	}
-	
+
 	@ReadValue("项目风险量化评估/ACI")
 	private Double getACI() {
 		return work.getACI();
 	}
-	
-	
 
 }

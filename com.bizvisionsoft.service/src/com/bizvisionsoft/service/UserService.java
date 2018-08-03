@@ -37,8 +37,15 @@ public interface UserService {
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.LIST)
+	@DataSet({ "用户管理/" + DataSet.LIST, "用户选择列表/" + DataSet.LIST, "账户管理/" + DataSet.LIST })
 	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "用户管理/" + DataSet.COUNT, "用户选择列表/" + DataSet.COUNT, "账户管理/" + DataSet.COUNT })
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@GET
 	@Path("/check/{userId}/{password}")
@@ -52,13 +59,6 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	public User get(@PathParam("userId") String userId);
 
-	@POST
-	@Path("/count/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.COUNT)
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
-
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -67,9 +67,18 @@ public interface UserService {
 	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 	@POST
-	@Path("/userid/{userid}/deptuser/ds")
+	@Path("/dept/{userId}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<User> createDeptUserDataSet(@PathParam("userid") String userid);
+	@DataSet("指派用户选择列表/" + DataSet.LIST)
+	public List<User> createDeptUserDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
+	@POST
+	@Path("/dept/{userId}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("指派用户选择列表/" + DataSet.COUNT)
+	public long countDeptUser(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 }

@@ -40,7 +40,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	public ProjectTemplate insertProjectTemplate(ProjectTemplate prjt) {
 		return insert(prjt);
 	}
-	
+
 	@Override
 	public WBSModule insertWBSModule(WBSModule prjt) {
 		return insert(prjt);
@@ -56,29 +56,28 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		filter.append("module", false);
 		return count(filter, ProjectTemplate.class);
 	}
-	
+
 	@Override
 	public long countWBSModule(BasicDBObject filter) {
 		filter.append("module", true);
 		return count(filter, ProjectTemplate.class);
 	}
-	
 
 	@Override
 	public List<ProjectTemplate> listProjectTemplate(BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if(filter == null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		filter.append("module", new BasicDBObject("$ne", true));
 		return createDataSet(condition, ProjectTemplate.class);
 	}
-	
+
 	@Override
 	public List<WBSModule> listWBSModule(BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if(filter == null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
@@ -115,7 +114,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public long deleteWork(ObjectId work_id) {
-		//TODO É¾³ýlink
+		// TODO É¾³ýlink
 		return delete(work_id, WorkInTemplate.class);
 	}
 
@@ -217,8 +216,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSInTemplate> getOBSRoleTemplate(ObjectId template_id) {
-		return queryOBSTemplate(new BasicDBObject("scope_id", template_id).append("$or",
-				Arrays.asList(new BasicDBObject("isRole", true), new BasicDBObject("roleId", "PM"))));
+		return queryOBSTemplate(new BasicDBObject("scope_id", template_id));
 	}
 
 	@Override
@@ -495,7 +493,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		for (int i = 0; i < workInTemplates.size(); i++) {
 			workInTemplates.get(i).setIndex(i);
 		}
-		
+
 		if (workInTemplates.size() > 0)
 			c(WorkInTemplate.class).insertMany(workInTemplates);
 
