@@ -636,7 +636,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		if (filter != null)
 			pipeline.add(new Document("$match", filter));
-		
+
 		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
@@ -1071,14 +1071,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		// 检查项目是否超期
 		int warningLevel = 999;
-		Document message = null;
+		Document scheduleEst = null;
 		// 0级预警检查
 		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime)
+				.append("finish", gh.getFinishDate()).append("duration", (int) gh.getT());
+
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
-			message = new Document("date", new Date()).append("overdue", (int) overTime)
-					.append("finish", gh.getFinishDate()).append("msg", "项目预计超期").append("duration", (int) gh.getT());
-
+			scheduleEst.append("msg", "项目预计超期");
 		}
 		for (int i = 0; i < works.size(); i++) {
 			Document doc = works.get(i);
@@ -1091,12 +1092,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 			if ("1".equals(doc.getString("manageLevel")) && overdue > 0) {
 				warningLevel = warningLevel > 1 ? 1 : warningLevel;
-				message = message == null ? new Document("date", new Date()).append("msg", "一级工作预计超期") : message;
+				if (scheduleEst.get("msg") == null) {
+					scheduleEst.append("msg", "一级工作预计超期");
+				}
 			}
 
 			if ("2".equals(doc.getString("manageLevel")) && overdue > 0) {
 				warningLevel = warningLevel > 2 ? 2 : warningLevel;
-				message = message == null ? new Document("date", new Date()).append("msg", "二级工作预计超期") : message;
+				if (scheduleEst.get("msg") == null) {
+					scheduleEst.append("msg", "二级工作预计超期");
+				}
 			}
 
 			if (update == null) {
@@ -1108,7 +1113,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		c("project").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", message)));
+				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst)));
 		return warningLevel;
 	}
 
