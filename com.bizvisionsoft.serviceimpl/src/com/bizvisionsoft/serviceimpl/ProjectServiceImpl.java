@@ -1052,6 +1052,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public Integer schedule(ObjectId _id) {
+
 		Document pj = c("project").find(new Document("_id", _id)).first();
 		Date start = pj.getDate("planStart");
 		Date end = pj.getDate("planFinish");
@@ -1062,10 +1063,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
 		convertGraphic(works, links, tasks, routes);
-
 		Graphic gh = new Graphic(tasks, routes);
 
 		setupStartDate(gh, works, start, tasks);
+
 		gh.schedule();
 
 		// 检查项目是否超期

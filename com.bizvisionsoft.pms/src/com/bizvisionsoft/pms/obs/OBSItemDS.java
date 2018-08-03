@@ -30,7 +30,6 @@ public class OBSItemDS {
 	private void init() {
 		IOBSScope rootInput = (IOBSScope) context.getRootInput();
 		obsScope_id = rootInput.getScope_id();
-		System.out.println();
 	}
 
 	@DataSet(DataSet.LIST)
