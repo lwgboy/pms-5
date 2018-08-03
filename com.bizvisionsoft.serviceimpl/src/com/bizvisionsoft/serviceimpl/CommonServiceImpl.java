@@ -558,11 +558,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// work_id+resTypeId+usedHumanResId
 		// id
 		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
-				"work_id_resTypeId_usedEquipResId");
+				"equip");
 		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
-				"work_id_resTypeId_usedTypedResId");
+				"restype");
 		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
-				"work_id_resTypeId_usedHumanResId");
+				"hr");
 		createIndex("resourceActual", new Document("id", 1), "id");
 		// resourcePlan->
 		// work_id+resTypeId+usedEquipResId
@@ -570,11 +570,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// work_id+resTypeId+usedHumanResId
 		// id
 		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
-				"work_id_resTypeId_usedEquipResId");
+				"equipment");
 		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
-				"work_id_resTypeId_usedTypedResId");
+				"restype");
 		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
-				"work_id_resTypeId_usedHumanResId");
+				"hr");
 		createIndex("resourcePlan", new Document("id", 1), "id");
 		// resourceType->
 		// id
@@ -656,18 +656,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// workReportItem_id+work_id+resTypeId+usedTypedResId
 		// workReportItem_id+work_id+resTypeId+usedHumanResId
 		// id
-		createIndex(
-				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-						.append("resTypeId", 1).append("usedEquipResId", 1),
-				"workReportItem_id_work_id_resTypeId_usedEquipResId");
-		createIndex(
-				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-						.append("resTypeId", 1).append("usedTypedResId", 1),
-				"workReportItem_id_work_id_resTypeId_usedTypedResId");
-		createIndex(
-				"workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-						.append("resTypeId", 1).append("usedHumanResId", 1),
-				"workReportItem_id_work_id_resTypeId_usedHumanResId");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedEquipResId", 1), "equipment");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedTypedResId", 1), "restype");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedHumanResId", 1), "hr");
 		createIndex("workReportResourceActual", new Document("id", 1), "id");
 		// worklinks->
 		// project_id
@@ -704,24 +698,19 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		// resourcePlan->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId、id
-		createUniqueIndex("resourcePlan",
-				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_id");
+		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "workRes");
 
 		// resourcePlanInTemplate->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
-		createUniqueIndex("resourcePlanInTemplate",
-				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId");
+		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "workRes");
 
 		// resourceActual->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId
-		createUniqueIndex("resourceActual",
-				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_id");
+		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
+				"workRes");
 
 		// workReportResourceActual->
 		// work_id、resTypeId、usedHumanResId、usedEquipResId、usedTypedResId、workReportItemId
@@ -729,32 +718,35 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
 						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1)
 						.append("id", 1),
-				"work_id_resTypeId_usedHumanResId_usedEquipResId_usedTypedResId_workReportItemId_id");
+				"workRes");
 
 		// work->
 		// project_id、fullName
-		createUniqueIndex("work", new Document("project_id", 1).append("fullName", 1), "project_id_fullName");
+		// createUniqueIndex("work", new Document("project_id", 1).append("fullName",
+		// 1), "project_id_fullName");
 
 		// workspace->
 		// project_id、fullName、space_id
-		createUniqueIndex("workspace", new Document("project_id", 1).append("fullName", 1).append("space_id", 1),
-				"project_id_fullName_space_id");
+		// createUniqueIndex("workspace", new Document("project_id",
+		// 1).append("fullName", 1).append("space_id", 1),
+		// "project_id_fullName_space_id");
 
 		// workInTemplate->
 		// template_id、fullName
-		createUniqueIndex("workInTemplate", new Document("template_id", 1).append("fullName", 1),
-				"template_id_fullName");
+		// createUniqueIndex("workInTemplate", new Document("template_id",
+		// 1).append("fullName", 1),
+		// "template_id_fullName");
 
-		// workLinks->
-		// project_id、source、target
-		createUniqueIndex("workLinks", new Document("project_id", 1).append("source", 1).append("target", 1),
-				"project_id_source_target");
-
-		// workLinksspace->
-		// project_id、source、target、space_id
-		createUniqueIndex("workLinksspace",
-				new Document("project_id", 1).append("source", 1).append("target", 1).append("space_id", 1),
-				"project_id_source_target_space_id");
+//		// workLinks->
+//		// project_id、source、target
+//		createUniqueIndex("workLinks", new Document("project_id", 1).append("source", 1).append("target", 1),
+//				"project_id_source_target");//危列
+//
+//		// workLinksspace->
+//		// project_id、source、target、space_id
+//		createUniqueIndex("workLinksspace",
+//				new Document("project_id", 1).append("source", 1).append("target", 1).append("space_id", 1),
+//				"project_id_source_target_space_id");//危列
 
 		// folder->
 		// name、project_id、parent_id
