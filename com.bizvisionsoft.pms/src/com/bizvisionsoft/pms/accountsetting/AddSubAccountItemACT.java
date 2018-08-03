@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.accountsetting.action;
+package com.bizvisionsoft.pms.accountsetting;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class AddSubAccountItem {
+public class AddSubAccountItemACT {
 
 	@Inject
 	private IBruiService bruiService;

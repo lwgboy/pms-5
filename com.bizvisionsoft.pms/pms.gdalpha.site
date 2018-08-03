@@ -15207,7 +15207,7 @@
             "name": "Ìí¼Ó",
             "image": "/img/add_16_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.accountsetting.action.AddSubAccountItem",
+            "className": "com.bizvisionsoft.pms.accountsetting.AddSubAccountItemACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,
