@@ -1020,7 +1020,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return null;
 	}
 
-	@Behavior({ "编辑助记码" })
+	@Behavior({ "设置编号","编辑","批准启动" })
 	private boolean behaviourEdit() {
 		return !ProjectStatus.Closing.equals(status) && !ProjectStatus.Terminated.equals(status);
 	}
