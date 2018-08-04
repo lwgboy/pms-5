@@ -133,31 +133,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		return query(skip, limit, filter);
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		return query(skip, limit, filter, sort);
 	}
 
-	private List<Project> query(Integer skip, Integer limit, BasicDBObject filter) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-		appendQueryPipeline(skip, limit, filter, pipeline);
-
-		List<Project> result = new ArrayList<Project>();
-		c(Project.class).aggregate(pipeline).into(result);
-		return result;
-
+	private List<Project> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
+		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
+		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
-	private void appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, List<Bson> pipeline) {
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		// TODO 补充pipeline
+	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
+			List<Bson> pipeline) {
 		// 1. 承担组织
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
@@ -171,12 +157,23 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendLookupAndUnwind(pipeline, "project", "parentProject_id", "parentProject");
 
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		
 		appendWorkTime(pipeline);
 
 		pipeline.addAll(new JQ("项目sar管道").array());
 
-		// TODO 增加超期判断，
-		// appendOverdue(pipeline);
+		return pipeline;
 	}
 
 	/**
@@ -420,35 +417,46 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (l == 0)
 			result.add(Result.startProjectError("项目尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
-//		l = c(Work.class).countDocuments(new Document("project_id", _id).append("manageLevel", "1").append("$or",
-//				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
-//		if (l == 0)
-//			result.add(Result.startProjectError("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
-//
-//		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
-//				.append("chargerId", null).append("assignerId", null));
-//		if (l == 0)
-//			result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
-//
-//		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-//		if (l > 1)
-//			result.add(Result.startProjectWarning("项目沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
-//
-//		l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
-//		if (l > 1)
-//			result.add(Result.startProjectWarning("项目沒有创建干系人.", Result.CODE_PROJECT_NOSTOCKHOLDER));
+		// l = c(Work.class).countDocuments(new Document("project_id",
+		// _id).append("manageLevel", "1").append("$or",
+		// Arrays.asList(new Document("assignerId", null), new Document("chargerId",
+		// null))));
+		// if (l == 0)
+		// result.add(Result.startProjectError("项目沒有创建进度计划.",
+		// Result.CODE_PROJECT_NOWORK));
+		//
+		// l = c(Work.class).countDocuments(new Document("project_id",
+		// _id).append("parent_id", null)
+		// .append("chargerId", null).append("assignerId", null));
+		// if (l == 0)
+		// result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.",
+		// Result.CODE_PROJECT_NOWORKROLE));
+		//
+		// l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+		// if (l > 1)
+		// result.add(Result.startProjectWarning("项目沒有创建组织结构.",
+		// Result.CODE_PROJECT_NOOBS));
+		//
+		// l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
+		// if (l > 1)
+		// result.add(Result.startProjectWarning("项目沒有创建干系人.",
+		// Result.CODE_PROJECT_NOSTOCKHOLDER));
 
 		Project project = get(_id);
 
-//		ObjectId cbs_id = project.getCBS_id();
-//		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
-//		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-//		if (l == 0) {
-//			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-//			if (l == 0)
-//				result.add(Result.startProjectWarning("项目尚未编制预算", Result.CODE_PROJECT_NOCBS));
-//		}
-		
+		// ObjectId cbs_id = project.getCBS_id();
+		// List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs",
+		// "parent_id");
+		// l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new
+		// Document("$in", cbsIds)));
+		// if (l == 0) {
+		// l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new
+		// Document("$in", cbsIds)));
+		// if (l == 0)
+		// result.add(Result.startProjectWarning("项目尚未编制预算",
+		// Result.CODE_PROJECT_NOCBS));
+		// }
+
 		if (!Boolean.TRUE.equals(project.getStartApproved())) {
 			result.add(Result.startProjectError("项目尚未获得启动批准", Result.CODE_PROJECT_START_NOTAPPROVED));
 		}
@@ -595,8 +603,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
-		filter.put("pmId", userid);
-		return query(skip, limit, filter);
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort == null) {
+			sort = new BasicDBObject();
+			condition.put("sort", sort);
+		}
+
+		sort.put("pmId", userid);
+		return query(skip, limit, filter, sort);
 	}
 
 	@Override
@@ -613,12 +627,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		appendParticipatedProjectQuery(userId, pipeline);
 
-		appendQueryPipeline(skip, limit, filter, pipeline);
+		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
 		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 	}
@@ -1685,12 +1700,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort == null) {
+			sort = new BasicDBObject("creationInfo.date", -1);
+		}
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-
-		appendQueryPipeline(skip, limit, filter, pipeline);
-
-		pipeline.add(Aggregates.sort(new Document("creationInfo.date", -1)));
+		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}

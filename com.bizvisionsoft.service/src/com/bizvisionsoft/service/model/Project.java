@@ -2,9 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -18,7 +16,6 @@ import com.bizvisionsoft.annotations.md.mongocodex.Strict;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
-import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.RoleBased;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -543,17 +540,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		if (projectSet_id != null)
 			return ServicesLoader.get(ProjectSetService.class).get(projectSet_id);
 		return null;
-	}
-
-	@ReadOptions("catalog")
-	public Map<String, Object> getCatalogOptions() {
-		LinkedHashMap<String, Object> options = new LinkedHashMap<String, Object>();
-		options.put("预研", "预研");
-		options.put("科研-新研", "科研-新研");
-		options.put("科研-改性", "科研-改性");
-		options.put("科研-适应性改造", "科研-适应性改造");
-		options.put("CBB", "CBB");
-		return options;
 	}
 
 	@Override

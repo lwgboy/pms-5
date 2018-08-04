@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.user.action;
+package com.bizvisionsoft.pms.user;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateAccount {
+public class CreateAccountACT {
 
 	@Inject
 	private IBruiService bruiService;

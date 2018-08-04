@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.user.action;
+package com.bizvisionsoft.pms.user;
 
 import org.eclipse.swt.widgets.Event;
 
@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class EditUser {
+public class EditUserACT {
 
 	@Inject
 	private IBruiService bruiService;
