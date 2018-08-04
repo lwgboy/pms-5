@@ -10,9 +10,4 @@ public interface ProjectStatus {
 
 	public final String Closed="已关闭";
 
-	public final String Suspended="已暂停";
-	
-	public final String Terminated="已中止";//已撤项
-	
-
 }

@@ -34,7 +34,7 @@ public class Result {
 
 	public static final int CODE_PROJECTCHANGE_NOTASKUSER = 300;
 
-	public static final int CODE_PROJECT_NOWORKORDER = 101;
+	public static final int CODE_PROJECT_START_NOTAPPROVED = 101;
 
 	public static final int CODE_PROJECT_NOWORK = 102;
 

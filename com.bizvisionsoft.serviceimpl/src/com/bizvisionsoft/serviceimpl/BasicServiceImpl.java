@@ -25,8 +25,10 @@ import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -590,6 +592,12 @@ public class BasicServiceImpl {
 		return c("project").distinct("_id",
 				new Document("status", "½øÐÐÖÐ"), ObjectId.class)
 				.into(new ArrayList<>());
+	}
+	
+	final protected void throwDuplicatedError(Exception e,String message) {
+		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
+			throw new ServiceException(message);
+		}
 	}
 
 }

@@ -22,8 +22,6 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
-import com.bizvisionsoft.service.model.CBSPeriod;
-import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Message;
@@ -327,22 +325,50 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		try {
 			return update(fu, Project.class);
 		} catch (Exception e) {
-			if (e instanceof MongoBulkWriteException) {
-				throw new ServiceException(e.getMessage());
-			}
+			throwDuplicatedError(e, "项目编号重复");
 		}
 		return 0;
 	}
 
 	@Override
+	public void updateProjectId(ObjectId _id, String id) {
+		Document cond = new Document("_id", _id);
+		Project project = c(Project.class).find(cond).first();
+
+		if (ProjectStatus.Created.equals(project.getStatus())) {
+			throw new ServiceException("只能在项目启动前设置编号");
+		}
+
+		try {
+			String workOrder = generateWorkOrder(_id);
+			c("project").updateOne(cond, new Document("$set", new Document("id", id).append("workOrder", workOrder)));
+		} catch (Exception e) {
+			throwDuplicatedError(e, "项目编号重复");
+		}
+	}
+
+	@Override
+	public void approveProject(Command com) {
+		Document cond = new Document("_id", com._id);
+		Project project = c(Project.class).find(cond).first();
+
+		if (!ProjectStatus.Created.equals(project.getStatus())) {
+			throw new ServiceException("已启动的项目无需再次批准");
+		}
+
+		if (Boolean.TRUE.equals(project.getStartApproved())) {
+			throw new ServiceException("已批准的项目无需再次批准");
+		}
+
+		c("project").updateOne(cond, new BasicDBObject("$set", new BasicDBObject("startApproved", true)
+				.append("approvedOn", com.date).append("approvedBy", com.userId)));
+	}
+
+	@Override
 	public List<Result> startProject(Command com) {
 		List<Result> result = startProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
-			}
+		if (result.stream().filter(r -> Result.TYPE_ERROR == r.type).findFirst().isPresent()) {
+			return result;
 		}
 
 		// 修改项目状态
@@ -388,40 +414,43 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 5. 没有做预算，警告
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
-		// 8. 必须要有工作令号，错误。
 		List<Result> result = new ArrayList<Result>();
 
 		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
 		if (l == 0)
-			result.add(Result.startProjectWarning("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.startProjectError("项目尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
-		l = c(Work.class).countDocuments(new Document("project_id", _id).append("manageLevel", "1").append("$or",
-				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
-		if (l == 0)
-			result.add(Result.startProjectError("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
-
-		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
-				.append("chargerId", null).append("assignerId", null));
-		if (l == 0)
-			result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
-
-		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-		if (l > 1)
-			result.add(Result.startProjectWarning("项目沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
-
-		l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
-		if (l > 1)
-			result.add(Result.startProjectWarning("项目沒有创建干系人.", Result.CODE_PROJECT_NOSTOCKHOLDER));
+//		l = c(Work.class).countDocuments(new Document("project_id", _id).append("manageLevel", "1").append("$or",
+//				Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
+//		if (l == 0)
+//			result.add(Result.startProjectError("项目沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+//
+//		l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null)
+//				.append("chargerId", null).append("assignerId", null));
+//		if (l == 0)
+//			result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
+//
+//		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+//		if (l > 1)
+//			result.add(Result.startProjectWarning("项目沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
+//
+//		l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
+//		if (l > 1)
+//			result.add(Result.startProjectWarning("项目沒有创建干系人.", Result.CODE_PROJECT_NOSTOCKHOLDER));
 
 		Project project = get(_id);
 
-		ObjectId cbs_id = project.getCBS_id();
-		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
-		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-		if (l == 0) {
-			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-			if (l == 0)
-				result.add(Result.startProjectWarning("项目沒有编制预算.", Result.CODE_PROJECT_NOCBS));
+//		ObjectId cbs_id = project.getCBS_id();
+//		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
+//		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+//		if (l == 0) {
+//			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+//			if (l == 0)
+//				result.add(Result.startProjectWarning("项目尚未编制预算", Result.CODE_PROJECT_NOCBS));
+//		}
+		
+		if (!Boolean.TRUE.equals(project.getStartApproved())) {
+			result.add(Result.startProjectError("项目尚未获得启动批准", Result.CODE_PROJECT_START_NOTAPPROVED));
 		}
 
 		return result;
@@ -729,9 +758,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				.into(new ArrayList<ObjectId>());
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates
-				.match(new Document("_id", new Document("$in", project_ids)).append("status", new Document("$in",
-						Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing, ProjectStatus.Suspended)))));
+		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids)).append("status",
+				new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -907,9 +935,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			result.add(Result.finishError("项目存在没有完工的工作。"));
 		}
 
-		count = c("work").countDocuments(
-				new BasicDBObject("project_id", _id).append("stage", true).append("status", new BasicDBObject("$nin",
-						Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Suspended))));
+		count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("stage", true).append("status",
+				new BasicDBObject("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing))));
 		if (count > 0) {
 			result.add(Result.finishError("项目存在没有收尾和完工的阶段。"));
 		}
@@ -949,15 +976,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 须检查的信息
 		List<Result> result = new ArrayList<Result>();
 		long l = c("work").countDocuments(new Document("project_id", _id).append("stage", true).append("status",
-				new Document("$nin", Arrays.asList(ProjectStatus.Closed, ProjectStatus.Terminated))));
+				new Document("$nin", Arrays.asList(ProjectStatus.Closed))));
 		if (l > 0)
 			result.add(Result.startProjectError("项目存在没有关闭的阶段.", Result.CODE_PROJECT_NOWORK));
 
 		return result;
 	}
 
-	@Override
-	public String generateWorkOrder(ObjectId _id) {
+	private String generateWorkOrder(ObjectId _id) {
 		/**
 		 * TODO 需要根据九洲定制
 		 * 
@@ -1673,4 +1699,5 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAllProjects(BasicDBObject filter) {
 		return count(filter);
 	}
+
 }

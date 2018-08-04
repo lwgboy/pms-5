@@ -1244,10 +1244,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
 		} else if (ProjectStatus.Closed.equals(status)) {
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
-		} else if (ProjectStatus.Suspended.equals(status)) {
-			return "<span class='layui-badge layui-bg-gray layui-btn-fluid'>" + status + "</span>";
-		} else if (ProjectStatus.Terminated.equals(status)) {
-			return "<span class='layui-badge layui-bg-black layui-btn-fluid'>" + status + "</span>";
 		} else {
 			return "";
 		}

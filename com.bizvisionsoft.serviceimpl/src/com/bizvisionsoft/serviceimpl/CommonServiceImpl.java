@@ -351,8 +351,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public Date getCurrentCBSPeriod() {
 		Document doc = c("project")
 				.find(new Document("status",
-						new Document("$nin",
-								Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated))))
+						new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
 				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.add(java.util.Calendar.MONTH, -1);
@@ -737,16 +736,18 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// 1).append("fullName", 1),
 		// "template_id_fullName");
 
-//		// workLinks->
-//		// project_id¡¢source¡¢target
-//		createUniqueIndex("workLinks", new Document("project_id", 1).append("source", 1).append("target", 1),
-//				"project_id_source_target");//´íÎó
-//
-//		// workLinksspace->
-//		// project_id¡¢source¡¢target¡¢space_id
-//		createUniqueIndex("workLinksspace",
-//				new Document("project_id", 1).append("source", 1).append("target", 1).append("space_id", 1),
-//				"project_id_source_target_space_id");//´íÎó
+		// // workLinks->
+		// // project_id¡¢source¡¢target
+		// createUniqueIndex("workLinks", new Document("project_id", 1).append("source",
+		// 1).append("target", 1),
+		// "project_id_source_target");//´íÎó
+		//
+		// // workLinksspace->
+		// // project_id¡¢source¡¢target¡¢space_id
+		// createUniqueIndex("workLinksspace",
+		// new Document("project_id", 1).append("source", 1).append("target",
+		// 1).append("space_id", 1),
+		// "project_id_source_target_space_id");//´íÎó
 
 		// folder->
 		// name¡¢project_id¡¢parent_id

@@ -45,6 +45,12 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	public long update(BasicDBObject filterAndUpdate);
 
+	@PUT
+	@Path("/_id/{project_id}/id/{id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateProjectId(@PathParam("project_id") ObjectId _id, @PathParam("id") String id);
+
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -99,6 +105,12 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> startProject(Command command);
+
+	@POST
+	@Path("/command/approve/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void approveProject(Command command);
 
 	@POST
 	@Path("/command/distribute/")
@@ -249,12 +261,6 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> closeProject(Command command);
-
-	@POST
-	@Path("/genworkorder/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public String generateWorkOrder(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/_id/{_id}/news/{count}")
@@ -429,4 +435,5 @@ public interface ProjectService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "所有项目/count" })
 	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
 }

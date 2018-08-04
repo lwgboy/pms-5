@@ -70,10 +70,6 @@ public class ProjectBoardRender {
 			bruiService.switchPage("项目首页（收尾）", _id.toHexString());
 		} else if (ProjectStatus.Closed.equals(pj.getStatus())) {
 			bruiService.switchPage("项目首页（关闭）", _id.toHexString());
-		} else if (ProjectStatus.Suspended.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（暂停）", _id.toHexString());
-		} else if (ProjectStatus.Terminated.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（中止）", _id.toHexString());
 		}
 	}
 

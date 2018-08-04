@@ -10,7 +10,6 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -36,7 +35,6 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.sn.WorkOrderGenerator;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -100,16 +98,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	@Generator(name = Generator.DEFAULT_NAME, key = "project", generator = WorkOrderGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String workOrder;
 
 	public String getWorkOrder() {
 		return workOrder;
-	}
-
-	public Project generateWorkOrder() {
-		this.workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(get_id());
-		return this;
 	}
 
 	/**
@@ -233,10 +225,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
 		} else if (ProjectStatus.Closed.equals(status)) {
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
-		} else if (ProjectStatus.Suspended.equals(status)) {
-			return "<span class='layui-badge layui-bg-gray layui-btn-fluid'>" + status + "</span>";
-		} else if (ProjectStatus.Terminated.equals(status)) {
-			return "<span class='layui-badge layui-bg-black layui-btn-fluid'>" + status + "</span>";
 		} else {
 			return "";
 		}
@@ -357,7 +345,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private boolean stageEnable;
-	
 
 	/**
 	 * ½×¶Î
@@ -539,22 +526,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@WriteValue
 	@Persistence
 	private String customerRepresentative;
-
-	/**
-	 * Öú¼ÇÂë
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String code;
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
 
 	@WriteValue("eps_or_projectset_id")
 	public void setEPSorProjectSet(Object element) {
@@ -1012,38 +983,27 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	private String changeStatus;
 
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private Boolean startApproved;
+
 	public String getChangeStatus() {
 		return changeStatus;
 	}
 
-	public String getPPMId() {
-		return null;
-	}
-
-	@Behavior({ "ÉèÖÃ±àºÅ","±à¼­","Åú×¼Æô¶¯" })
-	private boolean behaviourEdit() {
-		return !ProjectStatus.Closing.equals(status) && !ProjectStatus.Terminated.equals(status);
-	}
-
-	@Behavior({ "É¾³ý" })
-	private boolean behaviourDelete() {
+	@Behavior({ "É¾³ý", "ÉèÖÃ±àºÅ", "Åú×¼Æô¶¯", "±à¼­" })
+	private boolean behaviourEditProjectInfo() {
 		return ProjectStatus.Created.equals(status);
 	}
 
-	@Behavior({ "ÖÐÖ¹" })
-	private boolean behaviourTerminate() {
-		return !ProjectStatus.Created.equals(status) && !ProjectStatus.Closed.equals(status)
-				&& !ProjectStatus.Terminated.equals(status);
+	public Boolean getStartApproved() {
+		return startApproved;
 	}
 
-	@Behavior({ "ÔÝÍ£" })
-	private boolean behaviourSuspend() {
-		return ProjectStatus.Processing.equals(status);
-	}
-
-	@Behavior({ "ÖØÐÂ¿ªÊ¼" })
-	private boolean behaviourReStart() {
-		return ProjectStatus.Suspended.equals(status);
+	public Project setStartApproved(boolean startApproved) {
+		this.startApproved = startApproved;
+		return this;
 	}
 
 }

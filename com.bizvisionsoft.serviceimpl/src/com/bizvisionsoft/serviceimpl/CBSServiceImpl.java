@@ -395,8 +395,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
 		pipeline.add(Aggregates.addFields(new Field<String>("scopeId", "$project.id")));
-		pipeline.add(new Document("$match", new Document("project.status", new Document("$nin",
-				Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed, ProjectStatus.Terminated)))));
+		pipeline.add(new Document("$match", new Document("project.status",
+				new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed)))));
 
 		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
 
@@ -430,7 +430,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		pipeline.add(new Document("$unwind", "$project"));
 		pipeline.add(Aggregates.addFields(new Field<String>("scopeId", "$project.id")));
 		pipeline.add(new Document("$match", new Document("project.status",
-				new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Terminated)))));
+				new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed)))));
 
 		appendUserInfo(pipeline, "project.pmId", "scopeCharger");
 
@@ -467,8 +467,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
-		pipeline.add(new Document("$match", new Document("project.status", new Document("$nin",
-				Arrays.asList(ProjectStatus.Created, ProjectStatus.Created, ProjectStatus.Terminated)))));
+		pipeline.add(new Document("$match", new Document("project.status",
+				new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed)))));
 		pipeline.add(new Document("$project", new Document("project", false)));
 
 		if (filter != null)
