@@ -291,6 +291,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@SetValue
 	private Date startOn;
+	
+	@ReadValue
+	@SetValue
+	private String startByUserName;
 
 	/**
 	 * 完工时间
@@ -298,6 +302,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@SetValue
 	private Date finishOn;
+	
+	@ReadValue
+	@SetValue
+	private String finishByUserName;
+
 
 	@ReadValue("start")
 	public Date getStart_date() {
@@ -308,6 +317,14 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	public Date getEnd_date() {
 		return finishOn;
 	}
+	
+	@ReadValue
+	@SetValue
+	private Date closeOn;
+	
+	@ReadValue
+	@SetValue
+	private String closeByUserName;
 
 	/**
 	 * 计划工期 ///TODO 根据计划开始和完成自动计算
@@ -570,11 +587,26 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private CreationInfo creationInfo;
 
+	@ReadValue("createOn")
+	private Date readCreateOn() {
+		return Optional.ofNullable(creationInfo).map(c->c.date).orElse(null);
+	}
+
+	@ReadValue("createByUserName")
+	private String readCreateBy() {
+		return Optional.ofNullable(creationInfo).map(c->c.userName).orElse(null);
+	}
+	
+	
+	
 	@Persistence
 	private ObjectId obs_id;
 
 	@Persistence
 	private ObjectId cbs_id;
+	
+	
+	
 
 	public ObjectId get_id() {
 		return _id;
@@ -974,7 +1006,15 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	private Boolean startApproved;
-
+	
+	@ReadValue
+	@SetValue
+	private Date approvedOn;
+	
+	@ReadValue
+	@SetValue
+	private String approvedByUserName;
+	
 	public String getChangeStatus() {
 		return changeStatus;
 	}

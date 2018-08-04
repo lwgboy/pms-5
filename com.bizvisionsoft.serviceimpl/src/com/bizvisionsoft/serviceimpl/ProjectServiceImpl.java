@@ -148,6 +148,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
+		
+		appendUserInfo(pipeline, "approvedBy", "approvedByUserName");
+		
+		appendUserInfo(pipeline, "startBy", "startByUserName");
+		
+		appendUserInfo(pipeline, "finishBy", "finishByUserName");
+		
+		appendUserInfo(pipeline, "closeBy", "closeByUserName");
 
 		appendStage(pipeline, "stage_id", "stage");
 
