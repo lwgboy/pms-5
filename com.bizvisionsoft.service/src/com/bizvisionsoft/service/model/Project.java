@@ -35,6 +35,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -992,9 +993,19 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return changeStatus;
 	}
 
-	@Behavior({ "É¾³ý", "ÉèÖÃ±àºÅ", "Åú×¼Æô¶¯", "±à¼­" })
+	@Behavior({ "É¾³ý", "±à¼­" })
 	private boolean behaviourEditProjectInfo() {
 		return ProjectStatus.Created.equals(status);
+	}
+
+	@Behavior("ÉèÖÃ±àºÅ")
+	private boolean behaviourEditProjectId() {
+		return ProjectStatus.Created.equals(status) && Util.isEmptyOrNull(id);
+	}
+
+	@Behavior("Åú×¼Æô¶¯")
+	private boolean behaviourApproveProjectStart() {
+		return ProjectStatus.Created.equals(status) && !Boolean.TRUE.equals(startApproved);
 	}
 
 	public Boolean getStartApproved() {

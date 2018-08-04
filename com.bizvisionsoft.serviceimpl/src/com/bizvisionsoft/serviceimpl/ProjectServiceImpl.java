@@ -335,7 +335,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Document cond = new Document("_id", _id);
 		Project project = c(Project.class).find(cond).first();
 
-		if (ProjectStatus.Created.equals(project.getStatus())) {
+		if (!ProjectStatus.Created.equals(project.getStatus())) {
 			throw new ServiceException("只能在项目启动前设置编号");
 		}
 
