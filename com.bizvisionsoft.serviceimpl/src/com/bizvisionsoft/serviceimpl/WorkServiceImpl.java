@@ -266,8 +266,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		// 修改状态
 		Document set = new Document("status", ProjectStatus.Processing).append("startInfo", com.info());
-//		if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
-//			set.append("actualStart", new Date());
+		// if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
+		// set.append("actualStart", new Date());
 
 		UpdateResult ur = c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
 
@@ -815,8 +815,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			Document doc = c("work").findOneAndUpdate(
 					new Document("_id", _id)
 							.append("$or",
-									new Document[] { new Document("actualFinish", null),
-											new Document("actualFinish", new Document("$lt", com.date)) })
+									Arrays.asList(new Document("actualFinish", null),
+											new Document("actualFinish", new Document("$lt", com.date))))
 							.append("stage", false),
 					new Document("$set", new Document("actualFinish", com.date).append("progress", 1d)
 							.append("finishInfo", com.info())));
@@ -856,8 +856,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			if (actualFinish == null)
 				actualFinish = new Date();
 		}
-		UpdateResult ur = c("work").updateOne(new Document("_id", com._id), new Document("$set",
-				new Document("status", ProjectStatus.Closing).append("progress", 1d).append("finishInfo", com.info())));
+		UpdateResult ur = c("work").updateOne(new Document("_id", com._id),
+				new Document("$set",
+						new Document("status", ProjectStatus.Closing).append("actualFinish", doc.get("actualFinish"))
+								.append("progress", 1d).append("finishInfo", com.info())));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
