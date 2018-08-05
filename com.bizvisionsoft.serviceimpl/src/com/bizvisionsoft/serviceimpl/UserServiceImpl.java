@@ -174,6 +174,11 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	public void consign(String userId, String consignerId) {
 		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",consignerId)));
 	}
+	
+	@Override
+	public void disconsign(String userId) {
+		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",null)));
+	}
 
 	@Override
 	public void trace(String userId,boolean trace) {

@@ -261,5 +261,9 @@ public class User implements IResourceAssignment {
 		this.trace = trace;
 		return this;
 	}
+	
+	public String getConsigner() {
+		return consigner;
+	}
 
 }
