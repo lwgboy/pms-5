@@ -310,13 +310,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// text, 在gantt图text字段，数据库中为name字段
-	@ReadValue({"进度计划和监控（查看）/name", "进度计划（查看）/name", "进度计划/name","text"})
+	@ReadValue({ "进度计划（查看）/name", "进度计划/name", "text" })
 	@WriteValue
 	@Persistence("name")
 	@Label(Label.NAME_LABEL)
 	private String text;
 
-	@ReadValue({ "进度计划和监控/name" })
+	@ReadValue({ "进度计划和监控（查看）/name", "进度计划和监控/name" })
 	private String readWorkNameHTML() {
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
@@ -326,16 +326,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 						+ "start/" + "' target='_rwt'>" + "启动" + "</a>";
 			else if (ProjectStatus.Processing.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
-						+ "closing/" + "' target='_rwt'>" + "收尾" + "</a>";
+						+ "finish/" + "' target='_rwt'>" + "收尾" + "</a>";
 			else if (ProjectStatus.Closing.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
-						+ "closed/" + "' target='_rwt'>" + "完工" + "</a>";
+						+ "close/" + "' target='_rwt'>" + "关闭" + "</a>";
 			return html;
 		} else {
 			return "<div>" + text + "</div>";
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -869,7 +869,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public Date getStartOn() {
 		return readStartOn();
 	}
-	
+
 	@Persistence
 	private OperationInfo finishInfo;
 
@@ -886,7 +886,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public Date getFinishOn() {
 		return readFinshOn();
 	}
-	
+
 	@Persistence
 	private OperationInfo distributeInfo;
 
@@ -899,7 +899,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private String readDistributeBy() {
 		return Optional.ofNullable(distributeInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@Persistence
 	private OperationInfo closeInfo;
 
@@ -912,7 +912,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private String readCloseBy() {
 		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;

@@ -131,7 +131,7 @@ public class Result {
 		return e;
 	}
 
-	public static Result startProjectError(String message, int code) {
+	public static Result error(String message, int code) {
 		Result e = new Result();
 		e.code = code;
 		e.message = message;
@@ -139,7 +139,7 @@ public class Result {
 		return e;
 	}
 
-	public static Result startProjectWarning(String message, int code) {
+	public static Result warning(String message, int code) {
 		Result e = new Result();
 		e.code = code;
 		e.message = message;

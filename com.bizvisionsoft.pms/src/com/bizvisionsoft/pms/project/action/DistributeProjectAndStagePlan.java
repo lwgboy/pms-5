@@ -45,7 +45,7 @@ public class DistributeProjectAndStagePlan {
 						.distributeProjectPlan(brui.command(project.get_id(), new Date()));
 				if (result.isEmpty()) {
 					Layer.message("项目计划已下达");
-					((GridPart) context.getContent()).refreshAll();
+					((GridPart) context.getContent()).setViewerInput();
 				} else {
 					// TODO 显示多条错误信息的通用方法
 					MessageDialog.openError(s, "下达项目计划", "项目计划下达失败。<br>" + result.get(0).message);
@@ -66,7 +66,7 @@ public class DistributeProjectAndStagePlan {
 					.distributeWorkPlan(brui.command(work.get_id(), new Date()));
 			if (result.isEmpty()) {
 				Layer.message("项目计划已下达");
-				((GridPart) context.getContent()).refreshAll();
+				((GridPart) context.getContent()).setViewerInput();
 			} else {
 				// TODO 显示多条错误信息的通用方法
 				MessageDialog.openError(s, "下达项目计划", "项目计划下达失败。<br>" + result.get(0).message);

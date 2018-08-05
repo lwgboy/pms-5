@@ -28,8 +28,8 @@ public class FinishProject {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "项目收尾",
-				"请确认项目" + project + "进入收尾。\n系统将记录现在时刻为项目完工时间，并向项目组成员发出项目完工通知。");
+		boolean ok = MessageDialog.openConfirm(shell, "项目收尾", "请确认收尾项目" + project
+				+ "。<br/>系统将标记当前时间为项目完工日期。<br/>收尾中的项目将不能修改计划，增加新的工作或项目变更。<br/>收尾期间仍可进行项目财务结算，整理项目文档。");
 		if (!ok) {
 			return;
 		}

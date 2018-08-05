@@ -310,7 +310,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		long l = c(Work.class).countDocuments(new Document("parent_id", _id));
 		if (l == 0)
-			result.add(Result.startProjectWarning("阶段尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.warning("阶段尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
 //		l = c(Work.class)
 //				.countDocuments(new Document("parent_id", _id).append("chargerId", null).append("assignerId", null));
@@ -929,9 +929,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private List<Result> closeStageCheck(ObjectId _id, String executeBy) {
-		//////////////////////////////////////////////////////////////////////
-		// 须检查的信息
-		return new ArrayList<Result>();
+		List<Result> result = new ArrayList<Result>();
+		
+		//TODO 警告
+		return result;
 	}
 
 	@Override

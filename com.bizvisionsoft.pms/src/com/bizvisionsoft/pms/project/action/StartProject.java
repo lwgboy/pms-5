@@ -28,8 +28,7 @@ public class StartProject {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "项目启动",
-				"请确认项目启动" + project + "。</p>系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
+		boolean ok = MessageDialog.openConfirm(shell, "项目启动", "请确认启动项目" + project + "。<br/>系统将标记当前时间为项目完工日期。<br/>已启动的项目将无法删除。");
 		if (!ok) {
 			return;
 		}

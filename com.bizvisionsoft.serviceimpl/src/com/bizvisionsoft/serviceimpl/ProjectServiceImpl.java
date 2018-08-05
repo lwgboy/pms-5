@@ -414,7 +414,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
 		if (l == 0)
-			result.add(Result.startProjectError("项目尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.error("项目尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
 		// l = c(Work.class).countDocuments(new Document("project_id",
 		// _id).append("manageLevel", "1").append("$or",
@@ -457,7 +457,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// }
 
 		if (!Boolean.TRUE.equals(project.getStartApproved())) {
-			result.add(Result.startProjectError("项目尚未获得启动批准", Result.CODE_PROJECT_START_NOTAPPROVED));
+			result.add(Result.error("项目尚未获得启动批准", Result.CODE_PROJECT_START_NOTAPPROVED));
 		}
 
 		return result;
@@ -947,16 +947,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		ArrayList<Result> result = new ArrayList<Result>();
 		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
 		if (count > 0) {
-			result.add(Result.finishError("项目存在没有完工的工作。"));
+			result.add(Result.warning("项目中有些工作尚未完成。", Result.CODE_PROJECT_NOWORK));
 		}
 
-		count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("stage", true).append("status",
-				new BasicDBObject("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing))));
-		if (count > 0) {
-			result.add(Result.finishError("项目存在没有收尾和完工的阶段。"));
-		}
-
-		return new ArrayList<Result>();
+		return result;
 	}
 
 	@Override
@@ -986,14 +980,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	private List<Result> closeProjectCheck(ObjectId _id, String executeBy) {
-		//////////////////////////////////////////////////////////////////////
-		// 须检查的信息
 		List<Result> result = new ArrayList<Result>();
-		long l = c("work").countDocuments(new Document("project_id", _id).append("stage", true).append("status",
-				new Document("$nin", Arrays.asList(ProjectStatus.Closed))));
-		if (l > 0)
-			result.add(Result.startProjectError("项目存在没有关闭的阶段.", Result.CODE_PROJECT_NOWORK));
-
+		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
+		if (count > 0) {
+			result.add(Result.warning("项目中有些工作尚未完成，关闭后将无法完成这些工作。", Result.CODE_PROJECT_NOWORK));
+		}
 		return result;
 	}
 

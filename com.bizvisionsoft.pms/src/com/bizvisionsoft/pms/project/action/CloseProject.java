@@ -28,26 +28,44 @@ public class CloseProject {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "关闭项目",
-				"请确认关闭项目" + project + "。\n项目关闭后，将不再接受财务数据的提交，文档的补充和修改。并将记录现在时刻为项目关闭时间，并向项目组成员发出关闭通知。");
+		boolean ok = MessageDialog.openConfirm(shell, "项目关闭",
+				"请确认关闭项目" + project + "。<br/>项目关闭后将禁止所有的项目有关操作，包括项目财务结算，创建或更改项目文档。工作包历史跟踪记录将被清除。");
 		if (!ok) {
 			return;
 		}
 		List<Result> result = Services.get(ProjectService.class)
 				.closeProject(brui.command(project.get_id(), new Date()));
-		boolean b = true;
-		if (!result.isEmpty())
+		boolean hasError = false;
+		boolean hasWarning = false;
+
+		String message = "";
+		if (!result.isEmpty()) {
 			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
-					Layer.message(r.message, Layer.ICON_CANCEL);
-					b = false;
+					hasError = true;
+					message += "错误：" + r.message + "<br>";
+				} else if (Result.TYPE_WARNING == r.type) {
+					hasError = true;
+					message += "警告：" + r.message + "<br>";
+				} else {
+					message += "信息：" + r.message + "<br>";
 				}
-		
-		if (b) {
-			Layer.message("项目已关闭");
-			brui.switchPage("项目首页（关闭）", ((Project) project).get_id().toHexString());
 		}
-		// TODO 显示多条错误信息的通用方法
+
+		if (message.isEmpty()) {
+			Layer.message("项目已关闭");
+		} else {
+			if (hasError) {
+				MessageDialog.openError(shell, "项目关闭", message);
+				return;
+			} else if (hasWarning) {
+				MessageDialog.openWarning(shell, "项目关闭", "项目已关闭，请注意以下提示信息：<br>" + message);
+			} else {
+				MessageDialog.openInformation(shell, "项目关闭", "项目已关闭，请注意以下提示信息：<br>" + message);
+			}
+		}
+
+		brui.switchPage("项目首页（关闭）", ((Project) project).get_id().toHexString());
 	}
 
 }

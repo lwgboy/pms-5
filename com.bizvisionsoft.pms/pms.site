@@ -1287,19 +1287,6 @@
         ],
         "sidebarItems": [
           {
-            "id": "1628dec0239",
-            "name": "项目概览",
-            "text": "项目概览",
-            "switchContentToAssemblyId": "16305720b4b",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "163099d3908",
             "name": "组织结构",
             "text": "组织结构",
@@ -1933,19 +1920,6 @@
         ],
         "sidebarItems": [
           {
-            "id": "162fff3b5e3",
-            "name": "快速启动",
-            "text": "快速启动",
-            "switchContentToAssemblyId": "163399430d8",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": ""
-          },
-          {
             "id": "16300006028",
             "name": "组织结构",
             "switchContentToAssemblyId": "162e10dc2e4",
@@ -2184,19 +2158,6 @@
           }
         ],
         "sidebarItems": [
-          {
-            "id": "9628dec0239",
-            "name": "项目概览",
-            "text": "项目概览",
-            "switchContentToAssemblyId": "16305720b4b",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
           {
             "id": "963099d3908",
             "name": "组织结构",
@@ -2754,19 +2715,6 @@
         ],
         "sidebarItems": [
           {
-            "id": "9928dec0239",
-            "name": "项目概览",
-            "text": "项目概览",
-            "switchContentToAssemblyId": "16305720b4b",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "993099d3908",
             "name": "组织结构",
             "text": "组织结构",
@@ -3174,17 +3122,6 @@
         "toolbarItems": [],
         "sidebarItems": [
           {
-            "id": "163718557cd",
-            "name": "快速启动",
-            "switchContentToAssemblyId": "1637183ede1",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "1631b47e1fd",
             "name": "进度计划",
             "bundleId": "com.bizvisionsoft.pms",
@@ -3261,17 +3198,6 @@
         "header": "1631b43cace",
         "toolbarItems": [],
         "sidebarItems": [
-          {
-            "id": "16324c595d5",
-            "name": "概览",
-            "switchContentToAssemblyId": "1631ac3637f",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
           {
             "id": "16324c5b264",
             "name": "进度管理",
@@ -3431,17 +3357,6 @@
         "toolbarItems": [],
         "sidebarItems": [
           {
-            "id": "96324c595d5",
-            "name": "概览",
-            "switchContentToAssemblyId": "1631ac3637f",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "96324c5b264",
             "name": "进度管理",
             "openContent": false,
@@ -3598,16 +3513,6 @@
         "header": "1631b43cace",
         "toolbarItems": [],
         "sidebarItems": [
-          {
-            "id": "99324c595d5",
-            "name": "概览",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
           {
             "id": "99324c5b264",
             "name": "进度管理",
