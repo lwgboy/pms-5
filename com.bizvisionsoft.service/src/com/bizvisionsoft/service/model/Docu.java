@@ -3,12 +3,12 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
-import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -61,19 +61,25 @@ public class Docu {
 
 	@ReadValue
 	@WriteValue
-	private String createBy;
-
-	@ReadValue
-	@SetValue
-	private String createByInfo;
-
-	@ReadValue
-	@WriteValue
-	private Date createOn;
-
-	@ReadValue
-	@WriteValue
 	private List<ObjectId> workPackage_id;
+
+	private OperationInfo creationInfo;
+	
+	@ReadValue("createOn")
+	private Date readCreateOn() {
+		return Optional.ofNullable(creationInfo).map(c->c.date).orElse(null);
+	}
+
+	@ReadValue("createByInfo")
+	private String readCreateByInfo() {
+		return Optional.ofNullable(creationInfo).map(c->c.userName).orElse(null);
+	}
+	
+	@ReadValue("createBy")
+	private String readCreateBy() {
+		return Optional.ofNullable(creationInfo).map(c->c.userId).orElse(null);
+	}
+	
 
 	@Override
 	@Label
@@ -90,10 +96,8 @@ public class Docu {
 		return this;
 	}
 
-	public Docu setCreationInfo(CreationInfo ci) {
-		this.createOn = ci.date;
-		this.createBy = ci.userId;
-		this.createByInfo = ci.userName;
+	public Docu setCreationInfo(OperationInfo creationInfo) {
+		this.creationInfo = creationInfo;
 		return this;
 	}
 

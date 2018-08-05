@@ -310,14 +310,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// text, 在gantt图text字段，数据库中为name字段
-	@ReadValue
+	@ReadValue({"进度计划和监控（查看）/name", "进度计划（查看）/name", "进度计划/name","text"})
 	@WriteValue
 	@Persistence("name")
 	@Label(Label.NAME_LABEL)
 	private String text;
 
-	@ReadValue({ "进度计划和监控/name", "进度计划和监控（查看）/name", "进度计划/name", "进度计划（查看）/name" })
-	private String getWorkNameHTML() {
+	@ReadValue({ "进度计划和监控/name" })
+	private String readWorkNameHTML() {
 		if (stage) {
 			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
 					+ text + "</div>";
@@ -335,6 +335,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "<div>" + text + "</div>";
 		}
 	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -853,25 +854,65 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@Persistence
-	private Date startOn;
+	private OperationInfo startInfo;
 
-	@Persistence
-	private String startBy;
+	@ReadValue({ "startOn", "start" })
+	private Date readStartOn() {
+		return Optional.ofNullable(startInfo).map(c -> c.date).orElse(null);
+	}
 
-	@Persistence
-	private Date finishOn;
-
-	@Persistence
-	private String finishBy;
+	@ReadValue("startByInfo")
+	private String readStartBy() {
+		return Optional.ofNullable(startInfo).map(c -> c.userName).orElse(null);
+	}
 
 	public Date getStartOn() {
-		return startOn;
+		return readStartOn();
+	}
+	
+	@Persistence
+	private OperationInfo finishInfo;
+
+	@ReadValue({ "finishOn", "finish" })
+	private Date readFinshOn() {
+		return Optional.ofNullable(finishInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("finishByInfo")
+	private String readFinishBy() {
+		return Optional.ofNullable(finishInfo).map(c -> c.userName).orElse(null);
 	}
 
 	public Date getFinishOn() {
-		return finishOn;
+		return readFinshOn();
+	}
+	
+	@Persistence
+	private OperationInfo distributeInfo;
+
+	@ReadValue({ "distributeOn" })
+	private Date readDistributeOn() {
+		return Optional.ofNullable(distributeInfo).map(c -> c.date).orElse(null);
 	}
 
+	@ReadValue("distributeByInfo")
+	private String readDistributeBy() {
+		return Optional.ofNullable(distributeInfo).map(c -> c.userName).orElse(null);
+	}
+	
+	@Persistence
+	private OperationInfo closeInfo;
+
+	@ReadValue({ "closeOn" })
+	private Date readCloseOn() {
+		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("closeByInfo")
+	private String readCloseBy() {
+		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
+	}
+	
 	public Work set_id(ObjectId _id) {
 		this._id = _id;
 		return this;

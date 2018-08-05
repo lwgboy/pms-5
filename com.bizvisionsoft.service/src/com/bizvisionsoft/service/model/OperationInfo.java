@@ -6,11 +6,15 @@ import java.util.Date;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.service.tools.Util;
 
-public class CreationInfo {
+public class OperationInfo {
 
 	public String userName;
 
 	public String userId;
+	
+	public String consignerName;
+	
+	public String consignerId;
 
 	public Date date;
 

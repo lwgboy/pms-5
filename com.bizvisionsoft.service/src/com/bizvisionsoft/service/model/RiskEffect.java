@@ -82,7 +82,7 @@ public class RiskEffect {
 	}
 
 	@ReadValue
-	private CreationInfo creationInfo;
+	private OperationInfo creationInfo;
 
 	@ReadEditorConfig("项目风险登记簿/编辑")
 	private Object getEditorConfig() {
@@ -169,7 +169,7 @@ public class RiskEffect {
 		return this;
 	}
 
-	public RiskEffect setCreationInfo(CreationInfo creationInfo) {
+	public RiskEffect setCreationInfo(OperationInfo creationInfo) {
 		this.creationInfo = creationInfo;
 		return this;
 	}

@@ -6,6 +6,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
@@ -42,6 +43,7 @@ public class EstimateSchedule {
 			} else {
 				Layer.message("进度估算完成<br/>没有预警信息");
 			}
+			((GridPart) context.getContent()).refreshAll();
 		}
 	}
 

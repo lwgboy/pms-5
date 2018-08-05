@@ -66,7 +66,7 @@ public class RBSItem {
 	}
 
 	@ReadValue
-	private CreationInfo creationInfo;
+	private OperationInfo creationInfo;
 
 	/**
 	 * ∑Áœ’√˚≥∆
@@ -310,7 +310,7 @@ public class RBSItem {
 		return _id;
 	}
 
-	public RBSItem setCreationInfo(CreationInfo creationInfo) {
+	public RBSItem setCreationInfo(OperationInfo creationInfo) {
 		this.creationInfo = creationInfo;
 		return this;
 	}

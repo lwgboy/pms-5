@@ -285,46 +285,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private Date actualFinish;
 
-	/**
-	 * 启动时间
-	 */
-	@ReadValue
-	@SetValue
-	private Date startOn;
-	
-	@ReadValue
-	@SetValue
-	private String startByInfo;
-
-	/**
-	 * 完工时间
-	 */
-	@ReadValue
-	@SetValue
-	private Date finishOn;
-	
-	@ReadValue
-	@SetValue
-	private String finishByInfo;
-
-
-	@ReadValue("start")
-	public Date getStart_date() {
-		return startOn;
-	}
-
-	@ReadValue("finish")
-	public Date getEnd_date() {
-		return finishOn;
-	}
-	
-	@ReadValue
-	@SetValue
-	private Date closeOn;
-	
-	@ReadValue
-	@SetValue
-	private String closeByInfo;
 
 	/**
 	 * 计划工期 ///TODO 根据计划开始和完成自动计算
@@ -585,28 +545,119 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@Persistence
-	private CreationInfo creationInfo;
+	private OperationInfo creationInfo;
 
 	@ReadValue("createOn")
 	private Date readCreateOn() {
-		return Optional.ofNullable(creationInfo).map(c->c.date).orElse(null);
+		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
 	}
 
 	@ReadValue("createByInfo")
 	private String readCreateBy() {
-		return Optional.ofNullable(creationInfo).map(c->c.userName).orElse(null);
+		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
 	}
 	
+	@ReadValue("createByConsignerInfo")
+	private String readCreateByConsigner() {
+		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+	@Persistence
+	private OperationInfo approveInfo;
+
+	@ReadValue("approveOn")
+	private Date readApproveOn() {
+		return Optional.ofNullable(approveInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("approveByInfo")
+	private String readApproveBy() {
+		return Optional.ofNullable(approveInfo).map(c -> c.userName).orElse(null);
+	}
 	
+	@ReadValue("approveByConsignerInfo")
+	private String readApproveByConsigner() {
+		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+	@Persistence
+	private OperationInfo startInfo;
+
+	@ReadValue({ "startOn", "start" })
+	private Date readStartOn() {
+		return Optional.ofNullable(startInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("startByInfo")
+	private String readStartBy() {
+		return Optional.ofNullable(startInfo).map(c -> c.userName).orElse(null);
+	}
 	
+	@ReadValue("startByConsignerInfo")
+	private String readStartByConsigner() {
+		return Optional.ofNullable(startInfo).map(c -> c.consignerName).orElse(null);
+	}
+	
+	@Persistence
+	private OperationInfo finishInfo;
+
+	@ReadValue({ "finishOn", "finish" })
+	private Date readFinshOn() {
+		return Optional.ofNullable(finishInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("finishByInfo")
+	private String readFinishBy() {
+		return Optional.ofNullable(finishInfo).map(c -> c.userName).orElse(null);
+	}
+	
+	@ReadValue("finishByConsignerInfo")
+	private String readFinishByConsigner() {
+		return Optional.ofNullable(finishInfo).map(c -> c.consignerName).orElse(null);
+	}
+	
+	@Persistence
+	private OperationInfo closeInfo;
+
+	@ReadValue({ "closeOn" })
+	private Date readCloseOn() {
+		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("closeByInfo")
+	private String readCloseBy() {
+		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
+	}
+	
+	@ReadValue("closeByConsignerInfo")
+	private String readCloseByConsigner() {
+		return Optional.ofNullable(closeInfo).map(c -> c.consignerName).orElse(null);
+	}
+	
+	@Persistence
+	private OperationInfo distributeInfo;
+
+	@ReadValue({ "distributeOn" })
+	private Date readDistributeOn() {
+		return Optional.ofNullable(distributeInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("distributeByInfo")
+	private String readDistributeBy() {
+		return Optional.ofNullable(distributeInfo).map(c -> c.userName).orElse(null);
+	}
+	
+	@ReadValue("distributeByConsignerInfo")
+	private String readDistributeByConsigner() {
+		return Optional.ofNullable(distributeInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+
 	@Persistence
 	private ObjectId obs_id;
 
 	@Persistence
 	private ObjectId cbs_id;
-	
-	
-	
 
 	public ObjectId get_id() {
 		return _id;
@@ -638,7 +689,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return this;
 	}
 
-	public Project setCreationInfo(CreationInfo creationInfo) {
+	public Project setCreationInfo(OperationInfo creationInfo) {
 		this.creationInfo = creationInfo;
 		return this;
 	}
@@ -1006,24 +1057,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	private Boolean startApproved;
-	
-	@ReadValue
-	@SetValue
-	private Date approvedOn;
-	
-	@ReadValue
-	@SetValue
-	private String approvedByInfo;
-	
-	@ReadValue
-	@SetValue
-	private Date distributeOn;
-	
-	@ReadValue
-	@SetValue
-	private String distributeByInfo;
-	
-	
+
 	public String getChangeStatus() {
 		return changeStatus;
 	}

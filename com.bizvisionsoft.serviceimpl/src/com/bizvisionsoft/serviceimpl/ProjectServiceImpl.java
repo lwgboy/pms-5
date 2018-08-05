@@ -148,16 +148,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
-		
-		appendUserInfo(pipeline, "approvedBy", "approvedByInfo");
-		
-		appendUserInfo(pipeline, "startBy", "startByInfo");
-		
-		appendUserInfo(pipeline, "finishBy", "finishByInfo");
-		
-		appendUserInfo(pipeline, "closeBy", "closeByInfo");
-		
-		appendUserInfo(pipeline, "distributeBy", "distributeByInfo");
 
 		appendStage(pipeline, "stage_id", "stage");
 
@@ -178,7 +168,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-		
+
 		appendWorkTime(pipeline);
 
 		pipeline.addAll(new JQ("项目sar管道").array());
@@ -367,8 +357,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			throw new ServiceException("已批准的项目无需再次批准");
 		}
 
-		c("project").updateOne(cond, new BasicDBObject("$set", new BasicDBObject("startApproved", true)
-				.append("approvedOn", com.date).append("approvedBy", com.userId)));
+		c("project").updateOne(cond,
+				new Document("$set", new Document("startApproved", true).append("approveInfo", com.info())));
 	}
 
 	@Override
@@ -379,9 +369,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Processing)
-						.append("startOn", com.date).append("startBy", com.userId)));
+		UpdateResult ur = c(Project.class).updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Processing).append("startInfo", com.info())));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -535,8 +524,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		c(Work.class).updateMany(new Document("_id", new Document("$in", ids)), new Document("$set",
-				new Document("distributed", true).append("distributeBy", com.userId).append("distributeOn", com.date)));
+		c("work").updateMany(new Document("_id", new Document("$in", ids)),
+				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
+
+		c("project").updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("distributeInfo", com.info())));
 
 		sendMessages(messages);
 
@@ -926,11 +918,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				.first();
 
 		// 修改项目状态
-		UpdateResult ur = c("project").updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set",
-						new BasicDBObject("status", ProjectStatus.Closing).append("progress", 1d)
-								.append("finishOn", com.date).append("finishBy", com.userId)
-								.append("actualFinish", doc.get("actualFinish"))));
+		UpdateResult ur = c("project").updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Closing).append("progress", 1d)
+						.append("finishInfo", com.info()).append("actualFinish", doc.get("actualFinish"))));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -977,9 +967,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new BasicDBObject("_id", com._id),
-				new BasicDBObject("$set", new BasicDBObject("status", ProjectStatus.Closed).append("closeOn", com.date)
-						.append("closeBy", com.userId)));
+		UpdateResult ur = c(Project.class).updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {

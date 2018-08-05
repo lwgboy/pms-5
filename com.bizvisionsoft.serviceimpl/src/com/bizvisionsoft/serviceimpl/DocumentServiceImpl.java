@@ -130,8 +130,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			if (limit != null)
 				pipeline.add(Aggregates.limit(limit));
 
-			appendUserInfo(pipeline, "createBy", "createByInfo");
-
 			return c(Docu.class).aggregate(pipeline).into(new ArrayList<>());
 		}
 		return new ArrayList<Docu>();

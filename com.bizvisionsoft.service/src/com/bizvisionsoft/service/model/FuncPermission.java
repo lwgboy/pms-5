@@ -45,7 +45,7 @@ public class FuncPermission {
 
 	@ReadValue
 	@WriteValue
-	private CreationInfo creationInfo;
+	private OperationInfo creationInfo;
 
 	@WriteValue("organization")
 	private void setOrganization(Organization org) {

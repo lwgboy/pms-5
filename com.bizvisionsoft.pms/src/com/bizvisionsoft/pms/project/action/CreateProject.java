@@ -26,7 +26,7 @@ public class CreateProject {
 		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
 
 				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true)
-						.setCreationInfo(bruiService.creationInfo()))
+						.setCreationInfo(bruiService.operationInfo()))
 
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);

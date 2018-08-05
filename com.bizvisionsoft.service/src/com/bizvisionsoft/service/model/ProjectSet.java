@@ -381,12 +381,13 @@ public class ProjectSet {
 					startOn = ((ProjectSet) obj).getStart_date();
 				}
 			} else if (obj instanceof Project) {
-				if (((Project) obj).getStart_date() == null) {
-					return null;
-				}
-				if (startOn == null || startOn.after(((Project) obj).getStart_date())) {
-					startOn = ((Project) obj).getStart_date();
-				}
+//				if (((Project) obj).getStart_date() == null) {
+//					return null;
+//				}
+//				if (startOn == null || startOn.after(((Project) obj).getStart_date())) {
+//					startOn = ((Project) obj).getStart_date();
+//				}
+				//TODO 项目集的启动时间应当考虑查询时读取
 			}
 		}
 		return startOn;
@@ -404,12 +405,12 @@ public class ProjectSet {
 					finishOn = ((ProjectSet) obj).getEnd_date();
 				}
 			} else if (obj instanceof Project) {
-				if (((Project) obj).getEnd_date() == null) {
-					return null;
-				}
-				if (finishOn == null || finishOn.after(((Project) obj).getEnd_date())) {
-					finishOn = ((Project) obj).getEnd_date();
-				}
+//				if (((Project) obj).getEnd_date() == null) {
+//					return null;
+//				}
+//				if (finishOn == null || finishOn.after(((Project) obj).getEnd_date())) {
+//					finishOn = ((Project) obj).getEnd_date();
+//				}
 			}
 		}
 		return finishOn;

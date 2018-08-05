@@ -195,7 +195,7 @@ public class FileCabinetASM {
 
 		// 弹出menu
 		new ActionMenu(brui).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
-			Docu docu = new Docu().setFolder_id(folder.get_id()).setCreationInfo(brui.creationInfo());
+			Docu docu = new Docu().setFolder_id(folder.get_id()).setCreationInfo(brui.operationInfo());
 			Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
 				filePane.insert(Services.get(DocumentService.class).createDocument(t));
 			});

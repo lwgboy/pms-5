@@ -23,7 +23,7 @@ public class CreateEffectACT {
 	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_ACTION) Action action) {
 		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id())
-				.setCreationInfo(brui.creationInfo());
+				.setCreationInfo(brui.operationInfo());
 		context.selected(c -> {
 			re.setRBSItem_id(((RBSItem) c).get_id());
 			boolean positive = false;
