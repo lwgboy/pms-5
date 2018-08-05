@@ -814,23 +814,6 @@
         "toolbarItems": [],
         "sidebarItems": [
           {
-            "id": "16197902d45",
-            "name": "主页",
-            "text": "主页",
-            "description": "一般项目成员的主页",
-            "image": "/img/favicon.png",
-            "bundleId": "",
-            "className": "",
-            "switchContentToAssemblyId": "163958383b0",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch",
-            "role": ""
-          },
-          {
             "id": "161985c99a8",
             "name": "项目管理",
             "text": "项目管理",
@@ -1244,7 +1227,9 @@
             "id": "163958383b0",
             "defaultAssembly": true,
             "role": "",
-            "excludeRole": "投资规划#项目总监#项目管理员"
+            "excludeRole": "",
+            "image": "/img/todo_w.svg",
+            "text": "待办事项"
           },
           {
             "typeName": "组件链接",
@@ -1259,7 +1244,9 @@
             "behavior": true,
             "id": "1645e38b730",
             "defaultAssembly": false,
-            "role": "项目总监#项目管理员"
+            "role": "项目总监#项目管理员",
+            "image": "/img/dashboard_w.svg",
+            "text": "项目管理"
           }
         ]
       },
