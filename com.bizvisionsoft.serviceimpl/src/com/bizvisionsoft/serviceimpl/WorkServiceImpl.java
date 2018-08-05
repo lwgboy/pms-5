@@ -20,8 +20,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.model.CBSPeriod;
-import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
@@ -312,34 +310,34 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		long l = c(Work.class).countDocuments(new Document("parent_id", _id));
 		if (l == 0)
-			result.add(Result.startProjectWarning("阶段沒有创建进度计划.", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.startProjectWarning("阶段尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
-		l = c(Work.class)
-				.countDocuments(new Document("parent_id", _id).append("chargerId", null).append("assignerId", null));
-		if (l == 0)
-			result.add(Result.startProjectWarning("段进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
-
-		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-		if (l > 1)
-			result.add(Result.startProjectWarning("阶段沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
-
-		Work work = getWork(_id);
-
-		ObjectId cbs_id = work.getCBS_id();
-		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
-		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-		if (l == 0) {
-			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-			if (l == 0)
-				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
-		}
-
-		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work", "parent_id");
-		l = c(Work.class).countDocuments(new Document("_id", new Document("$in", desentItems))
-				.append("manageLevel", "1").append("milestone", false)
-				.append("$or", Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
-		if (l == 0)
-			result.add(Result.startProjectError("未完成阶段一级进度计划的编制.", Result.CODE_PROJECT_NOWORK));
+//		l = c(Work.class)
+//				.countDocuments(new Document("parent_id", _id).append("chargerId", null).append("assignerId", null));
+//		if (l == 0)
+//			result.add(Result.startProjectWarning("段进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
+//
+//		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+//		if (l > 1)
+//			result.add(Result.startProjectWarning("阶段沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
+//
+//		Work work = getWork(_id);
+//
+//		ObjectId cbs_id = work.getCBS_id();
+//		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
+//		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+//		if (l == 0) {
+//			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+//			if (l == 0)
+//				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
+//		}
+//
+//		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work", "parent_id");
+//		l = c(Work.class).countDocuments(new Document("_id", new Document("$in", desentItems))
+//				.append("manageLevel", "1").append("milestone", false)
+//				.append("$or", Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
+//		if (l == 0)
+//			result.add(Result.startProjectError("未完成阶段一级进度计划的编制.", Result.CODE_PROJECT_NOWORK));
 
 		return result;
 	}

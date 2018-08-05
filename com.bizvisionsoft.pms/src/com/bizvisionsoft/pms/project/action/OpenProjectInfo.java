@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.project.action;
 
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
@@ -26,7 +27,10 @@ public class OpenProjectInfo {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		Project project = (Project) context.getRootInput();
+		
+		ObjectId project_id = context.getRootInput(Project.class,false).get_id();
+		Project project = Services.get(ProjectService.class).get(project_id);
+		
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
 		new Editor<Project>(bruiService.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(project).setTitle(title)
