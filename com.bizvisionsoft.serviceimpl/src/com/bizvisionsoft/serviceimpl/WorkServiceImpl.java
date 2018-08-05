@@ -266,8 +266,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		// 修改状态
 		Document set = new Document("status", ProjectStatus.Processing).append("startInfo", com.info());
-		if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
-			set.append("actualStart", new Date());
+//		if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
+//			set.append("actualStart", new Date());
 
 		UpdateResult ur = c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
 
@@ -312,32 +312,43 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (l == 0)
 			result.add(Result.warning("阶段尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
 
-//		l = c(Work.class)
-//				.countDocuments(new Document("parent_id", _id).append("chargerId", null).append("assignerId", null));
-//		if (l == 0)
-//			result.add(Result.startProjectWarning("段进度计划没有指定必要角色.", Result.CODE_PROJECT_NOWORKROLE));
-//
-//		l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-//		if (l > 1)
-//			result.add(Result.startProjectWarning("阶段沒有创建组织结构.", Result.CODE_PROJECT_NOOBS));
-//
-//		Work work = getWork(_id);
-//
-//		ObjectId cbs_id = work.getCBS_id();
-//		List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
-//		l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-//		if (l == 0) {
-//			l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
-//			if (l == 0)
-//				result.add(Result.startProjectWarning("阶段沒有编制预算.", Result.CODE_PROJECT_NOCBS));
-//		}
-//
-//		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work", "parent_id");
-//		l = c(Work.class).countDocuments(new Document("_id", new Document("$in", desentItems))
-//				.append("manageLevel", "1").append("milestone", false)
-//				.append("$or", Arrays.asList(new Document("assignerId", null), new Document("chargerId", null))));
-//		if (l == 0)
-//			result.add(Result.startProjectError("未完成阶段一级进度计划的编制.", Result.CODE_PROJECT_NOWORK));
+		// l = c(Work.class)
+		// .countDocuments(new Document("parent_id", _id).append("chargerId",
+		// null).append("assignerId", null));
+		// if (l == 0)
+		// result.add(Result.startProjectWarning("段进度计划没有指定必要角色.",
+		// Result.CODE_PROJECT_NOWORKROLE));
+		//
+		// l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
+		// if (l > 1)
+		// result.add(Result.startProjectWarning("阶段沒有创建组织结构.",
+		// Result.CODE_PROJECT_NOOBS));
+		//
+		// Work work = getWork(_id);
+		//
+		// ObjectId cbs_id = work.getCBS_id();
+		// List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs",
+		// "parent_id");
+		// l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new
+		// Document("$in", cbsIds)));
+		// if (l == 0) {
+		// l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new
+		// Document("$in", cbsIds)));
+		// if (l == 0)
+		// result.add(Result.startProjectWarning("阶段沒有编制预算.",
+		// Result.CODE_PROJECT_NOCBS));
+		// }
+		//
+		// List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work",
+		// "parent_id");
+		// l = c(Work.class).countDocuments(new Document("_id", new Document("$in",
+		// desentItems))
+		// .append("manageLevel", "1").append("milestone", false)
+		// .append("$or", Arrays.asList(new Document("assignerId", null), new
+		// Document("chargerId", null))));
+		// if (l == 0)
+		// result.add(Result.startProjectError("未完成阶段一级进度计划的编制.",
+		// Result.CODE_PROJECT_NOWORK));
 
 		return result;
 	}
@@ -722,13 +733,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		// 更新上级工作的完工时间
-		ObjectId parent_id = doc.getObjectId("parent_id");
-		if (parent_id != null)
-			finishParentWork(parent_id, com);
+		finishParentWork(doc.getObjectId("parent_id"), com);
 
 		ObjectId stage_id = getStageId(com._id);
 		List<String> memberIds = new ArrayList<String>();
-		String workName = getName("work", com._id);
+		String workName = getName("work", com._id);// TODO 工作应当取全名
 		Work stage = c(Work.class).find(new Document("_id", stage_id)).first();
 		Project project = c(Project.class).find(new Document("_id", doc.getObjectId("project_id"))).first();
 		memberIds.add(stage.getChargerId());
@@ -750,6 +759,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<ObjectId> milestoneWorkId = new ArrayList<ObjectId>();
 
+		// TODO 应当考虑搭接关系的类型
 		c(WorkLink.class).find(new Document("source", com._id)).forEach((WorkLink workLink) -> {
 			ObjectId targetId = workLink.getTargetId();
 			Work work = getWork(targetId);
@@ -785,6 +795,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private ObjectId getStageId(ObjectId work_id) {
+		// TODO 应当使用WBS优化getStage
 		ObjectId parent_id = c("work").distinct("parent_id", new Document("_id", work_id), ObjectId.class).first();
 		if (parent_id != null) {
 			return getStageId(parent_id);
@@ -794,6 +805,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private void finishParentWork(ObjectId _id, Command com) {
+		if (_id == null)
+			return;
 
 		// 判断该工作是否存在未完成的子工作，存在则不更新该工作实际完成时间
 		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
@@ -814,9 +827,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// TODO 处理摘要工作实际工期
 
 			// 更新上级工作的完工时间
-			ObjectId parent_id = doc.getObjectId("parent_id");
-			if (parent_id != null)
-				finishParentWork(parent_id, com);
+			finishParentWork(doc.getObjectId("parent_id"), com);
 		}
 	}
 
@@ -845,9 +856,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			if (actualFinish == null)
 				actualFinish = new Date();
 		}
-		UpdateResult ur = c("work").updateOne(new Document("_id", com._id),
-				new Document("$set", new Document("status", ProjectStatus.Closing).append("actualFinish", actualFinish)
-						.append("progress", 1d).append("finishInfo", com.info())));
+		UpdateResult ur = c("work").updateOne(new Document("_id", com._id), new Document("$set",
+				new Document("status", ProjectStatus.Closing).append("progress", 1d).append("finishInfo", com.info())));
 
 		// 根据ur构造下面的结果
 		if (ur.getModifiedCount() == 0) {
@@ -930,8 +940,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	private List<Result> closeStageCheck(ObjectId _id, String executeBy) {
 		List<Result> result = new ArrayList<Result>();
-		
-		//TODO 警告
+
+		// TODO 警告
 		return result;
 	}
 
