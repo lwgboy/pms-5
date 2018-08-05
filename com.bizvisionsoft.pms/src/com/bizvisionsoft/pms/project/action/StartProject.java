@@ -28,8 +28,8 @@ public class StartProject {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "启动项目",
-				"请确认启动项目" + project + "。</p>系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
+		boolean ok = MessageDialog.openConfirm(shell, "项目启动",
+				"请确认项目启动" + project + "。</p>系统将记录现在时刻为项目启动时间，并向项目组成员发出启动通知。");
 		if (!ok) {
 			return;
 		}
@@ -56,12 +56,12 @@ public class StartProject {
 			Layer.message("项目已启动");
 		} else {
 			if (hasError) {
-				MessageDialog.openError(shell, "启动项目", message);
+				MessageDialog.openError(shell, "项目启动", message);
 				return;
 			} else if (hasWarning) {
-				MessageDialog.openWarning(shell, "启动项目", "项目已启动，请注意以下提示信息：<br>" + message);
+				MessageDialog.openWarning(shell, "项目启动", "项目已启动，请注意以下提示信息：<br>" + message);
 			} else {
-				MessageDialog.openInformation(shell, "启动项目", "项目已启动，请注意以下提示信息：<br>" + message);
+				MessageDialog.openInformation(shell, "项目启动", "项目已启动，请注意以下提示信息：<br>" + message);
 			}
 		}
 
