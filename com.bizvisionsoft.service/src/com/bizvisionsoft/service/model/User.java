@@ -211,6 +211,10 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	private String consigner;
 
+	@ReadValue
+	@WriteValue
+	private Boolean trace;
+
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -246,6 +250,15 @@ public class User implements IResourceAssignment {
 
 	public User setConsigner(String consigner) {
 		this.consigner = consigner;
+		return this;
+	}
+
+	public Boolean getTrace() {
+		return trace;
+	}
+
+	public User setTrace(Boolean trace) {
+		this.trace = trace;
 		return this;
 	}
 

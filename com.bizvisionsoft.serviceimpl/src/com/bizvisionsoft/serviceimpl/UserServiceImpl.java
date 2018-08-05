@@ -175,4 +175,9 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",consignerId)));
 	}
 
+	@Override
+	public void trace(String userId,boolean trace) {
+		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("trace",trace)));
+	}
+
 }
