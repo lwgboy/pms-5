@@ -294,7 +294,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	
 	@ReadValue
 	@SetValue
-	private String startByUserName;
+	private String startByInfo;
 
 	/**
 	 * 完工时间
@@ -305,7 +305,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	
 	@ReadValue
 	@SetValue
-	private String finishByUserName;
+	private String finishByInfo;
 
 
 	@ReadValue("start")
@@ -324,7 +324,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	
 	@ReadValue
 	@SetValue
-	private String closeByUserName;
+	private String closeByInfo;
 
 	/**
 	 * 计划工期 ///TODO 根据计划开始和完成自动计算
@@ -592,7 +592,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return Optional.ofNullable(creationInfo).map(c->c.date).orElse(null);
 	}
 
-	@ReadValue("createByUserName")
+	@ReadValue("createByInfo")
 	private String readCreateBy() {
 		return Optional.ofNullable(creationInfo).map(c->c.userName).orElse(null);
 	}
@@ -1013,7 +1013,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	
 	@ReadValue
 	@SetValue
-	private String approvedByUserName;
+	private String approvedByInfo;
+	
+	@ReadValue
+	@SetValue
+	private Date distributeOn;
+	
+	@ReadValue
+	@SetValue
+	private String distributeByInfo;
+	
 	
 	public String getChangeStatus() {
 		return changeStatus;

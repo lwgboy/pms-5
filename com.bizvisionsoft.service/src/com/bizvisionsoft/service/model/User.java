@@ -207,6 +207,10 @@ public class User implements IResourceAssignment {
 
 	private List<String> roles;
 
+	@ReadValue
+	@WriteValue
+	private String consigner;
+
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -238,6 +242,11 @@ public class User implements IResourceAssignment {
 		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
+	}
+
+	public User setConsigner(String consigner) {
+		this.consigner = consigner;
+		return this;
 	}
 
 }

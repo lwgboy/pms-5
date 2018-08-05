@@ -170,4 +170,9 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			return 0;
 	}
 
+	@Override
+	public void consign(String userId, String consignerId) {
+		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",consignerId)));
+	}
+
 }

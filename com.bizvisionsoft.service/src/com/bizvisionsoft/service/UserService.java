@@ -27,6 +27,12 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	public long update(BasicDBObject filterAndUpdate);
 
+	@PUT
+	@Path("/userId/{userId}/consignerId/{consignerId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void consign(@PathParam("userId") String userId, @PathParam("consignerId") String consignerId);
+
 	@POST
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
@@ -81,4 +87,5 @@ public interface UserService {
 	@DataSet("指派用户选择列表/" + DataSet.COUNT)
 	public long countDeptUser(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+
 }
