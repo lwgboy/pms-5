@@ -400,6 +400,10 @@ public class BasicServiceImpl {
 	protected String getName(String cName, ObjectId _id) {
 		return c(cName).distinct("name", new BasicDBObject("_id", _id), String.class).first();
 	}
+	
+	protected String getString(String cName, String fName,ObjectId _id) {
+		return c(cName).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
+	}
 
 	protected Document getPieChart(String title, Object legendData, Object series) {
 		Document option = new Document();

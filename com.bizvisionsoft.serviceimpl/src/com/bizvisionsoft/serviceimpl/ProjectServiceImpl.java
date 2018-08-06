@@ -6,9 +6,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -46,6 +48,10 @@ import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
+/**
+ * @author hua
+ *
+ */
 public class ProjectServiceImpl extends BasicServiceImpl implements ProjectService {
 
 	@Override
@@ -422,71 +428,49 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Result> distributeProjectPlan(Command com) {
-		List<Result> result = distributeProjectPlanCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			return result;
-		}
-
-		final List<ObjectId> ids = new ArrayList<>();
-		final List<Message> messages = new ArrayList<>();
-
-		String pjName = getName("project", com._id);
-
+		final List<Message> msg = new ArrayList<>();
+		final Set<ObjectId> ids = new HashSet<>();
+		final String projectName = getName("project", com._id);
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 下达阶段计划(阶段 已创建)
 		c("work").find(//
-				new Document("project_id", com._id)//
-						.append("chargerId", new Document("$ne", null))//
-						.append("distributed", new Document("$ne", true))//
-						.append("actualFinish", null).append("stage", true))//
+				new Document("project_id", com._id)// 本项目中
+						.append("chargerId", new Document("$ne", null))// 负责人不为空
+						.append("distributed", new Document("$ne", true))// 没有下达的
+						.append("status", ProjectStatus.Created) // 已创建的阶段
+						.append("stage", true))// 阶段
 				.forEach((Document w) -> {
 					ids.add(w.getObjectId("_id"));
 					Util.notEmptyOrNull(w.getString("chargerId"),
-							c -> messages.add(Message.distributeMsg(pjName, w, true, com.userId, c)));
+							c -> msg.add(Message.distributeStageMsg(projectName, w, com.userId, c)));
 				});
-
-		List<ObjectId> stageIds = c("work").distinct("_id", //
-				new Document("project_id", com._id)//
-						.append("stage", true)//
-						.append("status", ProjectStatus.Processing), //
-				ObjectId.class).into(new ArrayList<ObjectId>());
-
-		if (!stageIds.isEmpty()) {
-			List<ObjectId> stageWorkIds = getDesentItems(stageIds, "work", "parent_id");
-			stageWorkIds.removeAll(stageIds);
-			c("work").find(//
-					new Document("_id", new Document("$in", stageWorkIds))//
-							.append("$or", Arrays.asList(//
-									new Document("chargerId", new Document("$ne", null)),
-									new Document("assignerId", new Document("$ne", null))))
-							.append("distributed", new Document("$ne", true))//
-							.append("actualFinish", null))
-					.forEach((Document w) -> {
-						ids.add(w.getObjectId("_id"));
-						Util.notEmptyOrNull(w.getString("chargerId"),
-								c -> messages.add(Message.distributeMsg(pjName, w, true, com.userId, c)));
-						Util.notEmptyOrNull(w.getString("assignerId"),
-								c -> messages.add(Message.distributeMsg(pjName, w, false, com.userId, c)));
-					});
-		}
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
+		c("work").aggregate(new JQ("查找需下达计划的工作").set("project_id", com._id).array()).forEach((Document w) -> {
+			ids.add(w.getObjectId("_id"));
+			Util.notEmptyOrNull(w.getString("chargerId"),
+					c -> msg.add(Message.distributeWorkMsg(projectName, w, true, com.userId, c)));
+			Util.notEmptyOrNull(w.getString("assignerId"),
+					c -> msg.add(Message.distributeWorkMsg(projectName, w, false, com.userId, c)));
+		});
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果没有可下达的计划，警告提示
 		if (ids.isEmpty()) {
-			result.add(Result.updateFailure("没有需要下达的计划。"));
-			return result;
+			return Arrays.asList(Result.warning("没有需要下达的计划。", Result.CODE_NO_WORK_DISTRIBUTE));
 		}
-
-		c("work").updateMany(new Document("_id", new Document("$in", ids)), //
-				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新下达计划的工作和项目，记录下达信息
+		Document distributeInfo = com.info();
+		c("work").updateMany(new Document("_id", new Document("$in", new ArrayList<>(ids))), //
+				new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
 		c("project").updateOne(new Document("_id", com._id), //
-				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
+				new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 发出消息通知
+		sendMessages(msg);
 
-		sendMessages(messages);
 		return new ArrayList<>();
 
-	}
-
-	private List<Result> distributeProjectPlanCheck(ObjectId _id, String distributeBy) {
-		// TODO 检查是否可以下达
-		return new ArrayList<Result>();
 	}
 
 	@Override

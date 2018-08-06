@@ -9,6 +9,8 @@ public class Result {
 	public static final int TYPE_WARNING = 1;
 
 	public static final int TYPE_INFO = 2;
+	
+	public static final int CODE_NO_WORK_DISTRIBUTE = 10000;
 
 	public static final int CODE_WORK_SUCCESS = 600;
 

@@ -71,6 +71,7 @@
 73. 【程序优化】应当使用WBS优化getStage
 74. 【修复BUG】通知文本
 75. 【修复BUG】ProjectServiceImpl.distributeProjectPlan result 错误
+76. 【修复BUG】里程碑完成应该添加到时间线
 
 
 
