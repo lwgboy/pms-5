@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Util {
 
@@ -38,6 +39,16 @@ public class Util {
 
 	public static boolean isEmptyOrNull(String s) {
 		return s == null || s.trim().isEmpty();
+	}
+
+	public static boolean notEmptyOrNull(String s, Consumer<String> c) {
+		if (!isEmptyOrNull(s)) {
+			if (c != null)
+				c.accept(s);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public static boolean isEmptyOrNull(List<?> s) {

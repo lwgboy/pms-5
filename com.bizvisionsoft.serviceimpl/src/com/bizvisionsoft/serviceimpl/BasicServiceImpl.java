@@ -594,6 +594,11 @@ public class BasicServiceImpl {
 				.into(new ArrayList<>());
 	}
 	
+	/**
+	 * 唯一性索引重复，抛出错误
+	 * @param e
+	 * @param message
+	 */
 	final protected void throwDuplicatedError(Exception e,String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
 			throw new ServiceException(message);

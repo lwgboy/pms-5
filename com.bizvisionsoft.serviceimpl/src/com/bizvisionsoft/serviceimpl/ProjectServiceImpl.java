@@ -176,49 +176,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return pipeline;
 	}
 
-	/**
-	 * 通过排程估算替代
-	 * 
-	 * @param pipeline
-	 */
-	@Deprecated
-	void appendOverdue(List<Bson> pipeline) {
-		pipeline.addAll(
-				Arrays.asList(
-						new Document("$lookup", new Document("from", "work")
-								.append("let",
-										new Document("project_id", "$_id"))
-								.append("pipeline",
-										Arrays.asList(
-												new Document("$match",
-														new Document("$expr",
-																new Document("$and", Arrays.asList(
-																		new Document("$eq",
-																				Arrays.asList("$project_id",
-																						"$$project_id")),
-																		new Document("$in",
-																				Arrays.asList("$manageLevel",
-																						Arrays.asList("1", "2"))),
-																		new Document("$or", Arrays.asList(
-																				new Document("$lt",
-																						Arrays.asList("$planFinish",
-																								new Date())),
-																				new Document("$lt",
-																						Arrays.asList("$planFinish",
-																								"$actualFinish")))))))),
-												new Document("$group",
-														new Document("_id", null).append("count",
-																new Document("$sum", 1)))))
-								.append("as", "work")),
-						new Document("$unwind",
-								new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
-						new Document("$addFields",
-								new Document("overdueWarning", new BasicDBObject("$cond",
-										new BasicDBObject("if", new Document("$gt", Arrays.asList("$work.count", 0)))
-												.append("then", "预警").append("else", "")))),
-						new Document("$project", new Document("work", false))));
-	}
-
 	private void appendWorkTime(List<Bson> pipeline) {
 		pipeline.addAll(Arrays.asList(
 				new Document("$lookup", new Document()
@@ -470,53 +427,45 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		Document query = new Document("project_id", com._id).append("chargerId", new Document("$ne", null))
-				.append("distributed", new Document("$ne", true)).append("actualFinish", null).append("stage", true);
-
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
 
 		String pjName = getName("project", com._id);
-		c("work").find(query).forEach((Document w) -> {
-			ids.add(w.getObjectId("_id"));
-			messages.add(Message.newInstance("工作计划下达通知",
-					"您参与的项目 " + pjName + "，阶段 " + w.getString("fullName") + "， 预计从 "
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-					com.userId, w.getString("chargerId"), null));
-		});
 
-		List<ObjectId> stageIds = c("work").distinct("_id",
-				new Document("project_id", com._id).append("stage", true).append("status", ProjectStatus.Processing),
+		c("work").find(//
+				new Document("project_id", com._id)//
+						.append("chargerId", new Document("$ne", null))//
+						.append("distributed", new Document("$ne", true))//
+						.append("actualFinish", null).append("stage", true))//
+				.forEach((Document w) -> {
+					ids.add(w.getObjectId("_id"));
+					Util.notEmptyOrNull(w.getString("chargerId"),
+							c -> messages.add(Message.distributeMsg(pjName, w, true, com.userId, c)));
+				});
+
+		List<ObjectId> stageIds = c("work").distinct("_id", //
+				new Document("project_id", com._id)//
+						.append("stage", true)//
+						.append("status", ProjectStatus.Processing), //
 				ObjectId.class).into(new ArrayList<ObjectId>());
 
 		if (!stageIds.isEmpty()) {
 			List<ObjectId> stageWorkIds = getDesentItems(stageIds, "work", "parent_id");
 			stageWorkIds.removeAll(stageIds);
-			Document query1 = new Document("_id", new Document("$in", stageWorkIds))
-					.append("$or",
-							Arrays.asList(new Document("chargerId", new Document("$ne", null)),
+			c("work").find(//
+					new Document("_id", new Document("$in", stageWorkIds))//
+							.append("$or", Arrays.asList(//
+									new Document("chargerId", new Document("$ne", null)),
 									new Document("assignerId", new Document("$ne", null))))
-					.append("distributed", new Document("$ne", true)).append("actualFinish", null);
-			c("work").find(query1).forEach((Document w) -> {
-				ids.add(w.getObjectId("_id"));
-				String chargerId = w.getString("chargerId");
-				if (chargerId != null && !"".equals(chargerId))
-					messages.add(Message.newInstance("工作计划下达通知",
-							"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish"))
-									+ "结束",
-							com.userId, chargerId, null));
-				String assignerId = w.getString("assignerId");
-				if (assignerId != null && !"".equals(assignerId))
-					messages.add(Message.newInstance("工作计划下达通知",
-							"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-									+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish"))
-									+ "结束",
-							com.userId, assignerId, null));
-			});
+							.append("distributed", new Document("$ne", true))//
+							.append("actualFinish", null))
+					.forEach((Document w) -> {
+						ids.add(w.getObjectId("_id"));
+						Util.notEmptyOrNull(w.getString("chargerId"),
+								c -> messages.add(Message.distributeMsg(pjName, w, true, com.userId, c)));
+						Util.notEmptyOrNull(w.getString("assignerId"),
+								c -> messages.add(Message.distributeMsg(pjName, w, false, com.userId, c)));
+					});
 		}
 
 		if (ids.isEmpty()) {
@@ -524,15 +473,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		c("work").updateMany(new Document("_id", new Document("$in", ids)),
+		c("work").updateMany(new Document("_id", new Document("$in", ids)), //
 				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
 
-		c("project").updateOne(new Document("_id", com._id),
-				new Document("$set", new Document("distributeInfo", com.info())));
+		c("project").updateOne(new Document("_id", com._id), //
+				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
 
 		sendMessages(messages);
-
-		return new ArrayList<Result>();
+		return new ArrayList<>();
 
 	}
 

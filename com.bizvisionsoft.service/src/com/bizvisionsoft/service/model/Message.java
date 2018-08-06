@@ -1,13 +1,16 @@
 package com.bizvisionsoft.service.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("message")
 public class Message {
@@ -93,6 +96,28 @@ public class Message {
 	public static Message newInstance(String subject, String content, String sender, String receiver, String url) {
 		return new Message().setSendDate(new Date()).setSubject(subject).setContent(content).setSender(sender)
 				.setReceiver(receiver).setUrl(url);
+	}
+
+	/**
+	 * 下达工作计划的通知模板
+	 * 
+	 * @param pjName
+	 * @param work
+	 * @param isCharger
+	 * @param sender
+	 * @param receiver
+	 * @return
+	 */
+	public static Message distributeMsg(String pjName, Document work, boolean isCharger, String sender,
+			String receiver) {
+		Date pstart = work.getDate("planStart");
+		Date pfinish = work.getDate("planFinish");
+		String fname = work.getString("fullName");
+		return Message.newInstance("工作计划下达通知",
+				"项目：" + pjName + "，工作：" + fname + "，计划开始：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pstart)
+						+ "，计划完成：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pfinish)
+						+ (isCharger ? "，该工作由您负责，请知晓。" : "，您需在工作开始以前指派该工作负责人，请知晓。"),
+				sender, receiver, null);
 	}
 
 }
