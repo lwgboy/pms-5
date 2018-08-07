@@ -346,9 +346,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
-		sendMessage("项目启动通知",
-				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-				com.userId, memberIds, null);
+		sendMessage("项目启动通知", "您参与的项目" + name + "已于" + Message.format(com.date) + "启动。", com.userId, memberIds, null);
 		return result;
 	}
 

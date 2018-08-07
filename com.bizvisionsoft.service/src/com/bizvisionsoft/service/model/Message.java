@@ -124,18 +124,15 @@ public class Message {
 				+ format(pfinish) + "，您需要在阶段计划开始以前完成本阶段启动。", sender, receiver, null);
 	}
 
-	public static Message workEventMsg(String pjName, Document work, boolean start, String sender, String receiver) {
+	public static Message workEventMsg(String pjName, Document work, String eventName, boolean start, String sender,
+			String receiver) {
 		String workType;
-		String eventName;
 		if (work.getBoolean("milestone", false)) {
 			workType = "里程碑";
-			eventName = start ? "开始" : "完成";
 		} else if (work.getBoolean("stage", false)) {
 			workType = "阶段";
-			eventName = start ? "启动" : "收尾";
 		} else {
 			workType = "工作";
-			eventName = start ? "开始" : "完成";
 		}
 		String subject = workType + eventName + "通知";
 		String date = format(work.getDate(start ? "actualStart" : "actualFinish"));
@@ -170,7 +167,7 @@ public class Message {
 		return newInstance(subject, sb.toString(), sender, receiver, null);
 	}
 
-	private static String format(Date srcDate) {
+	public static String format(Date srcDate) {
 		return new SimpleDateFormat("yyyy年MM月dd日").format(srcDate);
 	}
 

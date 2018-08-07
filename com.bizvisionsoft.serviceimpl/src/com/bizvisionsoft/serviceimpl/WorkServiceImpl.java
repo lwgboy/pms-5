@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -253,6 +254,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return get(_id, WorkLink.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Result> startStage(Command com) {
 		List<Result> result = startStageCheck(com._id, com.userId);
@@ -261,37 +263,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				return result;
 		}
 
+		Work work = get(com._id, Work.class);
+
 		// 修改状态
 		Document set = new Document("status", ProjectStatus.Processing).append("distributed", true).append("startInfo",
 				com.info());
-		// if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
-		// set.append("actualStart", new Date());
+		c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
 
-		UpdateResult ur = c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			throw new ServiceException("没有满足启动条件的工作。");
-		}
-
-		ObjectId project_id = c("work").distinct("project_id", new Document("_id", com._id), ObjectId.class).first();
-		ur = c(Project.class).updateOne(new Document("_id", project_id),
+		c(Project.class).updateOne(new Document("_id", work.getProject_id()),
 				new Document("$set", new Document("stage_id", com._id)));
-		// 根据ur构造下面的结果
-		// if (ur.getModifiedCount() == 0) {
-		// throw new ServiceException("无法更新项目当前状态。");
-		// }
 
 		// 通知团队成员，工作已经启动
-		List<String> memberIds = getStageMembers(com._id);
-		if (memberIds.size() > 0) {
-			String name = getName("work", com._id);
-			String projectName = getName("project", project_id);
-			sendMessage("阶段启动通知",
-					"您参与的项目" + projectName + " 阶段" + name + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "启动。",
-					com.userId, memberIds, null);
-		}
+		final List<String> receivers = getStageMembers(com._id);
+		final List<Document> works = new ArrayList<>();
+		searchProjectOBSMember(Arrays.asList(com._id), Arrays.asList("PM", "PPM"), d -> {
+			receivers.addAll((List<String>) d.get("receiver"));
+			works.add(d);
+		});
+
+		final String projectName = getName("project", work.getProject_id());
+		final List<Message> msg = new ArrayList<>();
+		new HashSet<String>(receivers)
+				.forEach(r -> msg.add(Message.workEventMsg(projectName, works.get(0), "启动", true, com.userId, r)));
+
+		sendMessages(msg);
 		return result;
 	}
 
@@ -745,7 +740,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (!milestones.isEmpty()) {
 			c("work").updateMany(new Document("_id", new Document("$in", milestones)), new Document("$set",
 					new Document("actualStart", date).append("actualFinish", date).append("progress", 1d)));// 更新为当前时间
-			generateWorkNotice(milestones, msg, false, sender, "PM", "PPM");
+			generateWorkNotice(milestones, msg, "完成", false, sender, "PM", "PPM");
 			handlePostPreced(projectName, milestones, Arrays.asList("SS", "SF"), true, date, sender, msg);
 			handlePostPreced(projectName, milestones, Arrays.asList("FS", "FF"), false, date, sender, msg);
 		}
@@ -753,17 +748,22 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, boolean isStart, String sender,
-			String... receiverRole) {
+	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, String eventName, boolean start,
+			String sender, String... receiverRole) {
+		Consumer<Document> action = (Document d) -> {
+			String projectName = ((Document) d.get("project")).getString("name");
+			new HashSet<>((List<String>) d.get("receiver")).forEach(receiver -> {
+				msg.add(Message.workEventMsg(projectName, d, eventName, start, sender, receiver));
+			});
+		};
+		searchProjectOBSMember(workIds, Arrays.asList(receiverRole), action);
+	}
+
+	private void searchProjectOBSMember(List<ObjectId> workIds, List<String> receiverRole, Consumer<Document> action) {
 		c("work").aggregate(new JQ("查询工作对应项目和项目组成员")//
 				.set("match", new Document("_id", new Document("$in", workIds)))//
-				.set("roleIdArray", Arrays.asList(receiverRole)).array())//
-				.forEach((Document d) -> {
-					String projectName = ((Document) d.get("project")).getString("name");
-					new HashSet<>((List<String>) d.get("receiver")).forEach(receiver -> {
-						msg.add(Message.workEventMsg(projectName, d, isStart, sender, receiver));
-					});
-				});
+				.set("roleIdArray", receiverRole).array())//
+				.forEach(action);
 	}
 
 	@Override
@@ -824,7 +824,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Message> msg = handlePostPreced(projectName, toUpdate, Arrays.asList("FS", "FF"), false, com.date,
 				com.userId, new ArrayList<>());
 
-		generateWorkNotice(noticeWorks, msg, false, com.userId, "PM", "PPM");
+		generateWorkNotice(noticeWorks, msg, "完成", false, com.userId, "PM", "PPM");
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 发出消息通知
 		sendMessages(msg);
@@ -930,8 +930,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
 						new BasicDBObject("$ne", null)), String.class)
 				.into(new ArrayList<>());
-		memberIds.addAll(
-				c("work").distinct("chargerId", new Document("_id", _id), String.class).into(new ArrayList<String>()));
+		String charger = c("work").find(new Document("_id", _id)).first().getString("chargerId");
+		if (!memberIds.contains(charger))
+			memberIds.add(charger);
 		return memberIds;
 	}
 
