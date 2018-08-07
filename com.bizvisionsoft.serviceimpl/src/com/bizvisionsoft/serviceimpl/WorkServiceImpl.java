@@ -621,7 +621,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 项目进度计划排程
 		schedule(work.getProject_id());
-		
+
 		return new ArrayList<Result>();
 	}
 
@@ -754,11 +754,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 发出消息通知
 		sendMessages(msg);
-		
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 项目进度计划排程
 		schedule(work.getProject_id());
-
 		return new ArrayList<Result>();
 	}
 
@@ -1022,35 +1021,35 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
-		
+
 		pipeline.addAll(new JQ("添加工作的阶段名称").array());
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
-//		List<Work> result = new ArrayList<Work>();
-//
-//		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
-//			if (work.getParent_id() != null)
-//				work.setStageName(getStageName(work.getParent_id()));
-//			else
-//				work.setStageName(work.getText());
-//			result.add(work);
-//		});
-//
-//		return result;
-		
+		// List<Work> result = new ArrayList<Work>();
+		//
+		// c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+		// if (work.getParent_id() != null)
+		// work.setStageName(getStageName(work.getParent_id()));
+		// else
+		// work.setStageName(work.getText());
+		// result.add(work);
+		// });
+		//
+		// return result;
+
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-//	private String getStageName(ObjectId _id) {
-//		Document first = c("work").find(new Document("_id", _id))
-//				.projection(new Document("name", 1).append("parent_id", 1)).first();
-//		ObjectId parent_id = first.get("parent_id", ObjectId.class);
-//		if (parent_id != null) {
-//			return getStageName(parent_id);
-//		}
-//		return first.get("name", String.class);
-//	}
+	// private String getStageName(ObjectId _id) {
+	// Document first = c("work").find(new Document("_id", _id))
+	// .projection(new Document("name", 1).append("parent_id", 1)).first();
+	// ObjectId parent_id = first.get("parent_id", ObjectId.class);
+	// if (parent_id != null) {
+	// return getStageName(parent_id);
+	// }
+	// return first.get("name", String.class);
+	// }
 
 	@Override
 	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
@@ -1124,15 +1123,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-//		List<Work> result = new ArrayList<Work>();
-//
-//		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
-//			if (work.getParent_id() != null)
-//				work.setStageName(getStageName(work.getParent_id()));
-//			else
-//				work.setStageName(work.getText());
-//			result.add(work);
-//		});
+		// List<Work> result = new ArrayList<Work>();
+		//
+		// c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+		// if (work.getParent_id() != null)
+		// work.setStageName(getStageName(work.getParent_id()));
+		// else
+		// work.setStageName(work.getText());
+		// result.add(work);
+		// });
 
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}

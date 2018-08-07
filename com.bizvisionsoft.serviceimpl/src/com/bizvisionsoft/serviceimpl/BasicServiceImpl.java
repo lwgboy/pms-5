@@ -64,7 +64,7 @@ public class BasicServiceImpl {
 		long cnt = updateMany.getModifiedCount();
 		return cnt;
 	}
-	
+
 	protected <T> long update(BasicDBObject fu, String cname) {
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
 		BasicDBObject update = (BasicDBObject) fu.get("update");
@@ -393,7 +393,7 @@ public class BasicServiceImpl {
 	}
 
 	protected boolean sendMessages(List<Message> toBeInsert) {
-		if(Util.isEmptyOrNull(toBeInsert))
+		if (Util.isEmptyOrNull(toBeInsert))
 			return false;
 		c(Message.class).insertMany(toBeInsert);
 		return true;
@@ -402,8 +402,8 @@ public class BasicServiceImpl {
 	protected String getName(String cName, ObjectId _id) {
 		return c(cName).distinct("name", new BasicDBObject("_id", _id), String.class).first();
 	}
-	
-	protected String getString(String cName, String fName,ObjectId _id) {
+
+	protected String getString(String cName, String fName, ObjectId _id) {
 		return c(cName).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
 	}
 
@@ -595,41 +595,51 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId) {
-		return c("project").distinct("_id",
-				new Document("status", "进行中"), ObjectId.class)
-				.into(new ArrayList<>());
+		return c("project").distinct("_id", new Document("status", "进行中"), ObjectId.class).into(new ArrayList<>());
 	}
-	
+
 	/**
 	 * 唯一性索引重复，抛出错误
+	 * 
 	 * @param e
 	 * @param message
 	 */
-	final protected void throwDuplicatedError(Exception e,String message) {
+	final protected void throwDuplicatedError(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
 			throw new ServiceException(message);
 		}
 	}
-	
+
 	public Integer schedule(ObjectId _id) {
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 锁定
 		Document pj = c("project").find(new Document("_id", _id)).first();
-		Date start = pj.getDate("planStart");
-		Date end = pj.getDate("planFinish");
+		if (pj.getBoolean("backgroundScheduling", false)) {
+			return -1;
+		}
+		c("project").updateOne(new Document("_id", _id), new Document("backgroundScheduling", true));
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 前处理：构造图
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
 		convertGraphic(works, links, tasks, routes);
 		Graphic gh = new Graphic(tasks, routes);
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 前处理：初始化日期
+		Date start = pj.getDate("planStart");
+		Date end = pj.getDate("planFinish");
 		setupStartDate(gh, works, start, tasks);
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 排程计算
 		gh.schedule();
 
-		// 检查项目是否超期
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 后处理：检查项目是否超期
 		int warningLevel = 999;
 		Document scheduleEst = null;
 		// 0级预警检查
@@ -672,8 +682,11 @@ public class BasicServiceImpl {
 					new Document("$set", new Document("scheduleEst", update)));
 		}
 
-		c("project").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst)));
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// 后处理：保存排程结果，解除锁定
+		c("project").updateOne(new Document("_id", _id), new Document("$set", new Document("overdueIndex", warningLevel)
+				.append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
+
 		return warningLevel;
 	}
 
