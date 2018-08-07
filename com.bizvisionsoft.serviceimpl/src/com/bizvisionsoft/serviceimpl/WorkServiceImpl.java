@@ -256,16 +256,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Result> startStage(Command com) {
 		List<Result> result = startStageCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
-			}
+		for (Result r : result) {
+			if (Result.TYPE_ERROR == r.type)
+				return result;
 		}
 
 		// 修改状态
-		Document set = new Document("status", ProjectStatus.Processing).append("startInfo", com.info());
+		Document set = new Document("status", ProjectStatus.Processing).append("distributed", true).append("startInfo",
+				com.info());
 		// if (c("work").countDocuments(new Document("parent_id", com._id)) == 0)
 		// set.append("actualStart", new Date());
 
@@ -607,12 +605,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return update(filterAndUpdate, WorkPackage.class);
 	}
 
+	@Deprecated
 	public List<Result> distributeWorkPlan(Command com) {
-		List<Result> result = distributeWorkPlanCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			return result;
-		}
-
 		List<ObjectId> inputIds = getDesentItems(Arrays.asList(com._id), "work", "parent_id");
 
 		Document query = new Document("_id", new Document("$in", inputIds))
@@ -622,7 +616,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.append("distributed", new Document("$ne", true)).append("actualFinish", null);
 
 		final List<ObjectId> ids = new ArrayList<>();
-		final List<Message> messages = new ArrayList<>();
+		final List<Message> msg = new ArrayList<>();
 
 		Work work = get(com._id, Work.class);
 		String pjName = getName("project", work.getProject_id());
@@ -630,14 +624,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			ids.add(w.getObjectId("_id"));
 			String chargerId = w.getString("chargerId");
 			if (chargerId != null && !"".equals(chargerId))
-				messages.add(Message.newInstance("工作计划下达通知",
+				msg.add(Message.newInstance("工作计划下达通知",
 						"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
 								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
 								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
 						com.userId, chargerId, null));
 			String assignerId = w.getString("assignerId");
 			if (assignerId != null && !"".equals(assignerId))
-				messages.add(Message.newInstance("工作计划下达通知",
+				msg.add(Message.newInstance("工作计划下达通知",
 						"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
 								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
 								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
@@ -645,194 +639,195 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		});
 
 		if (ids.isEmpty()) {
-			result.add(Result.updateFailure("没有需要下达的计划。"));
-			return result;
+			return Arrays.asList(Result.updateFailure("没有需要下达的计划。"));
 		}
 
 		c("work").updateMany(new Document("_id", new Document("$in", ids)),
 				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
 
-		sendMessages(messages);
+		sendMessages(msg);
 
 		return new ArrayList<Result>();
 	}
 
-	private List<Result> distributeWorkPlanCheck(ObjectId _id, String distributeBy) {
-		// TODO 检查是否可以下达
-		return new ArrayList<Result>();
+	private List<String> getWBSBranch(String wbs) {
+		List<String> parentWbs = new ArrayList<>();
+		int index = 0;
+		int endIndex = wbs.indexOf(".", index);
+		while (endIndex != -1) {
+			String code = wbs.substring(0, endIndex);
+			parentWbs.add(code);
+			index = endIndex + 1;
+			endIndex = wbs.indexOf(".", index);
+		}
+		parentWbs.add(wbs);
+		return parentWbs;
 	}
 
 	@Override
 	public List<Result> startWork(Command com) {
-		List<Result> result = startWorkCheck(com._id);
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 工作启动检查
+		Work work = get(com._id, Work.class);
+		if (work == null)
+			return Arrays.asList(Result.notFoundError("id:" + com._id + "，该工作不存在"));
+		if (work.isSummary() || work.isStage() || work.isMilestone() || work.getActualStart() != null)
+			return Arrays.asList(Result.notAllowedError(work + "，工作不允许执行启动操作"));
 
-		// 工作没有开始时间或开始时间大于当前时间时，更新当前工作的开始时间为当前时间并获取更新的工作
-		Document doc = c("work").findOneAndUpdate(
-				new BasicDBObject("_id", com._id).append("$or",
-						new BasicDBObject[] { new BasicDBObject("actualStart", null),
-								new BasicDBObject("actualStart", new BasicDBObject("$gt", com.date)) }),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", com.date)));
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 查找需要更新时间的工作
+		Document query = new Document("project_id", work.getProject_id())// 项目下的
+				.append("wbsCode", new Document("$in", getWBSBranch(work.getWBSCode())))// 本工作及上级工作
+				.append("actualStart", null);// 没有开始的工作
+		List<ObjectId> toUpd = c("work").distinct("_id", query, ObjectId.class).into(new ArrayList<>());// 需要更新的工作
 
-		// 如果没有获得工作则该工作已经启动
-		if (doc == null) {
-			result.add(Result.updateFailure("工作已经启动。"));
-			return result;
-		}
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新工作和上级工作的实际开始时间
+		c("work").updateMany(new Document("_id", new Document("$in", toUpd)),
+				new Document("$set", new Document("actualStart", com.date)));// 更新为当前时间
 
-		// 更新上级工作的启动时间
-		ObjectId parent_id = doc.getObjectId("parent_id");
-		if (parent_id != null)
-			startParentWork(parent_id, com.date);
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新项目的实际开始时间
+		c("project").updateOne(new Document("_id", work.getProject_id()).append("actualStart", null), //
+				new Document("$set", new Document("actualStart", com.date)));// 更新为当前时间
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 根据工作搭接关系处理搭接工作，包括里程碑，并发通知
+		String projectName = getName("project", work.getProject_id());
+		List<Message> msg = handlePostPreced(projectName, toUpd, Arrays.asList("SS", "SF"), true, com.date, com.userId,
+				new ArrayList<>());
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 发出消息通知
+		sendMessages(msg);
 
 		return new ArrayList<Result>();
 	}
 
-	private void startParentWork(ObjectId _id, Date startDate) {
-		// 工作没有开始时间或开始时间大于启动时间时，更新工作的开始时间为当前时间，并获取更新的工作
-		Document doc = c("work").findOneAndUpdate(
-				new BasicDBObject("_id", _id).append("$or",
-						new BasicDBObject[] { new BasicDBObject("actualStart", null),
-								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
-		// 如果没有获得工作则该工作已经启动，并不需要继续循环启动上级工作
-		if (doc == null)
-			return;
-		// 更新上级工作的启动时间，如果没有上级工作，则更新项目启动时间
-		ObjectId parent_id = doc.getObjectId("parent_id");
-		if (parent_id != null)
-			startParentWork(parent_id, startDate);
-		else
-			startProject(doc.getObjectId("project_id"), startDate);
+	private List<Message> handlePostPreced(String projectName, List<ObjectId> toUpd, List<String> types,
+			boolean isStart, Date date, String sender, List<Message> msg) {
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 查找工作搭接关系处理搭接工作
+		List<? extends Bson> pipeline = Arrays.asList(//
+				new Document("$match", new Document("type", new Document("$in", types))// 匹配搭接类型
+						.append("source", new Document("$in", toUpd))), // 源Work
+				new Document("$lookup", new Document("from", "work")// 找出匹配的目标Work
+						.append("localField", "target").append("foreignField", "_id").append("as", "targetWork")), //
+				new Document("$unwind", new Document("path", "$targetWork")), //
+				new Document("$lookup", new Document("from", "work")// 找出匹配的源Work
+						.append("localField", "source").append("foreignField", "_id").append("as", "sourceWork")), //
+				new Document("$unwind", new Document("path", "$sourceWork")));
 
+		List<ObjectId> milestones = new ArrayList<>();
+
+		c("worklinks").aggregate(pipeline).forEach((Document d) -> {
+			Document src = (Document) d.get("sourceWork");
+			Document tgt = (Document) d.get("targetWork");
+			String type = d.getString("type");
+			if (tgt.getBoolean("milestone", false)) {
+				if ((tgt.getDate("actualFinish") == null)) {
+					if (isStart && ("SS".equals(type) || "SF".equals(type))) {
+						milestones.add(tgt.getObjectId("_id"));
+					} else if (!isStart && ("FS".equals(type) || "FF".equals(type))) {
+						milestones.add(tgt.getObjectId("_id"));
+					}
+				}
+			} else {
+				if (!tgt.getBoolean("summary", false) && !tgt.getBoolean("stage", false)) {
+					Util.notEmptyOrNull(tgt.getString("chargerId"),
+							c -> msg.add(Message.precedenceEventMsg(projectName, src, tgt, type, isStart, c, sender)));
+				}
+			}
+		});
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 处理里程碑
+		if (!milestones.isEmpty()) {
+			c("work").updateMany(new Document("_id", new Document("$in", milestones)), new Document("$set",
+					new Document("actualStart", date).append("actualFinish", date).append("progress", 1d)));// 更新为当前时间
+			generateWorkNotice(milestones, msg, false, sender, "PM", "PPM");
+			handlePostPreced(projectName, milestones, Arrays.asList("SS", "SF"), true, date, sender, msg);
+			handlePostPreced(projectName, milestones, Arrays.asList("FS", "FF"), false, date, sender, msg);
+		}
+		return msg;
 	}
 
-	private void startProject(ObjectId _id, Date startDate) {
-		c("project").updateOne(
-				new BasicDBObject("_id", _id).append("$or",
-						new BasicDBObject[] { new BasicDBObject("actualStart", null),
-								new BasicDBObject("actualStart", new BasicDBObject("$gt", startDate)) }),
-				new BasicDBObject("$set", new BasicDBObject("actualStart", startDate)));
-	}
-
-	private List<Result> startWorkCheck(ObjectId _id) {
-		// TODO 检查是否可以启动工作
-		List<Result> result = new ArrayList<Result>();
-		return result;
+	@SuppressWarnings("unchecked")
+	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, boolean isStart, String sender,
+			String... receiverRole) {
+		c("work").aggregate(new JQ("查询工作对应项目和项目组成员")//
+				.set("match", new Document("_id", new Document("$in", workIds)))//
+				.set("roleIdArray", Arrays.asList(receiverRole)).array())//
+				.forEach((Document d) -> {
+					String projectName = ((Document) d.get("project")).getString("name");
+					new HashSet<>((List<String>) d.get("receiver")).forEach(receiver -> {
+						msg.add(Message.workEventMsg(projectName, d, isStart, sender, receiver));
+					});
+				});
 	}
 
 	@Override
 	public List<Result> finishWork(Command com) {
-		List<Result> result = finishWorkCheck(com._id);
-		// 工作没有完成时间或完成时间小于当前时间时，更新工作的完成时间为当前时间，并获取更新的工作
-		Document doc = c("work").findOneAndUpdate(new Document("_id", com._id), new Document("$set",
-				new Document("actualFinish", com.date).append("progress", 1d).append("finishInfo", com.info())));
-		// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
-		if (doc == null) {
-			result.add(Result.updateFailure("工作已经完成。"));
-			return result;
-		}
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 工作完成检查
+		Work work = get(com._id, Work.class);
+		if (work == null)
+			return Arrays.asList(Result.notFoundError("id:" + com._id + "工作不存在"));
+		if (work.isSummary() || work.isStage() || work.isMilestone() || work.getActualFinish() != null)
+			return Arrays.asList(Result.notAllowedError(work + "，工作不允许执行完成操作"));
 
-		// 更新上级工作的完工时间
-		finishParentWork(doc.getObjectId("parent_id"), com);
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 准备更新时间的工作
+		List<ObjectId> toUpdate = new ArrayList<>();
+		toUpdate.add(com._id);
 
-		ObjectId stage_id = getStageId(com._id);
-		List<String> memberIds = new ArrayList<String>();
-		String workName = getName("work", com._id);// TODO 工作应当取全名
-		Work stage = c(Work.class).find(new Document("_id", stage_id)).first();
-		Project project = c(Project.class).find(new Document("_id", doc.getObjectId("project_id"))).first();
-		memberIds.add(stage.getChargerId());
-		memberIds.add(project.getPmId());
-		c("obs").distinct("managerId", new Document("scope_id", project.get_id()).append("project", "PPM"),
-				String.class).forEach((String userId) -> {
-					memberIds.add(userId);
-				});
-		if (doc.getBoolean("stage", false))
-			sendMessage("工作完成通知",
-					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + workName + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
-					com.userId, memberIds, null);
-		else
-			sendMessage("里程碑完成通知",
-					"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + workName + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
-					com.userId, memberIds, null);
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 需通知完成的工作
+		List<ObjectId> noticeWorks = new ArrayList<>();
+		String lvl = work.getManageLevel();
+		if ("1".equals(lvl) || ("2".equals(lvl)))
+			noticeWorks.add(com._id);
 
-		List<ObjectId> milestoneWorkId = new ArrayList<ObjectId>();
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新上级工作的实际完成时间和进展
+		ObjectId parent_id = work.getParent_id();
+		while (parent_id != null) {
+			List<? extends Bson> pip = Arrays.asList(//
+					new Document("$match", new Document("_id", parent_id)// 找到父工作
+							.append("stage", new Document("$ne", true))), // 不是阶段
+					new Document("$lookup", new Document("from", "work").append("pipeline", //
+							Arrays.asList(new Document("$match", new Document("$expr", //
+									new Document("$and", Arrays.asList(new Document("$not", "$actualFinish"), // 完成时间为空，就是没有完成的
+											new Document("$eq", Arrays.asList("$parent_id", parent_id))))))))// 下级的parent_id是父id
+							.append("as", "bros")));
+			Document d = c("work").aggregate(pip).first();
+			if (d != null && ((List<?>) d.get("bros")).isEmpty()) {// 所有的下级工作均已完成，本工作需要完成。
+				toUpdate.add(parent_id);
+				lvl = d.getString("manageLevel");
+				if ("1".equals(lvl) || ("2".equals(lvl)))
+					noticeWorks.add(com._id);
 
-		// TODO 应当考虑搭接关系的类型
-		c(WorkLink.class).find(new Document("source", com._id)).forEach((WorkLink workLink) -> {
-			ObjectId targetId = workLink.getTargetId();
-			Work work = getWork(targetId);
-			String chargerId = work.getChargerId();
-			if (chargerId != null)
-				sendMessage("前序工作完成通知",
-						"您负责的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
-						com.userId, chargerId, null);
-
-			String assignerId = work.getAssignerId();
-			if (assignerId != null)
-				sendMessage("前序工作完成通知",
-						"您指派的项目" + project.getName() + " 阶段" + stage.getText() + " 工作" + work.getText() + "的前序工作已于"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "完成。",
-						com.userId, assignerId, null);
-			if (work.isMilestone()) {
-				milestoneWorkId.add(work.get_id());
+				parent_id = d.getObjectId("parent_id");
+			} else {
+				parent_id = null;
 			}
-		});
-
-		milestoneWorkId.forEach(work_id -> {
-			Command newComm = Command.newInstance(null, com.userId, com.userName, com.consignerId, com.consignerName,
-					com.date, work_id);
-			List<Result> startWork = startWork(newComm);
-			if (startWork.isEmpty()) {
-				List<Result> finishWork = finishWork(newComm);
-				result.addAll(finishWork);
-			}
-			result.addAll(startWork);
-		});
-		return result;
-	}
-
-	private ObjectId getStageId(ObjectId work_id) {
-		// TODO 应当使用WBS优化getStage
-		ObjectId parent_id = c("work").distinct("parent_id", new Document("_id", work_id), ObjectId.class).first();
-		if (parent_id != null) {
-			return getStageId(parent_id);
-		} else {
-			return work_id;
 		}
-	}
 
-	private void finishParentWork(ObjectId _id, Command com) {
-		if (_id == null)
-			return;
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新时间和进展
+		Document setFinish = new Document("$set", new Document("actualFinish", com.date).append("progress", 1d));
+		c("work").updateMany(new Document("_id", new Document("$in", toUpdate)), setFinish);// 更新为当前时间
 
-		// 判断该工作是否存在未完成的子工作，存在则不更新该工作实际完成时间
-		long count = c("work").countDocuments(new BasicDBObject("parent_id", _id).append("actualFinish", null));
-		if (count == 0) {
-			// 工作没有完成时间或完成时间小于当前时间段且不为阶段时，更新工作的完成时间为当前时间，并获取更新的工作
-			Document doc = c("work").findOneAndUpdate(
-					new Document("_id", _id)
-							.append("$or",
-									Arrays.asList(new Document("actualFinish", null),
-											new Document("actualFinish", new Document("$lt", com.date))))
-							.append("stage", false),
-					new Document("$set", new Document("actualFinish", com.date).append("progress", 1d)
-							.append("finishInfo", com.info())));
-			// 如果没有获得工作则该工作已经完工，并不需要继续循环完工上级工作
-			if (doc == null)
-				return;
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// 根据工作搭接关系处理搭接工作，包括里程碑，并发通知
+		String projectName = getName("project", work.getProject_id());
+		List<Message> msg = handlePostPreced(projectName, toUpdate, Arrays.asList("FS", "FF"), false, com.date,
+				com.userId, new ArrayList<>());
 
-			// TODO 处理摘要工作实际工期
-
-			// 更新上级工作的完工时间
-			finishParentWork(doc.getObjectId("parent_id"), com);
-		}
-	}
-
-	private List<Result> finishWorkCheck(ObjectId _id) {
-		// TODO 检查是否可以完成工作
+		generateWorkNotice(noticeWorks, msg, false, com.userId, "PM", "PPM");
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 发出消息通知
+		sendMessages(msg);
 		return new ArrayList<Result>();
 	}
 

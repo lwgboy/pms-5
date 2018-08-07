@@ -992,12 +992,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 										.append("project_id", _id))
 								.set("limit", count).array())
 				.forEach((Document doc) -> {
+					Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
 					if (doc.get("date").equals(doc.get("actualStart"))) {
 						result.add(new News().setDate(doc.getDate("date"))
-								.setContent("" + doc.get("userInfo") + " " + doc.get("name") + " 启动 "));
+								.setContent(user + " " + doc.get("name") + " 启动 "));
 					} else if (doc.get("date").equals(doc.get("actualFinish"))) {
 						result.add(new News().setDate(doc.getDate("date"))
-								.setContent("" + doc.get("userInfo") + " " + doc.get("name") + " 完成"));
+								.setContent(user + " " + doc.get("name") + " 完成"));
 					}
 				});
 		return result;

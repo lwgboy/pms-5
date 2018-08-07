@@ -398,9 +398,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("worklinks").insertMany(worklinks);
 		}
 
+		//TODO 进度计划提交的提示，更新。
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
 			if (ProjectStatus.Created.equals(project.getStatus())) {
-				sendMessage("项目进度计划编制完成", "您负责的项目" + project.getName() + "已完成进度计划的制定。", workspace.getCheckoutBy(),
+				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
 						project.getPmId(), null);
 			} else {
 				List<ObjectId> parentIds = c("obs")
@@ -412,7 +413,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 								.append("managerId", new BasicDBObject("$ne", null)), String.class)
 						.into(new ArrayList<>());
 
-				sendMessage("项目进度计划已更新", "您参与的项目" + project.getName() + "进度计划已调整。", workspace.getCheckoutBy(),
+				sendMessage("项目进度计划编制完成", "项目" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
 						memberIds, null);
 			}
 			return Result.checkoutSuccess("已成功提交。");

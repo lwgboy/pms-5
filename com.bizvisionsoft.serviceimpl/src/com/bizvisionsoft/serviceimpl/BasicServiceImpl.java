@@ -25,6 +25,7 @@ import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -386,13 +387,14 @@ public class BasicServiceImpl {
 
 	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url) {
 		List<Message> toBeInsert = new ArrayList<>();
-		// TODO ШЅжи
 		new HashSet<String>(receivers)
 				.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert);
 	}
 
 	protected boolean sendMessages(List<Message> toBeInsert) {
+		if(Util.isEmptyOrNull(toBeInsert))
+			return false;
 		c(Message.class).insertMany(toBeInsert);
 		return true;
 	}

@@ -58,7 +58,23 @@ public class Result {
 
 	public static final Result updateFailure(String message) {
 		Result e = new Result();
-		e.code = 0x301;
+		e.code = 0x9001;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
+		return e;
+	}
+	
+	public static Result notFoundError(String message) {
+		Result e = new Result();
+		e.code = 0x9002;
+		e.message = message;
+		e.type = Result.TYPE_ERROR;
+		return e;
+	}
+	
+	public static Result notAllowedError(String message) {
+		Result e = new Result();
+		e.code = 0x9003;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
@@ -156,4 +172,6 @@ public class Result {
 		e.type = Result.TYPE_WARNING;
 		return e;
 	}
+
+
 }

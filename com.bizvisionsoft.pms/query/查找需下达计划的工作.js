@@ -1,6 +1,6 @@
 [ {
 	"$match" : {
-		"project_id" : ObjectId("5b67c9e31bd81d14d09708f4")
+		"project_id" : "<project_id>"
 	}
 }, {
 	"$lookup" : {

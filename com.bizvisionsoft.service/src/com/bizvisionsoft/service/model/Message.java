@@ -10,7 +10,6 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("message")
 public class Message {
@@ -113,22 +112,66 @@ public class Message {
 		Date pstart = work.getDate("planStart");
 		Date pfinish = work.getDate("planFinish");
 		String fname = work.getString("fullName");
-		return Message.newInstance("工作计划下达通知",
-				"项目：" + pjName + "，工作：" + fname + "，计划开始：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pstart)
-						+ "，计划完成：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pfinish)
-						+ (isCharger ? "，该工作由您负责。" : "，您需在计划开始前指派该工作负责人。"),
-				sender, receiver, null);
+		return Message.newInstance("工作计划下达通知", "项目：" + pjName + "，工作：" + fname + "，计划开始：" + format(pstart) + "，计划完成："
+				+ format(pfinish) + (isCharger ? "，该工作由您负责。" : "，您需在计划开始前指派该工作负责人。"), sender, receiver, null);
 	}
 
 	public static Message distributeStageMsg(String pjName, Document work, String sender, String receiver) {
 		Date pstart = work.getDate("planStart");
 		Date pfinish = work.getDate("planFinish");
 		String fname = work.getString("fullName");
-		return Message.newInstance("阶段计划下达通知",
-				"项目：" + pjName + "，阶段：" + fname + "，计划开始：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pstart)
-						+ "，计划完成：" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pfinish)
-						+ "，您需要在阶段计划开始以前完成本阶段启动。",
+		return Message.newInstance("阶段计划下达通知", "项目：" + pjName + "，阶段：" + fname + "，计划开始：" + format(pstart) + "，计划完成："
+				+ format(pfinish) + "，您需要在阶段计划开始以前完成本阶段启动。", sender, receiver, null);
+	}
+
+	public static Message workEventMsg(String pjName, Document work, boolean start, String sender, String receiver) {
+		String workType;
+		String eventName;
+		if (work.getBoolean("milestone", false)) {
+			workType = "里程碑";
+			eventName = start ? "开始" : "完成";
+		} else if (work.getBoolean("stage", false)) {
+			workType = "阶段";
+			eventName = start ? "启动" : "收尾";
+		} else {
+			workType = "工作";
+			eventName = start ? "开始" : "完成";
+		}
+		String subject = workType + eventName + "通知";
+		String date = format(work.getDate(start ? "actualStart" : "actualFinish"));
+		String fname = work.getString("fullName");
+		return Message.newInstance(subject, "项目：" + pjName + "，" + workType + "：" + fname + "，已于" + date + eventName,
 				sender, receiver, null);
+	}
+
+	public static Message precedenceEventMsg(String pjName, Document srcWork, Document tgtWork, String type,
+			boolean start, String receiver, String sender) {
+		String subject = start ? "紧前工作开始通知" : "紧前工作完成通知";
+		String tgtName = tgtWork.getString("fullName");
+		String srcName = srcWork.getString("fullName");
+		Date srcDate = start ? srcWork.getDate("actualStart") : srcWork.getDate("actualFinish");
+		Date tgtDate = start ? tgtWork.getDate("planStart") : tgtWork.getDate("planFinish");
+		String srcAction = start ? "开始" : "完成";
+		String tgtAction;
+		if (type.equals("FF")) {
+			tgtAction = "完成";
+		} else if ("FS".equals(type)) {
+			tgtAction = "开始";
+		} else if ("SS".equals(type)) {
+			tgtAction = "开始";
+		} else {
+			tgtAction = "完成";
+		}
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("项目:" + pjName + "，工作:" + srcName + "已于" + format(srcDate) + srcAction + "。");
+		sb.append("<br/>");
+		sb.append("您负责的后序工作：" + tgtName + "，计划" + tgtAction + "：" + format(tgtDate));
+		return newInstance(subject, sb.toString(), sender, receiver, null);
+	}
+
+	private static String format(Date srcDate) {
+		return new SimpleDateFormat("yyyy年MM月dd日").format(srcDate);
 	}
 
 }
