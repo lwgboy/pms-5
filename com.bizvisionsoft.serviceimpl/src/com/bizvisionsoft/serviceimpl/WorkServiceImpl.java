@@ -25,7 +25,6 @@ import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.OBSItem;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
@@ -40,7 +39,6 @@ import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Util;
-import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
@@ -254,96 +252,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return get(_id, WorkLink.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Result> startStage(Command com) {
-		List<Result> result = startStageCheck(com._id, com.userId);
-		for (Result r : result) {
-			if (Result.TYPE_ERROR == r.type)
-				return result;
-		}
-
-		Work work = get(com._id, Work.class);
-
+		Document stage = c("work").find(new Document("_id", com._id)).first();
 		// 修改状态
 		Document set = new Document("status", ProjectStatus.Processing).append("distributed", true).append("startInfo",
 				com.info());
 		c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
 
-		c(Project.class).updateOne(new Document("_id", work.getProject_id()),
+		c("project").updateOne(new Document("_id", stage.getObjectId("project_id")),
 				new Document("$set", new Document("stage_id", com._id)));
 
-		// 通知团队成员，工作已经启动
-		final List<String> receivers = getStageMembers(com._id);
-		final List<Document> works = new ArrayList<>();
-		searchProjectOBSMember(Arrays.asList(com._id), Arrays.asList("PM", "PPM"), d -> {
-			receivers.addAll((List<String>) d.get("receiver"));
-			works.add(d);
-		});
+		sendStageMessage(stage, "启动", com.date, com.userId);
 
-		final String projectName = getName("project", work.getProject_id());
-		final List<Message> msg = new ArrayList<>();
-		new HashSet<String>(receivers)
-				.forEach(r -> msg.add(Message.workEventMsg(projectName, works.get(0), "启动", true, com.userId, r)));
-
-		sendMessages(msg);
-		return result;
-	}
-
-	private List<Result> startStageCheck(ObjectId _id, String executeBy) {
-		//////////////////////////////////////////////////////////////////////
-		// 须检查的信息
-		// 1. 检查是否创建了第一层的WBS，并有计划，如果没有，提示警告
-		// 2. 检查组织结构是否完成，如果只有根，警告
-		// 3. 检查第一层的WBS是否指定了必要的角色，如果没有负责人角色，提示警告。
-		// 4. 没有做预算，警告
-		// 5. 预算没做完，警告
-		// 6. 预算没有分配，警告
-		List<Result> result = new ArrayList<Result>();
-
-		long l = c(Work.class).countDocuments(new Document("parent_id", _id));
-		if (l == 0)
-			result.add(Result.warning("阶段尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
-
-		// l = c(Work.class)
-		// .countDocuments(new Document("parent_id", _id).append("chargerId",
-		// null).append("assignerId", null));
-		// if (l == 0)
-		// result.add(Result.startProjectWarning("段进度计划没有指定必要角色.",
-		// Result.CODE_PROJECT_NOWORKROLE));
-		//
-		// l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-		// if (l > 1)
-		// result.add(Result.startProjectWarning("阶段沒有创建组织结构.",
-		// Result.CODE_PROJECT_NOOBS));
-		//
-		// Work work = getWork(_id);
-		//
-		// ObjectId cbs_id = work.getCBS_id();
-		// List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs",
-		// "parent_id");
-		// l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new
-		// Document("$in", cbsIds)));
-		// if (l == 0) {
-		// l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new
-		// Document("$in", cbsIds)));
-		// if (l == 0)
-		// result.add(Result.startProjectWarning("阶段沒有编制预算.",
-		// Result.CODE_PROJECT_NOCBS));
-		// }
-		//
-		// List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "work",
-		// "parent_id");
-		// l = c(Work.class).countDocuments(new Document("_id", new Document("$in",
-		// desentItems))
-		// .append("manageLevel", "1").append("milestone", false)
-		// .append("$or", Arrays.asList(new Document("assignerId", null), new
-		// Document("chargerId", null))));
-		// if (l == 0)
-		// result.add(Result.startProjectError("未完成阶段一级进度计划的编制.",
-		// Result.CODE_PROJECT_NOWORK));
-
-		return result;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -696,6 +618,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 发出消息通知
 		sendMessages(msg);
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 项目进度计划排程
+		schedule(work.getProject_id());
+		
 		return new ArrayList<Result>();
 	}
 
@@ -740,7 +666,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (!milestones.isEmpty()) {
 			c("work").updateMany(new Document("_id", new Document("$in", milestones)), new Document("$set",
 					new Document("actualStart", date).append("actualFinish", date).append("progress", 1d)));// 更新为当前时间
-			generateWorkNotice(milestones, msg, "完成", false, sender, "PM", "PPM");
+			generateWorkNotice(milestones, msg, "完成", date, sender, "PM", "PPM");
 			handlePostPreced(projectName, milestones, Arrays.asList("SS", "SF"), true, date, sender, msg);
 			handlePostPreced(projectName, milestones, Arrays.asList("FS", "FF"), false, date, sender, msg);
 		}
@@ -748,12 +674,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, String eventName, boolean start,
+	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, String eventName, Date eventDate,
 			String sender, String... receiverRole) {
 		Consumer<Document> action = (Document d) -> {
 			String projectName = ((Document) d.get("project")).getString("name");
 			new HashSet<>((List<String>) d.get("receiver")).forEach(receiver -> {
-				msg.add(Message.workEventMsg(projectName, d, eventName, start, sender, receiver));
+				msg.add(Message.workEventMsg(projectName, d, eventName, eventDate, sender, receiver));
 			});
 		};
 		searchProjectOBSMember(workIds, Arrays.asList(receiverRole), action);
@@ -824,102 +750,69 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Message> msg = handlePostPreced(projectName, toUpdate, Arrays.asList("FS", "FF"), false, com.date,
 				com.userId, new ArrayList<>());
 
-		generateWorkNotice(noticeWorks, msg, "完成", false, com.userId, "PM", "PPM");
+		generateWorkNotice(noticeWorks, msg, "完成", com.date, com.userId, "PM", "PPM");
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 发出消息通知
 		sendMessages(msg);
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 项目进度计划排程
+		schedule(work.getProject_id());
+
 		return new ArrayList<Result>();
 	}
 
 	@Override
 	public List<Result> finishStage(Command com) {
-		List<Result> result = finishStageCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			return result;
-		}
+		Document stage = c("work").find(new Document("_id", com._id)).first();
 
-		Document doc = c("work").find(new BasicDBObject("parent_id", com._id))
+		Document latestSubWork = c("work").find(new BasicDBObject("parent_id", com._id))
 				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
 				.first();
 
 		// 修改项目状态
 		Object actualFinish = null;
-		if (doc == null) {
+		if (latestSubWork == null) {
 			actualFinish = new Date();
 		} else {
-			actualFinish = doc.get("actualFinish");
+			actualFinish = latestSubWork.get("actualFinish");
 			if (actualFinish == null)
 				actualFinish = new Date();
 		}
-		UpdateResult ur = c("work").updateOne(new Document("_id", com._id),
+
+		c("work").updateOne(new Document("_id", com._id),
 				new Document("$set",
-						new Document("status", ProjectStatus.Closing).append("actualFinish", doc.get("actualFinish"))
-								.append("progress", 1d).append("finishInfo", com.info())));
+						new Document("status", ProjectStatus.Closing)
+								.append("actualFinish", latestSubWork.get("actualFinish")).append("progress", 1d)
+								.append("finishInfo", com.info())));
 
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足完工条件的阶段。"));
-			return result;
-		}
-
-		// TODO 处理阶段实际工期
-
-		// 阶段收尾通知
-		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
-				.first();
-		List<String> memberIds = getStageMembers(com._id);
-		String name = getName("work", com._id);
-		String projectName = getName("project", project_id);
-		if (memberIds.size() > 0)
-			sendMessage("阶段收尾通知",
-					"您参与的项目" + projectName + " 阶段" + name + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
-					com.userId, memberIds, null);
-		return result;
+		sendStageMessage(stage, "收尾", com.date, com.userId);
+		return new ArrayList<Result>();
 	}
 
-	private List<Result> finishStageCheck(ObjectId _id, String executeBy) {
+	@SuppressWarnings("unchecked")
+	private void sendStageMessage(Document stage, String event, Date eventDate, String sender) {
 		//////////////////////////////////////////////////////////////////////
-		// 须检查的信息
-		// 1. 检查所属该阶段的工作是否全部完工，若没有，错误。根据工作完工后，自动向上级汇总实际完成的规则，只需要判断阶段下一级工作是否全部完工。
-		ArrayList<Result> result = new ArrayList<Result>();
-		// long count = c("work").countDocuments(new BasicDBObject("parent_id",
-		// _id).append("actualFinish", null));
-		// if (count > 0) {
-		// result.add(Result.finishError("阶段存在没有完工的工作。"));
-		// }
-		return result;
+		// 通知阶段团队成员，和项目经理，计划经理工作
+		final List<String> receivers = getStageMembers(stage.getObjectId("_id"));
+		searchProjectOBSMember(Arrays.asList(stage.getObjectId("_id")), Arrays.asList("PM", "PPM"), d -> {
+			receivers.addAll((List<String>) d.get("receiver"));
+		});
+		final String projectName = getName("project", stage.getObjectId("project_id"));
+		final List<Message> msg = new ArrayList<>();
+		new HashSet<String>(receivers)
+				.forEach(r -> msg.add(Message.workEventMsg(projectName, stage, event, eventDate, sender, r)));
+		sendMessages(msg);
 	}
 
 	@Override
 	public List<Result> closeStage(Command com) {
-		List<Result> result = closeStageCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			return result;
-		}
-
-		// 修改状态
-		UpdateResult ur = c("work").updateOne(new Document("_id", com._id),
+		Document stage = c("work").find(new Document("_id", com._id)).first();
+		c("work").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
 
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			throw new ServiceException("没有满足关闭条件的工作。");
-		}
-
-		// 通知团队成员，工作已经关闭
-		ObjectId project_id = c("work").distinct("project_id", new BasicDBObject("_id", com._id), ObjectId.class)
-				.first();
-		List<String> memberIds = getStageMembers(com._id);
-		String name = getName("work", com._id);
-		String projectName = getName("project", project_id);
-		if (memberIds.size() > 0)
-			sendMessage("阶段关闭通知",
-					"您参与的项目" + projectName + " 阶段" + name + "已于"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
-					com.userId, memberIds, null);
-
-		return result;
+		sendStageMessage(stage, "关闭", com.date, com.userId);
+		return new ArrayList<>();
 	}
 
 	private List<String> getStageMembers(ObjectId _id) {
@@ -934,13 +827,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (!memberIds.contains(charger))
 			memberIds.add(charger);
 		return memberIds;
-	}
-
-	private List<Result> closeStageCheck(ObjectId _id, String executeBy) {
-		List<Result> result = new ArrayList<Result>();
-
-		// TODO 警告
-		return result;
 	}
 
 	@Override
@@ -1136,31 +1022,35 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+		
+		pipeline.addAll(new JQ("添加工作的阶段名称").array());
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
-		List<Work> result = new ArrayList<Work>();
-
-		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
-			if (work.getParent_id() != null)
-				work.setStageName(getStageName(work.getParent_id()));
-			else
-				work.setStageName(work.getText());
-			result.add(work);
-		});
-
-		return result;
+//		List<Work> result = new ArrayList<Work>();
+//
+//		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+//			if (work.getParent_id() != null)
+//				work.setStageName(getStageName(work.getParent_id()));
+//			else
+//				work.setStageName(work.getText());
+//			result.add(work);
+//		});
+//
+//		return result;
+		
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	private String getStageName(ObjectId _id) {
-		Document first = c("work").find(new Document("_id", _id))
-				.projection(new Document("name", 1).append("parent_id", 1)).first();
-		ObjectId parent_id = first.get("parent_id", ObjectId.class);
-		if (parent_id != null) {
-			return getStageName(parent_id);
-		}
-		return first.get("name", String.class);
-	}
+//	private String getStageName(ObjectId _id) {
+//		Document first = c("work").find(new Document("_id", _id))
+//				.projection(new Document("name", 1).append("parent_id", 1)).first();
+//		ObjectId parent_id = first.get("parent_id", ObjectId.class);
+//		if (parent_id != null) {
+//			return getStageName(parent_id);
+//		}
+//		return first.get("name", String.class);
+//	}
 
 	@Override
 	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
@@ -1214,6 +1104,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
+		pipeline.addAll(new JQ("添加工作的阶段名称").array());
+
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -1232,17 +1124,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		List<Work> result = new ArrayList<Work>();
+//		List<Work> result = new ArrayList<Work>();
+//
+//		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
+//			if (work.getParent_id() != null)
+//				work.setStageName(getStageName(work.getParent_id()));
+//			else
+//				work.setStageName(work.getText());
+//			result.add(work);
+//		});
 
-		c(Work.class).aggregate(pipeline).forEach((Work work) -> {
-			if (work.getParent_id() != null)
-				work.setStageName(getStageName(work.getParent_id()));
-			else
-				work.setStageName(work.getText());
-			result.add(work);
-		});
-
-		return result;
+		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
 	private List<ObjectId> getProject_id(String userid) {

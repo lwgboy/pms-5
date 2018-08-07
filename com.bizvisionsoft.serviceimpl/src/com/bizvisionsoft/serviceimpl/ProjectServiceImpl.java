@@ -17,9 +17,6 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
-import com.bizvisionsoft.math.scheduling.Graphic;
-import com.bizvisionsoft.math.scheduling.Route;
-import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.BaselineComparable;
@@ -1012,72 +1009,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return delete(_id, Stockholder.class);
 	}
 
-	@Override
-	public Integer schedule(ObjectId _id) {
 
-		Document pj = c("project").find(new Document("_id", _id)).first();
-		Date start = pj.getDate("planStart");
-		Date end = pj.getDate("planFinish");
-
-		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
-		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		ArrayList<Route> routes = new ArrayList<Route>();
-		convertGraphic(works, links, tasks, routes);
-		Graphic gh = new Graphic(tasks, routes);
-
-		setupStartDate(gh, works, start, tasks);
-
-		gh.schedule();
-
-		// 检查项目是否超期
-		int warningLevel = 999;
-		Document scheduleEst = null;
-		// 0级预警检查
-		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime)
-				.append("finish", gh.getFinishDate()).append("duration", (int) gh.getT());
-
-		if (overTime > 0) {
-			warningLevel = 0;// 0级预警，项目可能超期。
-			scheduleEst.append("msg", "项目预计超期");
-		}
-		for (int i = 0; i < works.size(); i++) {
-			Document doc = works.get(i);
-			Date planFinish = doc.getDate("planFinish");
-			Date estFinish = gh.getTaskEFDate((doc.getObjectId("_id").toHexString()));
-			Task task = gh.getTask((doc.getObjectId("_id").toHexString()));
-			long overdue = ((estFinish.getTime() - planFinish.getTime()) / (1000 * 60 * 60 * 24));
-			Document update = new Document("date", new Date()).append("duration", (int) task.getD().floatValue())
-					.append("overdue", (int) overdue).append("finish", estFinish);
-
-			if ("1".equals(doc.getString("manageLevel")) && overdue > 0) {
-				warningLevel = warningLevel > 1 ? 1 : warningLevel;
-				if (scheduleEst.get("msg") == null) {
-					scheduleEst.append("msg", "一级工作预计超期");
-				}
-			}
-
-			if ("2".equals(doc.getString("manageLevel")) && overdue > 0) {
-				warningLevel = warningLevel > 2 ? 2 : warningLevel;
-				if (scheduleEst.get("msg") == null) {
-					scheduleEst.append("msg", "二级工作预计超期");
-				}
-			}
-
-			if (update == null) {
-				update = new Document();
-			}
-			update.append("tf", (double) task.getTF()).append("ff", (double) task.getFF());
-			c("work").updateOne(new Document("_id", doc.getObjectId("_id")),
-					new Document("$set", new Document("scheduleEst", update)));
-		}
-
-		c("project").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst)));
-		return warningLevel;
-	}
 
 	@Override
 	public List<Baseline> listBaseline(BasicDBObject condition, ObjectId _id) {

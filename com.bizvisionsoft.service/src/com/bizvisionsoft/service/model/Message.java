@@ -124,7 +124,7 @@ public class Message {
 				+ format(pfinish) + "，您需要在阶段计划开始以前完成本阶段启动。", sender, receiver, null);
 	}
 
-	public static Message workEventMsg(String pjName, Document work, String eventName, boolean start, String sender,
+	public static Message workEventMsg(String pjName, Document work, String eventName, Date eventDate, String sender,
 			String receiver) {
 		String workType;
 		if (work.getBoolean("milestone", false)) {
@@ -135,7 +135,7 @@ public class Message {
 			workType = "工作";
 		}
 		String subject = workType + eventName + "通知";
-		String date = format(work.getDate(start ? "actualStart" : "actualFinish"));
+		String date = format(eventDate);
 		String fname = work.getString("fullName");
 		return Message.newInstance(subject, "项目：" + pjName + "，" + workType + "：" + fname + "，已于" + date + eventName,
 				sender, receiver, null);
