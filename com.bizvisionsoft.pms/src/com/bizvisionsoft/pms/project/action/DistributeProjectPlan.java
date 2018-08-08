@@ -11,6 +11,7 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.ResultHandler;
+import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
@@ -31,7 +32,7 @@ public class DistributeProjectPlan {
 				"项目计划已下达", "项目计划下达失败", //
 				() -> service.distributeProjectPlan(
 						brui.command(((Project) rootInput).get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
-				code -> ((GridPart) context.getContent()).refreshAll());
+				code -> Util.ifInstanceThen(context.getContent(), GridPart.class, g->g.setViewerInput()));
 	}
 
 }

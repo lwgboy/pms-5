@@ -436,8 +436,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						.append("stage", true))// 阶段
 				.forEach((Document w) -> {
 					ids.add(w.getObjectId("_id"));
-					Util.notEmptyOrNull(w.getString("chargerId"),
-							c -> msg.add(Message.distributeStageMsg(projectName, w, com.userId, c)));
+					msg.add(Message.distributeStageMsg(projectName, w, com.userId, w.getString("chargerId")));
 				});
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
@@ -465,7 +464,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		sendMessages(msg);
 
 		return new ArrayList<>();
-
 	}
 
 	@Override

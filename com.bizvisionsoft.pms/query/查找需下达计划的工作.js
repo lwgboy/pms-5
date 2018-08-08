@@ -38,7 +38,7 @@
 			}
 		} ],
 		"distributed" : {
-			"$ne" : null
+			"$ne" : true
 		},
 		"actualFinish" : null,
 		"stage" : false
