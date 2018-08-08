@@ -829,82 +829,76 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Result> finishProject(Command com) {
-		List<Result> result = finishProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			for (Result r : result) {
-				if (Result.TYPE_ERROR == r.type) {
-					return result;
-				}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 状态检查
+		Document project = c("project").find(new Document("_id", com._id)).first();
+		if (!ProjectStatus.Processing.equals(project.getString("status"))) {// 必须是进行中才能收尾
+			return Arrays.asList(Result.error("项目当前的状态不允许执行收尾操作"));
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果存在未完成的工作，警告
+		if (ICommand.Finish_Project.equals(com.name)) {
+			long count = c("work")
+					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			if (count > 0) {
+				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作。"));
 			}
 		}
 
-		Document doc = c("work").find(new BasicDBObject("project_id", com._id))
-				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
-				.first();
-		//TODO doc为空
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 获得时间
+		Document latest = c("work").find(new Document("parent_id", com._id))
+				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1)).first();
+		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closing).append("progress", 1d)
-						.append("finishInfo", com.info()).append("actualFinish", doc.get("actualFinish"))));
+						.append("finishInfo", com.info()).append("actualFinish", actualFinish)));
 
-		// TODO 未完成工作的处理
-
-		// 通知项目团队成员，项目已经启动
+		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目收尾通知",
-				"项目：" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+		sendMessage(
+				"项目收尾通知", "项目：" + project.getString("name") + "已于"
+						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
 				com.userId, memberIds, null);
 
-		return result;
-	}
-
-	private List<Result> finishProjectCheck(ObjectId _id, String executeBy) {
-		//////////////////////////////////////////////////////////////////////
-		// 须检查的信息
-		// 1. 检查所属该项目的工作是否全部完工，若没有，错误。
-		ArrayList<Result> result = new ArrayList<Result>();
-		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
-		if (count > 0) {
-			result.add(Result.warning("项目中有些工作尚未完成。"));
-		}
-
-		return result;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Result> closeProject(Command com) {
-		List<Result> result = closeProjectCheck(com._id, com.userId);
-		if (!result.isEmpty()) {
-			return result;
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 状态检查
+		Document project = c("project").find(new Document("_id", com._id)).first();
+		if (ProjectStatus.Closed.equals(project.getString("status"))) {
+			return Arrays.asList(Result.error("项目当前的状态不允许执行关闭操作"));
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果存在未完成的工作，警告
+		if (ICommand.Finish_Project.equals(com.name)) {
+			long count = c("work")
+					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			if (count > 0) {
+				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作，这些工作也将同时关闭。"));
+			}
 		}
 
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new Document("_id", com._id),
+		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
 
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足关闭条件的项目。"));
-			return result;
-		}
+		// 修改工作状态
+		c("work").updateMany(new Document("project_id", com._id), new Document("$set", new Document("closed", true)));
 
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目关闭通知",
-				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+		sendMessage(
+				"项目关闭通知", "项目：" + project.getString("name") + "已于"
+						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
 				com.userId, memberIds, null);
-		return result;
-	}
-
-	private List<Result> closeProjectCheck(ObjectId _id, String executeBy) {
-		List<Result> result = new ArrayList<Result>();
-		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
-		if (count > 0) {
-			result.add(Result.warning("项目中有些工作尚未完成，关闭后将无法完成这些工作。"));
-		}
-		return result;
+		return new ArrayList<>();
 	}
 
 	private String generateWorkOrder(ObjectId _id) {

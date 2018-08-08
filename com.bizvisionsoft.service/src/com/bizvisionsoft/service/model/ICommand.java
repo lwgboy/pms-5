@@ -24,8 +24,14 @@ public interface ICommand {
 
 	public static final String Close_Stage = "½×¶Î¹Ø±Õ";
 
+	public static final String Close_Stage_Ignore_Warrning = "½×¶Î¹Ø±Õ£¨ºöÂÔ¾¯¸æ£©";
+
 	public static final String Start_Stage = "½×¶ÎÆô¶¯";
 
 	public static final String Finish_Stage = "½×¶ÎÊÕÎ²";
+	
+	public static final String Finish_Stage_Ignore_Warrning = "½×¶ÎÊÕÎ²£¨ºöÂÔ¾¯¸æ£©";
+
+
 
 }

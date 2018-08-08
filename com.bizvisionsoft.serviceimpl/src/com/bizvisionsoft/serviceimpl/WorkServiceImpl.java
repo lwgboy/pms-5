@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
@@ -256,26 +257,101 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Result> startStage(Command com) {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
-		// 检查
+		// 状态检查
 		Document stage = c("work").find(new Document("_id", com._id)).first();
 		if (!ProjectStatus.Created.equals(stage.getString("status"))) {
 			return Arrays.asList(Result.error("阶段当前的状态不允许执行阶段启动操作"));
 		}
-
 		ObjectId pj_id = stage.getObjectId("project_id");
 		Project pj = get(pj_id, Project.class);
 		if (!ProjectStatus.Processing.equals(pj.getStatus())) {
 			return Arrays.asList(Result.error("项目当前的状态不允许执行阶段启动操作"));
 		}
-
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新阶段状态
 		c("work").updateOne(new Document("_id", com._id), new Document("$set", //
 				new Document("status", ProjectStatus.Processing)//
 						.append("distributed", true)// 需设为已下达
 						.append("startInfo", com.info())));
 
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新项目阶段
 		c("project").updateOne(new Document("_id", pj_id), new Document("$set", new Document("stage_id", com._id)));
 
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 发送消息
 		sendStageMessage(stage, "启动", com.date, com.userId);
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<Result> finishStage(Command com) {
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 状态检查
+		Document stage = c("work").find(new Document("_id", com._id)).first();
+		if (!ProjectStatus.Processing.equals(stage.getString("status"))) {// 阶段必须是进行中才能收尾
+			return Arrays.asList(Result.error("阶段当前的状态不允许执行阶段收尾操作"));
+		}
+		ObjectId pj_id = stage.getObjectId("project_id");
+		Project pj = get(pj_id, Project.class);
+		if (ProjectStatus.Created.equals(pj.getStatus()) || ProjectStatus.Closed.equals(pj.getStatus())) {
+			return Arrays.asList(Result.error("项目当前的状态不允许执行阶段收尾操作"));
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果存在未完成的工作，警告
+		if (ICommand.Finish_Stage.equals(com.name)) {
+			Number count = (Number) c("work").aggregate(new JQ("获得阶段下未完成的工作数量").set("stage_id", com._id).array())
+					.first().get("count");
+			if (count.intValue() > 0) {
+				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 获得时间
+		Document latest = c("work").find(new Document("parent_id", com._id))
+				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1)).first();
+		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新
+		c("work").updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Closing)//
+						.append("actualFinish", actualFinish)//
+						.append("progress", 1d)//
+						.append("finishInfo", com.info())));
+
+		sendStageMessage(stage, "收尾", com.date, com.userId);
+		return new ArrayList<Result>();
+	}
+
+	@Override
+	public List<Result> closeStage(Command com) {
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 状态检查
+		Document stage = c("work").find(new Document("_id", com._id)).first();
+		if (ProjectStatus.Closed.equals(stage.getString("status"))) {
+			return Arrays.asList(Result.error("阶段当前的状态不允许执行阶段关闭操作"));
+		}
+		ObjectId pj_id = stage.getObjectId("project_id");
+		Project pj = get(pj_id, Project.class);
+		if (ProjectStatus.Created.equals(pj.getStatus()) || ProjectStatus.Closed.equals(pj.getStatus())) {
+			return Arrays.asList(Result.error("项目当前的状态不允许执行阶段关闭操作"));
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果阶段下存在未完成的工作，警告
+		if (ICommand.Close_Stage.equals(com.name)) {
+			Number count = (Number) c("work").aggregate(new JQ("获得阶段下未完成的工作数量").set("stage_id", com._id).array())
+					.first().get("count");
+			if (count.intValue() > 0) {
+				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新
+		c("work").updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
+		//TODO 关闭未完成的工作
+		sendStageMessage(stage, "关闭", com.date, com.userId);
 		return new ArrayList<>();
 	}
 
@@ -533,51 +609,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return update(filterAndUpdate, WorkPackage.class);
 	}
 
-	@Deprecated
-	public List<Result> distributeWorkPlan(Command com) {
-		List<ObjectId> inputIds = getDesentItems(Arrays.asList(com._id), "work", "parent_id");
-
-		Document query = new Document("_id", new Document("$in", inputIds))
-				.append("$or",
-						Arrays.asList(new Document("chargerId", new Document("$ne", null)),
-								new Document("assignerId", new Document("$ne", null))))
-				.append("distributed", new Document("$ne", true)).append("actualFinish", null);
-
-		final List<ObjectId> ids = new ArrayList<>();
-		final List<Message> msg = new ArrayList<>();
-
-		Work work = get(com._id, Work.class);
-		String pjName = getName("project", work.getProject_id());
-		c("work").find(query).forEach((Document w) -> {
-			ids.add(w.getObjectId("_id"));
-			String chargerId = w.getString("chargerId");
-			if (chargerId != null && !"".equals(chargerId))
-				msg.add(Message.newInstance("工作计划下达通知",
-						"您负责的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-						com.userId, chargerId, null));
-			String assignerId = w.getString("assignerId");
-			if (assignerId != null && !"".equals(assignerId))
-				msg.add(Message.newInstance("工作计划下达通知",
-						"您指派的项目 " + pjName + "，工作 " + w.getString("fullName") + "，预计从"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planStart")) + "开始到"
-								+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(w.getDate("planFinish")) + "结束",
-						com.userId, assignerId, null));
-		});
-
-		if (ids.isEmpty()) {
-			return Arrays.asList(Result.updateFailure("没有需要下达的计划。"));
-		}
-
-		c("work").updateMany(new Document("_id", new Document("$in", ids)),
-				new Document("$set", new Document("distributed", true).append("distributeInfo", com.info())));
-
-		sendMessages(msg);
-
-		return new ArrayList<Result>();
-	}
-
 	private List<String> getWBSBranch(String wbs) {
 		List<String> parentWbs = new ArrayList<>();
 		int index = 0;
@@ -772,34 +803,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return new ArrayList<Result>();
 	}
 
-	@Override
-	public List<Result> finishStage(Command com) {
-		Document stage = c("work").find(new Document("_id", com._id)).first();
-
-		Document latestSubWork = c("work").find(new BasicDBObject("parent_id", com._id))
-				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
-				.first();
-
-		// 修改项目状态
-		Object actualFinish = null;
-		if (latestSubWork == null) {
-			actualFinish = new Date();
-		} else {
-			actualFinish = latestSubWork.get("actualFinish");
-			if (actualFinish == null)
-				actualFinish = new Date();
-		}
-
-		c("work").updateOne(new Document("_id", com._id),
-				new Document("$set",
-						new Document("status", ProjectStatus.Closing)
-								.append("actualFinish", latestSubWork.get("actualFinish")).append("progress", 1d)
-								.append("finishInfo", com.info())));
-
-		sendStageMessage(stage, "收尾", com.date, com.userId);
-		return new ArrayList<Result>();
-	}
-
 	@SuppressWarnings("unchecked")
 	private void sendStageMessage(Document stage, String event, Date eventDate, String sender) {
 		//////////////////////////////////////////////////////////////////////
@@ -813,16 +816,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		new HashSet<String>(receivers)
 				.forEach(r -> msg.add(Message.workEventMsg(projectName, stage, event, eventDate, sender, r)));
 		sendMessages(msg);
-	}
-
-	@Override
-	public List<Result> closeStage(Command com) {
-		Document stage = c("work").find(new Document("_id", com._id)).first();
-		c("work").updateOne(new Document("_id", com._id),
-				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
-
-		sendStageMessage(stage, "关闭", com.date, com.userId);
-		return new ArrayList<>();
 	}
 
 	private List<String> getStageMembers(ObjectId _id) {

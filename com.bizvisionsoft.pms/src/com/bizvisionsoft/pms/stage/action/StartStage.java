@@ -13,6 +13,7 @@ import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class StartStage {
 
 	@Inject

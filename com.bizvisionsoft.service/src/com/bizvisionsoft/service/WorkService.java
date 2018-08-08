@@ -251,12 +251,6 @@ public interface WorkService {
 	public List<Work> createDeptUserWorkDataSet(@PathParam("userid") String userid);
 
 	@POST
-	@Path("/command/distribute/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> distributeWorkPlan(Command command);
-
-	@POST
 	@Path("/command/startwork/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

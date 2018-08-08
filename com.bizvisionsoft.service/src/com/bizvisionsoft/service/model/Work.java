@@ -592,7 +592,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 进度完成率指标 百分比
 	@ReadValue("sar")
 	public Double getSAR() {
-		if (stage && actualFinish != null && !milestone) {
+		if (stage && actualStart != null && actualFinish != null && !milestone) {
 			double d = 1d * (planFinish.getTime() - planStart.getTime())
 					/ (actualFinish.getTime() - actualStart.getTime());
 			return d > 1d ? 1d : d;
