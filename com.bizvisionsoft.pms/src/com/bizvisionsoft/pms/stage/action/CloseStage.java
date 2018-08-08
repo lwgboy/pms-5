@@ -14,6 +14,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -34,7 +35,8 @@ public class CloseStage {
 		if (!ok) {
 			return;
 		}
-		List<Result> result = Services.get(WorkService.class).closeStage(brui.command(stage.get_id(), new Date()));
+		List<Result> result = Services.get(WorkService.class)
+				.closeStage(brui.command(stage.get_id(), new Date(), ICommand.Close_Stage));
 		if (result.isEmpty()) {
 			Layer.message("½×¶ÎÒÑ¹Ø±Õ");
 			brui.switchPage("½×¶ÎÊ×Ò³£¨¹Ø±Õ£©", ((Work) stage).get_id().toHexString());

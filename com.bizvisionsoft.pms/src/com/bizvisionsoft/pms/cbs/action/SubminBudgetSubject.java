@@ -38,7 +38,7 @@ public class SubminBudgetSubject {
 		}
 
 		Result result = Services.get(CBSService.class).calculationBudget(cbsItem.get_id(), brui.getCurrentUserId());
-		if (result.code == Result.CODE_CBS_SUCCESS) {
+		if (result.code == Result.CODE_SUCCESS) {
 			Layer.message("科目预算已提交");
 		} else {
 			MessageDialog.openError(shell, "提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");

@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.stage.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -13,6 +14,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
@@ -38,7 +40,8 @@ public class StartStage {
 			if (!ok) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).startStage(brui.command(stage.get_id()));
+			List<Result> result = Services.get(WorkService.class)
+					.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage));
 			boolean b = true;
 			String message = "";
 			if (!result.isEmpty()) {

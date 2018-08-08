@@ -25,6 +25,7 @@ import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
@@ -67,14 +68,15 @@ public class ScheduleRender extends GridPartDefaultRender {
 			if (!MessageDialog.openConfirm(brui.getCurrentShell(), title, "请确认关闭阶段：" + stage + "。")) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).closeStage(brui.command(stage.get_id(), new Date()));
+			List<Result> result = Services.get(WorkService.class)
+					.closeStage(brui.command(stage.get_id(), new Date(), ICommand.Close_Stage));
 			if (checkResult(result, title, sucessText)) {
 				GridPart content = (GridPart) context.getContent();
 				content.setViewerInput();
 			}
 		} else {
 			Layer.message("项目进行中才能执行阶段关闭", Layer.ICON_CANCEL);
-		}		
+		}
 	}
 
 	private void finish(Work stage) {
@@ -85,7 +87,8 @@ public class ScheduleRender extends GridPartDefaultRender {
 			if (!MessageDialog.openConfirm(brui.getCurrentShell(), title, "请确认收尾阶段：" + stage + "。")) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).finishStage(brui.command(stage.get_id(), new Date()));
+			List<Result> result = Services.get(WorkService.class)
+					.finishStage(brui.command(stage.get_id(), new Date(), ICommand.Finish_Stage));
 			if (checkResult(result, title, sucessText)) {
 				GridPart content = (GridPart) context.getContent();
 				content.setViewerInput();
@@ -103,7 +106,8 @@ public class ScheduleRender extends GridPartDefaultRender {
 			if (!MessageDialog.openConfirm(brui.getCurrentShell(), title, "请确认启动阶段：" + stage + "。")) {
 				return;
 			}
-			List<Result> result = Services.get(WorkService.class).startStage(brui.command(stage.get_id()));
+			List<Result> result = Services.get(WorkService.class)
+					.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage));
 			if (checkResult(result, title, sucessText)) {
 				GridPart content = (GridPart) context.getContent();
 				content.setViewerInput();

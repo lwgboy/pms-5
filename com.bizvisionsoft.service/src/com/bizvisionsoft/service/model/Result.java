@@ -28,7 +28,7 @@ public class Result {
 
 	public static final int CODE_CBS_DEFF_BUDGET = 901;
 
-	public static final int CODE_CBS_SUCCESS = 900;
+	public static final int CODE_SUCCESS = 900;
 
 	public static final int CODE_CBS_REPEATSUBMIT = 902;
 
@@ -127,7 +127,7 @@ public class Result {
 
 	public static Result cbsSuccess(String message) {
 		Result e = new Result();
-		e.code = Result.CODE_CBS_SUCCESS;
+		e.code = Result.CODE_SUCCESS;
 		e.message = message;
 		e.type = Result.TYPE_INFO;
 		return e;
@@ -170,6 +170,14 @@ public class Result {
 		e.code = CODE_CBS_REPEATSUBMIT;
 		e.message = message;
 		e.type = Result.TYPE_WARNING;
+		return e;
+	}
+
+	public static Result success(String message) {
+		Result e = new Result();
+		e.code = CODE_SUCCESS;
+		e.message = message;
+		e.type = Result.TYPE_INFO;
 		return e;
 	}
 

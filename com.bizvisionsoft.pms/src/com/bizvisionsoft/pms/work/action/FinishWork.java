@@ -12,6 +12,7 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -25,8 +26,8 @@ public class FinishWork {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		context.selected(e -> {
 			if (brui.confirm("完成工作", "请确认完成工作" + (Work) e + "。\n系统将记录现在时刻为工作的实际完成时间。")) {
-				if (Services.get(WorkService.class).finishWork(brui.command(((Work) e).get_id(), new Date()))
-						.isEmpty()) {
+				if (Services.get(WorkService.class)
+						.finishWork(brui.command(((Work) e).get_id(), new Date(), ICommand.Finish_Work)).isEmpty()) {
 					Layer.message("工作已完成");
 					GridPart grid = (GridPart) context.getContent();
 					grid.remove(e);

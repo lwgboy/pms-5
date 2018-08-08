@@ -16,6 +16,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
@@ -41,8 +42,8 @@ public class DistributeProjectPlan {
 				if (!ok) {
 					return;
 				}
-				List<Result> result = Services.get(ProjectService.class)
-						.distributeProjectPlan(brui.command(project.get_id(), new Date()));
+				List<Result> result = Services.get(ProjectService.class).distributeProjectPlan(
+						brui.command(project.get_id(), new Date(), ICommand.Distribute_Project_Plan));
 				if (result.isEmpty()) {
 					Layer.message("项目计划已下达");
 					((GridPart) context.getContent()).refreshAll();
@@ -63,7 +64,7 @@ public class DistributeProjectPlan {
 				return;
 			}
 			List<Result> result = Services.get(WorkService.class)
-					.distributeWorkPlan(brui.command(work.get_id(), new Date()));
+					.distributeWorkPlan(brui.command(work.get_id(), new Date(), ICommand.Distribute_Project_Plan));
 			if (result.isEmpty()) {
 				Layer.message("项目计划已下达");
 				((GridPart) context.getContent()).refreshAll();

@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -323,28 +324,27 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Result> startProject(Command com) {
+		/////////////////////////////////////////////////////////////////////////////
+		// 检查项目启动
 		List<Result> result = startProjectCheck(com._id, com.userId);
-		if (result.stream().filter(r -> Result.TYPE_ERROR == r.type).findFirst().isPresent()) {
+		if (result.stream().anyMatch(r -> Result.TYPE_ERROR == r.type//错误的必须返回
+				|| (Result.TYPE_WARNING == r.type && ICommand.Start_Project.equals(com.name)))) {//不忽略警告的必须返回
 			return result;
 		}
 
+		/////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
-		UpdateResult ur = c(Project.class).updateOne(new Document("_id", com._id),
+		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Processing).append("startInfo", com.info())));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足启动条件的项目。"));
-			return result;
-		}
 
 		// TODO CBS金额汇总
 
+		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
-		String name = getName("project", com._id);
-		sendMessage("项目启动通知", "您参与的项目" + name + "已于" + Message.format(com.date) + "启动。", com.userId, memberIds, null);
-		return result;
+		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + "已于" + Message.format(com.date) + "启动。", com.userId,
+				memberIds, null);
+		return Arrays.asList(Result.success("项目启动完成。"));
 	}
 
 	private List<String> getProjectMembers(ObjectId _id) {
@@ -1008,8 +1008,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long deleteStockholder(ObjectId _id) {
 		return delete(_id, Stockholder.class);
 	}
-
-
 
 	@Override
 	public List<Baseline> listBaseline(BasicDBObject condition, ObjectId _id) {

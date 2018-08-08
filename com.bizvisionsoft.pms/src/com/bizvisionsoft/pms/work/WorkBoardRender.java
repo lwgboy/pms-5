@@ -27,6 +27,7 @@ import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
@@ -99,7 +100,8 @@ public class WorkBoardRender {
 
 	private void finishWork(Work work) {
 		if (brui.confirm("完成工作", "请确认完成工作<span style='color:red;'>" + work + "</span>。\n系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date()));
+			List<Result> result = Services.get(WorkService.class)
+					.finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				viewer.remove(work);
@@ -109,7 +111,8 @@ public class WorkBoardRender {
 
 	private void startWork(Work work) {
 		if (brui.confirm("启动工作", "请确认启动工作<span style='color:red;'>" + work + "</span>。\n系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date()));
+			List<Result> result = Services.get(WorkService.class)
+					.startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				Work t = Services.get(WorkService.class).getWork(work.get_id());
