@@ -186,7 +186,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		try {
 			return insert(t);
 		} catch (Exception e) {
-			throw serviceException(e, "角色编号重复");
+			throw handleDuplicateIndexError(e, "角色编号重复");
 		}
 	}
 

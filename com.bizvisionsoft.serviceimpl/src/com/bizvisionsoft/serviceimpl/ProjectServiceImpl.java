@@ -282,7 +282,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		try {
 			return update(fu, Project.class);
 		} catch (Exception e) {
-			serviceException(e, "项目编号重复");
+			handleDuplicateIndexError(e, "项目编号重复");
 		}
 		return 0;
 	}
@@ -300,7 +300,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			String workOrder = generateWorkOrder(_id);
 			c("project").updateOne(cond, new Document("$set", new Document("id", id).append("workOrder", workOrder)));
 		} catch (Exception e) {
-			throw serviceException(e, "项目编号重复");
+			throw handleDuplicateIndexError(e, "项目编号重复");
 		}
 	}
 

@@ -605,7 +605,7 @@ public class BasicServiceImpl {
 	 * @param message
 	 * @return 
 	 */
-	final protected ServiceException serviceException(Exception e, String message) {
+	final protected ServiceException handleDuplicateIndexError(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
 			return new ServiceException(message);
 		}
