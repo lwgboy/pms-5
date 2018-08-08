@@ -514,6 +514,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 			filter = new BasicDBObject();
 		}
 		filter.append("enabled", true);
+		filter.append("module", new BasicDBObject("$ne", true));
+
 		return count(filter, ProjectTemplate.class);
 	}
 
@@ -525,6 +527,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 			condition.append("filter", filter);
 		}
 		filter.append("enabled", true);
+		filter.append("module", new BasicDBObject("$ne", true));
 		return createDataSet(condition, ProjectTemplate.class);
 	}
 

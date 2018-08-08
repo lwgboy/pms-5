@@ -344,7 +344,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + "已于" + Message.format(com.date) + "启动。", com.userId,
 				memberIds, null);
-		return Arrays.asList(Result.success("项目启动完成。"));
+		return new ArrayList<>();
 	}
 
 	private List<String> getProjectMembers(ObjectId _id) {
@@ -372,7 +372,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
 		if (l == 0)
-			result.add(Result.error("项目尚未创建进度计划", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.warning("项目尚未创建进度计划"));
 
 		// l = c(Work.class).countDocuments(new Document("project_id",
 		// _id).append("manageLevel", "1").append("$or",
@@ -415,7 +415,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// }
 
 		if (!Boolean.TRUE.equals(project.getStartApproved())) {
-			result.add(Result.error("项目尚未获得启动批准", Result.CODE_PROJECT_START_NOTAPPROVED));
+			result.add(Result.error("项目尚未获得启动批准"));
 		}
 
 		return result;
@@ -451,7 +451,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果没有可下达的计划，警告提示
 		if (ids.isEmpty()) {
-			return Arrays.asList(Result.warning("没有需要下达的计划。", Result.CODE_NO_WORK_DISTRIBUTE));
+			return Arrays.asList(Result.warning("没有需要下达的计划。"));
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新下达计划的工作和项目，记录下达信息
@@ -874,7 +874,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		ArrayList<Result> result = new ArrayList<Result>();
 		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
 		if (count > 0) {
-			result.add(Result.warning("项目中有些工作尚未完成。", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.warning("项目中有些工作尚未完成。"));
 		}
 
 		return result;
@@ -910,7 +910,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Result> result = new ArrayList<Result>();
 		long count = c("work").countDocuments(new BasicDBObject("project_id", _id).append("actualFinish", null));
 		if (count > 0) {
-			result.add(Result.warning("项目中有些工作尚未完成，关闭后将无法完成这些工作。", Result.CODE_PROJECT_NOWORK));
+			result.add(Result.warning("项目中有些工作尚未完成，关闭后将无法完成这些工作。"));
 		}
 		return result;
 	}

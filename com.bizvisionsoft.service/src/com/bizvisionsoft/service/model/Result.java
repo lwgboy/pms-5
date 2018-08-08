@@ -149,17 +149,16 @@ public class Result {
 		return e;
 	}
 
-	public static Result error(String message, int code) {
+	public static Result error(String message) {
 		Result e = new Result();
-		e.code = code;
+		e.code = CODE_ERROR;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
 	}
 
-	public static Result warning(String message, int code) {
+	public static Result warning(String message) {
 		Result e = new Result();
-		e.code = code;
 		e.message = message;
 		e.type = Result.TYPE_WARNING;
 		return e;

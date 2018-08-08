@@ -29,7 +29,7 @@ public class StartProject {
 		Project project = (Project) context.getRootInput();
 		Shell shell = brui.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "项目启动",
-				"请确认启动项目：" + project + "。<br/>系统将标记当前时间为项目完工日期。<br/>已启动的项目将无法删除。");
+				"请确认启动项目：" + project + "。<br/>已启动的项目将无法删除。");
 		if (!ok) {
 			return;
 		}
