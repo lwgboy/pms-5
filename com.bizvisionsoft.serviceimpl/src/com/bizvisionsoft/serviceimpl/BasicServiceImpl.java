@@ -603,11 +603,13 @@ public class BasicServiceImpl {
 	 * 
 	 * @param e
 	 * @param message
+	 * @return 
 	 */
-	final protected void throwDuplicatedError(Exception e, String message) {
+	final protected ServiceException serviceException(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
-			throw new ServiceException(message);
+			return new ServiceException(message);
 		}
+		return new ServiceException(e.getMessage());
 	}
 
 	public Integer schedule(ObjectId _id) {

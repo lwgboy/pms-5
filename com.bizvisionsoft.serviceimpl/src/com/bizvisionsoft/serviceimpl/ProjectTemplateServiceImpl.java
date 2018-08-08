@@ -183,7 +183,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public OBSInTemplate insertOBSItem(OBSInTemplate t) {
-		return insert(t);
+		try {
+			return insert(t);
+		} catch (Exception e) {
+			throw serviceException(e, "½ÇÉ«±àºÅÖØ¸´");
+		}
 	}
 
 	@Override

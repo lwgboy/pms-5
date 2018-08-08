@@ -36097,6 +36097,7 @@
             "id": "164e57563cf",
             "name": "dir",
             "description": "排列方向",
+            "text": "排列方向",
             "type": "单选框",
             "formFields": [],
             "hasInfoLabel": false,
