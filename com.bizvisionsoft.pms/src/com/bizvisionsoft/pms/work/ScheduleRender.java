@@ -24,6 +24,7 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.util.CommandHandler;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
@@ -99,23 +100,11 @@ public class ScheduleRender extends GridPartDefaultRender {
 	}
 
 	private void start(Work stage) {
-		Project project = stage.getProject();
-		if (project != null && ProjectStatus.Processing.equals(project.getStatus())) {
-			String title = "阶段启动";
-			String sucessText = "阶段已启动";
-			if (!MessageDialog.openConfirm(brui.getCurrentShell(), title, "请确认启动阶段：" + stage + "。")) {
-				return;
-			}
-			List<Result> result = Services.get(WorkService.class)
-					.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage));
-			if (checkResult(result, title, sucessText)) {
-				GridPart content = (GridPart) context.getContent();
-				content.setViewerInput();
-			}
-
-		} else {
-			Layer.message("项目进行中才能执行阶段启动", Layer.ICON_CANCEL);
-		}
+		CommandHandler.run(ICommand.Start_Stage, //
+				"请确认启动阶段：" + stage + "。", "阶段启动完成", "阶段启动失败", //
+				() -> Services.get(WorkService.class)
+						.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage)), //
+				code -> brui.switchPage("阶段首页（执行）", ((Work) stage).get_id().toHexString()));
 	}
 
 	private boolean checkResult(List<Result> result, String title, String sucessText) {

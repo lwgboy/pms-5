@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
@@ -254,17 +255,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Result> startStage(Command com) {
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// 检查
 		Document stage = c("work").find(new Document("_id", com._id)).first();
-		// 修改状态
-		Document set = new Document("status", ProjectStatus.Processing).append("distributed", true).append("startInfo",
-				com.info());
-		c("work").updateOne(new Document("_id", com._id), new Document("$set", set));
+		if (!ProjectStatus.Created.equals(stage.getString("status"))) {
+			return Arrays.asList(Result.error("阶段当前的状态不允许执行阶段启动操作"));
+		}
 
-		c("project").updateOne(new Document("_id", stage.getObjectId("project_id")),
-				new Document("$set", new Document("stage_id", com._id)));
+		ObjectId pj_id = stage.getObjectId("project_id");
+		Project pj = get(pj_id, Project.class);
+		if (!ProjectStatus.Processing.equals(pj.getStatus())) {
+			return Arrays.asList(Result.error("项目当前的状态不允许执行阶段启动操作"));
+		}
+
+		c("work").updateOne(new Document("_id", com._id), new Document("$set", //
+				new Document("status", ProjectStatus.Processing)//
+						.append("distributed", true)// 需设为已下达
+						.append("startInfo", com.info())));
+
+		c("project").updateOne(new Document("_id", pj_id), new Document("$set", new Document("stage_id", com._id)));
 
 		sendStageMessage(stage, "启动", com.date, com.userId);
-
 		return new ArrayList<>();
 	}
 
