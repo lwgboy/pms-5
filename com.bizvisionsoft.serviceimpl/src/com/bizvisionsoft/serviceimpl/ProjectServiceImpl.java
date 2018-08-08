@@ -327,8 +327,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		/////////////////////////////////////////////////////////////////////////////
 		// 检查项目启动
 		List<Result> result = startProjectCheck(com._id, com.userId);
-		if (result.stream().anyMatch(r -> Result.TYPE_ERROR == r.type//错误的必须返回
-				|| (Result.TYPE_WARNING == r.type && ICommand.Start_Project.equals(com.name)))) {//不忽略警告的必须返回
+		if (result.stream().anyMatch(r -> Result.TYPE_ERROR == r.type// 错误的必须返回
+				|| (Result.TYPE_WARNING == r.type && ICommand.Start_Project.equals(com.name)))) {// 不忽略警告的必须返回
 			return result;
 		}
 
@@ -449,9 +449,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					c -> msg.add(Message.distributeWorkMsg(projectName, w, false, com.userId, c)));
 		});
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 如果没有可下达的计划，警告提示
+		// 如果没有可下达的计划，提示
 		if (ids.isEmpty()) {
-			return Arrays.asList(Result.warning("没有需要下达的计划。"));
+			return Arrays.asList(Result.info("没有需要下达的计划。"));
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新下达计划的工作和项目，记录下达信息
@@ -843,17 +843,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Document doc = c("work").find(new BasicDBObject("project_id", com._id))
 				.projection(new BasicDBObject("actualFinish", true)).sort(new BasicDBObject("actualFinish", -1))
 				.first();
-
+		//TODO doc为空
 		// 修改项目状态
-		UpdateResult ur = c("project").updateOne(new Document("_id", com._id),
+		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closing).append("progress", 1d)
 						.append("finishInfo", com.info()).append("actualFinish", doc.get("actualFinish"))));
-
-		// 根据ur构造下面的结果
-		if (ur.getModifiedCount() == 0) {
-			result.add(Result.updateFailure("没有满足完工条件的项目。"));
-			return result;
-		}
 
 		// TODO 未完成工作的处理
 
@@ -861,7 +855,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<String> memberIds = getProjectMembers(com._id);
 		String name = getName("project", com._id);
 		sendMessage("项目收尾通知",
-				"您参与的项目" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+				"项目：" + name + "已于" + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
 				com.userId, memberIds, null);
 
 		return result;

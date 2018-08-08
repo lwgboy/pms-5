@@ -180,5 +180,13 @@ public class Result {
 		return e;
 	}
 
+	public static Result info(String message) {
+		Result e = new Result();
+		e.code = CODE_SUCCESS;
+		e.message = message;
+		e.type = Result.TYPE_INFO;
+		return e;
+	}
+
 
 }
