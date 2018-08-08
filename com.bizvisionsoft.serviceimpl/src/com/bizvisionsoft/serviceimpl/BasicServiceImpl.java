@@ -603,7 +603,7 @@ public class BasicServiceImpl {
 	 * 
 	 * @param e
 	 * @param message
-	 * @return 
+	 * @return
 	 */
 	final protected ServiceException handleDuplicateIndexError(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
@@ -619,7 +619,8 @@ public class BasicServiceImpl {
 		if (pj.getBoolean("backgroundScheduling", false)) {
 			return -1;
 		}
-		c("project").updateOne(new Document("_id", _id), new Document("backgroundScheduling", true));
+		c("project").updateOne(new Document("_id", _id),
+				new Document("$set", new Document("backgroundScheduling", true)));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 前处理：构造图

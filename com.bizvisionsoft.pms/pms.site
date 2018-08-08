@@ -36392,7 +36392,7 @@
             "name": "chargerRole",
             "text": "负责人角色",
             "alignment": 16384,
-            "width": 80,
+            "width": 180,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,

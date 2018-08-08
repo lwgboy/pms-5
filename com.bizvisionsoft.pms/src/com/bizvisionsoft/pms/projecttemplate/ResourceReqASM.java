@@ -50,16 +50,8 @@ public class ResourceReqASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		Action closeAction = new Action();
-		closeAction.setName("close");
-		closeAction.setImage("/img/close.svg");
-		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null)
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null)
 				.setActions(context.getAssembly().getActions()).setText("资源需求");
-		bar.addListener(SWT.Selection, e -> {
-			if ("close".equals(((Action) e.data).getName()))
-				brui.closeCurrentContent();
-
-		});
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
