@@ -884,13 +884,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作，这些工作也将同时关闭。"));
 			}
 		}
-
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
-
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 修改工作状态
-		c("work").updateMany(new Document("project_id", com._id), new Document("$set", new Document("closed", true)));
+		// 未开始的工作，skipStart
+		c("work").updateMany(new Document("project_id", com._id).append("actualStart", null), //
+				new Document("$set", new Document("skipStart", true).append("actualStart", com.date)));
+		// 未完成的工作，skipFinish
+		c("work").updateMany(new Document("project_id", com._id).append("actualFinish", null), //
+				new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)));
 
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
