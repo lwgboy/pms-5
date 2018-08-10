@@ -56,7 +56,7 @@
                     "$cond" : [
                         "$workPackageSetting.catagory", 
                         "$workPackageSetting.catagory", 
-                        "管理"
+                        "其他"
                     ]
                 }
             }
