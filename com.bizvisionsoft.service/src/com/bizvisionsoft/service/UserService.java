@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
 
@@ -40,10 +41,10 @@ public interface UserService {
 	public void disconsign(@PathParam("userId") String userId);
 
 	@PUT
-	@Path("/trace/userId/{userId}/")
+	@Path("/trace/userId/{userId}/trace/{trace}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void trace(@PathParam("userId") String userId, boolean trace);
+	public void trace(@PathParam("userId") String userId,@PathParam("trace") boolean trace);
 
 	@POST
 	@Path("/")
@@ -105,5 +106,24 @@ public interface UserService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<User> listConsigned(@PathParam("userId") String userId);
+
+	@POST
+	@Path("/traceInfo/")
+	@Consumes("application/json; charset=UTF-8")
+	public void insertTraceInfo(TraceInfo traceInfo);
+	
+	@POST
+	@Path("/traceInfo/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("用户操作审计/" + DataSet.LIST)
+	public List<TraceInfo> listTraceInfo(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/traceInfo/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("用户操作审计/" + DataSet.COUNT)
+	public long countTraceInfo(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 }

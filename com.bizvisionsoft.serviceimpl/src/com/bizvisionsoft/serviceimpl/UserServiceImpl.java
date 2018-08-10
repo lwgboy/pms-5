@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.model.Organization;
+import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -196,6 +197,21 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public void trace(String userId, boolean trace) {
 		c("user").updateOne(new Document("userId", userId), new Document("$set", new Document("trace", trace)));
+	}
+
+	@Override
+	public void insertTraceInfo(TraceInfo traceInfo) {
+		insert(traceInfo);
+	}
+
+	@Override
+	public List<TraceInfo> listTraceInfo(BasicDBObject condition) {
+		return createDataSet(condition, TraceInfo.class);
+	}
+
+	@Override
+	public long countTraceInfo(BasicDBObject filter) {
+		return count(filter, TraceInfo.class);
 	}
 
 }
