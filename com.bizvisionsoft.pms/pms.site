@@ -53742,6 +53742,8 @@
         "enableGanttCompare": false,
         "ganttGridWidthCalculate": false,
         "ganttGridWidth": 0,
+        "eventHandlerBundleId": "com.bizvisionsoft.pms",
+        "eventHandlerClassName": "com.bizvisionsoft.pms.eps.action.OpenProjectOrProjectSet",
         "hasTitlebar": false,
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
