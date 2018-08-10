@@ -54,6 +54,13 @@ public interface CommonService {
 	@DataSet("消息收件箱/" + DataSet.COUNT)
 	public long countMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+	
+	@PUT
+	@Path("/msg/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("消息收件箱/" + DataSet.UPDATE)
+	public long updateMessage(BasicDBObject filterAndUpdate);
 
 	@POST
 	@Path("/cert/ds")

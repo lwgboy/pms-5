@@ -28,6 +28,7 @@ public class Message {
 	private Date sendDate;
 
 	@ReadValue("是否已读")
+	@WriteValue("是否已读")
 	private boolean read;
 
 	@ReadValue

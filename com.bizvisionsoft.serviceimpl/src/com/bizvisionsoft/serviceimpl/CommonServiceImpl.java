@@ -909,4 +909,9 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		return result.length() == 0 ? "0" : result.toString();
 	}
 
+	@Override
+	public long updateMessage(BasicDBObject fu) {
+		return update(fu, Message.class);
+	}
+
 }
