@@ -100,4 +100,10 @@ public interface UserService {
 	public long countDeptUser(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
+	@GET
+	@Path("/consigned/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<User> listConsigned(@PathParam("userId") String userId);
+
 }

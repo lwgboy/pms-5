@@ -25,6 +25,14 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> listConsigned(String userId) {
+		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
+				new BasicDBObject("consigner", userId)));
+		ds.forEach(user -> updateRole(user));
+		return ds;
+	}
+
+	@Override
 	public User check(String userId, String password) {
 		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
 				new BasicDBObject("userId", userId).append("password", password)));
@@ -33,6 +41,12 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		}
 		User user = ds.get(0);
 
+		updateRole(user);
+
+		return user;
+	}
+
+	private void updateRole(User user) {
 		// 获得user所在的各级组织
 		ObjectId org_id = user.getOrganizationId();
 		List<String> orgIds = new ArrayList<String>();
@@ -56,8 +70,6 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				.into(new ArrayList<>());
 
 		user.setRoles(functionPermissions);
-
-		return user;
 	}
 
 	@Override
@@ -172,17 +184,18 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public void consign(String userId, String consignerId) {
-		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",consignerId)));
-	}
-	
-	@Override
-	public void disconsign(String userId) {
-		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("consigner",null)));
+		c("user").updateOne(new Document("userId", userId),
+				new Document("$set", new Document("consigner", consignerId)));
 	}
 
 	@Override
-	public void trace(String userId,boolean trace) {
-		c("user").updateOne(new Document("userId",userId), new Document("$set",new Document("trace",trace)));
+	public void disconsign(String userId) {
+		c("user").updateOne(new Document("userId", userId), new Document("$set", new Document("consigner", null)));
+	}
+
+	@Override
+	public void trace(String userId, boolean trace) {
+		c("user").updateOne(new Document("userId", userId), new Document("$set", new Document("trace", trace)));
 	}
 
 }

@@ -11,14 +11,14 @@ import org.eclipse.swt.widgets.Label;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
-import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.service.BruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
 
 public class SidebarHeader {
 
 	@Inject
-	private IBruiService bruiService;
+	private BruiService br;
 
 	@CreateUI
 	public void createUI(Composite parent) {
@@ -41,12 +41,18 @@ public class SidebarHeader {
 		fd.right = new FormAttachment(100);
 
 		// 获得当前进程用户信息中的头像
-		String url = Optional.ofNullable(bruiService.getCurrentUserInfo().getHeadpicURL())
-				.orElse(bruiService.getResourceURL("/img/user_g_60x60.png"));
+		String url = Optional.ofNullable(br.getCurrentUserInfo().getHeadpicURL())
+				.orElse(br.getResourceURL("/img/user_g_60x60.png"));
 		pic.setText("<img alt='headpic' src='" + url + "' width=" + size + "px height=" + size + "px/>");
+		String name = br.getCurrentUserInfo().getName();
+		String cid = br.getCurrentConsignerId();
+		String uid = br.getCurrentUserId();
+		if (!uid.equals(cid)) {
+			name += " (" + br.getCurrentConsignerInfo().getName() + " 代管)";
+		}
 		title.setText(
 				"<div style='color:white;margin-left:8px;margin-top:4px'><div style='font-size:16px;'>项目管理系统</div><div style='font-size:14px;'>"
-						+ bruiService.getCurrentUserInfo().getName() + "</div></div>");
+						+ name + "</div></div>");
 
 	}
 }
