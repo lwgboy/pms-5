@@ -3861,6 +3861,17 @@
             "type": "switch"
           },
           {
+            "id": "16527b11f80",
+            "name": "管理备份",
+            "switchContentToAssemblyId": "16527b473ad",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
+          },
+          {
             "id": "1640b0ecf2a",
             "name": "查看许可证",
             "switchContentToAssemblyId": "16407a48f3b",
@@ -3882,17 +3893,6 @@
             "objectBehavier": false,
             "type": "openpage",
             "openPageName": "开发环境"
-          },
-          {
-            "id": "16527b11f80",
-            "name": "管理备份",
-            "switchContentToAssemblyId": "16527b473ad",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
           }
         ]
       },
