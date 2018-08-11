@@ -31,9 +31,13 @@ public class Service implements BundleActivator {
 
 	private static MongoDatabase database;
 
-	private MongoClient mongo;
+	private static MongoClient mongo;
 
 	private boolean loadJSQueryAtInit;
+
+	public static String mongoDbBinPath;
+
+	public static File dumpFolder;
 
 	public static File queryFolder;
 
@@ -53,6 +57,21 @@ public class Service implements BundleActivator {
 		loadDatabase(filePath);
 
 		loadQuery(filePath);
+		loadBackupFolder(filePath);
+	}
+
+	private void loadBackupFolder(String filePath) {
+		
+		mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
+		String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
+		if (dumpPath == null || dumpPath.isEmpty()) {
+			dumpFolder = new File(new File(filePath).getParent() + "/dump");
+		} else {
+			dumpFolder = new File(dumpPath);
+		}
+		if (!dumpFolder.isDirectory()) {
+			dumpFolder.mkdirs();
+		}
 	}
 
 	private void loadQuery(String filePath) {
@@ -61,9 +80,9 @@ public class Service implements BundleActivator {
 		if (loadJSQueryAtInit) {
 			JQ.reloadJS();
 		}
-		
+
 		JQ.forceReloadJSQuery = "force".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
-		
+
 	}
 
 	private void loadDatabase(String filePath) {
@@ -153,6 +172,10 @@ public class Service implements BundleActivator {
 
 	public static MongoDatabase db() {
 		return database;
+	}
+
+	public static MongoClient getMongo() {
+		return mongo;
 	}
 
 	public static <T> MongoCollection<T> col(Class<T> clazz) {
