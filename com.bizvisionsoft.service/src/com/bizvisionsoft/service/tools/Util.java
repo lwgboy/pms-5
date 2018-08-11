@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,19 +78,6 @@ public class Util {
 		} catch (Exception e) {
 			throw new RuntimeException(message);
 		}
-	}
-
-	public static String getText(InputStream is) throws IOException {
-		StringBuffer buffer = new StringBuffer();
-		InputStreamReader isr = new InputStreamReader(is, "utf-8"); //$NON-NLS-1$
-		Reader in = new BufferedReader(isr);
-		int i;
-		while ((i = in.read()) > -1) {
-			buffer.append((char) i);
-		}
-		in.close();
-		isr.close();
-		return buffer.toString();
 	}
 
 	public static void writeFile(String content, String path, String encoding) throws IOException {

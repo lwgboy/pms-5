@@ -1,8 +1,6 @@
 package com.bizvisionsoft.serviceimpl.query;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -154,27 +152,12 @@ public class JQ {
 	}
 
 	private static void load(File file) {
-		FileInputStream fis = null;
-		BufferedInputStream is = null;
 		try {
-			fis = new FileInputStream(file);
-			is = new BufferedInputStream(fis);
-			String text = Util.getText(is);
+			String text = Util.readFile(file.getPath(), "utf-8");
 			String name = file.getName();
 			query.put(name.substring(0, name.indexOf(".")), text);
-		} catch (IOException e) {
-		} finally {
-			if (fis != null)
-				try {
-					fis.close();
-				} catch (IOException e) {
-				}
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-				}
-
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
