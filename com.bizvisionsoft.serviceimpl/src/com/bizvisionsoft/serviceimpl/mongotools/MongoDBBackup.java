@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MongoDump {
+public class MongoDBBackup {
 
 	private String host;
 	private String dbName;
@@ -52,8 +52,8 @@ public class MongoDump {
 			return this;
 		}
 
-		public MongoDump build() {
-			MongoDump result = new MongoDump();
+		public MongoDBBackup build() {
+			MongoDBBackup result = new MongoDBBackup();
 			result.host = host;
 			result.port = port;
 			result.dbName = dbName;
@@ -88,7 +88,7 @@ public class MongoDump {
 	// }
 	// }
 
-	public String execute() {
+	public String dump() {
 		try {
 			String outPath = archive + System.currentTimeMillis();
 			String command = path + "/mongodump.exe --host " + host + " --port " + port + " --db " + dbName + " --out "
@@ -106,18 +106,23 @@ public class MongoDump {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public void restore() {
+		try {
 
-	// private String toString(InputStream inputStream) throws IOException {
-	// final int bufferSize = 1024;
-	// final char[] buffer = new char[bufferSize];
-	// final StringBuilder out = new StringBuilder();
-	// Reader in = new InputStreamReader(inputStream, "UTF-8");
-	// for (;;) {
-	// int rsz = in.read(buffer, 0, buffer.length);
-	// if (rsz < 0)
-	// break;
-	// out.append(buffer, 0, rsz);
-	// }
-	// return out.toString();
-	// }
+			String command = path + "/mongorestore.exe --drop --gzip --host " + host + " --port " + port + " --db " + dbName + " --dir "
+					+ archive;
+			Process process = runtime.exec(command);
+			InputStream stderr = process.getErrorStream();
+			InputStreamReader isr = new InputStreamReader(stderr);
+			BufferedReader br = new BufferedReader(isr);
+			String line = null;
+			while ((line = br.readLine()) != null)
+				System.out.println(line);
+			process.waitFor();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
