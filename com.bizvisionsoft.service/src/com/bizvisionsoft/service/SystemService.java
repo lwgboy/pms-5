@@ -9,13 +9,14 @@ import javax.ws.rs.core.MediaType;
 
 import com.bizvisionsoft.service.model.ServerInfo;
 
-@Path("/ping")
-public interface Ping {
+@Path("/sysman")
+public interface SystemService {
 
 	@GET
 	@Path("/{req}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public ServerInfo getServerInfo(@PathParam("req") String req);
+
 
 }

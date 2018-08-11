@@ -1,9 +1,9 @@
 package com.bizvisionsoft.serviceimpl;
 
-import com.bizvisionsoft.service.Ping;
+import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.ServerInfo;
 
-public class PingImpl implements Ping {
+public class SystemServiceImpl extends BasicServiceImpl implements SystemService {
 
 	@Override
 	public ServerInfo getServerInfo(String req) {
