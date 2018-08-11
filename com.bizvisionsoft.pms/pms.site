@@ -1234,7 +1234,7 @@
             "role": "",
             "excludeRole": "",
             "image": "/img/todo_w.svg",
-            "text": "待办事项"
+            "text": "待办、项目和消息"
           },
           {
             "typeName": "组件链接",
@@ -1251,7 +1251,7 @@
             "defaultAssembly": false,
             "role": "项目总监#项目管理员",
             "image": "/img/dashboard_w.svg",
-            "text": "项目管理"
+            "text": "项目管理者主页"
           }
         ]
       },

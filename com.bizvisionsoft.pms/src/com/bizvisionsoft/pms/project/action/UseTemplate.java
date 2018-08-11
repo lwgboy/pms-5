@@ -23,7 +23,7 @@ public class UseTemplate {
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = (Project) context.getRootInput();
 		if (brui.confirm("套用项目模板",
-				"套用项目模板将<span style='color:red;font-weight:bold;'>替换</span>项目的进度计划、项目团队，请确认套用项目模板。")) {
+				"套用项目模板将<span class='layui-badge'>替换</span>项目的进度计划、项目团队，请确认套用项目模板。")) {
 			Selector.open("项目模板选择器", context, null, l -> {
 				Services.get(ProjectTemplateService.class).useTemplate(((ProjectTemplate) l.get(0)).get_id(),
 						project.get_id(), brui.getCurrentUserId());
