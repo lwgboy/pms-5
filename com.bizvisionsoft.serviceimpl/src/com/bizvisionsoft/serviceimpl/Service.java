@@ -80,9 +80,8 @@ public class Service implements BundleActivator {
 		if (loadJSQueryAtInit) {
 			JQ.reloadJS();
 		}
-
+		
 		JQ.forceReloadJSQuery = "force".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
-
 	}
 
 	private void loadDatabase(String filePath) {
