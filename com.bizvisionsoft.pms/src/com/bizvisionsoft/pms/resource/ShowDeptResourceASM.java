@@ -39,6 +39,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ShowDeptResourceASM extends GridPart {
@@ -213,7 +214,8 @@ public class ShowDeptResourceASM extends GridPart {
 
 	public void doRefresh() {
 		if (userId != null) {
-			resource = Services.get(WorkService.class).getProjectResourceByDept(userId, start.getTimeInMillis(), end.getTimeInMillis());
+			resource = Services.get(WorkService.class)
+					.getResourceOfChargedDept(new Period(start.getTime(), end.getTime()), userId);
 		}
 
 		if (resource != null) {

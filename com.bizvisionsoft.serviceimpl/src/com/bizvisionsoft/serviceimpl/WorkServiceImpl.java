@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -764,8 +765,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					new Document("$lookup", new Document("from", "work").append("pipeline", //
 							Arrays.asList(new Document("$match", new Document("$expr", //
 									new Document("$and", Arrays.asList(new Document("$not", "$actualFinish"), // 完成时间为空，就是没有完成的
-											new Document("$not","$milestone"),//排除里程碑
-											new Document("$eq", Arrays.asList("$parent_id", parent_id))  ))))))// 下级的parent_id是父id
+											new Document("$not", "$milestone"), // 排除里程碑
+											new Document("$eq", Arrays.asList("$parent_id", parent_id))))))))// 下级的parent_id是父id
 							.append("as", "bros")));
 			Document d = c("work").aggregate(pip).first();
 			if (d != null && ((List<?>) d.get("bros")).size() <= 1) {// 所有的下级工作均已完成，本工作需要完成。size==1是需要完成的子工作
@@ -1026,7 +1027,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
-
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
 		// List<Work> result = new ArrayList<Work>();
@@ -1105,7 +1105,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
-
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
@@ -1362,14 +1361,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> getResource(ResourceTransfer rt) {
-		String resourceCollection;
+		String col;
 		if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
-			resourceCollection = "resourcePlan";
+			col = "resourcePlan";
 		} else {
 			if (rt.isReport())
-				resourceCollection = "workReportResourceActual";
+				col = "workReportResourceActual";
 			else
-				resourceCollection = "resourceActual";
+				col = "resourceActual";
 		}
 		Document match;
 		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == rt.getShowType()) {
@@ -1381,9 +1380,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			if (rt.isReport())
 				match.append("workReportItemId", rt.getWorkReportItemId());
 		}
-		return c(resourceCollection).aggregate(new JQ("编辑资源").set("match", match)
-				.set("resourceCollection", resourceCollection).set("from", rt.getFrom()).set("to", rt.getTo()).array())
-				.into(new ArrayList<Document>());
+		return c(col).aggregate(new JQ("查询-资源").set("match", match).set("resourceCollection", col)
+				.set("from", rt.getFrom()).set("to", rt.getTo()).array()).into(new ArrayList<Document>());
 	}
 
 	/**
@@ -1920,14 +1918,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> getProjectResourceByDept(String userid, long start, long end) {
+	public List<Document> getResourceOfChargedDept(Period period,String chargerId) {
 		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		orgids = getDesentItems(orgids, "organization", "parent_id");
 
-		return c("work").aggregate(
-				new JQ("查看资源汇总情况-Dept").set("workMatch", new Document()).set("org_ids", new Document("$in", orgids))
-						.set("start", new Date(start)).set("end", new Date(end)).array())
+		return c("work")
+				.aggregate(new JQ("查询-资源-负责人所在部门").set("workMatch", new Document())
+						.set("org_ids", new Document("$in", orgids)).set("start", period.from).set("end", period.to).array())
 				.into(new ArrayList<Document>());
 	}
 

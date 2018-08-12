@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
+import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
@@ -511,11 +512,10 @@ public interface WorkService {
 	public List<Document> getProjectResource(@PathParam("project_id") ObjectId project_id);
 
 	@POST
-	@Path("/resource/dept/{userid}/{start}/{end}/")
+	@Path("/resource/dept/{chargerId}/period/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> getProjectResourceByDept(@PathParam("userid") String userid, @PathParam("start") long start,
-			@PathParam("end") long end);
+	public List<Document> getResourceOfChargedDept(Period period ,@PathParam("chargerId") String chargerId);
 
 	@POST
 	@Path("/resourceactual/add/{workReportItemId}/")

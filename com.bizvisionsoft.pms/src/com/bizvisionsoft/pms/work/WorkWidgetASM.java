@@ -4,17 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 
-import com.bizivisionsoft.widgets.carousel.Carousel;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
@@ -76,7 +70,7 @@ public class WorkWidgetASM {
 
 		content.setLayout(new FormLayout());
 
-		Composite cal = createSlider(content);//
+		Composite cal = createCalendarSelector(content);
 		// Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);
 		Composite grid = createBottomAsm(content);
 		grid.setBackground(content.getDisplay().getSystemColor(SWT.COLOR_WHITE));
@@ -104,59 +98,7 @@ public class WorkWidgetASM {
 
 	}
 
-	private Composite createSlider(Composite parent) {
-		Carousel carousel = new Carousel(parent, SWT.NONE);
-		carousel.setAnimation("default");
-		carousel.setInterval(3000);
-		carousel.setIndicator("none");
-
-		Composite page = carousel.addPage(new Composite(carousel, SWT.NONE));
-		page.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		createCalendarSelector(page);
-		
-		page = carousel.addPage(new Composite(carousel, SWT.NONE));
-		page.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		createShortcut(page);
-
-		return carousel;
-	}
-
-	private void createShortcut(Composite parent) {
-		GridLayout layout = new GridLayout(2, true);
-		layout.horizontalSpacing = 24;
-		layout.verticalSpacing = 24;
-		layout.marginHeight = 24;
-		layout.marginWidth = 24;
-		parent.setLayout(layout);
-		
-		addIndicator(parent, "12", "待处理工作");
-		addIndicator(parent, "4", "待指派工作");
-		addIndicator(parent, "10", "待确认项目报告");
-		addIndicator(parent, "12", "待批准的项目变更");
-		
-	}
-	
-	private Control addIndicator(Composite parent, String ind, String title, String css, String titleColor,
-			String textColor) {
-		Label btn = new Label(parent, SWT.CENTER);
-		UserSession.bruiToolkit().enableMarkup(btn);
-		btn.setHtmlAttribute("class", css);
-		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='margin-top:8px;color:" + titleColor + ";'>" + title + "</div>");
-		sb.append("<div style='font-size:48px;text-align:center;color:" + textColor + ";margin-top:16px;'>" + ind
-				+ "</div>");
-		btn.setText(sb.toString());
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		btn.setLayoutData(data);
-		return btn;
-	}
-
-	private Control addIndicator(Composite parent, String ind, String title) {
-		return addIndicator(parent, ind, title, "brui_bg_lightgrey", "#757575", "#009688");
-	}
-
 	private Composite createCalendarSelector(Composite parent) {
-		parent.setLayout(new FillLayout());
 		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("我的待处理工作日历选择器"))
 				.setServices(brui).create();
 		calPan = (SchedulerPart) asm.getContext().getContent();

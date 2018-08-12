@@ -327,8 +327,7 @@
 												"$gte" : [ "$id", "$$planStart" ]
 											},
 											{
-												"$lt" : [ "$id",
-														"$$planFinish" ]
+												"$lt" : [ "$id", "$$planFinish" ]
 											},
 											{
 												"$eq" : [ "$resTypeId",
