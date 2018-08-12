@@ -64,7 +64,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 
 	private boolean checkPermission(Work stage) {
 		String currentUserId = brui.getCurrentUserId();
-		if (stage.getChargerId().equals(currentUserId))
+		if (currentUserId.equals(stage.getChargerId()))
 			return true;
 		return ServicesLoader.get(OBSService.class).checkScopeRole(new ScopeRoleParameter(currentUserId)
 				.setRoles("PM", "PPM", "WM").setScopes(stage.get_id(), stage.getProject_id()));

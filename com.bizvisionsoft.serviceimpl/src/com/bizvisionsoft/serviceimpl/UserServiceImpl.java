@@ -27,7 +27,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public List<User> listConsigned(String userId) {
-		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
+		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter",
 				new BasicDBObject("consigner", userId)));
 		ds.forEach(user -> updateRole(user));
 		return ds;
