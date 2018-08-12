@@ -287,7 +287,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		WorkReport newWorkReport = super.insert(workReport);
 
 		List<WorkReportItem> into = c("work", WorkReportItem.class)
-				.aggregate(new JQ("查询工作报告-工作").set("project_id", workReport.getProject_id())
+				.aggregate(new JQ("查询-报告项-项目").set("project_id", workReport.getProject_id())
 						.set("actualFinish", workReport.getPeriod()).set("report_id", newWorkReport.get_id())
 						.set("reportorId", workReport.getReporter()).set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
@@ -317,7 +317,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReportItem> listReportItem(ObjectId report_id) {
-		List<? extends Bson> pipeline = new JQ("查询工作报告-报告工作").set("report_id", report_id).array();
+		List<? extends Bson> pipeline = new JQ("查询-报告项").set("report_id", report_id).array();
 		return c(WorkReportItem.class).aggregate(pipeline).into(new ArrayList<WorkReportItem>());
 	}
 
@@ -334,7 +334,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public WorkReport getWorkReport(ObjectId _id) {
 		Document match = new Document("_id", _id);
-		return c(WorkReport.class).aggregate(new JQ("查询工作报告").set("match", match).array()).first();
+		return c(WorkReport.class).aggregate(new JQ("查询-报告").set("match", match).array()).first();
 	}
 
 	@Override
@@ -448,7 +448,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		Date to = cal.getTime();
 		cal.add(Calendar.DATE, -7);// 上周一
 		Date from = cal.getTime();
-		List<Bson> pipeline = new JQ("查询工作报告-周报告项").set("project_id", new Document("$in", ids)).set("from", from)
+		List<Bson> pipeline = new JQ("查询-报告-周报").set("project_id", new Document("$in", ids)).set("from", from)
 				.set("to", to).array();
 
 		if (condition != null) {

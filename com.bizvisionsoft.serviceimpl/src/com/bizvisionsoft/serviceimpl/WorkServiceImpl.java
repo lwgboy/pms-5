@@ -728,7 +728,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private void searchProjectOBSMember(List<ObjectId> workIds, List<String> receiverRole, Consumer<Document> action) {
-		c("work").aggregate(new JQ("查询工作对应项目和项目组成员")//
+		c("work").aggregate(new JQ("查询-项目组成员-工作所属项目")//
 				.set("match", new Document("_id", new Document("$in", workIds)))//
 				.set("roleIdArray", receiverRole).array())//
 				.forEach(action);
@@ -1012,10 +1012,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("project_id", project_id))
+		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包").set("match", new Document("project_id", project_id))
 				.set("catagory", catagory).array();
 
-		pipeline.addAll(new JQ("添加工作的阶段名称").array());
+		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
 		appendProject(pipeline);
 
@@ -1063,7 +1063,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Work> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包")
+		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包")
 				.set("match", new Document("_id", new Document("$in", items))).set("catagory", catagory).array();
 
 		appendProject(pipeline);
@@ -1090,11 +1090,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("summary", false)
+		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包").set("match", new Document("summary", false)
 				.append("actualFinish", null).append("stage", new BasicDBObject("$ne", true))).set("catagory", catagory)
 				.array();
 
-		pipeline.addAll(new JQ("添加工作的阶段名称").array());
+		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
 		appendProject(pipeline);
 
@@ -1913,19 +1913,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> getProjectResource(ObjectId project_id) {
-		return c("work").aggregate(new JQ("查看资源汇总情况").set("match", new Document("project_id", project_id)).array())
+		return c("work").aggregate(new JQ("查询-资源-项目").set("match", new Document("project_id", project_id)).array())
 				.into(new ArrayList<Document>());
 	}
 
 	@Override
-	public List<Document> getResourceOfChargedDept(Period period,String chargerId) {
+	public List<Document> getResourceOfChargedDept(Period period, String chargerId) {
 		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		orgids = getDesentItems(orgids, "organization", "parent_id");
 
-		return c("work")
-				.aggregate(new JQ("查询-资源-负责人所在部门").set("workMatch", new Document())
-						.set("org_ids", new Document("$in", orgids)).set("start", period.from).set("end", period.to).array())
+		return c("work").aggregate(new JQ("查询-资源-负责人所在部门").set("workMatch", new Document())
+				.set("org_ids", new Document("$in", orgids)).set("start", period.from).set("end", period.to).array())
 				.into(new ArrayList<Document>());
 	}
 

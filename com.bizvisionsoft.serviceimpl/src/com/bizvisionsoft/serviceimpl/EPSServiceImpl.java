@@ -123,12 +123,12 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		c("projectSet", EPSInfo.class).find(new Document("parent_id", _id)).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECTSET));
 		});
-		List<? extends Bson> pipeline = new JQ("查询投资分析-Porject")
+		List<? extends Bson> pipeline = new JQ("查询-销售和成本-项目")
 				.set("match", new Document("eps_id", _id)).array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
-		pipeline = new JQ("查询投资分析-Porject").set("match", new Document("projectSet_id", _id))
+		pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("projectSet_id", _id))
 				.array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
@@ -249,14 +249,14 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			epsIAs.forEach(epsIA -> {
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
-					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
+					aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目")
 							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
 					createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", epsIA.name);
 				}
 			});
 		} else {
 			AggregateIterable<Document> aggregate = c("project")
-					.aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array());
+					.aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
 			createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", "资金投入");
 		}
 	}
@@ -277,14 +277,14 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			epsIAs.forEach(epsIA -> {
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
-					aggregate = c("project").aggregate(new JQ("查询投资分析-Porject")
+					aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目")
 							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
 					createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", epsIA.name);
 				}
 			});
 		} else {
 			AggregateIterable<Document> aggregate = c("project")
-					.aggregate(new JQ("查询投资分析-Porject").set("match", new Document()).array());
+					.aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
 			createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", "销售利润");
 		}
 	}

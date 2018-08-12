@@ -970,7 +970,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		ArrayList<News> result = new ArrayList<News>();
 		c("work")
 				.aggregate(
-						new JQ("查询时间线").set("match",
+						new JQ("查询-时间线").set("match",
 								new Document("manageLevel", new Document("$in", Arrays.asList("1", "2")))
 										.append("project_id", _id))
 								.set("limit", count).array())

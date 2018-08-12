@@ -297,7 +297,7 @@ public class BasicServiceImpl {
 		// new Document("$match", new Document("resTypeId", resTypeId)),
 		// new Document("$project", new Document("works", true)));
 
-		List<? extends Bson> pipeline = new JQ("获得资源类别每天工作小时数").set("resTypeId", resTypeId).array();
+		List<? extends Bson> pipeline = new JQ("查询-日历-资源类每日工时").set("resTypeId", resTypeId).array();
 		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks"))
 				.map(w -> w.doubleValue()).orElse(0d);
 	}
