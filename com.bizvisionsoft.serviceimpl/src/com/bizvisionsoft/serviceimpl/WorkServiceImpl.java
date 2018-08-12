@@ -958,7 +958,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourcePlan> listResourcePlan(ObjectId _id) {
-		return c(ResourcePlan.class).aggregate(new JQ("查询资源计划用量").set("match", new Document("work_id", _id)).array())
+		return c(ResourcePlan.class).aggregate(new JQ("查询-资源-计划用量").set("match", new Document("work_id", _id)).array())
 				.into(new ArrayList<ResourcePlan>());
 	}
 
@@ -1240,7 +1240,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourceActual> listResourceActual(ObjectId _id) {
-		return c(ResourceActual.class).aggregate(new JQ("查询资源实际用量").set("match", new Document("work_id", _id)).array())
+		return c(ResourceActual.class).aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
 				.into(new ArrayList<>());
 	}
 
@@ -1412,7 +1412,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		c("resourcePlan")
-				.aggregate(new JQ("查询资源计划分析-Porject")
+				.aggregate(new JQ("查询-资源-计划用量-项目")
 						.set("match", new Document("year", year).append("project_id", project_id)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
@@ -1496,7 +1496,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		c("resourceActual")
-				.aggregate(new JQ("查询资源实际分析-Porject")
+				.aggregate(new JQ("查询-资源-实际用量-项目")
 						.set("match", new Document("year", year).append("project_id", project_id)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
@@ -1603,7 +1603,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		Document match = new Document("project_id", project_id);
-		c("resourcePlan").aggregate(new JQ("查询资源计划分析-Porject").set("match", match).array()).forEach((Document doc) -> {
+		c("resourcePlan").aggregate(new JQ("查询-资源-计划用量-项目").set("match", match).array()).forEach((Document doc) -> {
 			String id = doc.getString("_id");
 			Double worksD = planWorksMap.get(id);
 			if (worksD != null) {
@@ -1615,7 +1615,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c("resourceActual").aggregate(new JQ("查询资源实际分析-Porject").set("match", match).array())
+		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = actualWorksMap.get(id);
@@ -1687,7 +1687,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		Document match = new Document("project_id", project_id);
-		c("resourcePlan").aggregate(new JQ("查询资源计划分析-Porject").set("match", match).array()).forEach((Document doc) -> {
+		c("resourcePlan").aggregate(new JQ("查询-资源-计划用量-项目").set("match", match).array()).forEach((Document doc) -> {
 			String id = doc.getString("_id");
 			Double worksD = planWorksMap.get(id);
 			if (worksD != null) {
@@ -1708,7 +1708,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c("resourceActual").aggregate(new JQ("查询资源实际分析-Porject").set("match", match).array())
+		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = actualWorksMap.get(id);
@@ -1774,7 +1774,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		orgids = getDesentItems(orgids, "organization", "parent_id");
 		c("resourcePlan")
 				.aggregate(
-						new JQ("查询资源计划分析-Dept").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+						new JQ("查询-资源-计划用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = planWorksMap.get(id);
@@ -1798,7 +1798,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		c("resourceActual")
 				.aggregate(
-						new JQ("查询资源实际分析-Dept").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+						new JQ("查询-资源-实际用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = actualWorksMap.get(id);
@@ -1913,7 +1913,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> getProjectResource(ObjectId project_id) {
-		return c("work").aggregate(new JQ("查询-资源-项目").set("match", new Document("project_id", project_id)).array())
+		return c("work").aggregate(new JQ("查询-资源-计划和实际用量-项目").set("match", new Document("project_id", project_id)).array())
 				.into(new ArrayList<Document>());
 	}
 
@@ -1923,7 +1923,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.into(new ArrayList<ObjectId>());
 		orgids = getDesentItems(orgids, "organization", "parent_id");
 
-		return c("work").aggregate(new JQ("查询-资源-负责人所在部门").set("workMatch", new Document())
+		return c("work").aggregate(new JQ("查询-资源-计划和实际用量-负责人所在部门").set("workMatch", new Document())
 				.set("org_ids", new Document("$in", orgids)).set("start", period.from).set("end", period.to).array())
 				.into(new ArrayList<Document>());
 	}

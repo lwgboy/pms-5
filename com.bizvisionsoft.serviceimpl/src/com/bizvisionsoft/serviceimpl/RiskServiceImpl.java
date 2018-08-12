@@ -404,14 +404,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		long t = (pj.getDate("planFinish").getTime() - pj.getDate("planStart").getTime()) / (1000 * 60 * 60 * 24);
 		Document doc = c("monteCarloSimulate")
-				.aggregate(new JQ("查询项目某个工期的概率").set("project_id", project_id).set("T", t).array()).first();
+				.aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", t).array()).first();
 
 		return Optional.ofNullable(doc).map(d -> (Number) d.get("prob")).map(p -> p.doubleValue() / 100).orElse(0d);
 	}
 
 	@Override
 	public List<List<Double>> getDurationForcast(ObjectId project_id) {
-		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询项目乐观悲观的估计工期").set("project_id", project_id).array())
+		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询-MCS-估计工期").set("project_id", project_id).array())
 				.first();
 
 		if (doc == null) {
@@ -424,7 +424,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		Document maxP = (Document) doc.get("maxP");
 		doc = c("monteCarloSimulate")
-				.aggregate(new JQ("查询项目某个工期的概率").set("project_id", project_id).set("T", maxP.get("t")).array()).first();
+				.aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", maxP.get("t")).array()).first();
 
 		ArrayList<List<Double>> result = new ArrayList<List<Double>>();
 		result.add(Arrays.asList(((Number) minT.get("t")).doubleValue(), ((Number) minT.get("p")).doubleValue()));
