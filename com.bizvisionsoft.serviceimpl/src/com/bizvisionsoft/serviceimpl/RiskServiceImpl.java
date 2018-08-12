@@ -364,7 +364,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		}
 		if (value == null)
 			value = new ArrayList<>();
-		return new JQ("蒙特卡洛单图").set("data", value).doc();
+		return new JQ("图表-MCS-项目").set("data", value).doc();
 	}
 
 	@Override
@@ -450,7 +450,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
 			}
 		});
-		return new JQ("项目风险临近性图表").set("data", data).set("size", size).doc();
+		return new JQ("图表-风险临近性可检测性").set("data", data).set("size", size).doc();
 	}
 
 	@Override
@@ -469,7 +469,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
 			}
 		});
-		return new JQ("项目风险临近性图表2").set("data", data).set("size", size).doc();
+		return new JQ("图表-风险临近性可检测性2").set("data", data).set("size", size).doc();
 	}
 
 }

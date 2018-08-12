@@ -175,7 +175,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendWorkTime(pipeline);
 
-		pipeline.addAll(new JQ("项目sar管道").array());
+		pipeline.addAll(new JQ("追加-项目-SAR").array());
 
 		return pipeline;
 	}
@@ -437,7 +437,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				});
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
-		c("work").aggregate(new JQ("查找需下达计划的工作").set("project_id", com._id).array()).forEach((Document w) -> {
+		c("work").aggregate(new JQ("查询-工作-需下达计划").set("project_id", com._id).array()).forEach((Document w) -> {
 			ids.add(w.getObjectId("_id"));
 			Util.notEmptyOrNull(w.getString("chargerId"),
 					c -> msg.add(Message.distributeWorkMsg(projectName, w, true, com.userId, c)));
@@ -1491,7 +1491,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			filter = new BasicDBObject();
 		}
 
-		List<Bson> pipeline = (List<Bson>) new JQ("待审批的项目变更").set("userId", userId)
+		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId)
 				.set("status", ProjectChange.STATUS_SUBMIT).array();
 
 		appendProject(pipeline);

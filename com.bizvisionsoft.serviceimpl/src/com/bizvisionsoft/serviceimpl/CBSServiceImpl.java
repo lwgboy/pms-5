@@ -707,7 +707,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			}
 		});
 
-		return new JQ("项目首页资金预算和用量状况").set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
+		return new JQ("图表-预算和实际-项目").set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
 				.set("cost", Arrays.asList(costMap.values().toArray(new Double[0]))).doc();
 	}
 

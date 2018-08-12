@@ -55,12 +55,13 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 
 	@Override
 	public List<String> listProductSeries() {
-		return Arrays.asList("超级飞侠", "巴啦啦小魔仙", "爆裂飞车", "火力少年王", "巨神战击队", "铠甲勇士", "飓风战魂");
+//		return Arrays.asList("超级飞侠", "巴啦啦小魔仙", "爆裂飞车", "火力少年王", "巨神战击队", "铠甲勇士", "飓风战魂");
+		return Arrays.asList();
 	}
 
 	@Override
 	public List<ProductBenchmark> projectProductBenchmarking(ObjectId project_id) {
-		List<Bson> pipeline = new JQ("SKU销售对标").set("project_id", project_id).array();
+		List<Bson> pipeline = new JQ("图表-销售-产品对标").set("project_id", project_id).array();
 		return c("product").aggregate(pipeline, ProductBenchmark.class).into(new ArrayList<>());
 	}
 
@@ -69,8 +70,8 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 	public Document productIncomeBenchMarkingChartData(ObjectId product_id) {
 //	 <产品销售额占比> <对标产品销售额占比> <系列其他产品销售额占比>
 
-		Document data = c("product").aggregate(new JQ("单一产品对比分析取数").set("product_id", product_id).array()).first();
-		JQ jq = new JQ("单一产品对标分析图表");
+		Document data = c("product").aggregate(new JQ("查询-销售-产品对标").set("product_id", product_id).array()).first();
+		JQ jq = new JQ("图表-销售-产品对标");
 
 		jq.set("系列", data.getString("series")+"系列");
 		jq.set("产品", data.getString("name"));

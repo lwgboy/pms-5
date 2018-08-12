@@ -24,7 +24,7 @@ import com.mongodb.client.result.UpdateResult;
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
 	private List<WorkReport> query(BasicDBObject condition, Document match) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询工作报告").set("match", match).array();
+		List<Bson> pipeline = (List<Bson>) new JQ("查询-报告").set("match", match).array();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)

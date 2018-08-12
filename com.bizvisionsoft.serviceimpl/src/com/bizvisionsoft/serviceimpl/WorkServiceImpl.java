@@ -300,7 +300,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Stage.equals(com.name)) {
-			Number count = (Number) c("work").aggregate(new JQ("获得阶段下未完成的工作数量").set("stage_id", com._id).array())
+			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array())
 					.first().get("count");
 			if (count.intValue() > 0) {
 				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
@@ -340,7 +340,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果阶段下存在未完成的工作，警告
 		if (ICommand.Close_Stage.equals(com.name)) {
-			Number count = (Number) c("work").aggregate(new JQ("获得阶段下未完成的工作数量").set("stage_id", com._id).array())
+			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array())
 					.first().get("count");
 			if (count.intValue() > 0) {
 				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
@@ -728,7 +728,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private void searchProjectOBSMember(List<ObjectId> workIds, List<String> receiverRole, Consumer<Document> action) {
-		c("work").aggregate(new JQ("查询-项目组成员-工作所属项目")//
+		c("work").aggregate(new JQ("查询-成员-OBS-工作所属项目")//
 				.set("match", new Document("_id", new Document("$in", workIds)))//
 				.set("roleIdArray", receiverRole).array())//
 				.forEach(action);
@@ -1355,7 +1355,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<DateMark> listMyWorksDateMark(String userid) {
-		List<? extends Bson> ls = new JQ("日期选择器-用户待办工作的时间标记").set("userId", userid).array();
+		List<? extends Bson> ls = new JQ("查询-时间标记-待处理工作").set("userId", userid).array();
 		return c("work").aggregate(ls, DateMark.class).into(new ArrayList<>());
 	}
 
@@ -1630,7 +1630,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Double> planWorks = Arrays.asList(planWorksMap.values().toArray(new Double[0]));
 		List<Double> actualWorks = Arrays.asList(actualWorksMap.values().toArray(new Double[0]));
-		return new JQ("项目首页资源计划和用量状况").set("title", "项目资源计划和用量状况（小时）").set("xAxis", xAxisDate)
+		return new JQ("图表-资源计划和实际-项目").set("title", "项目资源计划和用量状况（小时）").set("xAxis", xAxisDate)
 				.set("planWorks", planWorks).set("actualWorks", actualWorks).doc();
 	}
 
@@ -2065,7 +2065,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();
 
-		c("work").aggregate(new JQ("项目工作如期评分").set("match", new Document("actualStart", new Document("$ne", null)))
+		c("work").aggregate(new JQ("查询-评分-工作按期率").set("match", new Document("actualStart", new Document("$ne", null)))
 				.set("now", new Date()).array()).forEach((Document d) -> {
 					indicator.add(new Document("name", d.getString("_id")).append("max", 100));
 					avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
@@ -2073,7 +2073,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		Double[] value = new Double[avg.size()];
 
-		c("work").aggregate(new JQ("项目工作如期评分").set("match", workFilter).set("now", new Date()).array())
+		c("work").aggregate(new JQ("查询-评分-工作按期率").set("match", workFilter).set("now", new Date()).array())
 				.forEach((Document d) -> {
 					for (int i = 0; i < indicator.size(); i++) {
 						if (indicator.get(i).getString("name").equals(d.getString("_id"))) {
@@ -2086,7 +2086,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (indicator.size() == 0)
 			indicator.add(new Document("name", "").append("max", 100));
 
-		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
+		return new JQ("图表-评分-工作按期率").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
 				.doc();
 	}
 

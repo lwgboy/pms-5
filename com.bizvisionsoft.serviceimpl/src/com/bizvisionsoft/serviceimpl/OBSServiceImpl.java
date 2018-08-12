@@ -155,7 +155,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		List<ObjectId> obsIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		obsIds = getDesentOBSItem(obsIds);
-		JQ jq = new JQ("获取团队成员").set("match", new Document("_id", new Document("$in", obsIds)));
+		JQ jq = new JQ("查询-成员-OBS").set("match", new Document("_id", new Document("$in", obsIds)));
 
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");

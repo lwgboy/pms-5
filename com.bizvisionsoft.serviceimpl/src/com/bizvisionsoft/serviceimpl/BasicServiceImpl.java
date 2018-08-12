@@ -297,7 +297,7 @@ public class BasicServiceImpl {
 		// new Document("$match", new Document("resTypeId", resTypeId)),
 		// new Document("$project", new Document("works", true)));
 
-		List<? extends Bson> pipeline = new JQ("查询-日历-资源类每日工时").set("resTypeId", resTypeId).array();
+		List<? extends Bson> pipeline = new JQ("查询-日历-资源类-每日工时").set("resTypeId", resTypeId).array();
 		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks"))
 				.map(w -> w.doubleValue()).orElse(0d);
 	}
@@ -339,7 +339,7 @@ public class BasicServiceImpl {
 		// new Document("$sort", new Document("workdate", -1).append("workingDay",
 		// -1)));
 
-		List<? extends Bson> pipeline = new JQ("检验某资源类别某天是否工作日").set("resTypeId", resTypeId)
+		List<? extends Bson> pipeline = new JQ("查询-日历-资源类-工作日").set("resTypeId", resTypeId)
 				.set("week", getDateWeek(cal)).set("date", cal.getTime()).array();
 
 		Document doc = c("calendar").aggregate(pipeline).first();
