@@ -50,6 +50,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.match(condition));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
+		
+		appendUserInfo(pipeline, "chargerId", "chargerInfo");
+		
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 		fields.add(new Field<String>("projectName", "$project.name"));
 		fields.add(new Field<String>("projectNumber", "$project.id"));

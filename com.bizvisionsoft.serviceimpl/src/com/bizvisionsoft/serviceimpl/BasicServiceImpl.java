@@ -180,15 +180,26 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
 
-		pipeline.add(Aggregates.unwind("$" + tempField, new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		// pipeline.add(Aggregates.unwind("$" + tempField, new
+		// UnwindOptions().preserveNullAndEmptyArrays(true)));
 
 		// ≤ªœ‘ æuserid
 		// pipeline.add(Aggregates.addFields(new Field<BasicDBObject>(userInfoField, new
 		// BasicDBObject("$concat",
 		// new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId",
 		// "]" }))));
+		// pipeline.add(Aggregates.addFields(new Field<String>(userInfoField, "$" +
+		// tempField + ".name")));
 
-		pipeline.add(Aggregates.addFields(new Field<String>(userInfoField, "$" + tempField + ".name")));
+		// "chargerInfo":
+		// {"$cond":[{"$size":"$charger"},{"$arrayElemAt":["$charger.name",0]},"A"]}
+
+		pipeline.add(new Document("$addFields",new Document(userInfoField, new Document("$cond", //
+				Arrays.asList(//
+						new Document("$size", "$" + tempField), //
+						new Document("$arrayElemAt", Arrays.asList("$" + tempField + ".name", 0)), //
+						"")//
+		))));
 
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
 	}
