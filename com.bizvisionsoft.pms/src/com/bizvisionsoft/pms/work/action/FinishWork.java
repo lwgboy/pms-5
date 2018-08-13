@@ -31,6 +31,7 @@ public class FinishWork {
 					Layer.message("工作已完成");
 					GridPart grid = (GridPart) context.getContent();
 					grid.remove(e);
+					brui.updateSidebarActionBudget("处理工作");
 				}
 			}
 		});

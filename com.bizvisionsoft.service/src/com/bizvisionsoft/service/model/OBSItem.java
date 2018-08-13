@@ -64,7 +64,7 @@ public class OBSItem {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队", "编辑" })
+	@Behavior({ "添加角色", "创建团队", "编辑","指定担任者" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -145,7 +145,7 @@ public class OBSItem {
 	private RemoteFile managerHeadPic;
 
 	@WriteValue("manager")
-	private void setManager(User manager) {
+	public void setManager(User manager) {
 		if (manager == null) {
 			managerId = null;
 			managerInfo = "";

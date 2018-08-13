@@ -29,10 +29,11 @@ public class EditProjectInfo {
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
 		Project project = context.search_sele_root(Project.class);
-
+		
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
-		new Editor<Project>(bruiService.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(project).setTitle("±à¼­ " + title)
+		Project pjForEdit = Services.get(ProjectService.class).get(project.get_id());
+		new Editor<Project>(bruiService.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(true,pjForEdit).setTitle("±à¼­ " + title)
 				.ok((r, proj) -> {
 					try {
 						Services.get(ProjectService.class).update(
