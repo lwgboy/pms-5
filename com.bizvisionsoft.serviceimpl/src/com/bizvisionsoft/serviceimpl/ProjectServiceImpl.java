@@ -1478,8 +1478,24 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long checkCreateProjectChange(ObjectId _id) {
-		return c(ProjectChange.class).countDocuments(new Document("project_id", _id).append("status",
+		return c("projectChange").countDocuments(new Document("project_id", _id).append("status",
 				new Document("$nin", Arrays.asList(ProjectChange.STATUS_CANCEL, ProjectChange.STATUS_CONFIRM))));
+	}
+
+	@Override
+	public long countReviewerProjectChange(BasicDBObject filter, String userId) {
+		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId)
+				.set("status", ProjectChange.STATUS_SUBMIT).array();
+
+		appendProject(pipeline);
+
+		pipeline.add(Aggregates.match(filter));
+
+		pipeline.add(Aggregates.project(new Document("_id", true)));
+
+//		return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
+		//TODO
+		return 0;
 	}
 
 	@Override
