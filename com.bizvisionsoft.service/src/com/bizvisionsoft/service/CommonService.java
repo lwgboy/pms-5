@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
@@ -450,5 +451,10 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void mockupSalesData();
+
+	@POST
+	@Path("/newMessage/")
+	@Consumes("application/json; charset=UTF-8")
+	public void sendMessage(NewMessage msg);
 
 }

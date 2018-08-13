@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Stack;
 
@@ -21,6 +22,7 @@ import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
@@ -429,7 +431,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("cbsSubject", new Document("id", 1), "id");
 		createIndex("cbsSubject", new Document("subjectNumber", 1), "subject");
 		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type");
-		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1),"id_item_subject");
+		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1),
+				"id_item_subject");
 
 		createIndex("docu", new Document("folder_id", 1), "folder");
 		createIndex("docu", new Document("tag", 1), "tag");
@@ -445,7 +448,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		createIndex("folder", new Document("project_id", 1), "project");
 		createIndex("folder", new Document("parent_id", 1), "parent");
-		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1),"name_project");
+		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1),
+				"name_project");
 
 		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type");
 
@@ -474,7 +478,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		createIndex("project", new Document("pmId", 1), "pm");
 		createIndex("project", new Document("cbs_id", 1), "cbs");
-//		createIndex("project", new Document("workOrder", 1), "workOrder");
+		// createIndex("project", new Document("workOrder", 1), "workOrder");
 		createIndex("project", new Document("obs_id", 1), "obs");
 		createIndex("project", new Document("planStart", 1), "planStart");
 		createIndex("project", new Document("planFinish", -1), "planFinish");
@@ -486,26 +490,35 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("projectChange", new Document("project_id", 1), "project");
 		createIndex("projectChange", new Document("applicantDate", -1), "date");
 
-//		createIndex("projectSet", new Document("workOrder", 1), "workOrder");
+		// createIndex("projectSet", new Document("workOrder", 1), "workOrder");
 		createIndex("projectSet", new Document("eps_id", 1), "eps");
 
-//		createIndex("projectTemplate", new Document("id", 1), "id");
+		// createIndex("projectTemplate", new Document("id", 1), "id");
 
 		createIndex("rbsItem", new Document("project_id", 1), "project");
 		createIndex("rbsItem", new Document("parent_id", 1), "parent");
 		createIndex("rbsItem", new Document("index", 1), "index");
 
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),"type");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),"hr");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"equip");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"type");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"hr");
 		createIndex("resourceActual", new Document("id", 1), "id");
-		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),"resource");
+		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
+				"resource");
 
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),"equip");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),"type");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),"hr");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"equip");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"type");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"hr");
 		createIndex("resourcePlan", new Document("id", 1), "id");
-		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
+		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
 
 		createIndex("resourceType", new Document("id", 1), "id");
 
@@ -550,13 +563,21 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("workReportItem", new Document("report_id", 1), "report");
 		createIndex("workReportItem", new Document("project_id", 1), "project");
 
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedTypedResId", 1), "type");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedHumanResId", 1), "hr");
 		createIndex("workReportResourceActual", new Document("id", 1), "id");
-		createUniqueIndex("workReportResourceActual",new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1).append("id", 1),"resource");
-		
-		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
+		createUniqueIndex("workReportResourceActual",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1)
+						.append("id", 1),
+				"resource");
+
+		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
 
 		createIndex("worklinks", new Document("project_id", 1), "project");
 		createIndex("worklinks", new Document("space_id", 1), "space");
@@ -569,7 +590,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		createIndex("traceInfo", new Document("date", -1), "date");
 
-		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1),"name_template");
+		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1),
+				"name_template");
 
 		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type");
 
@@ -692,6 +714,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long updateMessage(BasicDBObject fu) {
 		return update(fu, Message.class);
+	}
+
+	@Override
+	public void sendMessage(NewMessage msg) {
+		sendMessage(msg.subject, msg.content, Optional.ofNullable(msg.sender).map(s -> s.getUserId()).orElse(null),
+				msg.receiver.getUserId(), null);
 	}
 
 }
