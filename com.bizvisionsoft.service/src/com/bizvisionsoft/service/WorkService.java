@@ -561,7 +561,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/charger/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的工作/count" })
+	@DataSet({ "我的工作/count" ,"处理工作/budget"})
 	public long countChargerProcessingWorkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 

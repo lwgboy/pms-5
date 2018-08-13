@@ -901,7 +901,8 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "switch",
-                "role": ""
+                "role": "",
+                "budgetServiceName": "com.bizvisionsoft.service.WorkService"
               },
               {
                 "id": "1646ae15164",

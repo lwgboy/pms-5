@@ -105,6 +105,7 @@ public class WorkBoardRender {
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				viewer.remove(work);
+				brui.updateSidebarActionBudget("处理工作");
 			}
 		}
 	}
