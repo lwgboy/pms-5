@@ -593,7 +593,7 @@ public class WorkInfo {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private Float progress;
+	private Double progress;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue

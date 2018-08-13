@@ -386,9 +386,17 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		// 更新工作预计完成时间
 		c(WorkReportItem.class).find(new Document("report_id", new Document("$in", workReportIds)))
 				.forEach((WorkReportItem wri) -> {
-					if (wri.getEstimatedFinish() != null) {
-						c("work").updateOne(new Document("_id", wri.getWork_id()),
-								new Document("$set", new Document("estimatedFinish", wri.getEstimatedFinish())));
+					Date estFinish = wri.getEstimatedFinish();
+					if (estFinish != null) {
+						Double progress = null;
+						double d = estFinish.getTime() - wri.getActualStart().getTime();
+						double d1 = wri.get_id().getDate().getTime() - wri.getActualStart().getTime();
+						if (d > 0 && d1 > 0) {
+							progress = (double) Math.round(d1 * 10000 / d) / 10000;
+						}
+						c("work").updateOne(new Document("_id", wri.getWork_id()), new Document("$set",
+								new Document("estimatedFinish", estFinish).append("progress", progress)));
+
 					}
 				});
 
