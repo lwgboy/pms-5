@@ -290,7 +290,7 @@ public interface WorkReportService {
 	@Path("/userid/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "待确认的报告/" + DataSet.COUNT })
+	@DataSet({ "待确认的报告/" + DataSet.COUNT,"确认报告/budget" })
 	public long countWorkReportDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 }

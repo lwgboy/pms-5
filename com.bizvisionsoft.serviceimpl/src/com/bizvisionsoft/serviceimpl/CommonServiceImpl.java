@@ -722,4 +722,22 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 				msg.receiver.getUserId(), null);
 	}
 
+	@Override
+	public boolean hasSomethingNewOfMyWork(String userId) {
+		WorkServiceImpl impl = new WorkServiceImpl();
+		if (impl.countChargerProcessingWorkDataSet(new BasicDBObject(), userId) > 0) {
+			return true;
+		}
+		if (impl.countAssignerProcessingWorkDataSet(new BasicDBObject(), userId) > 0) {
+			return true;
+		}
+		if (new ProjectServiceImpl().countReviewerProjectChange(new BasicDBObject(), userId) > 0) {
+			return true;
+		}
+		if (new WorkReportServiceImpl().countWorkReportDataSet(new BasicDBObject(), userId) > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

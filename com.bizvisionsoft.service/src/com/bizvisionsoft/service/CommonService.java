@@ -55,7 +55,7 @@ public interface CommonService {
 	@DataSet("消息收件箱/" + DataSet.COUNT)
 	public long countMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
-	
+
 	@PUT
 	@Path("/msg/")
 	@Consumes("application/json; charset=UTF-8")
@@ -445,7 +445,6 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public void updateStructuredData(BasicDBObject fu);
 
-	
 	@POST
 	@Path("/mockup/salesdata/")
 	@Consumes("application/json; charset=UTF-8")
@@ -455,6 +454,15 @@ public interface CommonService {
 	@POST
 	@Path("/newMessage/")
 	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
 	public void sendMessage(NewMessage msg);
+
+	@GET
+	@Path("/userId/{userId}/budget/mywork")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的工作/budget")
+	public boolean hasSomethingNewOfMyWork(
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 }

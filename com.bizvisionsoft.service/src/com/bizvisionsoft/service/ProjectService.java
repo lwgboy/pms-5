@@ -336,6 +336,15 @@ public interface ProjectService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
+	@Path("/projectchange/reviewer/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待审批的项目变更/" + DataSet.COUNT,"审批项目变更/budget" })
+	public long countReviewerProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	
+	@POST
 	@Path("/projectchange")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
