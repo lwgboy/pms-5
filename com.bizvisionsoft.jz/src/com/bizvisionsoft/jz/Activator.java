@@ -23,7 +23,7 @@ public class Activator {
 			 * TC
 			 */
 			// 项目
-			// msgid = "010100010000002";
+			msgid = "010100010000002";
 
 			// 根目录
 			// msgid = "010100010000003";
@@ -145,11 +145,11 @@ public class Activator {
 			Element datarowElement = doc.createElement("datarow");
 			rowsElement.appendChild(datarowElement);
 
-			Element projectNoElement = doc.createElement("ZWERKS");
+			Element projectNoElement = doc.createElement("materialNo");
 			projectNoElement.setTextContent("1000");
 			datarowElement.appendChild(projectNoElement);
 
-			projectNoElement = doc.createElement("ZWEMPF");
+			projectNoElement = doc.createElement("id");
 			projectNoElement.setTextContent("231");
 			datarowElement.appendChild(projectNoElement);
 
@@ -158,11 +158,11 @@ public class Activator {
 			Element datarowElement = doc.createElement("datarow");
 			rowsElement.appendChild(datarowElement);
 
-			Element projectNoElement = doc.createElement("ZWERKS");
+			Element projectNoElement = doc.createElement("materialNo");
 			projectNoElement.setTextContent("1000");
 			datarowElement.appendChild(projectNoElement);
 
-			projectNoElement = doc.createElement("ZWEMPF");
+			projectNoElement = doc.createElement("id");
 			projectNoElement.setTextContent("231");
 			datarowElement.appendChild(projectNoElement);
 		}
