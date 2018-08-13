@@ -11,6 +11,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.pgxxgc.www.IF_Service.IF_Service;
+import com.pgxxgc.www.IF_Service.IF_ServiceServiceLocator;
+
 public class Activator {
 	public static void main(String[] args) {
 		try {
@@ -64,12 +67,11 @@ public class Activator {
 			// 测试文件输出的路径
 			System.out.println(out.toString());
 
-			// IF_ServiceServiceLocator if_ServiceServiceLocator = new
-			// IF_ServiceServiceLocator();
-			// IF_Service if_Service = if_ServiceServiceLocator.getIF_Service();
-			// String ifService = null;
-			// ifService = if_Service.IFService(msgid, out.toString());
-			// System.out.println(ifService);
+			IF_ServiceServiceLocator if_ServiceServiceLocator = new IF_ServiceServiceLocator();
+			IF_Service if_Service = if_ServiceServiceLocator.getIF_Service();
+			String ifService = null;
+			ifService = if_Service.IFService(msgid, out.toString());
+			System.out.println(ifService);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
