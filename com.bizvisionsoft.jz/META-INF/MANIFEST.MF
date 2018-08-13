@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Interface
+Bundle-SymbolicName: com.bizvisionsoft.jz
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: JZ
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
