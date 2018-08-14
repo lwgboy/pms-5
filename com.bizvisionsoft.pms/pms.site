@@ -13876,7 +13876,7 @@
                 "textMessage": "",
                 "textPasswordStyle": false,
                 "readOnly": false,
-                "required": true,
+                "required": false,
                 "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
