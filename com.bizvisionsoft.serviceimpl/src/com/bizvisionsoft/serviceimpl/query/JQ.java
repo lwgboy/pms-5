@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bson.BsonArray;
@@ -70,8 +69,16 @@ public class JQ {
 		for (int i = 0; i < keys.length; i++) {
 			BsonValue bv = doc.get(keys[i]);
 			Object v = inputValueParameters(bv);
-			String key = Optional.ofNullable(getParameter(keys[i])).orElse(keys[i]);
-			document.put(key, v);
+			
+			String parameter = getParameter(keys[i]);
+			String k;
+			if (parameter != null && parameters.containsKey(parameter)) {
+				k = (String)parameters.get(parameter);
+			}else {
+				k = keys[i];
+			}
+			
+			document.put(k, v);
 		}
 		return document;
 	}

@@ -27,6 +27,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
@@ -497,7 +498,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ImageURL("milestoneIcon")
 	private String getMilestoneIcon() {
 		if (milestone)
-			return "/img/flag_blue.svg";
+			return "/img/milestone_c.svg";
 		return null;
 	}
 
@@ -633,6 +634,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	private String chargerInfo;
 
+	@SetValue
+	private UserMeta chargerInfo_meta;
+
 	@WriteValue("charger")
 	private void setCharger(User charger) {
 		this.chargerId = Optional.ofNullable((User) charger).map(o -> o.getUserId()).orElse(null);
@@ -649,8 +653,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerId == null) {
 			return "";
 		}
-		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + chargerInfo
-				+ getDistributedIcon() + "</div>";
+		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+				+ MetaInfoWarpper.userInfo(chargerInfo_meta,chargerInfo)+getDistributedIcon()
+				+ "</div>";
 	}
 
 	public String getChargerInfo() {

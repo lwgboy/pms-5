@@ -47,6 +47,11 @@ public class User implements IResourceAssignment {
 	@ReadValue({ "name", "部门工作日程表/label" })
 	@WriteValue
 	private String name;
+	
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private String position;
 
 	@Persistence
 	@ReadValue

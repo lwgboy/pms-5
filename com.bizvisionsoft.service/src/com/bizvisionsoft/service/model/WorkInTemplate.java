@@ -359,7 +359,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@ImageURL({ "项目模板WBS/milestoneIcon", "项目模板WBS（分配角色）/milestoneIcon" })
 	private String getMilestoneIcon() {
 		if (milestone)
-			return "/img/flag_blue.svg";
+			return "/img/milestone_c.svg";
 		return null;
 	}
 

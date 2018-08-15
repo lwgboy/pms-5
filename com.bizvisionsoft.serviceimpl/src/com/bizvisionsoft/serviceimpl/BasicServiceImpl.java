@@ -174,34 +174,21 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.unwind("$" + outputField, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 	}
-
+	
 	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField) {
-		String tempField = "_user_" + useIdField;
+		appendUserInfo(pipeline,useIdField,userInfoField,userInfoField+"_meta");
+	}
 
-		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
-
-		// pipeline.add(Aggregates.unwind("$" + tempField, new
-		// UnwindOptions().preserveNullAndEmptyArrays(true)));
-
-		// 不显示userid
-		// pipeline.add(Aggregates.addFields(new Field<BasicDBObject>(userInfoField, new
-		// BasicDBObject("$concat",
-		// new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId",
-		// "]" }))));
-		// pipeline.add(Aggregates.addFields(new Field<String>(userInfoField, "$" +
-		// tempField + ".name")));
-
-		// "chargerInfo":
-		// {"$cond":[{"$size":"$charger"},{"$arrayElemAt":["$charger.name",0]},"A"]}
-
-		pipeline.add(new Document("$addFields",new Document(userInfoField, new Document("$cond", //
-				Arrays.asList(//
-						new Document("$size", "$" + tempField), //
-						new Document("$arrayElemAt", Arrays.asList("$" + tempField + ".name", 0)), //
-						"")//
-		))));
-
-		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
+	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField) {
+		pipeline.addAll(new JQ("追加-用户")//
+				.set("$chargerId", "$" + useIdField)//
+				.set("chargerInfo_meta", userMetaField)//
+				.set("$chargerInfo_meta", "$" + userMetaField)//
+				.set("chargerInfo_meta.org_id", userMetaField+".org_id")//
+				.set("chargerInfo", userInfoField)//
+				.set("$chargerInfo_meta.name", "$" + userMetaField+".name")//
+				.set("chargerInfo_meta.orgInfo", userMetaField+".orgInfo")//
+				.array());
 	}
 
 	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField,
