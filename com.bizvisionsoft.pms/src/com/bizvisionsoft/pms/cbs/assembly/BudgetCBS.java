@@ -189,7 +189,7 @@ public class BudgetCBS extends BudgetGrid {
 //	}
 
 	protected void updateCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
-		double inputAmount = getDoubleValue(input);
+		double inputAmount = Util.getDoubleInput((String) input);
 
 		///////////////////////////////////////
 		// 避免在没有修改的时候调用服务端程序
@@ -209,19 +209,6 @@ public class BudgetCBS extends BudgetGrid {
 		updateCBSPeriodBudget(((CBSItem) item), period);
 	}
 
-	private double getDoubleValue(Object input) throws Exception {
-		double inputAmount;
-		try {
-			if ("".equals(input)) {
-				inputAmount = 0;
-			} else {
-				inputAmount = Double.parseDouble(input.toString());
-			}
-		} catch (Exception e) {
-			throw new Exception("请输入数字");
-		}
-		return inputAmount;
-	}
 
 //	//////////////////////////////////////////////////////////////////////////////
 //	// DEMO 奥飞

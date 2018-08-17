@@ -1570,5 +1570,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAllProjects(BasicDBObject filter) {
 		return count(filter);
 	}
+	
+	@Override
+	public Integer schedule(ObjectId _id) {
+		return super.schedule(_id);
+	}
 
 }

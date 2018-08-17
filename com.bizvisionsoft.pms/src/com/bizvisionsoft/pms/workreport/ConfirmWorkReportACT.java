@@ -41,6 +41,7 @@ public class ConfirmWorkReportACT {
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
 			brui.closeCurrentContent();
+			brui.updateSidebarActionBudget("确认报告");
 		}
 	}
 }

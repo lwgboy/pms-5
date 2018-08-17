@@ -136,8 +136,8 @@ public class RiskScore {
 			text += new DecimalFormat("0.0").format(minCostImpact);
 		}
 		text += " ~ ";
-		if (maxTimeImpact != null) {
-			text += new DecimalFormat("0.0").format(maxTimeImpact);
+		if (maxCostImpact != null) {
+			text += new DecimalFormat("0.0").format(maxCostImpact);
 		}
 		return text;
 	}

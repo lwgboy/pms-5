@@ -39,7 +39,7 @@ public class EditCBSSubjectBudget {
 
 			Editor.create("期间预算编辑器", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
 				BudgetSubject grid = (BudgetSubject) context.getContent();
-				grid.updateCBSSubjectBudget(account, o);
+				grid.updateCBSSubjectBudget( o);
 			});
 
 		});

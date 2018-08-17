@@ -428,7 +428,7 @@ public class EditResourceASM extends GridPart {
 		} else if (text.startsWith("OverTime")) {
 			dialogMessage = "请填写资源加班用量";
 		}
-		InputDialog id = new InputDialog(brui.getCurrentShell(), dialogTitle, dialogMessage, null, t -> {
+		InputDialog id = new InputDialog(brui.getCurrentShell(), dialogTitle, dialogMessage, "8", t -> {
 			if (t.trim().isEmpty())
 				return "请输入资源用量";
 			double d;

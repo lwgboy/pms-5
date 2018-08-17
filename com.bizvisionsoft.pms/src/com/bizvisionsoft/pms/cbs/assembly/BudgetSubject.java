@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
-import org.eclipse.nebula.widgets.grid.Grid;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
@@ -50,7 +53,7 @@ public class BudgetSubject extends BudgetGrid {
 		Object parentInput = context.getParentContext().getInput();
 		if (parentInput instanceof CBSItem)
 			cbsItem = (CBSItem) parentInput;
-		
+
 		if (cbsItem == null) {
 			ObjectId cbs_id = scope.getCBS_id();
 			if (cbs_id != null) {
@@ -70,13 +73,6 @@ public class BudgetSubject extends BudgetGrid {
 		} else {
 			Layer.message("无法编制科目预算", Layer.ICON_CANCEL);
 		}
-	}
-
-	@Override
-	protected Grid createGridControl(Composite parent) {
-		Grid grid = super.createGridControl(parent);
-		grid.setFooterVisible(true);
-		return grid;
 	}
 
 	@Override
@@ -242,11 +238,47 @@ public class BudgetSubject extends BudgetGrid {
 		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
 	}
 
-	public void updateCBSSubjectBudget(AccountItem account, CBSSubject subject) {
+	public void updateCBSSubjectBudget(CBSSubject subject) {
 		CBSSubject newSubject = Services.get(CBSService.class).upsertCBSSubjectBudget(subject);
 		accountBudget.remove(subject);
 		accountBudget.add(newSubject);
 		viewer.refresh();
+	}
+
+
+	@Override
+	protected EditingSupport supportMonthlyEdit(GridViewerColumn vcol) {
+		final String id = (String) vcol.getColumn().getData("name");
+		return new EditingSupport(viewer) {
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				try {
+					double d = Util.getDoubleInput((String) value);
+					CBSSubject subject = new CBSSubject().setCBSItem_id(cbsItem.get_id())
+							.setSubjectNumber(((AccountItem)element).getId()).setId(id).setBudget(d);
+					updateCBSSubjectBudget(subject);
+				} catch (Exception e) {
+					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+				}
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				Double value = getBudget((AccountItem) element, id);
+				return value==null?"":value.toString();
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new TextCellEditor(viewer.getGrid());
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return element instanceof AccountItem;
+			}
+		};
 	}
 
 }
