@@ -11,6 +11,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -91,7 +92,7 @@ public class ProjectSet {
 	@SetValue
 	private UserMeta pgmInfo_meta;
 
-	@ReadValue("pgmInfoHtml")
+	@ReadValue("pmInfoHtml")
 	private String readPMInfoHtml() {
 		if (pgmId == null) {
 			return "";
@@ -123,6 +124,10 @@ public class ProjectSet {
 	@WriteValue
 	@ReadValue
 	private OperationInfo creationInfo;
+
+	public void setCreationInfo(OperationInfo operationInfo) {
+		creationInfo = operationInfo;
+	}
 
 	@ReadValue("createOn")
 	private Date readCreateOn() {
@@ -173,8 +178,13 @@ public class ProjectSet {
 	@Exclude
 	private String icon = "/img/project_set_c.svg";
 
-	public void setCreationInfo(OperationInfo operationInfo) {
-		creationInfo = operationInfo;
+	@Behavior("删除项目集")
+	private boolean isRemovable() {
+		return countSubProjectSetsAndProjects() == 0;
 	}
+	
+	@Exclude
+	@Behavior({"项目集操作","打开项目集"})
+	private boolean editableBehavior = true;
 
 }

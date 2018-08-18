@@ -1079,6 +1079,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private boolean behaviourApproveProjectStart() {
 		return ProjectStatus.Created.equals(status) && !Boolean.TRUE.equals(startApproved);
 	}
+	
+	@Behavior("从项目集移除项目")
+	private boolean behaviourRemoveFromProjectSet() {
+		return true;
+	}
 
 	public Boolean getStartApproved() {
 		return startApproved;

@@ -36,8 +36,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 
 	public Gson getGson() {
 		return new GsonBuilder()//
-				.serializeNulls()
-				.registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
+				.serializeNulls().registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
 				.registerTypeAdapter(Date.class, new DateAdapter())//
 				.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
 				.registerTypeAdapter(Document.class, new DocumentAdapter())//
@@ -88,7 +87,5 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 			}
 		}
 	}
-
-
 
 }

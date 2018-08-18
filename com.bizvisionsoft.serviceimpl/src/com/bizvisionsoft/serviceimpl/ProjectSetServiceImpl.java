@@ -12,6 +12,7 @@ import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.UpdateResult;
 
 public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSetService {
 
@@ -38,10 +39,10 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		return query(skip, limit, filter);
 	}
-	
+
 	@Override
 	public long countRoot(BasicDBObject filter) {
-		if(filter ==null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.append("parent_id", null);
@@ -51,7 +52,7 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	@Override
 	public List<ProjectSet> listRoot(BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if(filter ==null) {
+		if (filter == null) {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
@@ -95,6 +96,28 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	@Override
 	public long update(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, ProjectSet.class);
+	}
+
+	@Override
+	public void addProjects(List<ObjectId> pjIds, ObjectId _id) {
+		if (pjIds.isEmpty())
+			throw new ServiceException("没有指定项目");
+		if (_id == null)
+			throw new ServiceException("没有指定项目集");
+		if (count(new BasicDBObject("_id", _id)) == 0)
+			throw new ServiceException("指定的项目集不存在");
+		UpdateResult ur = c("project").updateMany(new Document("_id", new Document("$in", pjIds)),
+				new Document("$set", new Document("projectSet_id", _id)));
+		if (ur.getModifiedCount() == 0)
+			throw new ServiceException("没有更新");
+	}
+
+	@Override
+	public void unsetProjectSet(ObjectId project_id) {
+		UpdateResult ur = c("project").updateOne(new Document("_id", project_id),
+				new Document("$set", new Document("projectSet_id", null)));
+		if(ur.getModifiedCount()==0)
+			throw new ServiceException("没有更新");
 	}
 
 	// @Override
