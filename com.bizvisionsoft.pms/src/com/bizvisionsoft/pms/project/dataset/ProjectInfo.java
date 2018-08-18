@@ -35,7 +35,7 @@ public class ProjectInfo {
 
 	@DataSet("list")
 	public List<Project> data() {
-		return service.createDataSet(new Query().filter(new BasicDBObject("_id", project_id)).bson());
+		return service.list(new Query().filter(new BasicDBObject("_id", project_id)).bson());
 	}
 
 }

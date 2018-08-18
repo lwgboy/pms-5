@@ -120,7 +120,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public Project get(ObjectId _id) {
-		List<Project> ds = createDataSet(new BasicDBObject("filter", new BasicDBObject("_id", _id)));
+		List<Project> ds = list(new BasicDBObject("filter", new BasicDBObject("_id", _id)));
 		if (ds.size() == 0) {
 			throw new ServiceException("没有_id为" + _id + "的项目。");
 		}
@@ -133,7 +133,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Project> createDataSet(BasicDBObject condition) {
+	public List<Project> list(BasicDBObject condition) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1532,7 +1532,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			condition.put("filter", filter);
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
-		return createDataSet(condition);
+		return list(condition);
 	}
 
 	@Override

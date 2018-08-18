@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.ProjectSet;
 import com.mongodb.BasicDBObject;
@@ -24,19 +25,22 @@ public interface ProjectSetService {
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ProjectSet insert(ProjectSet project);
+	@DataSet({ "项目集管理/insert" })
+	public ProjectSet insert(@MethodParam(MethodParam.OBJECT) ProjectSet projectSet);
 
 	@PUT
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long update(BasicDBObject filterAndUpdate);
+	@DataSet({ "项目集管理/update" })
+	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate);
 
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ProjectSet get(@PathParam("_id") ObjectId _id);
+	@DataSet(DataSet.INPUT)
+	public ProjectSet get(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/count/")
@@ -48,19 +52,28 @@ public interface ProjectSetService {
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ProjectSet> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<ProjectSet> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	
+	@POST
+	@Path("/root/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目集管理/count" })
+	public long countRoot(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/root/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目集管理/list" })
+	public List<ProjectSet> listRoot(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@Deprecated
-	public long delete(@PathParam("_id") ObjectId get_id);
-
-	@POST
-	@Path("/finish/ds/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<ProjectSet> listFinishProjectSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	@DataSet({ "项目集管理/delete" })
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 }

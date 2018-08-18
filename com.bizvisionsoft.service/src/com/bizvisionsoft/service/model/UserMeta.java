@@ -17,5 +17,5 @@ public class UserMeta {
 	public String orgInfo;
 	
 	public List<RemoteFile> headPics;
-
+	
 }

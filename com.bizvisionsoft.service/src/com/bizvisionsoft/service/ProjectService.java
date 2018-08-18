@@ -68,7 +68,7 @@ public interface ProjectService {
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Project> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Project> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/_id/{_id}/daterange")

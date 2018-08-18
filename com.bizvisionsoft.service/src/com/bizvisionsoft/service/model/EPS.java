@@ -100,7 +100,7 @@ public class EPS implements Comparable<EPS> {
 
 		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
 
-		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
+		result.addAll(ServicesLoader.get(ProjectService.class).list(
 				new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		return result;
@@ -120,7 +120,7 @@ public class EPS implements Comparable<EPS> {
 
 		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
 
-		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(new Query().filter(
+		result.addAll(ServicesLoader.get(ProjectService.class).list(new Query().filter(
 				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed))
 				.bson()));
 

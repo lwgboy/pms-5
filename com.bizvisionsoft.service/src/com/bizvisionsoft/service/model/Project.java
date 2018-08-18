@@ -151,11 +151,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	@ReadValue
 	private ProjectSet projectSet;
-
 	
 	@WriteValue("projectSet")
 	private void writeProjectSet(ProjectSet projectSet) {
-		this.eps_id = Optional.ofNullable(projectSet).map(e -> e.get_id()).orElse(null);
+		this.projectSet_id = Optional.ofNullable(projectSet).map(e -> e.get_id()).orElse(null);
 		this.projectSet = projectSet;
 	}
 	
