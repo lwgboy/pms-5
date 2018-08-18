@@ -73,39 +73,12 @@
 【修改BUG】工作报告确认后，没有更新progress-------------------------------OK
 【改善体验】增加Action和budget-------------------------------------------OK
 【删去冗余】去掉按阶段创建预算的按钮 (8/6)-------------------------------------------------OK
-
-=====================================================================================================================================
 【BUG】代表室 到底是否必填------------------------------OK
 【优化】OBS增加直接选人的Action--------------------OK
 【BUG】甘特图消失问题-------------------------------OK
 【BUG】预算CBS在存在Subject不能更新的问题---------------OK
 【BUG】一周报告列高不够的情况---------------OK
 【优化】编辑器多行上下布局
-
-
-//		String tempField = userMetaField == null ? (userInfoField + "_meta") : userMetaField;
-//
-//		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
-//
-//		// pipeline.add(Aggregates.unwind("$" + tempField, new
-//		// UnwindOptions().preserveNullAndEmptyArrays(true)));
-//
-//		// 不显示userid
-//		// pipeline.add(Aggregates.addFields(new Field<BasicDBObject>(userInfoField, new
-//		// BasicDBObject("$concat",
-//		// new String[] { "$" + tempField + ".name", " [", "$" + tempField + ".userId",
-//		// "]" }))));
-//		// pipeline.add(Aggregates.addFields(new Field<String>(userInfoField, "$" +
-//		// tempField + ".name")));
-//
-//		// "chargerInfo":
-//		// {"$cond":[{"$size":"$charger"},{"$arrayElemAt":["$charger.name",0]},"A"]}
-//
-//		pipeline.add(new Document("$addFields", new Document(userInfoField, new Document("$cond", //
-//				Arrays.asList(//
-//						new Document("$size", "$" + tempField), //
-//						new Document("$arrayElemAt", Arrays.asList("$" + tempField + ".name", 0)), //
-//						"")//
-//		))));
-//
-//		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));//
+【改善体验】人员增加信息弹出 -------------------------OK
+【BUG】不是项目经理时不应该显示批注按钮，而不是显示一个不能用的按钮 178行的逻辑写反了-------------OK
+【改善体验】对我的项目和所有项目，增加EPS的查询--------------------------------OK

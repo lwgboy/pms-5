@@ -19090,40 +19090,23 @@
                 "grabVertical": false
               },
               {
-                "id": "1654aeb9309",
-                "name": "新字段1",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1654aebad20",
-                    "name": "eps_id",
-                    "text": "EPS",
-                    "type": "对象选择（查询）",
-                    "formFields": [],
-                    "hasInfoLabel": false,
-                    "textPasswordStyle": false,
-                    "readOnly": false,
-                    "required": false,
-                    "textLimit": 0,
-                    "selectorAssemblyId": "1654ad4f765",
-                    "maxFileSize": 0,
-                    "timeLimit": 0,
-                    "height": 0,
-                    "staticContent": false,
-                    "grabVertical": false,
-                    "valueFieldName": "_id"
-                  }
-                ],
+                "id": "1654aebad20",
+                "name": "eps_id",
+                "text": "EPS",
+                "type": "对象选择（查询）",
+                "formFields": [],
                 "hasInfoLabel": false,
                 "textPasswordStyle": false,
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
+                "selectorAssemblyId": "1654ad4f765",
                 "maxFileSize": 0,
                 "timeLimit": 0,
                 "height": 0,
                 "staticContent": false,
-                "grabVertical": false
+                "grabVertical": false,
+                "valueFieldName": "_id"
               },
               {
                 "id": "165058cfd4f",
@@ -58436,6 +58419,25 @@
                 "height": 0,
                 "staticContent": false,
                 "grabVertical": false
+              },
+              {
+                "id": "1654b459bbd",
+                "name": "eps_id",
+                "text": "EPS",
+                "type": "对象选择（查询）",
+                "formFields": [],
+                "hasInfoLabel": false,
+                "textPasswordStyle": false,
+                "readOnly": false,
+                "required": false,
+                "textLimit": 0,
+                "selectorAssemblyId": "1654ad4f765",
+                "maxFileSize": 0,
+                "timeLimit": 0,
+                "height": 0,
+                "staticContent": false,
+                "grabVertical": false,
+                "valueFieldName": "_id"
               },
               {
                 "id": "165058cfd4f",
