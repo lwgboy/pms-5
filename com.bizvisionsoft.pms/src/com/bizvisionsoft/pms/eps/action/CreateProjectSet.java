@@ -24,7 +24,6 @@ public class CreateProjectSet {
 		context.selected(em -> {
 			ProjectSet input = new ProjectSet();
 			if (em instanceof EPS) {
-				input.setEps_id(((EPS) em).get_id());
 			} else if (em instanceof ProjectSet) {
 				input.setParent_id(((ProjectSet) em).get_id());
 			} else {

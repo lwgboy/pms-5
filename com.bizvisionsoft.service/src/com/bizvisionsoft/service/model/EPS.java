@@ -15,7 +15,6 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
 import com.mongodb.BasicDBObject;
@@ -63,7 +62,7 @@ public class EPS implements Comparable<EPS> {
 	@WriteValue
 	private String description;
 
-	@Behavior({ "EPS浏览/创建项目集", "项目模板管理/创建项目模板" }) // 控制action
+	@Behavior({ "项目模板管理/创建项目模板" }) // 控制action
 	@Exclude // 不用持久化
 	private boolean enabledBehaviors = true;
 
@@ -85,12 +84,12 @@ public class EPS implements Comparable<EPS> {
 		return id.compareTo(o.id);
 	}
 
-	@Structure("EPS管理/list")
+	@Structure({"EPS管理/list", "EPS选择/list"})
 	public List<EPS> listSubEPS() {
 		return ServicesLoader.get(EPSService.class).getSubEPS(_id);
 	}
 
-	@Structure("EPS管理/count")
+	@Structure({"EPS管理/count", "EPS选择/"})
 	public long countSubEPS() {
 		return ServicesLoader.get(EPSService.class).countSubEPS(_id);
 	}
@@ -100,9 +99,6 @@ public class EPS implements Comparable<EPS> {
 		ArrayList<Object> result = new ArrayList<Object>();
 
 		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
-
-		result.addAll(ServicesLoader.get(ProjectSetService.class)
-				.createDataSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(
 				new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
@@ -115,8 +111,6 @@ public class EPS implements Comparable<EPS> {
 		// 查下级
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
 		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id));
-		cnt += ServicesLoader.get(ProjectSetService.class)
-				.count(new BasicDBObject("eps_id", _id));
 		return cnt;
 	}
 
@@ -125,9 +119,6 @@ public class EPS implements Comparable<EPS> {
 		ArrayList<Object> result = new ArrayList<Object>();
 
 		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
-
-		result.addAll(ServicesLoader.get(ProjectSetService.class)
-				.listFinishProjectSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).createDataSet(new Query().filter(
 				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed))
@@ -140,30 +131,8 @@ public class EPS implements Comparable<EPS> {
 	public long countFinishSubNodes() {
 		// 查下级
 		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
-		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
 		cnt += ServicesLoader.get(ProjectService.class).count(
 				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
-		return cnt;
-	}
-
-	@Structure("EPS和项目集选择 /list")
-	public List<Object> listSubEPSAndProjectSets() {
-		ArrayList<Object> result = new ArrayList<Object>();
-
-		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
-
-		result.addAll(ServicesLoader.get(ProjectSetService.class)
-				.createDataSet(new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
-
-		return result;
-
-	}
-
-	@Structure("EPS和项目集选择/count")
-	public long countSubEPSAndProjectSets() {
-		// 查下级
-		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
-		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("eps_id", _id));
 		return cnt;
 	}
 

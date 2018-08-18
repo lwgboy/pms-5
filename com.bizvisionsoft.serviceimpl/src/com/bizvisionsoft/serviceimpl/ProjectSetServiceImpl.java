@@ -2,14 +2,11 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
-import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectSet;
@@ -22,7 +19,6 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 
 	@Override
 	public ProjectSet insert(ProjectSet projectSet) {
-		projectSet.setWorkOrder(generateWorkOrder(projectSet));
 		return insert(projectSet, ProjectSet.class);
 	}
 
@@ -124,49 +120,6 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 			pipeline.add(new BasicDBObject("$limit", limit));
 
 		return c(ProjectSet.class).aggregate(pipeline).into(new ArrayList<ProjectSet>());
-	}
-
-	@Override
-	public String generateWorkOrder(ProjectSet projectSet) {
-		/**
-		 * TODO 需要根据九洲定制
-		 * 
-		 * KG×-××-××-××××
-		 * 
-		 * 作号采用四级编码。
-		 *
-		 * 第1位至第2位为类型码：KG代表科研类项目；YG代表预研类项目；CG代表CBB项目。
-		 *
-		 * 第3位为承研部门：1代表识别事业部；2代表探测事业部；3代表空管公司；5代表通信与对抗事业部；6代表工程部；7代表预研部；8代表共性部。
-		 *
-		 * 第4位至第9位为立项顺序号，分为两部分：
-		 * 1.第4位至第6位按流水号排序，每年从“-01”开始往后编排，如项目为子项目，则第4位至第6位为父项目立项顺序号；
-		 * 2.第7位至第9位为子项目流水号，从项目中获取的子项目流水号，如不是子项目，则第7位至第9位为空。
-		 * 
-		 * 第10位至第14位为立项年份。
-		 **/
-		String catalog = projectSet.getCatalog();
-		ObjectId impunit_id = projectSet.getImpUnit_id();
-
-		String workOrder;
-		if ("预研".equals(catalog)) {
-			workOrder = "YG";
-		} else if ("CBB".equals(catalog)) {
-			workOrder = "CG";
-		} else {
-			workOrder = "KG";
-		}
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-
-		String orgNo = c("organization").distinct("id", new Document("_id", impunit_id), String.class).first();
-		workOrder += orgNo;
-
-		int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);
-		workOrder += "-" + String.format("%02d", index);
-
-		workOrder += "-" + String.format("%04d", year);
-
-		return workOrder;
 	}
 
 }

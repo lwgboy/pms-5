@@ -22,11 +22,9 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
-import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -103,17 +101,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return workOrder;
 	}
 
-	/**
-	 * 项目集Id
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private ObjectId projectSet_id;
-
-	@SetValue
-	@ReadValue
-	private ProjectSet projectSet;
 
 	/**
 	 * 父项目Id
@@ -139,20 +126,39 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 * EPS节点Id
 	 */
 	@Persistence
+	@ReadValue
+	@WriteValue
 	private ObjectId eps_id;
 
 	@SetValue
 	@ReadValue
 	private EPS eps;
 
-	@ReadValue("epsName")
-	public String getEPSName() {
-		if (eps != null)
-			return eps.getName();
-
-		return "";
+	@WriteValue("eps")
+	private void writeEPS(EPS eps) {
+		this.eps_id = Optional.ofNullable(eps).map(e -> e.get_id()).orElse(null);
+		this.eps = eps;
 	}
+	
+	/**
+	 * 项目集Id
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private ObjectId projectSet_id;
 
+	@SetValue
+	@ReadValue
+	private ProjectSet projectSet;
+
+	
+	@WriteValue("projectSet")
+	private void writeProjectSet(ProjectSet projectSet) {
+		this.eps_id = Optional.ofNullable(projectSet).map(e -> e.get_id()).orElse(null);
+		this.projectSet = projectSet;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
 	/**
@@ -514,23 +520,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private String customerRepresentative;
 
-	@WriteValue("eps_or_projectset_id")
-	public void setEPSorProjectSet(Object element) {
-		if (element instanceof EPS)
-			this.eps_id = ((EPS) element).get_id();
-		if (element instanceof ProjectSet)
-			this.projectSet_id = ((ProjectSet) element).get_id();
-	}
-
-	@ReadValue("eps_or_projectset_id")
-	public Object getEPSOrProjectSet() {
-		if (eps_id != null)
-			return ServicesLoader.get(EPSService.class).get(eps_id);
-		if (projectSet_id != null)
-			return ServicesLoader.get(ProjectSetService.class).get(projectSet_id);
-		return null;
-	}
-
 	@Override
 	@Label
 	public String toString() {
@@ -775,14 +764,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Override
 	public OBSItem newOBSScopeRoot() {
 
-		ObjectId obsParent_id = Optional.ofNullable(projectSet_id)
-				.map(pjset_id -> ServicesLoader.get(ProjectSetService.class).get(pjset_id)).map(ps -> ps.getOBS_id())
-				.orElse(null);
-
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
 				.set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
-				.setParent_id(obsParent_id)// 设置上级的id
+				.setParent_id(null)// 设置上级的id
 				.setName(getName() + "项目组")// 设置该组织节点的默认名称
 				.setRoleId(OBSItem.ID_PM)// 设置该组织节点的角色id
 				.setRoleName(OBSItem.NAME_PM)// 设置该组织节点的名称

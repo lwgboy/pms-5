@@ -63,9 +63,4 @@ public interface ProjectSetService {
 	@Produces("application/json; charset=UTF-8")
 	public List<ProjectSet> listFinishProjectSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
-	@POST
-	@Path("/genworkorder/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public String generateWorkOrder(ProjectSet projectSet);
 }
