@@ -49,7 +49,16 @@ public class RiskEffect {
 	private String readReault() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'>");
-		sb.append("<div>" + work.getWBSCode() + " " + work.getFullName() + "</div>");
+		sb.append("<div>");
+		if(work.getActualFinish()!=null) {
+			sb.append("<i class='layui-icon layui-icon-ok' style='color:blue'></i>&nbsp;");
+		}else if(work.getActualStart()!=null) {
+			sb.append("<i class='layui-icon layui-icon-triangle-r' style='color:green'></i>&nbsp;");
+		}else {
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		}
+		
+		sb.append(work.getWBSCode() + " " + work.getFullName() + "</div>");
 		sb.append("<div>" + work.getChargerInfoHtml() + "</div>");
 		sb.append("</div>");
 		return sb.toString();

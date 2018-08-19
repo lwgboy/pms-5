@@ -25801,7 +25801,7 @@
               {
                 "id": "16381b0afbc",
                 "name": "probability",
-                "text": "发生概率（%）",
+                "text": "发生概率(%)",
                 "type": "单行文本框",
                 "formFields": [],
                 "hasInfoLabel": false,

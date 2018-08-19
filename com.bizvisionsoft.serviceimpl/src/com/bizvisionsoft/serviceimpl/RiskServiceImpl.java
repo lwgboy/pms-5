@@ -309,7 +309,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-		ArrayList<Document> riskEffect = c("rbsItem")
+		ArrayList<Document> riskEffect = c("riskEffect")
 				.aggregate(new JQ("查询-风险-GraphicRisk模型").set("project_id", _id).array()).into(new ArrayList<>());
 
 		ArrayList<Task> tasks = new ArrayList<Task>();
