@@ -217,6 +217,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			else if (ProjectStatus.Closing.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
 						+ "close/" + "' target='_rwt'>" + "¹Ø±Õ" + "</a>";
+			html += "</div>";
 			return html;
 		} else {
 			return "<div>" + text + "</div>";
@@ -1175,6 +1176,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
 		} else {
 			return "";
+		}
+	}
+
+	public String getImageURL() {
+		if (getActualFinish() != null) {
+			return "/img/task_finished.svg";
+		} else if (getActualStart() != null) {
+			return "/img/task_wip.svg";
+		} else {
+			return "/img/task.svg";
 		}
 	}
 

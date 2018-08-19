@@ -42,6 +42,13 @@ public class RBSItem {
 	@ReadValue
 	@WriteValue
 	private ObjectId parent_id;
+	
+	/**
+	 * 风险的状态
+	 */
+	@ReadValue
+	@WriteValue
+	private String status;
 
 	/** 编号 Y **/
 	private int index;
@@ -78,10 +85,10 @@ public class RBSItem {
 	/**
 	 * 风险描述
 	 */
-	@ReadValue
 	@WriteValue
+	@ReadValue({ "description", "项目风险登记簿/desc", "项目风险登记簿（查看）/desc" })
 	private String description;
-
+	
 	public String getDescription() {
 		return description;
 	}

@@ -22,6 +22,7 @@ public class MetaInfoWarpper {
 			return warpper(text, message);
 		}else {
 			String message = 
+					meta.name + " [" + meta.userId + "]<br>" + //
 					(meta.orgInfo == null ? "" : (meta.orgInfo + "<br>")) + //
 					(meta.position == null ? "" : (meta.position + "<br>")) + //
 					(meta.email == null ? "" : ("” œ‰£∫" + meta.email + "<br>")) + //
