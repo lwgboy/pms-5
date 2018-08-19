@@ -188,7 +188,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		btn.setHtmlAttribute("class", "brui_bg_lightgrey");
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='margin-top:8px;color:#757575;'>" + title + "</div>");
-		ind = (ind==null||ind<0)?0:(double)Math.round(ind*100)/100;;
+		ind = (ind==null||ind<0)?0:(double)Math.round(ind*100)/100;
 		
 		String url = "/bvs/svg?type=progress&percent="+ind+"&bgColor=81d4fa&fgColor=0091ea";
 		sb.append("<img style='margin-top:32px;' src='"+url+"' width=140 height=140/>");

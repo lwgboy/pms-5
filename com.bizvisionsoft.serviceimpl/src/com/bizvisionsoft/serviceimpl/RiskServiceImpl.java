@@ -358,13 +358,28 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public Document monteCarloSimulateChartData(ObjectId project_id) {
 		Document mcs = c("monteCarloSimulate").find(new Document("project_id", project_id)).first();
-		Object value = null;
+		List<?> tData = null;
 		if (mcs != null) {
-			value = mcs.get("Tdata");
+			tData = (List<?>) mcs.get("Tdata");
 		}
-		if (value == null)
-			value = new ArrayList<>();
-		return new JQ("图表-MCS-项目").set("data", value).doc();
+		if (tData == null)
+			tData = new ArrayList<>();
+		
+		ArrayList<List<Double>> sData = new ArrayList<>();
+		tData.forEach(elem->{
+			Double v1 = (Double) ((List<?>)elem).get(0);
+			Double v2 = (Double) ((List<?>)elem).get(1);
+			Double sum;
+			if(sData.size()==0) {
+				sum = v2;
+			}else {
+				sum = sData.get(sData.size()-1).get(1)+v2;
+			}
+			sum = (double)Math.round(sum*100)/100;
+			sData.add(Arrays.asList(new Double[] {v1,sum}));
+		});
+		
+		return new JQ("图表-MCS-项目").set("data", tData).set("sum",sData).doc();
 	}
 
 	@Override
