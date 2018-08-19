@@ -24,8 +24,8 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.model.Project;
 
 public class ProjecBasicIndicatorsWidgetASM {
@@ -143,16 +143,17 @@ public class ProjecBasicIndicatorsWidgetASM {
 			}
 		}
 
-		page = createPage(parent, carousel, 2);
-		addIndicator(page, toString(project.getWAR()), "工作量完成率");
-		addIndicator(page, toString(project.getDAR()), "工期完成率");
-		addIndicator(page, toString(project.getCAR()), "预算使用率");
-		addIndicator(page, toString(project.getBDR()), "预算偏差率");
+		page = createPage(parent, carousel, 3);
+		addCycleIndicator(page, project.getWAR(), "工作量完成率");
+		addCycleIndicator(page, project.getDAR(), "工期完成率");
+		addCycleIndicator(page, project.getCAR(), "预算使用率");
+		
 
 		page = createPage(parent, carousel, 2);
 
 		addIndicator(page, toString(project.getSAR()), "计划完成率");
-		addIndicator(page, toString(0.12), "一级计划如期完成率");// TODO
+//		addIndicator(page, toString(0.12), "一级计划如期完成率");// TODO
+		addIndicator(page, toString(project.getBDR()), "预算偏差率");
 
 		new Composite(page, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		new Composite(page, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -181,6 +182,23 @@ public class ProjecBasicIndicatorsWidgetASM {
 		return Optional.ofNullable(ind).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 	}
 
+	private Control addCycleIndicator(Composite parent, Double ind, String title) {
+		Label btn = new Label(parent, SWT.CENTER);
+		UserSession.bruiToolkit().enableMarkup(btn);
+		btn.setHtmlAttribute("class", "brui_bg_lightgrey");
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div style='margin-top:8px;color:#757575;'>" + title + "</div>");
+		ind = (ind==null||ind<0)?0:(double)Math.round(ind*100)/100;;
+		
+		String url = "/bvs/svg?type=progress&percent="+ind+"&bgColor=81d4fa&fgColor=0091ea";
+		sb.append("<img style='margin-top:32px;' src='"+url+"' width=140 height=140/>");
+		btn.setText(sb.toString());
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		btn.setLayoutData(data);
+		return btn;
+	}
+	
+	
 	private Control addIndicator(Composite parent, String ind, String title, String css, String titleColor,
 			String textColor) {
 		Label btn = new Label(parent, SWT.CENTER);
