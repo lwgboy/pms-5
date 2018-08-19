@@ -25,8 +25,6 @@ public class EPSInfo implements Comparable<EPSInfo> {
 
 	public static final String TYPE_EPS = "eps";
 
-	public static final String TYPE_PROJECTSET = "projectset";
-
 	public static final String TYPE_PROJECT = "project";
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,8 +46,6 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	public String getIcon() {
 		if (TYPE_EPS.equals(type))
 			return "/img/eps_c.svg";
-		else if (TYPE_PROJECTSET.equals(type))
-			return "/img/project_set_c.svg";
 		else
 			return "/img/project_c.svg";
 	}

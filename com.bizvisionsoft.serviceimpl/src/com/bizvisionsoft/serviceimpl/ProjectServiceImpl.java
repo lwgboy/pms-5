@@ -62,12 +62,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			ObjectId obsRoot_id = new ObjectId();// 组织根
 			ObjectId cbsRoot_id = new ObjectId();// 预算根
 
-			ObjectId projectSet_id = input.getProjectSet_id();
+			ObjectId program_id = input.getProgram_id();
 			ObjectId obsParent_id = null;// 组织上级
 			ObjectId cbsParent_id = null;// 成本上级
-			if (projectSet_id != null) {
+			if (program_id != null) {
 				// 获得上级obs_id
-				Document doc = c("projectSet").find(new BasicDBObject("_id", projectSet_id))
+				Document doc = c("program").find(new BasicDBObject("_id", program_id))
 						.projection(new BasicDBObject("obs_id", true).append("cbs_id", true)).first();
 				obsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("obs_id")).orElse(null);
 				cbsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("cbs_id")).orElse(null);
@@ -155,7 +155,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendStage(pipeline, "stage_id", "stage");
 
-		appendLookupAndUnwind(pipeline, "projectSet", "projectSet_id", "projectSet");
+		appendLookupAndUnwind(pipeline, "program", "program_id", "program");
 
 		appendLookupAndUnwind(pipeline, "eps", "eps_id", "eps");
 
@@ -924,7 +924,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = get(_id);
 		String catalog = project.getCatalog();
 		ObjectId parentproject_id = project.getParentProject_id();
-		ObjectId projectSet_id = project.getProjectSet_id();
+		ObjectId program_id = project.getProgram_id();
 		ObjectId impunit_id = project.getImpUnit_id();
 
 		String workOrder;
@@ -948,12 +948,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 
-		} else if (projectSet_id != null) {
-			String projectSetWorkOrder = c("projectSet")
-					.distinct("workOrder", new Document("_id", projectSet_id), String.class).first();
-			String[] workorders = projectSetWorkOrder.split("-");
+		} else if (program_id != null) {
+			String programWorkOrder = c("program")
+					.distinct("workOrder", new Document("_id", program_id), String.class).first();
+			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + projectSetWorkOrder);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 		} else {
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);

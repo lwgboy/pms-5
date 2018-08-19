@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.projectset;
+package com.bizvisionsoft.pms.program;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -7,11 +7,11 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.ProjectSetService;
-import com.bizvisionsoft.service.model.ProjectSet;
+import com.bizvisionsoft.service.ProgramService;
+import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateSubProjectSet {
+public class CreateSubProgram {
 	
 	@Inject
 	private IBruiService br;
@@ -19,15 +19,15 @@ public class CreateSubProjectSet {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(em -> {
-			if (em instanceof ProjectSet) {
-				ProjectSet pjSet = new ProjectSet();
-				pjSet.setParent_id(((ProjectSet) em).get_id());
+			if (em instanceof Program) {
+				Program pjSet = new Program();
+				pjSet.setParent_id(((Program) em).get_id());
 				pjSet.setCreationInfo(br.operationInfo());
-				new Editor<ProjectSet>(br.getAssembly("项目集编辑器"), context)
+				new Editor<Program>(br.getAssembly("项目集编辑器"), context)
 						.setInput(pjSet)
 
 						.ok((r, t) -> {
-							ProjectSet result = Services.get(ProjectSetService.class).insert(t);
+							Program result = Services.get(ProgramService.class).insert(t);
 							GridPart grid = (GridPart) context.getContent();
 							grid.add(em, result);
 						});

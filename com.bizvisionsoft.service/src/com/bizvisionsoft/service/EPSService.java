@@ -63,13 +63,6 @@ public interface EPSService {
 	@DataSet("EPSπ‹¿Ì/" + DataSet.DELETE)
 	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
-	@DELETE
-	@Path("/projectset/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("EPS‰Ø¿¿/" + DataSet.DELETE)
-	public long deleteProjectSet(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
-
 	@PUT
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")

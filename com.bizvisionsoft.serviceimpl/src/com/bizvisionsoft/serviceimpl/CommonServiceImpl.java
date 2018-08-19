@@ -490,8 +490,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("projectChange", new Document("project_id", 1), "project");
 		createIndex("projectChange", new Document("applicantDate", -1), "date");
 
-		// createIndex("projectSet", new Document("workOrder", 1), "workOrder");
-		createIndex("projectSet", new Document("eps_id", 1), "eps");
+		// createIndex("program", new Document("workOrder", 1), "workOrder");
+		createIndex("program", new Document("eps_id", 1), "eps");
 
 		// createIndex("projectTemplate", new Document("id", 1), "id");
 

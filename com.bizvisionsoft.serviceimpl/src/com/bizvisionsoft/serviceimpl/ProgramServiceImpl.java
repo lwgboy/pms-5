@@ -7,33 +7,33 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.service.ProjectSetService;
-import com.bizvisionsoft.service.model.ProjectSet;
+import com.bizvisionsoft.service.ProgramService;
+import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.result.UpdateResult;
 
-public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSetService {
+public class ProgramServiceImpl extends BasicServiceImpl implements ProgramService {
 
 	@Override
-	public ProjectSet insert(ProjectSet projectSet) {
-		ProjectSet ps = insert(projectSet, ProjectSet.class);
+	public Program insert(Program program) {
+		Program ps = insert(program, Program.class);
 		return get(ps.get_id());
 	}
 
 	@Override
-	public ProjectSet get(ObjectId _id) {
+	public Program get(ObjectId _id) {
 		return query(null, null, new BasicDBObject("_id", _id)).get(0);
 	}
 
 	@Override
 	public long count(BasicDBObject filter) {
-		return count(filter, ProjectSet.class);
+		return count(filter, Program.class);
 	}
 
 	@Override
-	public List<ProjectSet> list(BasicDBObject condition) {
+	public List<Program> list(BasicDBObject condition) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -50,7 +50,7 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	}
 
 	@Override
-	public List<ProjectSet> listRoot(BasicDBObject condition) {
+	public List<Program> listRoot(BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -60,7 +60,7 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 		return list(condition);
 	}
 
-	private List<ProjectSet> query(Integer skip, Integer limit, BasicDBObject filter) {
+	private List<Program> query(Integer skip, Integer limit, BasicDBObject filter) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		if (filter != null)
@@ -74,8 +74,8 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 
 		appendUserInfo(pipeline, "pgmId", "pgmInfo");
 
-		List<ProjectSet> result = new ArrayList<ProjectSet>();
-		c(ProjectSet.class).aggregate(pipeline).into(result);
+		List<Program> result = new ArrayList<Program>();
+		c(Program.class).aggregate(pipeline).into(result);
 		return result;
 
 	}
@@ -83,19 +83,19 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	@Override
 	public long delete(ObjectId _id) {
 		// 如果有下级项目集不可被删除
-		if (c("projectSet").countDocuments(new Document("parent_id", _id)) > 0)
+		if (c("program").countDocuments(new Document("parent_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目集的项目集记录");
 
 		// 如果有项目引用了该项目集，不可删除
-		if (c("project").countDocuments(new Document("projectSet_id", _id)) > 0)
+		if (c("project").countDocuments(new Document("program_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目的项目集记录");
 
-		return delete(_id, ProjectSet.class);
+		return delete(_id, Program.class);
 	}
 
 	@Override
 	public long update(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, ProjectSet.class);
+		return update(filterAndUpdate, Program.class);
 	}
 
 	@Override
@@ -107,21 +107,21 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 		if (count(new BasicDBObject("_id", _id)) == 0)
 			throw new ServiceException("指定的项目集不存在");
 		UpdateResult ur = c("project").updateMany(new Document("_id", new Document("$in", pjIds)),
-				new Document("$set", new Document("projectSet_id", _id)));
+				new Document("$set", new Document("program_id", _id)));
 		if (ur.getModifiedCount() == 0)
 			throw new ServiceException("没有更新");
 	}
 
 	@Override
-	public void unsetProjectSet(ObjectId project_id) {
+	public void unsetProgram(ObjectId project_id) {
 		UpdateResult ur = c("project").updateOne(new Document("_id", project_id),
-				new Document("$set", new Document("projectSet_id", null)));
+				new Document("$set", new Document("program_id", null)));
 		if(ur.getModifiedCount()==0)
 			throw new ServiceException("没有更新");
 	}
 
 	// @Override
-	// public List<ProjectSet> listFinishProjectSet(BasicDBObject condition) {
+	// public List<Program> listFinishProgram(BasicDBObject condition) {
 	// Integer skip = (Integer) condition.get("skip");
 	// Integer limit = (Integer) condition.get("limit");
 	// BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -131,12 +131,12 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	//
 	// pipeline.addAll(Arrays.asList(
 	// new BasicDBObject("$lookup", new BasicDBObject("from", "project")
-	// .append("let", new BasicDBObject("projectSet_id", "$_id"))
+	// .append("let", new BasicDBObject("program_id", "$_id"))
 	// .append("pipeline", Arrays.asList(
 	// new BasicDBObject("$match",
 	// new BasicDBObject("$expr", new BasicDBObject("$and", Arrays.asList(
 	// new BasicDBObject("$eq",
-	// Arrays.asList("$projectSet_id", "$$projectSet_id")),
+	// Arrays.asList("$program_id", "$$program_id")),
 	// new BasicDBObject("$eq",
 	// Arrays.asList(
 	// new BasicDBObject("$not",
@@ -163,8 +163,8 @@ public class ProjectSetServiceImpl extends BasicServiceImpl implements ProjectSe
 	// if (limit != null)
 	// pipeline.add(new BasicDBObject("$limit", limit));
 	//
-	// return c(ProjectSet.class).aggregate(pipeline).into(new
-	// ArrayList<ProjectSet>());
+	// return c(Program.class).aggregate(pipeline).into(new
+	// ArrayList<Program>());
 	// }
 
 }

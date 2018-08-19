@@ -55,22 +55,22 @@
         }, 
         { 
             "$lookup" : {
-                "from" : "projectSet", 
+                "from" : "program", 
                 "localField" : "_id", 
                 "foreignField" : "eps_id", 
-                "as" : "projectSet"
+                "as" : "program"
             }
         }, 
         { 
             "$addFields" : {
-                "projectSetids" : "$projectSet._id"
+                "programids" : "$program._id"
             }
         }, 
         { 
             "$lookup" : {
                 "from" : "project", 
-                "let" : {"projectSet_id":"$projectSetids"}, 
-                "pipeline" : [{"$match":{"$expr":{"$and":[{"$in":["$projectSet_id","$$projectSet_id"]}]}}}], 
+                "let" : {"program_id":"$programids"}, 
+                "pipeline" : [{"$match":{"$expr":{"$and":[{"$in":["$program_id","$$program_id"]}]}}}], 
                 "as" : "projects2"
             }
         }, 
@@ -156,8 +156,8 @@
         }, 
         { 
             "$project" : {
-                "projectSet" : false, 
-                "projectSetids" : false, 
+                "program" : false, 
+                "programids" : false, 
                 "projects1" : false, 
                 "projects2" : false, 
                 "works" : false, 

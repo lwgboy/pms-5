@@ -15,18 +15,18 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.model.ProjectSet;
+import com.bizvisionsoft.service.model.Program;
 import com.mongodb.BasicDBObject;
 
-@Path("/projectset")
-public interface ProjectSetService {
+@Path("/program")
+public interface ProgramService {
 
 	@POST
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目集管理/insert" })
-	public ProjectSet insert(@MethodParam(MethodParam.OBJECT) ProjectSet projectSet);
+	public Program insert(@MethodParam(MethodParam.OBJECT) Program program);
 
 	@POST
 	@Path("/_id/{_id}/")
@@ -46,7 +46,7 @@ public interface ProjectSetService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public ProjectSet get(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public Program get(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/count/")
@@ -60,7 +60,7 @@ public interface ProjectSetService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目集选择列表/list" })
-	public List<ProjectSet> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Program> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/root/count/")
@@ -74,7 +74,7 @@ public interface ProjectSetService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目集管理/list" })
-	public List<ProjectSet> listRoot(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Program> listRoot(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@DELETE
 	@Path("/_id/{_id}")
@@ -87,6 +87,6 @@ public interface ProjectSetService {
 	@Path("/project/{project_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void unsetProjectSet(@PathParam("project_id") ObjectId project_id);
+	public void unsetProgram(@PathParam("project_id") ObjectId project_id);
 
 }

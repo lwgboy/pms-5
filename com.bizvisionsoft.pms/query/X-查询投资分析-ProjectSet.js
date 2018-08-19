@@ -4,7 +4,7 @@
 	"$lookup" : {
 		"from" : "project",
 		"localField" : "_id",
-		"foreignField" : "projectSet_id",
+		"foreignField" : "program_id",
 		"as" : "projects"
 	}
 }, {

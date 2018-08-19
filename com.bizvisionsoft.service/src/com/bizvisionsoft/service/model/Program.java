@@ -18,15 +18,15 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.ProjectSetService;
+import com.bizvisionsoft.service.ProgramService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.mongodb.BasicDBObject;
 
-@PersistenceCollection("projectSet")
-public class ProjectSet {
+@PersistenceCollection("program")
+public class Program {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 标识属性
@@ -55,7 +55,7 @@ public class ProjectSet {
 	@WriteValue
 	private ObjectId parent_id;
 
-	public ProjectSet setParent_id(ObjectId parent_id) {
+	public Program setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
 	}
@@ -145,22 +145,22 @@ public class ProjectSet {
 	}
 
 	@Structure("项目集管理 /list")
-	public List<Object> getSubProjectSetsAndProjects() {
+	public List<Object> getSubProgramsAndProjects() {
 		ArrayList<Object> children = new ArrayList<Object>();
 
-		children.addAll(ServicesLoader.get(ProjectSetService.class)
+		children.addAll(ServicesLoader.get(ProgramService.class)
 				.list(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
 
 		children.addAll(ServicesLoader.get(ProjectService.class)
-				.list(new Query().filter(new BasicDBObject("projectSet_id", _id)).bson()));
+				.list(new Query().filter(new BasicDBObject("program_id", _id)).bson()));
 		return children;
 	}
 
 	@Structure("项目集管理/count")
-	public long countSubProjectSetsAndProjects() {
+	public long countSubProgramsAndProjects() {
 		// 查下级
-		long cnt = ServicesLoader.get(ProjectService.class).count(new BasicDBObject("projectSet_id", _id));
-		cnt += ServicesLoader.get(ProjectSetService.class).count(new BasicDBObject("parent_id", _id));
+		long cnt = ServicesLoader.get(ProjectService.class).count(new BasicDBObject("program_id", _id));
+		cnt += ServicesLoader.get(ProgramService.class).count(new BasicDBObject("parent_id", _id));
 		return cnt;
 	}
 
@@ -180,7 +180,7 @@ public class ProjectSet {
 
 	@Behavior("删除项目集")
 	private boolean isRemovable() {
-		return countSubProjectSetsAndProjects() == 0;
+		return countSubProgramsAndProjects() == 0;
 	}
 	
 	@Exclude

@@ -146,16 +146,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private ObjectId projectSet_id;
+	private ObjectId program_id;
 
 	@SetValue
 	@ReadValue
-	private ProjectSet projectSet;
+	private Program program;
 	
-	@WriteValue("projectSet")
-	private void writeProjectSet(ProjectSet projectSet) {
-		this.projectSet_id = Optional.ofNullable(projectSet).map(e -> e.get_id()).orElse(null);
-		this.projectSet = projectSet;
+	@WriteValue("program")
+	private void writeProgram(Program program) {
+		this.program_id = Optional.ofNullable(program).map(e -> e.get_id()).orElse(null);
+		this.program = program;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -723,8 +723,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return id;
 	}
 
-	public ObjectId getProjectSet_id() {
-		return projectSet_id;
+	public ObjectId getProgram_id() {
+		return program_id;
 	}
 
 	@Override
@@ -1081,7 +1081,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 	
 	@Behavior("从项目集移除项目")
-	private boolean behaviourRemoveFromProjectSet() {
+	private boolean behaviourRemoveFromProgram() {
 		return true;
 	}
 
