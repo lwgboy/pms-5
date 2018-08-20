@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-public interface IWBSScope {
+public interface IWBSScope extends IScope{
 
 	public Workspace getWorkspace();
 
@@ -16,8 +16,6 @@ public interface IWBSScope {
 
 	public String getProjectNumber();
 	
-	public ObjectId getScope_id();
-
 	public List<WorkLink> createGanttLinkDataSet();
 
 	public List<Work> createGanttTaskDataSet();

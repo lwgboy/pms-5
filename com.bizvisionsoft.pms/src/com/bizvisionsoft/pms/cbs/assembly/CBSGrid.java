@@ -61,7 +61,7 @@ public abstract class CBSGrid extends GridPart {
 		c.setResizeable(true);
 		createColumn(grid, c).getColumn();
 		
-		createEstimationColumns(grid);
+		createExtendColumns(grid);
 		
 		//////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +161,7 @@ public abstract class CBSGrid extends GridPart {
 	 * 子类覆盖 增加列
 	 * @param grid
 	 */
-	protected void createEstimationColumns(Grid grid) {
+	protected void createExtendColumns(Grid grid) {
 		
 	}
 

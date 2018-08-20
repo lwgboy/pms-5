@@ -4,11 +4,9 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
-public interface ICBSScope {
+public interface ICBSScope extends IScope{
 
 	public ObjectId getCBS_id();
-
-	public ObjectId getScope_id();
 
 	public Date[] getCBSRange();
 
