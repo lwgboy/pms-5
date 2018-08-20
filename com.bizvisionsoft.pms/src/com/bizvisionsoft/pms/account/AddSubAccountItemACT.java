@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.accountsetting;
+package com.bizvisionsoft.pms.account;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;

@@ -55,7 +55,6 @@ public class ProductServiceImpl extends BasicServiceImpl implements ProductServi
 
 	@Override
 	public List<String> listProductSeries() {
-//		return Arrays.asList("超级飞侠", "巴啦啦小魔仙", "爆裂飞车", "火力少年王", "巨神战击队", "铠甲勇士", "飓风战魂");
 		return Arrays.asList();
 	}
 
