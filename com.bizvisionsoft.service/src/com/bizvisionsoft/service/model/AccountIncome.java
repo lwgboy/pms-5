@@ -1,14 +1,11 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
-import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -56,30 +53,20 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	@Exclude
 	private transient AccountIncome parent;
 
-	private List<AccountIncome> children = new ArrayList<AccountIncome>();
-
 	@Override
 	@Label
 	public String toString() {
 		return name + " [" + id + "]";
 	}
 
-	@SetValue("children")
-	private void setChildren(List<ObjectId> childrenId) {
-		children = ServicesLoader.get(CommonService.class)
-				.queryAccountIncome(new BasicDBObject("_id", new BasicDBObject("$in", childrenId)));
-	}
-
 	@Structure("list")
 	public List<AccountIncome> listSubAccountItems() {
-		children.forEach(c -> c.parent = this);
-		Collections.sort(children);
-		return children;
+		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parent_id", _id));
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return children.size();
+		return ServicesLoader.get(CommonService.class).countAccoutIncome(_id);
 	}
 
 	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
@@ -96,12 +83,6 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	public AccountIncome setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
-	}
-
-	public void addChild(AccountIncome item) {
-		item.parent = this;
-		children.add(item);
-		Collections.sort(children);
 	}
 
 	@Override

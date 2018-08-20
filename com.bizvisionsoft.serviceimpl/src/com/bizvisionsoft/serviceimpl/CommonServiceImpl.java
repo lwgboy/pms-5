@@ -30,7 +30,6 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Field;
 import com.mongodb.client.model.IndexOptions;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
@@ -309,14 +308,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			pipeline.add(Aggregates.match(filter));
 		}
 
-		pipeline.add(Aggregates.lookup("accountItem", "_id", "parent_id", "_children"));
-
-		pipeline.add(Aggregates.addFields(//
-				new Field<BasicDBObject>("children", new BasicDBObject("$map", new BasicDBObject()
-						.append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
-
-		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
-
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 
 		return c(AccountItem.class).aggregate(pipeline).into(new ArrayList<>());
@@ -329,14 +320,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (filter != null) {
 			pipeline.add(Aggregates.match(filter));
 		}
-
-		pipeline.add(Aggregates.lookup("accountIncome", "_id", "parent_id", "_children"));
-
-		pipeline.add(Aggregates.addFields(//
-				new Field<BasicDBObject>("children", new BasicDBObject("$map", new BasicDBObject()
-						.append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
-
-		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
 
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 
