@@ -53,7 +53,7 @@ public class WeeklyProjectReportSummaryRender extends GridPartDefaultRender {
 					editTag(item);
 				}
 				if (text != null) {
-					Layer.open(title, text, 420, 240);
+					Layer.alert(title, text, 420, 240);
 				}
 			}
 		});

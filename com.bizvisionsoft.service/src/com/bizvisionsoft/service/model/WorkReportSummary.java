@@ -46,15 +46,16 @@ public class WorkReportSummary {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='label_subhead'>" + projectName + " [" + projectId + "]</div>");
 		sb.append("<div>" + stageName + " / " + workName + "</div>");
-		sb.append("<div> 报告人:" + reportBy + "</div>");
+		sb.append("<div> 报告人:" + reportBy );
 
 		if (estimatedFinish != null) {
 			int days = (int) ((estimatedFinish.getTime() - workPlanFinish.getTime()) / (1000 * 24 * 60 * 60));
-			sb.append("<div>预计："
+			sb.append("预计："
 					+ (days > 0 ? ("<span class='layui-badge'>超期" + Math.abs(days) + "天</span>")
 							: ("<span class='layui-badge layui-bg-green'>提前" + Math.abs(days) + "天</span>"))
-					+ "</div>");
+					+ "");
 		}
+		sb.append("</div>");
 		sb.append("<div style='margin-top:16px;display:flex;justify-content:flex-start;align-items:center;'>");
 		sb.append("<a href='tag' target='_rwt'><i class='layui-icon layui-icon-note' style='color:#3f51b5;'></i></a>");
 		if (tags != null && tags.size() > 0) {
