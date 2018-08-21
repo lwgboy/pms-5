@@ -34,6 +34,7 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.UpdateWorkPackages;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -1240,7 +1241,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<ResourceActual> listResourceActual(ObjectId _id) {
-		return c(ResourceActual.class).aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
+		return c(ResourceActual.class)
+				.aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
 				.into(new ArrayList<>());
 	}
 
@@ -1615,18 +1617,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array())
-				.forEach((Document doc) -> {
-					String id = doc.getString("_id");
-					Double worksD = actualWorksMap.get(id);
-					if (worksD != null) {
-						Object works = doc.get("actualQty");
-						if (works != null) {
-							worksD += ((Number) works).doubleValue();
-							actualWorksMap.put(id, (double) Math.round(worksD * 10) / 10);
-						}
-					}
-				});
+		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array()).forEach((Document doc) -> {
+			String id = doc.getString("_id");
+			Double worksD = actualWorksMap.get(id);
+			if (worksD != null) {
+				Object works = doc.get("actualQty");
+				if (works != null) {
+					worksD += ((Number) works).doubleValue();
+					actualWorksMap.put(id, (double) Math.round(worksD * 10) / 10);
+				}
+			}
+		});
 
 		List<Double> planWorks = Arrays.asList(planWorksMap.values().toArray(new Double[0]));
 		List<Double> actualWorks = Arrays.asList(actualWorksMap.values().toArray(new Double[0]));
@@ -1708,27 +1709,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array())
-				.forEach((Document doc) -> {
-					String id = doc.getString("_id");
-					Double worksD = actualWorksMap.get(id);
-					if (worksD != null) {
-						Object works = doc.get("actualQty");
-						if (works != null) {
-							worksD += ((Number) works).doubleValue();
-							actualWorksMap.put(id, worksD);
-						}
-					}
+		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-项目").set("match", match).array()).forEach((Document doc) -> {
+			String id = doc.getString("_id");
+			Double worksD = actualWorksMap.get(id);
+			if (worksD != null) {
+				Object works = doc.get("actualQty");
+				if (works != null) {
+					worksD += ((Number) works).doubleValue();
+					actualWorksMap.put(id, worksD);
+				}
+			}
 
-					Double amountD = actualAmountMap.get(id);
-					if (amountD != null) {
-						Object amount = doc.get("actualAmount");
-						if (amount != null) {
-							amountD += (((Number) amount).doubleValue() / 10000d);
-							actualAmountMap.put(id, amountD);
-						}
-					}
-				});
+			Double amountD = actualAmountMap.get(id);
+			if (amountD != null) {
+				Object amount = doc.get("actualAmount");
+				if (amount != null) {
+					amountD += (((Number) amount).doubleValue() / 10000d);
+					actualAmountMap.put(id, amountD);
+				}
+			}
+		});
 
 		Document option = createResourceAllAnalysis(start, end, "" + name + " 资源用量综合分析", actualWorksMap,
 				actualAmountMap, planWorksMap, planAmountMap, xAxisDate);
@@ -1913,7 +1913,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> getProjectResource(ObjectId project_id) {
-		return c("work").aggregate(new JQ("查询-资源-计划和实际用量-项目").set("match", new Document("project_id", project_id)).array())
+		return c("work")
+				.aggregate(new JQ("查询-资源-计划和实际用量-项目").set("match", new Document("project_id", project_id)).array())
 				.into(new ArrayList<Document>());
 	}
 
@@ -2196,6 +2197,49 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		filter.put("assignerId", userid);
 		filter.put("stage", new BasicDBObject("$ne", true));
 		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages uwp) {
+		c(WorkPackage.class).deleteMany(new BasicDBObject("work_id", uwp.getWork_id())
+				.append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
+		c(WorkPackage.class).insertMany(uwp.getWorkPackages());
+		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
+				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+	}
+
+	@Override
+	public List<WorkPackage> updateProductionWorkPackage(UpdateWorkPackages uwp) {
+		c(WorkPackage.class).deleteMany(new BasicDBObject("work_id", uwp.getWork_id())
+				.append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
+		c(WorkPackage.class).insertMany(uwp.getWorkPackages());
+		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
+				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+	}
+
+	@Override
+	public List<WorkPackage> updateDevelopmentWorkPackage(UpdateWorkPackages uwp) {
+		List<WorkPackage> workPackages = uwp.getWorkPackages();
+
+		List<ObjectId> workPackageIds = new ArrayList<ObjectId>();
+		workPackages.forEach(workPackage -> {
+			ObjectId _id = workPackage.get_id();
+			c(WorkPackage.class).updateOne(new BasicDBObject("_id", _id),
+					new BasicDBObject("$set",
+							new BasicDBObject("id", workPackage.id).append("description", workPackage.description)
+									.append("verNo", workPackage.verNo).append("planStatus", workPackage.planStatus)
+									.append("documentType", workPackage.documentType)
+									.append("completeStatus", workPackage.completeStatus)));
+
+			workPackageIds.add(_id);
+		});
+
+		c(WorkPackageProgress.class).deleteMany(new BasicDBObject("", new BasicDBObject("$in", workPackageIds)));
+
+		c(WorkPackageProgress.class).insertMany(uwp.getWorkPackageProgresss());
+
+		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
+				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
 	}
 
 }

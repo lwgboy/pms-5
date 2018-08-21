@@ -5,3 +5,5 @@ Bundle-SymbolicName: com.bizvisionsoft.jz
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: JZ
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.bizvisionsoft.jz
+Require-Bundle: com.bizvisionsoft.annotations;bundle-version="1.0.0"

@@ -52,7 +52,7 @@ public class WorkPackageProgress {
 	@ReadValue
 	@WriteValue
 	@Label
-	private String description;
+	public String description;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 采购使用的字段
@@ -113,7 +113,12 @@ public class WorkPackageProgress {
 	@Persistence
 	@ReadValue
 	@WriteValue
-	private String completeStatus;
+	public String completeStatus;
+
+	@Persistence
+	@ReadValue
+	@WriteValue
+	public String charger;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
