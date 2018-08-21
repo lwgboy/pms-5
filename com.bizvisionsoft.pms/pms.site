@@ -64055,19 +64055,6 @@
             "objectBehavier": false,
             "type": "customized",
             "role": "PM#PA#PFM"
-          },
-          {
-            "id": "1655aa88987",
-            "name": "Çå¿Õ",
-            "image": "/img/delete_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "warning",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized",
-            "role": "PM#PA#PFM"
           }
         ],
         "borderTop": false,

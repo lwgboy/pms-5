@@ -15,6 +15,7 @@ public class AddForecastPeriodACT {
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		RevenueForecastASM grid = (RevenueForecastASM) context.getChildContextByAssemblyName("项目收益预测").getContent();
 		grid.appendAmountColumn();
+//		grid.updateBackground();
 	}
 
 }

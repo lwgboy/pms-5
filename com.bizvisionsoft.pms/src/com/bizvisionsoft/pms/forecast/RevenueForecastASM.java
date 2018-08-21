@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
+import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -109,7 +110,7 @@ public class RevenueForecastASM extends GridPart {
 		super.createUI(parent);
 	}
 
-	private void selectType() {
+	public void selectType() {
 		Editor.open("选择收益预测方式", context, new BasicDBObject(), (r, d) -> {
 			String type = r.getString("type");
 			setType(type);
@@ -118,10 +119,22 @@ public class RevenueForecastASM extends GridPart {
 
 	private void setType(String type) {
 		if (!this.type.isEmpty() && !this.type.equals(type) && br.confirm("收益预测方式", "设定新的收益预测方式，将清除目前的预测数据，请确认。")) {
-			// TODO 清除已有的预测
+			service.clearRevenueForecast(scope.getScope_id());
+			this.data.clear();
 			Layer.message("收益预测方式已设定为：" + type);
 		}
 		this.type = type;
+	}
+
+	public void reset() {
+		// 删除不要的数据列
+		GridColumn[] cols = viewer.getGrid().getColumns();
+		for (int i = 0; i < index; i++) {
+			cols[i + 3].dispose();
+		}
+		index = 0;
+		appendAmountColumn();
+		setViewerInput();
 	}
 
 	@Override
@@ -134,6 +147,7 @@ public class RevenueForecastASM extends GridPart {
 		grid.setHeaderVisible(true);
 		grid.setFooterVisible(false);
 		grid.setLinesVisible(true);
+		grid.setHideIndentionImage(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
 		grid.setData(RWT.FIXED_COLUMNS, 3);
 
@@ -143,6 +157,7 @@ public class RevenueForecastASM extends GridPart {
 	@Override
 	public void setViewerInput() {
 		super.setViewerInput(Arrays.asList(scope));
+		updateBackground();
 	}
 
 	@Override
@@ -342,6 +357,21 @@ public class RevenueForecastASM extends GridPart {
 		viewer.update(dirty.toArray(), properties.toArray(new String[0]));
 	}
 
+	public void updateBackground() {
+		GridItem[] items = viewer.getGrid().getItems();
+		updateBackground(items);
+	}
+
+	private void updateBackground(GridItem[] items) {
+		for (int i = 0; i < items.length; i++) {
+			GridItem[] children = items[i].getItems();
+			if (children.length > 0) {
+				items[i].setBackground(BruiColors.getColor(BruiColor.Grey_50));
+				updateBackground(children);
+			}
+		}
+	}
+
 	private double readAmount(String subject, int index) {
 		return service.getRevenueForecastAmount(scope.getScope_id(), subject, type, index);
 	}
@@ -371,10 +401,6 @@ public class RevenueForecastASM extends GridPart {
 			}
 		}
 		return result;
-	}
-
-	public void expandToLevel(Object elementOrTreePath, int level) {
-		viewer.expandToLevel(elementOrTreePath, level);
 	}
 
 	private boolean hasPermission() {

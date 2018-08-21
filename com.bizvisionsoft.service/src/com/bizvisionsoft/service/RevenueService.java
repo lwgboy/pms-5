@@ -3,6 +3,7 @@ package com.bizvisionsoft.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -47,5 +48,11 @@ public interface RevenueService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<RevenueForecastItem> listRevenueForecast(@PathParam("scope_id") ObjectId scope_id);
+
+	@DELETE
+	@Path("/forecast/{scope_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void clearRevenueForecast(@PathParam("scope_id")  ObjectId scope_id);
 
 }

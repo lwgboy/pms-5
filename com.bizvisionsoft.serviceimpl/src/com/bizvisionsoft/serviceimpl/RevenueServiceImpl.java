@@ -54,7 +54,12 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 
 	@Override
 	public List<RevenueForecastItem> listRevenueForecast(ObjectId scope_id) {
-		return c(RevenueForecastItem.class).find(new Document("scope_id",scope_id)).into(new ArrayList<>());
+		return c(RevenueForecastItem.class).find(new Document("scope_id", scope_id)).into(new ArrayList<>());
 	}
 
+	@Override
+	public void clearRevenueForecast(ObjectId scope_id) {
+		c(RevenueForecastItem.class).deleteMany(new Document("scope_id", scope_id));
+	}
+	
 }
