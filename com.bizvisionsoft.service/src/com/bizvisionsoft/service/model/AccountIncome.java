@@ -53,6 +53,9 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	@Exclude
 	private transient AccountIncome parent;
 
+	@Exclude
+	private List<AccountIncome> children;
+
 	@Override
 	@Label
 	public String toString() {
@@ -96,6 +99,13 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	public String getName() {
 		return name;
+	}
+
+	public List<AccountIncome> getSubAccountItems() {
+		if(children==null) {
+			children = listSubAccountItems();
+		}
+		return children;
 	}
 
 }

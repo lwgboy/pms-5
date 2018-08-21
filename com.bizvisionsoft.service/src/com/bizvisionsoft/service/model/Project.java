@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -42,7 +43,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecastScope {
+public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecastScope {
 
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断
@@ -101,7 +102,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 		return workOrder;
 	}
 
-
 	/**
 	 * 父项目Id
 	 */
@@ -139,7 +139,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 		this.eps_id = Optional.ofNullable(eps).map(e -> e.get_id()).orElse(null);
 		this.eps = eps;
 	}
-	
+
 	/**
 	 * 项目集Id
 	 */
@@ -151,13 +151,13 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	@SetValue
 	@ReadValue
 	private Program program;
-	
+
 	@WriteValue("program")
 	private void writeProgram(Program program) {
 		this.program_id = Optional.ofNullable(program).map(e -> e.get_id()).orElse(null);
 		this.program = program;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
 	/**
@@ -658,6 +658,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	@Persistence
 	private ObjectId cbs_id;
 
+	@Structure("项目收益预测/list")
+	public List<AccountIncome> listAccountIncome() {
+		return defaultListAccountIncome();
+	}
+
+	@Structure("项目收益预测/count")
+	public long countAccountIncome() {
+		return defaultCountAccountIncome();
+	}
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -1061,6 +1071,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	@WriteValue
 	private Boolean startApproved;
 
+	@Exclude
+	private List<AccountIncome> rootAccountIncome;
+
 	public String getChangeStatus() {
 		return changeStatus;
 	}
@@ -1079,7 +1092,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	private boolean behaviourApproveProjectStart() {
 		return ProjectStatus.Created.equals(status) && !Boolean.TRUE.equals(startApproved);
 	}
-	
+
 	@Behavior("从项目集移除项目")
 	private boolean behaviourRemoveFromProgram() {
 		return true;
@@ -1092,6 +1105,19 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	public Project setStartApproved(boolean startApproved) {
 		this.startApproved = startApproved;
 		return this;
+	}
+
+	@Override
+	public String getRevenueForecastType() {
+		return ServicesLoader.get(RevenueService.class).getRevenueForecastType(_id);
+	}
+
+	@Override
+	public List<AccountIncome> getRootAccountIncome() {
+		if (rootAccountIncome == null) {
+			rootAccountIncome = listAccountIncome();
+		}
+		return rootAccountIncome;
 	}
 
 }

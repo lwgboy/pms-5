@@ -19,48 +19,29 @@ public class RevenueForecastItem {
 
 	@ReadValue
 	@WriteValue
-	private ObjectId project_id;
-
-	@ReadValue
-	@WriteValue
-	private Integer year;
-
-	/**
-	 * 只能是0, 1 0 表示上半年，1表示下半年
-	 */
-	@ReadValue
-	@WriteValue
-	private Integer halfyear;
-
-	/**
-	 * 0，1，2，3分别表示1季度到4极端
-	 */
-	@ReadValue
-	@WriteValue
-	private Integer quarter;
-
-	/**
-	 * 0,1...11 分别表示1月到12月
-	 */
-	@ReadValue
-	@WriteValue
-	private Integer month;
-
-	public static final String TYPE_YEAR = "year";
+	private ObjectId scope_id;
 	
-	public static final String TYPE_HALFYEAR = "halfyear";
-	
-	public static final String TYPE_QUARTER = "quarter";
-	
-	public static final String TYPE_MONTH = "month";
-
 	/**
-	 * type = "year","halfyear" "quarter", 或者 是 "month" 分别表示 按年 或 半年，按季度 或 按月
+	 * 年,半年,季度,月
 	 */
 	@ReadValue
 	@WriteValue
 	private String type;
+
+	/**
+	 * 1 0 表示上半年，1表示下半年
+	 * 0，1，2，3分别表示1季度到4
+	 * 0,1...11 分别表示1月到12月
+	 */
+	@ReadValue
+	@WriteValue
+	private int index;
+
 	
+	@ReadValue
+	@WriteValue
+	private String subject;
+
 	/**
 	 * 金额
 	 */
@@ -68,4 +49,54 @@ public class RevenueForecastItem {
 	@WriteValue
 	private Double amount;
 
+	public ObjectId getScope_id() {
+		return scope_id;
+	}
+
+	public RevenueForecastItem setScope_id(ObjectId scope_id) {
+		this.scope_id = scope_id;
+		return this;
+
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public RevenueForecastItem setType(String type) {
+		this.type = type;
+		return this;
+
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public RevenueForecastItem setIndex(int index) {
+		this.index = index;
+		return this;
+
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public RevenueForecastItem setSubject(String subject) {
+		this.subject = subject;
+		return this;
+
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public RevenueForecastItem setAmount(Double amount) {
+		this.amount = amount;
+		return this;
+	}
+
+	
 }
