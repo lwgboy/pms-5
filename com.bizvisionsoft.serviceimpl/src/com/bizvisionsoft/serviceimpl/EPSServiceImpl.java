@@ -19,7 +19,7 @@ import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.ProjectSet;
+import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -59,7 +59,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			throw new ServiceException("不允许删除有下级节点的EPS记录");
 		}
 		// 检查有没有下级的项目集节点
-		if (c(ProjectSet.class).countDocuments(new Document("eps_id", _id)) > 0) {
+		if (c(Program.class).countDocuments(new Document("eps_id", _id)) > 0) {
 			throw new ServiceException("不允许删除有下级节点的EPS记录");
 		}
 
@@ -85,19 +85,6 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	}
 
 	@Override
-	public long deleteProjectSet(ObjectId _id) {
-		// 如果有下级项目集不可被删除
-		if (c(ProjectSet.class).countDocuments(new Document("parent_id", _id)) > 0)
-			throw new ServiceException("不允许删除有下级项目集的项目集记录");
-
-		// 如果有项目引用了该项目集，不可删除
-		if (c(Project.class).countDocuments(new Document("projectSet_id", _id)) > 0)
-			throw new ServiceException("不允许删除有下级项目的项目集记录");
-
-		return delete(_id, ProjectSet.class);
-	}
-
-	@Override
 	public List<EPSInfo> listRootEPSInfo() {
 		List<EPSInfo> result = new ArrayList<EPSInfo>();
 		c("eps", EPSInfo.class).find(new Document("parent_id", null)).forEach((EPSInfo epsInfo) -> {
@@ -117,18 +104,12 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		c("eps", EPSInfo.class).find(new Document("parent_id", _id)).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_EPS));
 		});
-		c("projectSet", EPSInfo.class).find(new Document("eps_id", _id)).forEach((EPSInfo epsInfo) -> {
-			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECTSET));
-		});
-		c("projectSet", EPSInfo.class).find(new Document("parent_id", _id)).forEach((EPSInfo epsInfo) -> {
-			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECTSET));
-		});
 		List<? extends Bson> pipeline = new JQ("查询-销售和成本-项目")
 				.set("match", new Document("eps_id", _id)).array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
-		pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("projectSet_id", _id))
+		pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("program_id", _id))
 				.array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
@@ -139,10 +120,10 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	@Override
 	public long countSubEPSInfo(ObjectId _id) {
 		long countDocuments = c("eps").countDocuments(new Document("parent_id", _id));
-		countDocuments += c("projectSet").countDocuments(new Document("eps_id", _id));
-		countDocuments += c("projectSet").countDocuments(new Document("parent_id", _id));
+		countDocuments += c("program").countDocuments(new Document("eps_id", _id));
+		countDocuments += c("program").countDocuments(new Document("parent_id", _id));
 		countDocuments += c("project").countDocuments(new Document("eps_id", _id));
-		countDocuments += c("project").countDocuments(new Document("projectSet_id", _id));
+		countDocuments += c("project").countDocuments(new Document("program_id", _id));
 		return countDocuments;
 	}
 
@@ -340,14 +321,14 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
-		List<ObjectId> projectSetIds = c("projectSet")
+		List<ObjectId> programIds = c("program")
 				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
-		if (projectSetIds.size() > 0) {
-			projectSetIds = getDesentItems(projectSetIds, "projectSet", "parent_id");
+		if (programIds.size() > 0) {
+			programIds = getDesentItems(programIds, "program", "parent_id");
 
 			projectIds.addAll(c("project")
-					.distinct("_id", new Document("projectSet_id", new Document("$in", projectSetIds)), ObjectId.class)
+					.distinct("_id", new Document("program_id", new Document("$in", programIds)), ObjectId.class)
 					.into(new ArrayList<ObjectId>()));
 		}
 		projectIds = getDesentItems(projectIds, "project", "parentProject_id");

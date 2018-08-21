@@ -15,8 +15,8 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.mongodb.BasicDBObject;
 
-@PersistenceCollection("accountItem")
-public class AccountItem implements Comparable<AccountItem> {
+@PersistenceCollection("accountIncome")
+public class AccountIncome implements Comparable<AccountIncome> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -51,7 +51,7 @@ public class AccountItem implements Comparable<AccountItem> {
 	 * 客户端对象
 	 */
 	@Exclude
-	private transient AccountItem parent;
+	private transient AccountIncome parent;
 
 	@Override
 	@Label
@@ -60,13 +60,13 @@ public class AccountItem implements Comparable<AccountItem> {
 	}
 
 	@Structure("list")
-	public List<AccountItem> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).queryAccountItem(new BasicDBObject("parent_id", _id));
+	public List<AccountIncome> listSubAccountItems() {
+		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parent_id", _id));
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countAccoutItem(_id);
+		return ServicesLoader.get(CommonService.class).countAccoutIncome(_id);
 	}
 
 	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
@@ -80,13 +80,13 @@ public class AccountItem implements Comparable<AccountItem> {
 		return _id;
 	}
 
-	public AccountItem setParent_id(ObjectId parent_id) {
+	public AccountIncome setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
 	}
 
 	@Override
-	public int compareTo(AccountItem o) {
+	public int compareTo(AccountIncome o) {
 		return id.compareTo(o.id);
 	}
 

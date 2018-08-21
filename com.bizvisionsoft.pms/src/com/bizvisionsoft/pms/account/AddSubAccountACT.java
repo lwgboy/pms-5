@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.accountsetting;
+package com.bizvisionsoft.pms.account;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -7,11 +7,10 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.service.CommonService;
+import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
-import com.bizvisionsoft.serviceconsumer.Services;
 
-public class AddSubAccountItemACT {
+public class AddSubAccountACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -19,13 +18,18 @@ public class AddSubAccountItemACT {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
-			Editor.create("财务科目编辑器", context, new AccountItem().setParent_id(((AccountItem) parent).get_id()), true)
-					.ok((r, o) -> {
-						AccountItem item = Services.get(CommonService.class).insertAccountItem(o);
-						GridPart grid = (GridPart) context.getContent();
-						((AccountItem) parent).addChild(item);
-						grid.refresh(parent);
-					});
+			Object input;
+			if (parent instanceof AccountIncome) {
+				input = new AccountIncome().setParent_id(((AccountIncome) parent).get_id());
+			} else if (parent instanceof AccountItem) {
+				input = new AccountItem().setParent_id(((AccountItem) parent).get_id());
+			} else {
+				return;
+			}
+			Editor.create("财务科目编辑器", context, input, true).ok((r, o) -> {
+				GridPart grid = (GridPart) context.getContent();
+				grid.doCreateSubItem(parent, o);
+			});
 
 		});
 	}

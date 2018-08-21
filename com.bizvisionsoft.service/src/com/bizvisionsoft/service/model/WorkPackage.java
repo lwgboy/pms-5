@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("workPackage")
@@ -107,6 +108,9 @@ public class WorkPackage {
 	@ReadValue
 	private String chargerInfo;
 
+	@SetValue
+	private UserMeta chargerInfo_meta;
+
 	@WriteValue("charger")
 	private void setCharger(User charger) {
 		if (charger != null) {
@@ -116,6 +120,14 @@ public class WorkPackage {
 			this.chargerId = null;
 			this.chargerInfo = null;
 		}
+	}
+
+	@ReadValue("chargerInfoHtml")
+	public String getChargerInfoHtml() {
+		if (chargerInfo == null) {
+			return "";
+		}
+		return "<div>" + MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + "</div>";
 	}
 
 	@ReadValue("charger")

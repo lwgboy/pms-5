@@ -40,14 +40,14 @@ public interface EPSService {
 	@Path("/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS管理/list", "EPS浏览/list", "EPS和项目集选择/list" })
+	@DataSet({ "EPS管理/list", "EPS浏览/list", "EPS选择/list" })
 	public List<EPS> getRootEPS();
 
 	@POST
 	@Path("/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS管理/count", "EPS浏览/count", "EPS和项目集选择/count" })
+	@DataSet({ "EPS管理/count", "EPS浏览/count",  "EPS选择/count"})
 	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
@@ -62,13 +62,6 @@ public interface EPSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.DELETE)
 	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
-
-	@DELETE
-	@Path("/projectset/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("EPS浏览/" + DataSet.DELETE)
-	public long deleteProjectSet(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
 
 	@PUT
 	@Path("/")

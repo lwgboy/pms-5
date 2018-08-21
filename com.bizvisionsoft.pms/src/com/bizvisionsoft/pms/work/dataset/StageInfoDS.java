@@ -13,7 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
-
+@Deprecated
 public class StageInfoDS {
 
 	@Inject

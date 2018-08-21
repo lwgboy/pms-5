@@ -45,15 +45,23 @@ public class RiskEffect {
 	@SetValue
 	private RBSItem rbsItem;
 
-	@ReadValue("result")
+	@ReadValue({ "项目风险登记簿/desc", "项目风险登记簿（查看）/desc" })
 	private String readReault() {
-		if (positive) {
-			return "<i class='layui-icon layui-icon-next' style='color:green;'></i> WBS:" + work.getWBSCode() + " "
-					+ work.getFullName();
-		} else {
-			return "<i class='layui-icon layui-icon-next' style='color:red;'></i> WBS:" + work.getWBSCode() + " "
-					+ work.getFullName();
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'>");
+		sb.append("<div>");
+		if(work.getActualFinish()!=null) {
+			sb.append("<i class='layui-icon layui-icon-ok' style='color:blue'></i>&nbsp;");
+		}else if(work.getActualStart()!=null) {
+			sb.append("<i class='layui-icon layui-icon-triangle-r' style='color:green'></i>&nbsp;");
+		}else {
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
+		
+		sb.append(work.getWBSCode() + " " + work.getFullName() + "</div>");
+		sb.append("<div>" + work.getChargerInfoHtml() + "</div>");
+		sb.append("</div>");
+		return sb.toString();
 	}
 
 	@WriteValue("work")
@@ -151,7 +159,7 @@ public class RiskEffect {
 	// 控制WBS要素只能选着叶子节点
 	@SelectionValidation("work")
 	private boolean workSelectionValidation(@MethodParam(MethodParam.OBJECT) Object work) {
-		return (work instanceof Work) && !((Work) work).isSummary();
+		return (work instanceof Work) && !((Work) work).isSummary() && !((Work) work).isMilestone();
 	}
 
 	public RiskEffect setProject_id(ObjectId project_id) {
@@ -186,7 +194,7 @@ public class RiskEffect {
 
 	@ReadValue("项目风险量化评估/charger")
 	private String readWorkCharger() {
-		return work.getChargerInfo();
+		return work.getChargerInfoHtml();
 	}
 
 	@ReadValue("项目风险量化评估/planFinish")

@@ -217,6 +217,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			else if (ProjectStatus.Closing.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
 						+ "close/" + "' target='_rwt'>" + "¹Ø±Õ" + "</a>";
+			html += "</div>";
 			return html;
 		} else {
 			return "<div>" + text + "</div>";
@@ -654,15 +655,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "";
 		}
 		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
-				+ MetaInfoWarpper.userInfo(chargerInfo_meta,chargerInfo)+getDistributedIcon()
-				+ "</div>";
+				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + getDistributedIcon() + "</div>";
 	}
 
-	public String getChargerInfo() {
-		if (chargerId == null) {
+	@ReadValue("chargerInfoHtml")
+	public String getChargerInfoHtml() {
+		if (chargerInfo == null) {
 			return "";
 		}
-		return chargerInfo;
+		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + "</div>";
 	}
 
 	public String getAssignerInfo() {
@@ -1174,6 +1176,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
 		} else {
 			return "";
+		}
+	}
+
+	public String getImageURL() {
+		if (getActualFinish() != null) {
+			return "/img/task_finished.svg";
+		} else if (getActualStart() != null) {
+			return "/img/task_wip.svg";
+		} else {
+			return "/img/task.svg";
 		}
 	}
 

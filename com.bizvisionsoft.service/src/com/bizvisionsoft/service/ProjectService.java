@@ -68,7 +68,7 @@ public interface ProjectService {
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Project> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Project> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@GET
 	@Path("/_id/{_id}/daterange")
@@ -435,14 +435,14 @@ public interface ProjectService {
 	@Path("/all/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "所有项目/list" })
+	@DataSet({ "所有项目/list","项目选择列表/list" })
 	public List<Project> listAllProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/all/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "所有项目/count" })
+	@DataSet({ "所有项目/count","项目选择列表/count" })
 	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 }

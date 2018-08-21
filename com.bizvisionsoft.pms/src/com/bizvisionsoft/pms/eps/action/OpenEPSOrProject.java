@@ -12,10 +12,9 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.ProjectSet;
 import com.bizvisionsoft.service.model.ProjectStatus;
 
-public class OpenProjectOrProjectSet {
+public class OpenEPSOrProject {
 
 	@Inject
 	private IBruiService bruiService;
@@ -32,9 +31,7 @@ public class OpenProjectOrProjectSet {
 	}
 
 	private void open(Object em) {
-		if (em instanceof ProjectSet) {
-
-		} else if (em instanceof Project) {
+		if (em instanceof Project) {
 			if (ProjectStatus.Created.equals(((Project) em).getStatus())) {
 				bruiService.switchPage("项目首页（启动）", ((Project) em).get_id().toHexString());
 			} else if (ProjectStatus.Processing.equals(((Project) em).getStatus())) {

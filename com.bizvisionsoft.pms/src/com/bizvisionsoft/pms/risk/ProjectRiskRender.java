@@ -39,7 +39,7 @@ public class ProjectRiskRender extends GridPartDefaultRender {
 		} else if (cell.getElement() instanceof RiskEffect) {// RBSItem
 			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 //			gridItem.setColumnSpan(1, 1);// 演示如何合并单元格
-			gridItem.setColumnSpan(5, 7);
+			gridItem.setColumnSpan(6, 7);
 		} else if(cell.getElement() instanceof RiskResponseType) {
 			cell.setBackground(BruiColors.getColor(BruiColor.Grey_100));// 设置背景色
 			GridItem gridItem = (GridItem) cell.getViewerRow().getItem();

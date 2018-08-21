@@ -22,11 +22,9 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
-import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.ProjectSetService;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -44,7 +42,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope, IWBSScope {
+public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecastScope {
 
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断
@@ -103,17 +101,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return workOrder;
 	}
 
-	/**
-	 * 项目集Id
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private ObjectId projectSet_id;
-
-	@SetValue
-	@ReadValue
-	private ProjectSet projectSet;
 
 	/**
 	 * 父项目Id
@@ -139,20 +126,38 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	 * EPS节点Id
 	 */
 	@Persistence
+	@ReadValue
+	@WriteValue
 	private ObjectId eps_id;
 
 	@SetValue
 	@ReadValue
 	private EPS eps;
 
-	@ReadValue("epsName")
-	public String getEPSName() {
-		if (eps != null)
-			return eps.getName();
-
-		return "";
+	@WriteValue("eps")
+	private void writeEPS(EPS eps) {
+		this.eps_id = Optional.ofNullable(eps).map(e -> e.get_id()).orElse(null);
+		this.eps = eps;
 	}
+	
+	/**
+	 * 项目集Id
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private ObjectId program_id;
 
+	@SetValue
+	@ReadValue
+	private Program program;
+	
+	@WriteValue("program")
+	private void writeProgram(Program program) {
+		this.program_id = Optional.ofNullable(program).map(e -> e.get_id()).orElse(null);
+		this.program = program;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
 	/**
@@ -514,23 +519,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private String customerRepresentative;
 
-	@WriteValue("eps_or_projectset_id")
-	public void setEPSorProjectSet(Object element) {
-		if (element instanceof EPS)
-			this.eps_id = ((EPS) element).get_id();
-		if (element instanceof ProjectSet)
-			this.projectSet_id = ((ProjectSet) element).get_id();
-	}
-
-	@ReadValue("eps_or_projectset_id")
-	public Object getEPSOrProjectSet() {
-		if (eps_id != null)
-			return ServicesLoader.get(EPSService.class).get(eps_id);
-		if (projectSet_id != null)
-			return ServicesLoader.get(ProjectSetService.class).get(projectSet_id);
-		return null;
-	}
-
 	@Override
 	@Label
 	public String toString() {
@@ -735,8 +723,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		return id;
 	}
 
-	public ObjectId getProjectSet_id() {
-		return projectSet_id;
+	public ObjectId getProgram_id() {
+		return program_id;
 	}
 
 	@Override
@@ -775,14 +763,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Override
 	public OBSItem newOBSScopeRoot() {
 
-		ObjectId obsParent_id = Optional.ofNullable(projectSet_id)
-				.map(pjset_id -> ServicesLoader.get(ProjectSetService.class).get(pjset_id)).map(ps -> ps.getOBS_id())
-				.orElse(null);
-
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
 				.set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
-				.setParent_id(obsParent_id)// 设置上级的id
+				.setParent_id(null)// 设置上级的id
 				.setName(getName() + "项目组")// 设置该组织节点的默认名称
 				.setRoleId(OBSItem.ID_PM)// 设置该组织节点的角色id
 				.setRoleName(OBSItem.NAME_PM)// 设置该组织节点的名称
@@ -856,6 +840,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue("summaryActualDuration")
 	private double summaryActualDuration;
 
+	/**
+	 * 项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。
+	 * 
+	 * @return
+	 */
 	@ReadValue("war")
 	public Double getWAR() {
 		if (getActualStart() == null) {
@@ -882,7 +871,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("sar")
 	public Double getSAR() {
-		return sar != null ? (sar * Math.pow(0.8, getChangeNo())) : null;
+		if (actualFinish == null) {// 这个指标不适用于未完成项目
+			return null;
+		}
+		return sar != null ? (sar * Math.pow(0.8, getChangeCount())) : null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -907,12 +899,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("car")
 	public Double getCAR() {
-		if (getActualFinish() != null) {
-			return 1d;
-		}
-
-		Double budget = getBudget();
-		if (budget != null && budget != 0) {
+		double budget = getBudget();
+		if (budget != 0) {
 			return getCost() / budget;
 		}
 		return null;
@@ -920,8 +908,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("bdr")
 	public Double getBDR() {
-		Double budget = getBudget();
-		if (budget != null && budget != 0) {
+		if (getActualFinish() == null) {// 这个指标不适用于未完成项目
+			return null;
+		}
+
+		double budget = getBudget();
+		if (budget != 0) {
 			return (getCost() - budget) / budget;
 		}
 		return null;
@@ -1053,11 +1045,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@ReadValue
-	@SetValue("changeNo")
-	private Double changeNo;
+	@SetValue
+	private Double changeCount;
 
-	public double getChangeNo() {
-		return changeNo != null ? changeNo.doubleValue() : 0;
+	public double getChangeCount() {
+		return changeCount.doubleValue();
 	}
 
 	@ReadValue
@@ -1086,6 +1078,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Behavior("批准启动")
 	private boolean behaviourApproveProjectStart() {
 		return ProjectStatus.Created.equals(status) && !Boolean.TRUE.equals(startApproved);
+	}
+	
+	@Behavior("从项目集移除项目")
+	private boolean behaviourRemoveFromProgram() {
+		return true;
 	}
 
 	public Boolean getStartApproved() {

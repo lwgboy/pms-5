@@ -276,9 +276,9 @@ public class ShowResourceASM extends GridPart {
 		grp.setExpanded(true);
 
 		GridColumn col = new GridColumn(grp, SWT.CENTER);
-		col.setText("标准");
+		col.setText("标准（时）");
 		col.setData("name", "planBasicQty");
-		col.setWidth(80);
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -293,8 +293,8 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "planOverTimeQty");
-		col.setText("加班");
-		col.setWidth(80);
+		col.setText("加班（时）");
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -309,8 +309,8 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "totalPlanQty");
-		col.setText("合计");
-		col.setWidth(80);
+		col.setText("合计（时）");
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -345,9 +345,9 @@ public class ShowResourceASM extends GridPart {
 		grp.setExpanded(true);
 
 		col = new GridColumn(grp, SWT.CENTER);
-		col.setText("标准");
+		col.setText("标准（时）");
 		col.setData("name", "actualBasicQty");
-		col.setWidth(80);
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -362,8 +362,8 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "actualOverTimeQty");
-		col.setText("加班");
-		col.setWidth(80);
+		col.setText("加班（时）");
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);
@@ -378,8 +378,8 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "totalActualQty");
-		col.setText("合计");
-		col.setWidth(80);
+		col.setText("合计（时）");
+		col.setWidth(96);
 		col.setMoveable(false);
 		col.setResizeable(false);
 		col.setAlignment(SWT.RIGHT);

@@ -18,6 +18,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
@@ -290,57 +291,111 @@ public interface CommonService {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/accountitem/root/ds")
+	@Path("/accountItem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "财务科目设置/" + DataSet.LIST })
+	@DataSet({ "费用类科目/" + DataSet.LIST })
 	public List<AccountItem> getAccoutItemRoot();
+	
+	@POST
+	@Path("/accountIncome/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "收入类别/" + DataSet.LIST })
+	public List<AccountIncome> getAccoutIncomeRoot();
 
 	@POST
-	@Path("/accountitem/root/count")
+	@Path("/accountItem/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutItemRoot();
+	
+	@POST
+	@Path("/accountIncome/root/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countAccoutIncomeRoot();
+
 
 	@POST
-	@Path("/accountitem/parent/{_id}/ds")
+	@Path("/accountItem/parent/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<AccountItem> getAccoutItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
-	@Path("/accountitem/parent/{_id}/count")
+	@Path("/accountIncome/parent/{_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<AccountIncome> getAccoutIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	
+	@POST
+	@Path("/accountItem/parent/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutItem(@PathParam("_id") ObjectId _id);
+	
+	@POST
+	@Path("/accountIncome/parent/{_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countAccoutIncome(@PathParam("_id") ObjectId _id);
 
 	@POST
-	@Path("/accountitem/ds/")
+	@Path("/accountItem/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<AccountItem> queryAccountItem(BasicDBObject filter);
 
 	@POST
-	@Path("/accountitem/")
+	@Path("/accountIncome/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "财务科目设置/" + DataSet.INSERT })
+	public List<AccountIncome> queryAccountIncome(BasicDBObject filter);
+	
+	@POST
+	@Path("/accountItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "费用类科目/" + DataSet.INSERT })
 	public AccountItem insertAccountItem(@MethodParam(MethodParam.OBJECT) AccountItem ai);
 
-	@DELETE
-	@Path("/accountitem/_id/{_id}")
+	@POST
+	@Path("/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "财务科目设置/" + DataSet.DELETE })
+	@DataSet({ "收入类别/" + DataSet.INSERT })
+	public AccountIncome insertAccountIncome(@MethodParam(MethodParam.OBJECT) AccountIncome ai);
+	
+	@DELETE
+	@Path("/accountItem/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "费用类科目/" + DataSet.DELETE })
 	public long deleteAccountItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
-	@PUT
-	@Path("/accountitem/")
+	@DELETE
+	@Path("/accountIncome/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "财务科目设置/" + DataSet.UPDATE })
+	@DataSet({ "收入类别/" + DataSet.DELETE })
+	public long deleteAccountIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	
+	@PUT
+	@Path("/accountItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "费用类科目/" + DataSet.UPDATE })
 	public long updateAccountItem(BasicDBObject filterAndUpdate);
 
+	@PUT
+	@Path("/accountIncome/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "收入类别/" + DataSet.UPDATE })
+	public long updateAccountIncome(BasicDBObject filterAndUpdate);
+
+	
 	@POST
 	@Path("/gencode/{name}/{key}")
 	@Consumes("application/json; charset=UTF-8")

@@ -15,6 +15,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CommonService;
+import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
@@ -29,7 +30,6 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Field;
 import com.mongodb.client.model.IndexOptions;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
@@ -233,35 +233,71 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public List<AccountItem> getAccoutItemRoot() {
 		return getAccoutItem(null);
 	}
+	
+	@Override
+	public List<AccountIncome> getAccoutIncomeRoot() {
+		return getAccoutIncome(null);
+	}
 
 	@Override
 	public List<AccountItem> getAccoutItem(ObjectId parent_id) {
 		return queryAccountItem(new BasicDBObject("parent_id", parent_id));
+	}
+	
+	@Override
+	public List<AccountIncome> getAccoutIncome(ObjectId parent_id) {
+		return queryAccountIncome(new BasicDBObject("parent_id", parent_id));
 	}
 
 	@Override
 	public long countAccoutItem(ObjectId _id) {
 		return count(new BasicDBObject("parent_id", _id), AccountItem.class);
 	}
+	
+	@Override
+	public long countAccoutIncome(ObjectId _id) {
+		return count(new BasicDBObject("parent_id", _id), AccountIncome.class);
+	}
 
 	@Override
 	public long countAccoutItemRoot() {
 		return countAccoutItem(null);
+	}
+	
+	@Override
+	public long countAccoutIncomeRoot() {
+		return countAccoutIncome(null);
 	}
 
 	@Override
 	public AccountItem insertAccountItem(AccountItem ai) {
 		return insert(ai, AccountItem.class);
 	}
+	@Override
+	public AccountIncome insertAccountIncome(AccountIncome ai) {
+		return insert(ai, AccountIncome.class);
+	}
+
 
 	@Override
 	public long deleteAccountItem(ObjectId _id) {
 		return delete(_id, AccountItem.class);
 	}
+	
+	@Override
+	public long deleteAccountIncome(ObjectId _id) {
+		return delete(_id, AccountIncome.class);
+	}
+
 
 	@Override
 	public long updateAccountItem(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, AccountItem.class);
+	}
+
+	@Override
+	public long updateAccountIncome(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, AccountIncome.class);
 	}
 
 	@Override
@@ -272,18 +308,24 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			pipeline.add(Aggregates.match(filter));
 		}
 
-		pipeline.add(Aggregates.lookup("accountItem", "_id", "parent_id", "_children"));
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 
-		pipeline.add(Aggregates.addFields(//
-				new Field<BasicDBObject>("children", new BasicDBObject("$map", new BasicDBObject()
-						.append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
+		return c(AccountItem.class).aggregate(pipeline).into(new ArrayList<>());
+	}
+	
+	@Override
+	public List<AccountIncome> queryAccountIncome(BasicDBObject filter) {
+		List<Bson> pipeline = new ArrayList<Bson>();
 
-		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
+		if (filter != null) {
+			pipeline.add(Aggregates.match(filter));
+		}
 
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 
-		return c(AccountItem.class).aggregate(pipeline).into(new ArrayList<AccountItem>());
+		return c(AccountIncome.class).aggregate(pipeline).into(new ArrayList<>());
 	}
+
 
 	@Override
 	public List<Message> listMessage(BasicDBObject condition, String userId) {
@@ -490,8 +532,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("projectChange", new Document("project_id", 1), "project");
 		createIndex("projectChange", new Document("applicantDate", -1), "date");
 
-		// createIndex("projectSet", new Document("workOrder", 1), "workOrder");
-		createIndex("projectSet", new Document("eps_id", 1), "eps");
+		// createIndex("program", new Document("workOrder", 1), "workOrder");
+		createIndex("program", new Document("eps_id", 1), "eps");
 
 		// createIndex("projectTemplate", new Document("id", 1), "id");
 
@@ -739,5 +781,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		}
 		return false;
 	}
+
 
 }

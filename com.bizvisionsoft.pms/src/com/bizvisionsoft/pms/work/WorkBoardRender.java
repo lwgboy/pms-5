@@ -155,7 +155,7 @@ public class WorkBoardRender {
 		if (!"".equals(warrningText) && warrningText != null)
 			sb.append("  " + work.getWarningIcon());
 		sb.append("</div>");
-		String chargerInfo = work.getChargerInfo();
+		String chargerInfo = work.getChargerInfoHtml();
 		sb.append("<div style='margin-right:16px;'>负责: "
 				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>"
 						: chargerInfo)
@@ -178,7 +178,7 @@ public class WorkBoardRender {
 				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
 		ind = work.getWAR();
 		// ind = 0.2365555d;
-		sb.append("<div style='width:112px;'>工作进度：</div>");
+		sb.append("<div style='width:112px;'>工作量：</div>");
 		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
 		if (ind != null) {
 			NumberFormat df = DecimalFormat.getInstance();
@@ -195,7 +195,7 @@ public class WorkBoardRender {
 		// ind = 0.9365555d;
 		sb.append(
 				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		sb.append("<div style='width:112px;'>工期(天)：" + work.getActualDuration() + "/" + work.getPlanDuration()
+		sb.append("<div style='width:112px;'>工期(天)：" 
 				+ "</div>");
 		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
 		if (ind != null) {

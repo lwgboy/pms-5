@@ -62,12 +62,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			ObjectId obsRoot_id = new ObjectId();// 组织根
 			ObjectId cbsRoot_id = new ObjectId();// 预算根
 
-			ObjectId projectSet_id = input.getProjectSet_id();
+			ObjectId program_id = input.getProgram_id();
 			ObjectId obsParent_id = null;// 组织上级
 			ObjectId cbsParent_id = null;// 成本上级
-			if (projectSet_id != null) {
+			if (program_id != null) {
 				// 获得上级obs_id
-				Document doc = c("projectSet").find(new BasicDBObject("_id", projectSet_id))
+				Document doc = c("program").find(new BasicDBObject("_id", program_id))
 						.projection(new BasicDBObject("obs_id", true).append("cbs_id", true)).first();
 				obsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("obs_id")).orElse(null);
 				cbsParent_id = Optional.ofNullable(doc).map(d -> d.getObjectId("cbs_id")).orElse(null);
@@ -120,7 +120,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public Project get(ObjectId _id) {
-		List<Project> ds = createDataSet(new BasicDBObject("filter", new BasicDBObject("_id", _id)));
+		List<Project> ds = list(new BasicDBObject("filter", new BasicDBObject("_id", _id)));
 		if (ds.size() == 0) {
 			throw new ServiceException("没有_id为" + _id + "的项目。");
 		}
@@ -133,7 +133,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Project> createDataSet(BasicDBObject condition) {
+	public List<Project> list(BasicDBObject condition) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -155,7 +155,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendStage(pipeline, "stage_id", "stage");
 
-		appendLookupAndUnwind(pipeline, "projectSet", "projectSet_id", "projectSet");
+		appendLookupAndUnwind(pipeline, "program", "program_id", "program");
 
 		appendLookupAndUnwind(pipeline, "eps", "eps_id", "eps");
 
@@ -924,7 +924,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = get(_id);
 		String catalog = project.getCatalog();
 		ObjectId parentproject_id = project.getParentProject_id();
-		ObjectId projectSet_id = project.getProjectSet_id();
+		ObjectId program_id = project.getProgram_id();
 		ObjectId impunit_id = project.getImpUnit_id();
 
 		String workOrder;
@@ -948,12 +948,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 
-		} else if (projectSet_id != null) {
-			String projectSetWorkOrder = c("projectSet")
-					.distinct("workOrder", new Document("_id", projectSet_id), String.class).first();
-			String[] workorders = projectSetWorkOrder.split("-");
+		} else if (program_id != null) {
+			String programWorkOrder = c("program")
+					.distinct("workOrder", new Document("_id", program_id), String.class).first();
+			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + projectSetWorkOrder);
+			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 		} else {
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year);
@@ -968,22 +968,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<News> getRecentNews(ObjectId _id, int count) {
 		ArrayList<News> result = new ArrayList<News>();
-		c("work")
-				.aggregate(
-						new JQ("查询-时间线").set("match",
-								new Document("manageLevel", new Document("$in", Arrays.asList("1", "2")))
-										.append("project_id", _id))
-								.set("limit", count).array())
-				.forEach((Document doc) -> {
-					Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
-					if (doc.get("date").equals(doc.get("actualStart"))) {
-						result.add(new News().setDate(doc.getDate("date"))
-								.setContent(user + " " + doc.get("name") + " 启动 "));
-					} else if (doc.get("date").equals(doc.get("actualFinish"))) {
-						result.add(new News().setDate(doc.getDate("date"))
-								.setContent(user + " " + doc.get("name") + " 完成"));
-					}
-				});
+		List<Bson> pipeline = new JQ("查询-时间线").set("match",
+				new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
+				.set("limit", count).array();
+		c("work").aggregate(pipeline).forEach((Document doc) -> {
+			Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
+			if (doc.get("date").equals(doc.get("actualFinish"))) {
+				result.add(new News().setDate(doc.getDate("date")).setContent(user + " " + doc.get("name") + " 完成 "));
+			} else if (doc.get("date").equals(doc.get("actualStart"))) {
+				result.add(new News().setDate(doc.getDate("date")).setContent(user + " " + doc.get("name") + " 启动"));
+			}
+		});
 		return result;
 	}
 
@@ -1493,8 +1488,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		pipeline.add(Aggregates.project(new Document("_id", true)));
 
-//		return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
-		//TODO
+		// return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
+		// TODO
 		return 0;
 	}
 
@@ -1537,7 +1532,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			condition.put("filter", filter);
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
-		return createDataSet(condition);
+		return list(condition);
 	}
 
 	@Override
@@ -1570,7 +1565,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAllProjects(BasicDBObject filter) {
 		return count(filter);
 	}
-	
+
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
