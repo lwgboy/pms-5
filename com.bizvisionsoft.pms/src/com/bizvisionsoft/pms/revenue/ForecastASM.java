@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.forecast;
+package com.bizvisionsoft.pms.revenue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ import com.mongodb.BasicDBObject;
  * @author hua
  *
  */
-public class RevenueForecastASM extends GridPart {
+public class ForecastASM extends GridPart {
 
 	private static final String DefaultType = "Äê";
 

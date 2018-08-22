@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.forecast;
+package com.bizvisionsoft.pms.revenue;
 
 import org.bson.Document;
 
@@ -26,7 +26,7 @@ public class EditForecastAmountACT {
 					String _amount = r.getString("amount");
 					int index = Integer.parseInt(_index) - 1;
 					double amount = Double.parseDouble(_amount);
-					Util.ifInstanceThen(context.getContent(), RevenueForecastASM.class,
+					Util.ifInstanceThen(context.getContent(), ForecastASM.class,
 							a -> a.update(((AccountIncome) t), index, amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);
