@@ -72,7 +72,7 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 	@Override
 	public List<Document> groupRevenueRealizeAmountByPeriod(ObjectId scope_id) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 	@Override
 	public List<String> getRevenueRealizePeriod(ObjectId scope_id) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 }

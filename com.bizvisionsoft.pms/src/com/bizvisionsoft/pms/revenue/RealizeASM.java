@@ -183,6 +183,10 @@ public class RealizeASM extends GridPart {
 			return;
 		}
 		List<String> period = service.getRevenueRealizePeriod(scope.getScope_id());
+		if (period.isEmpty()) {
+			return;
+		}
+
 		String _start = period.get(0);
 		Calendar start = Calendar.getInstance();
 		start.setTime(new SimpleDateFormat("yyyyMM").parse(_start));
@@ -203,7 +207,7 @@ public class RealizeASM extends GridPart {
 		Column c = new Column();
 		final String index = new SimpleDateFormat("yyyyMM").format(date);
 		c.setName(index);
-		String title = new SimpleDateFormat("yyyy/MM").format(date);
+		String title = new SimpleDateFormat("yyyy-MM").format(date);
 		c.setText(title);
 		c.setWidth(88);
 		c.setMarkupEnabled(true);
