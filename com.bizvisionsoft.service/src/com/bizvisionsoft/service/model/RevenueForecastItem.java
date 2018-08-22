@@ -48,7 +48,7 @@ public class RevenueForecastItem {
 	@ReadValue
 	@WriteValue
 	private Double amount;
-
+	
 	public ObjectId getScope_id() {
 		return scope_id;
 	}

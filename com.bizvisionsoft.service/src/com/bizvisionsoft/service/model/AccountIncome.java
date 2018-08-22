@@ -72,7 +72,7 @@ public class AccountIncome implements Comparable<AccountIncome> {
 		return ServicesLoader.get(CommonService.class).countAccoutIncome(_id);
 	}
 
-	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
+	@Behavior({ "项目收益预测/编辑收益预测" })
 	private boolean behavior() {
 		return countSubAccountItems() == 0;
 	}

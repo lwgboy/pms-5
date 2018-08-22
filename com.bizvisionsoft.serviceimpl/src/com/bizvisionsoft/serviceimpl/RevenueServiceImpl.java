@@ -35,13 +35,19 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 
 	@Override
 	public void updateRevenueForecastItem(RevenueForecastItem rfi) {
+		double amount = Optional.ofNullable(rfi.getAmount()).orElse(0d);
+
 		Document condition = new Document("type", rfi.getType()).append("scope_id", rfi.getScope_id())
 				.append("index", rfi.getIndex()).append("subject", rfi.getSubject());
-		if (c("revenueForecastItem").countDocuments(condition) == 0) {
-			c(RevenueForecastItem.class).insertOne(rfi);
+		Document doc = c("revenueForecastItem").find(condition).first();
+		if (doc == null) {
+			if (amount != 0) {
+				c(RevenueForecastItem.class).insertOne(rfi);
+			}
 		} else {
-			c("revenueForecastItem").updateOne(condition,
-					new Document("$set", new Document("amount", rfi.getAmount())));
+			double _amount = Optional.ofNullable((Double) doc.get("amount")).orElse(0d);
+			if (amount != _amount)
+				c("revenueForecastItem").updateOne(condition, new Document("$set", new Document("amount", amount)));
 		}
 	}
 
@@ -61,5 +67,5 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 	public void clearRevenueForecast(ObjectId scope_id) {
 		c(RevenueForecastItem.class).deleteMany(new Document("scope_id", scope_id));
 	}
-	
+
 }

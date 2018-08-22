@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -18,7 +19,6 @@ import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
 import com.bizivisionsoft.widgets.util.Layer;
@@ -193,14 +193,24 @@ public class RevenueForecastASM extends GridPart {
 		c.setResizeable(true);
 		GridViewerColumn vcol = createColumn(grid, c);
 		vcol.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return getTotalAmountText(element);
-			}
 
 			@Override
-			public Color getBackground(Object element) {
-				return BruiColors.getColor(BruiColor.Grey_50);
+			public void update(ViewerCell cell) {
+				Object element = cell.getElement();
+
+				String text;
+				double value = 0;
+				for (int i = 0; i < index; i++) {
+					value += getAmount(element, i);
+				}
+				if (value == 0) {
+					text = "";
+				} else {
+					text = Util.getGenericMoneyFormatText(value);
+				}
+
+				cell.setText(text);
+				cell.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 			}
 
 			@Override
@@ -221,17 +231,6 @@ public class RevenueForecastASM extends GridPart {
 		}
 	}
 
-	protected String getTotalAmountText(Object element) {
-		double value = 0;
-		for (int i = 0; i < index; i++) {
-			value += getAmount(element, i);
-		}
-		if (value == 0) {
-			return "";
-		}
-		return "" + Util.getGenericMoneyFormatText(value);
-	}
-
 	/**
 	 * 追加一列
 	 */
@@ -248,17 +247,19 @@ public class RevenueForecastASM extends GridPart {
 		GridViewerColumn vcol = createColumn(grid, c, 2 + this.index + 1);
 		final int idx = this.index;
 		vcol.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return getAmountText(element, idx);
-			}
 
 			@Override
-			public Color getBackground(Object element) {
-				if (isAmountEditable(element))
-					return null;
-				else
-					return BruiColors.getColor(BruiColor.Grey_50);
+			public void update(ViewerCell cell) {
+				Object account = cell.getElement();
+
+				String text = "";
+				double value = getAmount(account, idx);
+				if (value != 0)
+					text = Util.getGenericMoneyFormatText(value);
+
+				cell.setText(text);
+				if (!isAmountEditable(account))
+					cell.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 			}
 
 			@Override
@@ -274,14 +275,6 @@ public class RevenueForecastASM extends GridPart {
 
 	private boolean isAmountEditable(Object account) {
 		return account instanceof AccountIncome && ((AccountIncome) account).countSubAccountItems() == 0;
-	}
-
-	private String getAmountText(Object account, int idx) {
-		double value = getAmount(account, idx);
-		if (value == 0) {
-			return "";
-		}
-		return "" + Util.getGenericMoneyFormatText(value);
 	}
 
 	/**
@@ -341,6 +334,10 @@ public class RevenueForecastASM extends GridPart {
 		}
 		row.put(index, amount);
 		// 刷新表格
+		while (this.index <= index) {
+			appendAmountColumn();
+		}
+
 		ArrayList<Object> dirty = new ArrayList<>();
 		dirty.add(account);
 		GridItem treeItem = (GridItem) viewer.testFindItem(account);
@@ -416,7 +413,7 @@ public class RevenueForecastASM extends GridPart {
 	}
 
 	protected String getEditbindingAction() {
-		return "编辑";
+		return "编辑收益预测";
 	}
 
 }
