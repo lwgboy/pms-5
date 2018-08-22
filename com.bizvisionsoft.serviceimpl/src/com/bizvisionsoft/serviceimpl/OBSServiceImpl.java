@@ -12,6 +12,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
+import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -173,6 +174,12 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			pipeline.add(Aggregates.limit(limit));
 
 		return c("obs", OBSItemWarpper.class).aggregate(pipeline).into(new ArrayList<OBSItemWarpper>());
+	}
+
+	@Override
+	public boolean checkScopeRole(ScopeRoleParameter param) {
+		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes))
+				.append("managerId", param.userId).append("roleId", new Document("$in", param.roles))) > 0;
 	}
 
 }

@@ -8,6 +8,7 @@ import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderColumnFooter;
@@ -21,8 +22,11 @@ import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.CommandHandler;
+import com.bizvisionsoft.service.OBSService;
+import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ICommand;
+import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -41,7 +45,12 @@ public class ScheduleRender extends GridPartDefaultRender {
 		viewer = (GridTreeViewer) context.getContent("viewer");
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
-				Work stage = ((Work) ((GridItem) e.item).getData());
+				Work stage = (Work) ((GridItem) e.item).getData();
+				if (!checkPermission(stage)) {
+					Layer.message("您未获得操作的许可", Layer.ICON_LOCK);
+					return;
+				}
+
 				if (e.text.startsWith("start/")) {
 					start(stage);
 				} else if (e.text.startsWith("finish/")) {
@@ -51,6 +60,14 @@ public class ScheduleRender extends GridPartDefaultRender {
 				}
 			}
 		});
+	}
+
+	private boolean checkPermission(Work stage) {
+		String currentUserId = brui.getCurrentUserId();
+		if (stage.getChargerId().equals(currentUserId))
+			return true;
+		return ServicesLoader.get(OBSService.class).checkScopeRole(new ScopeRoleParameter(currentUserId)
+				.setRoles("PM", "PPM", "WM").setScopes(stage.get_id(), stage.getProject_id()));
 	}
 
 	private void close(Work stage) {

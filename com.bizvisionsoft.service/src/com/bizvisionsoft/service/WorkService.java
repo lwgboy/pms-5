@@ -549,13 +549,6 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkLink> createBaselineLinkDataSet(@PathParam("baseline_id") ObjectId baseline_id);
 
-	@GET
-	@Path("/task/_id/{_id}/{userId}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Work getOpenStage(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
-
 	@POST
 	@Path("/userid/{userid}/charger/processing/ds")
 	@Consumes("application/json; charset=UTF-8")

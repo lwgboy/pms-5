@@ -25,7 +25,6 @@ import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
-import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -2091,23 +2090,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return new JQ("项目首页图表工作如期评分").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
 				.doc();
-	}
-
-	@Override
-	public Work getOpenStage(ObjectId _id, String userId) {
-		Work work = getWork(_id);
-		if (userId.equals(work.getChargerId())) {
-			return work;
-		}
-		ObjectId project_id = work.getProject_id();
-		long l = c(OBSItem.class)
-				.countDocuments(new Document("scope_id", new Document("$in", Arrays.asList(_id, project_id)))
-						.append("managerId", userId)
-						.append("roleId", new Document("$in", Arrays.asList("PPM", "PFM", "PM", "WM"))));
-		if (l > 0) {
-			return work;
-		}
-		return null;
 	}
 
 	@Override
