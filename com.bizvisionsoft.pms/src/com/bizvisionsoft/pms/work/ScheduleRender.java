@@ -41,8 +41,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 		viewer = (GridTreeViewer) context.getContent("viewer");
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
-				Work stage = Services.get(WorkService.class)
-						.getOpenStage(((Work) ((GridItem) e.item).getData()).get_id(), brui.getCurrentUserId());
+				Work stage = ((Work) ((GridItem) e.item).getData());
 				if (e.text.startsWith("start/")) {
 					start(stage);
 				} else if (e.text.startsWith("finish/")) {

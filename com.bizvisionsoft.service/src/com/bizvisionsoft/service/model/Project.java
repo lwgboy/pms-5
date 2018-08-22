@@ -212,7 +212,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@ReadValue("statusHtml")
 	public String getStatusHtml() {
 		if (ProjectStatus.Created.equals(status)) {
-			return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + status + "</span>";
+			return "<span class='layui-badge-rim layui-btn-fluid'>" + status + "</span>";
 		} else if (ProjectStatus.Processing.equals(status)) {
 			if (stage != null) {
 				return "<span class='layui-badge layui-bg-blue layui-btn-fluid'>" + stage + "</span>";
@@ -222,7 +222,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 		} else if (ProjectStatus.Closing.equals(status)) {
 			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
 		} else if (ProjectStatus.Closed.equals(status)) {
-			return "<span class='layui-badge layui-bg-green layui-btn-fluid'>" + status + "</span>";
+			return "<span class='layui-badge layui-bg-gray layui-btn-fluid'>" + status + "</span>";
 		} else {
 			return "";
 		}

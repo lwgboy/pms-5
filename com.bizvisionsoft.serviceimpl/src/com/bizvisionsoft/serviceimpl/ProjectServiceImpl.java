@@ -331,13 +331,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				|| (Result.TYPE_WARNING == r.type && ICommand.Start_Project.equals(com.name)))) {// 不忽略警告的必须返回
 			return result;
 		}
-
 		/////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Processing).append("startInfo", com.info())));
-
-		// TODO CBS金额汇总
 
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动

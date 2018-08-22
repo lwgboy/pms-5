@@ -350,7 +350,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 更新
 		c("work").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
-		//TODO 关闭未完成的工作
+		// TODO 关闭未完成的工作
 		sendStageMessage(stage, "关闭", com.date, com.userId);
 		return new ArrayList<>();
 	}
@@ -761,20 +761,18 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		ObjectId parent_id = work.getParent_id();
 		while (parent_id != null) {
 			List<? extends Bson> pip = Arrays.asList(//
-					new Document("$match", new Document("_id", parent_id)// 找到父工作
-							.append("stage", new Document("$ne", true))), // 不是阶段
+					new Document("$match", new Document("_id", parent_id)), // 找到父工作
 					new Document("$lookup", new Document("from", "work").append("pipeline", //
 							Arrays.asList(new Document("$match", new Document("$expr", //
 									new Document("$and", Arrays.asList(new Document("$not", "$actualFinish"), // 完成时间为空，就是没有完成的
 											new Document("$eq", Arrays.asList("$parent_id", parent_id))))))))// 下级的parent_id是父id
 							.append("as", "bros")));
 			Document d = c("work").aggregate(pip).first();
-			if (d != null && ((List<?>) d.get("bros")).isEmpty()) {// 所有的下级工作均已完成，本工作需要完成。
+			if (d != null && ((List<?>) d.get("bros")).size() <= 1) {// 所有的下级工作均已完成，本工作需要完成。size==1是需要完成的子工作
 				toUpdate.add(parent_id);
 				lvl = d.getString("manageLevel");
 				if ("1".equals(lvl) || ("2".equals(lvl)))
 					noticeWorks.add(com._id);
-
 				parent_id = d.getObjectId("parent_id");
 			} else {
 				parent_id = null;
