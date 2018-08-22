@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -402,7 +404,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// project_id
 		// creationDate
 		c("baseline").createIndex(new Document("project_id", 1));
-		c("baseline").createIndex(new Document("creationDate", -1));//按时间倒序
+		c("baseline").createIndex(new Document("creationDate", -1));// 按时间倒序
 		// baselineWork->
 		// project_id
 		// wbsCode
@@ -674,6 +676,85 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public List<String> listWorkTag() {
 		return new ArrayList<String>(getDictionaryIdNamePair("工作标签").values());
+	}
+
+	@Override
+	public List<Document> listStructuredData(BasicDBObject query) {
+		return c("structuredData").find(query).sort(new Document("index", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public void insertStructuredData(List<Document> result) {
+		c("structuredData").insertMany(result);
+	}
+
+	@Override
+	public void updateStructuredData(BasicDBObject fu) {
+		update(fu, "structuredData");
+	}
+
+	///////////////////////////////////////
+	// DEMO DATA
+	@Override
+	public void mockupSalesData() {
+		// 创建产品主数据
+		List<Bson> pipeline = Arrays.asList(new Document("$group",
+				new Document("_id", new Document("a", "$productId").append("b", "$project_id"))));
+		c("salesItem").aggregate(pipeline).forEach((Document d) -> {
+			Document _r = (Document) d.get("_id");
+			String productId = _r.getString("a");
+			if (Arrays.asList("02302", "02303", "02304", "02305", "02306", "02307").contains(productId)) {
+				return;
+			}
+
+			ObjectId project_id = _r.getObjectId("b");
+			String series = getRandomSeries();
+			String name = series + "-" + _10_to_N(System.currentTimeMillis(), 24);
+			String position = "定位XXX";
+			String sellPoint = "滑翔，变形，声光电。";
+			ObjectId benchmarking_id = new ObjectId("5b4acc0be37dab0cfcb4458e");
+
+			Document product = new Document("_id", new ObjectId()).append("sellPoint", sellPoint)
+					.append("project_id", project_id).append("series", series).append("name", name)
+					.append("id", productId).append("position", position).append("benchmarking_id", benchmarking_id);
+			c("product").insertOne(product);
+
+		});
+
+		// 制造销售额和销售量
+		c("salesItem").find().forEach((Document d) -> {
+			Number profit = (Number) d.get("profit");
+			double income = profit.doubleValue() / 0.4;
+			int val = getRandomInt();
+			c("salesItem").updateOne(new Document("_id", d.get("_id")),
+					new Document("$set", new Document("income", income).append("volumn", val)));
+		});
+
+	}
+
+	private String getRandomSeries() {
+		String[] series = new String[] { "超级飞侠", "萌鸡小队", "巴啦啦小魔仙", "火力少年王", "铠甲勇士" };
+		return series[new Random().nextInt(series.length)];
+	}
+
+	private int getRandomInt() {
+		int[] series = new int[] { 10, 20, 30, 40, 15, 5, 12, 50 };
+		return series[new Random().nextInt(series.length)];
+	}
+
+	public static String _10_to_N(long number, int N) {
+		char[] array = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
+		Long rest = number;
+		Stack<Character> stack = new Stack<Character>();
+		StringBuilder result = new StringBuilder(0);
+		while (rest != 0) {
+			stack.add(array[new Long((rest % N)).intValue()]);
+			rest = rest / N;
+		}
+		for (; !stack.isEmpty();) {
+			result.append(stack.pop());
+		}
+		return result.length() == 0 ? "0" : result.toString();
 	}
 
 }

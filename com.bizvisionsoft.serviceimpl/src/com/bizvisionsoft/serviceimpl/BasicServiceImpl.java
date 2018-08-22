@@ -61,6 +61,17 @@ public class BasicServiceImpl {
 		long cnt = updateMany.getModifiedCount();
 		return cnt;
 	}
+	
+	protected <T> long update(BasicDBObject fu, String cname) {
+		BasicDBObject filter = (BasicDBObject) fu.get("filter");
+		BasicDBObject update = (BasicDBObject) fu.get("update");
+		update.remove("_id");
+		UpdateOptions option = new UpdateOptions();
+		option.upsert(false);
+		UpdateResult updateMany = c(cname).updateMany(filter, update, option);
+		long cnt = updateMany.getModifiedCount();
+		return cnt;
+	}
 
 	@SuppressWarnings("unchecked")
 	protected <T> T insert(T obj) {

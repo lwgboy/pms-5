@@ -294,6 +294,10 @@ public class CBSItem {
 		this.id = id;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public double getBudgetSummary() {
 		//////////////////////////////////////////////////////////////////////
 		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
@@ -672,4 +676,68 @@ public class CBSItem {
 		}
 		return scopeRootObject;
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// DEMO 奥飞
+	/**
+	 * 支付到内部还是外部，true为内部
+	 */
+	private Boolean internalPayment;
+
+	public Boolean getInternalPayment() {
+		return internalPayment;
+	}
+
+	public CBSItem setInternalPayment(Boolean internalPayment) {
+		this.internalPayment = internalPayment;
+		return this;
+	}
+
+	private Double qty;
+
+	public Double getQty() {
+		return qty;
+	}
+
+	public CBSItem setQty(Double qty) {
+		this.qty = qty;
+		return this;
+	}
+
+	private Double price;
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public CBSItem setPrice(Double price) {
+		this.price = price;
+		return this;
+	}
+
+	public Double getTotalEstimation() {
+		if (countSubCBSItems() == 0) {
+			return (price == null ? 0 : price) * (qty == null ? 0 : qty);
+		} else {
+			double summary = 0d;
+			Iterator<CBSItem> iter = children.iterator();
+			while (iter.hasNext()) {
+				summary += iter.next().getTotalEstimation();
+			}
+			return summary;
+		}
+
+	}
+
+	private CBSEstimationSetting estimationSetting;
+
+	public CBSEstimationSetting getEstimationSetting() {
+		return estimationSetting;
+	}
+
+	public CBSItem setEstimationSetting(CBSEstimationSetting estimationSetting) {
+		this.estimationSetting = estimationSetting;
+		return this;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -81,9 +81,12 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// index, 在gantt图中用于排序
-	@WriteValue("$index")
-	@Persistence
+	@GetValue
 	private int index;
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -436,10 +439,6 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
 		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id)
 				.setParent_id(parentTask._id);
-	}
-
-	public int index() {
-		return index;
 	}
 
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {

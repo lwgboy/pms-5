@@ -461,6 +461,10 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c(WorkLinkInTemplate.class).deleteMany(new Document("template_id", template_id));
 
 		List<WorkInTemplate> workInTemplates = ganttData.getWorkInTemplates();
+		for (int i = 0; i < workInTemplates.size(); i++) {
+			workInTemplates.get(i).setIndex(i);
+		}
+		
 		if (workInTemplates.size() > 0)
 			c(WorkInTemplate.class).insertMany(workInTemplates);
 

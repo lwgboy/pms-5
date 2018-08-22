@@ -45,6 +45,20 @@ public class JQ {
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters(ba);
 	}
+	
+	public List<Document> list() {
+		String js = readJS(queryName);
+		BsonArray ba = BsonArray.parse(js);
+		return inputDocumentArrayParameters2(ba);
+	}
+	
+	private List<Document> inputDocumentArrayParameters2(BsonArray ba) {
+		List<Document> result = new ArrayList<Document>();
+		for (int i = 0; i < ba.size(); i++) {
+			result.add(inputDocumentParameters(ba.get(i).asDocument()));
+		}
+		return result;
+	}
 
 	public Document doc() {
 		String js = readJS(queryName);

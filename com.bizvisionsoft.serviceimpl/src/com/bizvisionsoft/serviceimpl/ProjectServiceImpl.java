@@ -407,10 +407,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				result.add(Result.startProjectWarning("项目沒有编制预算.", Result.CODE_PROJECT_NOCBS));
 		}
 
-		String workOrder = project.getWorkOrder();
-		if (workOrder == null || "".equals(workOrder)) {
-			result.add(Result.startProjectError("项目没有工作令号.", Result.CODE_PROJECT_NOWORKORDER));
-		}
 
 		return result;
 	}

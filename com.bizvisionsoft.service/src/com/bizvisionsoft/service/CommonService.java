@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -30,14 +31,13 @@ import com.mongodb.BasicDBObject;
 
 @Path("/common")
 public interface CommonService {
-	
+
 	@GET
 	@Path("/workTag/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("¹¤×÷±êÇ©/" + DataSet.LIST)
 	public List<String> listWorkTag();
-	
 
 	@POST
 	@Path("/msg/userId/{userId}/ds")
@@ -418,5 +418,30 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void createIndex();
+
+	@POST
+	@Path("/strudata/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> listStructuredData(BasicDBObject query);
+
+	@POST
+	@Path("/strudata/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertStructuredData(List<Document> result);
+
+	@PUT
+	@Path("/strudata/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateStructuredData(BasicDBObject fu);
+
+	
+	@POST
+	@Path("/mockup/salesdata/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void mockupSalesData();
 
 }
