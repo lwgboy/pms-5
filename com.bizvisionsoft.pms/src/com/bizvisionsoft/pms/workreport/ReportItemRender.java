@@ -100,7 +100,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 					}
 					if (actualFinish != null && periodTo.after(actualFinish))
 						periodTo = actualFinish;
-
+					
 					rt.setFrom(periodForm);
 					rt.setTo(periodTo);
 					rt.addWorkIds(work.get_id());

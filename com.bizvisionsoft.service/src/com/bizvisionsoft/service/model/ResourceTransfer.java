@@ -123,6 +123,8 @@ public class ResourceTransfer {
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
+		if (this.from != null && this.from.equals(cal.getTime()))
+			cal.add(Calendar.MILLISECOND, 1);
 		this.to = cal.getTime();
 	}
 

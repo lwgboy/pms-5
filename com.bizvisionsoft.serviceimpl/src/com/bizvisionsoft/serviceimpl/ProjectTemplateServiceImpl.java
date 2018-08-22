@@ -84,6 +84,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public long deleteWork(ObjectId work_id) {
+		//TODO É¾³ýlink
 		return delete(work_id, WorkInTemplate.class);
 	}
 
