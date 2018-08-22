@@ -658,12 +658,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecas
 	@Persistence
 	private ObjectId cbs_id;
 
-	@Structure("项目收益预测/list")
+	@Structure({"项目收益预测/list","项目收益实现/list"})
 	public List<AccountIncome> listAccountIncome() {
 		return defaultListAccountIncome();
 	}
 
-	@Structure("项目收益预测/count")
+	@Structure({"项目收益预测/count","项目收益实现/count"})
 	public long countAccountIncome() {
 		return defaultCountAccountIncome();
 	}

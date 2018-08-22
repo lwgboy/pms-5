@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
+import com.bizvisionsoft.service.model.RevenueRealizeItem;
 
 public class RevenueServiceImpl extends BasicServiceImpl implements RevenueService {
 
@@ -66,6 +67,30 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 	@Override
 	public void clearRevenueForecast(ObjectId scope_id) {
 		c(RevenueForecastItem.class).deleteMany(new Document("scope_id", scope_id));
+	}
+
+	@Override
+	public List<Document> groupRevenueRealizeAmountByPeriod(ObjectId scope_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getRevenueRealizeAmount(ObjectId scope_id, String subject, String id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void updateRevenueRealizeItem(RevenueRealizeItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> getRevenueRealizePeriod(ObjectId scope_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

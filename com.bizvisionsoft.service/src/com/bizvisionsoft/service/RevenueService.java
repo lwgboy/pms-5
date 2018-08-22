@@ -11,9 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.model.RevenueForecastItem;
+import com.bizvisionsoft.service.model.RevenueRealizeItem;
 
 @Path("/revenue")
 public interface RevenueService {
@@ -53,6 +55,31 @@ public interface RevenueService {
 	@Path("/forecast/{scope_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void clearRevenueForecast(@PathParam("scope_id")  ObjectId scope_id);
+	public void clearRevenueForecast(@PathParam("scope_id") ObjectId scope_id);
+
+	@POST
+	@Path("/realize/{scope_id}/groupByPeriod")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> groupRevenueRealizeAmountByPeriod(ObjectId scope_id);
+
+	@GET
+	@Path("/realize/{scope_id}/{subject}/{id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public double getRevenueRealizeAmount(@PathParam("scope_id") ObjectId scope_id,
+			@PathParam("subject") String subject, @PathParam("index") String id);
+
+	@PUT
+	@Path("/realize/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateRevenueRealizeItem(RevenueRealizeItem item);
+
+	@GET
+	@Path("/realize/{scope_id}/period")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<String> getRevenueRealizePeriod(@PathParam("scope_id") ObjectId scope_id);
 
 }
