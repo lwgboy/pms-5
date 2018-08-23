@@ -61,14 +61,14 @@ public interface RevenueService {
 	@Path("/realize/{scope_id}/groupByPeriod")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> groupRevenueRealizeAmountByPeriod(ObjectId scope_id);
+	public List<Document> groupRevenueRealizeAmountByPeriod(@PathParam("scope_id") ObjectId scope_id);
 
 	@GET
 	@Path("/realize/{scope_id}/{subject}/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public double getRevenueRealizeAmount(@PathParam("scope_id") ObjectId scope_id,
-			@PathParam("subject") String subject, @PathParam("index") String id);
+			@PathParam("subject") String subject, @PathParam("id") String id);
 
 	@PUT
 	@Path("/realize/")

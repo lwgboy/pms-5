@@ -2,9 +2,10 @@ package com.bizvisionsoft.pms.revenue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bson.Document;
@@ -16,6 +17,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
+import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -64,8 +66,6 @@ public class RealizeASM extends GridPart {
 
 	private List<Document> data;
 
-	private int colIndex;
-
 	@Init
 	public void init() {
 		service = Services.get(RevenueService.class);
@@ -106,13 +106,6 @@ public class RealizeASM extends GridPart {
 	}
 
 	@Override
-	protected GridViewerColumn createColumn(Object parent, Column c, int index) {
-		GridViewerColumn col = super.createColumn(parent, c, index);
-		colIndex++;
-		return col;
-	}
-
-	@Override
 	protected void createColumns(Grid grid) {
 
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +113,7 @@ public class RealizeASM extends GridPart {
 		Column c = new Column();
 		c.setName("name");
 		c.setText("名称");
-		c.setWidth(160);
+		c.setWidth(240);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
@@ -151,7 +144,7 @@ public class RealizeASM extends GridPart {
 				Object element = cell.getElement();
 
 				String text;
-				double value = 0;
+				double value = getSummary(element);
 
 				if (value == 0) {
 					text = "";
@@ -170,47 +163,44 @@ public class RealizeASM extends GridPart {
 
 		});
 
-		try {
-			createAmountColumns();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		createAmountColumns();
 
 	}
 
-	private void createAmountColumns() throws ParseException {
-		if (data.isEmpty()) {
-			return;
-		}
-		List<String> period = service.getRevenueRealizePeriod(scope.getScope_id());
-		String _start = period.get(0);
-		Calendar start = Calendar.getInstance();
-		start.setTime(new SimpleDateFormat("yyyyMM").parse(_start));
-		String _end = period.get(1);
-		Calendar end = Calendar.getInstance();
-		end.setTime(new SimpleDateFormat("yyyyMM").parse(_end));
-		while (!start.after(end)) {
-			appendAmountColumn(start.getTime());
-			start.add(Calendar.MONTH, 1);
-		}
+	private void createAmountColumns() {
+		service.getRevenueRealizePeriod(scope.getScope_id()).forEach(id -> {
+			Calendar cal = Calendar.getInstance();
+			try {
+				cal.setTime(new SimpleDateFormat("yyyyMM").parse(id));
+				appendAmountColumn(cal);
+			} catch (ParseException e) {
+			}
+		});
 	}
 
 	/**
 	 * 追加一列
 	 */
-	public void appendAmountColumn(Date date) {
+	public void appendAmountColumn(Calendar input) {
+		Calendar cal = getStartOfMonth(input);
+		String title = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1);
+		int columnPosition = getColumnPosition(cal);
+		if (columnPosition == -1) {
+			Layer.message("期间" + title + "已存在", Layer.ICON_CANCEL);
+			return;
+		}
 		Grid grid = viewer.getGrid();
 		Column c = new Column();
-		final String index = new SimpleDateFormat("yyyyMM").format(date);
+		final String index = getIndex(cal);
 		c.setName(index);
-		String title = new SimpleDateFormat("yyyy/MM").format(date);
 		c.setText(title);
 		c.setWidth(88);
 		c.setMarkupEnabled(true);
 		c.setAlignment(SWT.RIGHT);
 		c.setMoveable(false);
 		c.setResizeable(true);
-		GridViewerColumn vcol = createColumn(grid, c, colIndex);
+		GridViewerColumn vcol = createColumn(grid, c, columnPosition);
+		vcol.getColumn().setData("date", cal);
 		vcol.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
@@ -236,6 +226,41 @@ public class RealizeASM extends GridPart {
 		vcol.setEditingSupport(supportEdit(vcol));
 	}
 
+	private String getIndex(Calendar cal) {
+		return cal.get(Calendar.YEAR) + String.format("%02d", cal.get(Calendar.MONTH) + 1);
+	}
+
+	private Calendar getStartOfMonth(Calendar cal) {
+		Calendar result = Calendar.getInstance();
+		result.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1, 0, 0, 0);
+		result.set(Calendar.MILLISECOND, 0);
+		return result;
+	}
+
+	/**
+	 * 获得该日期在表格正确的列位置
+	 * 
+	 * @param cal
+	 * @return
+	 */
+	private int getColumnPosition(Calendar cal) {
+		GridColumn[] cols = viewer.getGrid().getColumns();
+		int index = 3;
+		while (index < cols.length) {
+			Calendar cCal = (Calendar) cols[index].getData("date");
+			if (cCal == null) {
+				return index;
+			}
+			if (cCal.equals(cal)) {// 存在
+				return -1;
+			} else if (cCal.after(cal)) {
+				break;
+			}
+			index++;
+		}
+		return index;
+	}
+
 	private boolean isAmountEditable(Object account) {
 		return account instanceof AccountIncome && ((AccountIncome) account).countSubAccountItems() == 0;
 	}
@@ -249,7 +274,8 @@ public class RealizeASM extends GridPart {
 			return null;
 		}
 
-		final String index = (String) vcol.getColumn().getData("name");
+		Calendar cal = (Calendar) vcol.getColumn().getData("date");
+		final String index = getIndex(cal);
 		return new EditingSupport(viewer) {
 
 			@Override
@@ -281,39 +307,42 @@ public class RealizeASM extends GridPart {
 
 	protected void update(AccountIncome account, String index, double amount) {
 		// 更新数据库
+		String subject = account.getId();
+
 		RevenueRealizeItem item = new RevenueRealizeItem()//
 				.setScope_id(scope.getScope_id())//
 				.setId(index)//
 				.setAmount(amount)//
-				.setSubject(account.getId());
+				.setSubject(subject);
 		service.updateRevenueRealizeItem(item);
 
-		// // 更新缓存
-		// Map<String, Double> row = data.get(account.getId());
-		// if (row == null) {
-		// row = new HashMap<String, Double>();
-		// data.put(account.getId(), row);
-		// }
-		// row.put(index, amount);
-		// // 刷新表格
-		// while (this.index <= index) {
-		// appendAmountColumn();
-		// }
-		//
-		// ArrayList<Object> dirty = new ArrayList<>();
-		// dirty.add(account);
-		// GridItem treeItem = (GridItem) viewer.testFindItem(account);
-		// GridItem parentItem = treeItem.getParentItem();
-		// while (parentItem != null) {
-		// dirty.add(parentItem.getData());
-		// parentItem = parentItem.getParentItem();
-		// }
-		// List<String> properties = new ArrayList<>();
-		// properties.add("total");
-		// for (int i = 0; i < index; i++) {
-		// properties.add("" + index);
-		// }
-		// viewer.update(dirty.toArray(), properties.toArray(new String[0]));
+		// 更新缓存
+		Document row = data.stream().filter(d -> d.get("_id").equals(subject)).findFirst().orElse(null);
+		if (row == null) {
+			row = new Document("_id", subject).append("values", new Document());
+			data.add(row);
+		}
+		((Document) row.get("values")).put(index, amount);
+
+		// 刷新表格
+		Calendar cal = Calendar.getInstance();
+		try {
+			cal.setTime(new SimpleDateFormat("yyyyMM").parse(index));
+		} catch (ParseException e) {
+		}
+		if (getColumnPosition(cal) != -1) {
+			appendAmountColumn(cal);
+		}
+
+		ArrayList<Object> dirty = new ArrayList<>();
+		dirty.add(account);
+		GridItem treeItem = (GridItem) viewer.testFindItem(account);
+		GridItem parentItem = treeItem.getParentItem();
+		while (parentItem != null) {
+			dirty.add(parentItem.getData());
+			parentItem = parentItem.getParentItem();
+		}
+		viewer.update(dirty.toArray(), new String[] { "total", index });
 	}
 
 	public void updateBackground() {
@@ -343,12 +372,43 @@ public class RealizeASM extends GridPart {
 			if (ai.countSubAccountItems() > 0) {
 				return getRowSummaryAccount(ai.getSubAccountItems(), index);
 			} else {
-				return data.stream().filter(d -> ai.getId().equals(d.get("subject"))).findFirst()
-						.map(d -> d.getDouble(index)).map(v -> v.doubleValue()).orElse(0d);
+				return data.stream().filter(d -> ai.getId().equals(d.get("_id"))).findFirst()
+						.map(d -> ((Document) d.get("values")).getDouble(index)).map(v -> v.doubleValue()).orElse(0d);
 			}
 		} else {
 			return 0d;
 		}
+	}
+
+	private double getSummary(Object account) {
+		List<AccountIncome> children = null;
+		if (account instanceof IRevenueForecastScope) {
+			children = ((IRevenueForecastScope) account).getRootAccountIncome();
+		} else if (account instanceof AccountIncome) {
+			AccountIncome ai = (AccountIncome) account;
+			Document doc = data.stream().filter(d -> ai.getId().equals(d.get("_id"))).findFirst().orElse(null);
+			if (doc == null) {
+				if (ai.countSubAccountItems() > 0) {
+					children = ai.getSubAccountItems();
+				}
+			} else {
+				Document values = (Document) doc.get("values");
+				double v = 0d;
+				Iterator<Object> iter = values.values().iterator();
+				while (iter.hasNext()) {
+					v += (Double) iter.next();
+				}
+				return v;
+			}
+		}
+		if (children != null) {
+			double v = 0d;
+			for (int i = 0; i < children.size(); i++) {
+				v += getSummary(children.get(i));
+			}
+			return v;
+		}
+		return 0;
 	}
 
 	private double getRowSummaryAccount(List<AccountIncome> children, String index) {
