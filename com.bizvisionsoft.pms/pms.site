@@ -931,28 +931,6 @@
                 "role": "trail"
               },
               {
-                "id": "16565e83274",
-                "name": "部门项目",
-                "switchContentToAssemblyId": "16565ec03fc",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16565e87be2",
-                "name": "外协项目",
-                "switchContentToAssemblyId": "16565ec4fad",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
                 "id": "161989cc406",
                 "name": "企业项目结构",
                 "text": "企业项目结构",
@@ -966,53 +944,17 @@
                 "role": "项目管理员#项目总监"
               },
               {
-                "id": "165659459e8",
+                "id": "16406b99e36",
                 "name": "创建项目",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
-                "children": [
-                  {
-                    "id": "16406b99e36",
-                    "name": "创建科研项目",
-                    "bundleId": "com.bizvisionsoft.pms",
-                    "className": "com.bizvisionsoft.pms.project.action.CreateProject",
-                    "openContent": false,
-                    "propagate": false,
-                    "forceText": false,
-                    "editorAssemblyEditable": false,
-                    "objectBehavier": false,
-                    "type": "customized",
-                    "role": ""
-                  },
-                  {
-                    "id": "1656595aeb9",
-                    "name": "创建部门项目",
-                    "bundleId": "com.bizvisionsoft.pms",
-                    "className": "com.bizvisionsoft.pms.project.action.CreateDeptProject",
-                    "openContent": false,
-                    "propagate": false,
-                    "forceText": false,
-                    "editorAssemblyEditable": false,
-                    "objectBehavier": false,
-                    "type": "customized"
-                  },
-                  {
-                    "id": "1656595b506",
-                    "name": "创建外协项目",
-                    "bundleId": "com.bizvisionsoft.pms",
-                    "className": "com.bizvisionsoft.pms.project.action.CreateExternalProject",
-                    "openContent": false,
-                    "propagate": false,
-                    "forceText": false,
-                    "editorAssemblyEditable": false,
-                    "objectBehavier": false,
-                    "type": "customized"
-                  }
-                ],
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
-                "type": "customized"
+                "type": "customized",
+                "role": ""
               }
             ],
             "editorAssemblyEditable": false,
@@ -64933,8 +64875,7 @@
         "smallEditor": true,
         "addToParentContext": false,
         "removeBorder": false
-      }
-      ,
+      },
       {
         "id": "165658e830a",
         "name": "创建部门项目编辑器",
@@ -71191,6 +71132,8 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false
       }
     ]
   },
