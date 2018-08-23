@@ -40,7 +40,7 @@ public class Refresh {
 			WorkPackagePlan wpp = (WorkPackagePlan) context.getContent();
 			if ("²É¹º".equals(catagory)) {
 				String trackWorkOrder = tv.getTrackWorkOrder();
-				List<PLMObject> erpPurchases = Distribution.getERPPurchase(Arrays.asList(trackWorkOrder));
+				List<PLMObject> erpPurchases = new Distribution().getERPPurchase(Arrays.asList(trackWorkOrder));
 				List<WorkPackage> workPackages = new ArrayList<WorkPackage>();
 
 				erpPurchases.forEach(plmObject -> {
@@ -69,7 +69,7 @@ public class Refresh {
 				String trackWorkOrder = tv.getTrackWorkOrder();
 				Map<String, String> productions = new HashMap<String, String>();
 				productions.put(trackWorkOrder, trackMaterielId);
-				List<PLMObject> erpProduction = Distribution.getERPProduction(productions);
+				List<PLMObject> erpProduction = new Distribution().getERPProduction(productions);
 				List<WorkPackage> workPackages = new ArrayList<WorkPackage>();
 
 				erpProduction.forEach(plmObject -> {
@@ -102,9 +102,9 @@ public class Refresh {
 				workPackages.forEach(wp -> {
 					objectIds.add(wp.id + "|" + wp.verNo);
 				});
-				List<PLMObject> plmObjectInfo = Distribution.getPLMObjectInfo(objectIds);
+				List<PLMObject> plmObjectInfo = new Distribution().getPLMObjectInfo(objectIds);
 
-				List<PLMObject> plmObjectProcesss = Distribution.getPLMObjectProcess(objectIds);
+				List<PLMObject> plmObjectProcesss = new Distribution().getPLMObjectProcess(objectIds);
 
 				workPackages.clear();
 

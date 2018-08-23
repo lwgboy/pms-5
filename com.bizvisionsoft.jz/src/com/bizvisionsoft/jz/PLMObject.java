@@ -60,9 +60,9 @@ public class PLMObject {
 	private void loadChildren() {
 		try {
 			if (TYPE_WORKSPACE == type) {
-				children = Distribution.getPLMRootFolder(Arrays.asList(values.get("workspaceId").toString()));
+				children = new Distribution().getPLMRootFolder(Arrays.asList(values.get("workspaceId").toString()));
 			} else if (TYPE_FOLDER == type) {
-				children = Distribution.getPLMFolder(Arrays.asList(values.get("id").toString()));
+				children = new Distribution().getPLMFolder(Arrays.asList(values.get("id").toString()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

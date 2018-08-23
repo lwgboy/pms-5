@@ -42,7 +42,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecastScope {
+public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecastScope {
 
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断
@@ -101,7 +101,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 		return workOrder;
 	}
 
-
 	/**
 	 * 父项目Id
 	 */
@@ -139,7 +138,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 		this.eps_id = Optional.ofNullable(eps).map(e -> e.get_id()).orElse(null);
 		this.eps = eps;
 	}
-	
+
 	/**
 	 * 项目集Id
 	 */
@@ -151,13 +150,13 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	@SetValue
 	@ReadValue
 	private Program program;
-	
+
 	@WriteValue("program")
 	private void writeProgram(Program program) {
 		this.program_id = Optional.ofNullable(program).map(e -> e.get_id()).orElse(null);
 		this.program = program;
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 描述属性
 	/**
@@ -518,6 +517,127 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	@WriteValue
 	@Persistence
 	private String customerRepresentative;
+
+	/**
+	 * 项目类型
+	 */
+	@Persistence
+	private String projectType;
+
+	public static String PROJECTTYPE_DEVELOPMENT = "development";
+
+	public static String PROJECTTYPE_DEPT = "dept";
+
+	public static String PROJECTTYPE_EXTERNAL = "external";
+
+	/**
+	 * 协调单编号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String coordinateId;
+
+	/**
+	 * 协作理由
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<String> reason;
+	
+	/**
+	 * 其它理由
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String otherReason;
+	
+	/**
+	 * 外协型号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String matId;
+	
+	/**
+	 * 数量
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String matQty;
+	
+	/**
+	 * 预计价格(万元)
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String matAmount;
+	
+	/**
+	 * 配套项目
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String projectName;
+	
+	/**
+	 * 协作单位
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String collaborationUnit;
+	
+	/**
+	 * 采购单位
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String purchaseUnit;
+	
+	/**
+	 * 合同编号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String contractId;
+	
+	/**
+	 * 合同签订时间
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private Date contractDate;
+	
+	/**
+	 * 合同价格(万元)
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String contractAmount;
+	
+	/**
+	 * 存放位置
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String position;
+	
+	public Project setProjectType(String projectType) {
+		this.projectType = projectType;
+		return this;
+	}
 
 	@Override
 	@Label
@@ -1079,7 +1199,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope,IRevenueForecast
 	private boolean behaviourApproveProjectStart() {
 		return ProjectStatus.Created.equals(status) && !Boolean.TRUE.equals(startApproved);
 	}
-	
+
 	@Behavior("从项目集移除项目")
 	private boolean behaviourRemoveFromProgram() {
 		return true;

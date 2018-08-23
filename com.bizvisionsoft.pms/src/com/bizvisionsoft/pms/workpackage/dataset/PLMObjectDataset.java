@@ -35,11 +35,10 @@ public class PLMObjectDataset {
 	@DataSet(DataSet.LIST)
 	private List<?> list(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		try {
-			return Distribution.getPLMWorkspace(projectNumber);
+			return new Distribution().getPLMWorkspace(projectNumber);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<>();
 		}
-
 	}
 }
