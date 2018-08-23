@@ -40,7 +40,8 @@ public class AddRealizePeriodACT {
 		if (DateTimeInputDialog.OK != input.open()) {
 			return;
 		}
-		grid.appendAmountColumn(input.getValue());
+		cal.setTime(input.getValue());
+		grid.appendAmountColumn(cal);
 	}
 
 }

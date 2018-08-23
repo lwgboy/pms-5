@@ -233,7 +233,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public List<AccountItem> getAccoutItemRoot() {
 		return getAccoutItem(null);
 	}
-	
+
 	@Override
 	public List<AccountIncome> getAccoutIncomeRoot() {
 		return getAccoutIncome(null);
@@ -243,27 +243,26 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public List<AccountItem> getAccoutItem(ObjectId parent_id) {
 		return queryAccountItem(new BasicDBObject("parent_id", parent_id));
 	}
-	
-	@Override
-	public List<AccountIncome> getAccoutIncome(ObjectId parent_id) {
-		return queryAccountIncome(new BasicDBObject("parent_id", parent_id));
+
+	public List<AccountIncome> getAccoutIncome(String parentId) {
+		return queryAccountIncome(new BasicDBObject("parentId", parentId));
 	}
 
 	@Override
 	public long countAccoutItem(ObjectId _id) {
 		return count(new BasicDBObject("parent_id", _id), AccountItem.class);
 	}
-	
+
 	@Override
-	public long countAccoutIncome(ObjectId _id) {
-		return count(new BasicDBObject("parent_id", _id), AccountIncome.class);
+	public long countAccoutIncome(String parentId) {
+		return count(new BasicDBObject("parentId", parentId), AccountIncome.class);
 	}
 
 	@Override
 	public long countAccoutItemRoot() {
 		return countAccoutItem(null);
 	}
-	
+
 	@Override
 	public long countAccoutIncomeRoot() {
 		return countAccoutIncome(null);
@@ -273,22 +272,57 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public AccountItem insertAccountItem(AccountItem ai) {
 		return insert(ai, AccountItem.class);
 	}
+
 	@Override
 	public AccountIncome insertAccountIncome(AccountIncome ai) {
-		return insert(ai, AccountIncome.class);
+		ai = insert(ai, AccountIncome.class);
+		String parentId = ai.getParentId();
+		if (parentId != null) {
+			c("accountIncome").updateMany(
+					new Document("$or",
+							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$push", new Document("subAccounts", ai.getId())));
+		}
+		return ai;
 	}
-
 
 	@Override
 	public long deleteAccountItem(ObjectId _id) {
 		return delete(_id, AccountItem.class);
 	}
-	
+
 	@Override
 	public long deleteAccountIncome(ObjectId _id) {
-		return delete(_id, AccountIncome.class);
-	}
+		Document doc = c("accountIncome").find(new Document("_id", _id)).first();
+		if (doc != null) {
+			String id = doc.getString("id");
+			ArrayList<Object> toDelete = new ArrayList<>();
+			toDelete.add(id);
+			List<?> accounts = (List<?>) doc.get("subAccounts");
+			if (accounts != null) {
+				toDelete.addAll(accounts);
+			}
 
+			// 引用的
+			long refCnt = c("revenueForecastItem")
+					.countDocuments(new Document("subject", new Document("$in", toDelete)));
+			if (refCnt > 0) {
+				throw new ServiceException("不能删除项目收益预测正在使用的科目。");
+			}
+
+			refCnt = c("revenueRealizeItem").countDocuments(new Document("subject", new Document("$in", toDelete)));
+			if (refCnt > 0) {
+				throw new ServiceException("不能删除项目收益实现正在使用的科目。");
+			}
+
+			c("accountIncome").updateMany(new Document("subAccounts", new Document("$in", toDelete)),
+					new Document("$pullAll", new Document("subAccounts", toDelete)));
+
+			c("accountIncome").deleteMany(new Document("id", new Document("$in", toDelete)));
+			return 1;
+		}
+		return 0;
+	}
 
 	@Override
 	public long updateAccountItem(BasicDBObject filterAndUpdate) {
@@ -312,7 +346,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		return c(AccountItem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
-	
+
 	@Override
 	public List<AccountIncome> queryAccountIncome(BasicDBObject filter) {
 		List<Bson> pipeline = new ArrayList<Bson>();
@@ -325,7 +359,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		return c(AccountIncome.class).aggregate(pipeline).into(new ArrayList<>());
 	}
-
 
 	@Override
 	public List<Message> listMessage(BasicDBObject condition, String userId) {
@@ -637,16 +670,20 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type");
 
+		createIndex("accountIncome", new Document("parentId", 1), "parentId");
+		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
+		createUniqueIndex("accountIncome", new Document("id", 1), "id");
+
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
 		try {
-			c(collectionName).listIndexes().forEach((Document doc) -> {
-				if (doc.get("key").equals(keys)) {
-					c(collectionName).dropIndex((Bson) doc.get("key"));
-					return;
-				}
-			});
+			// c(collectionName).listIndexes().forEach((Document doc) -> {
+			// if (doc.get("key").equals(keys)) {
+			// c(collectionName).dropIndex((Bson) doc.get("key"));
+			// return;
+			// }
+			// });
 			c(collectionName).createIndex(keys, indexOptions);
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
@@ -781,6 +818,5 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		}
 		return false;
 	}
-
 
 }

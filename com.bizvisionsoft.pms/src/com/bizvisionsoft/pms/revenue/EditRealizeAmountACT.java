@@ -1,5 +1,8 @@
 package com.bizvisionsoft.pms.revenue;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.bson.Document;
 
 import com.bizivisionsoft.widgets.util.Layer;
@@ -20,14 +23,13 @@ public class EditRealizeAmountACT {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(t -> {
-			Editor.open("编辑收益预测", context, new Document(), (r, d) -> {
+			Editor.open("编辑收益实现", context, new Document(), (r, d) -> {
 				try {
-					String _index = r.getString("index");
+					Date _index = r.getDate("index");
 					String _amount = r.getString("amount");
-					int index = Integer.parseInt(_index) - 1;
 					double amount = Double.parseDouble(_amount);
-					Util.ifInstanceThen(context.getContent(), ForecastASM.class,
-							a -> a.update(((AccountIncome) t), index, amount));
+					Util.ifInstanceThen(context.getContent(), RealizeASM.class,
+							a -> a.update(((AccountIncome) t), new SimpleDateFormat("yyyyMM").format(_index), amount));
 				} catch (Exception e) {
 					Layer.message("更新失败。", Layer.ICON_CANCEL);
 				}

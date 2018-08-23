@@ -68,7 +68,7 @@ public interface RevenueService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public double getRevenueRealizeAmount(@PathParam("scope_id") ObjectId scope_id,
-			@PathParam("subject") String subject, @PathParam("index") String id);
+			@PathParam("subject") String subject, @PathParam("id") String id);
 
 	@PUT
 	@Path("/realize/")

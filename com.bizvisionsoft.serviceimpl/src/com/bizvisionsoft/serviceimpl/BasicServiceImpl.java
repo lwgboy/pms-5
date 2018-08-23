@@ -78,18 +78,30 @@ public class BasicServiceImpl {
 
 	@SuppressWarnings("unchecked")
 	protected <T> T insert(T obj) {
-		c((Class<T>) obj.getClass()).insertOne(obj);
-		return obj;
+		try {
+			c((Class<T>) obj.getClass()).insertOne(obj);
+			return obj;
+		} catch (Exception e) {
+			throw handleDuplicateIndexError(e, "违反唯一性规则");
+		}
 	}
 
 	protected <T> T insert(T obj, Class<T> clazz) {
-		c(clazz).insertOne(obj);
-		return obj;
+		try {
+			c(clazz).insertOne(obj);
+			return obj;
+		} catch (Exception e) {
+			throw handleDuplicateIndexError(e, "违反唯一性规则");
+		}
 	}
 
 	protected <T> T insert(T obj, String cname, Class<T> clazz) {
-		c(cname, clazz).insertOne(obj);
-		return obj;
+		try {
+			c(cname, clazz).insertOne(obj);
+			return obj;
+		} catch (Exception e) {
+			throw handleDuplicateIndexError(e, "违反唯一性规则");
+		}
 	}
 
 	protected <T> T get(ObjectId _id, Class<T> clazz) {
@@ -174,9 +186,9 @@ public class BasicServiceImpl {
 
 		pipeline.add(Aggregates.unwind("$" + outputField, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 	}
-	
+
 	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField) {
-		appendUserInfo(pipeline,useIdField,userInfoField,userInfoField+"_meta");
+		appendUserInfo(pipeline, useIdField, userInfoField, userInfoField + "_meta");
 	}
 
 	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField) {
@@ -184,10 +196,10 @@ public class BasicServiceImpl {
 				.set("$chargerId", "$" + useIdField)//
 				.set("chargerInfo_meta", userMetaField)//
 				.set("$chargerInfo_meta", "$" + userMetaField)//
-				.set("chargerInfo_meta.org_id", userMetaField+".org_id")//
+				.set("chargerInfo_meta.org_id", userMetaField + ".org_id")//
 				.set("chargerInfo", userInfoField)//
-				.set("$chargerInfo_meta.name", "$" + userMetaField+".name")//
-				.set("chargerInfo_meta.orgInfo", userMetaField+".orgInfo")//
+				.set("$chargerInfo_meta.name", "$" + userMetaField + ".name")//
+				.set("chargerInfo_meta.orgInfo", userMetaField + ".orgInfo")//
 				.array());
 	}
 

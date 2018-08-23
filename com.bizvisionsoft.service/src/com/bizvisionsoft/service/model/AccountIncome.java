@@ -15,6 +15,11 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.mongodb.BasicDBObject;
 
+/**
+ * TODO id, parentId,subIds 增加index, 其中id为唯一索引
+ * @author hua
+ *
+ */
 @PersistenceCollection("accountIncome")
 public class AccountIncome implements Comparable<AccountIncome> {
 
@@ -28,7 +33,7 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	@ReadValue
 	@WriteValue
-	private ObjectId parent_id;
+	private String parentId;
 
 	/** 编号 Y **/
 	@ReadValue
@@ -55,7 +60,7 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	@Exclude
 	private List<AccountIncome> children;
-
+	
 	@Override
 	@Label
 	public String toString() {
@@ -64,12 +69,12 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	@Structure("list")
 	public List<AccountIncome> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parent_id", _id));
+		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parentId", id));
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countAccoutIncome(_id);
+		return ServicesLoader.get(CommonService.class).countAccoutIncome(id);
 	}
 
 	@Behavior({ "项目收益预测/编辑收益预测","项目收益实现/编辑收益实现" })
@@ -83,8 +88,8 @@ public class AccountIncome implements Comparable<AccountIncome> {
 		return _id;
 	}
 
-	public AccountIncome setParent_id(ObjectId parent_id) {
-		this.parent_id = parent_id;
+	public AccountIncome setParentId(String parentId) {
+		this.parentId = parentId;
 		return this;
 	}
 
@@ -106,6 +111,10 @@ public class AccountIncome implements Comparable<AccountIncome> {
 			children = listSubAccountItems();
 		}
 		return children;
+	}
+	
+	public String getParentId() {
+		return parentId;
 	}
 
 }

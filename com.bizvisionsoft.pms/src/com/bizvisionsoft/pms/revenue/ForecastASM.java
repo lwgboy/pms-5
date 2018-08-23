@@ -168,7 +168,7 @@ public class ForecastASM extends GridPart {
 		Column c = new Column();
 		c.setName("name");
 		c.setText("Ãû³Æ");
-		c.setWidth(160);
+		c.setWidth(240);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);

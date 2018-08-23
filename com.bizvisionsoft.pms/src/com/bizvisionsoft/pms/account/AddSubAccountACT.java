@@ -20,7 +20,7 @@ public class AddSubAccountACT {
 		context.selected(parent -> {
 			Object input;
 			if (parent instanceof AccountIncome) {
-				input = new AccountIncome().setParent_id(((AccountIncome) parent).get_id());
+				input = new AccountIncome().setParentId(((AccountIncome) parent).getId());
 			} else if (parent instanceof AccountItem) {
 				input = new AccountItem().setParent_id(((AccountItem) parent).get_id());
 			} else {
