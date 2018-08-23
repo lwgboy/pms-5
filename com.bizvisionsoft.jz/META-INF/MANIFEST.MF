@@ -5,3 +5,13 @@ Bundle-SymbolicName: com.bizvisionsoft.jz
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: JZ
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.bizvisionsoft.jz
+Require-Bundle: com.bizvisionsoft.annotations;bundle-version="1.0.0"
+Bundle-ClassPath: lib/axis.jar,
+ lib/commons-discovery-0.2.jar,
+ lib/commons-logging.jar,
+ lib/jaxrpc.jar,
+ lib/saaj.jar,
+ lib/webserviceutils.jar,
+ lib/wsdl4j.jar,
+ .

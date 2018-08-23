@@ -24,6 +24,7 @@ import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.UpdateWorkPackages;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -208,7 +209,7 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition);
-	
+
 	@POST
 	@Path("/package/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
@@ -515,7 +516,7 @@ public interface WorkService {
 	@Path("/resource/dept/{chargerId}/period/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> getResourceOfChargedDept(Period period ,@PathParam("chargerId") String chargerId);
+	public List<Document> getResourceOfChargedDept(Period period, @PathParam("chargerId") String chargerId);
 
 	@POST
 	@Path("/resourceactual/add/{workReportItemId}/")
@@ -561,7 +562,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/charger/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的工作/count" ,"处理工作/budget"})
+	@DataSet({ "我的工作/count", "处理工作/budget" })
 	public long countChargerProcessingWorkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -577,8 +578,26 @@ public interface WorkService {
 	@Path("/userid/{userid}/assigner/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的待指派工作/count","指派工作/budget" })
+	@DataSet({ "我的待指派工作/count", "指派工作/budget" })
 	public long countAssignerProcessingWorkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/package/update/purchase")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages updateWorkPackages);
+
+	@POST
+	@Path("/package/update/production")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkPackage> updateProductionWorkPackage(UpdateWorkPackages updateWorkPackages);
+
+	@POST
+	@Path("/package/update/development")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<WorkPackage> updateDevelopmentWorkPackage(UpdateWorkPackages updateWorkPackages);
 
 }

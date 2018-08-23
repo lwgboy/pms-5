@@ -71,11 +71,7 @@ public class WorkPackage {
 
 	@ReadValue
 	@WriteValue
-	private String description;
-
-	public String getDescription() {
-		return description;
-	}
+	public String description;
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
@@ -150,18 +146,18 @@ public class WorkPackage {
 	// 采购使用的字段，不排除其他视图使用
 	@ReadValue
 	@WriteValue
-	private String matId;
+	public String matId;
 
 	@ReadValue
 	@WriteValue
-	private String matDesc;
+	public String matDesc;
 
 	@ReadValue
 	@WriteValue
-	private String unit;
+	public String unit;
 
 	@ReadValue
-	private double planQty;
+	public double planQty;
 
 	private Date actualFinish;
 
@@ -175,7 +171,7 @@ public class WorkPackage {
 	}
 
 	@ReadValue
-	private double completeQty;
+	public double completeQty;
 
 	@ReadValue("requiredQty")
 	private double getRequiredQty() {
@@ -206,23 +202,23 @@ public class WorkPackage {
 	// 研发使用的字段
 	@ReadValue
 	@WriteValue
-	private String id;
+	public String id;
 
 	@ReadValue
 	@WriteValue
-	private Boolean planStatus;
+	public Boolean planStatus;
 
 	@ReadValue
 	@WriteValue
-	private String verNo;
+	public String verNo;
 
 	@ReadValue
 	@WriteValue
-	private String completeStatus;
+	public boolean completeStatus;
 
 	@ReadValue
 	@WriteValue
-	private String documentType;
+	public String documentType;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

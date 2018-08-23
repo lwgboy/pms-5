@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateProject {
+public class CreateExternalProject {
 
 	@Inject
 	private IBruiService bruiService;
@@ -23,10 +23,9 @@ public class CreateProject {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
-				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true)
-						.setProjectType(Project.PROJECTTYPE_DEVELOPMENT).setCreationInfo(bruiService.operationInfo()))
-				.ok((r, proj) -> {
+		new Editor<Project>(bruiService.getAssembly("创建外协项目编辑器"), context).setInput(new Project()
+				.setStatus(ProjectStatus.Created).setStageEnable(true).setProjectType(Project.PROJECTTYPE_EXTERNAL)
+				.setStartApproved(true).setCreationInfo(bruiService.operationInfo())).ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {
 						Services.get(WorkSpaceService.class).checkout(pj.getWorkspace(), pj.getPmId(), true);
