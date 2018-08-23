@@ -53,6 +53,9 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	@Exclude
 	private transient AccountIncome parent;
 
+	@Exclude
+	private List<AccountIncome> children;
+
 	@Override
 	@Label
 	public String toString() {
@@ -69,7 +72,7 @@ public class AccountIncome implements Comparable<AccountIncome> {
 		return ServicesLoader.get(CommonService.class).countAccoutIncome(_id);
 	}
 
-	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
+	@Behavior({ "项目收益预测/编辑收益预测","项目收益实现/编辑收益实现" })
 	private boolean behavior() {
 		return countSubAccountItems() == 0;
 	}
@@ -96,6 +99,13 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	public String getName() {
 		return name;
+	}
+
+	public List<AccountIncome> getSubAccountItems() {
+		if(children==null) {
+			children = listSubAccountItems();
+		}
+		return children;
 	}
 
 }

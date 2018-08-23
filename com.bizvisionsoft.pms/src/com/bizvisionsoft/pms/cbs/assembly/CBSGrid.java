@@ -44,6 +44,15 @@ public abstract class CBSGrid extends GridPart {
 		/////////////////////////////////////////////////////////////////////////////////////
 		// 创建列
 		Column c = new Column();
+		c.setName("name");
+		c.setText("名称");
+		c.setWidth(160);
+		c.setAlignment(SWT.LEFT);
+		c.setMoveable(false);
+		c.setResizeable(true);
+		createColumn(grid, c);
+
+		c = new Column();
 		c.setName("id");
 		c.setText("编号");
 		c.setWidth(120);
@@ -51,15 +60,6 @@ public abstract class CBSGrid extends GridPart {
 		c.setMoveable(false);
 		c.setResizeable(true);
 		createColumn(grid, c);
-
-		c = new Column();
-		c.setName("name");
-		c.setText("名称");
-		c.setWidth(160);
-		c.setAlignment(SWT.LEFT);
-		c.setMoveable(false);
-		c.setResizeable(true);
-		createColumn(grid, c).getColumn();
 		
 		createExtendColumns(grid);
 		

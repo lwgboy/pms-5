@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -778,6 +779,16 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecas
 	@Persistence
 	private ObjectId cbs_id;
 
+	@Structure({"项目收益预测/list","项目收益实现/list"})
+	public List<AccountIncome> listAccountIncome() {
+		return defaultListAccountIncome();
+	}
+
+	@Structure({"项目收益预测/count","项目收益实现/count"})
+	public long countAccountIncome() {
+		return defaultCountAccountIncome();
+	}
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -1181,6 +1192,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecas
 	@WriteValue
 	private Boolean startApproved;
 
+	@Exclude
+	private List<AccountIncome> rootAccountIncome;
+
 	public String getChangeStatus() {
 		return changeStatus;
 	}
@@ -1212,6 +1226,19 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueForecas
 	public Project setStartApproved(boolean startApproved) {
 		this.startApproved = startApproved;
 		return this;
+	}
+
+	@Override
+	public String getRevenueForecastType() {
+		return ServicesLoader.get(RevenueService.class).getRevenueForecastType(_id);
+	}
+
+	@Override
+	public List<AccountIncome> getRootAccountIncome() {
+		if (rootAccountIncome == null) {
+			rootAccountIncome = listAccountIncome();
+		}
+		return rootAccountIncome;
 	}
 
 }
