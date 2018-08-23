@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.workpackage.action;
+package com.bizvisionsoft.jz.project;
 
 import org.eclipse.jface.dialogs.InputDialog;
 

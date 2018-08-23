@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.workpackage.action;
+package com.bizvisionsoft.jz.project;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -7,7 +7,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.jz.PLMObject;
-import com.bizvisionsoft.pms.work.assembly.WorkPackagePlan;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;

@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.work.assembly;
+package com.bizvisionsoft.jz.project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,13 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.UpdateWorkPackages;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
+import com.bizvisionsoft.service.model.WorkPackageProgress;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class WorkPackagePlan {
 
@@ -158,5 +162,31 @@ public class WorkPackagePlan {
 		grid.doCreate(parent, element);
 	}
 
+	public void insert(WorkPackage element) {
+		WorkPackage workPackage = Services.get(WorkService.class).insertWorkPackage(element);
+		grid.insert(workPackage);
+	}
+
+	public void updatePurchase(List<WorkPackage> workPackages) {
+		List<WorkPackage> wps = Services.get(WorkService.class)
+				.updatePurchaseWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
+						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
+		grid.setViewerInput(wps);
+	}
+
+	public void updateProduction(List<WorkPackage> workPackages) {
+		List<WorkPackage> wps = Services.get(WorkService.class)
+				.updateProductionWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
+						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
+		grid.setViewerInput(wps);
+	}
+
+	public void updatePLM(List<WorkPackage> workPackages, List<WorkPackageProgress> workPackageProgresss) {
+		List<WorkPackage> wps = Services.get(WorkService.class)
+				.updateDevelopmentWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
+						.setWorkPackageProgress(workPackageProgresss).setWork_id(((Work) work).get_id())
+						.setCatagory(view.getCatagory()).setName(view.getName()));
+		grid.setViewerInput(wps);
+	}
 
 }
