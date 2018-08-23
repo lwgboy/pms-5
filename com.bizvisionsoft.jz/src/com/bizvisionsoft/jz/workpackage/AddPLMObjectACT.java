@@ -1,4 +1,4 @@
-package com.bizvisionsoft.jz.project;
+package com.bizvisionsoft.jz.workpackage;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 
-public class AddPLMObject {
+public class AddPLMObjectACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -38,7 +38,7 @@ public class AddPLMObject {
 						// ((PLMObject) plmObject).getValue("stage");
 						// ((PLMObject) plmObject).getValue("createdBy");
 						// ((PLMObject) plmObject).getValue("createDate");
-						WorkPackagePlan wpp = (WorkPackagePlan) context.getContent();
+						WorkPackagePlanASM wpp = (WorkPackagePlanASM) context.getContent();
 						wpp.insert(wp);
 					}
 				});

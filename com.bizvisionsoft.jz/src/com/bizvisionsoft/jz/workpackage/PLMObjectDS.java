@@ -1,4 +1,4 @@
-package com.bizvisionsoft.jz.project;
+package com.bizvisionsoft.jz.workpackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.bizvisionsoft.jz.Distribution;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
 
-public class PLMObjectDataset {
+public class PLMObjectDS {
 
 	@Inject
 	private BruiAssemblyContext context;

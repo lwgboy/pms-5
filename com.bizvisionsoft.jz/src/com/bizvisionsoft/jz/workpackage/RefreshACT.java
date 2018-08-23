@@ -1,4 +1,4 @@
-package com.bizvisionsoft.jz.project;
+package com.bizvisionsoft.jz.workpackage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.jz.Distribution;
 import com.bizvisionsoft.jz.PLMObject;
-import com.bizvisionsoft.pms.work.assembly.WorkPackagePlan;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
@@ -25,7 +24,7 @@ import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class Refresh {
+public class RefreshACT {
 
 	@Inject
 	private IBruiService bruiService;
@@ -37,7 +36,7 @@ public class Refresh {
 		TrackView tv = (TrackView) input[1];
 		String catagory = tv.getCatagory();
 		try {
-			WorkPackagePlan wpp = (WorkPackagePlan) context.getContent();
+			WorkPackagePlanASM wpp = (WorkPackagePlanASM) context.getContent();
 			if ("²É¹º".equals(catagory)) {
 				String trackWorkOrder = tv.getTrackWorkOrder();
 				List<PLMObject> erpPurchases = new Distribution().getERPPurchase(Arrays.asList(trackWorkOrder));

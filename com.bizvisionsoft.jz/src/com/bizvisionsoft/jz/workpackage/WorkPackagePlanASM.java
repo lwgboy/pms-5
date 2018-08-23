@@ -1,4 +1,4 @@
-package com.bizvisionsoft.jz.project;
+package com.bizvisionsoft.jz.workpackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class WorkPackagePlan {
+public class WorkPackagePlanASM {
 
 	@Inject
 	private IBruiService brui;

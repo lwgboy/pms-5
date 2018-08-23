@@ -1,4 +1,4 @@
-package com.bizvisionsoft.jz.project;
+package com.bizvisionsoft.jz.workpackage;
 
 import org.eclipse.jface.dialogs.InputDialog;
 
@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class AddERPPlan {
+public class AddERPPlanACT {
 
 	@Inject
 	private IBruiService bruiService;
