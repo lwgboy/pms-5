@@ -9,7 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.model.AccountIncome;
 
 public class EditForecastAmountACT {
@@ -26,7 +26,7 @@ public class EditForecastAmountACT {
 					String _amount = r.getString("amount");
 					int index = Integer.parseInt(_index) - 1;
 					double amount = Double.parseDouble(_amount);
-					Util.ifInstanceThen(context.getContent(), ForecastASM.class,
+					EngUtil.ifInstanceThen(context.getContent(), ForecastASM.class,
 							a -> a.update(((AccountIncome) t), index, amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);

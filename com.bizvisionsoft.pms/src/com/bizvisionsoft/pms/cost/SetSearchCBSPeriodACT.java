@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.cost;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,6 +17,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.CBSItem;
+import com.bizvisionsoft.service.tools.Util;
 
 public class SetSearchCBSPeriodACT {
 
@@ -58,7 +58,7 @@ public class SetSearchCBSPeriodACT {
 							if (element instanceof CBSItem) {
 								double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
 								if (cost != 0)
-									return new DecimalFormat("#.0").format(cost);
+									return Util.getFormatNumber(cost);
 							}
 							return "";
 						}

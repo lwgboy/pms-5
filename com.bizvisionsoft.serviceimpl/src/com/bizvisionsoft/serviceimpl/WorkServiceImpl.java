@@ -1,6 +1,5 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1396,7 +1395,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return new DecimalFormat("0.0").format(d);
+				return Util.getFormatNumber(d);
 			}
 		}
 		return "";

@@ -12,7 +12,7 @@ import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 
@@ -30,7 +30,7 @@ public class OpenWorkPackageACT {
 
 	protected void openWorkPackageMenu(final WorkInTemplate work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Util.isEmptyOrNull(wps)) {
+		if (EngUtil.isEmptyOrNull(wps)) {
 			brui.openContent(brui.getAssembly("模板工作包计划"), new Object[] { work, null });
 		} else {
 			ArrayList<Action> actions = new ArrayList<Action>();

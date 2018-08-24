@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.cost;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +21,7 @@ import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SetSearchCBSPeriodByAnalysisACT {
@@ -99,7 +99,7 @@ public class SetSearchCBSPeriodByAnalysisACT {
 				}
 
 				if (value != null && value instanceof Number && ((Number) value).doubleValue() != 0)
-					column.setFooterText(new DecimalFormat("#.0").format(value));
+					column.setFooterText(Util.getFormatNumber(value));
 
 			}
 			viewer.refresh(true);
@@ -116,11 +116,11 @@ public class SetSearchCBSPeriodByAnalysisACT {
 					if ("cost".equals(type)) {
 						double cost = itm.getCost(startPeriod, endPeriod);
 						if (cost != 0)
-							return new DecimalFormat("#.0").format(cost);
+							return Util.getFormatNumber(cost);
 					} else if ("budget".equals(type)) {
 						double budget = itm.getBudget(startPeriod, endPeriod);
 						if (budget != 0)
-							return new DecimalFormat("#.0").format(budget);
+							return Util.getFormatNumber(budget);
 					} else if ("car".equals(type)) {
 						//////////////////////////////////////////////////////////////////////
 						//// BUG: 去指标方法更新为可以返回null, Double类型
@@ -133,7 +133,7 @@ public class SetSearchCBSPeriodByAnalysisACT {
 						// return car.toString();
 						Double car = itm.getCAR(startPeriod, endPeriod);
 						if (car != null && car != 0)
-							return new DecimalFormat("#.0%").format(car);
+							return Util.getFormatPercentage(car);
 					} else if ("bv".equals(type)) {
 						//////////////////////////////////////////////////////////////////////
 						//// BUG: 去指标方法更新为可以返回null, Double类型
@@ -146,22 +146,22 @@ public class SetSearchCBSPeriodByAnalysisACT {
 						// return bdr.toString();
 						Double bdr = itm.getBDR(startPeriod, endPeriod);
 						if (bdr != null && bdr != 0)
-							return new DecimalFormat("#.0%").format(bdr);
+							return Util.getFormatPercentage(bdr);
 					} else if ("overspend".equals(type)) {
 						double overspend = itm.getOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
-							return new DecimalFormat("#.0").format(overspend);
+							return Util.getFormatNumber(overspend);
 					}
 				} else if (element instanceof CBSSubjectCost) {
 					CBSSubjectCost itm = (CBSSubjectCost) element;
 					if ("cost".equals(type)) {
 						double cost = itm.getCost(startPeriod, endPeriod);
 						if (cost != 0)
-							return new DecimalFormat("#.0").format(cost);
+							return Util.getFormatNumber(cost);
 					} else if ("budget".equals(type)) {
 						double budget = itm.getBudget(startPeriod, endPeriod);
 						if (budget != 0)
-							return new DecimalFormat("#.0").format(budget);
+							return Util.getFormatNumber(budget);
 						//////////////////////////////////////////////////////////////////////
 						//// BUG: 去指标方法更新为可以返回null, Double类型
 						//////////////////////////////////////////////////////////////////////
@@ -182,15 +182,15 @@ public class SetSearchCBSPeriodByAnalysisACT {
 					} else if ("car".equals(type)) {
 						Double car = itm.getCAR(startPeriod, endPeriod);
 						if (car != null && car != 0)
-							return new DecimalFormat("#.0%").format(car);
+							return Util.getFormatPercentage(car);
 					} else if ("bv".equals(type)) {
 						Double bdr = itm.getBDR(startPeriod, endPeriod);
 						if (bdr != null && bdr != 0)
-							return new DecimalFormat("#.0%").format(bdr);
+							return Util.getFormatPercentage(bdr);
 					} else if ("overspend".equals(type)) {
 						double overspend = itm.getOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
-							return new DecimalFormat("#.0").format(overspend);
+							return Util.getFormatNumber(overspend);
 					}
 				}
 				return "";

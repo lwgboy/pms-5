@@ -23,7 +23,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -150,8 +150,8 @@ public class WorkBoardRender {
 		sb.append("<div style=''>" + work.getProjectName() + "</div>");
 		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
-				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(work.getPlanFinish()));
+				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
+				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanFinish()));
 		if (!"".equals(warrningText) && warrningText != null)
 			sb.append("  " + work.getWarningIcon());
 		sb.append("</div>");
@@ -211,7 +211,7 @@ public class WorkBoardRender {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 工作包按钮
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Util.isEmptyOrNull(wps)) {
+		if (EngUtil.isEmptyOrNull(wps)) {
 			sb.append(
 					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
 							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");

@@ -8,11 +8,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.function.Consumer;
+
+import com.bizvisionsoft.annotations.AUtil;
 
 public class Util {
 
@@ -160,5 +166,55 @@ public class Util {
             return false;
         }
     }
-
+    
+    public static String getFormatNumber(Object value) {
+    	return getFormatText(value, null, null);
+    }
+    
+    public static String getFormatPercentage(Object value) {
+    	return getFormatText(value, "#0.0%", null);
+    }
+    
+    public static String getFormatText(Object value, String format) {
+    	return getFormatText(value, format, null);
+    }
+    
+	public static String getFormatText(Object value, String format, Locale locale) {
+		String text;
+		if (value instanceof Date) {
+			if (isEmptyOrNull(format)) {
+				return new SimpleDateFormat(DATE_FORMAT_DATE, locale).format(value);
+			} else {
+				return new SimpleDateFormat(format, locale).format(value);
+			}
+		} else if (value instanceof Integer || value instanceof Long || value instanceof Short) {
+			text = Optional.ofNullable(format)//
+					.map(f -> {
+						DecimalFormat df = new DecimalFormat(f);
+						df.setRoundingMode(RoundingMode.HALF_UP);
+						return df.format(value);
+					}).orElse(value.toString());
+		} else if (value instanceof Float || value instanceof Double) {
+			DecimalFormat df = new DecimalFormat(Optional.ofNullable(format).orElse("0.0"));
+			df.setRoundingMode(RoundingMode.HALF_UP);
+			return df.format(value);
+		} else if (value instanceof Boolean) {
+			text = (boolean) value ? "ÊÇ" : "·ñ";
+		} else if (value instanceof String) {
+			text = (String) value;
+		} else if (value instanceof List<?>) {
+			text = "";
+			for (int i = 0; i < ((List<?>) value).size(); i++) {
+				if (i != 0) {
+					text += ", ";
+				}
+				text += getFormatText(((List<?>) value).get(i), format, locale);
+			}
+		} else if (value instanceof Object) {
+			text = Optional.ofNullable(AUtil.readLabel(value)).orElse("");
+		} else {
+			text = "";
+		}
+		return text;
+	}
 }

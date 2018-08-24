@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.cost;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,6 +24,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
 import com.bizvisionsoft.service.model.ICBSScope;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ManagedProjectsCostRender extends GridPartDefaultRender {
@@ -216,7 +216,8 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		// 修改当期成本显示列名
 		if ("periodCost".equals(column.getName())) {
-			column.setText("期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
+			column.setText(
+					"期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
 		}
 		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {
@@ -250,7 +251,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 		}
 
 		if (value != null && value instanceof Number && ((Number) value).doubleValue() != 0)
-			col.setFooterText(new DecimalFormat("#.0").format(value));
+			col.setFooterText(Util.getFormatNumber(value));
 
 		super.renderColumnFooter(col, column);
 	}

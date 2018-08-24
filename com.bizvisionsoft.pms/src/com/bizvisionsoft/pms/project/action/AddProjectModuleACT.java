@@ -20,7 +20,7 @@ import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -76,7 +76,7 @@ public class AddProjectModuleACT {
 
 		String var = module.getVar();
 		Map<String, String> varMap = new HashMap<String, String>();
-		if (!Util.isEmptyOrNull(var)) {
+		if (!EngUtil.isEmptyOrNull(var)) {
 			String[] v = var.trim().split(";");
 			for (int i = 0; i < v.length; i++) {
 				InputDialog id = new InputDialog(br.getCurrentShell(), "WBSÄ£¿é²ÎÊý", v[i], "", null);

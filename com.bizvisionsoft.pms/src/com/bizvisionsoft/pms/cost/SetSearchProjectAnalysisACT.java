@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.cost;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,8 +17,8 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
-import com.bizvisionsoft.service.model.CBSItem;
-import com.bizvisionsoft.service.model.CBSSubjectCost;
+import com.bizvisionsoft.service.model.ICBSAmount;
+import com.bizvisionsoft.service.tools.Util;
 
 public class SetSearchProjectAnalysisACT {
 
@@ -74,51 +73,27 @@ public class SetSearchProjectAnalysisACT {
 		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof CBSItem) {
+				Double value = null;
+				if (element instanceof ICBSAmount) {
 					if ("cost".equals(type))
 						if (endPeriod != null) {
-							double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
-							if (cost != 0)
-								return new DecimalFormat("#.0").format(cost);
+							value = ((ICBSAmount) element).getCost(startPeriod, endPeriod);
 						} else {
-							double cost = ((CBSItem) element).getCost(startPeriod);
-							if (cost != 0)
-								return new DecimalFormat("#.0").format(cost);
+							value = ((ICBSAmount) element).getCost(startPeriod);
 						}
 					else if ("budget".equals(type))
 						if (endPeriod != null) {
-							double budget = ((CBSItem) element).getBudget(startPeriod, endPeriod);
-							if (budget != 0)
-								return new DecimalFormat("#.0").format(budget);
+							value = ((ICBSAmount) element).getBudget(startPeriod, endPeriod);
 						} else {
-							double budget = ((CBSItem) element).getBudget(startPeriod);
-							if (budget != 0)
-								return new DecimalFormat("#.0").format(budget);
-						}
-				} else if (element instanceof CBSSubjectCost) {
-
-					if ("cost".equals(type))
-						if (endPeriod != null) {
-							double cost = ((CBSSubjectCost) element).getCost(startPeriod, endPeriod);
-							if (cost != 0)
-								return new DecimalFormat("#.0").format(cost);
-						} else {
-							double cost = ((CBSSubjectCost) element).getCost(startPeriod);
-							if (cost != 0)
-								return new DecimalFormat("#.0").format(cost);
-						}
-					else if ("budget".equals(type))
-						if (endPeriod != null) {
-							double budget = ((CBSSubjectCost) element).getBudget(startPeriod, endPeriod);
-							if (budget != 0)
-								return new DecimalFormat("#.0").format(budget);
-						} else {
-							double budget = ((CBSSubjectCost) element).getBudget(startPeriod);
-							if (budget != 0)
-								return new DecimalFormat("#.0").format(budget);
+							value = ((ICBSAmount) element).getBudget(startPeriod);
 						}
 				}
-				return "";
+
+				if (value == null)
+					return "";
+				if (value.doubleValue() == 0d)
+					return "";
+				return Util.getFormatNumber(value);
 			}
 		};
 	}

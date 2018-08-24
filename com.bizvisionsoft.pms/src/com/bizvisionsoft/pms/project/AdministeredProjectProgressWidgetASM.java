@@ -21,7 +21,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Project;
@@ -97,8 +97,8 @@ public class AdministeredProjectProgressWidgetASM {
 		fd.top = new FormAttachment(sep);
 		fd.bottom = new FormAttachment(100);
 		
-		addIndicator(content, Util.getFormatText(project.getPlanStart()), "计划开始");
-		addIndicator(content, Util.getFormatText(project.getPlanFinish()), "计划完成");
+		addIndicator(content, EngUtil.getFormatText(project.getPlanStart()), "计划开始");
+		addIndicator(content, EngUtil.getFormatText(project.getPlanFinish()), "计划完成");
 		addIndicator(content, project.getPlanDuration() + "天", "计划工期");
 		String overdue = getOverdueHtml(project);
 		if ("超期".equals(overdue)) {
@@ -112,8 +112,8 @@ public class AdministeredProjectProgressWidgetASM {
 		} else {
 			addIndicator(content, "", "进度预警");
 		}
-		addIndicator(content, Util.getFormatText(project.getEstimateFinish()), "估算完工日期");
-		addIndicator(content, Util.getFormatText(project.getEstimateDuration()) + "天", "估算工期");
+		addIndicator(content, EngUtil.getFormatText(project.getEstimateFinish()), "估算完工日期");
+		addIndicator(content, EngUtil.getFormatText(project.getEstimateDuration()) + "天", "估算工期");
 
 	}
 

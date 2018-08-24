@@ -15,7 +15,7 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.ServicesLoader;
 
-public class CBSSubjectCost implements Comparable<CBSSubjectCost> {
+public class CBSSubjectCost implements Comparable<CBSSubjectCost> ,ICBSAmount{
 
 	private CBSItem cbsItem;
 

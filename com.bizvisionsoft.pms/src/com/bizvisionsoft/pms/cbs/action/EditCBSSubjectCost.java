@@ -6,7 +6,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.pms.cbs.assembly.CostSubject;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
@@ -37,7 +37,7 @@ public class EditCBSSubjectCost {
 				period = new CBSSubject().setCBSItem_id(((CBSItem) cbs).get_id()).setSubjectNumber(account.getId());
 			}
 
-			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+			EngUtil.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("期间成本编辑器", context, period, true).setTitle("编辑科目期间成本").ok((r, o) -> {
 				CostSubject grid = (CostSubject) context.getContent();

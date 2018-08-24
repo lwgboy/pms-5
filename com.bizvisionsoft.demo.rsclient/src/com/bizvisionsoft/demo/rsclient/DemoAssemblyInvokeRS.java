@@ -10,7 +10,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -67,7 +67,7 @@ public class DemoAssemblyInvokeRS {
 		button.setText("创建一批测试用户");
 		button.addListener(SWT.Selection, e -> {
 			for (int i = 0; i < 300; i++) {
-				String id = Util._10_to_N(i, 24);
+				String id = EngUtil._10_to_N(i, 24);
 				User user = new User();//
 				Services.get(UserService.class).insert(user);
 			}

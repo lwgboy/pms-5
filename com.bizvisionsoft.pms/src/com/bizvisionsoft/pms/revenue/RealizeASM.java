@@ -22,6 +22,7 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 
 import com.bizivisionsoft.widgets.util.Layer;
@@ -40,7 +41,7 @@ import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueForecastScope;
@@ -97,6 +98,7 @@ public class RealizeASM extends GridPart {
 		// grid.setHideIndentionImage(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
 		grid.setData(RWT.FIXED_COLUMNS, 3);
+		grid.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 
 		return viewer;
 	}
@@ -104,7 +106,6 @@ public class RealizeASM extends GridPart {
 	@Override
 	public void setViewerInput() {
 		super.setViewerInput(Arrays.asList(scope));
-		viewer.getGrid().handleItems(i -> i.setBackground(BruiColors.getColor(BruiColor.Grey_50)));
 	}
 
 	@Override
@@ -153,7 +154,7 @@ public class RealizeASM extends GridPart {
 				if (value == 0) {
 					text = "";
 				} else {
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 				}
 
 				cell.setText(text);
@@ -214,11 +215,11 @@ public class RealizeASM extends GridPart {
 				String text = "";
 				double value = getAmount(account, index);
 				if (value != 0)
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 
 				cell.setText(text);
-				if (!isAmountEditable(account))
-					cell.setBackground(BruiColors.getColor(BruiColor.Grey_50));
+				if (isAmountEditable(account))
+					cell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 
 			@Override
@@ -286,7 +287,7 @@ public class RealizeASM extends GridPart {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					update((AccountIncome) element, index, Util.getDoubleInput((String) value));
+					update((AccountIncome) element, index, EngUtil.getDoubleInput((String) value));
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
 				}
@@ -421,7 +422,7 @@ public class RealizeASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, String index) {
 		double result = 0d;
-		if (!Util.isEmptyOrNull(children)) {
+		if (!EngUtil.isEmptyOrNull(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}
