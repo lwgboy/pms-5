@@ -13,10 +13,20 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import com.bizvisionsoft.annotations.AUtil;
 
@@ -216,5 +226,33 @@ public class Util {
 			text = "";
 		}
 		return text;
+	}
+
+	public static double calculate(String formula, Function<String, Double> func) {
+		Map<String, Double> vars = new HashMap<>();
+		Matcher m = Pattern.compile("(\\[[^\\]]*\\])").matcher(formula);
+		while (m.find()) {
+			String name = m.group().substring(1, m.group().length() - 1);
+			if (!vars.containsKey(name)) {
+				vars.put(name, func.apply(name));
+			}
+		}
+
+		Iterator<String> iter = vars.keySet().iterator();
+		while (iter.hasNext()) {
+			String key = iter.next();
+			Double value = vars.get(key);
+			formula = formula.replaceAll("\\[" + key + "\\]", "" + value);
+		}
+
+		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+		ScriptEngine nashorn = scriptEngineManager.getEngineByName("nashorn");
+		try {
+			Number result = (Number)nashorn.eval(formula);
+			return result.doubleValue();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

@@ -43,8 +43,9 @@ import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
-import com.bizvisionsoft.service.model.IRevenueForecastScope;
+import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -64,7 +65,7 @@ public class ForecastASM extends GridPart {
 	@Inject
 	private IBruiService br;
 
-	private IRevenueForecastScope scope;
+	private IRevenueScope scope;
 
 	private String type;
 
@@ -74,13 +75,19 @@ public class ForecastASM extends GridPart {
 
 	private Map<String, Map<Integer, Double>> data = new HashMap<>();
 
+	private List<AccountIncome> calColumns;
+
 	@Init
 	public void init() {
 		service = Services.get(RevenueService.class);
 		setContext(context);
 		setConfig(context.getAssembly());
 		setBruiService(br);
-		scope = context.getRootInput(IRevenueForecastScope.class, false);
+		scope = context.getRootInput(IRevenueScope.class, false);
+		// 记录计算列
+		calColumns = AccountIncome.collect(scope.getRootAccountIncome(),
+				item -> !Util.isEmptyOrNull(item.getFormula()));
+
 		type = scope.getRevenueForecastType();
 		if (type.isEmpty()) {// 第一次编辑收益预测
 			if (br.confirm("收益预测方式", "收益的预测方式默认设定为按年预测，更改设定？")) {
@@ -150,7 +157,7 @@ public class ForecastASM extends GridPart {
 		grid.setHeaderVisible(true);
 		grid.setFooterVisible(false);
 		grid.setLinesVisible(true);
-//		grid.setHideIndentionImage(true);
+		// grid.setHideIndentionImage(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
 		grid.setData(RWT.FIXED_COLUMNS, 3);
 		grid.setBackground(BruiColors.getColor(BruiColor.Grey_50));
@@ -267,7 +274,7 @@ public class ForecastASM extends GridPart {
 
 			@Override
 			public boolean isLabelProperty(Object element, String property) {
-				return ("" + index).equals(property);
+				return ("" + idx).equals(property);
 			}
 
 		});
@@ -278,29 +285,30 @@ public class ForecastASM extends GridPart {
 	}
 
 	private void delete(GridColumn column) {
-		final int index = Integer.parseInt((String)column.getData("name"));
+		final int index = Integer.parseInt((String) column.getData("name"));
 		String text = column.getText();
 		if (br.confirm("清除", "请确认清除期间数据：" + text)) {
 			service.deleteRevenueForecast(scope.getScope_id(), index);
 
 			// 清除缓存
 			Iterator<String> iter = data.keySet().iterator();
-			while(iter.hasNext()) {
+			while (iter.hasNext()) {
 				String key = iter.next();
 				Map<Integer, Double> map = data.get(key);
 				map.remove(index);
 			}
-			//刷新表格
+			// 刷新表格
 			ArrayList<Object> dirty = new ArrayList<>();
 			viewer.getGrid().handleItems(itm -> dirty.add(itm.getData()));
-			viewer.update(dirty.toArray(), new String[] { "total",""+index });
+			viewer.update(dirty.toArray(), new String[] { "total", "" + index });
 			Layer.message("已删除期间" + text);
 		}
-		
+
 	}
 
 	private boolean isAmountEditable(Object account) {
-		return account instanceof AccountIncome && ((AccountIncome) account).countSubAccountItems() == 0;
+		return account instanceof AccountIncome && !((AccountIncome) account).hasChildren()
+				&& Util.isEmptyOrNull(((AccountIncome) account).getFormula());
 	}
 
 	/**
@@ -365,6 +373,8 @@ public class ForecastASM extends GridPart {
 		}
 
 		ArrayList<Object> dirty = new ArrayList<>();
+		dirty.addAll(calColumns);
+		
 		dirty.add(account);
 		GridItem treeItem = (GridItem) viewer.testFindItem(account);
 		GridItem parentItem = treeItem.getParentItem();
@@ -374,8 +384,8 @@ public class ForecastASM extends GridPart {
 		}
 		List<String> properties = new ArrayList<>();
 		properties.add("total");
-		for (int i = 0; i < index; i++) {
-			properties.add("" + index);
+		for (int i = 0; i <= index; i++) {
+			properties.add("" + i);
 		}
 		viewer.update(dirty.toArray(), properties.toArray(new String[0]));
 	}
@@ -386,19 +396,32 @@ public class ForecastASM extends GridPart {
 
 	private double getAmount(Object account, int index) {
 		List<AccountIncome> children = null;
-		if (account instanceof IRevenueForecastScope) {
-			children = ((IRevenueForecastScope) account).getRootAccountIncome();
+		if (account instanceof IRevenueScope) {
+			children = ((IRevenueScope) account).getRootAccountIncome();
 			return getRowSummaryAccount(children, index);
 		} else if (account instanceof AccountIncome) {
-			if (((AccountIncome) account).countSubAccountItems() > 0) {
-				children = ((AccountIncome) account).getSubAccountItems();
+			AccountIncome ai = (AccountIncome) account;
+			if (ai.hasChildren()) {
+				children = ai.getSubAccountItems();
 				return getRowSummaryAccount(children, index);
+			} else if (!Util.isEmptyOrNull(ai.getFormula())) {
+				return calculate(ai, index);
 			} else {
-				return Optional.ofNullable(data.get(((AccountIncome) account).getId())).map(row -> row.get(index))
-						.map(d -> d.doubleValue()).orElse(0d);
+				return Optional.ofNullable(data.get(ai.getId())).map(row -> row.get(index)).map(d -> d.doubleValue())
+						.orElse(0d);
 			}
 		}
 		return 0d;
+	}
+
+	private double calculate(AccountIncome ai, int index) {
+		return Util.calculate(ai.getFormula(), subject -> {
+			AccountIncome account = AccountIncome.search(scope.getRootAccountIncome(), i -> i.getId().equals(subject));
+			if (account != null) {
+				return getAmount(account, index);
+			}
+			return null;
+		});
 	}
 
 	private double getRowSummaryAccount(List<AccountIncome> children, int index) {

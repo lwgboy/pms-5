@@ -5,7 +5,7 @@ import java.util.List;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 
-public interface IRevenueForecastScope extends IScope{
+public interface IRevenueScope extends IScope{
 	
 	public default List<AccountIncome> defaultListAccountIncome(){
 		return ServicesLoader.get(CommonService.class).getAccoutIncomeRoot();
@@ -18,5 +18,5 @@ public interface IRevenueForecastScope extends IScope{
 	public String getRevenueForecastType();
 
 	public List<AccountIncome> getRootAccountIncome();
-
+	
 }

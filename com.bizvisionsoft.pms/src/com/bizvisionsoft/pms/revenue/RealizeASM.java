@@ -44,8 +44,9 @@ import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
-import com.bizvisionsoft.service.model.IRevenueForecastScope;
+import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 /**
@@ -62,7 +63,7 @@ public class RealizeASM extends GridPart {
 	@Inject
 	private IBruiService br;
 
-	private IRevenueForecastScope scope;
+	private IRevenueScope scope;
 
 	private RevenueService service;
 
@@ -74,7 +75,7 @@ public class RealizeASM extends GridPart {
 		setContext(context);
 		setConfig(context.getAssembly());
 		setBruiService(br);
-		scope = context.getRootInput(IRevenueForecastScope.class, false);
+		scope = context.getRootInput(IRevenueScope.class, false);
 		data = service.groupRevenueRealizeAmountByPeriod(scope.getScope_id());
 		super.init();
 	}
@@ -268,7 +269,8 @@ public class RealizeASM extends GridPart {
 	}
 
 	private boolean isAmountEditable(Object account) {
-		return account instanceof AccountIncome && ((AccountIncome) account).countSubAccountItems() == 0;
+		return account instanceof AccountIncome && !((AccountIncome) account).hasChildren()
+				&& Util.isEmptyOrNull(((AccountIncome) account).getFormula());
 	}
 
 	/**
@@ -374,11 +376,11 @@ public class RealizeASM extends GridPart {
 	}
 
 	private double getAmount(Object account, String index) {
-		if (account instanceof IRevenueForecastScope) {
-			return getRowSummaryAccount(((IRevenueForecastScope) account).getRootAccountIncome(), index);
+		if (account instanceof IRevenueScope) {
+			return getRowSummaryAccount(((IRevenueScope) account).getRootAccountIncome(), index);
 		} else if (account instanceof AccountIncome) {
 			AccountIncome ai = (AccountIncome) account;
-			if (ai.countSubAccountItems() > 0) {
+			if (ai.hasChildren()) {
 				return getRowSummaryAccount(ai.getSubAccountItems(), index);
 			} else {
 				return data.stream().filter(d -> ai.getId().equals(d.get("_id"))).findFirst()
@@ -391,13 +393,13 @@ public class RealizeASM extends GridPart {
 
 	private double getSummary(Object account) {
 		List<AccountIncome> children = null;
-		if (account instanceof IRevenueForecastScope) {
-			children = ((IRevenueForecastScope) account).getRootAccountIncome();
+		if (account instanceof IRevenueScope) {
+			children = ((IRevenueScope) account).getRootAccountIncome();
 		} else if (account instanceof AccountIncome) {
 			AccountIncome ai = (AccountIncome) account;
 			Document doc = data.stream().filter(d -> ai.getId().equals(d.get("_id"))).findFirst().orElse(null);
 			if (doc == null) {
-				if (ai.countSubAccountItems() > 0) {
+				if (ai.hasChildren()) {
 					children = ai.getSubAccountItems();
 				}
 			} else {
