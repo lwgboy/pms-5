@@ -639,6 +639,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 		this.projectType = projectType;
 		return this;
 	}
+	
+	public String getProjectType() {
+		return projectType;
+	}
 
 	@Override
 	@Label
