@@ -38,6 +38,12 @@ public interface RevenueService {
 	@Produces("application/json; charset=UTF-8")
 	public void updateRevenueForecastItem(RevenueForecastItem rfi);
 
+	@DELETE
+	@Path("/forecast/{scope_id}/{index}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void deleteRevenueForecast(@PathParam("scope_id") ObjectId scope_id, @PathParam("index") int index);
+
 	@GET
 	@Path("/forecast/{scope_id}/{subject}/{type}/{index}")
 	@Consumes("application/json; charset=UTF-8")
@@ -81,5 +87,11 @@ public interface RevenueService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<String> getRevenueRealizePeriod(@PathParam("scope_id") ObjectId scope_id);
+
+	@DELETE
+	@Path("/realize/{scope_id}/{period}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void deleteRevenueRealize(@PathParam("scope_id") ObjectId scope_id, @PathParam("period") String id);
 
 }

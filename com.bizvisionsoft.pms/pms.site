@@ -64133,7 +64133,7 @@
       },
       {
         "id": "16555c066ed",
-        "name": "损益类",
+        "name": "损益类科目",
         "layout": [],
         "type": "grid",
         "stickerTitle": "损益类科目",
@@ -64196,11 +64196,11 @@
             "noToggleGridColumnGroup": false
           },
           {
-            "id": "162c73aa50a",
-            "name": "description",
-            "text": "说明",
+            "id": "16569835e74",
+            "name": "type",
+            "text": "类型",
             "alignment": 16384,
-            "width": 240,
+            "width": 80,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -64216,11 +64216,11 @@
             "noToggleGridColumnGroup": false
           },
           {
-            "id": "16569835e74",
-            "name": "type",
-            "text": "类型",
+            "id": "162c73aa50a",
+            "name": "description",
+            "text": "说明",
             "alignment": 16384,
-            "width": 80,
+            "width": 240,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -64283,7 +64283,7 @@
             "propagate": false,
             "forceText": false,
             "style": "normal",
-            "editorAssemblyId": "162e5aa73b9",
+            "editorAssemblyId": "16569a380d0",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "type": "edit"
