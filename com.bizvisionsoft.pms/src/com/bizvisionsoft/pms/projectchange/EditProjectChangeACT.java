@@ -8,7 +8,7 @@ import com.bizvisionsoft.bruiengine.assembly.InfopadPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -25,7 +25,7 @@ public class EditProjectChangeACT {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Editor.open("项目变更编辑器", context, input, (r, o) -> {
 			ServicesLoader.get(ProjectService.class).updateProjectChange(new FilterAndUpdate()
-					.filter(new BasicDBObject("_id", o.get_id())).set(Util.getBson((ProjectChange) o, "_id")).bson());
+					.filter(new BasicDBObject("_id", o.get_id())).set(EngUtil.getBson((ProjectChange) o, "_id")).bson());
 			AUtil.simpleCopy(o, input);
 			((InfopadPart) context.getContent()).reload();
 		});

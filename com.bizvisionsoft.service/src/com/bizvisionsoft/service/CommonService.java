@@ -301,7 +301,7 @@ public interface CommonService {
 	@Path("/accountIncome/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "收入类别/" + DataSet.LIST })
+	@DataSet({ "损益类科目/" + DataSet.LIST })
 	public List<AccountIncome> getAccoutIncomeRoot();
 
 	@POST
@@ -358,7 +358,7 @@ public interface CommonService {
 	@Path("/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "收入类别/" + DataSet.INSERT })
+	@DataSet({ "损益类科目/" + DataSet.INSERT })
 	public AccountIncome insertAccountIncome(@MethodParam(MethodParam.OBJECT) AccountIncome ai);
 	
 	@DELETE
@@ -372,7 +372,7 @@ public interface CommonService {
 	@Path("/accountIncome/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "收入类别/" + DataSet.DELETE })
+	@DataSet({ "损益类科目/" + DataSet.DELETE })
 	public long deleteAccountIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 	
 	@PUT
@@ -386,7 +386,7 @@ public interface CommonService {
 	@Path("/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "收入类别/" + DataSet.UPDATE })
+	@DataSet({ "损益类科目/" + DataSet.UPDATE })
 	public long updateAccountIncome(BasicDBObject filterAndUpdate);
 
 	

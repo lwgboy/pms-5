@@ -23,7 +23,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
@@ -77,7 +77,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		} else if (element instanceof AccountItem) {
 			value = getMonthlyAmount((AccountItem) element, period);
 		}
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+		return Optional.ofNullable(value).map(v -> EngUtil.getGenericMoneyFormatText(v)).orElse("");
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		} else if (element instanceof AccountItem) {
 			value = getTotalAmount((AccountItem) element);
 		}
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+		return Optional.ofNullable(value).map(v -> EngUtil.getGenericMoneyFormatText(v)).orElse("");
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		} else if (element instanceof AccountItem) {
 			value = getYearlyAmountSummary((AccountItem) element, year);
 		}
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+		return Optional.ofNullable(value).map(v -> EngUtil.getGenericMoneyFormatText(v)).orElse("");
 	}
 
 	private Double getMonthlyAmount(Object item, String period) {
@@ -223,7 +223,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					double d = Util.getDoubleInput((String) value);
+					double d = EngUtil.getDoubleInput((String) value);
 					CBSSubject subject = new CBSSubject().setCBSItem_id(cbsItem.get_id())
 							.setSubjectNumber(((AccountItem) element).getId()).setId(id);
 					setAmount(subject, d);

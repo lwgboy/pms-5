@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.revenue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
@@ -38,7 +40,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueForecastScope;
@@ -108,6 +110,7 @@ public class ForecastASM extends GridPart {
 	@CreateUI
 	public void createUI(Composite parent) {
 		super.createUI(parent);
+		Layer.message("提示：点击期间列头可删除期间所有数据");
 	}
 
 	public void selectType() {
@@ -147,9 +150,10 @@ public class ForecastASM extends GridPart {
 		grid.setHeaderVisible(true);
 		grid.setFooterVisible(false);
 		grid.setLinesVisible(true);
-		grid.setHideIndentionImage(true);
+//		grid.setHideIndentionImage(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
 		grid.setData(RWT.FIXED_COLUMNS, 3);
+		grid.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 
 		return viewer;
 	}
@@ -157,7 +161,6 @@ public class ForecastASM extends GridPart {
 	@Override
 	public void setViewerInput() {
 		super.setViewerInput(Arrays.asList(scope));
-		updateBackground();
 	}
 
 	@Override
@@ -206,7 +209,7 @@ public class ForecastASM extends GridPart {
 				if (value == 0) {
 					text = "";
 				} else {
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 				}
 
 				cell.setText(text);
@@ -255,11 +258,11 @@ public class ForecastASM extends GridPart {
 				String text = "";
 				double value = getAmount(account, idx);
 				if (value != 0)
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 
 				cell.setText(text);
-				if (!isAmountEditable(account))
-					cell.setBackground(BruiColors.getColor(BruiColor.Grey_50));
+				if (isAmountEditable(account))
+					cell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 
 			@Override
@@ -269,8 +272,31 @@ public class ForecastASM extends GridPart {
 
 		});
 		vcol.setEditingSupport(supportEdit(vcol));
+		vcol.getColumn().addListener(SWT.Selection, e -> delete((GridColumn) e.widget));
 
 		index++;
+	}
+
+	private void delete(GridColumn column) {
+		final int index = Integer.parseInt((String)column.getData("name"));
+		String text = column.getText();
+		if (br.confirm("清除", "请确认清除期间数据：" + text)) {
+			service.deleteRevenueForecast(scope.getScope_id(), index);
+
+			// 清除缓存
+			Iterator<String> iter = data.keySet().iterator();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				Map<Integer, Double> map = data.get(key);
+				map.remove(index);
+			}
+			//刷新表格
+			ArrayList<Object> dirty = new ArrayList<>();
+			viewer.getGrid().handleItems(itm -> dirty.add(itm.getData()));
+			viewer.update(dirty.toArray(), new String[] { "total",""+index });
+			Layer.message("已删除期间" + text);
+		}
+		
 	}
 
 	private boolean isAmountEditable(Object account) {
@@ -292,7 +318,7 @@ public class ForecastASM extends GridPart {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					update((AccountIncome) element, index, Util.getDoubleInput((String) value));
+					update((AccountIncome) element, index, EngUtil.getDoubleInput((String) value));
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
 				}
@@ -354,21 +380,6 @@ public class ForecastASM extends GridPart {
 		viewer.update(dirty.toArray(), properties.toArray(new String[0]));
 	}
 
-	public void updateBackground() {
-		GridItem[] items = viewer.getGrid().getItems();
-		updateBackground(items);
-	}
-
-	private void updateBackground(GridItem[] items) {
-		for (int i = 0; i < items.length; i++) {
-			GridItem[] children = items[i].getItems();
-			if (children.length > 0) {
-				items[i].setBackground(BruiColors.getColor(BruiColor.Grey_50));
-				updateBackground(children);
-			}
-		}
-	}
-
 	private double readAmount(String subject, int index) {
 		return service.getRevenueForecastAmount(scope.getScope_id(), subject, type, index);
 	}
@@ -392,7 +403,7 @@ public class ForecastASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, int index) {
 		double result = 0d;
-		if (!Util.isEmptyOrNull(children)) {
+		if (!EngUtil.isEmptyOrNull(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}

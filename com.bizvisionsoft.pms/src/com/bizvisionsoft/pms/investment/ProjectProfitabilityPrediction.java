@@ -33,10 +33,10 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -87,7 +87,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 			if (isPercentRow(row) || isPercentCell(row, name)) {
 				cellValue = Util.getFormatText(cellValue, "0.0%", null);
 			} else {
-				// cellValue = Util.getFormatText(cellValue, "0", null);
+				// cellValue = EngUtil.getFormatText(cellValue, "0", null);
 			}
 		}
 

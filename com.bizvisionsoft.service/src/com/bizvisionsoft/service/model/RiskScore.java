@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -9,6 +8,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.tools.Util;
 
 @PersistenceCollection("riskScoreInd")
 public class RiskScore {
@@ -133,11 +133,11 @@ public class RiskScore {
 	private String getCostImpact() {
 		String text = "";
 		if (minCostImpact != null) {
-			text += new DecimalFormat("0.0").format(minCostImpact);
+			text += Util.getFormatNumber(minCostImpact);
 		}
 		text += " ~ ";
 		if (maxCostImpact != null) {
-			text += new DecimalFormat("0.0").format(maxCostImpact);
+			text += Util.getFormatNumber(maxCostImpact);
 		}
 		return text;
 	}

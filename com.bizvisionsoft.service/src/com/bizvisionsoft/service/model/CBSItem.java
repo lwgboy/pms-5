@@ -28,7 +28,7 @@ import com.bizvisionsoft.service.sn.CBSItemGenerator;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("cbs")
-public class CBSItem {
+public class CBSItem implements ICBSAmount{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段

@@ -51,6 +51,10 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "财务科目";
+	
+	@ReadValue
+	@WriteValue
+	private String type;
 
 	/**
 	 * 客户端对象

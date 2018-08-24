@@ -110,4 +110,14 @@ public class RevenueServiceImpl extends BasicServiceImpl implements RevenueServi
 		return result;
 	}
 
+	@Override
+	public void deleteRevenueRealize(ObjectId scope_id, String id) {
+		c("revenueRealizeItem").deleteMany(new Document("scope_id",scope_id).append("id",id));
+	}
+
+	@Override
+	public void deleteRevenueForecast(ObjectId scope_id, int index) {
+		c("revenueForecastItem").deleteMany(new Document("scope_id",scope_id).append("index",index));
+	}
+
 }

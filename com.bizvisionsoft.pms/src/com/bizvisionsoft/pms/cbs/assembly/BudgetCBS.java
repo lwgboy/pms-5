@@ -15,7 +15,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
@@ -140,17 +140,17 @@ public class BudgetCBS extends CBSGrid {
 
 	@Override
 	protected String getTotalAmountText(Object element) {
-		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudgetSummary());
+		return EngUtil.getGenericMoneyFormatText(((CBSItem) element).getBudgetSummary());
 	}
 
 	@Override
 	protected String getYearlyAmountSummaryText(Object element, String year) {
-		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudgetYearSummary(year));
+		return EngUtil.getGenericMoneyFormatText(((CBSItem) element).getBudgetYearSummary(year));
 	}
 
 	@Override
 	protected String getMonthlyAmountText(Object element, String name) {
-		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudget(name));
+		return EngUtil.getGenericMoneyFormatText(((CBSItem) element).getBudget(name));
 	}
 
 //	@Override
@@ -189,7 +189,7 @@ public class BudgetCBS extends CBSGrid {
 //	}
 
 	protected void updateCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
-		double inputAmount = Util.getDoubleInput((String) input);
+		double inputAmount = EngUtil.getDoubleInput((String) input);
 
 		///////////////////////////////////////
 		// 避免在没有修改的时候调用服务端程序
@@ -201,7 +201,7 @@ public class BudgetCBS extends CBSGrid {
 
 		CBSPeriod period = new CBSPeriod()//
 				.setCBSItem_id(((CBSItem) item).get_id());
-		Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+		EngUtil.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 		period.setBudget(inputAmount);
 		period.setId(name);
 		Date periodDate = new SimpleDateFormat("yyyyMM").parse(period.getId());
@@ -413,7 +413,7 @@ public class BudgetCBS extends CBSGrid {
 //	private String getNumberText(Number number, String format) {
 //		if (number == null || number.doubleValue() == 0)
 //			return "";
-//		return Util.getFormatText(number, format, null);
+//		return EngUtil.getFormatText(number, format, null);
 //	}
 //
 //	private void updateQty(CBSItem item, Object input) throws Exception {

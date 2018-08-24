@@ -22,6 +22,8 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Widget;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
@@ -39,7 +41,7 @@ import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.Util;
+import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueForecastScope;
@@ -80,6 +82,7 @@ public class RealizeASM extends GridPart {
 	@CreateUI
 	public void createUI(Composite parent) {
 		super.createUI(parent);
+		Layer.message("提示：点击期间列头可删除期间所有数据");
 	}
 
 	@Override
@@ -92,9 +95,10 @@ public class RealizeASM extends GridPart {
 		grid.setHeaderVisible(true);
 		grid.setFooterVisible(false);
 		grid.setLinesVisible(true);
-		grid.setHideIndentionImage(true);
+		// grid.setHideIndentionImage(true);
 		UserSession.bruiToolkit().enableMarkup(grid);
 		grid.setData(RWT.FIXED_COLUMNS, 3);
+		grid.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 
 		return viewer;
 	}
@@ -102,7 +106,6 @@ public class RealizeASM extends GridPart {
 	@Override
 	public void setViewerInput() {
 		super.setViewerInput(Arrays.asList(scope));
-		updateBackground();
 	}
 
 	@Override
@@ -113,6 +116,7 @@ public class RealizeASM extends GridPart {
 		Column c = new Column();
 		c.setName("name");
 		c.setText("名称");
+		c.setMarkupEnabled(true);
 		c.setWidth(240);
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
@@ -122,6 +126,7 @@ public class RealizeASM extends GridPart {
 		c = new Column();
 		c.setName("id");
 		c.setText("编号");
+		c.setMarkupEnabled(true);
 		c.setWidth(64);
 		c.setAlignment(SWT.CENTER);
 		c.setMoveable(false);
@@ -149,7 +154,7 @@ public class RealizeASM extends GridPart {
 				if (value == 0) {
 					text = "";
 				} else {
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 				}
 
 				cell.setText(text);
@@ -193,7 +198,7 @@ public class RealizeASM extends GridPart {
 		Column c = new Column();
 		final String index = getIndex(cal);
 		c.setName(index);
-		c.setText(title);
+		c.setText("<div style='cursor:pointer;'>" + title + "</div>");
 		c.setWidth(88);
 		c.setMarkupEnabled(true);
 		c.setAlignment(SWT.RIGHT);
@@ -210,11 +215,11 @@ public class RealizeASM extends GridPart {
 				String text = "";
 				double value = getAmount(account, index);
 				if (value != 0)
-					text = Util.getGenericMoneyFormatText(value);
+					text = EngUtil.getGenericMoneyFormatText(value);
 
 				cell.setText(text);
-				if (!isAmountEditable(account))
-					cell.setBackground(BruiColors.getColor(BruiColor.Grey_50));
+				if (isAmountEditable(account))
+					cell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 
 			@Override
@@ -223,6 +228,7 @@ public class RealizeASM extends GridPart {
 			}
 
 		});
+		vcol.getColumn().addListener(SWT.Selection, e -> delete(e.widget));
 		vcol.setEditingSupport(supportEdit(vcol));
 	}
 
@@ -281,7 +287,7 @@ public class RealizeASM extends GridPart {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					update((AccountIncome) element, index, Util.getDoubleInput((String) value));
+					update((AccountIncome) element, index, EngUtil.getDoubleInput((String) value));
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
 				}
@@ -305,7 +311,25 @@ public class RealizeASM extends GridPart {
 		};
 	}
 
-	protected void update(AccountIncome account, String index, double amount) {
+	private void delete(Widget col) {
+		Calendar cal = (Calendar) col.getData("date");
+		String index = getIndex(cal);
+		if (br.confirm("删除", "请确认删除期间" + index)) {
+			service.deleteRevenueRealize(scope.getScope_id(), index);
+			col.dispose();
+
+			// 清除缓存
+			data.stream().forEach(d -> ((Document) d.get("values")).remove(index));
+
+			// 刷新表格
+			ArrayList<Object> dirty = new ArrayList<>();
+			viewer.getGrid().handleItems(itm -> dirty.add(itm.getData()));
+			viewer.update(dirty.toArray(), new String[] { "total" });
+			Layer.message("已删除期间" + index);
+		}
+	}
+
+	public void update(AccountIncome account, String index, double amount) {
 		// 更新数据库
 		String subject = account.getId();
 
@@ -343,21 +367,6 @@ public class RealizeASM extends GridPart {
 			parentItem = parentItem.getParentItem();
 		}
 		viewer.update(dirty.toArray(), new String[] { "total", index });
-	}
-
-	public void updateBackground() {
-		GridItem[] items = viewer.getGrid().getItems();
-		updateBackground(items);
-	}
-
-	private void updateBackground(GridItem[] items) {
-		for (int i = 0; i < items.length; i++) {
-			GridItem[] children = items[i].getItems();
-			if (children.length > 0) {
-				items[i].setBackground(BruiColors.getColor(BruiColor.Grey_50));
-				updateBackground(children);
-			}
-		}
 	}
 
 	private double readAmount(String subject, String index) {
@@ -413,7 +422,7 @@ public class RealizeASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, String index) {
 		double result = 0d;
-		if (!Util.isEmptyOrNull(children)) {
+		if (!EngUtil.isEmptyOrNull(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}
