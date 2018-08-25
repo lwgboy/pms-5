@@ -411,239 +411,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@SetValue
 	private Date settlementDate;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 客户化基本属性
-	/**
-	 * 分为：纵向、横向、争取、自主
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String type1;
-
-	/**
-	 * 分为：独立、联合、部分委托
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String type2;
-
-	/**
-	 * 分为：其它
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String type3;
-
-	@ReadValue("type2_3")
-	private String getType2_3() {
-		String str = "";
-		if (type2 != null)
-			str += type2 + " ";
-		if (type3 != null)
-			str += type3;
-		return str.trim();
-	}
-
-	/**
-	 * 军兵种
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private List<String> arms;
-
-	/**
-	 * 战区
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private List<String> area;
-
-	/**
-	 * 主管机关
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String customer;
-
-	/**
-	 * 主机厂所
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String customer2;
-
-	/**
-	 * 目标值
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String target;
-
-	/**
-	 * 成果形式
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String achievement;
-
-	/**
-	 * 重大专项类别
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String majorCategory;
-
-	/**
-	 * 所属平台/配套系统
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String platform;
-
-	/**
-	 * 用户代表
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String customerRepresentative;
-
-	/**
-	 * 项目类型
-	 */
-	@Persistence
-	private String projectType;
-
-	public static String PROJECTTYPE_DEVELOPMENT = "development";
-
-	public static String PROJECTTYPE_DEPT = "dept";
-
-	public static String PROJECTTYPE_EXTERNAL = "external";
-
-	/**
-	 * 协调单编号
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String coordinateId;
-
-	/**
-	 * 协作理由
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private List<String> reason;
-	
-	/**
-	 * 其它理由
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String otherReason;
-	
-	/**
-	 * 外协型号
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String matId;
-	
-	/**
-	 * 数量
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String matQty;
-	
-	/**
-	 * 预计价格(万元)
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String matAmount;
-	
-	/**
-	 * 配套项目
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String projectName;
-	
-	/**
-	 * 协作单位
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String collaborationUnit;
-	
-	/**
-	 * 采购单位
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String purchaseUnit;
-	
-	/**
-	 * 合同编号
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String contractId;
-	
-	/**
-	 * 合同签订时间
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private Date contractDate;
-	
-	/**
-	 * 合同价格(万元)
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String contractAmount;
-	
-	/**
-	 * 存放位置
-	 */
-	@ReadValue
-	@WriteValue
-	@Persistence
-	private String position;
-	
-	public Project setProjectType(String projectType) {
-		this.projectType = projectType;
-		return this;
-	}
-	
-	public String getProjectType() {
-		return projectType;
-	}
-
 	@Override
 	@Label
 	public String toString() {
@@ -783,12 +550,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@Persistence
 	private ObjectId cbs_id;
 
-	@Structure({"项目收益预测/list","项目收益实现/list"})
+	@Structure({ "项目收益预测/list", "项目收益实现/list" })
 	public List<AccountIncome> listAccountIncome() {
 		return defaultListAccountIncome();
 	}
 
-	@Structure({"项目收益预测/count","项目收益实现/count"})
+	@Structure({ "项目收益预测/count", "项目收益实现/count" })
 	public long countAccountIncome() {
 		return defaultCountAccountIncome();
 	}
@@ -1245,4 +1012,238 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 		return rootAccountIncome;
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 客户化基本属性
+	/**
+	 * 分为：纵向、横向、争取、自主
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String type1;
+
+	/**
+	 * 分为：独立、联合、部分委托
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String type2;
+
+	/**
+	 * 分为：其它
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String type3;
+
+	@ReadValue("type2_3")
+	private String getType2_3() {
+		String str = "";
+		if (type2 != null)
+			str += type2 + " ";
+		if (type3 != null)
+			str += type3;
+		return str.trim();
+	}
+
+	/**
+	 * 军兵种
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<String> arms;
+
+	/**
+	 * 战区
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<String> area;
+
+	/**
+	 * 主管机关
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customer;
+
+	/**
+	 * 主机厂所
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customer2;
+
+	/**
+	 * 目标值
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String target;
+
+	/**
+	 * 成果形式
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String achievement;
+
+	/**
+	 * 重大专项类别
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String majorCategory;
+
+	/**
+	 * 所属平台/配套系统
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String platform;
+
+	/**
+	 * 用户代表
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String customerRepresentative;
+
+	/**
+	 * 项目类型
+	 */
+	@Persistence
+	private String projectType;
+
+	public static String PROJECTTYPE_DEVELOPMENT = "development";
+
+	public static String PROJECTTYPE_DEPT = "dept";
+
+	public static String PROJECTTYPE_EXTERNAL = "external";
+
+	/**
+	 * 协调单编号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String coordinateId;
+
+	/**
+	 * 协作理由
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<String> reason;
+
+	/**
+	 * 其它理由
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String otherReason;
+
+	/**
+	 * 外协型号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String matId;
+
+	/**
+	 * 数量
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private double matQty;
+
+	/**
+	 * 预计价格(万元)
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private double matAmount;
+
+	/**
+	 * 配套项目
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String projectName;
+
+	/**
+	 * 协作单位
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String collaborationUnit;
+
+	/**
+	 * 采购单位
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String purchaseUnit;
+
+	/**
+	 * 合同编号
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String contractId;
+
+	/**
+	 * 合同签订时间
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private Date contractDate;
+
+	/**
+	 * 合同价格(万元)
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private double contractAmount;
+
+	/**
+	 * 存放位置
+	 */
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String position;
+
+	public Project setProjectType(String projectType) {
+		this.projectType = projectType;
+		return this;
+	}
+
+	public String getProjectType() {
+		return projectType;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
