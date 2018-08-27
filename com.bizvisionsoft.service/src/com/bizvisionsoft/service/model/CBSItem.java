@@ -472,9 +472,6 @@ public class CBSItem implements ICBSAmount{
 	}
 
 	public double getCost(String period) {
-		//////////////////////////////////////////////////////////////////////
-		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
-		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
@@ -495,9 +492,6 @@ public class CBSItem implements ICBSAmount{
 	}
 
 	public double getCost(String startPeriod, String endPeriod) {
-		//////////////////////////////////////////////////////////////////////
-		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
-		//////////////////////////////////////////////////////////////////////
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
