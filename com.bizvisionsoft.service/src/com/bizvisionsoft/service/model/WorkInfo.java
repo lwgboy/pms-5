@@ -348,8 +348,12 @@ public class WorkInfo {
 	private String chargerId;
 
 	@SetValue
-	@ReadValue
 	private String chargerInfo;
+
+	@ReadValue("chargerInfo")
+	public String getChargerInfo() {
+		return chargerInfo != null ? chargerInfo : "";
+	}
 
 	@WriteValue("charger")
 	public void setCharger(OBSItemWarpper charger) {
@@ -366,10 +370,6 @@ public class WorkInfo {
 	private OBSItemWarpper getCharger() {
 		return Optional.ofNullable(chargerId)
 				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
-	}
-
-	public void setChargerInfo(String chargerInfo) {
-		this.chargerInfo = chargerInfo;
 	}
 
 	@ReadValue
@@ -695,10 +695,6 @@ public class WorkInfo {
 		} else if (!_id.equals(other._id))
 			return false;
 		return true;
-	}
-	
-	public void setChargerInfo(String chargerInfo) {
-		this.chargerInfo = chargerInfo;
 	}
 
 }
