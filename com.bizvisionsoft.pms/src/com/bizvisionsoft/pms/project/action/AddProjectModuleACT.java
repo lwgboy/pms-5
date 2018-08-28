@@ -30,6 +30,7 @@ import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class AddProjectModuleACT {
@@ -44,7 +45,7 @@ public class AddProjectModuleACT {
 		Selector.open("WBSÄ£¿éÑ¡ÔñÆ÷", context, null, r -> {
 			GanttPart content = (GanttPart) context.getContent();
 			Object input = context.getInput();
-			if (input == null) {
+			if (input == null || input instanceof Workspace) {
 				input = context.getRootInput();
 			}
 			append(content, input, (WBSModule) r.get(0), parent);
