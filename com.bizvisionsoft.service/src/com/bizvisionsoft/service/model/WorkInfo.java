@@ -368,6 +368,10 @@ public class WorkInfo {
 				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
 	}
 
+	public void setChargerInfo(String chargerInfo) {
+		this.chargerInfo = chargerInfo;
+	}
+
 	@ReadValue
 	@WriteValue
 	@Persistence

@@ -137,7 +137,8 @@ public class AddProjectModuleACT {
 			if (space_id != null) {
 				work.setSpaceId(space_id);
 			}
-
+			work.setChargerInfo("");
+			
 			gantt.addTask(work);
 		}
 
