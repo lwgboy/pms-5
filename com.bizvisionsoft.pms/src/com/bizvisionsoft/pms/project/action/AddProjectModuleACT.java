@@ -90,6 +90,7 @@ public class AddProjectModuleACT {
 		Map<ObjectId, WorkInfo> idMap = new HashMap<ObjectId, WorkInfo>();
 		for (int i = 0; i < works.size(); i++) {
 			WorkInfo work = new WorkInfo();
+			work.setChargerInfo("");
 			AUtil.simpleCopy(works.get(i), work);
 
 			long duration = planStartInParent.getTime() - works.get(i).getPlanStart().getTime();

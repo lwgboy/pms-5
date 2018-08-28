@@ -692,5 +692,9 @@ public class WorkInfo {
 			return false;
 		return true;
 	}
+	
+	public void setChargerInfo(String chargerInfo) {
+		this.chargerInfo = chargerInfo;
+	}
 
 }
