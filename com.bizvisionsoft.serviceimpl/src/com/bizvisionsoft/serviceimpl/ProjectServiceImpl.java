@@ -166,6 +166,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
+		else
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -949,8 +951,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			workOrder += "-" + String.format("%02d", index);
 
 		} else if (program_id != null) {
-			String programWorkOrder = c("program")
-					.distinct("workOrder", new Document("_id", program_id), String.class).first();
+			String programWorkOrder = c("program").distinct("workOrder", new Document("_id", program_id), String.class)
+					.first();
 			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder);
