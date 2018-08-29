@@ -17,6 +17,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkPackage;
 
 public class WorkPackagePlan {
