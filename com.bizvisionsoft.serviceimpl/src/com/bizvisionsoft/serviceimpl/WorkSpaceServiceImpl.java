@@ -211,7 +211,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过阶段限定。", Result.CODE_UPDATESTAGE);
+				Result result = Result.checkoutError("完成时间超过阶段计划完成时间。", Result.CODE_UPDATESTAGE);
 				result.data = new BasicDBObject("name", name).append("planFinish", work.getPlanFinish());
 				return result;
 			}
@@ -221,7 +221,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过项目限定。", Result.CODE_UPDATEPROJECT);
+				Result result = Result.checkoutError("完成时间超过项目计划完成时间。", Result.CODE_UPDATEPROJECT);
 				result.data = new BasicDBObject("name", name).append("planFinish", project.getPlanFinish());
 				return result;
 			}

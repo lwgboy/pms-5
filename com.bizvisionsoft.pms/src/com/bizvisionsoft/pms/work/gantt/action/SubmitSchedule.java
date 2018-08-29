@@ -4,12 +4,14 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
@@ -47,9 +49,11 @@ public class SubmitSchedule {
 			} else if (rootInput instanceof Work) {
 				project = ((Work) rootInput).getProject();
 			}
+			Project newProject = Services.get(ProjectService.class).get(project.get_id());
+			AUtil.simpleCopy(newProject, project);
 			if (project != null && project.getChangeStatus() != null && "±ä¸üÖÐ".equals(project.getChangeStatus()))
 				checkManageItem = false;
-			
+
 			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 			if (Result.CODE_WORK_SUCCESS == result.code) {
