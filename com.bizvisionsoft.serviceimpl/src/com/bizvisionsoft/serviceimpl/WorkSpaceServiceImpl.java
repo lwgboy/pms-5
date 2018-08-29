@@ -50,9 +50,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		pipeline.add(Aggregates.match(condition));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		
+
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
-		
+
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 		fields.add(new Field<String>("projectName", "$project.name"));
 		fields.add(new Field<String>("projectNumber", "$project.id"));
@@ -195,7 +195,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			pipeline.add(Aggregates.match(new BasicDBObject("wpf", Boolean.TRUE)));
 			WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
 			if (workInfo != null) {
-				Result result = Result.checkoutError("管理节点完成时间超过限定。", Result.CODE_UPDATEMANAGEITEM);
+				Date planFinish = workInfo.getPlanFinish();
+				Result result = Result.checkoutError("管理节点完成时间超过限定的计划完成日期，要求不等晚于" + Util.getFormatDate(planFinish),
+						Result.CODE_UPDATEMANAGEITEM);
 				result.data = new BasicDBObject("name", workInfo.getText());
 				return result;
 			}
@@ -207,22 +209,26 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				.first();
 		if (workspace.getWork_id() != null) {
 			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
-			if (work.getPlanFinish().before(doc.getDate("finish"))) {
+			Date planFinish = work.getPlanFinish();
+			if (planFinish.before(doc.getDate("finish"))) {
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过阶段计划完成时间。", Result.CODE_UPDATESTAGE);
-				result.data = new BasicDBObject("name", name).append("planFinish", work.getPlanFinish());
+				Result result = Result.checkoutError("完成时间超过阶段计划完工日期，要求不得晚于" + Util.getFormatDate(planFinish),
+						Result.CODE_UPDATESTAGE);
+				result.data = new BasicDBObject("name", name).append("planFinish", planFinish);
 				return result;
 			}
 		} else {
 			Project project = new ProjectServiceImpl().get(workspace.getProject_id());
-			if (project.getPlanFinish().before(doc.getDate("finish"))) {
+			Date planFinish = project.getPlanFinish();
+			if (planFinish.before(doc.getDate("finish"))) {
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过项目计划完成时间。", Result.CODE_UPDATEPROJECT);
-				result.data = new BasicDBObject("name", name).append("planFinish", project.getPlanFinish());
+				Result result = Result.checkoutError("完成时间超过项目计划完工日期，要求不得晚于" + Util.getFormatDate(planFinish),
+						Result.CODE_UPDATEPROJECT);
+				result.data = new BasicDBObject("name", name).append("planFinish", planFinish);
 				return result;
 			}
 		}
@@ -401,7 +407,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("worklinks").insertMany(worklinks);
 		}
 
-		//TODO 进度计划提交的提示，更新。
+		// TODO 进度计划提交的提示，更新。
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
 			if (ProjectStatus.Created.equals(project.getStatus())) {
 				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
@@ -416,8 +422,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 								.append("managerId", new BasicDBObject("$ne", null)), String.class)
 						.into(new ArrayList<>());
 
-				sendMessage("项目进度计划编制完成", "项目" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
-						memberIds, null);
+				sendMessage("项目进度计划编制完成", "项目" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(), memberIds,
+						null);
 			}
 			return Result.checkoutSuccess("项目进度计划提交成功");
 		} else {

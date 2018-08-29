@@ -45,7 +45,7 @@ public class SubmitSchedule {
 			Boolean checkManageItem = true;
 			Project project = null;
 			if (rootInput instanceof Project) {
-				project = (Project) rootInput;
+				project = Services.get(ProjectService.class).get(((Project) rootInput).get_id());
 			} else if (rootInput instanceof Work) {
 				project = ((Work) rootInput).getProject();
 			}
@@ -53,7 +53,6 @@ public class SubmitSchedule {
 			AUtil.simpleCopy(newProject, project);
 			if (project != null && project.getChangeStatus() != null && "±ä¸üÖÐ".equals(project.getChangeStatus()))
 				checkManageItem = false;
-
 			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
 			if (Result.CODE_WORK_SUCCESS == result.code) {
