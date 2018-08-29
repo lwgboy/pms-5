@@ -189,6 +189,10 @@ public class Util {
     	return getFormatText(value, format, null);
     }
     
+    public static String getFormatDate(Object value) {
+    	return getFormatText(value, null, null);
+    }
+    
 	public static String getFormatText(Object value, String format, Locale locale) {
 		String text;
 		if (value instanceof Date) {
