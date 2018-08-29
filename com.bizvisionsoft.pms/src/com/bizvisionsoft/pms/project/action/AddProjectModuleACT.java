@@ -40,8 +40,13 @@ public class AddProjectModuleACT {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		StructuredSelection selection = context.getSelection();
-		WorkInfo parent = (WorkInfo) selection.getFirstElement();
+		WorkInfo parent;
+		if("onGridHeaderMenuClick".equals(event.text)) {
+			parent = null;
+		}else {
+			StructuredSelection selection = context.getSelection();
+			parent = (WorkInfo) selection.getFirstElement();
+		}
 		Selector.open("WBSÄ£¿éÑ¡ÔñÆ÷", context, null, r -> {
 			GanttPart content = (GanttPart) context.getContent();
 			Object input = context.getInput();

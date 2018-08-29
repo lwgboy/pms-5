@@ -33361,6 +33361,20 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "16585f2683d",
+            "name": "展开收起",
+            "image": "/img/setting_w.svg",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.action.ExpandNCollapseGridTree",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "customized"
           }
         ],
         "rowActions": [
