@@ -1,8 +1,5 @@
 package com.bizvisionsoft.pms.work.assembly;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -13,12 +10,10 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
-import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
@@ -59,30 +54,8 @@ public class WorkPackagePlan {
 			title = view.toString() + "：" + work;
 		}
 		bar.setText(title);
-		if (!(work instanceof Work) || ((Work) work).getActualFinish() == null) {
-			// TODO 控制选取按钮显示
-			final List<Action> actions = new ArrayList<Action>();
-			Assembly assembly = context.getAssembly();
-			List<Action> list = assembly.getActions();
-
-			list = PermissionUtil.getPermitActions(brui.getCurrentUserInfo(), list, context.getRootInput());
-
-			if (list != null) {
-				list.forEach(action -> {
-					if (!action.isObjectBehavier()) {
-						actions.add(action);
-					} else {
-						if (work != null) {
-							if (isAcceptableBehavior(action)) {
-								actions.add(action);
-							}
-						}
-					}
-				});
-			}
-
-			bar.setActions(actions);
-		}
+		if (!(work instanceof Work) || ((Work) work).getActualFinish() == null)
+			bar.setActions(context.getAssembly().getActions());
 
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -111,36 +84,6 @@ public class WorkPackagePlan {
 		createContent(content);
 	}
 
-	private boolean isAcceptableBehavior(Action action) {
-		if (view == null) {
-			if ("创建工作包".equals(action.getName())) {
-				return true;
-			}
-		} else {
-			String catagory = view.getCatagory();
-			if ("研发".equals(catagory)) {
-				if ("选取PLM对象".equals(action.getName())) {
-					return true;
-				}
-			} else if ("采购".equals(catagory)) {
-				if ("选取ERP计划".equals(action.getName())) {
-					return true;
-				}
-			} else if ("生产".equals(catagory)) {
-				if ("选取ERP计划".equals(action.getName())) {
-					return true;
-				}
-			} else if ("质量".equals(catagory)) {
-
-			}
-
-			if ("更新执行情况".equals(action.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private void createContent(Composite parent) {
 		parent.setLayout(new FillLayout());
 		BruiAssemblyContext gridContext;
@@ -157,6 +100,5 @@ public class WorkPackagePlan {
 	public void doCreate(Object parent, WorkPackage element) {
 		grid.doCreate(parent, element);
 	}
-
 
 }
