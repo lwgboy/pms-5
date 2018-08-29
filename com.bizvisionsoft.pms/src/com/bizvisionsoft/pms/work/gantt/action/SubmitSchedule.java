@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
@@ -43,12 +44,15 @@ public class SubmitSchedule {
 			Boolean checkManageItem = true;
 			Project project = null;
 			if (rootInput instanceof Project) {
-				project = (Project) rootInput;
+				project = Services.get(ProjectService.class).get(((Project) rootInput).get_id());
 			} else if (rootInput instanceof Work) {
 				project = ((Work) rootInput).getProject();
 			}
+			
+			
 			if (project != null && project.getChangeStatus() != null && "±ä¸üÖÐ".equals(project.getChangeStatus()))
 				checkManageItem = false;
+			
 			
 			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
 
