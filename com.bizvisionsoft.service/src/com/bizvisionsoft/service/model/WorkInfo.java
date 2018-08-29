@@ -610,9 +610,19 @@ public class WorkInfo {
 		this.workPackageSetting = workPackageSetting;
 	}
 
-	@Behavior({ "创建子任务", "创建里程碑" })
+	@Behavior({ "创建子任务", "创建里程碑", "添加WBS模块" })
 	private boolean behaviourAddTask() {
-		return actualFinish == null;
+		if (stage && ProjectStatus.Closed.equals(status)) {
+			// 阶段关闭不能添加
+			return false;
+		} else if (milestone) {
+			// 里程不能添加
+			return false;
+		} else if (!stage && !milestone && actualFinish != null) {
+			// 工作完成不能添加
+			return false;
+		}
+		return true;
 	}
 
 	@Behavior("设置工作包")
@@ -620,12 +630,13 @@ public class WorkInfo {
 		return !summary && !stage;
 	}
 
+	@Behavior("指定负责人")
+	private boolean behaviourSetCharger() {
+		return !milestone && actualFinish == null;
+	}
+
 	@Behavior("删除任务")
 	private boolean behaviourDeleteTask() {
-		Project project = getProject();
-		if (project != null && !ProjectStatus.Created.equals(project.getStatus()) && getManageLevel() != null)
-			return false;
-
 		return (stage && ProjectStatus.Created.equals(status)) || (!stage && actualStart == null);
 	}
 

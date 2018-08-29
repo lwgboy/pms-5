@@ -20221,7 +20221,7 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
@@ -20236,7 +20236,7 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
@@ -20266,7 +20266,7 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false,
+            "objectBehavier": true,
             "type": "customized"
           },
           {
