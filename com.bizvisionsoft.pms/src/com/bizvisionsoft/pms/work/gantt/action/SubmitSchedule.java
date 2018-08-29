@@ -48,7 +48,6 @@ public class SubmitSchedule {
 			} else if (rootInput instanceof Work) {
 				project = ((Work) rootInput).getProject();
 			}
-
 			if (project != null && project.getChangeStatus() != null && "±ä¸üÖÐ".equals(project.getChangeStatus()))
 				checkManageItem = false;
 			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
