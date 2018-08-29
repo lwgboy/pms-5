@@ -4,7 +4,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
-import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -49,8 +48,6 @@ public class SubmitSchedule {
 			} else if (rootInput instanceof Work) {
 				project = ((Work) rootInput).getProject();
 			}
-			Project newProject = Services.get(ProjectService.class).get(project.get_id());
-			AUtil.simpleCopy(newProject, project);
 			if (project != null && project.getChangeStatus() != null && "变更中".equals(project.getChangeStatus()))
 				checkManageItem = false;
 			Result result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
@@ -70,7 +67,7 @@ public class SubmitSchedule {
 						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过阶段限定。");
 			} else if (Result.CODE_UPDATEPROJECT == result.code) {
 				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
-						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过項目限定。");
+						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过项目限定。");
 			}
 		}
 	}
