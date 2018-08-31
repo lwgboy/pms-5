@@ -514,4 +514,10 @@ public interface CommonService {
 	public boolean hasSomethingNewOfMyWork(
 			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
+	@POST
+	@Path("/tools/syncOrgFullName")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void syncOrgFullName();
+
 }

@@ -839,6 +839,18 @@
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
                 "type": "customized"
+              },
+              {
+                "id": "1658ef9f702",
+                "name": "同步组织fullName",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.SyncOrgFullName",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,

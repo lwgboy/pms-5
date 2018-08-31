@@ -819,4 +819,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		return false;
 	}
 
+	@Override
+	public void syncOrgFullName() {
+		c("organization").find().into(new ArrayList<>()).forEach((Document d)->{
+			c("organization").updateOne(new Document("_id",d.get("_id")),new Document("$set",new Document("fullName",d.get("name"))) );
+		});
+	}
+
 }
