@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -623,12 +622,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private boolean stage;
 
 	@ReadValue
-	@Exclude
+	@SetValue
 	private String stageName;
-
-	public void setStageName(String stageName) {
-		this.stageName = stageName;
-	}
 
 	@Persistence
 	private boolean distributed;

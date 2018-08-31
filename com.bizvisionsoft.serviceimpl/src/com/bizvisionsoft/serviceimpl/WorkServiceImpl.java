@@ -1014,6 +1014,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("project_id", project_id))
 				.set("catagory", catagory).array();
 
+		pipeline.addAll(new JQ("添加工作的阶段名称").array());
+
 		appendProject(pipeline);
 
 		appendOverdue(pipeline);
@@ -1024,7 +1026,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
-		pipeline.addAll(new JQ("添加工作的阶段名称").array());
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
@@ -1089,11 +1090,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
-		// List<ObjectId> items = getProject_id(userid);
-
 		List<Bson> pipeline = (List<Bson>) new JQ("查询工作-工作包").set("match", new Document("summary", false)
 				.append("actualFinish", null).append("stage", new BasicDBObject("$ne", true))).set("catagory", catagory)
 				.array();
+
+		pipeline.addAll(new JQ("添加工作的阶段名称").array());
 
 		appendProject(pipeline);
 
@@ -1105,7 +1106,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
-		pipeline.addAll(new JQ("添加工作的阶段名称").array());
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
