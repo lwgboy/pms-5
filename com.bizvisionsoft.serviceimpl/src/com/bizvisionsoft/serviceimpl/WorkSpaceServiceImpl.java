@@ -416,9 +416,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				sendMessage("项目进度计划编制完成", "项目" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
 						memberIds, null);
 			}
-			return Result.checkoutSuccess("已成功提交。");
+			return Result.checkoutSuccess("项目进度计划提交成功");
 		} else {
-			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
+			return Result.checkoutError("项目进度计划提交失败", Result.CODE_ERROR);
 		}
 	}
 

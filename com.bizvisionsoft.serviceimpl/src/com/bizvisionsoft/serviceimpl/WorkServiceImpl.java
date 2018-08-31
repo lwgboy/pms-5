@@ -764,7 +764,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					new Document("$lookup", new Document("from", "work").append("pipeline", //
 							Arrays.asList(new Document("$match", new Document("$expr", //
 									new Document("$and", Arrays.asList(new Document("$not", "$actualFinish"), // 完成时间为空，就是没有完成的
-											new Document("$eq", Arrays.asList("$parent_id", parent_id))))))))// 下级的parent_id是父id
+											new Document("$not","$milestone"),//排除里程碑
+											new Document("$eq", Arrays.asList("$parent_id", parent_id))  ))))))// 下级的parent_id是父id
 							.append("as", "bros")));
 			Document d = c("work").aggregate(pip).first();
 			if (d != null && ((List<?>) d.get("bros")).size() <= 1) {// 所有的下级工作均已完成，本工作需要完成。size==1是需要完成的子工作
