@@ -3,6 +3,7 @@ package com.bizvisionsoft.service.model;
 import java.util.Date;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
@@ -171,6 +172,7 @@ public class WorkPackage {
 	}
 
 	@ReadValue
+	@WriteValue
 	public double completeQty;
 
 	@ReadValue("requiredQty")
@@ -225,4 +227,6 @@ public class WorkPackage {
 	public ObjectId getWork_id() {
 		return work_id;
 	}
+	
+	public Document info;
 }
