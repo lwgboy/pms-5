@@ -22329,7 +22329,24 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16598a756e6",
+            "name": "创建工作包",
+            "text": "创建",
+            "image": "/img/add_16_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.workpackage.action.CreatePlan",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "1636c6c5781",
@@ -22357,6 +22374,20 @@
             "objectBehavier": true,
             "actionBehavier": false,
             "type": "delete"
+          },
+          {
+            "id": "16598a9c77c",
+            "name": "文档",
+            "text": "文档",
+            "switchContentToAssemblyId": "15ce2dafe9d",
+            "openContent": true,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "switch"
           }
         ],
         "borderTop": false,
