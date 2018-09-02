@@ -1025,7 +1025,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
-//		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+		// appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
@@ -1074,7 +1074,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
-//		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+		// appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
@@ -2239,6 +2239,28 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
 				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+	}
+
+	@Override
+	public ObjectId updateWorkPackageInfo(Document info) {
+		ObjectId _id = info.getObjectId("_id");
+		ObjectId work_id = info.getObjectId("work_id");
+		String catagory = info.getString("catagory");
+		String name = info.getString("name");
+		Double completeQty = info.getDouble("completeQty");
+		info.remove("_id");
+		info.remove("work_id");
+		info.remove("catagory");
+		info.remove("name");
+		if (_id == null) {
+			_id = new ObjectId();
+			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name).append("catagory", catagory)
+					.append("completeQty", completeQty).append("info", info));
+		} else {
+			c("workPackage").updateOne(new Document("_id", _id),
+					new Document("$set", new Document("info", info).append("completeQty", completeQty)));
+		}
+		return _id;
 	}
 
 }

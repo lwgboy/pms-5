@@ -600,4 +600,10 @@ public interface WorkService {
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> updateDevelopmentWorkPackage(UpdateWorkPackages updateWorkPackages);
 
+	@PUT
+	@Path("/packageinfo/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ObjectId updateWorkPackageInfo(Document info);
+
 }
