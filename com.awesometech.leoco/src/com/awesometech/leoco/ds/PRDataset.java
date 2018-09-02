@@ -28,33 +28,36 @@ public class PRDataset {
 
 	@DataSet(DataSet.LIST)
 	private List<Document> list() {
-		
+
 		Object[] data = (Object[]) context.getParentContext().getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) data[0];
-		TrackView view = (TrackView)  data[1];
+		TrackView view = (TrackView) data[1];
 		String so = view.getTrackWorkOrder();
 		List<Document> result = new ArrayList<>();
-		if(so==null) {
+		if (so == null) {
 			return result;
 		}
 
 		ObjectId work_id = work.get_id();
 		String catagory = view.getCatagory();
+		String name = view.getName();
 		///////////////////////////////////////////////////////
-		//获取已记录的备料数量
-		
-		new SqlQuery("erp").sql("select * from so_pr where so_num='" + so + "'").forEach(d->{
+		// 获取已记录的备料数量
+
+		new SqlQuery("erp").sql("select * from so_pr where so_num='" + so + "'").forEach(d -> {
 			String pr_num = d.getString("PR_NUM");
 			String pr_idx = d.getString("PR_IDX");
-			BasicDBObject filter = new BasicDBObject("work_id",work_id).append("catagory", catagory).append("info.pr_num", pr_num).append("info.pr_idx", pr_idx);
-			List<WorkPackage> wps = Services.get(WorkService.class).listWorkPackage(new BasicDBObject("filter",filter));
-			if(!wps.isEmpty()) {
+			BasicDBObject filter = new BasicDBObject("work_id", work_id).append("catagory", catagory)
+					.append("name", name).append("info.pr_num", pr_num).append("info.pr_idx", pr_idx);
+			List<WorkPackage> wps = Services.get(WorkService.class)
+					.listWorkPackage(new BasicDBObject("filter", filter));
+			if (!wps.isEmpty()) {
 				d.put("_id", wps.get(0).get_id());
 				d.put("completeQty", wps.get(0).info.get("completeQty"));
 			}
 			result.add(d);
 		});
-		
+
 		return result;
 	}
 

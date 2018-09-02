@@ -2246,13 +2246,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		ObjectId _id = info.getObjectId("_id");
 		ObjectId work_id = info.getObjectId("work_id");
 		String catagory = info.getString("catagory");
+		String name = info.getString("name");
 		Double completeQty = info.getDouble("completeQty");
 		info.remove("_id");
 		info.remove("work_id");
 		info.remove("catagory");
+		info.remove("name");
 		if (_id == null) {
 			_id = new ObjectId();
-			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("catagory", catagory)
+			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name).append("catagory", catagory)
 					.append("completeQty", completeQty).append("info", info));
 		} else {
 			c("workPackage").updateOne(new Document("_id", _id),

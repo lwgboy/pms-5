@@ -72116,21 +72116,7 @@
         "fields": [],
         "gridAutoColumnWidth": false,
         "actions": [],
-        "rowActions": [
-          {
-            "id": "165958ed65b",
-            "name": "²é¿´AOG",
-            "text": "AOG",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "customized"
-          }
-        ],
+        "rowActions": [],
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
