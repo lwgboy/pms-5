@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.work.assembly;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -18,12 +17,9 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkPackage;
 
 public class WorkPackagePlan {
@@ -60,30 +56,16 @@ public class WorkPackagePlan {
 			title = view.toString() + "：" + work;
 		}
 		bar.setText(title);
-		if (!(work instanceof Work) || ((Work) work).getActualFinish() == null) {
-			// TODO 控制选取按钮显示
-			final List<Action> actions = new ArrayList<Action>();
-			Assembly assembly = context.getAssembly();
-			List<Action> list = assembly.getActions();
 
-			list = PermissionUtil.getPermitActions(brui.getCurrentUserInfo(), list, context.getRootInput());
-
-			if (list != null) {
-				list.forEach(action -> {
-					if (!action.isObjectBehavier()) {
-						actions.add(action);
-					} else {
-						if (work != null) {
-							if (isAcceptableBehavior(action)) {
-								actions.add(action);
-							}
-						}
-					}
-				});
-			}
-
-			bar.setActions(actions);
+		Assembly pAssm;
+		if (view != null) {
+			pAssm = brui.getAssembly(view.getPackageAssembly());
+		} else {
+			pAssm = brui.getAssembly("工作包-基本");
 		}
+		
+		List<Action> actions = UserSession.bruiToolkit().getAcceptedActions(pAssm, brui.getCurrentUserInfo(), context);
+		bar.setActions(actions);
 
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -110,31 +92,6 @@ public class WorkPackagePlan {
 		});
 
 		createContent(content);
-	}
-
-	private boolean isAcceptableBehavior(Action action) {
-		String name = action.getName();
-		if ("创建工作包".equals(name)) {
-			return true;
-		}
-		//TODO 缺少根据是否存在相关接口进行控制
-		if (view != null && !(work instanceof WorkInTemplate)) {
-			String catagory = view.getCatagory();
-			if ("研发".equals(catagory) && "选取PLM对象".equals(name)) {
-				return true;
-			} else if ("采购".equals(catagory) && "选取ERP计划".equals(name)) {
-				return true;
-			} else if ("生产".equals(catagory) && "选取ERP计划".equals(name)) {
-				return true;
-				// } else if ("质量".equals(catagory) && "选取质检计划".equals(name)) {
-				// return true;
-			}
-
-			if ("更新执行情况".equals(name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private void createContent(Composite parent) {

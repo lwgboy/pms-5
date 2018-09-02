@@ -662,6 +662,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -674,6 +675,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -691,6 +693,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -701,6 +704,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -711,6 +715,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -721,6 +726,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -731,6 +737,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -741,6 +748,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -751,11 +759,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -776,11 +786,13 @@
                 "forceText": true,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -791,6 +803,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -810,6 +823,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized",
                 "role": ""
               },
@@ -824,6 +838,7 @@
                 "editorAssemblyId": "165553650bd",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized",
                 "createActionNewInstanceBundleId": "",
                 "createActionNewInstanceClassName": ""
@@ -838,6 +853,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -850,6 +866,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -862,6 +879,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -874,11 +892,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ]
@@ -939,6 +959,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": ""
               },
@@ -951,6 +972,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "项目管理员#项目总监"
               },
@@ -963,6 +985,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "trail"
               },
@@ -976,6 +999,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "项目管理员#项目总监"
               },
@@ -989,12 +1013,14 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized",
                 "role": ""
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -1015,6 +1041,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkService"
@@ -1029,6 +1056,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkService"
               },
@@ -1042,6 +1070,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkReportService"
               },
@@ -1055,6 +1084,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.ProjectService"
               },
@@ -1068,6 +1098,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": ""
               },
@@ -1081,12 +1112,14 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": ""
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "budgetServiceName": "com.bizvisionsoft.service.CommonService"
           },
@@ -1100,6 +1133,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "部门经理"
           },
@@ -1119,6 +1153,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1130,11 +1165,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "部门经理"
           },
@@ -1154,6 +1191,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1165,6 +1203,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1176,11 +1215,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": ""
           },
@@ -1201,6 +1242,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1212,6 +1254,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1223,11 +1266,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "财务管理#项目总监"
           },
@@ -1241,6 +1286,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "供应链管理#项目总监"
           },
@@ -1254,6 +1300,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "制造管理#项目总监"
           },
@@ -1268,6 +1315,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "业务管理员"
           },
@@ -1282,6 +1330,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "openPageName": "系统管理",
             "role": "系统管理员"
@@ -1358,6 +1407,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -1383,6 +1433,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -1395,6 +1446,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "PM#PA#PPM"
               },
@@ -1408,6 +1460,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "excludeRole": "PM#PA#PPM"
               },
@@ -1421,6 +1474,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1432,11 +1486,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": ""
           },
           {
@@ -1449,6 +1505,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PM#PA#PPM"
           },
@@ -1468,6 +1525,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1479,6 +1537,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1490,6 +1549,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1501,11 +1561,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           },
@@ -1526,6 +1588,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1537,11 +1600,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "excludeRole": "PM#PA#PPM"
           },
@@ -1563,6 +1628,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1575,6 +1641,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1586,6 +1653,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1597,11 +1665,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": "PM#PA#PPM#PFM"
           },
           {
@@ -1620,6 +1690,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1631,6 +1702,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1642,6 +1714,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1653,11 +1726,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           },
@@ -1670,6 +1745,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PCE#SE",
             "excludeRole": "PM#PA#PPM"
@@ -1683,6 +1759,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PR#SE",
             "excludeRole": "PM#PA#PPM"
@@ -1696,6 +1773,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "MR#SE",
             "excludeRole": "PM#PA#PPM"
@@ -1709,6 +1787,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "QME#SE",
             "excludeRole": "PM#PA#PPM"
@@ -1730,6 +1809,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1741,6 +1821,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1752,11 +1833,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           },
@@ -1777,6 +1860,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1788,6 +1872,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1801,6 +1886,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1812,6 +1898,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -1823,11 +1910,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": ""
           },
           {
@@ -1847,6 +1936,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "PM#PA#PPM"
               },
@@ -1859,11 +1949,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": ""
           },
           {
@@ -1875,6 +1967,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -1886,6 +1979,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -1898,6 +1992,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           }
@@ -1952,6 +2047,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -1974,6 +2070,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -1985,11 +2082,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           },
@@ -2003,6 +2102,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "",
             "excludeRole": "PM#PA#PPM"
@@ -2016,6 +2116,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PM#PA#PPM"
           },
@@ -2029,6 +2130,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "",
             "excludeRole": "PM#PA#PPM"
@@ -2043,6 +2145,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": ""
           },
@@ -2055,6 +2158,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PM#PA#PPM"
           },
@@ -2068,6 +2172,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "excludeRole": "PM#PA#PPM"
           },
@@ -2088,6 +2193,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2099,6 +2205,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2110,6 +2217,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2121,11 +2229,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           },
@@ -2138,6 +2248,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": ""
           },
@@ -2150,6 +2261,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ]
@@ -2203,6 +2315,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -2227,6 +2340,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2239,6 +2353,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2251,6 +2366,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2262,11 +2378,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "963099d3908",
@@ -2278,6 +2396,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -2297,6 +2416,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2308,11 +2428,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -2332,6 +2454,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2343,6 +2466,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2354,6 +2478,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2365,11 +2490,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": "PM#PA#PPM#PFM"
           },
           {
@@ -2389,6 +2516,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2400,6 +2528,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2411,6 +2540,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2422,11 +2552,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": "PM#PA#PPM"
           },
           {
@@ -2438,6 +2570,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PCE#SE",
             "excludeRole": "PM#PA#PPM"
@@ -2451,6 +2584,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PR#SE",
             "excludeRole": "PM#PA#PPM"
@@ -2464,6 +2598,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "MR#SE",
             "excludeRole": "PM#PA#PPM"
@@ -2477,6 +2612,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "QME#SE",
             "excludeRole": "PM#PA#PPM"
@@ -2497,6 +2633,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2508,6 +2645,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2519,11 +2657,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           },
@@ -2545,6 +2685,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2556,6 +2697,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2567,6 +2709,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2578,6 +2721,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2589,11 +2733,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "9628decdce7",
@@ -2612,6 +2758,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "PM#PA#PPM"
               },
@@ -2624,11 +2771,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "9628df226b9",
@@ -2646,6 +2795,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2656,6 +2806,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2666,11 +2817,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": "TODO"
           },
           {
@@ -2682,6 +2835,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -2693,6 +2847,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -2705,6 +2860,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PPM"
           }
@@ -2759,6 +2915,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -2783,6 +2940,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2795,6 +2953,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2807,6 +2966,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2818,11 +2978,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "993099d3908",
@@ -2834,6 +2996,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -2853,6 +3016,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2864,11 +3028,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -2888,6 +3054,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2899,6 +3066,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2910,6 +3078,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2921,11 +3090,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "9928deccce4",
@@ -2945,6 +3116,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2956,6 +3128,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2967,6 +3140,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2978,6 +3152,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -2989,11 +3164,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "9928decd492",
@@ -3012,6 +3189,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3023,6 +3201,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3034,6 +3213,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3045,11 +3225,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "9928decdec9",
@@ -3068,6 +3250,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch",
                 "role": "PM#PA#PPM"
               },
@@ -3080,11 +3263,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3103,6 +3288,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3113,6 +3299,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3123,11 +3310,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "role": "TODO"
           },
           {
@@ -3139,6 +3328,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3150,6 +3340,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ]
@@ -3201,6 +3392,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3213,6 +3405,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3225,6 +3418,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3236,6 +3430,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3248,6 +3443,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3259,6 +3455,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3270,6 +3467,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ]
@@ -3321,6 +3519,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3339,11 +3538,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3355,6 +3556,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3366,6 +3568,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3377,6 +3580,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3388,6 +3592,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3399,6 +3604,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3410,6 +3616,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3421,6 +3628,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "openpage",
             "openPageName": "开发环境"
           }
@@ -3472,6 +3680,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3493,6 +3702,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3505,6 +3715,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3517,11 +3728,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3534,6 +3747,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3554,6 +3768,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3566,11 +3781,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3589,6 +3806,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3600,6 +3818,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3612,6 +3831,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3624,6 +3844,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3636,11 +3857,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3653,6 +3876,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3664,6 +3888,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3675,6 +3900,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3694,6 +3920,7 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               },
               {
@@ -3706,11 +3933,13 @@
                 "forceText": false,
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -3723,6 +3952,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -3736,6 +3966,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ]
@@ -4163,6 +4394,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -4180,6 +4412,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -5462,6 +5695,7 @@
             "editorAssemblyId": "16270130745",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.EPS"
@@ -5481,6 +5715,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -5497,6 +5732,7 @@
             "editorAssemblyId": "16270130745",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -5512,6 +5748,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -6077,6 +6314,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -6283,6 +6521,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -6297,6 +6536,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -6311,6 +6551,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM#WM"
           },
@@ -6327,6 +6568,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM#WM"
           }
@@ -6990,6 +7232,7 @@
             "editorAssemblyId": "162bda0c55c",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProjectTemplate"
@@ -7007,6 +7250,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -7020,6 +7264,7 @@
             "editorAssemblyId": "162bda0c55c",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -7035,6 +7280,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "openPageName": "项目模板"
           }
@@ -7218,6 +7464,7 @@
             "editorAssemblyId": "162b7bb8236",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Organization"
@@ -7237,6 +7484,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -7253,6 +7501,7 @@
             "editorAssemblyId": "162b75519b0",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -7268,6 +7517,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -7284,6 +7534,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -7868,6 +8119,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -7882,6 +8134,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -7898,6 +8151,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -8807,6 +9061,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -8821,6 +9076,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -8838,6 +9094,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -8853,6 +9110,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -8867,6 +9125,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -8881,6 +9140,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -8894,6 +9154,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -9486,6 +9747,7 @@
             "editorAssemblyId": "162bd19922a",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Certificate"
@@ -9500,6 +9762,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -9518,6 +9781,7 @@
             "editorAssemblyId": "162bd19922a",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -9533,6 +9797,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -9815,6 +10080,7 @@
             "editorAssemblyId": "162c12b0afa",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Role"
@@ -9833,6 +10099,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -9846,6 +10113,7 @@
             "editorAssemblyId": "162c12b0afa",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -9860,6 +10128,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -10212,6 +10481,7 @@
             "editorAssemblyId": "162c46151c9",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ResourceType"
@@ -10231,6 +10501,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -10244,6 +10515,7 @@
             "editorAssemblyId": "162c46151c9",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -10256,6 +10528,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -10599,6 +10872,7 @@
             "editorAssemblyId": "162c73bfbcc",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Equipment"
@@ -10614,6 +10888,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -10629,6 +10904,7 @@
             "editorAssemblyId": "162c73bfbcc",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -10641,6 +10917,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -10912,7 +11189,8 @@
             "forceText": false,
             "style": "normal",
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           }
         ],
         "rowActions": [
@@ -10926,7 +11204,8 @@
             "style": "normal",
             "editorAssemblyId": "162c73bfbcc",
             "editorAssemblyEditable": true,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           },
           {
             "id": "162c73d4748",
@@ -10937,7 +11216,8 @@
             "forceText": false,
             "style": "warning",
             "editorAssemblyEditable": false,
-            "objectBehavier": false
+            "objectBehavier": false,
+            "actionBehavier": false
           }
         ],
         "borderTop": false,
@@ -11060,6 +11340,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -11074,6 +11355,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -11088,6 +11370,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -11903,6 +12186,7 @@
             "editorAssemblyId": "162cc7d74e1",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Calendar"
@@ -11921,6 +12205,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -11936,6 +12221,7 @@
             "editorAssemblyId": "162cc7d74e1",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -11950,6 +12236,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -12482,6 +12769,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM"
           },
@@ -12498,6 +12786,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM"
           },
@@ -12512,6 +12801,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PM#PFM"
           },
@@ -12526,6 +12816,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch",
             "role": "PM#PPM"
           },
@@ -12542,6 +12833,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM"
           },
@@ -12557,6 +12849,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM"
           }
@@ -14132,6 +14425,7 @@
             "editorAssemblyId": "162dc40bd28",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Dictionary"
@@ -14152,6 +14446,7 @@
             "editorAssemblyId": "162dc40bd28",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -14167,6 +14462,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -14497,6 +14793,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -14511,6 +14808,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -14527,6 +14825,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -14859,6 +15158,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -14917,6 +15217,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -14934,6 +15235,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -14949,6 +15251,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -14964,6 +15267,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -14979,6 +15283,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -14994,6 +15299,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -15009,6 +15315,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -15130,6 +15437,7 @@
             "editorAssemblyId": "162e5aa73b9",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountItem"
@@ -15149,6 +15457,7 @@
             "editorAssemblyId": "162e5aa73b9",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountItem"
@@ -15164,6 +15473,7 @@
             "editorAssemblyId": "162e5aa73b9",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -15176,6 +15486,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -15339,6 +15650,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -15353,6 +15665,7 @@
                 "editorAssemblyId": "162ed80cc9d",
                 "editorAssemblyEditable": true,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "edit"
               },
               {
@@ -15368,6 +15681,7 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -15384,11 +15698,13 @@
                 "style": "info",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "switch"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -15478,6 +15794,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -15694,6 +16011,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PFM"
           }
@@ -16816,6 +17134,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -17061,6 +17380,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -17077,6 +17397,7 @@
             "editorAssemblyId": "1638c13db9e",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -17093,6 +17414,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -17474,6 +17796,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -17489,6 +17812,7 @@
             "editorAssemblyId": "1632b8968e4",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.pms",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Stockholder"
@@ -17507,6 +17831,7 @@
             "editorAssemblyId": "1632b8968e4",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -17520,6 +17845,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -19433,6 +19759,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -19449,6 +19776,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -19721,6 +20049,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -19735,6 +20064,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -19973,6 +20303,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -19989,6 +20320,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20003,6 +20335,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20017,6 +20350,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20031,6 +20365,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20045,6 +20380,7 @@
             "style": "serious",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20059,6 +20395,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20073,6 +20410,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -20090,6 +20428,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20105,6 +20444,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20120,6 +20460,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20135,6 +20476,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20150,6 +20492,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20165,6 +20508,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -20193,6 +20537,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -20208,6 +20553,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -20305,6 +20651,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -20515,6 +20862,7 @@
             "editorAssemblyId": "1636229c4a5",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.TrackView"
@@ -20535,6 +20883,7 @@
             "editorAssemblyId": "1636229c4a5",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -20550,6 +20899,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -21192,6 +21542,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -21209,6 +21560,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -21224,6 +21576,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -21652,6 +22005,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -21698,37 +22052,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1636803dc49",
-            "name": "创建工作包",
-            "text": "创建",
-            "image": "/img/add_16_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workpackage.action.CreatePlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          },
-          {
-            "id": "16541eb86e4",
-            "name": "选取ERP计划",
-            "text": "SO",
-            "bundleId": "com.awesometech.leoco",
-            "className": "com.awesometech.leoco.action.SelectSO",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "type": "customized"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -21891,6 +22215,7 @@
             "editorAssemblyId": "1636229c4a5",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.TrackView"
@@ -22017,6 +22342,7 @@
             "editorAssemblyId": "1636c45719a",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -22029,6 +22355,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -22318,7 +22645,23 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "165985bf549",
+            "name": "注册SO",
+            "text": "注册SO...",
+            "bundleId": "com.awesometech.leoco",
+            "className": "com.awesometech.leoco.action.SelectSO",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "1636c6d351a",
@@ -22332,6 +22675,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -22346,6 +22690,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -22618,6 +22963,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -22632,6 +22978,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -22738,6 +23085,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           },
@@ -22754,6 +23102,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           },
@@ -22769,6 +23118,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           }
@@ -22831,6 +23181,7 @@
             "editorAssemblyId": "1637206cd62",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -22994,6 +23345,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -23008,6 +23360,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -23148,6 +23501,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -23363,6 +23717,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -24138,6 +24493,7 @@
             "editorAssemblyId": "1638b3952da",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -24152,6 +24508,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -24951,6 +25308,7 @@
             "editorAssemblyId": "1637e5acb43",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RBSType"
@@ -24968,6 +25326,7 @@
             "editorAssemblyId": "1637e5acb43",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -24980,6 +25339,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -25462,6 +25822,7 @@
             "editorAssemblyId": "16380bfc21f",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RBSItem"
@@ -25480,6 +25841,7 @@
             "style": "normal",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -25493,6 +25855,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -25516,6 +25879,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -25531,6 +25895,7 @@
                 "style": "info",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -25546,11 +25911,13 @@
                 "style": "info",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -25948,6 +26315,7 @@
             "editorAssemblyId": "16380df0b77",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WorkPackageProgress"
@@ -25966,6 +26334,7 @@
             "editorAssemblyId": "16380df0b77",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -25979,6 +26348,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -26361,6 +26731,7 @@
             "editorAssemblyId": "16381485e7d",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -26373,6 +26744,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -26386,6 +26758,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -26400,6 +26773,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -26692,6 +27066,7 @@
             "editorAssemblyId": "16381614ec7",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WorkPackageProgress"
@@ -26710,6 +27085,7 @@
             "editorAssemblyId": "16381614ec7",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -26723,6 +27099,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -27181,6 +27558,7 @@
             "editorAssemblyId": "163819946c4",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -27193,6 +27571,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -27206,6 +27585,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -27220,6 +27600,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -27492,6 +27873,7 @@
             "editorAssemblyId": "163819dcd5f",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WorkPackageProgress"
@@ -27510,6 +27892,7 @@
             "editorAssemblyId": "163819dcd5f",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -27523,6 +27906,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -27882,6 +28266,7 @@
             "editorAssemblyId": "16381ca6c93",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -27894,6 +28279,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -27907,6 +28293,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -27921,6 +28308,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -28158,6 +28546,7 @@
             "editorAssemblyId": "16381f8011c",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WorkPackageProgress"
@@ -28176,6 +28565,7 @@
             "editorAssemblyId": "16381f8011c",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -28189,6 +28579,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -28567,6 +28958,7 @@
             "editorAssemblyId": "163868971b2",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskUrgencyInd"
@@ -28584,6 +28976,7 @@
             "editorAssemblyId": "163868971b2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -28596,6 +28989,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -28772,6 +29166,7 @@
             "editorAssemblyId": "16386c44e87",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.QuanlityInfInd"
@@ -28789,6 +29184,7 @@
             "editorAssemblyId": "16386c44e87",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -28801,6 +29197,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -29351,6 +29748,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -29825,6 +30223,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -30299,6 +30698,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -30773,6 +31173,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -31386,6 +31787,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -31404,6 +31806,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -32017,6 +32420,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -32035,6 +32439,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -32134,6 +32539,7 @@
             "editorAssemblyId": "16386c44e87",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.DetectionInd"
@@ -32151,6 +32557,7 @@
             "editorAssemblyId": "16386c44e87",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -32163,6 +32570,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -33100,6 +33508,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           },
@@ -33115,6 +33524,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -33129,6 +33539,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -33145,6 +33556,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -33161,6 +33573,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           }
@@ -33397,6 +33810,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -34104,6 +34518,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -34890,6 +35305,7 @@
             "editorAssemblyId": "1638b3952da",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -34904,6 +35320,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35037,6 +35454,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -35223,6 +35641,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35237,6 +35656,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35251,6 +35671,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35265,6 +35686,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35282,6 +35704,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35297,6 +35720,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35312,6 +35736,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35327,6 +35752,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35342,6 +35768,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35370,6 +35797,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -35385,6 +35813,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35659,6 +36088,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35675,6 +36105,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35913,6 +36344,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": "财务管理#PFM"
           }
@@ -35930,6 +36362,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -35990,6 +36423,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -36007,6 +36441,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -36021,6 +36456,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -36038,6 +36474,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -36053,6 +36490,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -36067,6 +36505,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           },
           {
@@ -36083,6 +36522,7 @@
             "forceText": false,
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -36143,6 +36583,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -36158,6 +36599,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -36173,6 +36615,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -36188,6 +36631,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -36644,6 +37088,7 @@
             "editorAssemblyId": "16368910aaa",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -36658,6 +37103,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -36985,6 +37431,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -37682,6 +38129,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -37695,6 +38143,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -37712,6 +38161,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -38262,6 +38712,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -38506,6 +38957,7 @@
             "editorAssemblyId": "163cd548b8e",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "edit"
           }
         ],
@@ -38640,6 +39092,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -39040,6 +39493,7 @@
             "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -39052,6 +39506,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -39543,6 +39998,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -39634,6 +40090,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -39815,6 +40272,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -39829,6 +40287,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -39844,6 +40303,7 @@
             "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -39857,6 +40317,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -40024,6 +40485,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -40598,6 +41060,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -40614,6 +41077,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -41183,6 +41647,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -41356,6 +41821,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -41445,6 +41911,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -41459,6 +41926,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -41548,6 +42016,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -41562,6 +42031,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -41756,6 +42226,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -41769,6 +42240,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -42074,6 +42546,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -42087,6 +42560,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -42102,6 +42576,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -42119,6 +42594,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -42700,6 +43176,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -42714,6 +43191,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -42728,6 +43206,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -43158,6 +43637,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -43174,6 +43654,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -43478,6 +43959,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -43491,6 +43973,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -43506,6 +43989,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -43523,6 +44007,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -43784,6 +44269,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -43797,6 +44283,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -43812,6 +44299,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -43829,6 +44317,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -44038,6 +44527,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -44247,6 +44737,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -44456,6 +44947,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -44728,6 +45220,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -44957,6 +45450,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -45186,6 +45680,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -45459,6 +45954,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           },
           {
@@ -45472,6 +45968,7 @@
             "editorAssemblyId": "1640e56eb0a",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission"
@@ -45487,6 +45984,7 @@
             "editorAssemblyId": "1640e5bedee",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission"
@@ -45503,6 +46001,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -46220,6 +46719,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -46234,6 +46734,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -46248,6 +46749,7 @@
             "style": "serious",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -46784,6 +47286,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -46802,6 +47305,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -47629,6 +48133,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -47647,6 +48152,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -47821,6 +48327,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -47837,6 +48344,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -48011,6 +48519,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -48027,6 +48536,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -48241,6 +48751,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -48257,6 +48768,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -48964,6 +49476,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -49166,6 +49679,7 @@
             "editorAssemblyId": "1642fd53a4d",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskScore"
@@ -49183,6 +49697,7 @@
             "editorAssemblyId": "1642fd53a4d",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -49195,6 +49710,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -49974,6 +50490,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -50387,6 +50904,7 @@
             "editorAssemblyId": "1643cf6225d",
             "editorAssemblyEditable": true,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -50400,6 +50918,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -50415,6 +50934,7 @@
             "editorAssemblyId": "1643cf6225d",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskResponse"
@@ -50796,6 +51316,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -50810,6 +51331,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -50937,6 +51459,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -50951,6 +51474,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -50967,6 +51491,7 @@
             "editorAssemblyId": "1643fa838fe",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -50980,6 +51505,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -50995,6 +51521,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -51333,6 +51860,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -51348,6 +51876,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -51363,6 +51892,7 @@
             "editorAssemblyId": "1644503ab8b",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -51744,6 +52274,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -51758,6 +52289,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -51772,6 +52304,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -51786,6 +52319,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -51800,6 +52334,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -52029,6 +52564,7 @@
             "editorAssemblyId": "16446b6f66d",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ChangeProcess"
@@ -52046,6 +52582,7 @@
             "editorAssemblyId": "16446b6f66d",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -52058,6 +52595,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -52276,6 +52814,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -52290,6 +52829,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -52357,6 +52897,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -53058,6 +53599,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -53075,6 +53617,7 @@
             "editorAssemblyId": "1644503ab8b",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -53715,6 +54258,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "role": ""
           }
@@ -54677,6 +55221,7 @@
             "editorAssemblyId": "162bda0c55c",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProjectTemplate"
@@ -54694,6 +55239,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -54709,6 +55255,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "openPageName": "项目模板"
           }
@@ -55058,6 +55605,7 @@
             "editorAssemblyId": "1638b3952da",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -55072,6 +55620,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -55196,6 +55745,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -55212,6 +55762,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -55226,6 +55777,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -55238,6 +55790,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -55755,6 +56308,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -55772,6 +56326,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -56036,6 +56591,7 @@
             "editorAssemblyId": "1644503ab8b",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -56868,6 +57424,7 @@
             "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           }
         ],
@@ -58799,6 +59356,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -58825,6 +59383,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -58840,6 +59399,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -58855,6 +59415,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -58868,11 +59429,13 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "delete"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -58888,6 +59451,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -59202,6 +59766,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -59221,6 +59786,7 @@
             "editorAssemblyId": "163f2d9d844",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -59588,6 +60154,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -59605,6 +60172,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -59956,6 +60524,7 @@
             "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -59968,6 +60537,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -60681,6 +61251,7 @@
             "editorAssemblyId": "164ef3a29bd",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WBSModule"
@@ -60698,6 +61269,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           },
           {
@@ -60711,6 +61283,7 @@
             "editorAssemblyId": "164ef3a29bd",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -60726,6 +61299,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "openPageName": "项目模板"
           }
@@ -61849,6 +62423,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -61953,6 +62528,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -61968,6 +62544,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -61982,6 +62559,7 @@
             "style": "serious",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -62514,6 +63092,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PFM"
           }
@@ -63066,6 +63645,7 @@
             "editorAssemblyId": "1654bab62c9",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Program"
@@ -63080,6 +63660,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -63097,6 +63678,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -63121,6 +63703,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized",
                 "createActionNewInstanceBundleId": "",
                 "createActionNewInstanceClassName": ""
@@ -63138,6 +63721,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -63152,6 +63736,7 @@
                 "editorAssemblyId": "1654bab62c9",
                 "editorAssemblyEditable": true,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "edit"
               },
               {
@@ -63165,11 +63750,13 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "delete"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -63182,6 +63769,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -63699,6 +64287,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -63725,6 +64314,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -63740,6 +64330,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -63755,6 +64346,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -63768,11 +64360,13 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "delete"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -63788,6 +64382,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -64055,6 +64650,7 @@
             "editorAssemblyId": "16569a380d0",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountIncome"
@@ -64074,6 +64670,7 @@
             "editorAssemblyId": "162e5aa73b9",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountItem"
@@ -64089,6 +64686,7 @@
             "editorAssemblyId": "16569a380d0",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "edit"
           },
           {
@@ -64101,6 +64699,7 @@
             "style": "warning",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "delete"
           }
         ],
@@ -64158,6 +64757,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PFM"
           }
@@ -64248,6 +64848,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -64262,6 +64863,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -64493,6 +65095,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": true,
+            "actionBehavier": false,
             "type": "customized",
             "role": "PM#PA#PFM"
           }
@@ -64583,6 +65186,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -69024,6 +69628,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -69050,6 +69655,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -69065,6 +69671,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -69080,6 +69687,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -69093,11 +69701,13 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "delete"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -69113,6 +69723,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -70849,6 +71460,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "query"
           }
         ],
@@ -70875,6 +71487,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": false,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -70890,6 +71503,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -70905,6 +71519,7 @@
                 "style": "normal",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "customized"
               },
               {
@@ -70918,11 +71533,13 @@
                 "style": "warning",
                 "editorAssemblyEditable": false,
                 "objectBehavier": true,
+                "actionBehavier": false,
                 "type": "delete"
               }
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -70938,6 +71555,7 @@
             "style": "",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
@@ -71273,6 +71891,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "switch"
           }
         ],
@@ -71477,6 +72096,7 @@
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
+            "actionBehavier": false,
             "type": "customized"
           }
         ],
