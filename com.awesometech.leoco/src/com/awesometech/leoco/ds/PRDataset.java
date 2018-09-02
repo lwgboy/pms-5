@@ -32,7 +32,7 @@ public class PRDataset {
 		Object[] data = (Object[]) context.getParentContext().getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) data[0];
 		TrackView view = (TrackView) data[1];
-		String so = view.getTrackWorkOrder();
+		String so = (String) view.getParameter("so_num");
 		List<Document> result = new ArrayList<>();
 		if (so == null) {
 			return result;

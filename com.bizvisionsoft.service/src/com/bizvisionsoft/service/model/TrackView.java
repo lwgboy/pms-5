@@ -1,5 +1,8 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Map;
+import java.util.Optional;
+
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
@@ -7,6 +10,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.google.gson.internal.LinkedTreeMap;
 
 @PersistenceCollection("trackView")
 public class TrackView {
@@ -72,26 +76,47 @@ public class TrackView {
 
 	@WriteValue
 	@ReadValue
+	@Deprecated
 	private String trackWorkOrder;
 
+	@Deprecated
 	public void setTrackWorkOrder(String trackWorkOrder) {
 		this.trackWorkOrder = trackWorkOrder;
 	}
-	
+
 	public String getTrackWorkOrder() {
 		return trackWorkOrder;
 	}
 
 	@WriteValue
 	@ReadValue
+	@Deprecated
 	private String trackMaterielId;
 
+	@Deprecated
 	public void setTrackMaterielId(String trackMaterielId) {
 		this.trackMaterielId = trackMaterielId;
 	}
-	
+
+	@Deprecated
 	public String getTrackMaterielId() {
 		return trackMaterielId;
+	}
+
+	@WriteValue
+	@ReadValue
+	private Map<String, Object> parameter;
+
+	public TrackView setParameter(String name, Object value) {
+		if (parameter == null) {
+			parameter = new LinkedTreeMap<>();
+		}
+		parameter.put(name, value);
+		return this;
+	}
+
+	public Object getParameter(String name) {
+		return Optional.ofNullable(parameter).map(p -> p.get(name)).orElse(null);
 	}
 
 	@Override
@@ -118,7 +143,5 @@ public class TrackView {
 			return false;
 		return true;
 	}
-	
-	
 
 }

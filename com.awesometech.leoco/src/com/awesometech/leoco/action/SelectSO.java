@@ -47,10 +47,10 @@ public class SelectSO {
 								.updateWork(new FilterAndUpdate()
 										.filter(new BasicDBObject("_id", work.get_id()).append("workPackageSetting._id",
 												tv.get_id()))
-										.set(new BasicDBObject("workPackageSetting.$.trackWorkOrder", so_num)).bson());
+										.set(new BasicDBObject("workPackageSetting.$.parameter.so_num", so_num)).bson());
 						//////////////////////////////////////////////////
 						//刷新表格
-						tv.setTrackWorkOrder(so_num);
+						tv.setParameter("so_num", so_num);
 						GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-采购").getContent();
 						grid.setViewerInput();
 					}
