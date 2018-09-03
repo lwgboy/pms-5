@@ -43,8 +43,8 @@ public class PRDataset {
 		String name = view.getName();
 		///////////////////////////////////////////////////////
 		// 获取已记录的备料数量
-
-		new SqlQuery("erp").sql("select * from so_pr where so_num='" + so + "'").forEach(d -> {
+		String sql = buildSql(so);
+		new SqlQuery("erp").sql(sql).forEach(d -> {
 			String pr_num = d.getString("PR_NUM");
 			String pr_idx = d.getString("PR_IDX");
 			BasicDBObject filter = new BasicDBObject("work_id", work_id).append("catagory", catagory)
@@ -59,6 +59,23 @@ public class PRDataset {
 		});
 
 		return result;
+	}
+
+	private String buildSql(String so) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"select a.so_num,a.pr_num,a.pr_idx,a.prt_num,a.prt_desc,a.unit,a.qty,sum(b.qty) poqty,sum(b.aqty) as aqty, a.rdate ");
+		sb.append("from so_pr as a left join ( ");
+		
+		sb.append("Select c.pr_num,c.pr_idx,c.po_num,c.po_idx,c.prt_num,c.qty,sum(d.qty) aqty ");
+		sb.append(" from pr_po as c left join po_ai as d ");
+		sb.append("on c.po_num = d.po_num and c.po_idx = d.po_idx and c.prt_num = d.prt_num ");
+		sb.append("group by c.pr_num,c.pr_idx,c.po_num,c.po_idx,c.prt_num,c.qty) as b ");
+		
+		sb.append("on (a.pr_num = b.pr_num and a.pr_idx = b.pr_idx) where so_num='" + so
+				+ "' group by a.so_num,a.pr_num,a.pr_idx,a.prt_num,a.prt_desc,a.unit,a.qty,a.rdate ");
+		return sb.toString();
+//		return "select * from so_pr where so_num='" + so + "'";
 	}
 
 }

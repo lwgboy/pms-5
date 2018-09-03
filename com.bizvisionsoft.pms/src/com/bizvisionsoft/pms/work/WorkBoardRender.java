@@ -166,7 +166,7 @@ public class WorkBoardRender {
 	private void renderContent(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 		gridItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		gridItem.setHeight(132);
+		gridItem.setHeight(112);
 
 		String perc;
 		Double ind;
@@ -213,17 +213,17 @@ public class WorkBoardRender {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (EngUtil.isEmptyOrNull(wps)) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
 							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
 							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
 				sb.append(
-						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:16px;margin-right:4px;' href='"
+						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
 								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
@@ -232,7 +232,7 @@ public class WorkBoardRender {
 		// 指派按钮
 		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
 			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:16px;margin-right:4px;' href='assignWork/"
+					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:8px;margin-right:4px;' href='assignWork/"
 							+ work.get_id() + "' target='_rwt'>指派</a>");
 		}
 		sb.append("</div>");
