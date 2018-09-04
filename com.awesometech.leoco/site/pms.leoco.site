@@ -22625,9 +22625,9 @@
             "expanded": true,
             "columns": [
               {
-                "id": "1659d44703a",
-                "name": "AQTY",
-                "text": "到货数量",
+                "id": "1659d446ebb",
+                "name": "POQTY",
+                "text": "下单数量",
                 "alignment": 131072,
                 "width": 80,
                 "minimumWidth": 0,
@@ -22645,9 +22645,9 @@
                 "noToggleGridColumnGroup": false
               },
               {
-                "id": "1659d446ebb",
-                "name": "POQTY",
-                "text": "下单数量",
+                "id": "1659d44703a",
+                "name": "AQTY",
+                "text": "到货数量",
                 "alignment": 131072,
                 "width": 80,
                 "minimumWidth": 0,
@@ -72202,6 +72202,5 @@
   "headLogo": "/cust/logo.png",
   "pageBackgroundImageCSS": "brui_blur",
   "headLogoWidth": 170,
-  "headLogoHeight": 86,
-  "ShutDown": "Sep 4, 2018 12:00:00 AM"
+  "headLogoHeight": 86
 }
