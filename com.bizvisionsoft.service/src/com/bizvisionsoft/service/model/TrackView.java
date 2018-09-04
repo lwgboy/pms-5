@@ -76,35 +76,6 @@ public class TrackView {
 
 	@WriteValue
 	@ReadValue
-	@Deprecated
-	private String trackWorkOrder;
-
-	@Deprecated
-	public void setTrackWorkOrder(String trackWorkOrder) {
-		this.trackWorkOrder = trackWorkOrder;
-	}
-
-	public String getTrackWorkOrder() {
-		return trackWorkOrder;
-	}
-
-	@WriteValue
-	@ReadValue
-	@Deprecated
-	private String trackMaterielId;
-
-	@Deprecated
-	public void setTrackMaterielId(String trackMaterielId) {
-		this.trackMaterielId = trackMaterielId;
-	}
-
-	@Deprecated
-	public String getTrackMaterielId() {
-		return trackMaterielId;
-	}
-
-	@WriteValue
-	@ReadValue
 	private Map<String, Object> parameter;
 
 	public TrackView setParameter(String name, Object value) {

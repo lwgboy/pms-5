@@ -60,4 +60,5 @@ public class UpdateWorkPackages {
 	public String getName() {
 		return name;
 	}
+
 }

@@ -52,6 +52,10 @@ public class WorkPackage {
 		return _id;
 	}
 
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
+
 	/**
 	 * 工作包的名称，与TrackView名称一致
 	 */
@@ -69,6 +73,10 @@ public class WorkPackage {
 	@ReadValue
 	@WriteValue
 	private String catagory;
+
+	public String getCatagory() {
+		return catagory;
+	}
 
 	@ReadValue
 	@WriteValue
@@ -227,6 +235,6 @@ public class WorkPackage {
 	public ObjectId getWork_id() {
 		return work_id;
 	}
-	
+
 	public Document info;
 }

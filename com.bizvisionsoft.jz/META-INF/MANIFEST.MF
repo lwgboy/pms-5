@@ -18,7 +18,8 @@ Require-Bundle: com.bizvisionsoft.annotations;bundle-version="1.0.0",
  com.bizvisionsoft.widgets,
  org.eclipse.rap.nebula.jface.gridviewer,
  org.eclipse.rap.nebula.widgets.grid;bundle-version="3.4.0",
- com.bizvisionsoft.pms;bundle-version="1.0.0"
+ com.bizvisionsoft.pms;bundle-version="1.0.0",
+ com.google.gson;bundle-version="2.7.0"
 Bundle-ClassPath: lib/axis.jar,
  lib/commons-discovery-0.2.jar,
  lib/commons-logging.jar,
