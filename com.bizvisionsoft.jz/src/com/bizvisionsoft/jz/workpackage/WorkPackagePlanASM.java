@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.UpdateWorkPackages;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -116,29 +117,23 @@ public class WorkPackagePlanASM {
 	}
 
 	private boolean isAcceptableBehavior(Action action) {
-		if (view == null) {
-			if ("创建工作包".equals(action.getName())) {
-				return true;
-			}
-		} else {
+		String name = action.getName();
+		if ("创建工作包".equals(name)) {
+			return true;
+		}
+		if (view != null && !(work instanceof WorkInTemplate)) {
 			String catagory = view.getCatagory();
-			if ("研发".equals(catagory)) {
-				if ("选取PLM对象".equals(action.getName())) {
-					return true;
-				}
-			} else if ("采购".equals(catagory)) {
-				if ("选取ERP计划".equals(action.getName())) {
-					return true;
-				}
-			} else if ("生产".equals(catagory)) {
-				if ("选取ERP计划".equals(action.getName())) {
-					return true;
-				}
-			} else if ("质量".equals(catagory)) {
-
+			if ("研发".equals(catagory) && "选取PLM对象".equals(name)) {
+				return true;
+			} else if ("采购".equals(catagory) && "选取ERP计划".equals(name)) {
+				return true;
+			} else if ("生产".equals(catagory) && "选取ERP计划".equals(name)) {
+				return true;
+				// } else if ("质量".equals(catagory) && "选取质检计划".equals(name)) {
+				// return true;
 			}
 
-			if ("更新执行情况".equals(action.getName())) {
+			if ("更新执行情况".equals(name)) {
 				return true;
 			}
 		}
@@ -174,10 +169,11 @@ public class WorkPackagePlanASM {
 		grid.setViewerInput(wps);
 	}
 
-	public void updateProduction(List<WorkPackage> workPackages) {
+	public void updateProduction(List<WorkPackage> workPackages, List<WorkPackageProgress> workPackageProgresss) {
 		List<WorkPackage> wps = Services.get(WorkService.class)
 				.updateProductionWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
-						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
+						.setWorkPackageProgress(workPackageProgresss).setWork_id(((Work) work).get_id())
+						.setCatagory(view.getCatagory()).setName(view.getName()));
 		grid.setViewerInput(wps);
 	}
 

@@ -4,9 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -37,9 +40,10 @@ public class RefreshACT {
 		String catagory = tv.getCatagory();
 		try {
 			WorkPackagePlanASM wpp = (WorkPackagePlanASM) context.getContent();
+			Distribution distribution = new Distribution();
 			if ("采购".equals(catagory)) {
-				String trackWorkOrder = tv.getTrackWorkOrder();
-				List<PLMObject> erpPurchases = new Distribution().getERPPurchase(Arrays.asList(trackWorkOrder));
+				List<PLMObject> erpPurchases = distribution
+						.getERPPurchase(Arrays.asList((String) tv.getParameter("trackWorkOrder")));
 				List<WorkPackage> workPackages = new ArrayList<WorkPackage>();
 
 				erpPurchases.forEach(plmObject -> {
@@ -64,25 +68,30 @@ public class RefreshACT {
 				wpp.updatePurchase(workPackages);
 
 			} else if ("生产".equals(catagory)) {
-				String trackMaterielId = tv.getTrackMaterielId();
-				String trackWorkOrder = tv.getTrackWorkOrder();
 				Map<String, String> productions = new HashMap<String, String>();
-				productions.put(trackWorkOrder, trackMaterielId);
-				List<PLMObject> erpProduction = new Distribution().getERPProduction(productions);
+				productions.put((String) tv.getParameter("trackWorkOrder"),
+						(String) tv.getParameter("trackMaterielId"));
+				List<PLMObject> erpProduction = distribution.getERPProduction(productions);
+
+				List<PLMObject> mes = distribution.getMES(productions);
 				List<WorkPackage> workPackages = new ArrayList<WorkPackage>();
 
-				erpProduction.forEach(plmObject -> {
-					WorkPackage wp = WorkPackage.newInstance(work, tv);
+				List<WorkPackageProgress> workPackageProgresss = new ArrayList<WorkPackageProgress>();
 
-					wp.matId = (String) ((PLMObject) plmObject).getValue("MATNR");
-					wp.matDesc = (String) ((PLMObject) plmObject).getValue("MAKTX");
-					wp.planQty = (double) ((PLMObject) plmObject).getValue("BDMNG");
-					wp.completeQty = (double) ((PLMObject) plmObject).getValue("ENMNG");
+				erpProduction.forEach(plmObject -> {
+					WorkPackage erp = WorkPackage.newInstance(work, tv);
+
+					ObjectId _id = new ObjectId();
+					erp.set_id(_id);
+					erp.matId = (String) ((PLMObject) plmObject).getValue("MATNR");
+					erp.matDesc = (String) ((PLMObject) plmObject).getValue("MAKTX");
+					erp.planQty = (double) ((PLMObject) plmObject).getValue("BDMNG");
+					erp.completeQty = (double) ((PLMObject) plmObject).getValue("ENMNG");
+					String workOrder = (String) ((PLMObject) plmObject).getValue("ABLAD");
 
 					// ((PLMObject) plmObject).getValue("ZNUM");
 					// ((PLMObject) plmObject).getValue("WERKS");
 					// ((PLMObject) plmObject).getValue("WEMPF");
-					// ((PLMObject) plmObject).getValue("ABLAD");
 					// ((PLMObject) plmObject).getValue("AUFNR");
 					// ((PLMObject) plmObject).getValue("KTEXT");
 					// ((PLMObject) plmObject).getValue("ZNUM1");
@@ -90,9 +99,21 @@ public class RefreshACT {
 					// ((PLMObject) plmObject).getValue("TXT_FEVOR");
 					// ((PLMObject) plmObject).getValue("DSNAM");
 					// ((PLMObject) plmObject).getValue("ZSTAT");
-					workPackages.add(wp);
+					workPackages.add(erp);
+
+					mes.forEach(mesObject -> {
+						if (workOrder.equals(mesObject.getValue("id"))
+								&& erp.matId.equals(mesObject.getValue("materialNo"))) {
+							erp.unit = (String) mesObject.getValue("unit");
+							WorkPackageProgress wp = new WorkPackageProgress();
+							wp.updateTime = new Date();
+							wp.description = (String) mesObject.getValue("status");
+							wp.qty = (double) mesObject.getValue("qty");
+							workPackageProgresss.add(wp);
+						}
+					});
 				});
-				wpp.updateProduction(workPackages);
+				wpp.updateProduction(workPackages, workPackageProgresss);
 			} else if ("研发".equals(catagory)) {
 				List<WorkPackage> workPackages = Services.get(WorkService.class)
 						.listWorkPackage(new Query().filter(new BasicDBObject("work_id", work.get_id())
@@ -101,9 +122,9 @@ public class RefreshACT {
 				workPackages.forEach(wp -> {
 					objectIds.add(wp.id + "|" + wp.verNo);
 				});
-				List<PLMObject> plmObjectInfo = new Distribution().getPLMObjectInfo(objectIds);
+				List<PLMObject> plmObjectInfo = distribution.getPLMObjectInfo(objectIds);
 
-				List<PLMObject> plmObjectProcesss = new Distribution().getPLMObjectProcess(objectIds);
+				List<PLMObject> plmObjectProcesss = distribution.getPLMObjectProcess(objectIds);
 
 				workPackages.clear();
 

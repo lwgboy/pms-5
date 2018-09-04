@@ -1,7 +1,6 @@
 package com.bizvisionsoft.jz;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,10 +8,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -328,37 +323,110 @@ public class Distribution {
 		return result;
 	}
 
-	private String cellESB(String msgid, Document doc, List<Element> dataRows) throws Exception {
-		IF_Service processManager = getProcessManager();
-		Element rootElement = doc.createElement("message");
-		rootElement.setAttribute("msgid", msgid);
-		doc.appendChild(rootElement);
+	public List<PLMObject> getMES(Map<String, String> productions) throws Exception {
+		String msgid = "010100010000009";
+		String ifService = null;
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = builder.newDocument();
+		doc.setXmlVersion("1.0");
+		doc.setXmlStandalone(true);
+		List<Element> datarows = new ArrayList<Element>();
+		for (String production : productions.keySet()) {
+			Element datarowElement = doc.createElement("datarow");
+			datarows.add(datarowElement);
 
-		Element datasetElement = doc.createElement("dataset");
-		rootElement.appendChild(datasetElement);
-
-		Element rowsElement = doc.createElement("rows");
-		datasetElement.appendChild(rowsElement);
-
-		for (Element dataRow : dataRows) {
-			rowsElement.appendChild(dataRow);
+			Element element = doc.createElement("_id");
+			element.setTextContent(productions.get(production) + "|" + production);
+			datarowElement.appendChild(element);
 		}
 
-		TransformerFactory transFactory = TransformerFactory.newInstance();
-		Transformer transFormer = transFactory.newTransformer();
-		transFormer.setOutputProperty("encoding", "gbk");
+		ifService = cellESB(msgid, doc, datarows);
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		doc = builder.parse(new ByteArrayInputStream(ifService.getBytes("UTF-8")));
+		List<PLMObject> result = new ArrayList<PLMObject>();
+		if (doc != null) {
+			NodeList nl = doc.getElementsByTagName("datarow");
+			for (int i = 0; i < nl.getLength(); i++) {
+				Node item = nl.item(i);
+				if (item.hasChildNodes()) {
+					PLMObject plmProcessObject = new PLMObject();
+					if (addValues(item, plmProcessObject, PLMObject.TYPE_MES, null))
+						result.add(plmProcessObject);
+				}
+			}
+		}
 
-		DOMSource domSource = new DOMSource(doc);
-		// 设置输入源
-		StreamResult xmlResult = new StreamResult(out);
-		// 输出xml文件
-		transFormer.transform(domSource, xmlResult);
-		// return processManager.ifService(msgid, out.toString());
+		return result;
+	}
 
-		return processManager.IFService(msgid, out.toString());
-		// return getTestString(msgid);
+	public List<PLMObject> getQMSObject(List<String> projectNumbers) throws Exception {
+		String msgid = "010100010000010";
+		String ifService = null;
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = builder.newDocument();
+		doc.setXmlVersion("1.0");
+		doc.setXmlStandalone(true);
+		List<Element> datarows = new ArrayList<Element>();
+		for (String projectNumber : projectNumbers) {
+			Element datarowElement = doc.createElement("datarow");
+			datarows.add(datarowElement);
+
+			Element element = doc.createElement("projectNo");
+			element.setTextContent(projectNumber);
+			datarowElement.appendChild(element);
+
+		}
+
+		ifService = cellESB(msgid, doc, datarows);
+
+		doc = builder.parse(new ByteArrayInputStream(ifService.getBytes("UTF-8")));
+		List<PLMObject> result = new ArrayList<PLMObject>();
+		if (doc != null) {
+			NodeList nl = doc.getElementsByTagName("datarow");
+			for (int i = 0; i < nl.getLength(); i++) {
+				Node item = nl.item(i);
+				if (item.hasChildNodes()) {
+					PLMObject plmProcessObject = new PLMObject();
+					if (addValues(item, plmProcessObject, PLMObject.TYPE_QMS, null))
+						result.add(plmProcessObject);
+				}
+			}
+		}
+
+		return result;
+	}
+
+	private String cellESB(String msgid, Document doc, List<Element> dataRows) throws Exception {
+		// IF_Service processManager = getProcessManager();
+		// Element rootElement = doc.createElement("message");
+		// rootElement.setAttribute("msgid", msgid);
+		// doc.appendChild(rootElement);
+		//
+		// Element datasetElement = doc.createElement("dataset");
+		// rootElement.appendChild(datasetElement);
+		//
+		// Element rowsElement = doc.createElement("rows");
+		// datasetElement.appendChild(rowsElement);
+		//
+		// for (Element dataRow : dataRows) {
+		// rowsElement.appendChild(dataRow);
+		// }
+		//
+		// TransformerFactory transFactory = TransformerFactory.newInstance();
+		// Transformer transFormer = transFactory.newTransformer();
+		// transFormer.setOutputProperty("encoding", "gbk");
+		//
+		// ByteArrayOutputStream out = new ByteArrayOutputStream();
+		//
+		// DOMSource domSource = new DOMSource(doc);
+		// // 设置输入源
+		// StreamResult xmlResult = new StreamResult(out);
+		// // 输出xml文件
+		// transFormer.transform(domSource, xmlResult);
+		// // return processManager.ifService(msgid, out.toString());
+		//
+		// return processManager.IFService(msgid, out.toString());
+		return getTestString(msgid);
 	}
 
 	private boolean addValues(Node item, PLMObject plmObject, int type, List<String> checkName) {

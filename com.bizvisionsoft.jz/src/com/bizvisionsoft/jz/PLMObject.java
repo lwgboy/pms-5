@@ -26,6 +26,10 @@ public class PLMObject {
 
 	public static int TYPE_PRODUCTION = 8;
 
+	public static int TYPE_MES = 9;
+
+	public static int TYPE_QMS = 10;
+
 	private Map<String, Object> values;
 
 	public int type;
@@ -76,4 +80,50 @@ public class PLMObject {
 		}
 		return children.size();
 	}
+
+	@ReadValue("项目质量问题/stage")
+	public String getQMSStage() {
+		return (String) values.get("stage");
+	}
+
+	@ReadValue("项目质量问题/dept")
+	public String getQMSDept() {
+		return (String) values.get("dept");
+	}
+
+	@ReadValue("项目质量问题/arms")
+	public String getQMSArms() {
+		return (String) values.get("arms");
+	}
+
+	@ReadValue("项目质量问题/phenomenon")
+	public String getQMSPhenomenon() {
+		return (String) values.get("phenomenon");
+	}
+
+	@ReadValue("项目质量问题/type")
+	public String getQMSType() {
+		return (String) values.get("type");
+	}
+
+	@ReadValue("项目质量问题/glqk")
+	public String getQMSglqk() {
+		return (String) values.get("glqk");
+	}
+
+	@ReadValue("项目质量问题/source")
+	public String getQMSSsource() {
+		return (String) values.get("stage");
+	}
+
+	@ReadValue("项目质量问题/finishDate")
+	public String getQMSFinishDate() {
+		return (String) values.get("finishDate");
+	}
+
+	@ReadValue("项目质量问题/jzcs")
+	public String getQMSjzcs() {
+		return (String) values.get("jzcs");
+	}
+
 }

@@ -2202,40 +2202,56 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages uwp) {
 		c(WorkPackage.class).deleteMany(new BasicDBObject("work_id", uwp.getWork_id())
 				.append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
-		c(WorkPackage.class).insertMany(uwp.getWorkPackages());
+		List<WorkPackage> workPackages = uwp.getWorkPackages();
+		if (workPackages.size() > 0)
+			c(WorkPackage.class).insertMany(workPackages);
 		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
 				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
 	}
 
 	@Override
 	public List<WorkPackage> updateProductionWorkPackage(UpdateWorkPackages uwp) {
-		c(WorkPackage.class).deleteMany(new BasicDBObject("work_id", uwp.getWork_id())
-				.append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
-		c(WorkPackage.class).insertMany(uwp.getWorkPackages());
-		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
-				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+		BasicDBObject dbo = new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory())
+				.append("name", uwp.getName());
+		List<ObjectId> ids = c(WorkPackage.class).distinct("_id", dbo, ObjectId.class).into(new ArrayList<ObjectId>());
+		c(WorkPackage.class).deleteMany(dbo);
+		c(WorkPackageProgress.class).deleteMany(new Document("package_id", new Document("$in", ids)));
+
+		List<WorkPackage> workPackages = uwp.getWorkPackages();
+		if (workPackages.size() > 0) {
+			c(WorkPackage.class).insertMany(workPackages);
+
+			List<WorkPackageProgress> workPackageProgresss = uwp.getWorkPackageProgresss();
+			if (workPackageProgresss.size() > 0)
+				c(WorkPackageProgress.class).insertMany(workPackageProgresss);
+		}
+
+		return listWorkPackage(new Query().filter(dbo).bson());
 	}
 
 	@Override
 	public List<WorkPackage> updateDevelopmentWorkPackage(UpdateWorkPackages uwp) {
 		List<WorkPackage> workPackages = uwp.getWorkPackages();
 
-		List<ObjectId> workPackageIds = new ArrayList<ObjectId>();
-		workPackages.forEach(workPackage -> {
-			ObjectId _id = workPackage.get_id();
-			c(WorkPackage.class).updateOne(new BasicDBObject("_id", _id),
-					new BasicDBObject("$set",
-							new BasicDBObject("id", workPackage.id).append("description", workPackage.description)
-									.append("verNo", workPackage.verNo).append("planStatus", workPackage.planStatus)
-									.append("documentType", workPackage.documentType)
-									.append("completeStatus", workPackage.completeStatus)));
+		if (workPackages.size() > 0) {
+			List<ObjectId> workPackageIds = new ArrayList<ObjectId>();
+			workPackages.forEach(workPackage -> {
+				ObjectId _id = workPackage.get_id();
+				c(WorkPackage.class).updateOne(new BasicDBObject("_id", _id),
+						new BasicDBObject("$set",
+								new BasicDBObject("id", workPackage.id).append("description", workPackage.description)
+										.append("verNo", workPackage.verNo).append("planStatus", workPackage.planStatus)
+										.append("documentType", workPackage.documentType)
+										.append("completeStatus", workPackage.completeStatus)));
 
-			workPackageIds.add(_id);
-		});
+				workPackageIds.add(_id);
+			});
+			c(WorkPackageProgress.class).deleteMany(new BasicDBObject("", new BasicDBObject("$in", workPackageIds)));
 
-		c(WorkPackageProgress.class).deleteMany(new BasicDBObject("", new BasicDBObject("$in", workPackageIds)));
-
-		c(WorkPackageProgress.class).insertMany(uwp.getWorkPackageProgresss());
+			List<WorkPackageProgress> workPackageProgresss = uwp.getWorkPackageProgresss();
+			if (workPackageProgresss.size() > 0)
+				c(WorkPackageProgress.class).insertMany(workPackageProgresss);
+		}
 
 		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
 				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
@@ -2254,8 +2270,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		info.remove("name");
 		if (_id == null) {
 			_id = new ObjectId();
-			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name).append("catagory", catagory)
-					.append("completeQty", completeQty).append("info", info));
+			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name)
+					.append("catagory", catagory).append("completeQty", completeQty).append("info", info));
 		} else {
 			c("workPackage").updateOne(new Document("_id", _id),
 					new Document("$set", new Document("info", info).append("completeQty", completeQty)));
