@@ -34053,7 +34053,7 @@
             "verticalSpacing": 0,
             "makeColumnsEqualWidth": true,
             "extendHorizontalSpace": false,
-            "extendVerticalSpace": false,
+            "extendVerticalSpace": true,
             "marginBottom": 0,
             "marginHeight": 0,
             "marginLeft": 0,
