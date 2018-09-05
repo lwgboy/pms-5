@@ -71,6 +71,7 @@ public class CreateDummyOADatabase {
 			stmt.executeUpdate("insert into wf_link (wf_id,src,tgt) values ('WF01','06','09')");
 			stmt.executeUpdate("insert into wf_link (wf_id,src,tgt) values ('WF01','09','10')");
 			stmt.executeUpdate("insert into wf_link (wf_id,src,tgt) values ('WF01','10','11')");
+			stmt.executeUpdate("insert into wf_link (wf_id,src,tgt) values ('WF01','11','10')");
 			stmt.executeUpdate("insert into wf_link (wf_id,src,tgt) values ('WF01','11','12')");
 			
 			conn.commit();
