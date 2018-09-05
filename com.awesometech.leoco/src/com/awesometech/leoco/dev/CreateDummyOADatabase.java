@@ -41,19 +41,19 @@ public class CreateDummyOADatabase {
 			
 
 			stmt.executeUpdate(
-					"create table wf_node (wf_id varchar(20), id varchar(20), text varchar(20))");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','01','编制')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','02','审核')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','03','校核')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','04','批准')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','05','返工')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','06','质量检查')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','07','材料')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','08','复查')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','09','测试')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','10','模具开发')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','11','模具检查')");
-			stmt.executeUpdate("insert into wf_node (wf_id,id,text) values ('WF01','12','试模')");
+					"create table wf_node (wf_id varchar(20), id varchar(20), text varchar(20),foreground varchar(6),background varchar(6))");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','01','编制','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','02','审核','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','03','校核','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','04','批准','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','05','返工','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','06','质量检查','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','07','材料','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','08','复查','ffffff','b0120a')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','09','测试','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','10','模具开发','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','11','模具检查','ffffff','455a64')");
+			stmt.executeUpdate("insert into wf_node (wf_id,id,text,foreground,background) values ('WF01','12','试模','ffffff','455a64')");
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			stmt.executeUpdate(
 					"create table wf_link (wf_id varchar(20),src varchar(20), tgt varchar(20))");
