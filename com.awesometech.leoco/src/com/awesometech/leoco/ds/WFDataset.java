@@ -22,13 +22,15 @@ public class WFDataset {
 	@DataSet("node")
 	private List<Document> nodes() {
 		String wf_id = "WF01";
-		return new SqlQuery("oa").sql("select * from wf_node where wf_id='" + wf_id + "'").into(new ArrayList<>());
+		return new SqlQuery("oa").sql("select * from wf_node where wf_id='" + wf_id + "'").changeKeyCase(true)
+				.into(new ArrayList<>());
 	}
 
 	@DataSet("link")
 	private List<Document> links() {
 		String wf_id = "WF01";
-		return new SqlQuery("oa").sql("select * from wf_link where wf_id='" + wf_id + "'").into(new ArrayList<>());
+		return new SqlQuery("oa").sql("select * from wf_link where wf_id='" + wf_id + "'").changeKeyCase(true)
+				.into(new ArrayList<>());
 	}
 
 }
