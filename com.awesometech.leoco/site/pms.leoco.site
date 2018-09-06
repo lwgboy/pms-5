@@ -21701,20 +21701,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "165a77238e0",
-            "name": "查看流程",
-            "text": "查看流程",
-            "switchContentToAssemblyId": "165a770e119",
-            "openContent": true,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "switch"
           }
         ],
         "rowActions": [
