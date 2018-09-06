@@ -1,6 +1,7 @@
 package com.awesometech.leoco.ds;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -21,15 +22,37 @@ public class WFDataset {
 
 	@DataSet("node")
 	private List<Document> nodes() {
-		String wf_id = "WF01";
-		return new SqlQuery("oa").sql("select * from wf_node where wf_id='" + wf_id + "'").changeKeyCase(true)
-				.into(new ArrayList<>());
+		Document prItem = (Document) context.getInput();
+		String inst_ID = prItem.getString("INST_ID");
+		List<String> curNodeList  = new ArrayList<String>();
+		new SqlQuery("oa").sql("select cur_node_id as CURRENTNODE from wf_inst where id = '" + inst_ID + "'").forEach(d -> {
+			if( null != d.getString("CURRENTNODE") && !"".equals(d.getString("CURRENTNODE"))) {
+				String curNodes = d.getString("CURRENTNODE");
+				Arrays.asList(curNodes.split(",")).forEach(n -> {
+					curNodeList.add(n);
+				});
+			}
+		});
+		
+		List<Document> list = new ArrayList<Document>();
+		new SqlQuery("oa").sql("select inst.wf_id ,node.id as id,node.text as text,'ffffff' as foreground  from wf_node node,wf_inst inst where node.wf_id = inst.wf_id and inst.id = '" + inst_ID + "' ")
+			.changeKeyCase(true).forEach(n -> {
+			List curList = curNodeList;
+			if(null != n.getString("id") && curList.contains(n.getString("id"))) {
+				n.append("background", "b0120a");
+			}else {
+				n.append("background", "455a64");
+			}
+			list.add(n);
+		});
+		return list;
 	}
 
 	@DataSet("link")
 	private List<Document> links() {
-		String wf_id = "WF01";
-		return new SqlQuery("oa").sql("select * from wf_link where wf_id='" + wf_id + "'").changeKeyCase(true)
+		Document prItem = (Document) context.getInput();
+		String inst_ID = prItem.getString("INST_ID");
+		return new SqlQuery("oa").sql("select inst.wf_id as WF_ID, link.src as SRC, link.tgt as TGT from wf_link link,wf_inst inst where inst.wf_id = link.wf_id and inst.id = '" + inst_ID + "'").changeKeyCase(true)
 				.into(new ArrayList<>());
 	}
 
