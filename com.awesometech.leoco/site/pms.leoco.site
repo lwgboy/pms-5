@@ -71906,7 +71906,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetBundleId": "com.awesometech.leoco",
-        "gridDataSetClassName": "com.awesometech.leoco.ds.OASelectDataset",
+        "gridDataSetClassName": "com.awesometech.leoco.ds.OADataset",
         "gridPageCount": 0,
         "columns": [
           {
@@ -72070,6 +72070,7 @@
                 "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
+                "textQueryType": "字符串",
                 "height": 0,
                 "staticContent": false,
                 "grabVertical": false
@@ -72078,15 +72079,17 @@
                 "id": "165ae2dd281",
                 "name": "TYPE_NAME",
                 "text": "流程类型",
-                "type": "下拉选择框（查询）",
+                "type": "文本输入框（查询）",
                 "formFields": [],
                 "hasInfoLabel": false,
+                "tooltips": "#",
                 "textPasswordStyle": false,
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
+                "textQueryType": "字符串",
                 "height": 0,
                 "staticContent": false,
                 "grabVertical": false
