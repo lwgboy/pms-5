@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -950,19 +949,27 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("warningIcon")
 	public String getWarningIcon() {
-		String overdue = getOverdue();
-		if ("超期".equals(overdue))
+
+		// 如果超期，显示红底超期信息
+		if (getOverdue())
 			return "<span class='layui-badge'>超期</span>";
-		else if ("预警".equals(overdue))
+		else if (getActualFinish() == null && getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish()))
+			// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
 			return "<span class='layui-badge layui-bg-orange'>预警</span>";
-		else
-			return null;
+		else if (getActualFinish() == null && getWAR() > getDAR())
+			// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+			return "<span class='layui-badge layui-bg-orange'>滞后</span>";
+		else if (getActualFinish() == null && getWAR() < getDAR())
+			return "<span class='layui-badge layui-bg-blue'>提前</span>";
+
+		return null;
 	}
 
 	@ReadValue
 	@SetValue
-	private String overdue;
+	private boolean overdue;
 
+	@Deprecated
 	@SetValue
 	private Integer warningDay;
 
@@ -1026,31 +1033,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return assignerId;
 	}
 
-	public String getOverdue() {
-		if (!summary && overdue == null) {
-			Date actualFinish = getActualFinish();
-			Date planFinish = getPlanFinish();
-			Calendar cal = Calendar.getInstance();
-			Date now = cal.getTime();
-			if (actualFinish != null) {
-				if (actualFinish.after(planFinish)) {
-					overdue = "超期";
-				} else {
-					overdue = "";
-				}
-			} else {
-				cal.setTime(planFinish);
-				cal.add(Calendar.DAY_OF_MONTH, (warningDay == null ? 0 : (-1 * warningDay)));
-				Date warning = cal.getTime();
-				if (now.after(planFinish)) {
-					overdue = "超期";
-				} else if (now.after(warning)) {
-					overdue = "预警";
-				} else {
-					overdue = "";
-				}
-			}
-		}
+	public boolean getOverdue() {
 		return overdue;
 	}
 

@@ -147,27 +147,41 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private void appendOverdue(List<Bson> pipeline) {
-		int warningDay = (int) getSystemSetting(WARNING_DAY);
-		warningDay = warningDay * 24 * 60 * 60 * 1000;
 		List<Field<?>> fields = new ArrayList<Field<?>>();
-		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond",
-				new BasicDBObject("if", new BasicDBObject("$ifNull", new Object[] { "$actualFinish", true }))
-						.append("else",
-								new BasicDBObject("$cond", new BasicDBObject("if",
-										new BasicDBObject("$lt", new Object[] { "$planFinish", new Date() }))
-												.append("then", "超期")
-												.append("else", new BasicDBObject("$cond",
-														new BasicDBObject("if", new BasicDBObject("$lt",
-																new Object[] { "$planFinish", new BasicDBObject("$add",
-																		new Object[] { new Date(), warningDay }) }))
-																				.append("then", "预警")
-																				.append("else", "")))))
-						.append("then", new BasicDBObject("$cond",
-								new BasicDBObject("if",
-										new BasicDBObject("$lt", new Object[] { "$planFinish", "$actualFinish" }))
-												.append("then", "超期").append("else", "")))
+		fields.add(new Field<Bson>("overdue", new BasicDBObject("$cond", Arrays.asList(
+				// 判断当前工作是否完成
+				"$actualFinish",
+				// 完成时。依据计划完成时间小于实际完成时间，返回true，否则为false
+				new BasicDBObject("$cond",
+						Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", "$actualFinish")), true,
+								false)),
+				// 未完成时。依据计划完成时间小于当前时间，返回true，否则为false
+				new BasicDBObject("$cond",
+						Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", new Date())), true, false))
 
-		)));
+		))));
+
+		// fields.add(new Field<Bson>("overdue",
+		// new BasicDBObject("$cond",
+		// new BasicDBObject("if", new BasicDBObject("$ifNull", new Object[] {
+		// "$actualFinish", true }))
+		// .append("else", new BasicDBObject("$cond", new BasicDBObject("if",
+		// new BasicDBObject("$lt", new Object[] { "$planFinish", new Date() }))
+		// .append("then", "超期").append("else",
+		// new BasicDBObject("$cond", new BasicDBObject("if",
+		// new BasicDBObject("$lt", new Object[] { "$planFinish",
+		// new BasicDBObject("$add",
+		// new Object[] { new Date(), 5 }) }))
+		// .append("then", "预警")
+		// .append("else", "")))))
+		// .append("then",
+		// new BasicDBObject("$cond",
+		// new BasicDBObject("if",
+		// new BasicDBObject("$lt",
+		// new Object[] { "$planFinish", "$actualFinish" }))
+		// .append("then", "超期").append("else", "")))
+		//
+		// )));
 
 		pipeline.add(Aggregates.addFields(fields));
 	}
@@ -407,8 +421,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
 
-		int warningDay = (int) getSystemSetting(WARNING_DAY);
-
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		pipeline.add(Aggregates.match(new BasicDBObject("$or",
@@ -435,8 +447,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-
-		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
 
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
@@ -2098,8 +2108,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
 
-		int warningDay = (int) getSystemSetting(WARNING_DAY);
-
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		pipeline.add(Aggregates
@@ -2126,8 +2134,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
-
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
 
@@ -2151,8 +2157,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
-
-		int warningDay = (int) getSystemSetting(WARNING_DAY);
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
@@ -2179,8 +2183,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
-
-		pipeline.add(Aggregates.addFields(new Field<Integer>("warningDay", warningDay)));
 
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
