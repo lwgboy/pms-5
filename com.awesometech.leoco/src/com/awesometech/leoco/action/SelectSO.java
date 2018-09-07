@@ -47,15 +47,17 @@ public class SelectSO {
 								.updateWork(new FilterAndUpdate()
 										.filter(new BasicDBObject("_id", work.get_id()).append("workPackageSetting._id",
 												tv.get_id()))
-										.set(new BasicDBObject("workPackageSetting.$.parameter.so_num", so_num)).bson());
+										.set(new BasicDBObject("workPackageSetting.$.parameter",
+												new BasicDBObject("so_num", so_num)))
+										.bson());
 						//////////////////////////////////////////////////
-						//刷新表格
+						// 刷新表格
 						tv.setParameter("so_num", so_num);
 						GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-采购").getContent();
 						grid.setViewerInput();
 					}
-				}else {
-					Layer.message("无法获取编号"+so_num+"对应产品，请检查后重新输入。", Layer.ICON_CANCEL);
+				} else {
+					Layer.message("无法获取编号" + so_num + "对应产品，请检查后重新输入。", Layer.ICON_CANCEL);
 				}
 			}
 		}

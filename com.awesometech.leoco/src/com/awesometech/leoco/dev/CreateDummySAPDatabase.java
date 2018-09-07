@@ -25,7 +25,7 @@ public class CreateDummySAPDatabase {
 	@Execute
 	public void execute() {
 		try {
-			Connection conn = SqlDB.s.getConnection("dummy");
+			Connection conn = SqlDB.s.getConnection("erp");
 			Statement stmt = conn.createStatement();
 			
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

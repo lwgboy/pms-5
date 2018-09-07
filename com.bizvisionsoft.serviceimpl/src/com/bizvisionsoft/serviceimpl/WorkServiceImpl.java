@@ -440,7 +440,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planStart", 1)));
+			pipeline.add(Aggregates.sort(new BasicDBObject("planStart", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
