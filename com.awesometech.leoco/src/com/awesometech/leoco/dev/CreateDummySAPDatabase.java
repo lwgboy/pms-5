@@ -110,6 +110,7 @@ public class CreateDummySAPDatabase {
 			
 			conn.commit();
 			stmt.close();
+			SqlDB.s.freeConnection("oa", conn);
 			Layer.message("测试数据库创建完成");
 		} catch (Exception e) {
 			MessageDialog.openError(brui.getCurrentShell(), "测试数据库创建错误", e.getMessage());
