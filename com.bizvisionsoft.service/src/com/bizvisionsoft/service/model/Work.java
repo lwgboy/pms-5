@@ -418,7 +418,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 工期完成率 百分比
 	@ReadValue("dar")
 	public Double getDAR() {
-		if (planDuration != 0 && !milestone) {
+		if (planDuration != 0) {
 			return 1d * getActualDuration() / planDuration;
 		}
 		return null;
@@ -436,6 +436,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue("summaryActualDuration")
 	private double summaryActualDuration;
 
+	/***
+	 * 
+	 * @return 不会返回null
+	 */
 	@ReadValue("war")
 	public Double getWAR() {
 		if (milestone)
@@ -953,15 +957,21 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		// 如果超期，显示红底超期信息
 		if (getOverdue())
 			return "<span class='layui-badge'>超期</span>";
-		else if (getActualFinish() == null && getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish()))
-			// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
-			return "<span class='layui-badge layui-bg-orange'>预警</span>";
-		else if (getActualFinish() == null && getWAR() > getDAR())
-			// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
-			return "<span class='layui-badge layui-bg-orange'>滞后</span>";
-		else if (getActualFinish() == null && getWAR() < getDAR())
-			return "<span class='layui-badge layui-bg-blue'>提前</span>";
-
+		else if (getActualFinish() == null) {
+			// 判断工作是否完成，工作未完成时才判断工作是否存在预警、滞后和提前
+			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish()))
+				// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
+				return "<span class='layui-badge layui-bg-orange'>预警</span>";
+			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
+			Double dar = getDAR();
+			if (dar != null) {
+				if (getWAR() < dar)
+					// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+					return "<span class='layui-badge layui-bg-orange'>滞后</span>";
+				else if (getWAR() > dar)
+					return "<span class='layui-badge layui-bg-blue'>提前</span>";
+			}
+		}
 		return null;
 	}
 
