@@ -960,7 +960,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			if (getActualFinish() == null) {
 				Double tf = getTF();
 				if (tf != null && tf == 0) {
-					String message = "本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>考虑赶工以确保工期。";
+					String message = "本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
 					return MetaInfoWarpper.warpper(label, message, 5000);
 				}
 			}
@@ -970,10 +970,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish())) {
 				// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
 				String label = "<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>预警</span>";
-				String message = "按照计划进度估算，预计工作的完成时间晚于计划。";
+				String message = "按照进度估算，预计工作完成时间晚于计划。";
 				Double tf = getTF();
 				if (tf != null && tf == 0) {
-					message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>考虑赶工以确保工期。";
+					message += "<br>本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
 				}
 				return MetaInfoWarpper.warpper(label, message, 5000);
 			}
@@ -985,7 +985,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 					String message = "工作量完成率低于工期完成率<br>表示工作进度可能滞后。";
 					Double tf = getTF();
 					if (tf != null && tf == 0) {
-						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>考虑赶工以确保工期。";
+						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
 					}
 					return MetaInfoWarpper.warpper(
 							"<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
