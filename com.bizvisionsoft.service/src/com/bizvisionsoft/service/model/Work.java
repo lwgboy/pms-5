@@ -955,21 +955,47 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public String getWarningIcon() {
 
 		// 如果超期，显示红底超期信息
-		if (getOverdue())
-			return "<span class='layui-badge'>超期</span>";
-		else if (getActualFinish() == null) {
+		String icon = "<i class=&#39;layui-icon layui-icon-tips&#39; style=&#39;font-size:16px;&#39;></i> ";
+		if (getOverdue()) {
+			String label = "<span class='layui-badge' style='cursor:pointer;'>超期</span>";
+			if (getActualFinish() == null) {
+				Double tf = getTF();
+				if (tf != null && tf == 0) {
+					String message = "本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>" + icon + "请考虑赶工以确保工期。";
+					return MetaInfoWarpper.warpper(label, message, 5000);
+				}
+			}
+			return label;
+		} else if (getActualFinish() == null) {
 			// 判断工作是否完成，工作未完成时才判断工作是否存在预警、滞后和提前
-			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish()))
+			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish())) {
 				// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
-				return "<span class='layui-badge layui-bg-orange'>预警</span>";
+				String label = "<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>预警</span>";
+				String message = "按照计划进度估算，预计工作的完成时间晚于计划";
+				Double tf = getTF();
+				if (tf != null && tf == 0) {
+					message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>" + icon + "请考虑赶工以确保工期。";
+				}
+				return MetaInfoWarpper.warpper(label, message, 5000);
+			}
 			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
 			Double dar = getDAR();
 			if (dar != null) {
-				if (getWAR() < dar)
-					// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
-					return "<span class='layui-badge layui-bg-orange'>滞后</span>";
-				else if (getWAR() > dar)
-					return "<span class='layui-badge layui-bg-blue'>提前</span>";
+				// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+				if (getWAR() < dar) {
+					String message = "工作量完成率低于工期完成率<br>表示工作进度可能滞后";
+					Double tf = getTF();
+					if (tf != null && tf == 0) {
+						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目总工期超期。<br>"+ icon +"请考虑赶工以确保工期。";
+					}
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
+							5000);
+				} else if (getWAR() > dar) {
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
+							"工作量完成率超过工期完成率<br>表示工作进度可能滞后", 5000);
+				}
 			}
 		}
 		return null;
