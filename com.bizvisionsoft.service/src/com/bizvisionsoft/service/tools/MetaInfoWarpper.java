@@ -32,9 +32,13 @@ public class MetaInfoWarpper {
 	}
 
 	public static String warpper(String text, String message) {
+		return warpper(text, message,3000);
+	}
+	
+	public static String warpper(String text, String message,int millsecond) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div onclick='layer.tips(\"" + //
-				message + "\", this, {tips: [1, \"#3595CC\"],time:3000,area:\"300px\"})'>");//
+				message + "\", this, {tips: [1, \"#3595CC\"],time:"+millsecond+",area:\"300px\"})'>");//
 		sb.append(text);
 		sb.append("</div>");
 		return sb.toString();

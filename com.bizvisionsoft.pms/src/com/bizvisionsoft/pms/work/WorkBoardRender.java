@@ -136,7 +136,6 @@ public class WorkBoardRender {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
 		gridItem.setHeight(84);
 		gridItem.setBackground(BruiColors.getColor(BruiColor.Grey_50));
-		String warrningText = work.getOverdue();
 		StringBuffer sb = new StringBuffer();
 		// 开始和完成按钮
 		if (work.getActualStart() == null) {
@@ -152,8 +151,12 @@ public class WorkBoardRender {
 		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
 				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
 				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanFinish()));
-		if (!"".equals(warrningText) && warrningText != null)
-			sb.append("  " + work.getWarningIcon());
+		
+		String warningIcon = work.getWarningIcon();
+		// 根据warningIcon是否为null，显示其进度状态
+		if (warningIcon != null)
+			sb.append("  " + warningIcon);
+		
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfoHtml();
 		sb.append("<div style='margin-right:16px;'>负责: "
@@ -195,8 +198,7 @@ public class WorkBoardRender {
 		// ind = 0.9365555d;
 		sb.append(
 				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		sb.append("<div style='width:112px;'>工期(天)：" 
-				+ "</div>");
+		sb.append("<div style='width:112px;'>工期(天)：" + "</div>");
 		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
 		if (ind != null) {
 			NumberFormat df = DecimalFormat.getInstance();

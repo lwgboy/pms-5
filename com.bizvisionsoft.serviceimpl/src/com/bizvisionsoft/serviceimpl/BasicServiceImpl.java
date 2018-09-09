@@ -283,6 +283,7 @@ public class BasicServiceImpl {
 
 	protected static final String WARNING_DAY = "warningDay";
 
+	@Deprecated
 	protected Object getSystemSetting(String settingName) {
 		if (settingName.equals(WARNING_DAY)) {
 			return 5;

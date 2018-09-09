@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -419,7 +418,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 工期完成率 百分比
 	@ReadValue("dar")
 	public Double getDAR() {
-		if (planDuration != 0 && !milestone) {
+		if (planDuration != 0) {
 			return 1d * getActualDuration() / planDuration;
 		}
 		return null;
@@ -437,6 +436,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue("summaryActualDuration")
 	private double summaryActualDuration;
 
+	/***
+	 * 
+	 * @return 不会返回null
+	 */
 	@ReadValue("war")
 	public Double getWAR() {
 		if (milestone)
@@ -950,19 +953,58 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("warningIcon")
 	public String getWarningIcon() {
-		String overdue = getOverdue();
-		if ("超期".equals(overdue))
-			return "<span class='layui-badge'>超期</span>";
-		else if ("预警".equals(overdue))
-			return "<span class='layui-badge layui-bg-orange'>预警</span>";
-		else
-			return null;
+
+		// 如果超期，显示红底超期信息
+		if (getOverdue()) {
+			String label = "<span class='layui-badge' style='cursor:pointer;'>超期</span>";
+			if (getActualFinish() == null) {
+				Double tf = getTF();
+				if (tf != null && tf == 0) {
+					String message = "本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+					return MetaInfoWarpper.warpper(label, message, 5000);
+				}
+			}
+			return label;
+		} else if (getActualFinish() == null) {
+			// 判断工作是否完成，工作未完成时才判断工作是否存在预警、滞后和提前
+			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish())) {
+				// 工作未完成时，判断预估完成时间是否晚于计划完成时间，晚于时显示橙底预警
+				String label = "<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>预警</span>";
+				String message = "按照进度估算，预计工作完成时间晚于计划。";
+				Double tf = getTF();
+				if (tf != null && tf == 0) {
+					message += "<br>本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+				}
+				return MetaInfoWarpper.warpper(label, message, 5000);
+			}
+			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
+			Double dar = getDAR();
+			if (dar != null) {
+				// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+				if (getWAR() < dar) {
+					String message = "工作量完成率低于工期完成率<br>表示工作进度可能滞后。";
+					Double tf = getTF();
+					if (tf != null && tf == 0) {
+						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+					}
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
+							5000);
+				} else if (getWAR() > dar) {
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
+							"工作量完成率超过工期完成率<br>表示工作进度可能滞后。", 5000);
+				}
+			}
+		}
+		return null;
 	}
 
 	@ReadValue
 	@SetValue
-	private String overdue;
+	private boolean overdue;
 
+	@Deprecated
 	@SetValue
 	private Integer warningDay;
 
@@ -1026,31 +1068,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return assignerId;
 	}
 
-	public String getOverdue() {
-		if (!summary && overdue == null) {
-			Date actualFinish = getActualFinish();
-			Date planFinish = getPlanFinish();
-			Calendar cal = Calendar.getInstance();
-			Date now = cal.getTime();
-			if (actualFinish != null) {
-				if (actualFinish.after(planFinish)) {
-					overdue = "超期";
-				} else {
-					overdue = "";
-				}
-			} else {
-				cal.setTime(planFinish);
-				cal.add(Calendar.DAY_OF_MONTH, (warningDay == null ? 0 : (-1 * warningDay)));
-				Date warning = cal.getTime();
-				if (now.after(planFinish)) {
-					overdue = "超期";
-				} else if (now.after(warning)) {
-					overdue = "预警";
-				} else {
-					overdue = "";
-				}
-			}
-		}
+	public boolean getOverdue() {
 		return overdue;
 	}
 
