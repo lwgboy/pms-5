@@ -72096,14 +72096,15 @@
                 "id": "165ae2dd281",
                 "name": "TYPE_NAME",
                 "text": "流程类型",
-                "type": "文本输入框（查询）",
+                "type": "下拉选择框（查询）",
                 "formFields": [],
                 "hasInfoLabel": false,
-                "tooltips": "#",
+                "tooltips": "",
                 "textPasswordStyle": false,
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
+                "optionText": "费用相关#服务支持#人事管理#资产管理#公文管理#合同管理#考勤相关#文档审批#HR流程#培训流程#业务流程#采购流程#工程流程#PM流程#生产流程#生管流程#品保流程#财务流程#资讯流程#货仓流程#管理课流程",
                 "maxFileSize": 0,
                 "timeLimit": 0,
                 "textQueryType": "字符串",
@@ -72298,5 +72299,6 @@
   "headLogo": "/cust/logo.png",
   "pageBackgroundImageCSS": "brui_blur",
   "headLogoWidth": 170,
-  "headLogoHeight": 86
+  "headLogoHeight": 86,
+  "ShutDown": "Sep 15, 2018 12:00:00 AM"
 }

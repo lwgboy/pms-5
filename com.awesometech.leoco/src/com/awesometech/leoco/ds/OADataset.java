@@ -98,7 +98,9 @@ public class OADataset {
 	@DataSet("OA流程选择列表/" +DataSet.LIST)
 	private List<Document> selectList(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		List<Document> result = new ArrayList<>();
-
+		if(null == condition.get("filter")) {
+			return result;
+		}
 		String sql = buildSelectSql(condition);
 		new SqlQuery("oa").sql(sql).forEach(d -> {
 			result.add(d);
@@ -144,7 +146,7 @@ public class OADataset {
 				}else {
 					sb.append(" and " + fieldName + " like '%" + value + "%' ");
 				}
-			}else {
+			}else if(d.getValue().getClass().getSimpleName().equals("BasicDBObject")) {
 				BasicDBObject dbo =  (BasicDBObject)d.getValue();
 				Entry<String, Object> entry = dbo.entrySet().iterator().next();
 				String type = (String) entry.getKey();
@@ -159,6 +161,9 @@ public class OADataset {
 					String value = (String) entry.getValue();
 					sb.append(" and " + fieldName + " <> '" + value + "' ");
 				}
+			}else {
+				String value = d.getValue().toString();
+				sb.append(" and " + fieldName + " = '" + value + "' ");
 			}
 		});
 		return sb.toString();
