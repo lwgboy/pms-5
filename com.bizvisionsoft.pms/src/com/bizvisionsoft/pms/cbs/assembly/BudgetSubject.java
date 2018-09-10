@@ -46,4 +46,9 @@ public class BudgetSubject extends CBSSubjectGrid {
 	protected void setAmount(CBSSubject subject, double amount) {
 		subject.setBudget(amount);
 	}
+
+	@Override
+	protected String getEditbindingAction() {
+		return "±à¼­";
+	}
 }

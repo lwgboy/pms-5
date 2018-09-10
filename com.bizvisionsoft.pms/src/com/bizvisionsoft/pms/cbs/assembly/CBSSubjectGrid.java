@@ -16,6 +16,11 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
+import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.model.Assembly;
+import com.bizvisionsoft.bruiengine.Brui;
+import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Util;
@@ -27,7 +32,6 @@ import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public abstract class CBSSubjectGrid extends CBSGrid {
-
 
 	protected CBSItem cbsItem;
 
@@ -202,13 +206,17 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		CBSSubject newSubject = getUpsertedCBSSubject(subject);
 		cbsSubjects.remove(subject);
 		cbsSubjects.add(newSubject);
-		viewer.refresh();	
+		viewer.refresh();
 	}
 
 	protected abstract CBSSubject getUpsertedCBSSubject(CBSSubject subject);
 
 	@Override
 	protected EditingSupport supportMonthlyEdit(GridViewerColumn vcol) {
+		if (!hasPermission()) {
+			return null;
+		}
+
 		final String id = (String) vcol.getColumn().getData("name");
 		return new EditingSupport(viewer) {
 
@@ -218,7 +226,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 					double d = Util.getDoubleInput((String) value);
 					CBSSubject subject = new CBSSubject().setCBSItem_id(cbsItem.get_id())
 							.setSubjectNumber(((AccountItem) element).getId()).setId(id);
-					setAmount(subject,d);
+					setAmount(subject, d);
 					updateCBSSubjectAmount(subject);
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
@@ -243,6 +251,20 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		};
 	}
 
+	private boolean hasPermission() {
+		// 检查action的权限,映射到action进行检查
+		IBruiContext context = getContext();
+		Assembly assembly = context.getAssembly();
+		List<Action> rowActions = assembly.getRowActions();
+		if (rowActions == null || rowActions.isEmpty()) {
+			return false;
+		}
+		return rowActions.stream().filter(a -> a.getName().equals(getEditbindingAction())).findFirst()
+				.map(act -> PermissionUtil.checkAction(Brui.sessionManager.getUser(), act, context)).orElse(false);
+	}
+
 	protected abstract void setAmount(CBSSubject subject, double amount);
+
+	protected abstract String getEditbindingAction();
 
 }

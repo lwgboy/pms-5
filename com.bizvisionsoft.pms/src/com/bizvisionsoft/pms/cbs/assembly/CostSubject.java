@@ -48,5 +48,8 @@ public class CostSubject extends CBSSubjectGrid {
 		subject.setCost(amount);
 	}
 
-
+	@Override
+	protected String getEditbindingAction() {
+		return "±à¼­";
+	}
 }
