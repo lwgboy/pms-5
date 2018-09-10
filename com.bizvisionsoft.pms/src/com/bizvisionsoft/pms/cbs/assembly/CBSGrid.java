@@ -87,7 +87,7 @@ public abstract class CBSGrid extends GridPart {
 		vcol.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return getBudgetTotalText(element);
+				return getTotalAmountText(element);
 			}
 
 			@Override
@@ -96,7 +96,6 @@ public abstract class CBSGrid extends GridPart {
 			}
 
 		});
-		vcol.getColumn().setFooterText(getBudgetTotalFootText());
 
 		Date[] range = getRange();
 		Calendar start = Calendar.getInstance();
@@ -141,7 +140,7 @@ public abstract class CBSGrid extends GridPart {
 			vcol.setLabelProvider(new ColumnLabelProvider() {
 				@Override
 				public String getText(Object element) {
-					return getBudgetText(element, monthCol.getName());
+					return getMonthlyAmountText(element, monthCol.getName());
 				}
 
 				@Override
@@ -150,7 +149,6 @@ public abstract class CBSGrid extends GridPart {
 				}
 
 			});
-			vcol.getColumn().setFooterText(getBudgetFootText(monthCol.getName()));
 			EditingSupport editingSupport = supportMonthlyEdit(vcol);
 			if (editingSupport != null)
 				vcol.setEditingSupport(editingSupport);
@@ -191,7 +189,7 @@ public abstract class CBSGrid extends GridPart {
 		vcol.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return getBudgetYearSummaryText(element, ySumCol.getName());
+				return getYearlyAmountSummaryText(element, ySumCol.getName());
 			}
 
 			@Override
@@ -199,30 +197,17 @@ public abstract class CBSGrid extends GridPart {
 				return BruiColors.getColor(BruiColor.Grey_50);
 			}
 		});
-		vcol.getColumn().setFooterText(getBudgetYearSummaryFootText(ySumCol.getName()));
-	}
-
-	protected String getBudgetFootText(String name) {
-		return "";
-	}
-
-	protected String getBudgetYearSummaryFootText(String name) {
-		return "";
-	}
-
-	protected String getBudgetTotalFootText() {
-		return "";
 	}
 
 	public void expandToLevel(Object elementOrTreePath, int level) {
 		viewer.expandToLevel(elementOrTreePath, level);
 	}
 
-	protected abstract String getBudgetText(Object element, String name);
+	protected abstract String getMonthlyAmountText(Object element, String name);
 
-	protected abstract String getBudgetYearSummaryText(Object element, String name);
+	protected abstract String getYearlyAmountSummaryText(Object element, String name);
 
-	protected abstract String getBudgetTotalText(Object element);
+	protected abstract String getTotalAmountText(Object element);
 
 	protected abstract Date[] getRange();
 

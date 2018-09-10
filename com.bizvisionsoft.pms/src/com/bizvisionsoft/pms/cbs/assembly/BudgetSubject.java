@@ -79,7 +79,7 @@ public class BudgetSubject extends CBSGrid {
 	}
 
 	@Override
-	protected String getBudgetText(Object element, String period) {
+	protected String getMonthlyAmountText(Object element, String period) {
 		Double value = null;
 		if (element instanceof CBSItem) {
 			value = getBudget((CBSItem) element, period);
@@ -90,7 +90,7 @@ public class BudgetSubject extends CBSGrid {
 	}
 
 	@Override
-	protected String getBudgetTotalText(Object element) {
+	protected String getTotalAmountText(Object element) {
 		Double value = null;
 		if (element instanceof CBSItem) {
 			value = getBudgetTotal((CBSItem) element);
@@ -101,7 +101,7 @@ public class BudgetSubject extends CBSGrid {
 	}
 
 	@Override
-	protected String getBudgetYearSummaryText(Object element, String year) {
+	protected String getYearlyAmountSummaryText(Object element, String year) {
 		Double value = null;
 		if (element instanceof CBSItem) {
 			value = getBudgetYearSummary((CBSItem) element, year);
@@ -216,23 +216,23 @@ public class BudgetSubject extends CBSGrid {
 		return BruiColors.getColor(BruiColor.Grey_50);
 	}
 
-	@Override
-	protected String getBudgetFootText(String name) {
-		Double value = cbsItem.getBudget(name);
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
-	}
-
-	@Override
-	protected String getBudgetTotalFootText() {
-		Double value = cbsItem.getBudgetSummary();
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
-	}
-
-	@Override
-	protected String getBudgetYearSummaryFootText(String name) {
-		Double value = cbsItem.getBudgetYearSummary(name);
-		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
-	}
+//	@Override
+//	protected String getBudgetFootText(String name) {
+//		Double value = cbsItem.getBudget(name);
+//		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+//	}
+//
+//	@Override
+//	protected String getBudgetTotalFootText() {
+//		Double value = cbsItem.getBudgetSummary();
+//		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+//	}
+//
+//	@Override
+//	protected String getBudgetYearSummaryFootText(String name) {
+//		Double value = cbsItem.getBudgetYearSummary(name);
+//		return Optional.ofNullable(value).map(v -> Util.getGenericMoneyFormatText(v)).orElse("");
+//	}
 
 	public void updateCBSSubjectBudget(CBSSubject subject) {
 		CBSSubject newSubject = Services.get(CBSService.class).upsertCBSSubjectBudget(subject);

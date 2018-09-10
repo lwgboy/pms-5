@@ -139,17 +139,17 @@ public class BudgetCBS extends CBSGrid {
 	}
 
 	@Override
-	protected String getBudgetTotalText(Object element) {
+	protected String getTotalAmountText(Object element) {
 		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudgetSummary());
 	}
 
 	@Override
-	protected String getBudgetYearSummaryText(Object element, String year) {
+	protected String getYearlyAmountSummaryText(Object element, String year) {
 		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudgetYearSummary(year));
 	}
 
 	@Override
-	protected String getBudgetText(Object element, String name) {
+	protected String getMonthlyAmountText(Object element, String name) {
 		return Util.getGenericMoneyFormatText(((CBSItem) element).getBudget(name));
 	}
 
