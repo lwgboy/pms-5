@@ -1,6 +1,6 @@
 package com.bizvisionsoft.pms.work.assembly;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -19,6 +19,8 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.WorkPackage;
 
@@ -30,16 +32,18 @@ public class WorkPackagePlan {
 	@Inject
 	private BruiAssemblyContext context;
 
-	private Object work;
+	private IWorkPackageMaster work;
 
 	private TrackView view;
 
 	private GridPart grid;
 
+	private Assembly targetAssembly;
+
 	@CreateUI
 	public void createUI(Composite parent) {
 		Object[] input = (Object[]) context.getInput();
-		work = input[0];
+		work = (IWorkPackageMaster) input[0];
 		view = (TrackView) input[1];
 
 		parent.setLayout(new FormLayout());
@@ -49,23 +53,14 @@ public class WorkPackagePlan {
 		closeAction.setImage("/img/close.svg");
 
 		StickerTitlebar bar = new StickerTitlebar(parent, closeAction, null);
-		String title;
-		if (view == null) {
-			title = "工作包：" + work;
-		} else {
-			title = view.toString() + "：" + work;
-		}
+		String title = Optional.ofNullable(view).map(v -> v.toString() + ": " + work).orElse("工作包: " + work);
 		bar.setText(title);
 
-		Assembly pAssm;
-		if (view != null) {
-			pAssm = brui.getAssembly(view.getPackageAssembly());
-		} else {
-			pAssm = brui.getAssembly("工作包-基本");
-		}
-		
-		List<Action> actions = UserSession.bruiToolkit().getAcceptedActions(pAssm, brui.getCurrentUserInfo(), context);
-		bar.setActions(actions);
+		targetAssembly = Optional.ofNullable(view).map(v -> v.getPackageAssembly()).map(a -> brui.getAssembly(a))
+				.orElse(brui.getAssembly("工作包-基本"));
+
+		bar.setActions(
+				UserSession.bruiToolkit().getAcceptedActions(targetAssembly, brui.getCurrentUserInfo(), context));
 
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -91,24 +86,16 @@ public class WorkPackagePlan {
 			}
 		});
 
-		createContent(content);
+		content.setLayout(new FillLayout());
+		grid = (GridPart) new AssemblyContainer(content, context).setInput(view).setAssembly(targetAssembly)
+				.setServices(brui).create().getContext().getContent();
 	}
 
-	private void createContent(Composite parent) {
-		parent.setLayout(new FillLayout());
-		BruiAssemblyContext gridContext;
-		if (view == null) {
-			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
-					.setServices(brui).create().getContext();
-		} else {
-			gridContext = new AssemblyContainer(parent, context).setInput(view)
-					.setAssembly(brui.getAssembly(view.getPackageAssembly())).setServices(brui).create().getContext();
-		}
-		grid = (GridPart) gridContext.getContent();
-	}
-
-	public void doCreate(Object parent, WorkPackage element) {
-		grid.doCreate(parent, element);
+	public void doCreate() {
+		String editorId = Optional.ofNullable(view).map(t -> t.getEditAssembly()).orElse("编辑工作包-基本");
+		Editor.open(editorId, context, WorkPackage.newInstance(work, view), (r, o) -> {
+			grid.doCreate(null, o);
+		});
 	}
 
 }

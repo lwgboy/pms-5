@@ -12,6 +12,7 @@ import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
+import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -23,38 +24,83 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<Folder> listRootFolder(ObjectId project_id) {
+	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder) {
+		return insert(folder);
+	}
+
+	@Override
+	public List<Folder> listProjectRootFolder(ObjectId project_id) {
 		return c(Folder.class).find(new Document("project_id", project_id).append("parent_id", null))
 				.into(new ArrayList<>());
 	}
 
 	@Override
-	public long countRootFolder(ObjectId project_id) {
-		return c("folder").countDocuments(new Document("project_id", project_id).append("parent_id", null));
-	}
-
-	@Override
-	public List<Folder> listChildrenFolder(ObjectId parent_id) {
-		return c(Folder.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
+	public List<FolderInTemplate> listProjectTemplateRootFolder(ObjectId template_id) {
+		return c(FolderInTemplate.class).find(new Document("template_id", template_id).append("parent_id", null))
 				.into(new ArrayList<>());
 	}
 
 	@Override
-	public long countChildrenFolder(ObjectId parent_id) {
+	public long countProjectRootFolder(ObjectId project_id) {
+		return c("folder").countDocuments(new Document("project_id", project_id).append("parent_id", null));
+	}
+
+	@Override
+	public List<Folder> listChildrenProjectFolder(ObjectId parent_id) {
+		return c(Folder.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
+				.into(new ArrayList<>());
+	}
+	
+	@Override
+	public List<FolderInTemplate> listChildrenFolderTemplate(ObjectId parent_id) {
+		return c(FolderInTemplate.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
+				.into(new ArrayList<>());
+	}
+
+	@Override
+	public long countChildrenProjectFolder(ObjectId parent_id) {
 		return c("folder").countDocuments(new Document("parent_id", parent_id));
 	}
 
 	@Override
-	public void deleteFolder(ObjectId folder_id) {
+	public long countChildrenFolderTemplate(ObjectId parent_id) {
+		return c("folderInTemplate").countDocuments(new Document("parent_id", parent_id));
+	}
+
+	
+	@Override
+	public boolean deleteProjectFolder(ObjectId folder_id) {
 		List<ObjectId> ids = getDesentItems(Arrays.asList(folder_id), "folder", "parent_id");
 		c("folder").deleteMany(new Document("_id", new Document("$in", ids)));
 		c("docu").deleteMany(new Document("folder_id", new Document("$in", ids)));
 		// TODO 删除文档的时候需要删除文件
+		
+		
+		return true;
+	}
+	
+	@Override
+	public boolean deleteProjectTemplateFolder(ObjectId folder_id) {
+		List<ObjectId> ids = getDesentItems(Arrays.asList(folder_id), "folder", "parent_id");
+		c("folderInTemplate").deleteMany(new Document("_id", new Document("$in", ids)));
+		c("docu").deleteMany(new Document("folder_id", new Document("$in", ids)));
+		// TODO 删除文档的时候需要删除文件
+		
+		
+		return true;
 	}
 
 	@Override
-	public void renameFolder(ObjectId folder_id, String name) {
+	public boolean renameProjectFolder(ObjectId folder_id, String name) {
 		c("folder").updateOne(new Document("_id", folder_id), new Document("$set", new Document("name", name)));
+		return true;
+	}
+
+	@Override
+	public boolean renameProjectTemplateFolder(ObjectId folder_id, String name) {
+		c("folderInTemplate").updateOne(new Document("_id", folder_id),
+				new Document("$set", new Document("name", name)));
+		return true;
 	}
 
 	@Override
@@ -144,7 +190,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			filter = new BasicDBObject();
 
 		filter.append("folder_id", new Document("$in", folder_id));
-		
+
 		return count(filter, Docu.class);
 	}
 

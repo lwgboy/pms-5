@@ -19,7 +19,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
  */
 @Strict
 @PersistenceCollection("projectTemplate")
-public class ProjectTemplate {
+public class ProjectTemplate{
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘

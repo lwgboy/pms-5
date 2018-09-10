@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("folder")
-public class Folder {
+public class Folder implements IFolder{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -58,7 +58,7 @@ public class Folder {
 		return html;
 	}
 
-	@ReadValue({ "项目文件夹选择列表/folderName", "项目档案库文件夹（查看）/folderName" })
+	@ReadValue("项目文件夹选择列表/folderName" )
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -82,12 +82,12 @@ public class Folder {
 
 	@Structure(DataSet.LIST)
 	private List<Folder> listChildren() {
-		return ServicesLoader.get(DocumentService.class).listChildrenFolder(_id);
+		return ServicesLoader.get(DocumentService.class).listChildrenProjectFolder(_id);
 	}
 
 	@Structure(DataSet.COUNT)
 	private long countChildren() {
-		return ServicesLoader.get(DocumentService.class).countChildrenFolder(_id);
+		return ServicesLoader.get(DocumentService.class).countChildrenProjectFolder(_id);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,8 +115,9 @@ public class Folder {
 		return this;
 	}
 
-	public void setOpened(boolean opened) {
+	public Folder setOpened(boolean opened) {
 		this.opened = opened;
+		return this;
 	}
 
 }

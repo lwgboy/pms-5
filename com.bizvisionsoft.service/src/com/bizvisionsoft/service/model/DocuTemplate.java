@@ -14,8 +14,8 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.sn.DocNumberGenerator;
 
-@PersistenceCollection("docu")
-public class Docu {
+@PersistenceCollection("docuTemplate")
+public class DocuTemplate {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -28,7 +28,7 @@ public class Docu {
 	/** 标识 Y **/
 	@ReadValue
 	@WriteValue
-	@Generator(name = Generator.DEFAULT_NAME, key = "docu", generator = DocNumberGenerator.class, callback = Generator.NONE_CALLBACK)
+	@Generator(name = Generator.DEFAULT_NAME, key = "docuT", generator = DocNumberGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
 	@ReadValue
@@ -39,7 +39,7 @@ public class Docu {
 	@WriteValue
 	private String name;
 	
-	public Docu setName(String name) {
+	public DocuTemplate setName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -96,30 +96,21 @@ public class Docu {
 		return _id;
 	}
 
-	public Docu setFolder_id(ObjectId folder_id) {
+	public DocuTemplate setFolder_id(ObjectId folder_id) {
 		this.folder_id = folder_id;
 		return this;
 	}
 
-	public Docu setCreationInfo(OperationInfo creationInfo) {
+	public DocuTemplate setCreationInfo(OperationInfo creationInfo) {
 		this.creationInfo = creationInfo;
 		return this;
 	}
 
-	public Docu addWorkPackageId(ObjectId workPackage_id) {
+	public DocuTemplate addWorkPackageId(ObjectId workPackage_id) {
 		if (this.workPackage_id == null) {
 			this.workPackage_id = new ArrayList<ObjectId>();
 		}
 		this.workPackage_id.add(workPackage_id);
-		return this;
-	}
-	
-	@ReadValue
-	@WriteValue
-	private boolean template;
-	
-	public Docu setTemplate(boolean template) {
-		this.template = template;
 		return this;
 	}
 }

@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
+import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
 
 @Path("/doc")
@@ -30,43 +31,82 @@ public interface DocumentService {
 	public Folder createFolder(Folder folder);
 
 	@POST
+	@Path("/folderTemplate/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder);
+
+	@POST
 	@Path("/folder/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目文件夹选择列表/list")
-	public List<Folder> listRootFolder(
+	public List<Folder> listProjectRootFolder(
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+
+	@POST
+	@Path("/folderTemplate/template_id/{template_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板文件夹选择列表/list")
+	public List<FolderInTemplate> listProjectTemplateRootFolder(
+			@PathParam("template_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@POST
 	@Path("/folder/project_id/{project_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countRootFolder(@PathParam("project_id") ObjectId project_id);
+	public long countProjectRootFolder(@PathParam("project_id") ObjectId project_id);
 
 	@POST
 	@Path("/folder/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Folder> listChildrenFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	public List<Folder> listChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	
+	@POST
+	@Path("/folderTemplate/parent_id/{parent_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<FolderInTemplate> listChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
 
 	@POST
 	@Path("/folder/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countChildrenFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	public long countChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	
+	@POST
+	@Path("/folderTemplate/parent_id/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
+
 
 	@DELETE
 	@Path("/folder/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void deleteFolder(@PathParam("_id") ObjectId folder_id);
+	public boolean deleteProjectFolder(@PathParam("_id") ObjectId folder_id);
+
+	@DELETE
+	@Path("/folderTemplate/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean deleteProjectTemplateFolder(@PathParam("_id") ObjectId folder_id);
 
 	@PUT
 	@Path("/folder/_id/{_id}/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void renameFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
+	public boolean renameProjectFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
 
+	@PUT
+	@Path("/folderTemplate/_id/{_id}/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean renameProjectTemplateFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
+	
 	@POST
 	@Path("/docu/")
 	@Consumes("application/json; charset=UTF-8")
@@ -103,7 +143,7 @@ public interface DocumentService {
 	@Path("/docu/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目档案库文件列表/" + DataSet.LIST, "项目档案库文件列表（查看）/" + DataSet.LIST })
+	@DataSet("项目档案库文件列表/" + DataSet.LIST)
 	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
