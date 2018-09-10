@@ -23,7 +23,7 @@ import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.Function;
 
-public class BudgetCBS extends BudgetGrid {
+public class BudgetCBS extends CostGrid {
 
 	static class ExtendLabel extends ColumnLabelProvider {
 

@@ -82,7 +82,7 @@ public class AccountItem implements Comparable<AccountItem> {
 		return children.size();
 	}
 
-	@Behavior({ "CBSSubject/编辑" })
+	@Behavior({ "项目科目资金计划/编辑" })
 	private boolean behavior() {
 		return countSubAccountItems() == 0;
 	}

@@ -20,7 +20,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
-public abstract class BudgetGrid extends GridPart {
+public abstract class CostGrid extends GridPart {
 
 	@Override
 	protected GridTreeViewer createGridViewer(Composite parent) {
@@ -59,7 +59,7 @@ public abstract class BudgetGrid extends GridPart {
 		c.setAlignment(SWT.LEFT);
 		c.setMoveable(false);
 		c.setResizeable(true);
-		createColumn(grid, c).getColumn().setFooterText("CBS×ÜÔ¤Ëã");
+		createColumn(grid, c).getColumn();
 		
 		createEstimationColumns(grid);
 		

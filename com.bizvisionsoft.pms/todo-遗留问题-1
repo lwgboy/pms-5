@@ -17,3 +17,4 @@
 18.【优化性能】WorkServiceImpl listWorkPackageForScheduleInStage. 获取下级节点
 19.【优化性能】 大量项目下EPS的显示问题？
 23.【BUG】工作报告确认时不能看到资源用量
+24.【BUG】不是项目经理时不应该显示批注按钮，而不是显示一个不能用的按钮 178行的逻辑写反了

@@ -58,6 +58,11 @@
                 "children": [],
                 "name": "预算成本对比",
                 "id": "163d3f03d9f"
+              },
+              {
+                "children": [],
+                "name": "Deprecated",
+                "id": "165c2a54d52"
               }
             ],
             "name": "CBS",
@@ -1408,7 +1413,7 @@
           },
           {
             "id": "1641c0dfa86",
-            "name": "项目资源计划",
+            "name": "项目资源管理",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -1509,7 +1514,8 @@
             "children": [
               {
                 "id": "1628decc878",
-                "name": "项目预算",
+                "name": "项目资金计划",
+                "text": "项目资金计划",
                 "switchContentToAssemblyId": "162faeee5d8",
                 "openContent": false,
                 "propagate": false,
@@ -1520,7 +1526,8 @@
               },
               {
                 "id": "1628decc9e5",
-                "name": "项目成本",
+                "name": "项目实际成本",
+                "text": "项目实际成本",
                 "switchContentToAssemblyId": "163c9ec9fc8",
                 "openContent": false,
                 "propagate": false,
@@ -2320,8 +2327,8 @@
             "children": [
               {
                 "id": "9628decc878",
-                "name": "项目预算",
-                "switchContentToAssemblyId": "163722a9d18",
+                "name": "项目资金计划",
+                "switchContentToAssemblyId": "162faeee5d8",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2331,7 +2338,7 @@
               },
               {
                 "id": "9628decc9e5",
-                "name": "项目成本",
+                "name": "项目实际成本",
                 "switchContentToAssemblyId": "163c9ec9fc8",
                 "openContent": false,
                 "propagate": false,
@@ -2759,18 +2766,6 @@
         ],
         "sidebarItems": [
           {
-            "id": "993099d3908",
-            "name": "组织结构",
-            "text": "组织结构",
-            "switchContentToAssemblyId": "16371c338b9",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
             "id": "9928decb7e0",
             "name": "项目进度管理",
             "text": "项目进度管理",
@@ -2830,6 +2825,18 @@
             ],
             "editorAssemblyEditable": false,
             "objectBehavier": false
+          },
+          {
+            "id": "993099d3908",
+            "name": "组织结构",
+            "text": "组织结构",
+            "switchContentToAssemblyId": "16371c338b9",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "type": "switch"
           },
           {
             "id": "9928decc2ae",
@@ -3147,542 +3154,6 @@
       "checkLogin": false,
       "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
-    },
-    {
-      "typeName": "页面",
-      "id": "1631ac0ee2e",
-      "name": "阶段首页（启动）",
-      "title": "阶段首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "sidebar": {
-        "behavior": true,
-        "enabled": true,
-        "width": 240,
-        "header": "1631b43cace",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "1631b47e1fd",
-            "name": "进度计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "1631b63ea09",
-            "name": "资源分配",
-            "switchContentToAssemblyId": "16370ff5184",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "switch"
-          },
-          {
-            "id": "1631b4793f8",
-            "name": "阶段预算",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.cbs.action.OpenBudgetSubjectACT",
-            "switchContentToAssemblyId": "162faeee5d8",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ]
-      },
-      "footbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "contentArea": {
-        "typeName": "内容区",
-        "behavior": true,
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "behavior": true,
-            "id": "1637183ede1",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
-      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
-    },
-    {
-      "typeName": "页面",
-      "id": "16324c38e82",
-      "name": "阶段首页（执行）",
-      "title": "阶段首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "sidebar": {
-        "behavior": true,
-        "enabled": true,
-        "width": 240,
-        "header": "1631b43cace",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "16324c5b264",
-            "name": "进度管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "16324c5b799",
-                "name": "进度计划",
-                "text": "进度计划",
-                "switchContentToAssemblyId": "1638c2c16a9",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16324c5bc6b",
-                "name": "进度计划甘特图",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "1628f2f73ab",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "customized"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "16324c5d832",
-            "name": "资源管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "16324c5dd98",
-                "name": "资源计划",
-                "switchContentToAssemblyId": "16370ff5184",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16324c5e259",
-                "name": "资源用量",
-                "switchContentToAssemblyId": "16396e1b1ae",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "16324c5e79e",
-            "name": "成本管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "16324c5ecd3",
-                "name": "阶段预算",
-                "switchContentToAssemblyId": "162faeee5d8",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "16324c5f1a2",
-                "name": "阶段成本",
-                "switchContentToAssemblyId": "163c9ec9fc8",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "163b7290cfc",
-            "name": "阶段收尾",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.stage.action.FinishStage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized",
-            "role": "WM"
-          }
-        ]
-      },
-      "footbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "contentArea": {
-        "typeName": "内容区",
-        "behavior": true,
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "behavior": true,
-            "id": "1631ac3637f",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
-      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
-    },
-    {
-      "typeName": "页面",
-      "id": "163719d18b9",
-      "name": "阶段首页（收尾）",
-      "title": "阶段首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "sidebar": {
-        "behavior": true,
-        "enabled": true,
-        "width": 240,
-        "header": "1631b43cace",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "96324c5b264",
-            "name": "进度管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "96324c5b799",
-                "name": "进度计划",
-                "switchContentToAssemblyId": "1641c25e273",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "96324c5bc6b",
-                "name": "进度计划甘特图",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "16371ebbf89",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "96324c5d832",
-            "name": "资源管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "96324c5dd98",
-                "name": "资源计划",
-                "switchContentToAssemblyId": "16390d02c3a",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "96324c5e259",
-                "name": "资源用量",
-                "switchContentToAssemblyId": "16464736d5b",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "96324c5e79e",
-            "name": "成本管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "96324c5ecd3",
-                "name": "阶段预算",
-                "switchContentToAssemblyId": "16372176e94",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "96324c5f1a2",
-                "name": "阶段成本",
-                "switchContentToAssemblyId": "163c9ec9fc8",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "163b72979e9",
-            "name": "阶段关闭",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.stage.action.CloseStage",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized",
-            "role": "WM"
-          }
-        ]
-      },
-      "footbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "contentArea": {
-        "typeName": "内容区",
-        "behavior": true,
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "behavior": true,
-            "id": "1631ac3637f",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
-      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
-    },
-    {
-      "typeName": "页面",
-      "id": "963719d18b9",
-      "name": "阶段首页（关闭）",
-      "title": "阶段首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "sidebar": {
-        "behavior": true,
-        "enabled": true,
-        "width": 240,
-        "header": "1631b43cace",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "99324c5b264",
-            "name": "进度管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "96324c5b799",
-                "name": "进度计划",
-                "switchContentToAssemblyId": "1641c25e273",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "99324c5bc6b",
-                "name": "进度计划甘特图",
-                "bundleId": "com.bizvisionsoft.pms",
-                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "16371ebbf89",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "99324c5d832",
-            "name": "资源管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "99324c5dd98",
-                "name": "资源计划",
-                "switchContentToAssemblyId": "16390d02c3a",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "99324c5e259",
-                "name": "资源用量",
-                "switchContentToAssemblyId": "16464736d5b",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          },
-          {
-            "id": "99324c5e79e",
-            "name": "成本管理",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "children": [
-              {
-                "id": "99324c5ecd3",
-                "name": "阶段预算",
-                "switchContentToAssemblyId": "16372176e94",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              },
-              {
-                "id": "99324c5f1a2",
-                "name": "阶段成本",
-                "switchContentToAssemblyId": "163e4ed7da2",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "type": "switch"
-              }
-            ],
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "type": "customized"
-          }
-        ]
-      },
-      "footbar": {
-        "behavior": true,
-        "enabled": false
-      },
-      "contentArea": {
-        "typeName": "内容区",
-        "behavior": true,
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "behavior": true,
-            "id": "163723c3033",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
-      "inputDataSetService": "com.bizvisionsoft.service.WorkService"
     },
     {
       "typeName": "页面",
@@ -4288,7 +3759,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16187d39041",
@@ -4330,7 +3801,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "161db822d98",
@@ -4664,7 +4135,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16203c462f5",
@@ -4940,7 +4411,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1621d403c8b",
@@ -5135,7 +4606,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1626b1d80dc",
@@ -5770,7 +5241,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1626f9d096e",
@@ -5994,7 +5465,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16270130745",
@@ -6105,7 +5576,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16275cba497",
@@ -6575,7 +6046,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162847f1b05",
@@ -6738,7 +6209,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1628add9f2c",
@@ -6863,7 +6334,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1628e1d1914",
@@ -6906,7 +6377,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1628f2f73ab",
@@ -7119,7 +6590,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1628fc969a5",
@@ -7211,7 +6682,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -7229,7 +6700,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -7291,7 +6762,7 @@
         "nullValueAllowedFields": "",
         "smallEditor": true,
         "addToParentContext": true,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1629e37338a",
@@ -7406,7 +6877,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b2bd3dff",
@@ -7468,7 +6939,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b3758572",
@@ -7558,7 +7029,7 @@
             "readOnly": true,
             "required": false,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -7576,7 +7047,7 @@
             "readOnly": true,
             "required": false,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -7637,7 +7108,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": true,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b3910923",
@@ -7822,7 +7293,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b3c7c903",
@@ -8070,7 +7541,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b75519b0",
@@ -8253,7 +7724,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b7bb8236",
@@ -8419,7 +7890,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b834b167",
@@ -8684,7 +8155,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162b988d8d5",
@@ -8724,7 +8195,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ba875640",
@@ -8905,7 +8376,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bca49f7c",
@@ -9216,7 +8687,7 @@
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bca813e1",
@@ -9662,7 +9133,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bcc9cbc1",
@@ -9939,7 +9410,7 @@
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bcd47030",
@@ -10016,7 +9487,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bd19922a",
@@ -10113,7 +9584,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bd1b7bb3",
@@ -10299,7 +9770,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bd6340f5",
@@ -10365,7 +9836,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162bda0c55c",
@@ -10459,7 +9930,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c10e1449",
@@ -10626,7 +10097,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c12b0afa",
@@ -10737,7 +10208,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c4579eee",
@@ -11022,7 +10493,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c46151c9",
@@ -11189,7 +10660,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c739fac5",
@@ -11407,7 +10878,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c73bfbcc",
@@ -11519,7 +10990,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c74b68d7",
@@ -11559,7 +11030,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c74cd862",
@@ -11703,7 +11174,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c98182da",
@@ -11854,7 +11325,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c9948c11",
@@ -11898,7 +11369,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c9ed9eed",
@@ -12149,7 +11620,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162c9f73fa4",
@@ -12257,7 +11728,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ca15931b",
@@ -12508,7 +11979,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162cc7c2985",
@@ -12716,7 +12187,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162cc7d74e1",
@@ -12899,7 +12370,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ccb550ac",
@@ -13190,7 +12661,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162d1fc8443",
@@ -13325,7 +12796,7 @@
         "actionPanelColumnCount": 5,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162d2bfa73e",
@@ -14426,7 +13897,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162d7e505eb",
@@ -14623,7 +14094,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dbff5e91",
@@ -14757,7 +14228,7 @@
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dc3fab0c",
@@ -14933,7 +14404,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dc40bd28",
@@ -15048,7 +14519,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dcc76808",
@@ -15293,7 +14764,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dd6cb668",
@@ -15390,7 +14861,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162dd95b76b",
@@ -15626,7 +15097,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162e10dc2e4",
@@ -15775,7 +15246,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162e59bc8f7",
@@ -15942,7 +15413,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162e5aa73b9",
@@ -16036,7 +15507,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ec2b8570",
@@ -16045,7 +15516,7 @@
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.cbs.assembly.BudgetCBS",
         "layout": [],
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -16155,7 +15626,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ec7a411c",
@@ -16196,7 +15667,7 @@
         ],
         "type": "sticker",
         "stickerTitle": "预算（人民币万元）",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -16244,7 +15715,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ed80cc9d",
@@ -16252,7 +15723,7 @@
         "title": "成本项",
         "layout": [],
         "type": "editor",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -16321,7 +15792,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ee6c543e",
@@ -16401,11 +15872,11 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162fa5009ed",
-        "name": "CBSSubject",
+        "name": "项目科目资金计划",
         "title": "",
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.cbs.assembly.BudgetSubject",
@@ -16460,11 +15931,11 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162faeee5d8",
-        "name": "科目预算",
+        "name": "项目资金计划",
         "layout": [
           {
             "id": "162ec7aed97",
@@ -16534,7 +16005,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "162ff4cd460",
@@ -16587,7 +16058,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -16605,7 +16076,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -16648,7 +16119,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": true,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16305416779",
@@ -16956,7 +16427,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163056fb075",
@@ -17162,7 +16633,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16305720b4b",
@@ -17377,7 +16848,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1630607a1fb",
@@ -17586,7 +17057,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1631ac3637f",
@@ -17681,7 +17152,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1631b43cace",
@@ -17724,7 +17195,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1631b7ee056",
@@ -17858,7 +17329,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1631b96864a",
@@ -17898,7 +17369,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1631b9723c5",
@@ -18004,7 +17475,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1632b6942a0",
@@ -18285,7 +17756,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1632b8968e4",
@@ -18463,7 +17934,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1632e5a7502",
@@ -19604,7 +19075,7 @@
                   {
                     "id": "16505a1fbdf",
                     "name": "classfication",
-                    "text": "级别",
+                    "text": "项目等级",
                     "type": "下拉选择框（查询）",
                     "formFields": [],
                     "hasInfoLabel": false,
@@ -19795,7 +19266,7 @@
                   {
                     "id": "165056969e8",
                     "name": "pmInfo",
-                    "text": "项目经理",
+                    "text": "项目经理姓名",
                     "type": "文本输入框（查询）",
                     "formFields": [],
                     "hasInfoLabel": false,
@@ -19813,7 +19284,7 @@
                   {
                     "id": "1650585cc6a",
                     "name": "impUnitOrgFullName",
-                    "text": "承担单位",
+                    "text": "承担单位名称",
                     "type": "文本输入框（查询）",
                     "formFields": [],
                     "hasInfoLabel": false,
@@ -20139,14 +19610,14 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1632fd854c1",
         "name": "预算阶段选择器",
         "layout": [],
         "type": "selector",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -20179,14 +19650,14 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1632fd8c5dc",
         "name": "预算阶段选择器列表",
         "layout": [],
         "type": "grid",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -20285,7 +19756,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16338ca0777",
@@ -20425,7 +19896,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163399430d8",
@@ -20498,7 +19969,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1633ee05a77",
@@ -20875,7 +20346,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16343e4a715",
@@ -20918,7 +20389,7 @@
         "smallEditor": false,
         "schedulerType": "scheduler",
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1635c2a9c42",
@@ -20985,7 +20456,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1635d7d0d35",
@@ -21029,7 +20500,7 @@
         "smallEditor": false,
         "schedulerType": "timeline",
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163622866dc",
@@ -21225,7 +20696,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636229c4a5",
@@ -21354,7 +20825,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16362425e75",
@@ -21395,7 +20866,7 @@
         ],
         "type": "sticker",
         "stickerTitle": "预算（人民币万元）",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -21428,7 +20899,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163624f036e",
@@ -21899,7 +21370,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163673074e6",
@@ -22328,7 +21799,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16367155906",
@@ -22388,7 +21859,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16368910aaa",
@@ -22451,7 +21922,7 @@
         "nullValueAllowedFields": "workPackageSetting",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16368fa3a97",
@@ -22555,7 +22026,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636bd8162a",
@@ -22690,7 +22161,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636c45719a",
@@ -22767,7 +22238,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636cadb0c3",
@@ -23093,7 +22564,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636cd41587",
@@ -23223,7 +22694,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1636e54cc45",
@@ -23384,7 +22855,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16370ff5184",
@@ -23428,7 +22899,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637183ede1",
@@ -23518,7 +22989,7 @@
         "actionPanelColumnCount": 3,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16371c338b9",
@@ -23578,7 +23049,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16371ebbf89",
@@ -23760,7 +23231,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16372045263",
@@ -23801,7 +23272,7 @@
         ],
         "type": "sticker",
         "stickerTitle": "预算（人民币万元）",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -23834,7 +23305,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163720498db",
@@ -23843,7 +23314,7 @@
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.cbs.assembly.BudgetCBS",
         "layout": [],
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -23895,7 +23366,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637206cd62",
@@ -24111,11 +23582,11 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16372176e94",
-        "name": "科目预算（查看）",
+        "name": "项目资金计划（查看）",
         "layout": [
           {
             "id": "162ec7aed97",
@@ -24185,11 +23656,11 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163721778d4",
-        "name": "CBSSubject（查看）",
+        "name": "项目科目资金计划（查看）",
         "title": "",
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.cbs.assembly.BudgetSubject",
@@ -24229,7 +23700,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163722a9d18",
@@ -24270,7 +23741,7 @@
         ],
         "type": "sticker",
         "stickerTitle": "预算（人民币万元）",
-        "folderId": "16390fa07d3",
+        "folderId": "165c2a54d52",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
@@ -24303,7 +23774,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163723be22d",
@@ -24431,7 +23902,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163723c27be",
@@ -24504,7 +23975,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163723c3033",
@@ -24599,7 +24070,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637bd0dcd4",
@@ -24899,7 +24370,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637ce87d72",
@@ -25065,7 +24536,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637d1c06b1",
@@ -25231,7 +24702,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637d1c3f4d",
@@ -25397,7 +24868,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637d486d64",
@@ -25578,7 +25049,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637e58c81b",
@@ -25727,7 +25198,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1637e5acb43",
@@ -25820,7 +25291,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16380a1c169",
@@ -26278,7 +25749,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16380bfc21f",
@@ -26553,7 +26024,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16380c97d72",
@@ -26706,7 +26177,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16380df0b77",
@@ -26801,7 +26272,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163812c1f16",
@@ -27127,7 +26598,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381485e7d",
@@ -27257,7 +26728,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381499349",
@@ -27450,7 +26921,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381614ec7",
@@ -27581,7 +27052,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1638191f3a4",
@@ -27947,7 +27418,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163819946c4",
@@ -28077,7 +27548,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1638199d0ec",
@@ -28250,7 +27721,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163819dcd5f",
@@ -28363,7 +27834,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381c3cf38",
@@ -28648,7 +28119,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381ca6c93",
@@ -28763,7 +28234,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381cb2479",
@@ -28916,7 +28387,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16381f8011c",
@@ -29011,7 +28482,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163830ca3ce",
@@ -29158,7 +28629,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": true,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163868653d9",
@@ -29306,7 +28777,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163868971b2",
@@ -29383,7 +28854,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386c1cbfb",
@@ -29511,7 +28982,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386c44e87",
@@ -29587,7 +29058,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163856055de",
@@ -30061,7 +29532,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163869a1e8b",
@@ -30535,7 +30006,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386a04541",
@@ -31009,7 +30480,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386a3a9c9",
@@ -31483,7 +30954,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386aa8485",
@@ -32114,7 +31585,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386aa8c2a",
@@ -32745,7 +32216,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16386db45c3",
@@ -32873,7 +32344,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1638b3952da",
@@ -32951,7 +32422,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1638c13db9e",
@@ -33153,7 +32624,7 @@
         "nullValueAllowedFields": "workPackageSetting#certificates#chargerId#assignerId",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1638c2c16a9",
@@ -33858,7 +33329,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16390ce5577",
@@ -34094,7 +33565,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16390d02c3a",
@@ -34138,7 +33609,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16390d36467",
@@ -34387,7 +33858,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16390d46af6",
@@ -34719,7 +34190,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163957f842a",
@@ -34801,7 +34272,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163958383b0",
@@ -34968,7 +34439,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16394e5432f",
@@ -35008,7 +34479,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16394e82f67",
@@ -35048,7 +34519,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163959c974a",
@@ -35194,7 +34665,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16396e1b1ae",
@@ -35238,7 +34709,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16396fda373",
@@ -35600,7 +35071,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16399f2c7e5",
@@ -35734,7 +35205,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163ae4ab439",
@@ -35777,7 +35248,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c31c8328",
@@ -36073,7 +35544,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c6247d94",
@@ -36209,7 +35680,7 @@
         "nullValueAllowedFields": "",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c8e56ef0",
@@ -36371,7 +35842,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c9c4a0c4",
@@ -36465,7 +35936,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c9ec9fc8",
@@ -36474,7 +35945,7 @@
         "layout": [],
         "type": "grid",
         "stickerTitle": "成本管理",
-        "folderId": "16390fab944",
+        "folderId": "163d3f03d9f",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": true,
@@ -36521,26 +35992,6 @@
             "text": "名称",
             "alignment": 16384,
             "width": 320,
-            "minimumWidth": 0,
-            "moveable": false,
-            "resizeable": true,
-            "detail": false,
-            "summary": false,
-            "expanded": false,
-            "columns": [],
-            "markupEnabled": false,
-            "sort": 0,
-            "forceDisplayZero": false,
-            "hide": false,
-            "element": false,
-            "noToggleGridColumnGroup": false
-          },
-          {
-            "id": "163c9f40438",
-            "name": "scopename",
-            "text": "范围",
-            "alignment": 16384,
-            "width": 160,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -36646,7 +36097,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c925f0d5",
@@ -36800,7 +36251,7 @@
         "actionPanelColumnCount": 5,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c974f145",
@@ -36904,7 +36355,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c9d53d9b",
@@ -37002,7 +36453,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163c9ed4a9d",
@@ -37136,7 +36587,7 @@
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163ca3d007f",
@@ -37375,7 +36826,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cd548b8e",
@@ -37454,7 +36905,7 @@
         "nullValueAllowedFields": "",
         "smallEditor": true,
         "addToParentContext": true,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cd649d22",
@@ -37539,7 +36990,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cf76a45d",
@@ -37582,7 +37033,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cf7aa9e2",
@@ -37701,7 +37152,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cfdbba22",
@@ -37833,7 +37284,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163cf25e6cf",
@@ -37895,7 +37346,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d33c877c",
@@ -38410,7 +37861,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d3ef7ce7",
@@ -38961,7 +38412,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d44c5c88",
@@ -39020,7 +38471,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d2b1c9ec",
@@ -39205,7 +38656,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d954322f",
@@ -39247,7 +38698,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d9548883",
@@ -39338,7 +38789,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163d46b7ca2",
@@ -39378,7 +38829,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163dac2719a",
@@ -39421,7 +38872,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163dacfe401",
@@ -39485,7 +38936,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163dad02200",
@@ -39750,7 +39201,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163dde68aa2",
@@ -39932,7 +39383,7 @@
         "nullValueAllowedFields": "tag#category#docuFiles",
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163de351c0f",
@@ -39999,7 +39450,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163de39f183",
@@ -40066,7 +39517,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163de6622de",
@@ -40108,7 +39559,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163de79fcdc",
@@ -40150,7 +39601,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163df6b1035",
@@ -40241,7 +39692,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163df88737f",
@@ -40332,7 +39783,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "15ce2dafe9d",
@@ -40555,7 +40006,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "15ce3195007",
@@ -40595,7 +40046,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "15ce319afad",
@@ -40660,7 +40111,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163e36dc30b",
@@ -40727,7 +40178,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163e45c5275",
@@ -41312,7 +40763,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163e4ed7da2",
@@ -41321,7 +40772,7 @@
         "layout": [],
         "type": "grid",
         "stickerTitle": "成本管理",
-        "folderId": "16390fab944",
+        "folderId": "163d3f03d9f",
         "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": true,
@@ -41462,7 +40913,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "15df617602d",
@@ -41630,7 +41081,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "15df6241f4a",
@@ -41750,7 +41201,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac3392d",
@@ -41792,7 +41243,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac33f03",
@@ -41881,7 +41332,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac343d9",
@@ -41923,7 +41374,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac349a4",
@@ -41965,7 +41416,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac35076",
@@ -42054,7 +41505,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eac35519",
@@ -42157,7 +41608,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eb0672aa",
@@ -42260,7 +41711,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163eb06a83b",
@@ -42302,7 +41753,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163ecf0554c",
@@ -42396,7 +41847,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f1d2326e",
@@ -42468,7 +41919,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f1f421af",
@@ -42511,7 +41962,7 @@
         "smallEditor": false,
         "schedulerType": "selector",
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f1e35a8f",
@@ -42817,7 +42268,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f1ec41b4",
@@ -43071,7 +42522,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f2bf5bcd",
@@ -43111,7 +42562,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f32e91cc",
@@ -43426,7 +42877,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f33b563e",
@@ -43512,7 +42963,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f4a0fbe2",
@@ -43588,7 +43039,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163f7d4d225",
@@ -43683,7 +43134,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163fa64c94c",
@@ -43872,7 +43323,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163fd6ed945",
@@ -43915,7 +43366,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163fe7e3c53",
@@ -44221,7 +43672,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163fe9eba7f",
@@ -44527,7 +43978,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401bb95a9",
@@ -44736,7 +44187,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401bbfa5c",
@@ -44945,7 +44396,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401bc7721",
@@ -45154,7 +44605,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163ff61cdd6",
@@ -45197,7 +44648,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401ed04d3",
@@ -45426,7 +44877,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401ed4b56",
@@ -45655,7 +45106,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16401ed898f",
@@ -45884,7 +45335,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1640675398d",
@@ -46201,7 +45652,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164067c6cfe",
@@ -46244,7 +45695,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164067f2815",
@@ -46287,7 +45738,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16406dbb812",
@@ -46330,7 +45781,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16406f27fa2",
@@ -46403,7 +45854,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16407096c19",
@@ -46446,7 +45897,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16407a48f3b",
@@ -46654,7 +46105,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16407f0bbdf",
@@ -46946,7 +46397,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1640e56eb0a",
@@ -47060,7 +46511,7 @@
         "nullValueAllowedFields": "rom#to",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1640e5bedee",
@@ -47174,7 +46625,7 @@
         "nullValueAllowedFields": "from#to",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "163feddb1a7",
@@ -47500,7 +46951,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164171b043a",
@@ -47540,7 +46991,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1641c25e273",
@@ -48019,7 +47470,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1641fe37163",
@@ -48345,7 +47796,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16421a6f2e5",
@@ -48535,7 +47986,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16421dd0f07",
@@ -48725,7 +48176,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16421dd1ac7",
@@ -48765,7 +48216,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16421dd9677",
@@ -48955,7 +48406,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16421dd9ddf",
@@ -48995,7 +48446,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16426495913",
@@ -49067,7 +48518,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164264acb24",
@@ -49141,7 +48592,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164264bc852",
@@ -49183,7 +48634,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642681706e",
@@ -49257,7 +48708,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642681758e",
@@ -49299,7 +48750,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164268f2b50",
@@ -49373,7 +48824,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164268f9c2c",
@@ -49415,7 +48866,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164288038a1",
@@ -49458,7 +48909,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642c5411bf",
@@ -49501,7 +48952,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642c544f01",
@@ -49573,7 +49024,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642c55012a",
@@ -49662,7 +49113,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642c5505c7",
@@ -49704,7 +49155,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642fce9783",
@@ -49893,7 +49344,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1642fd53a4d",
@@ -50112,7 +49563,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643524850c",
@@ -50483,7 +49934,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643b3e6abb",
@@ -50615,7 +50066,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16439d4774b",
@@ -50672,7 +50123,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643c329d58",
@@ -50714,7 +50165,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643cc6830e",
@@ -51115,7 +50566,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643cf6225d",
@@ -51247,7 +50698,7 @@
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643fd0eae0",
@@ -51290,7 +50741,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16445283c81",
@@ -51331,7 +50782,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643ef819d9",
@@ -51513,7 +50964,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643f851f42",
@@ -51693,7 +51144,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1643fa838fe",
@@ -51768,7 +51219,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16441e4dd33",
@@ -52061,7 +51512,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16445056fe8",
@@ -52145,7 +51596,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16445070079",
@@ -52498,7 +51949,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164450f5dfc",
@@ -52627,7 +52078,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644693c7db",
@@ -52756,7 +52207,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16446b6f66d",
@@ -52831,7 +52282,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164496f7d09",
@@ -52993,7 +52444,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164496ff134",
@@ -53060,7 +52511,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644adf757f",
@@ -53209,7 +52660,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16449080b74",
@@ -53250,7 +52701,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164496357b8",
@@ -53291,7 +52742,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644af95670",
@@ -53366,7 +52817,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644bc31c05",
@@ -53406,7 +52857,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644f5bf5cf",
@@ -53773,7 +53224,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1644f7c77d6",
@@ -54414,7 +53865,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645134dc4a",
@@ -54456,7 +53907,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645992a8e8",
@@ -54528,7 +53979,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -54554,7 +54005,7 @@
         "nullValueAllowedFields": "",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645e38b730",
@@ -54660,7 +54111,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645e395921",
@@ -54702,7 +54153,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645e3b7812",
@@ -54744,7 +54195,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645e3ca2fa",
@@ -54899,7 +54350,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1645e3d1f82",
@@ -55027,7 +54478,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16460fdc2ea",
@@ -55070,7 +54521,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164643ef550",
@@ -55135,7 +54586,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16464444a26",
@@ -55175,7 +54626,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646457ead0",
@@ -55236,7 +54687,7 @@
         "nullValueAllowedFields": "tags",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16463ee7cad",
@@ -55408,7 +54859,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164647362dd",
@@ -55770,7 +55221,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16464736d5b",
@@ -55814,7 +55265,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16464ef8fd1",
@@ -55936,7 +55387,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16469565b67",
@@ -55978,7 +55429,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646956ea67",
@@ -56332,7 +55783,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164695b3e05",
@@ -56470,7 +55921,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164695cb283",
@@ -56734,7 +56185,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164695d33c7",
@@ -56818,7 +56269,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164695d940a",
@@ -57100,7 +56551,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164695e68d1",
@@ -57249,7 +56700,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16469805bbb",
@@ -57313,7 +56764,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646980662c",
@@ -57566,7 +57017,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16469990b58",
@@ -57761,7 +57212,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646aa864c4",
@@ -59511,7 +58962,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646acf088f",
@@ -59844,7 +59295,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "1646adb4e03",
@@ -60228,7 +59679,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164702eb88c",
@@ -60326,7 +59777,7 @@
         "nullValueAllowedFields": "",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16473493daf",
@@ -60591,7 +60042,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164734a2c7b",
@@ -60631,7 +60082,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16474f71da3",
@@ -60763,7 +60214,7 @@
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16474f72414",
@@ -60895,7 +60346,7 @@
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16475254c44",
@@ -60935,7 +60386,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164e5a8777c",
@@ -61051,7 +60502,7 @@
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164e5b27779",
@@ -61185,7 +60636,7 @@
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164ef232afd",
@@ -61350,7 +60801,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164ef3a29bd",
@@ -61462,7 +60913,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164f0d78c26",
@@ -61502,7 +60953,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164fdf3c370",
@@ -61542,7 +60993,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "164fdf4210e",
@@ -61723,7 +61174,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "165243a69b2",
@@ -61930,7 +61381,7 @@
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16524c6b3dc",
@@ -62453,7 +61904,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16527b473ad",
@@ -62585,7 +62036,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": false,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "16531768cbe",
@@ -62678,7 +62129,7 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": false
+        "removeBorder": false
       },
       {
         "id": "165553650bd",
@@ -62984,7 +62435,140 @@
         "actionPanelColumnCount": 0,
         "smallEditor": true,
         "addToParentContext": false,
-        "hasFieldBorder": true
+        "removeBorder": false
+      },
+      {
+        "id": "165c2a4b23a",
+        "name": "项目实际成本",
+        "layout": [
+          {
+            "id": "162ec7aed97",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 1,
+            "horizontalSpacing": 0,
+            "verticalSpacing": 0,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": false,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "165c2b953c3",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "cbssubject"
+              }
+            ]
+          }
+        ],
+        "type": "sticker",
+        "stickerTitle": "项目实际成本（人民币万元）",
+        "folderId": "16390fab944",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false
+      },
+      {
+        "id": "165c2b953c3",
+        "name": "项目科目实际成本",
+        "title": "",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.cbs.assembly.CostSubject",
+        "layout": [],
+        "folderId": "16390fab944",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "165340adb64",
+            "name": "编辑",
+            "text": "编辑",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.cbs.action.EditCBSSubjectBudget",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "type": "customized"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false
       }
     ]
   },

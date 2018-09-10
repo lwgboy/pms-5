@@ -61,9 +61,9 @@ public class SubmitCBSSubjectCostACT {
 			// cal.add(Calendar.MILLISECOND, -1);
 
 			if (MessageDialog.openConfirm(brui.getCurrentShell(), "确认期间成本",
-					"请确认提交当前期间（" + cal.get(Calendar.YEAR) + "年"
+					"请确认当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月"
-							+ "）的成本。\n提交后将无法修改该期间的成本数据。")) {
+							+ "）的成本。<br>提交后将无法修改该期间的成本数据。")) {
 				List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cal.getTime(),
 						cbsItem.getScope_id());
 				if (result.isEmpty()) {

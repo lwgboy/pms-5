@@ -11,6 +11,7 @@ import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderColumnHeader;
@@ -28,6 +29,7 @@ import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
+import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
 public class ReportItemRender extends GridPartDefaultRender {
@@ -57,6 +59,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 						item.setStatement(id.getValue());
 						viewer.refresh();
 					}
+				} else if (e.text.startsWith("openStatement/")) {
+					Util.notEmptyOrNull(item.getStatement(), h -> Layer.alert("完成情况", h, 420, 240));
 				} else if (e.text.startsWith("editProblems/")) {
 					String initialValue = item.getProblems();
 					InputDialog id = new InputDialog(brui.getCurrentShell(), "存在问题", "请输入工作存在问题", initialValue, null)
@@ -68,6 +72,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 						item.setProblems(id.getValue());
 						viewer.refresh();
 					}
+				} else if (e.text.startsWith("openProblems/")) {
+					Util.notEmptyOrNull(item.getProblems(), h -> Layer.alert("存在问题", h, 420, 240));
 				} else if (e.text.startsWith("editPMRemark/")) {
 					String initialValue = item.getPmRemark();
 					InputDialog id = new InputDialog(brui.getCurrentShell(), "批注", "请输入工作批注", initialValue, null)
@@ -79,6 +85,8 @@ public class ReportItemRender extends GridPartDefaultRender {
 						item.setPmRemark(id.getValue());
 						viewer.refresh();
 					}
+				} else if (e.text.startsWith("openPMRemark/")) {
+					Util.notEmptyOrNull(item.getPmRemark(), h -> Layer.alert("批注", h, 420, 240));
 				} else if (e.text.startsWith("editResourceActual/")) {
 					ResourceTransfer rt = new ResourceTransfer();
 					Work work = ((WorkReportItem) item).getWork();
@@ -100,7 +108,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 					}
 					if (actualFinish != null && periodTo.after(actualFinish))
 						periodTo = actualFinish;
-					
+
 					rt.setFrom(periodForm);
 					rt.setTo(periodTo);
 					rt.addWorkIds(work.get_id());
@@ -157,6 +165,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 		// 表格行高120，减去上下两个8px
 		sb.append("<div style='height:104px;display:block;'>");
 
+		String content = Optional.ofNullable(ri.getPmRemark()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
 				+ "white-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
@@ -165,11 +174,16 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "display: -webkit-box;"//
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
-				+ "'>" + Optional.ofNullable(ri.getPmRemark()).orElse("") + "</div>");
+				+ "'>" + content + "</div>");
+
 		if (!ri.isConfirmed() && ri.getPMId().contains(brui.getCurrentUserId())) {
 			sb.append(
 					"<a href='editPMRemark/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
+		} else if (!content.isEmpty()) {
+			sb.append(
+					"<a href='openPMRemark/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+							+ "<i class='layui-icon  layui-icon-layer'></i>" + "</button></a>");
 		}
 
 		sb.append("</div>");
@@ -181,6 +195,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 		// 表格行高120，减去上下两个8px
 		sb.append("<div style='height:104px;display:block;'>");
 
+		String content = Optional.ofNullable(ri.getProblems()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
 				+ "white-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
@@ -189,11 +204,16 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "display: -webkit-box;"//
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
-				+ "'>" + Optional.ofNullable(ri.getProblems()).orElse("") + "</div>");
+				+ "'>" + content + "</div>");
 		if (canEdit(ri)) {
 			sb.append(
 					"<a href='editProblems/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
+		} else if (!content.isEmpty()) {
+			sb.append(
+					"<a href='openProblems/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+							+ "<i class='layui-icon  layui-icon-layer'></i>" + "</button></a>");
+
 		}
 
 		sb.append("</div>");
@@ -205,6 +225,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 		// 表格行高120，减去上下两个8px
 		sb.append("<div style='height:104px;display:block;'>");
 
+		String content = Optional.ofNullable(ri.getStatement()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
 				+ "white-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
@@ -213,11 +234,15 @@ public class ReportItemRender extends GridPartDefaultRender {
 				+ "display: -webkit-box;"//
 				+ "-webkit-box-orient:vertical;"//
 				+ "-webkit-line-clamp:4;"// 谷歌上行显示省略号
-				+ "'>" + Optional.ofNullable(ri.getStatement()).orElse("") + "</div>");
+				+ "'>" + content + "</div>");
 		if (canEdit(ri)) {
 			sb.append(
 					"<a href='editStatement/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
 							+ "<i class='layui-icon  layui-icon-edit'></i>" + "</button></a>");
+		} else if (!content.isEmpty()) {
+			sb.append(
+					"<a href='openStatement/' target='_rwt'><button class='layui-btn layui-btn-xs layui-btn-primary' style='position:absolute;bottom:0px;right:0px;'>"
+							+ "<i class='layui-icon  layui-icon-layer'></i>" + "</button></a>");
 		}
 
 		sb.append("</div>");
