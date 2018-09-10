@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
@@ -306,60 +305,4 @@ public interface ProjectTemplateService {
 	public List<ProjectTemplate> createEnabledTemplateDataSet(
 			@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
-	@POST
-	@Path("/foldertemplate/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.INSERT)
-	public FolderInTemplate insertFolderInTemplate(@MethodParam(MethodParam.OBJECT) FolderInTemplate folder);
-
-	@DELETE
-	@Path("/foldertemplate/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.DELETE)
-	public long deleteFolderInTemplate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-
-	@GET
-	@Path("/foldertemplate/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.INPUT)
-	public FolderInTemplate getFolderInTemplate(@PathParam("_id") @MethodParam("_id") ObjectId _id);
-
-	@POST
-	@Path("/foldertemplate/_id/{_id}/count/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.COUNT)
-	public long countFolderInTemplate(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
-
-	@POST
-	@Path("/foldertemplate/_id/{_id}/ds/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.LIST)
-	public List<FolderInTemplate> createFolderInTemplateDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
-
-	@PUT
-	@Path("/foldertemplate/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件夹结构/" + DataSet.UPDATE)
-	public long updateFolderInTemplate(BasicDBObject fu);
-
-	@POST
-	@Path("/foldertemplate/child/{parent_id}/ds/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<FolderInTemplate> listChildrenFolderInTemplate(@PathParam("parent_id") ObjectId parent_id);
-
-	@POST
-	@Path("/foldertemplate/child/{parent_id}/count/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long countChildrenFolderInTemplate(@PathParam("parent_id") ObjectId parent_id);
 }

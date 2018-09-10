@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
-import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -392,7 +391,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 		c("workPackage").find(new Document("work_id", new Document("$in", idMap.keySet()))).forEach((Document d) -> {
 			ObjectId newWorkId = idMap.get(d.get("work_id"));
-			d.append("work_id", newWorkId).append("_id", new ObjectId()).remove("chargerId");
+			d.append("work_id", newWorkId).append("workClass", "Work").append("_id", new ObjectId()).remove("chargerId");
 			tobeInsert.add(d);
 		});
 		if (!tobeInsert.isEmpty()) {
@@ -531,56 +530,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		return createDataSet(condition, ProjectTemplate.class);
 	}
 
-	@Override
-	public FolderInTemplate insertFolderInTemplate(FolderInTemplate folder) {
-		return insert(folder, FolderInTemplate.class);
-	}
-
-	@Override
-	public long deleteFolderInTemplate(ObjectId _id) {
-		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "folderInTemplate", "parent_id");
-		return c(FolderInTemplate.class).deleteOne(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)))
-				.getDeletedCount();
-	}
-
-	@Override
-	public FolderInTemplate getFolderInTemplate(ObjectId _id) {
-		return get(_id, FolderInTemplate.class);
-	}
-
-	@Override
-	public long countFolderInTemplate(BasicDBObject filter, ObjectId _id) {
-		if (filter == null)
-			filter = new BasicDBObject();
-		filter.append("template_id", _id);
-		filter.append("parent_id", null);
-		return count(filter, FolderInTemplate.class);
-	}
-
-	@Override
-	public List<FolderInTemplate> createFolderInTemplateDataSet(BasicDBObject condition, ObjectId _id) {
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
-			filter = new BasicDBObject();
-			condition.append("filter", filter);
-		}
-		filter.append("template_id", _id);
-		filter.append("parent_id", null);
-		return createDataSet(condition, FolderInTemplate.class);
-	}
-
 	public long updateFolderInTemplate(BasicDBObject fu) {
 		return update(fu, FolderInTemplate.class);
-	}
-
-	@Override
-	public List<FolderInTemplate> listChildrenFolderInTemplate(ObjectId _id) {
-		return createDataSet(new Query().filter(new BasicDBObject("parent_id", _id)).bson(), FolderInTemplate.class);
-	}
-
-	@Override
-	public long countChildrenFolderInTemplate(ObjectId _id) {
-		return count(new BasicDBObject("parent_id", _id), FolderInTemplate.class);
 	}
 
 	@Override

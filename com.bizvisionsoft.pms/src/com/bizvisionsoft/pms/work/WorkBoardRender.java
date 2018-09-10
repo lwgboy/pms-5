@@ -146,17 +146,21 @@ public class WorkBoardRender {
 					+ "' target='_rwt'><img class='layui-btn layui-btn-normal layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish_w.svg'/></a></div>");
 		}
 
-		sb.append("<div style=''>" + work.getProjectName() + "</div>");
-		sb.append("<div class='label_title'>" + work.getFullName() + "</div>");
-		sb.append("<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div>计划: "
-				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanFinish()));
-		
+		sb.append(
+				"<div style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
+						+ work.getProjectName() + "</div>");
+		sb.append("<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>" + work.getFullName() + "</div>");
+		sb.append(
+				"<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div style='display:inline-flex;'>计划: "
+						+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
+						+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanFinish()));
+
 		String warningIcon = work.getWarningIcon();
 		// 根据warningIcon是否为null，显示其进度状态
-		if (warningIcon != null)
-			sb.append("  " + warningIcon);
-		
+		if (warningIcon != null) {
+			sb.append(warningIcon);
+		}
+
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfoHtml();
 		sb.append("<div style='margin-right:16px;'>负责: "

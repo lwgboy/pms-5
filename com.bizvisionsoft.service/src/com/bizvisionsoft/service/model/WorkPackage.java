@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.tools.Util;
 @PersistenceCollection("workPackage")
 public class WorkPackage {
 
+
 	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv) {
 		WorkPackage wp = new WorkPackage();
 		wp.work_id = work.get_id();
@@ -31,8 +32,13 @@ public class WorkPackage {
 			wp.catagory = tv.getCatagory();
 			wp.name = tv.getName();
 		}
+		wp.workClass = work.getClass().getSimpleName();
 		return wp;
 	}
+
+	@ReadValue
+	@WriteValue
+	private String workClass;
 
 	@ReadValue
 	@WriteValue

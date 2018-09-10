@@ -1,5 +1,7 @@
 package com.bizvisionsoft.pms.filecabinet;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -14,7 +16,9 @@ import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
+import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -25,18 +29,29 @@ public class CreateDocuOfPackageACT {
 
 	@Execute
 	public void execute(final @MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+		Object root = context.getRootInput();
 		WorkPackage wp = (WorkPackage) context.getInput();
-		ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id());
-		// 选择文件夹
-
-		Selector.open("项目文件夹选择", context, new Project().set_id(project_id), em -> {
-			Docu docu = new Docu().setCreationInfo(brui.operationInfo()).addWorkPackageId(wp.get_id())
-					.setFolder_id(((Folder) em.get(0)).get_id()).setName(wp.description);
-			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
-				((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocument(t));
+		if (root instanceof ProjectTemplate) {
+			Selector.open("项目模板文件夹选择", context, root, em -> {
+				create(context, wp, em,true,((FolderInTemplate) em.get(0)).get_id());
 			});
-		});
 
+		} else {
+			ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id());
+			// 选择文件夹
+			Selector.open("项目文件夹选择", context, new Project().set_id(project_id), em -> {
+				create(context, wp, em,false,((Folder) em.get(0)).get_id());
+			});
+		}
+
+	}
+
+	private void create(final IBruiContext context, WorkPackage wp, List<Object> em, boolean template, ObjectId folder_id) {
+		Docu docu = new Docu().setCreationInfo(brui.operationInfo()).addWorkPackageId(wp.get_id())
+				.setFolder_id(folder_id).setName(wp.description).setTemplate(template);
+		Editor.open("通用文档编辑器", context, docu, (r, t) -> {
+			((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocument(t));
+		});
 	}
 
 }
