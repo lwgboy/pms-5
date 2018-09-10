@@ -20,7 +20,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
-public abstract class CostGrid extends GridPart {
+public abstract class CBSGrid extends GridPart {
 
 	@Override
 	protected GridTreeViewer createGridViewer(Composite parent) {

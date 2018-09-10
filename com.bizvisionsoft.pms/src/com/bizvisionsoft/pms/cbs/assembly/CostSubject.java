@@ -30,7 +30,7 @@ import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CostSubject extends CostGrid {
+public class CostSubject extends CBSGrid {
 
 	@Inject
 	private BruiAssemblyContext context;
