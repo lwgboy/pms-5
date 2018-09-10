@@ -217,7 +217,8 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 				try {
 					double d = Util.getDoubleInput((String) value);
 					CBSSubject subject = new CBSSubject().setCBSItem_id(cbsItem.get_id())
-							.setSubjectNumber(((AccountItem) element).getId()).setId(id).setBudget(d);
+							.setSubjectNumber(((AccountItem) element).getId()).setId(id);
+					setAmount(subject,d);
 					updateCBSSubjectAmount(subject);
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
@@ -241,5 +242,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 			}
 		};
 	}
+
+	protected abstract void setAmount(CBSSubject subject, double amount);
 
 }

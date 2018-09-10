@@ -41,4 +41,9 @@ public class BudgetSubject extends CBSSubjectGrid {
 	protected CBSSubject getUpsertedCBSSubject(CBSSubject subject) {
 		return Services.get(CBSService.class).upsertCBSSubjectBudget(subject);
 	}
+
+	@Override
+	protected void setAmount(CBSSubject subject, double amount) {
+		subject.setBudget(amount);
+	}
 }

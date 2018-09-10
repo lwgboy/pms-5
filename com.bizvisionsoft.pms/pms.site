@@ -380,7 +380,7 @@
             "id": "16401ec48a9"
           }
         ],
-        "name": "阶段",
+        "name": "阶段-Deprecated",
         "id": "1631ac2c36a"
       },
       {
@@ -37309,6 +37309,24 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "fields": [
+          {
+            "id": "165c2eb82b9",
+            "name": "period",
+            "text": "期间",
+            "type": "日期时间选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "dateType": "yearMonth",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
           {
             "id": "162c46185f6",
             "name": "cost",
