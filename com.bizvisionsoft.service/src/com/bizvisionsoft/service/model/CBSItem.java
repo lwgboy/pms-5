@@ -166,7 +166,7 @@ public class CBSItem {
 	@Exclude
 	private List<AccountItem> subjects;
 
-	@Structure({ "项目科目资金计划/list", "项目科目资金计划（查看）/list" })
+	@Structure({ "项目科目资金计划/list", "项目科目资金计划（查看）/list", "项目科目实际成本/list", "项目科目实际成本（查看）/list" })
 	public List<AccountItem> listSubjects() {
 		if (subjects == null) {
 			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
@@ -174,7 +174,7 @@ public class CBSItem {
 		return subjects;
 	}
 
-	@Structure({ "项目科目资金计划/count", "项目科目资金计划（查看）/count" })
+	@Structure({ "项目科目资金计划/count", "项目科目资金计划（查看）/count", "项目科目实际成本/count", "项目科目实际成本（查看）/count" })
 	public long countSubjects() {
 		if (subjects == null) {
 			return ServicesLoader.get(CommonService.class).countAccoutItemRoot();

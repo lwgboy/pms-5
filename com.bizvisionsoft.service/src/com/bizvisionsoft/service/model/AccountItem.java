@@ -82,7 +82,7 @@ public class AccountItem implements Comparable<AccountItem> {
 		return children.size();
 	}
 
-	@Behavior({ "项目科目资金计划/编辑" })
+	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
 	private boolean behavior() {
 		return countSubAccountItems() == 0;
 	}
@@ -108,7 +108,7 @@ public class AccountItem implements Comparable<AccountItem> {
 	public int compareTo(AccountItem o) {
 		return id.compareTo(o.id);
 	}
-	
+
 	public String getId() {
 		return id;
 	}

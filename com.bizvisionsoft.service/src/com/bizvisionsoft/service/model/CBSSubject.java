@@ -42,7 +42,7 @@ public class CBSSubject {
 	@Exclude
 	private Date[] range;
 
-	@WriteValue("期间预算编辑器/period")
+	@WriteValue({"期间预算编辑器/period","期间成本编辑器/period"})
 	public void writePeriod(Date period) {
 		checkRange(period);
 

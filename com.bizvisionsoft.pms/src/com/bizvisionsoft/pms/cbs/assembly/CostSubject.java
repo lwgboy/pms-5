@@ -11,13 +11,14 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class BudgetSubject extends CBSSubjectGrid {
+public class CostSubject extends CBSSubjectGrid {
 
 	@Inject
 	private BruiAssemblyContext context;
 
 	@Inject
 	private IBruiService bruiService;
+
 
 	@Init
 	public void init() {
@@ -34,11 +35,13 @@ public class BudgetSubject extends CBSSubjectGrid {
 
 	@Override
 	protected Double getAmount(CBSSubject u) {
-		return u.getBudget();
+		return u.getCost();
 	}
 
 	@Override
 	protected CBSSubject getUpsertedCBSSubject(CBSSubject subject) {
-		return Services.get(CBSService.class).upsertCBSSubjectBudget(subject);
+		return Services.get(CBSService.class).upsertCBSSubjectCost(subject);
 	}
+
+
 }

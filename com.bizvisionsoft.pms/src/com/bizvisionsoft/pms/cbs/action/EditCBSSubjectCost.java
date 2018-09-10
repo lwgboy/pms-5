@@ -7,7 +7,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.util.Util;
-import com.bizvisionsoft.pms.cbs.assembly.BudgetSubject;
+import com.bizvisionsoft.pms.cbs.assembly.CostSubject;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubject;
@@ -16,7 +16,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 
 @Deprecated
-public class EditCBSSubjectBudget {
+public class EditCBSSubjectCost {
 
 	@Inject
 	private IBruiService bruiService;
@@ -39,8 +39,8 @@ public class EditCBSSubjectBudget {
 
 			Util.ifInstanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
-			Editor.create("期间预算编辑器", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
-				BudgetSubject grid = (BudgetSubject) context.getContent();
+			Editor.create("期间成本编辑器", context, period, true).setTitle("编辑科目期间成本").ok((r, o) -> {
+				CostSubject grid = (CostSubject) context.getContent();
 				grid.updateCBSSubjectAmount(o);
 			});
 
