@@ -36,12 +36,13 @@ public class SelectOA {
 		//OA流程选择器   用户选择器
 		new Selector(br.getAssembly("OA流程选择器"), context).setTitle("选择需要关联的流程").open(r -> {
 			Document row = (Document)r.get(0);
-			String inst_ID = row.getString("INST_ID");
+			String inst_ID = row.get("INST_ID").toString();
 			
 			List instList = (List) tv.getParameter("WF_INSTS");
 			if(null == instList) {
 				instList = new BasicDBList();
-			}else if(!instList.contains(inst_ID)) {
+			}
+			if(!instList.contains(inst_ID)) {
 				instList.add(inst_ID);
 			}
 			
@@ -54,7 +55,7 @@ public class SelectOA {
 							.bson());
 			//////////////////////////////////////////////////
 			// 刷新表格
-//			tv.setParameter("so_num", so_num);
+			tv.setParameter("WF_INSTS", instList);
 			GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-OA流程").getContent();
 			grid.setViewerInput();
 		});

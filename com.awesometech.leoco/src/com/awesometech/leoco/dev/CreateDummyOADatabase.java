@@ -74,18 +74,18 @@ public class CreateDummyOADatabase {
 			//-------------流程实例表----------------
 			stmt.executeUpdate(
 					"create table V_PMS_wf_inst (id varchar(20), wf_id varchar(20), cur_node_id varchar(20), status varchar(20), inst_name varchar(20), create_date varchar(20), creater varchar(20))");
-			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('IS01','WF01','05,01','1','XXX出差香港申请','2016-09-01 22:11:12','XXX')");
-			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('IS02','WF01','10','1','XXX出差深圳申请','2017-02-07 08:13:00','XXX')");
-			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('IS03','WF01','01,08','1','XXX出差北京申请','2018-11-11 15:12:00','XXX')");
+			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000001','WF01','05,01','1','XXX出差香港申请','2016-09-01 22:11:12','XXX')");
+			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000002','WF01','10','1','XXX出差深圳申请','2017-02-07 08:13:00','XXX')");
+			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000003','WF01','01,08','1','XXX出差北京申请','2018-11-11 15:12:00','XXX')");
 			
 			//----------流程活动日志---------------
 			stmt.executeUpdate(
 					"create table V_PMS_wf_log (inst_id varchar(20), node_id varchar(20),node_name varchar(20),opr_dat varchar(20),operator varchar(20),lastname varchar(20),tgt varchar(20),comment varchar(20))");
-			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('IS01','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
-			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('IS01','02','审核','2016-09-01 22:11:12','XXX','XX','03','完成')");
-			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('IS01','03','校核','2016-09-01 22:11:12','XXX','XX','04','完成')");
-			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('IS02','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
-			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('IS03','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
+			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('0000001','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
+			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('0000001','02','审核','2016-09-01 22:11:12','XXX','XX','03','完成')");
+			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('0000001','03','校核','2016-09-01 22:11:12','XXX','XX','04','完成')");
+			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('0000002','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
+			stmt.executeUpdate("insert into V_PMS_wf_log (inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment) values ('0000003','01','编制','2016-09-01 22:11:12','XXX','XX','02','编制完成')");
 			
 			
 			//-------------流程节点定义表----------------

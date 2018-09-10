@@ -60,8 +60,8 @@ public class OADataset {
 		List instList = (List) view.getParameter("WF_INSTS");
 		
 		Document row = (Document)selected;
-		if(null != row && null != row.getString("INST_ID") && null != instList && instList.contains(row.getString("INST_ID"))) {
-			instList.remove(row.getString("INST_ID"));
+		if(null != row && null != row.get("INST_ID").toString() && null != instList && instList.contains(row.get("INST_ID").toString())) {
+			instList.remove(row.get("INST_ID").toString());
 			Services.get(WorkService.class)
 				.updateWork(new FilterAndUpdate()
 					.filter(new BasicDBObject("_id", work.get_id()).append("workPackageSetting._id",
@@ -124,6 +124,7 @@ public class OADataset {
 			BasicDBObject filter = (BasicDBObject)condition.get("filter");
 			sb.append(filterToSQL(filter));
 		}
+		sb.append(" and inst.status not like '%¹éµµ' and inst.create_date > '2018-00-00'");
 		return sb.toString();
 	}
 

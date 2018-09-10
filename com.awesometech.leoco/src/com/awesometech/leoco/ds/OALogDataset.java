@@ -29,7 +29,7 @@ public class OALogDataset {
 	@DataSet(DataSet.LIST)
 	private List<Document> list() {
 		Document prItem = (Document) context.getInput();
-		String inst_ID = prItem.getString("INST_ID");
+		String inst_ID = prItem.get("INST_ID").toString();
 		List<Document> result = new ArrayList<>();
 		if (inst_ID == null) {
 			return result;
