@@ -71331,6 +71331,5 @@
   "headLogo": "/cust/logo.png",
   "pageBackgroundImageCSS": "brui_blur",
   "headLogoWidth": 170,
-  "headLogoHeight": 86,
-  "ShutDown": "Sep 15, 2018 12:00:00 AM"
+  "headLogoHeight": 86
 }

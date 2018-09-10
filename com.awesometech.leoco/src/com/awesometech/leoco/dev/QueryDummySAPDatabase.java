@@ -20,10 +20,10 @@ public class QueryDummySAPDatabase {
 	@Execute
 	public void execute() {
 		try {
-			new SqlQuery("erp").sql("select * from so").forEach(d->System.out.println(d));
-			new SqlQuery("erp").sql("select * from so_pr").forEach(d->System.out.println(d));
-			new SqlQuery("erp").sql("select * from pr_po").forEach(d->System.out.println(d));
-			new SqlQuery("erp").sql("select * from po_ai").forEach(d->System.out.println(d));
+			new SqlQuery("ecology").sql("select * from V_PMS_PO_IN").forEach(d->System.out.println(d));
+			new SqlQuery("ecology").sql("select * from V_PMS_SO_PR").forEach(d->System.out.println(d));
+			new SqlQuery("ecology").sql("select * from V_PMS_SO").forEach(d->System.out.println(d));
+			new SqlQuery("ecology").sql("select * from V_PMS_PR_PO").forEach(d->System.out.println(d));
 			Layer.message("查询完成，请查看控制台");
 		} catch (Exception e) {
 			Layer.message(e.getMessage(), Layer.ICON_CANCEL);

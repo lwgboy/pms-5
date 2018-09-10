@@ -36,7 +36,7 @@ public class SelectSO {
 				//////////////////////////////////////////
 				// ≤È—ØSO
 				String so_num = id.getValue();
-				Document doc = new SqlQuery("erp").sql("select * from so where so_num='" + so_num + "'").first();
+				Document doc = new SqlQuery("ecology").sql("select * from so where so_num='" + so_num + "'").first();
 				if (doc != null) {
 					String prt_desc = doc.getString("PRT_DESC");
 					String prt_num = doc.getString("PRT_NUM");

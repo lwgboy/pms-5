@@ -37,7 +37,7 @@ public class OALogDataset {
 
 		///////////////////////////////////////////////////////
 		String sql = buildSql(inst_ID);
-		new SqlQuery("oa").sql(sql).forEach(d -> {
+		new SqlQuery("ecology").sql(sql).forEach(d -> {
 			result.add(d);
 		});
 
@@ -46,7 +46,7 @@ public class OALogDataset {
 
 	private String buildSql(String inst_id) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment from wf_log " );
+		sb.append("select inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment from V_PMS_wf_log " );
 		sb.append(" where inst_id = '" + inst_id + "'");
 		return sb.toString();
 	}

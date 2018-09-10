@@ -45,7 +45,7 @@ public class OADataset {
 
 		///////////////////////////////////////////////////////
 		String sql = buildSql(instList);
-		new SqlQuery("oa").sql(sql).forEach(d -> {
+		new SqlQuery("ecology").sql(sql).forEach(d -> {
 			result.add(d);
 		});
 
@@ -81,7 +81,7 @@ public class OADataset {
 
 	private String buildSql(List instList) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  wf wf,wf_inst inst " );
+		sb.append("select inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  V_PMS_wf wf,V_PMS_wf_inst inst " );
 		sb.append(" where wf.id = inst.wf_id ");
 		sb.append(" and inst.id in ('" + StringUtils.join(instList.toArray(), "','") + "')");
 		return sb.toString();
@@ -102,7 +102,7 @@ public class OADataset {
 			return result;
 		}
 		String sql = buildSelectSql(condition);
-		new SqlQuery("oa").sql(sql).forEach(d -> {
+		new SqlQuery("ecology").sql(sql).forEach(d -> {
 			result.add(d);
 		});
 
@@ -118,7 +118,7 @@ public class OADataset {
 	private String buildSelectSql( BasicDBObject condition) {
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("select  inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  wf wf,wf_inst inst " );
+		sb.append("select  inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  V_PMS_wf wf,V_PMS_wf_inst inst " );
 		sb.append(" where wf.id = inst.wf_id ");
 		if(null != condition && null != condition.get("filter")) {
 			BasicDBObject filter = (BasicDBObject)condition.get("filter");

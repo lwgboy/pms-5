@@ -25,7 +25,7 @@ public class WFDataset {
 		Document prItem = (Document) context.getInput();
 		String inst_ID = prItem.getString("INST_ID");
 		List<String> curNodeList  = new ArrayList<String>();
-		new SqlQuery("oa").sql("select cur_node_id as CURRENTNODE from wf_inst where id = '" + inst_ID + "'").forEach(d -> {
+		new SqlQuery("ecology").sql("select cur_node_id as CURRENTNODE from V_PMS_wf_inst where id = '" + inst_ID + "'").forEach(d -> {
 			if( null != d.getString("CURRENTNODE") && !"".equals(d.getString("CURRENTNODE"))) {
 				String curNodes = d.getString("CURRENTNODE");
 				Arrays.asList(curNodes.split(",")).forEach(n -> {
@@ -35,7 +35,7 @@ public class WFDataset {
 		});
 		
 		List<Document> list = new ArrayList<Document>();
-		new SqlQuery("oa").sql("select inst.wf_id ,node.id as id,node.text as text,'ffffff' as foreground  from wf_node node,wf_inst inst where node.wf_id = inst.wf_id and inst.id = '" + inst_ID + "' ")
+		new SqlQuery("ecology").sql("select inst.wf_id ,node.id as id,node.text as text,'ffffff' as foreground  from V_PMS_wf_node node,V_PMS_wf_inst inst where node.wf_id = inst.wf_id and inst.id = '" + inst_ID + "' ")
 			.changeKeyCase(true).forEach(n -> {
 			List curList = curNodeList;
 			if(null != n.getString("id") && curList.contains(n.getString("id"))) {
@@ -52,7 +52,7 @@ public class WFDataset {
 	private List<Document> links() {
 		Document prItem = (Document) context.getInput();
 		String inst_ID = prItem.getString("INST_ID");
-		return new SqlQuery("oa").sql("select inst.wf_id as WF_ID, link.src as SRC, link.tgt as TGT from wf_link link,wf_inst inst where inst.wf_id = link.wf_id and inst.id = '" + inst_ID + "'").changeKeyCase(true)
+		return new SqlQuery("ecology").sql("select inst.wf_id as WF_ID, link.src as SRC, link.tgt as TGT from V_PMS_wf_link link,V_PMS_wf_inst inst where inst.wf_id = link.wf_id and inst.id = '" + inst_ID + "'").changeKeyCase(true)
 				.into(new ArrayList<>());
 	}
 
