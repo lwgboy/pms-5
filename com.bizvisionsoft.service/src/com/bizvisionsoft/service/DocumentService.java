@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
@@ -63,7 +64,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Folder> listChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
-	
+
 	@POST
 	@Path("/folderTemplate/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -75,13 +76,12 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
-	
+
 	@POST
 	@Path("/folderTemplate/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
-
 
 	@DELETE
 	@Path("/folder/_id/{_id}")
@@ -106,7 +106,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public boolean renameProjectTemplateFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
-	
+
 	@POST
 	@Path("/docu/")
 	@Consumes("application/json; charset=UTF-8")
@@ -172,7 +172,36 @@ public interface DocumentService {
 	@Path("/docu/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目档案库文件列表/" + DataSet.COUNT, "项目档案库文件列表（查看）/" + DataSet.COUNT })
+	@DataSet("项目档案库文件列表/" + DataSet.COUNT)
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/docuT/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文档模板/" + DataSet.LIST)
+	public List<DocuTemplate> listDocumentTemplates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/docuT/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文档模板/" + DataSet.INSERT)
+	public DocuTemplate insertDocumentTemplate(@MethodParam(MethodParam.OBJECT) DocuTemplate docuT);
+
+	@DELETE
+	@Path("/docuT/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文档模板/" + DataSet.DELETE)
+	public long deleteDocumentTemplate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/docuT/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文档模板/" + DataSet.UPDATE)
+	public long updateDocumentTemplate(BasicDBObject fu);
 }

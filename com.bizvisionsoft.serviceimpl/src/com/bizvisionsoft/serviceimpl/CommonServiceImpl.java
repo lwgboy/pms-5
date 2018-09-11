@@ -674,8 +674,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
 		createUniqueIndex("accountIncome", new Document("id", 1), "id");
 		
-		createIndex("docuTemplate", new Document("id", 1), "id");
-
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {

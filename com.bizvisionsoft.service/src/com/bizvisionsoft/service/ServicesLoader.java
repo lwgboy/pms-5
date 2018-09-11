@@ -33,5 +33,9 @@ public class ServicesLoader implements BundleActivator {
 			references.add(reference);
 		return bundleContext.getService(reference);
 	}
+	
+	public static BundleContext getBundleContext() {
+		return bundleContext;
+	}
 
 }

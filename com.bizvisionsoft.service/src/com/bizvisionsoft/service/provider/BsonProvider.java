@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -22,6 +24,8 @@ import javax.ws.rs.ext.Provider;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.UniversalResult;
+import com.bizvisionsoft.service.ServicesLoader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
@@ -63,7 +67,6 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 		} else {
 			json = getGson().toJson(object, genericType);
 		}
-
 		try (OutputStream stream = entityStream) {
 			entityStream.write(json.getBytes("utf-8"));
 			entityStream.flush();
@@ -75,15 +78,48 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 			throws IOException, WebApplicationException {
 		try (InputStreamReader reader = new InputStreamReader(entityStream, "UTF-8")) {
-			if (type.equals(genericType)) {
-				return getGson().fromJson(reader, type);
+			if (type.equals(UniversalResult.class)) {
+				UniversalResult ur = getGson().fromJson(reader, UniversalResult.class);
+				String className = ur.getTargetClassName();
+				try {
+					Class<?> clazz = (Class<?>) ServicesLoader.getBundleContext().getBundle().loadClass(className);
+					if(ur.isList()) {
+						 ParameterizedType rpt = new ParameterizedType() {
+			                    @Override
+			                    public Type[] getActualTypeArguments() {
+			                        return new Type[] {clazz};
+			                    }
+			                    @Override
+			                    public Type getRawType() {
+			                        return ArrayList.class;
+			                    }
+			                    @Override
+			                    public Type getOwnerType() {
+			                        return null;
+			                    }
+			                };
+			                ur.setValue( getGson().fromJson(ur.getResult(), rpt));
+			                return (T) ur;
+					}else {
+						return (T) getGson().fromJson(ur.getResult(), clazz);
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
 			} else {
-				return getGson().fromJson(reader, genericType);
+				if (type.equals(genericType)) {
+					return getGson().fromJson(reader, type);
+				} else {
+					return getGson().fromJson(reader, genericType);
+				}
 			}
 		}
 	}

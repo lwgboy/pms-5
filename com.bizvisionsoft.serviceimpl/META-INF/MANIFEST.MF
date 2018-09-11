@@ -11,7 +11,8 @@ Require-Bundle: com.bizvisionsoft.mongocodex;bundle-version="1.0.0",
  com.eclipsesource.jaxrs.jersey-all;bundle-version="2.22.2",
  com.bizvisionsoft.service;bundle-version="1.0.0",
  com.bizvisionsoft.annotations;bundle-version="1.0.0",
- com.bizvisionsoft.math
+ com.bizvisionsoft.math,
+ com.google.gson
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
 Export-Package: com.bizvisionsoft.serviceimpl
