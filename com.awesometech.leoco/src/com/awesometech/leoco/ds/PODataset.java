@@ -24,7 +24,7 @@ public class PODataset {
 		Document prItem = (Document) context.getInput();
 		String pr_num = prItem.getString("PR_NUM");
 		String pr_idx = prItem.getString("PR_IDX");
-		return new SqlQuery("erp").sql("select * from pr_po where pr_num='" + pr_num + "' and pr_idx='"+pr_idx+"'").into(new ArrayList<>());
+		return new SqlQuery("ecology").sql("select * from V_PMS_PR_PO where pr_num='" + pr_num + "' and pr_idx='"+pr_idx+"'").into(new ArrayList<>());
 	}
 
 }

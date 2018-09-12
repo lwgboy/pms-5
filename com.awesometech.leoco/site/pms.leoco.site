@@ -21793,20 +21793,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "165a77238e0",
-            "name": "查看流程",
-            "text": "查看流程",
-            "switchContentToAssemblyId": "165a770e119",
-            "openContent": true,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "switch"
           }
         ],
         "rowActions": [
@@ -70960,7 +70946,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridDataSetBundleId": "com.awesometech.leoco",
-        "gridDataSetClassName": "com.awesometech.leoco.ds.OASelectDataset",
+        "gridDataSetClassName": "com.awesometech.leoco.ds.OADataset",
         "gridPageCount": 0,
         "columns": [
           {
@@ -71124,6 +71110,7 @@
                 "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
+                "textQueryType": "字符串",
                 "height": 0,
                 "staticContent": false,
                 "grabVertical": false
@@ -71135,12 +71122,15 @@
                 "type": "下拉选择框（查询）",
                 "formFields": [],
                 "hasInfoLabel": false,
+                "tooltips": "",
                 "textPasswordStyle": false,
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
+                "optionText": "费用相关#服务支持#人事管理#资产管理#公文管理#合同管理#考勤相关#文档审批#HR流程#培训流程#业务流程#采购流程#工程流程#PM流程#生产流程#生管流程#品保流程#财务流程#资讯流程#货仓流程#管理课流程",
                 "maxFileSize": 0,
                 "timeLimit": 0,
+                "textQueryType": "字符串",
                 "height": 0,
                 "staticContent": false,
                 "grabVertical": false
