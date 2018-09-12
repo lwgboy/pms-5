@@ -2,15 +2,20 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
+import java.util.Optional;
 
 import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
 import org.bson.conversions.Bson;
+import org.bson.json.JsonReader;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.UniversalCommand;
 import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.mongocodex.codec.Codex;
+import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UniversalDataService;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
@@ -23,27 +28,24 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 public class UniversalDataServiceImpl extends BasicServiceImpl implements UniversalDataService {
 
 	@Override
 	public UniversalResult list(UniversalCommand command) {
-		Map<?, ?> mCondition = (Map<?, ?>) command.getParameter("condition");
-		Integer skip = (Integer) mCondition.get("skip");
-		Integer limit = (Integer) mCondition.get("limit");
-		Map<?, ?> mFilter = (Map<?, ?>) mCondition.get("filter");
-		Map<?, ?> mSort = (Map<?, ?>) mCondition.get("sort");
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		if (mFilter != null) {
-			BasicDBObject filter = new BasicDBObject();
-			filter.putAll(mFilter);
+
+		Integer skip = command.getParameter("condition.skip", Integer.class);
+		Integer limit = command.getParameter("condition.limit", Integer.class);
+		Document filter = command.getParameter("condition.filter", Document.class);
+		Document sort = command.getParameter("condition.sort", Document.class);
+
+		if (filter != null && !filter.isEmpty())
 			pipeline.add(Aggregates.match(filter));
-		}
-		if (mSort != null) {
-			BasicDBObject sort = new BasicDBObject();
-			sort.putAll(mSort);
+		if (sort != null && !sort.isEmpty())
 			pipeline.add(Aggregates.sort(sort));
-		}
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
 		if (limit != null)
@@ -59,52 +61,102 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	}
 
 	private MongoCollection<Document> col(String className) {
+		Class<?> clazz = getClass(className);
+		String col = clazz.getAnnotation(PersistenceCollection.class).value();
+		return c(col);
+	}
+
+	private Class<?> getClass(String className) {
 		try {
-			Class<?> clazz = ServicesLoader.getBundleContext().getBundle().loadClass(className);
-			String col = clazz.getAnnotation(PersistenceCollection.class).value();
-			return c(col);
+			return ServicesLoader.getBundleContext().getBundle().loadClass(className);
 		} catch (ClassNotFoundException e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
-	public UniversalResult conut(UniversalCommand command) {
+	public UniversalResult count(UniversalCommand command) {
 		String className = command.getTargetClassName();
-		Map<?, ?> mFilter = (Map<?, ?>) command.getParameter("filter");
-		BasicDBObject filter = new BasicDBObject();
-		if (mFilter != null) {
-			filter.putAll(mFilter);
-		}
-		long result = col(className).countDocuments(filter);
+		long result = Optional.ofNullable(command.getParameter("filter", Document.class))
+				.map(f -> col(className).countDocuments(f)).orElse(col(className).countDocuments());
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult("" + result);
 		uResult.setTargetClassName(Long.class.getName());
-		uResult.setList(true);
 		return uResult;
 	}
 
 	@Override
 	public UniversalResult insert(UniversalCommand command) {
-		// TODO Auto-generated method stub
+		Document document = command.getParameter("object", Document.class);
+		String className = command.getTargetClassName();
+		return insert(document, className);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> UniversalResult insert(Document document, String className) {
+		Class<T> clazz = (Class<T>) getClass(className);
+		Codec<T> codec = CodexProvider.getRegistry().get(clazz);
+		if (codec instanceof Codex) {
+			Codex<T> codex = (Codex<T>) codec;
+			try {
+				T obj = clazz.newInstance();
+				codex.decode(obj, new JsonReader(document.toJson()), DecoderContext.builder().build());
+				c(clazz).insertOne(obj);
+				UniversalResult uResult = new UniversalResult();
+				uResult.setResult(getGson().toJson(obj));
+				uResult.setTargetClassName(className);
+				uResult.setList(false);
+				return uResult;
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public UniversalResult delete(UniversalCommand command) {
-		// TODO Auto-generated method stub
+		String sid = command.getParameter("_id.$oid", String.class);
+		if (sid != null) {
+			ObjectId _id = new ObjectId(sid);
+			String className = command.getTargetClassName();
+			DeleteResult r = col(className).deleteOne(new Document("_id", _id));
+			UniversalResult uResult = new UniversalResult();
+			uResult.setResult("" + r.getDeletedCount());
+			uResult.setTargetClassName(Long.class.getName());
+			uResult.setList(false);
+			return uResult;
+		}
 		return null;
 	}
 
 	@Override
 	public UniversalResult update(UniversalCommand command) {
-		// TODO Auto-generated method stub
-		return null;
+		Document filter = command.getParameter("filter_and_update.filter", Document.class);
+		Document update = command.getParameter("filter_and_update.update", Document.class);
+		String className = command.getTargetClassName();
+		UpdateResult r = col(className).updateMany(filter, update);
+		UniversalResult uResult = new UniversalResult();
+		uResult.setResult("" + r.getModifiedCount());
+		uResult.setTargetClassName(Long.class.getName());
+		return uResult;
 	}
 
 	@Override
 	public UniversalResult get(UniversalCommand command) {
-		// TODO Auto-generated method stub
+		String sid = command.getParameter("_id.$oid", String.class);
+		if (sid != null) {
+			ObjectId _id = new ObjectId(sid);
+			String className = command.getTargetClassName();
+			Document document = col(className).find(new Document("_id", _id)).first();
+			UniversalResult uResult = new UniversalResult();
+			uResult.setResult(getGson().toJson(document));
+			uResult.setTargetClassName(className);
+			uResult.setList(false);
+			return uResult;
+		}
 		return null;
 	}
 

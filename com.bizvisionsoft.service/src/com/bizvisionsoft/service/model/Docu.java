@@ -73,6 +73,8 @@ public class Docu {
 	@WriteValue
 	private List<ObjectId> workPackage_id;
 
+	@ReadValue
+	@WriteValue
 	private OperationInfo creationInfo;
 	
 	@ReadValue("createOn")

@@ -78,42 +78,13 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 			throws IOException, WebApplicationException {
 		try (InputStreamReader reader = new InputStreamReader(entityStream, "UTF-8")) {
 			if (type.equals(UniversalResult.class)) {
-				UniversalResult ur = getGson().fromJson(reader, UniversalResult.class);
-				String className = ur.getTargetClassName();
-				try {
-					Class<?> clazz = (Class<?>) ServicesLoader.getBundleContext().getBundle().loadClass(className);
-					if(ur.isList()) {
-						 ParameterizedType rpt = new ParameterizedType() {
-			                    @Override
-			                    public Type[] getActualTypeArguments() {
-			                        return new Type[] {clazz};
-			                    }
-			                    @Override
-			                    public Type getRawType() {
-			                        return ArrayList.class;
-			                    }
-			                    @Override
-			                    public Type getOwnerType() {
-			                        return null;
-			                    }
-			                };
-			                ur.setValue( getGson().fromJson(ur.getResult(), rpt));
-			                return (T) ur;
-					}else {
-						return (T) getGson().fromJson(ur.getResult(), clazz);
-					}
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return null;
+				return readFromResult(reader);
 			} else {
 				if (type.equals(genericType)) {
 					return getGson().fromJson(reader, type);
@@ -122,6 +93,43 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 				}
 			}
 		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private T readFromResult(InputStreamReader reader) {
+		UniversalResult ur = getGson().fromJson(reader, UniversalResult.class);
+		String className = ur.getTargetClassName();
+		try {
+			Class<?> clazz = (Class<?>) ServicesLoader.getBundleContext().getBundle().loadClass(className);
+			if (ur.isList()) {
+				ParameterizedType rpt = new ParameterizedType() {
+					@Override
+					public Type[] getActualTypeArguments() {
+						return new Type[] { clazz };
+					}
+
+					@Override
+					public Type getRawType() {
+						return ArrayList.class;
+					}
+
+					@Override
+					public Type getOwnerType() {
+						return null;
+					}
+				};
+				ur.setValue(getGson().fromJson(ur.getResult(), rpt));
+				return (T) ur;
+			} else {
+				ur.setValue(getGson().fromJson(ur.getResult(), clazz));
+				return (T) ur;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

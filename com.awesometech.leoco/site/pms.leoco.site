@@ -71536,7 +71536,7 @@
         "name": "文档模板",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "交付文档",
+        "stickerTitle": "文档模板",
         "folderId": "165c65ad203",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -71551,7 +71551,7 @@
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
         "gridFix": 0,
-        "gridPageControl": false,
+        "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.UniversalDataService",
         "gridPageCount": 0,
         "columns": [
@@ -71636,11 +71636,52 @@
             "noToggleGridColumnGroup": false
           },
           {
+            "id": "165cc513121",
+            "name": "createOn",
+            "text": "创建",
+            "alignment": 16384,
+            "width": 180,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd HH:mm:ss",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "165cc513303",
+            "name": "createByInfo",
+            "text": "创建者",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
             "id": "165c6989ab0",
             "name": "docuFiles",
             "text": "模板文件",
             "alignment": 16384,
-            "width": 160,
+            "width": 320,
             "minimumWidth": 0,
             "moveable": false,
             "resizeable": true,
@@ -71754,7 +71795,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "customized"
+            "type": "delete"
           }
         ],
         "borderTop": false,
@@ -71773,7 +71814,8 @@
         "smallEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "modelClassName": "com.bizvisionsoft.service.model.DocuTemplate"
       }
     ]
   },

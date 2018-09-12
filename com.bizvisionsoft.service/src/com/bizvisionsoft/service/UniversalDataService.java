@@ -1,9 +1,7 @@
 package com.bizvisionsoft.service;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -29,7 +27,7 @@ public interface UniversalDataService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.COUNT)
-	public UniversalResult conut(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
+	public UniversalResult count(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
 	@Path("/uds/get")
@@ -39,21 +37,21 @@ public interface UniversalDataService {
 	public UniversalResult get(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/")
+	@Path("/uds/insert")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INSERT)
 	public UniversalResult insert(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
-	@DELETE
-	@Path("/uds/{_id}")
+	@POST
+	@Path("/uds/delete")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
 	public UniversalResult delete(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
-	@PUT
-	@Path("/uds/")
+	@POST
+	@Path("/uds/update")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.UPDATE)

@@ -1,6 +1,8 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -59,5 +61,26 @@ public class DocuTemplate {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "ÎÄµµÄ£°å";
+	
+	@ReadValue
+	@WriteValue
+	private OperationInfo creationInfo;
+	
+	@ReadValue("createOn")
+	private Date readCreateOn() {
+		return Optional.ofNullable(creationInfo).map(c->c.date).orElse(null);
+	}
+
+	@ReadValue("createByInfo")
+	private String readCreateByInfo() {
+		return Optional.ofNullable(creationInfo).map(c->c.userName).orElse(null);
+	}
+	
+	@ReadValue("createBy")
+	private String readCreateBy() {
+		return Optional.ofNullable(creationInfo).map(c->c.userId).orElse(null);
+	}
+	
+
 
 }
