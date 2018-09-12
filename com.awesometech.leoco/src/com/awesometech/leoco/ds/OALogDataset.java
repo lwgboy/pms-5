@@ -29,7 +29,7 @@ public class OALogDataset {
 	@DataSet(DataSet.LIST)
 	private List<Document> list() {
 		Document prItem = (Document) context.getInput();
-		String inst_ID = prItem.getString("INST_ID");
+		String inst_ID = prItem.get("INST_ID").toString();
 		List<Document> result = new ArrayList<>();
 		if (inst_ID == null) {
 			return result;
@@ -37,7 +37,7 @@ public class OALogDataset {
 
 		///////////////////////////////////////////////////////
 		String sql = buildSql(inst_ID);
-		new SqlQuery("oa").sql(sql).forEach(d -> {
+		new SqlQuery("ecology").sql(sql).forEach(d -> {
 			result.add(d);
 		});
 
@@ -46,7 +46,7 @@ public class OALogDataset {
 
 	private String buildSql(String inst_id) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment from wf_log " );
+		sb.append("select inst_id,node_id,node_name,opr_dat,operator,lastname,tgt,comment from V_PMS_wf_log " );
 		sb.append(" where inst_id = '" + inst_id + "'");
 		return sb.toString();
 	}

@@ -29,6 +29,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.service.model.RemoteFile;
 
 public class Util {
 
@@ -225,6 +226,8 @@ public class Util {
 				}
 				text += getFormatText(((List<?>) value).get(i), format, locale);
 			}
+		} else if (value instanceof RemoteFile) {
+			text = ((RemoteFile) value).name;
 		} else if (value instanceof Object) {
 			text = Optional.ofNullable(AUtil.readLabel(value)).orElse("");
 		} else {

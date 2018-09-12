@@ -36,10 +36,10 @@ public class SelectSO {
 				//////////////////////////////////////////
 				// 查询SO
 				String so_num = id.getValue();
-				Document doc = new SqlQuery("erp").sql("select * from so where so_num='" + so_num + "'").first();
+				Document doc = new SqlQuery("ecology").sql("select * from V_PMS_SO where so_num='" + so_num + "'").first();
 				if (doc != null) {
-					String prt_desc = doc.getString("PRT_DESC");
-					String prt_num = doc.getString("PRT_NUM");
+					String prt_desc = doc.get("PRT_DESC").toString();
+					String prt_num = doc.get("PRT_NUM").toString();
 					boolean ok = br.confirm("物料追踪设置",
 							"SO：" + so_num + "，包括以下产品：<br>" + prt_desc + " [" + prt_num + "]<br>请确认。");
 					if (ok) {

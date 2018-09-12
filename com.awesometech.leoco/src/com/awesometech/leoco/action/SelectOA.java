@@ -1,5 +1,7 @@
 package com.awesometech.leoco.action;
 
+import java.util.List;
+
 import org.bson.Document;
 import org.eclipse.jface.dialogs.InputDialog;
 
@@ -17,6 +19,7 @@ import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.bizvisionsoft.sqldb.SqlQuery;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 public class SelectOA {
@@ -32,41 +35,31 @@ public class SelectOA {
 		String catagory = tv.getCatagory();
 		//OA流程选择器   用户选择器
 		new Selector(br.getAssembly("OA流程选择器"), context).setTitle("选择需要关联的流程").open(r -> {
+			Document row = (Document)r.get(0);
+			String inst_ID = row.get("INST_ID").toString();
 			
+			List instList = (List) tv.getParameter("WF_INSTS");
+			if(null == instList) {
+				instList = new BasicDBList();
+			}
+			if(!instList.contains(inst_ID)) {
+				instList.add(inst_ID);
+			}
+			
+			Services.get(WorkService.class)
+					.updateWork(new FilterAndUpdate()
+							.filter(new BasicDBObject("_id", work.get_id()).append("workPackageSetting._id",
+									tv.get_id()))
+							.set(new BasicDBObject("workPackageSetting.$.parameter",
+									new BasicDBObject("WF_INSTS", instList)))
+							.bson());
+			//////////////////////////////////////////////////
+			// 刷新表格
+			tv.setParameter("WF_INSTS", instList);
+			GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-OA流程").getContent();
+			grid.setViewerInput();
 		});
 		
-//		if ("采购".equals(catagory)) {
-//			InputDialog id = new InputDialog(br.getCurrentShell(), "物料追踪设置", "请设置物料所属产品SO编号", null,
-//					t -> t.trim().isEmpty() ? "不可为空" : null);
-//			if (InputDialog.OK == id.open()) {
-//				//////////////////////////////////////////
-//				// 查询SO
-//				String so_num = id.getValue();
-//				Document doc = new SqlQuery("erp").sql("select * from so where so_num='" + so_num + "'").first();
-//				if (doc != null) {
-//					String prt_desc = doc.getString("PRT_DESC");
-//					String prt_num = doc.getString("PRT_NUM");
-//					boolean ok = br.confirm("物料追踪设置",
-//							"SO：" + so_num + "，包括以下产品：<br>" + prt_desc + " [" + prt_num + "]<br>请确认。");
-//					if (ok) {
-//						Services.get(WorkService.class)
-//								.updateWork(new FilterAndUpdate()
-//										.filter(new BasicDBObject("_id", work.get_id()).append("workPackageSetting._id",
-//												tv.get_id()))
-//										.set(new BasicDBObject("workPackageSetting.$.parameter",
-//												new BasicDBObject("so_num", so_num)))
-//										.bson());
-//						//////////////////////////////////////////////////
-//						// 刷新表格
-//						tv.setParameter("so_num", so_num);
-//						GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-采购").getContent();
-//						grid.setViewerInput();
-//					}
-//				} else {
-//					Layer.message("无法获取编号" + so_num + "对应产品，请检查后重新输入。", Layer.ICON_CANCEL);
-//				}
-//			}
-//		}
 	}
 
 }

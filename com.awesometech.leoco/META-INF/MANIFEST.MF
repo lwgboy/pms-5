@@ -17,4 +17,5 @@ Require-Bundle: org.eclipse.core.runtime,
  com.bizvisionsoft.widgets,
  org.eclipse.rap.nebula.jface.gridviewer,
  org.eclipse.rap.nebula.widgets.grid;bundle-version="3.4.0",
- com.bizvisionsoft.sqldb
+ com.bizvisionsoft.sqldb,
+ org.apache.commons.lang3

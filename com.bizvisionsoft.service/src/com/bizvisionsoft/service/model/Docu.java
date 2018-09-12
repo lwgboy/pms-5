@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
@@ -39,6 +40,10 @@ public class Docu {
 	@WriteValue
 	private String name;
 	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	private String typeName = "ÎÄµµ";
+	
 	public Docu setName(String name) {
 		this.name = name;
 		return this;
@@ -68,6 +73,8 @@ public class Docu {
 	@WriteValue
 	private List<ObjectId> workPackage_id;
 
+	@ReadValue
+	@WriteValue
 	private OperationInfo creationInfo;
 	
 	@ReadValue("createOn")
@@ -114,12 +121,4 @@ public class Docu {
 		return this;
 	}
 	
-	@ReadValue
-	@WriteValue
-	private boolean template;
-	
-	public Docu setTemplate(boolean template) {
-		this.template = template;
-		return this;
-	}
 }

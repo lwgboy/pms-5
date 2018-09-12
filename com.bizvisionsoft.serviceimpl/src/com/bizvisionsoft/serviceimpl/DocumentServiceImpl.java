@@ -11,6 +11,8 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.DocuSetting;
+import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
@@ -202,6 +204,32 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
 		return listDocument(new Query().filter(new BasicDBObject("workPackage_id", wp_id)).bson());
+	}
+
+	@Override
+	public DocuTemplate insertDocumentTemplate(DocuTemplate docuT) {
+		return insert(docuT);
+	}
+
+	@Override
+	public long deleteDocumentTemplate(ObjectId _id) {
+		return delete(_id, DocuTemplate.class);
+	}
+
+	@Override
+	public long updateDocumentTemplate(BasicDBObject fu) {
+		return update(fu, DocuTemplate.class);
+	}
+
+	@Override
+	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
+		return createDataSet(condition, DocuTemplate.class);
+	}
+
+	@Override
+	public List<DocuSetting> listWorkPackageDocumentSetting(ObjectId wp_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

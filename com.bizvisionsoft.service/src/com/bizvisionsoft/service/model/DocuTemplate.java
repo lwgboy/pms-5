@@ -1,18 +1,16 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.sn.DocNumberGenerator;
 
 @PersistenceCollection("docuTemplate")
 public class DocuTemplate {
@@ -24,16 +22,6 @@ public class DocuTemplate {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
-
-	/** 标识 Y **/
-	@ReadValue
-	@WriteValue
-	@Generator(name = Generator.DEFAULT_NAME, key = "docuT", generator = DocNumberGenerator.class, callback = Generator.NONE_CALLBACK)
-	private String id;
-
-	@ReadValue
-	@WriteValue
-	private ObjectId folder_id;
 
 	@ReadValue
 	@WriteValue
@@ -50,10 +38,6 @@ public class DocuTemplate {
 
 	@ReadValue
 	@WriteValue
-	private String summary;
-
-	@ReadValue
-	@WriteValue
 	private List<RemoteFile> docuFiles;
 
 	@ReadValue
@@ -63,11 +47,23 @@ public class DocuTemplate {
 	@ReadValue
 	@WriteValue
 	private List<String> category;
-
+	
 	@ReadValue
 	@WriteValue
-	private List<ObjectId> workPackage_id;
+	private String assemblyId;
 
+	@Override
+	@Label
+	public String toString() {
+		return name ;
+	}
+	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	private String typeName = "文档模板";
+	
+	@ReadValue
+	@WriteValue
 	private OperationInfo creationInfo;
 	
 	@ReadValue("createOn")
@@ -86,31 +82,5 @@ public class DocuTemplate {
 	}
 	
 
-	@Override
-	@Label
-	public String toString() {
-		return name + " [" + id + "]";
-	}
 
-	public ObjectId get_id() {
-		return _id;
-	}
-
-	public DocuTemplate setFolder_id(ObjectId folder_id) {
-		this.folder_id = folder_id;
-		return this;
-	}
-
-	public DocuTemplate setCreationInfo(OperationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
-	}
-
-	public DocuTemplate addWorkPackageId(ObjectId workPackage_id) {
-		if (this.workPackage_id == null) {
-			this.workPackage_id = new ArrayList<ObjectId>();
-		}
-		this.workPackage_id.add(workPackage_id);
-		return this;
-	}
 }
