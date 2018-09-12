@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
@@ -164,9 +165,13 @@ public interface DocumentService {
 	@Path("/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(
-			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id);
+	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") ObjectId wp_id);
+
+	@POST
+	@Path("/docuSetting/wp_id/{wp_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<DocuSetting> listWorkPackageDocumentSetting(@PathParam("wp_id") ObjectId wp_id);
 
 	@POST
 	@Path("/docu/count")
@@ -204,4 +209,5 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.UPDATE)
 	public long updateDocumentTemplate(BasicDBObject fu);
+
 }

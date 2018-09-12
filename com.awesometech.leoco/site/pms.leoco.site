@@ -39805,7 +39805,9 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
-        "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridDataSetService": "",
+        "gridDataSetBundleId": "com.bizvisionsoft.pms",
+        "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.OutputDocumentDataset",
         "gridPageCount": 0,
         "columns": [
           {
@@ -40006,7 +40008,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "customized"
+            "type": "delete"
           }
         ],
         "borderTop": false,
