@@ -9,7 +9,9 @@
 				"$expr" : {
 					"$and" : [ {
 						"$eq" : [ "$project_id", "$$project_id" ]
-					}, "$stage", "$actualFinish" ]
+					}, "$stage", "$actualFinish", {
+						"$ne" : [ "$actualFinish", "$actualStart" ]
+					} ]
 				}
 			}
 		}, {
@@ -103,7 +105,9 @@
 	}
 }, {
 	"$addFields" : {
-		"changeCount" : {"$cond":["$_change.count","$_change.count",0.0]},
+		"changeCount" : {
+			"$cond" : [ "$_change.count", "$_change.count", 0.0 ]
+		},
 		"changeStatus" : {
 			"$cond" : [ {
 				"$gt" : [ {
