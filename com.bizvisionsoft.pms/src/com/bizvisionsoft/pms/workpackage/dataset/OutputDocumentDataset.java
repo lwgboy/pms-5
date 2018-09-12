@@ -50,10 +50,17 @@ public class OutputDocumentDataset {
 	@DataSet(DataSet.LIST)
 	private List<?> list(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId wp_id,
 			@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if(filter==null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.put("workPackage_id", wp_id);
+		
 		if (inTemplate) {
-			return Services.get(DocumentService.class).listWorkPackageDocumentSetting(wp_id);
+			return Services.get(DocumentService.class).listWorkPackageDocumentSetting(condition);
 		} else {
-			return Services.get(DocumentService.class).listWorkPackageDocument(wp_id);
+			return Services.get(DocumentService.class).listWorkPackageDocument(condition);
 		}
 	}
 

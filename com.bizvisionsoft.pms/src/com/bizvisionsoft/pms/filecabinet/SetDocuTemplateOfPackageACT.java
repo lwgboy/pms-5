@@ -21,7 +21,7 @@ public class SetDocuTemplateOfPackageACT {
 	@Inject
 	private IBruiService brui;
 
-	@Behavior("输出文档/创建文档模板")
+	@Behavior("输出文档/设置文档模板")
 	private boolean behaviour(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		return input instanceof ProjectTemplate;
 	}

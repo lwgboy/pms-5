@@ -162,16 +162,16 @@ public interface DocumentService {
 			@PathParam("_id") ObjectId project_id);
 
 	@POST
-	@Path("/docu/wp_id/{wp_id}/ds")
+	@Path("/docu/wp_id/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") ObjectId wp_id);
+	public List<Docu> listWorkPackageDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
-	@Path("/docuSetting/wp_id/{wp_id}/ds")
+	@Path("/docuSetting/wp_id/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<DocuSetting> listWorkPackageDocumentSetting(@PathParam("wp_id") ObjectId wp_id);
+	public List<DocuSetting> listWorkPackageDocumentSetting(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
 	@Path("/docu/count")

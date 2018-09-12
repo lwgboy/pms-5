@@ -9,7 +9,6 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.DocumentService;
-import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
@@ -202,8 +201,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
-		return listDocument(new Query().filter(new BasicDBObject("workPackage_id", wp_id)).bson());
+	public List<Docu> listWorkPackageDocument(BasicDBObject condition) {
+		return listDocument(condition);
+	}
+	
+	@Override
+	public List<DocuSetting> listWorkPackageDocumentSetting(BasicDBObject condition) {
+		return createDataSet(condition, DocuSetting.class);
 	}
 
 	@Override
@@ -224,12 +228,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
 		return createDataSet(condition, DocuTemplate.class);
-	}
-
-	@Override
-	public List<DocuSetting> listWorkPackageDocumentSetting(ObjectId wp_id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

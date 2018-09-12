@@ -39938,7 +39938,7 @@
           },
           {
             "id": "165c6370d29",
-            "name": "创建文档模板",
+            "name": "设置文档模板",
             "text": "创建",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.filecabinet.SetDocuTemplateOfPackageACT",
