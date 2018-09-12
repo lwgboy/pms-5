@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
@@ -223,6 +224,12 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
 		return createDataSet(condition, DocuTemplate.class);
+	}
+
+	@Override
+	public List<DocuSetting> listWorkPackageDocumentSetting(ObjectId wp_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
