@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.UnwindOptions;
 
 public class DocumentServiceImpl extends BasicServiceImpl implements DocumentService {
 
@@ -51,7 +52,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return c(Folder.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
 				.into(new ArrayList<>());
 	}
-	
+
 	@Override
 	public List<FolderInTemplate> listChildrenFolderTemplate(ObjectId parent_id) {
 		return c(FolderInTemplate.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
@@ -68,26 +69,23 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return c("folderInTemplate").countDocuments(new Document("parent_id", parent_id));
 	}
 
-	
 	@Override
 	public boolean deleteProjectFolder(ObjectId folder_id) {
 		List<ObjectId> ids = getDesentItems(Arrays.asList(folder_id), "folder", "parent_id");
 		c("folder").deleteMany(new Document("_id", new Document("$in", ids)));
 		c("docu").deleteMany(new Document("folder_id", new Document("$in", ids)));
 		// TODO 删除文档的时候需要删除文件
-		
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean deleteProjectTemplateFolder(ObjectId folder_id) {
 		List<ObjectId> ids = getDesentItems(Arrays.asList(folder_id), "folder", "parent_id");
 		c("folderInTemplate").deleteMany(new Document("_id", new Document("$in", ids)));
 		c("docu").deleteMany(new Document("folder_id", new Document("$in", ids)));
 		// TODO 删除文档的时候需要删除文件
-		
-		
+
 		return true;
 	}
 
@@ -201,13 +199,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<Docu> listWorkPackageDocument(BasicDBObject condition) {
-		return listDocument(condition);
-	}
-	
-	@Override
-	public List<DocuSetting> listWorkPackageDocumentSetting(BasicDBObject condition) {
-		return createDataSet(condition, DocuSetting.class);
+	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
+		return listDocument(new BasicDBObject("filter",new BasicDBObject("workPackage_id",wp_id)));
 	}
 
 	@Override
@@ -227,7 +220,32 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
-		return createDataSet(condition, DocuTemplate.class);
+		return createDataSet(condition,DocuTemplate.class);
+	}
+
+
+	@Override
+	public List<DocuSetting> listDocumentSetting(ObjectId wp_id) {
+		return list(DocuSetting.class, new BasicDBObject("filter",new BasicDBObject("workPackage_id",wp_id)), //
+				Aggregates.lookup("folderInTemplate", "folderInTemplate_id", "_id", "folderInTemplate"),//
+				Aggregates.unwind("$folderInTemplate", new UnwindOptions().preserveNullAndEmptyArrays(true)),//
+				Aggregates.lookup("docuTemplate", "docuTemplate_id", "_id", "docuTemplate"),//
+				Aggregates.unwind("$docuTemplate", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+	}
+	
+	@Override
+	public DocuSetting createDocumentSetting(DocuSetting doc) {
+		return insert(doc);
+	}
+
+	@Override
+	public long updateDocumentSetting(BasicDBObject fu) {
+		return update(fu, DocuSetting.class);
+	}
+
+	@Override
+	public long deleteDocumentSetting(ObjectId _id) {
+		return delete(_id, DocuSetting.class);
 	}
 
 }

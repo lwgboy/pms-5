@@ -33,26 +33,12 @@ public interface DocumentService {
 	public Folder createFolder(Folder folder);
 
 	@POST
-	@Path("/folderTemplate/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder);
-
-	@POST
 	@Path("/folder/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目文件夹选择列表/list")
 	public List<Folder> listProjectRootFolder(
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
-
-	@POST
-	@Path("/folderTemplate/template_id/{template_id}/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板文件夹选择列表/list")
-	public List<FolderInTemplate> listProjectTemplateRootFolder(
-			@PathParam("template_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
 
 	@POST
 	@Path("/folder/project_id/{project_id}/count")
@@ -67,16 +53,42 @@ public interface DocumentService {
 	public List<Folder> listChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
 
 	@POST
-	@Path("/folderTemplate/parent_id/{parent_id}/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<FolderInTemplate> listChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
-
-	@POST
 	@Path("/folder/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+
+	@DELETE
+	@Path("/folder/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean deleteProjectFolder(@PathParam("_id") ObjectId folder_id);
+
+	@PUT
+	@Path("/folder/_id/{_id}/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean renameProjectFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
+
+	@POST
+	@Path("/folderTemplate/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder);
+
+	@POST
+	@Path("/folderTemplate/template_id/{template_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目模板文件夹选择列表/list")
+	public List<FolderInTemplate> listProjectTemplateRootFolder(
+			@PathParam("template_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+
+	@POST
+	@Path("/folderTemplate/parent_id/{parent_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<FolderInTemplate> listChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
 
 	@POST
 	@Path("/folderTemplate/parent_id/{parent_id}/count")
@@ -85,22 +97,10 @@ public interface DocumentService {
 	public long countChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
 
 	@DELETE
-	@Path("/folder/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public boolean deleteProjectFolder(@PathParam("_id") ObjectId folder_id);
-
-	@DELETE
 	@Path("/folderTemplate/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public boolean deleteProjectTemplateFolder(@PathParam("_id") ObjectId folder_id);
-
-	@PUT
-	@Path("/folder/_id/{_id}/{name}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public boolean renameProjectFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
 
 	@PUT
 	@Path("/folderTemplate/_id/{_id}/{name}")
@@ -113,18 +113,6 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Docu createDocument(Docu doc);
-
-	// @POST
-	// @Path("/docu/folder_id/{folder_id}/ds")
-	// @Consumes("application/json; charset=UTF-8")
-	// @Produces("application/json; charset=UTF-8")
-	// public List<Docu> listDocument(@PathParam("folder_id") ObjectId folder_id);
-
-	// @POST
-	// @Path("/docu/folder_id/{folder_id}/count")
-	// @Consumes("application/json; charset=UTF-8")
-	// @Produces("application/json; charset=UTF-8")
-	// public long countDocument(@PathParam("folder_id") ObjectId folder_id);
 
 	@DELETE
 	@Path("/docu/_id/{_id}")
@@ -162,16 +150,12 @@ public interface DocumentService {
 			@PathParam("_id") ObjectId project_id);
 
 	@POST
-	@Path("/docu/wp_id/ds")
+	@Path("/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Docu> listWorkPackageDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
-
-	@POST
-	@Path("/docuSetting/wp_id/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<DocuSetting> listWorkPackageDocumentSetting(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	@DataSet("输出文档/" + DataSet.LIST)
+	public List<Docu> listWorkPackageDocument(
+			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 	@POST
 	@Path("/docu/count")
@@ -210,4 +194,31 @@ public interface DocumentService {
 	@DataSet("文档模板/" + DataSet.UPDATE)
 	public long updateDocumentTemplate(BasicDBObject fu);
 
+	@POST
+	@Path("/docuSetting/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public DocuSetting createDocumentSetting(DocuSetting doc);
+
+	@POST
+	@Path("/docuSetting/wp_id/{wp_id}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("输出文档设置/" + DataSet.LIST)
+	public List<DocuSetting> listDocumentSetting(
+			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
+
+	@PUT
+	@Path("/docuSetting/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("输出文档设置/" + DataSet.UPDATE)
+	public long updateDocumentSetting(BasicDBObject filterAndUpdate);
+
+	@DELETE
+	@Path("/docuSetting/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("输出文档设置/" + DataSet.DELETE)
+	public long deleteDocumentSetting(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 }
