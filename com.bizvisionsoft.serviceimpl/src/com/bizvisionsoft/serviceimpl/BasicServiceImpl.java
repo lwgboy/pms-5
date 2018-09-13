@@ -129,6 +129,32 @@ public class BasicServiceImpl {
 		return c(colName).countDocuments();
 	}
 
+	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, Bson... appendPipelines) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		if (appendPipelines != null) {
+			pipeline.addAll(Arrays.asList(appendPipelines));
+		}
+
+		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
+	}
+
 	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");

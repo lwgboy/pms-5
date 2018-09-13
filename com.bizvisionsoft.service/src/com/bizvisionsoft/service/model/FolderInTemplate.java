@@ -64,7 +64,7 @@ public class FolderInTemplate implements IFolder{
 		return html;
 	}
 
-	@ReadValue("项目文件夹选择列表/folderName" )
+	@ReadValue("项目模板文件夹选择列表/folderName" )
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
