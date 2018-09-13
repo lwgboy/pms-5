@@ -71544,7 +71544,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": true,
-        "gridDataSetService": "com.bizvisionsoft.service.UniversalDataService",
+        "gridDataSetService": "",
         "gridPageCount": 0,
         "columns": [
           {
