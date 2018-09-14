@@ -124,7 +124,7 @@ public class OADataset {
 			BasicDBObject filter = (BasicDBObject)condition.get("filter");
 			sb.append(filterToSQL(filter));
 		}
-		sb.append(" and inst.status not like '%¹éµµ' and inst.create_date > '2018-00-00'");
+		sb.append(" and inst.create_date > '2018-00-00'");
 		return sb.toString();
 	}
 
