@@ -406,7 +406,9 @@ public class EditResourceASM extends GridPart {
 		// 二次测试
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 
-		brui.openContent(brui.getAssembly("编辑资源情况"), newRT);
+		brui.openContent(brui.getAssembly("编辑资源情况"), newRT, e -> {
+			System.out.println(e);
+		});
 	}
 
 	private void updateQty(String text, Object data) {
@@ -430,7 +432,7 @@ public class EditResourceASM extends GridPart {
 		}
 		Double basicWorks = doc.getDouble("basicWorks");
 		Double overTimeWorks = doc.getDouble("overTimeWorks");
-		String defaultText = ""+(text.startsWith("Basic")?basicWorks:overTimeWorks);
+		String defaultText = "" + (text.startsWith("Basic") ? basicWorks : overTimeWorks);
 
 		InputDialog id = new InputDialog(brui.getCurrentShell(), title, msg, defaultText, t -> {
 			if (t.trim().isEmpty())
