@@ -416,19 +416,23 @@ public class EditResourceASM extends GridPart {
 		Document doc = (Document) data;
 		Integer qty = doc.getInteger("qty");
 
-		String dialogTitle = "";
-		String dialogMessage = "";
+		String title = "";
+		String msg = "";
 		if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
-			dialogTitle = "填写资源计划用量";
+			title = "填写资源计划用量";
 		} else if (rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
-			dialogTitle = "填写资源实际用量";
+			title = "填写资源实际用量";
 		}
 		if (text.startsWith("Basic")) {
-			dialogMessage = "请填写资源标准用量";
+			msg = "请填写资源标准用量";
 		} else if (text.startsWith("OverTime")) {
-			dialogMessage = "请填写资源加班用量";
+			msg = "请填写资源加班用量";
 		}
-		InputDialog id = new InputDialog(brui.getCurrentShell(), dialogTitle, dialogMessage, "8", t -> {
+		Double basicWorks = doc.getDouble("basicWorks");
+		Double overTimeWorks = doc.getDouble("overTimeWorks");
+		String defaultText = ""+(text.startsWith("Basic")?basicWorks:overTimeWorks);
+
+		InputDialog id = new InputDialog(brui.getCurrentShell(), title, msg, defaultText, t -> {
 			if (t.trim().isEmpty())
 				return "请输入资源用量";
 			double d;
@@ -438,8 +442,6 @@ public class EditResourceASM extends GridPart {
 				return "输入的类型错误";
 			}
 			try {
-				Double basicWorks = doc.getDouble("basicWorks");
-				Double overTimeWorks = doc.getDouble("overTimeWorks");
 				if (text.startsWith("Basic") && d > basicWorks * qty) {
 					return "资源标准用量不能大于:" + basicWorks * qty;
 				} else {
