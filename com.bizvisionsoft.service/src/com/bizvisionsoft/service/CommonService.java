@@ -520,4 +520,16 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public void syncOrgFullName();
 
+	@GET
+	@Path("/setting/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getSetting(@PathParam("name") String name);
+
+	@PUT
+	@Path("/setting/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateSetting(Document setting);
+
 }

@@ -530,7 +530,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		createIndex("message", new Document("receiver", 1), "receiver");
 		createIndex("message", new Document("sendDate", 1), "sendDate");
-		createIndex("message", new Document("content", 1), "content");
+		createIndex("message", new Document("subject", 1), "subject");
 
 		createIndex("monteCarloSimulate", new Document("project_id", 1), "project");
 
@@ -673,7 +673,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		createIndex("accountIncome", new Document("parentId", 1), "parentId");
 		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
 		createUniqueIndex("accountIncome", new Document("id", 1), "id");
-		
+
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
@@ -821,9 +821,27 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public void syncOrgFullName() {
-		c("organization").find().into(new ArrayList<>()).forEach((Document d)->{
-			c("organization").updateOne(new Document("_id",d.get("_id")),new Document("$set",new Document("fullName",d.get("name"))) );
+		c("organization").find().into(new ArrayList<>()).forEach((Document d) -> {
+			c("organization").updateOne(new Document("_id", d.get("_id")),
+					new Document("$set", new Document("fullName", d.get("name"))));
 		});
+	}
+
+	@Override
+	public Document getSetting(String name) {
+		return super.getSystemSetting(name);
+	}
+
+	@Override
+	public void updateSetting(Document setting) {
+		Object name = setting.get("name");
+		setting.remove("_id");
+		long cnt = c("setting").countDocuments(new Document("name", name));
+		if (cnt == 0) {
+			c("setting").insertOne(setting);
+		} else {
+			c("setting").updateOne(new Document("name", name), new Document("$set", setting));
+		}
 	}
 
 }
