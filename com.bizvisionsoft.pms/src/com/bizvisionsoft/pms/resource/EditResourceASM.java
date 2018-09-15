@@ -30,6 +30,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -405,9 +406,29 @@ public class EditResourceASM extends GridPart {
 		newRT.setCanAdd(false);
 		// 二次测试
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
-		
 
 		brui.openContent(brui.getAssembly("编辑资源情况"), newRT, e -> {
+			// 构建用于刷新的ResourceTransfer
+			ResourceTransfer nRT = new ResourceTransfer();
+			nRT.setType(rt.getType());
+			nRT.setIsReport(rt.isReport());
+			nRT.setShowType(rt.getShowType());
+			nRT.setUsedEquipResId(doc.getString("usedEquipResId"));
+			nRT.setUsedHumanResId(doc.getString("usedHumanResId"));
+			nRT.setUsedTypedResId(doc.getString("usedTypedResId"));
+			nRT.setResTypeId(doc.getObjectId("resTypeId"));
+			nRT.setWorkIds(rt.getWorkIds());
+			nRT.setWorkReportItemId(rt.getWorkReportItemId());
+			nRT.setFrom(rt.getFrom());
+			nRT.setTo(rt.getTo());
+
+			// 获取数据库存储的资源计划
+			List<Document> list = workService.getResource(nRT);
+
+			// 刷新Document
+			AUtil.simpleCopy(list.get(0), doc);
+			viewer.refresh(doc);
+
 			System.out.println(e);
 		});
 	}

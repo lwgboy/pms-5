@@ -126,8 +126,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long deleteEquipment(ObjectId _id) {
 		// TODO 完整性问题
-		//删除
-		
 		return delete(_id, Equipment.class);
 	}
 
