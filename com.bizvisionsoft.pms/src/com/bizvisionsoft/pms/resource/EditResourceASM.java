@@ -425,11 +425,13 @@ public class EditResourceASM extends GridPart {
 			// 获取数据库存储的资源计划
 			List<Document> list = workService.getResource(nRT);
 
-			// 刷新Document
-			AUtil.simpleCopy(list.get(0), doc);
-			viewer.refresh(doc);
-
-			System.out.println(e);
+			// 刷新视图
+			if (list.size() > 0) {
+				AUtil.simpleCopy(list.get(0), doc);
+				viewer.refresh(doc);
+			} else {
+				viewer.remove(doc);
+			}
 		});
 	}
 
