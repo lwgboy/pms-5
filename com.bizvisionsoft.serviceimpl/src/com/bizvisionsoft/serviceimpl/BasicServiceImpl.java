@@ -61,6 +61,7 @@ public class BasicServiceImpl {
 		option.upsert(false);
 		UpdateResult updateMany = c(clazz).updateMany(filter, update, option);
 		long cnt = updateMany.getModifiedCount();
+		
 		return cnt;
 	}
 
