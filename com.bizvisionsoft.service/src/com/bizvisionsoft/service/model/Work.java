@@ -152,6 +152,17 @@ gantt.<span class="me1">init</span><span class="br0">(</span><span class=
 @Strict
 public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster {
 
+
+	/**
+	 * 控制项目计划是否可以下达，根据项目状态判断
+	 * 
+	 * @return
+	 */
+	@Behavior("下达计划")
+	private boolean enableDistribute() {
+		return ProjectStatus.Processing.equals(status);
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
 	@Persistence

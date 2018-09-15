@@ -343,7 +343,6 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 				.append("Tdata", tData).append("noRiskT", mcs.noRiskT);
 		c("monteCarloSimulate").deleteMany(new Document("project_id", _id));
 		c("monteCarloSimulate").insertOne(simulateResult);
-		System.out.println("MonteCarlo Simulate Finished. x" + times);
 
 		// Ð´Èëwork
 		tasks.forEach(t -> updateWorkRiskIndicators(new ObjectId(t.getId()), t.getACI(), t.getACP()));
@@ -352,8 +351,8 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	private void updateWorkRiskIndicators(ObjectId _id, Float aci, Float acp) {
-		c("work").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("aci", (double) aci).append("acp", (double) acp)));
+		c("work").updateOne(new Document("_id", _id), new Document("$set",
+				new Document("aci", (double) (aci != null ? aci : 0)).append("acp", (double) (acp != null ? acp : 0))));
 	}
 
 	@Override

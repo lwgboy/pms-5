@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -118,6 +119,27 @@ public class CBSItem {
 	@Behavior({ "预算成本对比分析/打开项目预算成本对比分析" })
 	private boolean behaviourOpen() {
 		return scopeRoot;
+	}
+
+	@Behavior("项目成本管理/编辑成本")
+	private boolean behaviourEdit() {
+		Calendar cal = Calendar.getInstance();
+		Date date = getNextSettlementDate();
+		ICBSScope scopeRootObject = getScopeRootObject();
+
+		String status = scopeRootObject.getStatus();
+		if (ProjectStatus.Processing.equals(status) || ProjectStatus.Closing.equals(status)) {
+			cal.add(Calendar.MONTH, -1);
+			int newYear = cal.get(Calendar.YEAR);
+			int newMonth = cal.get(Calendar.MONTH);
+			cal.setTime(date);
+			cal.add(Calendar.MONTH, 1);
+			if (cal.get(Calendar.YEAR) == newYear && cal.get(Calendar.MONTH) == newMonth) {
+				return false;
+			}
+			return children.size() == 0;
+		}
+		return false;
 	}
 
 	@SetValue

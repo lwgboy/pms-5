@@ -417,8 +417,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		Document query = new Document("project_id", com._id).append("parent_id", null)
-				.append("chargerId", new Document("$ne", null))
-				.append("distributed", new Document("$ne", true).append("actualFinish", null));
+				.append("chargerId", new Document("$ne", null)).append("distributed", new Document("$ne", true))
+				.append("actualFinish", null);
 
 		final List<ObjectId> ids = new ArrayList<>();
 		final List<Message> messages = new ArrayList<>();
@@ -679,7 +679,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				.into(new ArrayList<ObjectId>());
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids))));
+		pipeline.add(Aggregates
+				.match(new Document("_id", new Document("$in", project_ids)).append("status", new Document("$in",
+						Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing, ProjectStatus.Suspended)))));
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -693,10 +695,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		appendUserInfo(pipeline, "pmId", "pmInfo");
-
-		pipeline.forEach(a -> {
-			System.out.println(getBson(a).toJson());
-		});
 
 		ArrayList<Project> into = c("project").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 		return into;
@@ -822,7 +820,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public String generateWorkOrder(String catalog, ObjectId parentproject_id, ObjectId impunit_id) {
+	public String generateWorkOrder(ObjectId _id) {
 		/**
 		 * TODO 需要根据九洲定制
 		 * 
@@ -840,6 +838,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		 * 
 		 * 第10位至第14位为立项年份。
 		 **/
+		Project project = get(_id);
+		String catalog = project.getCatalog();
+		ObjectId parentproject_id = project.getParentProject_id();
+		ObjectId impunit_id = project.getImpUnit_id();
+
 		String workOrder;
 		if ("预研".equals(catalog)) {
 			workOrder = "YG";

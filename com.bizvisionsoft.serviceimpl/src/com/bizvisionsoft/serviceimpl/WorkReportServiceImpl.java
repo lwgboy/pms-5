@@ -97,9 +97,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectDailyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
+		Document match = new Document("type", WorkReport.TYPE_DAILY).append("project_id", project_id).append("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -108,7 +107,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_DAILY);
 		filter.put("status",
@@ -119,9 +117,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectWeeklyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
+		Document match = new Document("type", WorkReport.TYPE_WEEKLY).append("project_id", project_id).append("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -130,7 +127,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_WEEKLY);
 		filter.put("status",
@@ -141,9 +137,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectMonthlyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
+		Document match = new Document("type", WorkReport.TYPE_MONTHLY).append("project_id", project_id).append("status",
+				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
 		return query(condition, match);
 	}
 
@@ -152,7 +147,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		filter.put("reporter", userid);
 		filter.put("project_id", project_id);
 		filter.put("type", WorkReport.TYPE_MONTHLY);
 		filter.put("status",
@@ -441,13 +435,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		return new ArrayList<Result>();
 	}
 
-	public static void main(String[] args) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		cal.add(Calendar.DATE, -7);
-		System.out.println(cal.getTime());
-	}
-
 	@Override
 	public List<WorkReportSummary> listWeeklyAdministeredProjectReportSummary(BasicDBObject condition,
 			String managerId) {
@@ -511,8 +498,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
-		Document match = new Document("type", WorkReport.TYPE_DAILY);
-		match.put("status", WorkReport.STATUS_SUBMIT);
+		Document match = new Document("status", WorkReport.STATUS_SUBMIT);
 		match.put("project_id", new BasicDBObject("$in", projectIds));
 
 		return query(condition, match);
@@ -526,7 +512,6 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
-		filter.put("type", WorkReport.TYPE_DAILY);
 		filter.put("status", WorkReport.STATUS_SUBMIT);
 		filter.put("project_id", new BasicDBObject("$in", projectIds));
 

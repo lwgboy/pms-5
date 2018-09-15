@@ -481,7 +481,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			Date actualStart = doc.getDate("actualStart");
 			if (settlementDate != null) {
 				cal.setTime(settlementDate);
-				cal.add(java.util.Calendar.MONTH, 1);
+				cal.add(java.util.Calendar.MONTH, -1);
 			} else if (actualStart != null) {
 				cal.setTime(actualStart);
 			}

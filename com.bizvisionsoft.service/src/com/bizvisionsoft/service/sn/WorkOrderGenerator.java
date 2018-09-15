@@ -9,8 +9,7 @@ public class WorkOrderGenerator implements IAutoGenerator<Project> {
 
 	@Override
 	public Object generate(Project project, String name, String key, Class<?> t) {
-		return ServicesLoader.get(ProjectService.class).generateWorkOrder(project.getCatalog(), project.getParentProject_id(),
-				project.getImpUnit_id());
+		return ServicesLoader.get(ProjectService.class).generateWorkOrder(project.get_id());
 	}
 
 }

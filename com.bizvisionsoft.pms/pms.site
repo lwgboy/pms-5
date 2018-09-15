@@ -433,7 +433,7 @@
           },
           {
             "children": [],
-            "name": "我的待处理工作",
+            "name": "我的待指派工作",
             "id": "1646adb56bd"
           }
         ],
@@ -5893,13 +5893,13 @@
               {
                 "id": "162d0ff0df2",
                 "name": "description",
-                "text": "说明",
+                "text": "项目背景",
                 "type": "多行文本框",
                 "formFields": [],
                 "hasInfoLabel": false,
                 "textPasswordStyle": false,
                 "readOnly": false,
-                "required": false,
+                "required": true,
                 "textLimit": 0,
                 "maxFileSize": 0,
                 "timeLimit": 0,
@@ -26501,7 +26501,7 @@
             "readOnly": false,
             "required": true,
             "textLimit": 0,
-            "dateType": "date",
+            "dateType": "datetime",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -54678,7 +54678,7 @@
             "columns": [
               {
                 "id": "1646ab162ee",
-                "name": "助记码",
+                "name": "code",
                 "text": "助记码",
                 "alignment": 16384,
                 "width": 120,
@@ -55491,6 +55491,8 @@
             "id": "1646abf731d",
             "name": "编辑助记码",
             "image": "/img/edit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.EditProjectCodeACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,

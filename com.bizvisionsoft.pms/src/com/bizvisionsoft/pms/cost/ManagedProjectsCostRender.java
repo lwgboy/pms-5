@@ -70,6 +70,9 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				if (currentCBSPeriod.get(Calendar.YEAR) == newYear
 						&& currentCBSPeriod.get(Calendar.MONTH) == newMonth) {
 					currentCBSPeriod.add(Calendar.MONTH, -1);
+				} else if (currentCBSPeriod.get(Calendar.YEAR) <= newYear
+						&& currentCBSPeriod.get(Calendar.MONTH) < newMonth) {
+					currentCBSPeriod.add(Calendar.MONTH, 1);
 				}
 			}
 		}
@@ -216,7 +219,8 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		// 修改当期成本显示列名
 		if ("periodCost".equals(column.getName())) {
-			column.setText("期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
+			column.setText(
+					"期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
 		}
 		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {

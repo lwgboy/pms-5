@@ -30,11 +30,10 @@ public class EditProjectCodeACT {
 			});
 			if (InputDialog.OK == id.open()) {
 				String code = id.getValue();
-				project.generateWorkOrder().setCode(code);
+				String workOrder = ServicesLoader.get(ProjectService.class).generateWorkOrder(project.get_id());
 				ServicesLoader.get(ProjectService.class)
-						.update(new FilterAndUpdate().update(new BasicDBObject("_id", project.get_id()))
-								.set(new BasicDBObject("code", code).append("workOrder", project.getWorkOrder()))
-								.bson());
+						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id()))
+								.set(new BasicDBObject("code", code).append("workOrder", workOrder)).bson());
 				GridPart gp = (GridPart) context.getContent();
 				gp.refreshAll();
 			}

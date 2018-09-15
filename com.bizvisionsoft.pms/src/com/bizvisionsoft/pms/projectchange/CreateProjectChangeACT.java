@@ -30,11 +30,12 @@ public class CreateProjectChangeACT {
 		}
 		Editor.open("项目变更编辑器", context,
 				new ProjectChange().setProject_id(project.get_id()).setApplicant(brui.getCurrentUserInfo())
-						.setStatus(ProjectChange.STATUS_CREATE).setApplicantDate(new Date()),
+						.setStatus(ProjectChange.STATUS_CREATE).setApplicantDate(new Date())
+						.setApplicantUnitId(project.getImpUnit_id()),
 				(r, o) -> {
 					ProjectChange pc = Services.get(ProjectService.class).createProjectChange(o);
 					GridPart grid = (GridPart) context.getContent();
-					grid.insert(pc,0);
+					grid.insert(pc, 0);
 				});
 	}
 }
