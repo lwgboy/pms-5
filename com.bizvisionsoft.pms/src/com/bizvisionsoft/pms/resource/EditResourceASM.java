@@ -405,6 +405,7 @@ public class EditResourceASM extends GridPart {
 		newRT.setCanAdd(false);
 		// 二次测试
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
+		
 
 		brui.openContent(brui.getAssembly("编辑资源情况"), newRT);
 	}
@@ -430,7 +431,7 @@ public class EditResourceASM extends GridPart {
 		}
 		Double basicWorks = doc.getDouble("basicWorks");
 		Double overTimeWorks = doc.getDouble("overTimeWorks");
-		String defaultText = ""+(text.startsWith("Basic")?basicWorks:overTimeWorks);
+		String defaultText = "" + (text.startsWith("Basic") ? basicWorks : overTimeWorks);
 
 		InputDialog id = new InputDialog(brui.getCurrentShell(), title, msg, defaultText, t -> {
 			if (t.trim().isEmpty())
@@ -964,8 +965,12 @@ public class EditResourceASM extends GridPart {
 					if (eStart == null)
 						eStart = ((Document) element).get("planStart");
 					eFinish = ((Document) element).get("actualFinish");
-					if (eFinish == null)
-						eFinish = ((Document) element).get("planFinish");
+					if (eFinish == null) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(now);
+						cal.add(Calendar.DAY_OF_MONTH, 1);
+						eFinish = cal.getTime();
+					}
 				}
 				if (obj instanceof List) {
 					List<Document> list = (List<Document>) obj;
