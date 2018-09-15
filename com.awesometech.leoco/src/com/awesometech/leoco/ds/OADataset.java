@@ -19,7 +19,6 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.bizvisionsoft.sqldb.SqlQuery;
 import com.mongodb.BasicDBObject;
@@ -35,9 +34,9 @@ public class OADataset {
 	@DataSet("工作包-OA流程/" +DataSet.LIST)
 	private List<Document> list() {
 		Object[] data = (Object[]) context.getParentContext().getInput();
-		IWorkPackageMaster work = (IWorkPackageMaster) data[0];
 		TrackView view = (TrackView) data[1];
-		List instList = (List) view.getParameter("WF_INSTS");
+		@SuppressWarnings("unchecked")
+		List<String> instList = (List<String>) view.getParameter("WF_INSTS");
 		List<Document> result = new ArrayList<>();
 		if (instList == null) {
 			return result;
@@ -57,7 +56,8 @@ public class OADataset {
 		Object[] data = (Object[]) context.getParentContext().getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) data[0];
 		TrackView view = (TrackView) data[1];
-		List instList = (List) view.getParameter("WF_INSTS");
+		@SuppressWarnings("unchecked")
+		List<String> instList = (List<String>) view.getParameter("WF_INSTS");
 		
 		Document row = (Document)selected;
 		if(null != row && null != row.get("INST_ID").toString() && null != instList && instList.contains(row.get("INST_ID").toString())) {
@@ -71,7 +71,7 @@ public class OADataset {
 					.bson());
 			//////////////////////////////////////////////////
 			// 刷新表格
-			//	tv.setParameter("so_num", so_num);
+			view.setParameter("WF_INSTS", instList);
 			GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-OA流程").getContent();
 			grid.setViewerInput();
 		}
@@ -79,7 +79,7 @@ public class OADataset {
 	}
 	
 
-	private String buildSql(List instList) {
+	private String buildSql(List<String> instList) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  V_PMS_wf wf,V_PMS_wf_inst inst " );
 		sb.append(" where wf.id = inst.wf_id ");
@@ -112,7 +112,7 @@ public class OADataset {
 	@DataSet("OA流程选择列表/" + DataSet.COUNT)
 	public long countOASelectList(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		
-		return 100L;
+		return 0L;
 	}
 	
 	private String buildSelectSql( BasicDBObject condition) {
@@ -124,7 +124,7 @@ public class OADataset {
 			BasicDBObject filter = (BasicDBObject)condition.get("filter");
 			sb.append(filterToSQL(filter));
 		}
-		sb.append(" and inst.status not like '%归档' and inst.create_date > '2018-00-00'");
+		sb.append(" and inst.create_date > '2018-00-00'");
 		return sb.toString();
 	}
 

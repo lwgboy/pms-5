@@ -171,5 +171,17 @@ public class Message {
 	public static String format(Date srcDate) {
 		return new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ").format(srcDate);
 	}
+	
+	public String getReceiver() {
+		return receiver;
+	}
+	
+	public String getSubject() {
+		return subject;
+	}
+	
+	public String getContent() {
+		return content;
+	}
 
 }

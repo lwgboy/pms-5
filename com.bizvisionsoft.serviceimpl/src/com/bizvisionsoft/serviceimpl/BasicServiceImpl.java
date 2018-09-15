@@ -1,6 +1,9 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.io.File;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -10,6 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.activation.CommandMap;
+import javax.activation.MailcapCommandMap;
+import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.MultiPartEmail;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.EncoderContext;
@@ -51,6 +61,7 @@ public class BasicServiceImpl {
 		option.upsert(false);
 		UpdateResult updateMany = c(clazz).updateMany(filter, update, option);
 		long cnt = updateMany.getModifiedCount();
+		
 		return cnt;
 	}
 
@@ -127,6 +138,32 @@ public class BasicServiceImpl {
 		if (filter != null)
 			return c(colName).countDocuments(filter);
 		return c(colName).countDocuments();
+	}
+
+	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, Bson... appendPipelines) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+
+		if (appendPipelines != null) {
+			pipeline.addAll(Arrays.asList(appendPipelines));
+		}
+
+		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
 	}
 
 	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz) {
@@ -281,16 +318,6 @@ public class BasicServiceImpl {
 		return result;
 	}
 
-	protected static final String WARNING_DAY = "warningDay";
-
-	@Deprecated
-	protected Object getSystemSetting(String settingName) {
-		if (settingName.equals(WARNING_DAY)) {
-			return 5;
-		}
-		return null;
-	}
-
 	protected int generateCode(String name, String key) {
 		Document doc = c(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
@@ -386,11 +413,6 @@ public class BasicServiceImpl {
 		}
 	}
 
-	protected boolean sendMessage(Message message) {
-		c(Message.class).insertOne(message);
-		return true;
-	}
-
 	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url) {
 		sendMessage(Message.newInstance(subject, content, sender, receiver, url));
 		return true;
@@ -407,6 +429,19 @@ public class BasicServiceImpl {
 		if (Util.isEmptyOrNull(toBeInsert))
 			return false;
 		c(Message.class).insertMany(toBeInsert);
+		Document setting = getSystemSetting("邮件设置");
+		if (setting != null && Boolean.TRUE.equals(setting.get("emailNotice"))) {
+			toBeInsert.forEach(m -> sendEmail(m, "系统", setting));
+		}
+		return true;
+	}
+
+	protected boolean sendMessage(Message message) {
+		c(Message.class).insertOne(message);
+		Document setting = getSystemSetting("邮件设置");
+		if (setting != null && Boolean.TRUE.equals(setting.get("emailNotice"))) {
+			sendEmail(message, "系统", setting);
+		}
 		return true;
 	}
 
@@ -702,6 +737,90 @@ public class BasicServiceImpl {
 				.append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
 
 		return warningLevel;
+	}
+
+	public Document getSystemSetting(String name) {
+		return c("setting").find(new Document("name", name)).first();
+	}
+
+	private boolean sendEmail(Message m, String from, Document setting) {
+		String userId = m.getReceiver();
+		Document user = c("user").find(new Document("userId", userId)).first();
+		if (user == null)
+			return false;
+		String receiverAddress = user.getString("email");
+		if (receiverAddress == null || receiverAddress.isEmpty())
+			return false;
+
+		String smtpHost = setting.getString("smtpHost");
+		int smtpPort;
+		try {
+			smtpPort = Integer.parseInt(setting.getString("smtpPort"));
+		} catch (Exception e) {
+			return false;
+		}
+		Boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
+		String senderPassword = setting.getString("senderPassword");
+		String senderAddress = setting.getString("senderAddress");
+
+		try {
+			return sendEmail(smtpHost, smtpPort, smtpUseSSL, senderAddress, senderPassword, receiverAddress,
+					m.getSubject(), m.getContent(), from, null);
+		} catch (EmailException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	private boolean sendEmail(String smtpHost, int smtpPort, Boolean smtpUseSSL, String senderAddress,
+			String senderPassword, String receiverAddress, String title, String message, String from,
+			List<String[]> atts) throws EmailException {
+		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+		mc.addMailcap("text/html;;x-java-content-handler=com.sun.mail.handlers.text_html");
+		mc.addMailcap("text/xml;;x-java-content-handler=com.sun.mail.handlers.text_xml");
+		mc.addMailcap("text/plain;;x-java-content-handler=com.sun.mail.handlers.text_plain");
+		mc.addMailcap("multipart/*;;x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+		mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+		CommandMap.setDefaultCommandMap(mc);
+		MultiPartEmail email = new MultiPartEmail();
+		email.setMsg(message);
+
+		email.setCharset("UTF-8");
+		email.setSubject(title);
+		email.addTo(receiverAddress);
+
+		email.setHostName(smtpHost);
+		email.setSmtpPort(smtpPort);
+		email.setSSLOnConnect(smtpUseSSL);
+		email.setAuthentication(senderAddress, senderPassword);
+		if (from != null) {
+			email.setFrom(senderAddress, from);
+		} else {
+			email.setFrom(senderAddress);
+		}
+
+		if (atts != null) {
+			atts.forEach(s -> appendAttachment(email, null, new File(s[0]), s[1]));
+		}
+		email.send();
+		return true;
+	}
+
+	private void appendAttachment(MultiPartEmail email, URL url, File file, String fileName) {
+		EmailAttachment attachment = new EmailAttachment();
+		attachment.setDisposition(EmailAttachment.ATTACHMENT);
+		if (url != null) {
+			attachment.setURL(url);
+		} else if (file != null) {
+			attachment.setPath(file.getPath());
+		}
+		try {
+			attachment.setName(MimeUtility.encodeText(fileName, "gb2312", "b"));
+			email.attach(attachment);
+		} catch (UnsupportedEncodingException | EmailException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1,11 +1,10 @@
 package com.awesometech.leoco.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
-import org.eclipse.jface.dialogs.InputDialog;
 
-import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -18,8 +17,6 @@ import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceconsumer.Services;
-import com.bizvisionsoft.sqldb.SqlQuery;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 public class SelectOA {
@@ -32,15 +29,15 @@ public class SelectOA {
 		Object[] input = (Object[]) context.getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) input[0];
 		TrackView tv = (TrackView) input[1];
-		String catagory = tv.getCatagory();
 		//OA流程选择器   用户选择器
 		new Selector(br.getAssembly("OA流程选择器"), context).setTitle("选择需要关联的流程").open(r -> {
 			Document row = (Document)r.get(0);
 			String inst_ID = row.get("INST_ID").toString();
 			
-			List instList = (List) tv.getParameter("WF_INSTS");
+			@SuppressWarnings("unchecked")
+			List<String> instList = (List<String>) tv.getParameter("WF_INSTS");
 			if(null == instList) {
-				instList = new BasicDBList();
+				instList = new ArrayList<String>();
 			}
 			if(!instList.contains(inst_ID)) {
 				instList.add(inst_ID);

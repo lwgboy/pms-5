@@ -407,7 +407,9 @@ public class EditResourceASM extends GridPart {
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 		
 
-		brui.openContent(brui.getAssembly("编辑资源情况"), newRT);
+		brui.openContent(brui.getAssembly("编辑资源情况"), newRT, e -> {
+			System.out.println(e);
+		});
 	}
 
 	private void updateQty(String text, Object data) {

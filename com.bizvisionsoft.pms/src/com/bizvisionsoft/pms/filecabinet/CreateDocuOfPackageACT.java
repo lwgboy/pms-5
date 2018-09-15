@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.filecabinet;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -16,7 +15,6 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -25,10 +23,12 @@ public class CreateDocuOfPackageACT {
 	@Inject
 	private IBruiService brui;
 
-	@Behavior("输出文档/创建文档")
-	private boolean behaviour(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
-		return !(input instanceof ProjectTemplate);
-	}
+	// 已经把模板和项目的分开，没有必要用Behavior设置，所以注释以下代码
+	// @Behavior("输出文档/创建文档")
+	// private boolean behaviour(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT)
+	// Object input) {
+	// return !(input instanceof ProjectTemplate);
+	// }
 
 	@Execute
 	public void execute(final @MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {

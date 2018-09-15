@@ -22,6 +22,10 @@ public class DocuTemplate {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
+	
+	public ObjectId get_id() {
+		return _id;
+	}
 
 	@ReadValue
 	@WriteValue

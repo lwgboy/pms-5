@@ -37,7 +37,7 @@ public class WFDataset {
 		List<Document> list = new ArrayList<Document>();
 		new SqlQuery("ecology").sql("select inst.wf_id ,node.id as id,node.text as text,'ffffff' as foreground  from V_PMS_wf_node node,V_PMS_wf_inst inst where node.wf_id = inst.wf_id and inst.id = '" + inst_ID + "' ")
 			.changeKeyCase(true).forEach(n -> {
-			List curList = curNodeList;
+			List<String> curList = curNodeList;
 			if(null != n.get("id").toString() && curList.contains(n.get("id").toString())) {
 				n.append("background", "b0120a");
 			}else {
@@ -53,7 +53,7 @@ public class WFDataset {
 	private List<Document> links() {
 		Document prItem = (Document) context.getInput();
 		String inst_ID = prItem.get("INST_ID").toString();
-		List list = new ArrayList();
+		List<Document> list = new ArrayList<Document>();
 		new SqlQuery("ecology").sql("select inst.wf_id as WF_ID, link.src as SRC, link.tgt as TGT from V_PMS_wf_link link,V_PMS_wf_inst inst where inst.wf_id = link.wf_id and inst.id = '" + inst_ID + "'").changeKeyCase(true)
 			.forEach(n ->{
 				n.put("src", n.get("src").toString());

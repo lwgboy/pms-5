@@ -268,6 +268,11 @@
             "children": [],
             "name": "备份和还原",
             "id": "16527b186f1"
+          },
+          {
+            "children": [],
+            "name": "系统设置",
+            "id": "165d57b9f4a"
           }
         ],
         "name": "系统管理",
@@ -3646,6 +3651,32 @@
             "type": "switch"
           },
           {
+            "id": "165d57032c6",
+            "name": "系统设置",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "165d5706851",
+                "name": "邮件设置",
+                "bundleId": "com.bizvisionsoft.bruiengine",
+                "className": "com.bizvisionsoft.bruiengine.app.sysman.EmailSettingACT",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          },
+          {
             "id": "1641a87cc06",
             "name": "开发环境",
             "image": "/img/rnd_w.svg",
@@ -4072,6 +4103,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -4115,6 +4147,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -4472,6 +4505,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -4748,6 +4782,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -4944,6 +4979,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -5238,6 +5274,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -5467,6 +5504,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -5579,6 +5617,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6035,6 +6074,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6079,6 +6119,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6297,6 +6338,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6470,6 +6512,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6586,6 +6629,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6649,6 +6693,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -6819,6 +6864,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7009,6 +7055,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7263,6 +7310,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7447,6 +7495,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7614,6 +7663,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7883,6 +7933,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -7924,6 +7975,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -8126,6 +8178,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -8438,6 +8491,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -8892,6 +8946,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9170,6 +9225,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9248,6 +9304,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9346,6 +9403,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9537,6 +9595,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9604,6 +9663,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9699,6 +9759,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9871,6 +9932,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -9983,6 +10045,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10273,6 +10336,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10441,6 +10505,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10664,6 +10729,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10777,6 +10843,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10818,6 +10885,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -10966,6 +11034,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11121,6 +11190,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11166,6 +11236,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11418,6 +11489,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11527,6 +11599,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11779,6 +11852,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -11992,6 +12066,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -12176,6 +12251,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -12468,6 +12544,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -12610,6 +12687,7 @@
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动项目以前，您还需要完善一些信息，组建项目的初始团队，制定总体的进度计划，编制项目预算。\u003c/div\u003e\n\u003cdiv\u003e您也可以套用项目模板完成计划的快速创建。\u003c/div\u003e\n",
         "actionPanelColumnCount": 5,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -13369,6 +13447,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -13567,6 +13646,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -13702,6 +13782,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -13882,6 +13963,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -13998,6 +14080,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -14247,6 +14330,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -14345,6 +14429,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -14583,6 +14668,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -14740,6 +14826,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -14912,6 +14999,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15007,6 +15095,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15132,6 +15221,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15223,6 +15313,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15301,6 +15392,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15382,6 +15474,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15444,6 +15537,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15519,6 +15613,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15634,6 +15729,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -15943,6 +16039,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16150,6 +16247,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16366,6 +16464,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16577,6 +16676,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16673,6 +16773,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16717,6 +16818,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16855,6 +16957,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -16896,6 +16999,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -17003,6 +17107,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -17289,6 +17394,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -17468,6 +17574,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19222,6 +19329,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19263,6 +19371,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19370,6 +19479,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19513,6 +19623,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19587,6 +19698,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -19996,6 +20108,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -20039,6 +20152,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "schedulerType": "scheduler",
         "addToParentContext": false,
         "removeBorder": false,
@@ -20109,6 +20223,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -20153,6 +20268,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "schedulerType": "timeline",
         "addToParentContext": false,
         "removeBorder": false,
@@ -20354,6 +20470,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -20484,6 +20601,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -20559,6 +20677,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21034,6 +21153,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21468,6 +21588,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": true
@@ -21513,6 +21634,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21577,6 +21699,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "workPackageSetting",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21683,6 +21806,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21852,6 +21976,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -21930,6 +22055,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22250,6 +22376,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22381,6 +22508,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22545,6 +22673,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22590,6 +22719,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22684,6 +22814,7 @@
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e阶段已成功创建\u003c/div\u003e\n\u003cdiv\u003e在启动阶段以前，您还需要完善一些信息，制定阶段的进度计划，编制阶段预算。\u003c/div\u003e\n",
         "actionPanelColumnCount": 3,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22746,6 +22877,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -22931,6 +23063,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23006,6 +23139,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23069,6 +23203,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23287,6 +23422,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23362,6 +23498,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23407,6 +23544,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23482,6 +23620,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23611,6 +23750,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23685,6 +23825,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -23781,6 +23922,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24084,6 +24226,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24251,6 +24394,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24418,6 +24562,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24585,6 +24730,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24767,6 +24913,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -24920,6 +25067,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -25014,6 +25162,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -25500,6 +25649,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -25776,6 +25926,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -25933,6 +26084,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -26029,6 +26181,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -26360,6 +26513,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -26491,6 +26645,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -26688,6 +26843,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -26820,6 +26976,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -27191,6 +27348,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -27322,6 +27480,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -27499,6 +27658,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -27613,6 +27773,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -27880,6 +28041,8 @@
             "id": "15ce2ea0e79",
             "name": "文档",
             "text": "文档",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.workpackage.action.OpenDocuOrDocuSetting",
             "switchContentToAssemblyId": "15ce2dafe9d",
             "openContent": true,
             "propagate": false,
@@ -27888,7 +28051,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           },
           {
             "id": "1636c6d351a",
@@ -27920,6 +28083,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28036,6 +28200,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28193,6 +28358,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28289,6 +28455,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28454,6 +28621,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28606,6 +28774,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28684,6 +28853,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28816,6 +28986,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -28893,6 +29064,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -29369,6 +29541,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -29845,6 +30018,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -30321,6 +30495,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -30797,6 +30972,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -31431,6 +31607,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -32065,6 +32242,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -32197,6 +32375,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -32276,6 +32455,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -32479,6 +32659,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "workPackageSetting#certificates#chargerId#assignerId",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -33204,6 +33385,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -33442,6 +33624,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -33487,6 +33670,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -33737,6 +33921,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34070,6 +34255,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34154,6 +34340,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34322,6 +34509,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34363,6 +34551,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34404,6 +34593,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34551,6 +34741,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34596,6 +34787,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -34961,6 +35153,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35097,6 +35290,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35141,6 +35335,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35449,6 +35644,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35586,6 +35782,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35751,6 +35948,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -35846,6 +36044,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36010,6 +36209,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36172,6 +36372,7 @@
         "message": "\u003cdiv style\u003d\u0027font-size: 22px;\u0027\u003e项目模板已成功创建\u003c/div\u003e\n\u003cdiv\u003e您可以对项目模板进行以下设置。\u003c/div\u003e\n",
         "actionPanelColumnCount": 5,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36281,6 +36482,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36380,6 +36582,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36515,6 +36718,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36757,6 +36961,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36837,6 +37042,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36923,6 +37129,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -36967,6 +37174,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -37088,6 +37296,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -37221,6 +37430,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -37302,6 +37512,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -37821,6 +38032,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38374,6 +38586,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38434,6 +38647,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38621,6 +38835,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38664,6 +38879,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38757,6 +38973,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38798,6 +39015,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38842,6 +39060,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -38907,6 +39126,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39175,6 +39395,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39358,6 +39579,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "tag#category#docuFiles",
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39426,6 +39648,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39494,6 +39717,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39537,6 +39761,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39580,6 +39805,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39673,6 +39899,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39766,6 +39993,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -39775,7 +40003,7 @@
         "name": "输出文档",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "交付文档",
+        "stickerTitle": "文档",
         "folderId": "1636715acf8",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -39791,9 +40019,9 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
-        "gridDataSetService": "",
-        "gridDataSetBundleId": "com.bizvisionsoft.pms",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.OutputDocumentDataset",
+        "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
@@ -39933,22 +40161,7 @@
             "style": "normal",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
-            "actionBehavier": true,
-            "type": "customized"
-          },
-          {
-            "id": "165c6370d29",
-            "name": "创建文档模板",
-            "text": "创建",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.filecabinet.SetDocuTemplateOfPackageACT",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": true,
+            "actionBehavier": false,
             "type": "customized"
           },
           {
@@ -40011,6 +40224,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40052,6 +40266,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40118,6 +40333,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40187,6 +40403,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40775,6 +40992,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40926,6 +41144,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -40969,6 +41188,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41060,6 +41280,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41103,6 +41324,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41146,6 +41368,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41237,6 +41460,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41343,6 +41567,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41449,6 +41674,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41492,6 +41718,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41587,6 +41814,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41662,6 +41890,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -41705,6 +41934,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "schedulerType": "selector",
         "addToParentContext": false,
         "removeBorder": false,
@@ -42017,6 +42247,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42272,6 +42503,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42313,6 +42545,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42632,6 +42865,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42719,6 +42953,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42796,6 +43031,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -42892,6 +43128,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -43084,6 +43321,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -43128,6 +43366,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -43439,6 +43678,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -43750,6 +43990,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -43961,6 +44202,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44172,6 +44414,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44383,6 +44626,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44427,6 +44671,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44749,6 +44994,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44793,6 +45039,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44837,6 +45084,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44881,6 +45129,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44955,6 +45204,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -44999,6 +45249,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -45208,6 +45459,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -45504,6 +45756,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -45619,6 +45872,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "rom#to",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -45734,6 +45988,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "from#to",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -46063,6 +46318,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -46104,6 +46360,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -46584,6 +46841,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -46913,6 +47171,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47106,6 +47365,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47299,6 +47559,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47340,6 +47601,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47533,6 +47795,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47574,6 +47837,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47647,6 +47911,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47722,6 +47987,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47765,6 +48031,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47840,6 +48107,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47883,6 +48151,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -47958,6 +48227,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48001,6 +48271,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48045,6 +48316,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48089,6 +48361,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48162,6 +48435,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48253,6 +48527,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48296,6 +48571,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48489,6 +48765,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -48709,6 +48986,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49081,6 +49359,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49214,6 +49493,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49273,6 +49553,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49316,6 +49597,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49721,6 +50003,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49854,6 +50137,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49898,6 +50182,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -49940,6 +50225,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -50125,6 +50411,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -50311,6 +50598,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -50387,6 +50675,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -50684,6 +50973,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -50769,6 +51059,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51128,6 +51419,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51258,6 +51550,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51391,6 +51684,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51467,6 +51761,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51632,6 +51927,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51701,6 +51997,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51851,6 +52148,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51893,6 +52191,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -51935,6 +52234,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -52011,6 +52311,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -52052,6 +52353,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -52422,6 +52724,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53065,6 +53368,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53108,6 +53412,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53207,6 +53512,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53314,6 +53620,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53357,6 +53664,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53400,6 +53708,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53556,6 +53865,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53685,6 +53995,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53729,6 +54040,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53795,6 +54107,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53836,6 +54149,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -53898,6 +54212,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "tags",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -54074,6 +54389,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -54439,6 +54755,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -54484,18 +54801,19 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
       },
       {
         "id": "16464ef8fd1",
-        "name": "文件夹结构",
+        "name": "项目模板文件夹选择列表",
         "layout": [],
         "type": "grid",
         "stickerTitle": "文档结构",
         "folderId": "16464eebefb",
-        "gridAutoExpandLevel": 0,
+        "gridAutoExpandLevel": -1,
         "gridCustomItemHeight": 0,
         "gridMarkupEnabled": false,
         "gridLineVisiable": true,
@@ -54509,12 +54827,12 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
-        "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+        "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
         "gridPageCount": 0,
         "columns": [
           {
             "id": "16464f017a0",
-            "name": "name",
+            "name": "folderName",
             "text": "名称",
             "alignment": 16384,
             "width": 120,
@@ -54551,6 +54869,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -54594,6 +54913,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -54949,6 +55269,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -55090,6 +55411,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -55356,6 +55678,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -55441,6 +55764,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -55724,6 +56048,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -55874,6 +56199,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -56070,6 +56396,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -57903,6 +58230,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -58239,6 +58567,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -58626,6 +58955,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -58725,6 +59055,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -58993,6 +59324,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59034,6 +59366,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59167,6 +59500,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59300,6 +59634,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "attachment",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59341,6 +59676,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59458,6 +59794,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59593,6 +59930,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59763,6 +60101,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59876,6 +60215,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59917,6 +60257,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -59958,6 +60299,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -60160,6 +60502,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -60368,6 +60711,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "org_id#headPics",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -60893,6 +61237,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61029,6 +61374,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61123,6 +61469,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61430,6 +61777,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61505,6 +61853,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61567,6 +61916,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61642,6 +61992,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61687,6 +62038,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61755,6 +62107,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61796,6 +62149,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -61872,6 +62226,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62249,6 +62604,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62315,6 +62671,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62427,6 +62784,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62865,6 +63223,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62906,6 +63265,7 @@
         "selectorMultiSelection": true,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -62973,6 +63333,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63185,6 +63546,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63245,6 +63607,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63351,6 +63714,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63431,6 +63795,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63527,6 +63892,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63587,6 +63953,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63678,6 +64045,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -63775,6 +64143,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -64033,6 +64402,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -64722,6 +65092,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -65331,6 +65702,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -66388,6 +66760,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -68221,6 +68594,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70054,6 +70428,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70185,6 +70560,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70392,6 +70768,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70584,6 +70961,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70629,6 +71007,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70878,6 +71257,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -70920,6 +71300,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -71127,7 +71508,7 @@
                 "readOnly": false,
                 "required": false,
                 "textLimit": 0,
-                "optionText": "费用相关#服务支持#人事管理#资产管理#公文管理#合同管理#考勤相关#文档审批#HR流程#培训流程#业务流程#采购流程#工程流程#PM流程#生产流程#生管流程#品保流程#财务流程#资讯流程#货仓流程#管理课流程",
+                "optionText": "系统默认工作流#日常工作#总结和计划#通知#费用相关#服务支持#人事管理#资产管理#公文管理#合同管理#考勤相关#文档审批#报表填报#HR流程#培训流程#业务流程#采购流程#PM流程#生产流程#品保流程#货仓流程#工程流程#生管流程#财务流程#资讯流程#管理课流程",
                 "maxFileSize": 0,
                 "timeLimit": 0,
                 "textQueryType": "字符串",
@@ -71165,6 +71546,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -71313,6 +71695,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -71354,6 +71737,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -71519,6 +71903,7 @@
         "actionPanelColumnCount": 0,
         "nullValueAllowedFields": "tag#category#docuFiles",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false
@@ -71544,7 +71929,7 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": true,
-        "gridDataSetService": "com.bizvisionsoft.service.UniversalDataService",
+        "gridDataSetService": "",
         "gridPageCount": 0,
         "columns": [
           {
@@ -71804,10 +72189,452 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,
+        "tinyEditor": false,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false,
         "modelClassName": "com.bizvisionsoft.service.model.DocuTemplate"
+      },
+      {
+        "id": "165d102d986",
+        "name": "编辑输出文档设置",
+        "title": "输出文档设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "163cd3feba0",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "165d1043fe3",
+            "name": "name",
+            "text": "名称",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d103bf20",
+            "name": "docuTemplate",
+            "text": "文档模板",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "165c670c72c",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false,
+            "valueFieldName": ""
+          },
+          {
+            "id": "165d10318b4",
+            "name": "folderInTemplate",
+            "text": "保存到",
+            "type": "对象选择框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "16464ef8fd1",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false,
+            "valueFieldName": ""
+          },
+          {
+            "id": "165d1047db3",
+            "name": "description",
+            "text": "说明",
+            "type": "多行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": true
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": true,
+        "tinyEditor": false,
+        "addToParentContext": true,
+        "removeBorder": false,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "165d21ae16e",
+        "name": "输出文档设置",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "交付文档设置",
+        "folderId": "163cd3feba0",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "15ce2de8452",
+            "name": "name",
+            "text": "名称",
+            "alignment": 16384,
+            "width": 240,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "165d243be74",
+            "name": "folderInTemplate",
+            "text": "文件夹",
+            "alignment": 16384,
+            "width": 160,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "165d243bfd2",
+            "name": "docuTemplate",
+            "text": "文档模板",
+            "alignment": 16384,
+            "width": 160,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "165d22390b7",
+            "name": "description",
+            "text": "描述",
+            "alignment": 16384,
+            "width": 320,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": false,
+        "actions": [
+          {
+            "id": "165c6370d29",
+            "name": "创建工作包文档模板设置",
+            "text": "创建",
+            "tooltips": "创建文档模板设置",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.filecabinet.CreateDocuSettingACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "163e37cdd36",
+            "name": "打开",
+            "image": "/img/edit_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "normal",
+            "editorAssemblyId": "165d102d986",
+            "editorAssemblyEditable": true,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "edit"
+          },
+          {
+            "id": "15ce2ecf5c2",
+            "name": "移除",
+            "text": "移除",
+            "image": "/img/minus_16_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "delete"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": true,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "165d57bc9c2",
+        "name": "邮件设置",
+        "title": "邮件设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "165d57b9f4a",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "165d57c3a0d",
+            "name": "emailNotice",
+            "text": "发送邮件通知",
+            "type": "复选框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "checkStyle": "开关（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d57c3ac4",
+            "name": "smtpHost",
+            "text": "服务器地址",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d57c3b7f",
+            "name": "smtpPort",
+            "text": "端口号",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d57c3c46",
+            "name": "smtpUseSSL",
+            "text": "使用SSL",
+            "type": "复选框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "checkStyle": "开关（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d57c3cfd",
+            "name": "senderAddress",
+            "text": "发送者",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textMessage": "发送者账户，例如:abc@bizvisionsoft.com",
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "165d57c3da4",
+            "name": "senderPassword",
+            "text": "发送者密码",
+            "type": "单行文本框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": true,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": true,
+        "tinyEditor": true,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false
       }
     ]
   },
