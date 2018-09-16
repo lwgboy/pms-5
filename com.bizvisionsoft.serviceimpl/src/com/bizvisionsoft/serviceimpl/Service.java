@@ -12,6 +12,8 @@ import java.util.Properties;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.eclipse.osgi.internal.debug.Debug;
+import org.eclipse.osgi.internal.framework.BundleContextImpl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -35,6 +37,8 @@ public class Service implements BundleActivator {
 
 	private boolean loadJSQueryAtInit;
 
+	private static Debug debug;
+
 	public static String mongoDbBinPath;
 
 	public static File dumpFolder;
@@ -53,9 +57,9 @@ public class Service implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Service.context = bundleContext;
+		
 		String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
 		loadDatabase(filePath);
-
 		loadQuery(filePath);
 		loadBackupFolder(filePath);
 	}
@@ -183,6 +187,13 @@ public class Service implements BundleActivator {
 
 	public static MongoCollection<Document> col(String name) {
 		return database.getCollection(name);
+	}
+	
+	public static Debug getDebug() {
+		if(debug ==null) {
+			debug = ((BundleContextImpl)context).getContainer().getConfiguration().getDebug();
+		}
+		return debug;
 	}
 
 }

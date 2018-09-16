@@ -26,6 +26,8 @@ import org.bson.codecs.EncoderContext;
 import org.bson.conversions.Bson;
 import org.bson.json.JsonWriter;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.math.scheduling.Consequence;
 import com.bizvisionsoft.math.scheduling.Graphic;
@@ -38,6 +40,7 @@ import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
@@ -53,6 +56,8 @@ import com.mongodb.client.result.UpdateResult;
 
 public class BasicServiceImpl {
 
+	public Logger logger = LoggerFactory.getLogger(getClass());
+
 	protected <T> long update(BasicDBObject fu, Class<T> clazz) {
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
 		BasicDBObject update = (BasicDBObject) fu.get("update");
@@ -61,7 +66,7 @@ public class BasicServiceImpl {
 		option.upsert(false);
 		UpdateResult updateMany = c(clazz).updateMany(filter, update, option);
 		long cnt = updateMany.getModifiedCount();
-		
+
 		return cnt;
 	}
 
@@ -193,9 +198,9 @@ public class BasicServiceImpl {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		List<T> result = new ArrayList<T>();
-		c(clazz).aggregate(pipeline).into(result);
-		return result;
+		debugPipeline(pipeline);
+		
+		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
 	}
 
 	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField) {
@@ -820,6 +825,13 @@ public class BasicServiceImpl {
 			email.attach(attachment);
 		} catch (UnsupportedEncodingException | EmailException e) {
 			e.printStackTrace();
+		}
+	}
+
+	protected void debugPipeline(List<? extends Bson> pipeline) {
+		if (Service.getDebug().DEBUG_GENERAL) {
+			String json = new GsonBuilder().create().toJson(pipeline);
+			logger.debug(json);
 		}
 	}
 

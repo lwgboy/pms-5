@@ -85,14 +85,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		// pipeline.forEach(b->System.out.println(b.toBsonDocument(Document.class,
-		// MongoClient.getDefaultCodecRegistry())));
 		appendOverdue(pipeline);
 
 		appendWorkTime(pipeline);
 
-		AggregateIterable<Work> iterable = c(Work.class).aggregate(pipeline);
-		return iterable;
+		return c(Work.class).aggregate(pipeline);
 	}
 
 	private void appendWorkTime(List<Bson> pipeline) {

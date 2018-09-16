@@ -62,7 +62,6 @@ public class WorkReport {
 	// cal.set(Calendar.MINUTE, 0);
 	// cal.set(Calendar.SECOND, 0);
 	// Date date = cal.getTime();
-	// System.out.println(date);
 	// }
 
 	@Exclude

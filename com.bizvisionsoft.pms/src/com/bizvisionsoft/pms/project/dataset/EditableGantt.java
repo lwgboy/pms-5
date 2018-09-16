@@ -67,7 +67,6 @@ public class EditableGantt {
 	// workInfo.setParent_id(workspace.getWork_id());
 	// }
 	// workSpaceService.insertWork(workInfo);
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener({ "onAfterTaskUpdate", "onAfterTaskMove", "onAfterTaskResize",
@@ -76,13 +75,11 @@ public class EditableGantt {
 	// workSpaceService.updateWork(new FilterAndUpdate().filter(new
 	// BasicDBObject("_id", new ObjectId(e.id)))
 	// .set(EngUtil.getBson((WorkInfo) e.task, "_id")).bson());
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener("onAfterTaskDelete")
 	// public void onAfterTaskDeleteInSpace(GanttEvent e) {
 	// workSpaceService.deleteWork(new ObjectId(e.id));
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener("onAfterLinkAdd")
@@ -90,7 +87,6 @@ public class EditableGantt {
 	// WorkLinkInfo workLinkInfo = (WorkLinkInfo) e.link;
 	// workLinkInfo.setSpaceId(workspace.getSpace_id());
 	// workSpaceService.insertLink(workLinkInfo);
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener("onAfterLinkUpdate")
@@ -98,20 +94,16 @@ public class EditableGantt {
 	// workSpaceService.updateLink(new FilterAndUpdate().filter(new
 	// BasicDBObject("_id", new ObjectId(e.id)))
 	// .set(EngUtil.getBson((WorkLinkInfo) e.link, "_id")).bson());
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener("onAfterLinkDelete")
 	// public void onAfterLinkDeleteInSpace(GanttEvent e) {
 	// workSpaceService.deleteLink(new ObjectId(e.id));
-	// System.out.println(e.text);
 	// }
 	//
 	// @Listener("onAfterAutoSchedule")
 	// public void onAfterAutoScheduleInSpace(GanttEvent e) {
 	// ArrayList<String> ts = e.updatedTasks;
-	// System.out.println(ts);
-	// System.out.println("--------------------onAfterAutoSchedule--------------------");
 	// }
 
 	@Listener("save")
