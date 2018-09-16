@@ -20,11 +20,11 @@
         </encoder>
     </appender>
     
-    <logger name="rs"  level="debug" additivity="false" >
+    <logger name="rs"  level="info" additivity="false" >
         <appender-ref ref="FILE"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>

@@ -9,7 +9,7 @@
     </appender>
     
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">  
-        <file>./rs.log</file>
+        <file>./brui.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>./brui_log%d{yyyyMMdd}.log.zip</FileNamePattern>
             <maxHistory>30</maxHistory>
@@ -20,11 +20,11 @@
         </encoder>
     </appender>
     
-    <logger name="rs"  level="debug" additivity="false" >
+    <logger name="brui"  level="info" additivity="false" >
         <appender-ref ref="FILE"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
