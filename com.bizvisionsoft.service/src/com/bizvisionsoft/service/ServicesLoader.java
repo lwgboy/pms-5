@@ -16,15 +16,14 @@ public class ServicesLoader implements BundleActivator {
 	public static String url;
 
 	@Override
-	public void start(BundleContext bundleContext) throws Exception {
-		ServicesLoader.bundleContext = bundleContext;
-		url = (String) bundleContext.getProperty("com.bizvisionsoft.service.url");
-
+	public void start(BundleContext bc) throws Exception {
+		ServicesLoader.bundleContext = bc;
+		url = (String) bc.getProperty("com.bizvisionsoft.service.url");
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-		references.forEach(reference->bundleContext.ungetService(reference));
+		references.forEach(reference -> bundleContext.ungetService(reference));
 	}
 
 	public static <T> T get(Class<T> clazz) {
@@ -33,9 +32,10 @@ public class ServicesLoader implements BundleActivator {
 			references.add(reference);
 		return bundleContext.getService(reference);
 	}
-	
+
 	public static BundleContext getBundleContext() {
 		return bundleContext;
 	}
+
 
 }
