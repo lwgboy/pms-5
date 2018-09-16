@@ -30,6 +30,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -407,7 +408,30 @@ public class EditResourceASM extends GridPart {
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 
 		brui.openContent(brui.getAssembly("编辑资源情况"), newRT, e -> {
-			System.out.println(e);
+			// 构建用于刷新的ResourceTransfer
+			ResourceTransfer nRT = new ResourceTransfer();
+			nRT.setType(rt.getType());
+			nRT.setIsReport(rt.isReport());
+			nRT.setShowType(rt.getShowType());
+			nRT.setUsedEquipResId(doc.getString("usedEquipResId"));
+			nRT.setUsedHumanResId(doc.getString("usedHumanResId"));
+			nRT.setUsedTypedResId(doc.getString("usedTypedResId"));
+			nRT.setResTypeId(doc.getObjectId("resTypeId"));
+			nRT.setWorkIds(rt.getWorkIds());
+			nRT.setWorkReportItemId(rt.getWorkReportItemId());
+			nRT.setFrom(rt.getFrom());
+			nRT.setTo(rt.getTo());
+
+			// 获取数据库存储的资源计划
+			List<Document> list = workService.getResource(nRT);
+
+			// 刷新视图
+			if (list.size() > 0) {
+				AUtil.simpleCopy(list.get(0), doc);
+				viewer.refresh(doc);
+			} else {
+				viewer.remove(doc);
+			}
 		});
 	}
 
@@ -966,8 +990,12 @@ public class EditResourceASM extends GridPart {
 					if (eStart == null)
 						eStart = ((Document) element).get("planStart");
 					eFinish = ((Document) element).get("actualFinish");
-					if (eFinish == null)
-						eFinish = ((Document) element).get("planFinish");
+					if (eFinish == null) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(now);
+						cal.add(Calendar.DAY_OF_MONTH, 1);
+						eFinish = cal.getTime();
+					}
 				}
 				if (obj instanceof List) {
 					List<Document> list = (List<Document>) obj;
