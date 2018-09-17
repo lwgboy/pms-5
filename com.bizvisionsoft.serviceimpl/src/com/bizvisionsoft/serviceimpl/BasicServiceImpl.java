@@ -98,7 +98,7 @@ public class BasicServiceImpl {
 			c((Class<T>) obj.getClass()).insertOne(obj);
 			return obj;
 		} catch (Exception e) {
-			throw handleDuplicateIndexError(e, "违反唯一性规则");
+			throw handleMongoException(e, obj.toString());
 		}
 	}
 
@@ -107,7 +107,7 @@ public class BasicServiceImpl {
 			c(clazz).insertOne(obj);
 			return obj;
 		} catch (Exception e) {
-			throw handleDuplicateIndexError(e, "违反唯一性规则");
+			throw handleMongoException(e, obj.toString());
 		}
 	}
 
@@ -116,7 +116,7 @@ public class BasicServiceImpl {
 			c(cname, clazz).insertOne(obj);
 			return obj;
 		} catch (Exception e) {
-			throw handleDuplicateIndexError(e, "违反唯一性规则");
+			throw handleMongoException(e, obj.toString());
 		}
 	}
 
@@ -199,7 +199,7 @@ public class BasicServiceImpl {
 			pipeline.add(Aggregates.limit(limit));
 
 		debugPipeline(pipeline);
-		
+
 		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
 	}
 
@@ -650,16 +650,17 @@ public class BasicServiceImpl {
 	}
 
 	/**
-	 * 唯一性索引重复，抛出错误
+	 * 处理错误
 	 * 
 	 * @param e
 	 * @param message
 	 * @return
 	 */
-	final protected ServiceException handleDuplicateIndexError(Exception e, String message) {
+	final protected ServiceException handleMongoException(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
-			return new ServiceException(message);
+			return new ServiceException("违反唯一性规则：" + message);
 		}
+
 		return new ServiceException(e.getMessage());
 	}
 

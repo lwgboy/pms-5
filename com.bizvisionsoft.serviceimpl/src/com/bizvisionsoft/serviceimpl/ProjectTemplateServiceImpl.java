@@ -185,7 +185,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		try {
 			return insert(t);
 		} catch (Exception e) {
-			throw handleDuplicateIndexError(e, "½ÇÉ«±àºÅÖØ¸´");
+			throw handleMongoException(e, t.toString());
 		}
 	}
 

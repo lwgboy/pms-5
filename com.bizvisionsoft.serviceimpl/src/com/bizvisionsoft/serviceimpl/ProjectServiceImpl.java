@@ -285,7 +285,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		try {
 			return update(fu, Project.class);
 		} catch (Exception e) {
-			handleDuplicateIndexError(e, "项目编号重复");
+			handleMongoException(e, "项目" + fu);
 		}
 		return 0;
 	}
@@ -303,7 +303,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			String workOrder = generateWorkOrder(_id);
 			c("project").updateOne(cond, new Document("$set", new Document("id", id).append("workOrder", workOrder)));
 		} catch (Exception e) {
-			throw handleDuplicateIndexError(e, "项目编号重复");
+			throw handleMongoException(e, "项目编号" + id);
 		}
 	}
 
@@ -424,7 +424,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Result> distributeProjectPlan(Command com) {
 		final List<Message> msg = new ArrayList<>();
 		final Set<ObjectId> ids = new HashSet<>();
-		
+
 		Project project = get(com._id, Project.class);
 		final String projectName = project.getName();
 		boolean stageEnabled = project.isStageEnable();
