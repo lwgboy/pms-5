@@ -20,10 +20,6 @@
         </encoder>
     </appender>
     
-    <logger name="brui"  level="info" additivity="false" >
-        <appender-ref ref="FILE"/>
-    </logger>
-
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />

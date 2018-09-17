@@ -19,11 +19,12 @@
         </encoder>
     </appender>
     
-    <logger name="RS"  level="info" additivity="false" >
+    <logger name="org.mongodb.driver"  level="info" additivity="false" >
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </logger>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
