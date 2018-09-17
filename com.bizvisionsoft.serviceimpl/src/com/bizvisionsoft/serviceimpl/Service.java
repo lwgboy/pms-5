@@ -12,8 +12,6 @@ import java.util.Properties;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
-import org.eclipse.osgi.internal.debug.Debug;
-import org.eclipse.osgi.internal.framework.BundleContextImpl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
@@ -43,8 +41,6 @@ public class Service implements BundleActivator {
 	private static MongoClient mongo;
 
 	private boolean loadJSQueryAtInit;
-
-	private static Debug debug;
 
 	public static String mongoDbBinPath;
 
@@ -206,13 +202,6 @@ public class Service implements BundleActivator {
 		return database.getCollection(name);
 	}
 
-	public static Debug getDebug() {
-		if (debug == null) {
-			debug = ((BundleContextImpl) context).getContainer().getConfiguration().getDebug();
-		}
-		return debug;
-	}
-	
 	public static ServerAddress getDatabaseHost() {
 		return databaseHost;
 	}

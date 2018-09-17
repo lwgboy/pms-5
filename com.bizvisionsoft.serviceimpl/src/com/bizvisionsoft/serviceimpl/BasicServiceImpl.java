@@ -829,7 +829,7 @@ public class BasicServiceImpl {
 	}
 
 	protected void debugPipeline(List<? extends Bson> pipeline) {
-		if (Service.getDebug().DEBUG_GENERAL) {
+		if (logger.isDebugEnabled()) {
 			String json = new GsonBuilder().create().toJson(pipeline);
 			logger.debug(json);
 		}
