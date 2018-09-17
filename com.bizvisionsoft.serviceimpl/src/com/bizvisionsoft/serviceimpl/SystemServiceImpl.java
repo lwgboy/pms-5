@@ -72,7 +72,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			try {
 				Util.writeFile(text, files[0].getPath() + "/notes.txt", "utf-8");
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 	}

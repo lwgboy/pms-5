@@ -12,7 +12,8 @@ Require-Bundle: com.eclipsesource.jaxrs.jersey-all;bundle-version="2.22.2",
  com.bizvisionsoft.mongocodex;bundle-version="1.0.0",
  org.mongodb.mongo-java-driver,
  com.bizvisionsoft.annotations;bundle-version="1.0.0",
- org.apache.commons.lang3;bundle-version="3.1.0"
+ org.apache.commons.lang3;bundle-version="3.1.0",
+ slf4j.api
 Bundle-ActivationPolicy: lazy
 Export-Package: com.bizvisionsoft.service,
  com.bizvisionsoft.service.datatools,

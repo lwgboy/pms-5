@@ -121,8 +121,7 @@ public class BasicServiceImpl {
 	}
 
 	protected <T> T get(ObjectId _id, Class<T> clazz) {
-		T obj = c(clazz).find(new BasicDBObject("_id", _id)).first();
-		return Optional.ofNullable(obj).orElse(null);
+		return Optional.ofNullable(c(clazz).find(new BasicDBObject("_id", _id)).first()).orElse(null);
 	}
 
 	protected <T> long delete(ObjectId _id, Class<T> clazz) {
@@ -773,7 +772,7 @@ public class BasicServiceImpl {
 			return sendEmail(smtpHost, smtpPort, smtpUseSSL, senderAddress, senderPassword, receiverAddress,
 					m.getSubject(), m.getContent(), from, null);
 		} catch (EmailException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 
@@ -825,7 +824,7 @@ public class BasicServiceImpl {
 			attachment.setName(MimeUtility.encodeText(fileName, "gb2312", "b"));
 			email.attach(attachment);
 		} catch (UnsupportedEncodingException | EmailException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

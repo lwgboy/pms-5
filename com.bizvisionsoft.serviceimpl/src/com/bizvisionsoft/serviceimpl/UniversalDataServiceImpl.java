@@ -108,9 +108,9 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 				uResult.setList(false);
 				return uResult;
 			} catch (InstantiationException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 		return null;

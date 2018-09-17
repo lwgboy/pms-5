@@ -3,14 +3,19 @@ package com.bizvisionsoft.serviceimpl.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 public class ServiceException extends WebApplicationException {
-
+	
 	public ServiceException() {
-		super(Response.status(401).entity("服务异常").type(MediaType.TEXT_PLAIN).build());
+		this(Status.NOT_ACCEPTABLE, "服务异常");
 	}
 
 	public ServiceException(String msg) {
-		super(Response.status(401).entity(msg).type(MediaType.TEXT_PLAIN).build());
+		this(Status.NOT_ACCEPTABLE, msg);
+	}
+
+	public ServiceException(Status status, String msg) {
+		super(Response.status(status).entity(msg).type(MediaType.TEXT_PLAIN).build());
 	}
 }

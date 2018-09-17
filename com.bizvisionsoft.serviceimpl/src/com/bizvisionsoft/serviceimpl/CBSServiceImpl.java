@@ -376,9 +376,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			try {
 				c(CBSItem.class).insertMany(cbsItemList);
 			} catch (Exception e) {
-				if (e instanceof MongoBulkWriteException) {
-					throw new ServiceException(e.getMessage());
-				}
+				handleMongoException(e, "");
 			}
 		}
 		return query(new BasicDBObject("_id", new BasicDBObject("$in", cbsItemIdList))).into(new ArrayList<CBSItem>());

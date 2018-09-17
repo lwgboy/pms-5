@@ -23,6 +23,8 @@ import javax.ws.rs.ext.Provider;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -35,6 +37,8 @@ import com.mongodb.BasicDBObject;
 @Consumes(APPLICATION_JSON)
 public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 
+	public Logger logger = LoggerFactory.getLogger(getClass());
+	
 	public BsonProvider() {
 	}
 
@@ -127,7 +131,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
