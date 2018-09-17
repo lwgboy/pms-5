@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-email-1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/imap-1.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-email-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.mail-1.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/javax.mail-api-1.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/mailapi-1.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/imap-1.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pop3-1.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/smtp-1.5.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>

@@ -13,13 +13,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.activation.CommandMap;
-import javax.activation.MailcapCommandMap;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.SimpleEmail;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.EncoderContext;
@@ -781,14 +780,15 @@ public class BasicServiceImpl {
 	private boolean sendEmail(String smtpHost, int smtpPort, Boolean smtpUseSSL, String senderAddress,
 			String senderPassword, String receiverAddress, String title, String message, String from,
 			List<String[]> atts) throws EmailException {
-		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-		mc.addMailcap("text/html;;x-java-content-handler=com.sun.mail.handlers.text_html");
-		mc.addMailcap("text/xml;;x-java-content-handler=com.sun.mail.handlers.text_xml");
-		mc.addMailcap("text/plain;;x-java-content-handler=com.sun.mail.handlers.text_plain");
-		mc.addMailcap("multipart/*;;x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-		mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-		CommandMap.setDefaultCommandMap(mc);
-		MultiPartEmail email = new MultiPartEmail();
+//		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+//		mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
+//		mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+//		mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+//		mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+//		mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+//		CommandMap.setDefaultCommandMap(mc);
+		
+		SimpleEmail email = new SimpleEmail();
 		email.setMsg(message);
 
 		email.setCharset("UTF-8");
@@ -806,12 +806,13 @@ public class BasicServiceImpl {
 		}
 
 		if (atts != null) {
-			atts.forEach(s -> appendAttachment(email, null, new File(s[0]), s[1]));
+//			atts.forEach(s -> appendAttachment(email, null, new File(s[0]), s[1]));
 		}
 		email.send();
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private void appendAttachment(MultiPartEmail email, URL url, File file, String fileName) {
 		EmailAttachment attachment = new EmailAttachment();
 		attachment.setDisposition(EmailAttachment.ATTACHMENT);
