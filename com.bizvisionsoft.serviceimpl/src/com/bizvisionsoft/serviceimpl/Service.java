@@ -124,7 +124,7 @@ public class Service implements BundleActivator {
 		}
 	}
 
-	private static com.mongodb.client.MongoClient createMongoClient(Properties props) throws UnknownHostException {
+	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
 		Builder b2 = MongoClientSettings.builder();
 		final List<ServerAddress> serverList = new ArrayList<ServerAddress>();
 		String replicaSet = props.getProperty("db.hosts"); //$NON-NLS-1$
