@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.bson.Document;
@@ -20,11 +21,14 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoClientSettings.Builder;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -47,6 +51,8 @@ public class Service implements BundleActivator {
 	public static File dumpFolder;
 
 	public static File queryFolder;
+
+	private static ServerAddress databaseHost;
 
 	static BundleContext getContext() {
 		return context;
@@ -110,7 +116,7 @@ public class Service implements BundleActivator {
 			mongo = createMongoClient(props);
 			String dbname = props.getProperty("db.name"); //$NON-NLS-1$
 			database = mongo.getDatabase(dbname).withCodecRegistry(getCodecRegistry());
-			logger.info("连接数据库完成：" + dbname);
+			logger.info("连接数据库：" + dbname);
 			fis.close();
 			is.close();
 		} catch (Exception e) {
@@ -118,48 +124,61 @@ public class Service implements BundleActivator {
 		}
 	}
 
-	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
-		String host = props.getProperty("db.host"); //$NON-NLS-1$
-		String _port = props.getProperty("db.port");
-		int port = _port == null ? 10001 : Integer.parseInt(_port); // $NON-NLS-1$
-		ArrayList<ServerAddress> serverList = null;
-		String replicaSet = props.getProperty("db.replicaSet"); //$NON-NLS-1$
-		if (replicaSet != null && replicaSet.length() > 0) {
-			serverList = new ArrayList<ServerAddress>();
-			String[] arr = replicaSet.split(" ");
+	private static com.mongodb.client.MongoClient createMongoClient(Properties props) throws UnknownHostException {
+		Builder b2 = MongoClientSettings.builder();
+		final List<ServerAddress> serverList = new ArrayList<ServerAddress>();
+		String replicaSet = props.getProperty("db.hosts"); //$NON-NLS-1$
+		Util.isStringThen(replicaSet, c->{
+			String[] arr = c.split(" ");
 			for (int i = 0; i < arr.length; i++) {
 				String[] ari = arr[i].split(":");
 				ServerAddress address = new ServerAddress(ari[0], Integer.parseInt(ari[1]));
 				serverList.add(address);
 			}
-		}
+		});
+		b2.applyToClusterSettings(b -> b.hosts(serverList));
+		databaseHost = serverList.get(0);
+		//////////////////////////////////////////////////////////////////////////////////////
+		String database = props.getProperty("db.name"); //$NON-NLS-1$
+		String user = props.getProperty("db.user"); //$NON-NLS-1$
+		String password = props.getProperty("db.password"); //$NON-NLS-1$
 
-		Builder builder = MongoClientOptions.builder();
-		// builder.autoConnectRetry("true".equalsIgnoreCase(props //$NON-NLS-1$
-		// .getProperty("db.options.autoConnectRetry"))); //$NON-NLS-1$
-		// CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
-		// CodecRegistries.fromCodecs(new
-		// UuidCodec(UuidRepresentation.STANDARD)),
-		// MongoClient.getDefaultCodecRegistry());
-		// builder.codecRegistry(codecRegistry);
-		builder.connectionsPerHost(Integer.parseInt(props.getProperty("db.options.connectionsPerHost"))); //$NON-NLS-1$
-		builder.maxWaitTime(Integer.parseInt(props.getProperty("db.options.maxWaitTime"))); //$NON-NLS-1$
-		builder.socketTimeout(Integer.parseInt(props.getProperty("db.options.socketTimeout"))); //$NON-NLS-1$
-		builder.connectTimeout(Integer.parseInt(props.getProperty("db.options.connectTimeout"))); //$NON-NLS-1$
-		builder.threadsAllowedToBlockForConnectionMultiplier(
-				Integer.parseInt(props.getProperty("db.options.threadsAllowedToBlockForConnectionMultiplier"))); //$NON-NLS-1$
-		ServerAddress address = new ServerAddress(host, port);
-		if (serverList != null) {
-			return new MongoClient(serverList, builder.build());
-		} else {
-			return new MongoClient(address, builder.build());
-		}
+		// 用户身份验证
+		if (!Util.isEmptyOrNull(user) && !Util.isEmptyOrNull(password))
+			b2.credential(MongoCredential.createCredential(user, database, password.toCharArray()));
+
+		// 使用SSL
+		if ("true".equalsIgnoreCase(props.getProperty("db.ssl")))
+			b2.applyToSslSettings(b -> b.enabled(true));
+
+		return MongoClients.create(b2.build());
+
+//		Builder builder = MongoClientOptions.builder();
+//		// builder.autoConnectRetry("true".equalsIgnoreCase(props //$NON-NLS-1$
+//		// .getProperty("db.options.autoConnectRetry"))); //$NON-NLS-1$
+//		// CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+//		// CodecRegistries.fromCodecs(new
+//		// UuidCodec(UuidRepresentation.STANDARD)),
+//		// MongoClient.getDefaultCodecRegistry());
+//		// builder.codecRegistry(codecRegistry);
+//		builder.connectionsPerHost(Integer.parseInt(props.getProperty("db.options.connectionsPerHost"))); //$NON-NLS-1$
+//		builder.maxWaitTime(Integer.parseInt(props.getProperty("db.options.maxWaitTime"))); //$NON-NLS-1$
+//		builder.socketTimeout(Integer.parseInt(props.getProperty("db.options.socketTimeout"))); //$NON-NLS-1$
+//		builder.connectTimeout(Integer.parseInt(props.getProperty("db.options.connectTimeout"))); //$NON-NLS-1$
+//		builder.threadsAllowedToBlockForConnectionMultiplier(
+//				Integer.parseInt(props.getProperty("db.options.threadsAllowedToBlockForConnectionMultiplier"))); //$NON-NLS-1$
+//		ServerAddress address = new ServerAddress(host, port);
+//		if (serverList != null) {
+//			return new MongoClient(serverList, builder.build());
+//		} else {
+//			return new MongoClient(address, builder.build());
+//		}
 
 	}
 
 	private CodecRegistry getCodecRegistry() {
 		CodecRegistry modelCodeRegistry = CodecRegistries.fromProviders(new CodexProvider());
-		CodecRegistry defaultCodecRegistry = MongoClient.getDefaultCodecRegistry();
+		CodecRegistry defaultCodecRegistry = MongoClientSettings.getDefaultCodecRegistry();
 		return CodecRegistries.fromRegistries(modelCodeRegistry, defaultCodecRegistry);
 	}
 
@@ -179,10 +198,6 @@ public class Service implements BundleActivator {
 		return database;
 	}
 
-	public static MongoClient getMongo() {
-		return mongo;
-	}
-
 	public static <T> MongoCollection<T> col(Class<T> clazz) {
 		return database.getCollection(clazz.getAnnotation(PersistenceCollection.class).value(), clazz);
 	}
@@ -196,6 +211,10 @@ public class Service implements BundleActivator {
 			debug = ((BundleContextImpl) context).getContainer().getConfiguration().getDebug();
 		}
 		return debug;
+	}
+	
+	public static ServerAddress getDatabaseHost() {
+		return databaseHost;
 	}
 
 }

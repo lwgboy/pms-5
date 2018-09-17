@@ -71,6 +71,26 @@ public class Util {
 		}
 	}
 
+	public static void isStringThen(Object s, Consumer<String> c) {
+		if (s instanceof String) {
+			c.accept((String) s);
+		}
+	}
+
+	public static void isIntStringThen(String s, Consumer<Integer> c) {
+		try {
+			c.accept(Integer.parseInt(s));
+		} catch (Exception e) {
+		}
+	}
+
+	public static void isLongStringThen(String s, Consumer<Long> c) {
+		try {
+			c.accept(Long.parseLong(s));
+		} catch (Exception e) {
+		}
+	}
+
 	public static boolean isEmptyOrNull(List<?> s) {
 		return s == null || s.isEmpty();
 	}

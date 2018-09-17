@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
-import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
 
 public class SystemServiceImpl extends BasicServiceImpl implements SystemService {
 
@@ -24,9 +24,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public String mongodbDump(String note) {
-		final MongoClient client = Service.getMongo();
-		String host = client.getAddress().getHost();
-		int port = client.getAddress().getPort();
+		ServerAddress addr = Service.getDatabaseHost();
+		String host = addr.getHost();
+		int port = addr.getPort();
 		String dbName = Service.db().getName();
 		String dumpPath = Service.dumpFolder.getPath();
 		String path = Service.mongoDbBinPath;
@@ -88,15 +88,15 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public boolean restoreFromBackup(String id) {
-		final MongoClient client = Service.getMongo();
-		String host = client.getAddress().getHost();
-		int port = client.getAddress().getPort();
+		ServerAddress addr = Service.getDatabaseHost();
+		String host = addr.getHost();
+		int port = addr.getPort();
 		String dbName = Service.db().getName();
 		String path = Service.mongoDbBinPath;
 		String archive;
 		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
-			archive = files[0].getPath()+"\\"+dbName;
+			archive = files[0].getPath() + "\\" + dbName;
 		} else {
 			return false;
 		}
