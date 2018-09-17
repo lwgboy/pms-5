@@ -831,7 +831,7 @@ public class BasicServiceImpl {
 	protected void debugPipeline(List<? extends Bson> pipeline) {
 		if (logger.isDebugEnabled()) {
 			String json = new GsonBuilder().setPrettyPrinting().create().toJson(pipeline);
-			logger.debug(json);
+			logger.debug("Aggregation Pipeline: \n"+json);
 		}
 	}
 
