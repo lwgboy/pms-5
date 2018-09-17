@@ -20,12 +20,16 @@ import org.osgi.framework.BundleContext;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.mongodb.ConnectionString;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.connection.ClusterSettings;
 
 public class Service implements BundleActivator {
 
@@ -57,7 +61,7 @@ public class Service implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Service.context = bundleContext;
-		
+
 		String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
 		loadDatabase(filePath);
 		loadQuery(filePath);
@@ -65,7 +69,7 @@ public class Service implements BundleActivator {
 	}
 
 	private void loadBackupFolder(String filePath) {
-		
+
 		mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
 		String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
 		if (dumpPath == null || dumpPath.isEmpty()) {
@@ -84,7 +88,7 @@ public class Service implements BundleActivator {
 		if (loadJSQueryAtInit) {
 			JQ.reloadJS();
 		}
-		
+
 		JQ.forceReloadJSQuery = "force".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
 	}
 
@@ -118,6 +122,24 @@ public class Service implements BundleActivator {
 	}
 
 	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
+		String connectionString = props.getProperty("mongo.connectionString");
+		if (connectionString != null && !connectionString.isEmpty()) {// 使用新的连接方式
+			return createMongoClient2(props);
+		} else {
+			return createMongoClient1(props);
+		}
+	}
+
+	private static MongoClient createMongoClient2(Properties props) {
+		// mongodb://host1:27017,host2:27017,host3:27017/?replicaSet=myReplicaSet
+		//mongodb://user1:pwd1@host1/?authSource=db1
+		MongoClientSettings.builder()//
+				.applyConnectionString(new ConnectionString(props.getProperty("mongo.connectionString")))//
+				;
+		return null;
+	}
+
+	private static MongoClient createMongoClient1(Properties props) {
 		String host = props.getProperty("db.host"); //$NON-NLS-1$
 		String _port = props.getProperty("db.port");
 		int port = _port == null ? 10001 : Integer.parseInt(_port); // $NON-NLS-1$
@@ -188,10 +210,10 @@ public class Service implements BundleActivator {
 	public static MongoCollection<Document> col(String name) {
 		return database.getCollection(name);
 	}
-	
+
 	public static Debug getDebug() {
-		if(debug ==null) {
-			debug = ((BundleContextImpl)context).getContainer().getConfiguration().getDebug();
+		if (debug == null) {
+			debug = ((BundleContextImpl) context).getContainer().getConfiguration().getDebug();
 		}
 		return debug;
 	}
