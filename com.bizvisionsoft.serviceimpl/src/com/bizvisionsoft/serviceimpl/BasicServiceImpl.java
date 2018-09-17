@@ -1,9 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.io.File;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -13,12 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.mail.internet.MimeUtility;
-
-import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.EncoderContext;
@@ -37,6 +29,9 @@ import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.serviceimpl.commons.EmailClient;
+import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
+import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.google.gson.GsonBuilder;
@@ -780,59 +775,31 @@ public class BasicServiceImpl {
 	private boolean sendEmail(String smtpHost, int smtpPort, Boolean smtpUseSSL, String senderAddress,
 			String senderPassword, String receiverAddress, String title, String message, String from,
 			List<String[]> atts) throws EmailException {
-//		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-//		mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-//		mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-//		mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-//		mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-//		mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-//		CommandMap.setDefaultCommandMap(mc);
-		
-		SimpleEmail email = new SimpleEmail();
-		email.setMsg(message);
-
-		email.setCharset("UTF-8");
-		email.setSubject(title);
-		email.addTo(receiverAddress);
-
-		email.setHostName(smtpHost);
-		email.setSmtpPort(smtpPort);
-		email.setSSLOnConnect(smtpUseSSL);
-		email.setAuthentication(senderAddress, senderPassword);
-		if (from != null) {
-			email.setFrom(senderAddress, from);
-		} else {
-			email.setFrom(senderAddress);
-		}
-
-		if (atts != null) {
-//			atts.forEach(s -> appendAttachment(email, null, new File(s[0]), s[1]));
-		}
-		email.send();
-		return true;
-	}
-
-	@SuppressWarnings("unused")
-	private void appendAttachment(MultiPartEmail email, URL url, File file, String fileName) {
-		EmailAttachment attachment = new EmailAttachment();
-		attachment.setDisposition(EmailAttachment.ATTACHMENT);
-		if (url != null) {
-			attachment.setURL(url);
-		} else if (file != null) {
-			attachment.setPath(file.getPath());
-		}
+		EmailClient client = new EmailClientBuilder(EmailClientBuilder.SIMPLE)//
+				.setSenderAddress(senderAddress)//
+				.setSenderPassword(senderPassword)//
+				.setSmtpHost(smtpHost)//
+				.setSmtpPort(smtpPort)//
+				.setSmtpUseSSL(smtpUseSSL).setCharset("utf-8")//
+				.build();
 		try {
-			attachment.setName(MimeUtility.encodeText(fileName, "gb2312", "b"));
-			email.attach(attachment);
-		} catch (UnsupportedEncodingException | EmailException e) {
+			client.setSubject(title)//
+					.setMessage(message)//
+					.setFrom(new NamedAccount(from,senderAddress))//
+					.addCc(new NamedAccount(receiverAddress))//
+					.send();
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			return false;
 		}
+
+		return true;
 	}
 
 	protected void debugPipeline(List<? extends Bson> pipeline) {
 		if (logger.isDebugEnabled()) {
 			String json = new GsonBuilder().setPrettyPrinting().create().toJson(pipeline);
-			logger.debug("Aggregation Pipeline: \n"+json);
+			logger.debug("Aggregation Pipeline: \n" + json);
 		}
 	}
 
