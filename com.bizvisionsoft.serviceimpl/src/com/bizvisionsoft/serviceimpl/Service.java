@@ -3,7 +3,6 @@ package com.bizvisionsoft.serviceimpl;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -16,22 +15,22 @@ import org.eclipse.osgi.internal.debug.Debug;
 import org.eclipse.osgi.internal.framework.BundleContextImpl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.mongodb.ConnectionString;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.connection.ClusterSettings;
 
 public class Service implements BundleActivator {
+
+	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static BundleContext context;
 
@@ -69,77 +68,57 @@ public class Service implements BundleActivator {
 	}
 
 	private void loadBackupFolder(String filePath) {
-
-		mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
-		String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
-		if (dumpPath == null || dumpPath.isEmpty()) {
-			dumpFolder = new File(new File(filePath).getParent() + "/dump");
-		} else {
-			dumpFolder = new File(dumpPath);
-		}
-		if (!dumpFolder.isDirectory()) {
-			dumpFolder.mkdirs();
+		try {
+			mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
+			String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
+			if (dumpPath == null || dumpPath.isEmpty()) {
+				dumpFolder = new File(new File(filePath).getParent() + "/dump");
+			} else {
+				dumpFolder = new File(dumpPath);
+			}
+			if (!dumpFolder.isDirectory()) {
+				dumpFolder.mkdirs();
+			}
+			logger.info("数据库备份目录：" + dumpFolder);
+		} catch (Exception e) {
+			logger.warn("数据库备份目录错误", e);
 		}
 	}
 
 	private void loadQuery(String filePath) {
-		queryFolder = new File(new File(filePath).getParent() + "/query");
-		loadJSQueryAtInit = "init".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
-		if (loadJSQueryAtInit) {
-			JQ.reloadJS();
-		}
+		try {
+			queryFolder = new File(new File(filePath).getParent() + "/query");
+			loadJSQueryAtInit = "init".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+			if (loadJSQueryAtInit) {
+				JQ.reloadJS();
+			}
 
-		JQ.forceReloadJSQuery = "force".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+			JQ.forceReloadJSQuery = "force"
+					.equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+			logger.info("JSQuery加载完成，目录：" + queryFolder);
+		} catch (Exception e) {
+			logger.error("JSQuery加载错误：", e);
+		}
 	}
 
 	private void loadDatabase(String filePath) {
-		InputStream is = null;
-		FileInputStream fis = null;
 		try {
-			fis = new FileInputStream(filePath); // $NON-NLS-1$
-			is = new BufferedInputStream(fis);
+			FileInputStream fis = new FileInputStream(filePath); // $NON-NLS-1$
+			InputStream is = new BufferedInputStream(fis);
 			Properties props = new Properties();
 			props.load(is);
-
 			mongo = createMongoClient(props);
 			String dbname = props.getProperty("db.name"); //$NON-NLS-1$
 			database = mongo.getDatabase(dbname).withCodecRegistry(getCodecRegistry());
-
+			logger.info("连接数据库完成：" + dbname);
+			fis.close();
+			is.close();
 		} catch (Exception e) {
-		} finally {
-			if (fis != null)
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-				}
+			logger.error("连接数据库出现错误。", e);
 		}
 	}
 
 	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
-		String connectionString = props.getProperty("mongo.connectionString");
-		if (connectionString != null && !connectionString.isEmpty()) {// 使用新的连接方式
-			return createMongoClient2(props);
-		} else {
-			return createMongoClient1(props);
-		}
-	}
-
-	private static MongoClient createMongoClient2(Properties props) {
-		// mongodb://host1:27017,host2:27017,host3:27017/?replicaSet=myReplicaSet
-		//mongodb://user1:pwd1@host1/?authSource=db1
-		MongoClientSettings.builder()//
-				.applyConnectionString(new ConnectionString(props.getProperty("mongo.connectionString")))//
-				;
-		return null;
-	}
-
-	private static MongoClient createMongoClient1(Properties props) {
 		String host = props.getProperty("db.host"); //$NON-NLS-1$
 		String _port = props.getProperty("db.port");
 		int port = _port == null ? 10001 : Integer.parseInt(_port); // $NON-NLS-1$
@@ -175,6 +154,7 @@ public class Service implements BundleActivator {
 		} else {
 			return new MongoClient(address, builder.build());
 		}
+
 	}
 
 	private CodecRegistry getCodecRegistry() {
