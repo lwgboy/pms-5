@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
+import javax.activation.CommandMap;
 import javax.activation.DataHandler;
+import javax.activation.MailcapCommandMap;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.mail.Email;
@@ -24,18 +26,19 @@ public class EmailClient {
 	private EmailClientBuilder option;
 
 	EmailClient(EmailClientBuilder option) {
+		MailcapCommandMap mc = (MailcapCommandMap)CommandMap.getDefaultCommandMap();
+		mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
+		mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+		mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+		mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+		mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+		
+		CommandMap.setDefaultCommandMap(mc);
+		
 		createEmail(option);
 	}
 
 	private Email createEmail(EmailClientBuilder option) {
-//        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-//        mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-//        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-//        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-//        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-//        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-//        CommandMap.setDefaultCommandMap(mc);
-		
 		this.option = option;
 		if ("html".equals(option.emailType)) {
 			email = new HtmlEmail();
@@ -61,9 +64,10 @@ public class EmailClient {
 	}
 
 	public EmailClient setMessage(String message) throws Exception {
-		email.setMsg(message);
 		if (email instanceof HtmlEmail) {
 			((HtmlEmail) email).setHtmlMsg(message);
+		}else {
+			email.setMsg(message);
 		}
 		return this;
 	}

@@ -780,7 +780,8 @@ public class BasicServiceImpl {
 				.setSenderPassword(senderPassword)//
 				.setSmtpHost(smtpHost)//
 				.setSmtpPort(smtpPort)//
-				.setSmtpUseSSL(smtpUseSSL).setCharset("utf-8")//
+				.setSmtpUseSSL(smtpUseSSL)//
+				.setCharset("GB2312")//
 				.build();
 		try {
 			client.setSubject(title)//

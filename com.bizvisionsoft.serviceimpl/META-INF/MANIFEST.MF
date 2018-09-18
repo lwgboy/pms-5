@@ -18,7 +18,6 @@ Require-Bundle: com.bizvisionsoft.mongocodex;bundle-version="1.0.0",
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
 Export-Package: com.bizvisionsoft.serviceimpl
-Bundle-ClassPath: lib/commons-email-1.5.jar,
+Bundle-ClassPath: lib/commons-email-1.4.jar,
  lib/javax.mail-1.5.5.jar,
- lib/activation-1.1.1.jar,
  .

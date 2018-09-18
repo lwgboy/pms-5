@@ -21,7 +21,7 @@ public class EmailClientBuilder {
 		return this;
 	}
 
-	String charset = "UTF-8";
+	String charset = "GB2312";
 
 	public EmailClientBuilder setCharset(String charset) {
 		this.charset = charset;
