@@ -749,6 +749,7 @@ public class BasicServiceImpl {
 		Document user = c("user").find(new Document("userId", userId)).first();
 		if (user == null)
 			return false;
+		
 		String receiverAddress = user.getString("email");
 		if (receiverAddress == null || receiverAddress.isEmpty())
 			return false;
