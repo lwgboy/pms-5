@@ -17,6 +17,7 @@ Require-Bundle: com.eclipsesource.jaxrs.jersey-all;bundle-version="2.22.2",
 Bundle-ActivationPolicy: lazy
 Export-Package: com.bizvisionsoft.service,
  com.bizvisionsoft.service.datatools,
+ com.bizvisionsoft.service.dps,
  com.bizvisionsoft.service.model,
  com.bizvisionsoft.service.provider,
  com.bizvisionsoft.service.sn,

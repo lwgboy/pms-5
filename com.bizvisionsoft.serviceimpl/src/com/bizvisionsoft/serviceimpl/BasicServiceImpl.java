@@ -743,6 +743,9 @@ public class BasicServiceImpl {
 	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
+		//判断是否启用了DPS发送邮件
+		
+		
 		String userId = m.getReceiver();
 		Document user = c("user").find(new Document("userId", userId)).first();
 		if (user == null)
