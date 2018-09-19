@@ -74,8 +74,8 @@ public class CreateDummyOADatabase {
 			//-------------流程实例表----------------
 			stmt.executeUpdate(
 					"create table V_PMS_wf_inst (id varchar(20), wf_id varchar(20), cur_node_id varchar(20), status varchar(20), inst_name varchar(20), create_date varchar(20), creater varchar(20))");
-			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000001','WF01','05,01','1','XXX出差香港申请','2016-09-01 22:11:12','XXX')");
-			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000002','WF01','10','1','XXX出差深圳申请','2017-02-07 08:13:00','XXX')");
+			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000001','WF01','05,01','1','XXX出差香港申请','2018-09-01 22:11:12','XXX')");
+			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000002','WF01','10','1','XXX出差深圳申请','2018-02-07 08:13:00','XXX')");
 			stmt.executeUpdate("insert into V_PMS_wf_inst (id,wf_id,cur_node_id,status,inst_name,create_date,creater) values ('0000003','WF01','01,08','1','XXX出差北京申请','2018-11-11 15:12:00','XXX')");
 			
 			//----------流程活动日志---------------
