@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.mail.EmailException;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.EncoderContext;
@@ -27,6 +26,7 @@ import com.bizvisionsoft.math.scheduling.Risk;
 import com.bizvisionsoft.math.scheduling.Route;
 import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
+import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
@@ -743,9 +743,8 @@ public class BasicServiceImpl {
 	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
-		//≈–∂œ «∑Ò∆Ù”√¡ÀDPS∑¢ÀÕ” º˛
-		
-		
+		String subject = m.getSubject();
+		String content = m.getContent();
 		String userId = m.getReceiver();
 		Document user = c("user").find(new Document("userId", userId)).first();
 		if (user == null)
@@ -754,50 +753,57 @@ public class BasicServiceImpl {
 		if (receiverAddress == null || receiverAddress.isEmpty())
 			return false;
 
-		String smtpHost = setting.getString("smtpHost");
-		int smtpPort;
-		try {
-			smtpPort = Integer.parseInt(setting.getString("smtpPort"));
-		} catch (Exception e) {
+		if (Boolean.TRUE.equals(setting.get("dps"))) {
+			EmailSender sender = Service.get(EmailSender.class);
+			if (sender != null) {
+				try {
+					sender.send("BizVision PMS5", receiverAddress, subject, content, from);
+					return true;
+				} catch (Exception e) {
+					logger.error("DPS ∑¢ÀÕ” º˛¥ÌŒÛ°£", e);
+				}
+			} else {
+				logger.error("∑¢ÀÕ” º˛ ß∞‹°£");
+			}
 			return false;
+		} else {
+			String smtpHost = setting.getString("smtpHost");
+			int smtpPort;
+			try {
+				smtpPort = Integer.parseInt(setting.getString("smtpPort"));
+			} catch (Exception e) {
+				logger.error("smtp∂Àø⁄∫≈≈‰÷√¥ÌŒÛ°£", e);
+				return false;
+			}
+			Boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
+			String senderPassword = setting.getString("senderPassword");
+			String senderAddress = setting.getString("senderAddress");
+
+			try {
+				EmailClient client = new EmailClientBuilder(EmailClientBuilder.SIMPLE)//
+						.setSenderAddress(senderAddress)//
+						.setSenderPassword(senderPassword)//
+						.setSmtpHost(smtpHost)//
+						.setSmtpPort(smtpPort)//
+						.setSmtpUseSSL(smtpUseSSL)//
+						.setCharset("GB2312")//
+						.build();
+				try {
+					client.setSubject(subject)//
+							.setMessage(content)//
+							.setFrom(new NamedAccount(from, senderAddress))//
+							.addCc(new NamedAccount(receiverAddress))//
+							.send();
+					return true;
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+					return false;
+				}
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				return false;
+			}
 		}
-		Boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
-		String senderPassword = setting.getString("senderPassword");
-		String senderAddress = setting.getString("senderAddress");
-
-		try {
-			return sendEmail(smtpHost, smtpPort, smtpUseSSL, senderAddress, senderPassword, receiverAddress,
-					m.getSubject(), m.getContent(), from, null);
-		} catch (EmailException e) {
-			logger.error(e.getMessage(), e);
-			return false;
-		}
-
-	}
-
-	private boolean sendEmail(String smtpHost, int smtpPort, Boolean smtpUseSSL, String senderAddress,
-			String senderPassword, String receiverAddress, String title, String message, String from,
-			List<String[]> atts) throws EmailException {
-		EmailClient client = new EmailClientBuilder(EmailClientBuilder.SIMPLE)//
-				.setSenderAddress(senderAddress)//
-				.setSenderPassword(senderPassword)//
-				.setSmtpHost(smtpHost)//
-				.setSmtpPort(smtpPort)//
-				.setSmtpUseSSL(smtpUseSSL)//
-				.setCharset("GB2312")//
-				.build();
-		try {
-			client.setSubject(title)//
-					.setMessage(message)//
-					.setFrom(new NamedAccount(from,senderAddress))//
-					.addCc(new NamedAccount(receiverAddress))//
-					.send();
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return false;
-		}
-
-		return true;
 	}
 
 	protected void debugPipeline(List<? extends Bson> pipeline) {
