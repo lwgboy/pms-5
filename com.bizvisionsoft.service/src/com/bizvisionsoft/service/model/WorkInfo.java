@@ -352,17 +352,14 @@ public class WorkInfo {
 	private String chargerInfo;
 
 	@WriteValue("charger")
-	private void setCharger(OBSItemWarpper charger) throws Exception {
-		if (actualFinish == null)
-			if (charger != null) {
-				this.chargerId = charger.getUserId();
-				this.chargerInfo = charger.getUserName();
-			} else {
-				this.chargerId = null;
-				this.chargerInfo = null;
-			}
-		else
-			throw new Exception("工作已完成，不允许编辑指派者");
+	public void setCharger(OBSItemWarpper charger) {
+		if (charger != null) {
+			this.chargerId = charger.getUserId();
+			this.chargerInfo = charger.getUserName();
+		} else {
+			this.chargerId = null;
+			this.chargerInfo = null;
+		}
 	}
 
 	@ReadValue("charger")
