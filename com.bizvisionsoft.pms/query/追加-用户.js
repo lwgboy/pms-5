@@ -38,7 +38,7 @@
 	}
 }, {
 	"$addFields" : {
-		"<chargerInfo>" : "<$chargerInfo_meta.name>",
+		"<chargerInfo>" : {"$cond":["<$chargerInfo_meta.name>","<$chargerInfo_meta.name>",""]},
 		"<chargerInfo_meta.orgInfo>" : {
 			"$arrayElemAt" : [ "$temp_Org.fullName", 0.0 ]
 		}

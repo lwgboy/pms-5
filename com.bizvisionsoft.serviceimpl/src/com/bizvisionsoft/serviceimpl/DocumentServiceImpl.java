@@ -25,7 +25,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public List<Folder> listRootFolder(ObjectId project_id) {
 		return c(Folder.class).find(new Document("project_id", project_id).append("parent_id", null))
-				.sort(new Document("name", 1)).into(new ArrayList<>());
+				.into(new ArrayList<>());
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class MetaInfoWarpper {
 				(meta.position == null ? "" : (meta.position + "<br>")) + //
 				(meta.email == null ? "" : ("” œ‰£∫" + meta.email + "<br>")) + //
 				(meta.tel == null ? "" : ("µÁª∞£∫" + meta.tel + "<br>")) + //
-				"\", this, {tips: [1, \"#3595CC\"],time: 5000})'>");//
+				"\", this, {tips: [1, \"#3595CC\"],time: 2000})'>");//
 		sb.append(text);
 		sb.append("</div>");
 		return sb.toString();

@@ -32,6 +32,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.service.tools.Util;
 import com.mongodb.BasicDBObject;
 
@@ -285,7 +286,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@Persistence
 	private Date actualFinish;
 
-
 	/**
 	 * 计划工期 ///TODO 根据计划开始和完成自动计算
 	 */
@@ -350,6 +350,18 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue
 	@ReadValue
 	private String pmInfo;
+
+	@SetValue
+	private UserMeta pmInfo_meta;
+
+	@ReadValue("pmInfoHtml")
+	private String readPMInfoHtml() {
+		if (pmId == null) {
+			return "";
+		}
+		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+				+ MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
+	}
 
 	@WriteValue("pm")
 	private void setPM(User pm) {
@@ -556,7 +568,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readCreateBy() {
 		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("createByConsignerInfo")
 	private String readCreateByConsigner() {
 		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
@@ -574,7 +586,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readApproveBy() {
 		return Optional.ofNullable(approveInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("approveByConsignerInfo")
 	private String readApproveByConsigner() {
 		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
@@ -592,12 +604,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readStartBy() {
 		return Optional.ofNullable(startInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("startByConsignerInfo")
 	private String readStartByConsigner() {
 		return Optional.ofNullable(startInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
 	@Persistence
 	private OperationInfo finishInfo;
 
@@ -610,12 +622,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readFinishBy() {
 		return Optional.ofNullable(finishInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("finishByConsignerInfo")
 	private String readFinishByConsigner() {
 		return Optional.ofNullable(finishInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
 	@Persistence
 	private OperationInfo closeInfo;
 
@@ -628,12 +640,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readCloseBy() {
 		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("closeByConsignerInfo")
 	private String readCloseByConsigner() {
 		return Optional.ofNullable(closeInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
 	@Persistence
 	private OperationInfo distributeInfo;
 
@@ -646,12 +658,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	private String readDistributeBy() {
 		return Optional.ofNullable(distributeInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue("distributeByConsignerInfo")
 	private String readDistributeByConsigner() {
 		return Optional.ofNullable(distributeInfo).map(c -> c.consignerName).orElse(null);
 	}
-
 
 	@Persistence
 	private ObjectId obs_id;

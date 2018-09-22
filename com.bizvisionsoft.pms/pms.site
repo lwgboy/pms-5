@@ -18064,7 +18064,7 @@
           },
           {
             "id": "1632e717b2e",
-            "name": "pmInfo",
+            "name": "pmInfoHtml",
             "text": "项目\u003cbr/\u003e经理",
             "alignment": 16777216,
             "width": 64,
@@ -57375,7 +57375,7 @@
           },
           {
             "id": "1632e717b2e",
-            "name": "pmInfo",
+            "name": "pmInfoHtml",
             "text": "项目\u003cbr/\u003e经理",
             "alignment": 16777216,
             "width": 64,
