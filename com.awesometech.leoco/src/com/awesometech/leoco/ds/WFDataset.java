@@ -34,6 +34,10 @@ public class WFDataset {
 			}
 		});
 		
+		List<Document> logList = new ArrayList<>();
+		String logSql = buildLogSql(inst_ID);
+		new SqlQuery("ecology").sql(logSql).into(logList);
+		
 		List<Document> list = new ArrayList<Document>();
 		new SqlQuery("ecology").sql("select inst.wf_id ,node.id as id,node.text as text,'ffffff' as foreground  from V_PMS_wf_node node,V_PMS_wf_inst inst where node.wf_id = inst.wf_id and inst.id = '" + inst_ID + "' ")
 			.changeKeyCase(true).forEach(n -> {
@@ -44,9 +48,24 @@ public class WFDataset {
 				n.append("background", "455a64");
 			}
 			n.put("id", n.get("id").toString());
+			String operaters = "";
+			for(Document log:logList) {
+				if(null != log.get("NODE_ID") && log.get("NODE_ID").toString().equals(n.getString("id")) && null != log.get("OPERATOR")) {
+					operaters += "|" + log.getString("OPERATOR");
+				}
+			}
+			n.put("text", n.getString("text") + operaters);
 			list.add(n);
 		});
 		return list;
+	}
+	
+	private String buildLogSql(String inst_id) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select inst_id,node_id,node_name,opr_dat,operator,tgt,comment from V_PMS_wf_log " );
+		sb.append(" where inst_id = '" + inst_id + "' ");
+		sb.append("  order by opr_dat desc ");
+		return sb.toString();
 	}
 
 	@DataSet("link")

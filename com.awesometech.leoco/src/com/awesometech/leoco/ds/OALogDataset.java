@@ -31,6 +31,7 @@ public class OALogDataset {
 		///////////////////////////////////////////////////////
 		String sql = buildSql(inst_ID);
 		new SqlQuery("ecology").sql(sql).forEach(d -> {
+			
 			result.add(d);
 		});
 
@@ -41,6 +42,7 @@ public class OALogDataset {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select inst_id,node_id,node_name,opr_dat,operator,tgt,comment from V_PMS_wf_log " );
 		sb.append(" where inst_id = '" + inst_id + "'");
+		sb.append("  order by opr_dat desc ");
 		return sb.toString();
 	}
 
