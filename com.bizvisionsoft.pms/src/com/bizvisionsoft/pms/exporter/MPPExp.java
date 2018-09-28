@@ -105,7 +105,7 @@ public class MPPExp {
 			rt = RelationType.FINISH_START;
 		}
 
-		src.addPredecessor(tgt, rt, Duration.getInstance(lag, TimeUnit.DAYS));
+		tgt.addPredecessor(src, rt, Duration.getInstance(lag, TimeUnit.DAYS));
 	}
 
 	private void createTasks(Work w) {
