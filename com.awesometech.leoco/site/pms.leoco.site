@@ -6276,6 +6276,19 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
+            "id": "1661e84743f",
+            "name": "导出MPP",
+            "text": "导出",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
+          },
+          {
             "id": "163620bdec1",
             "name": "关键路径",
             "text": "关键路径",

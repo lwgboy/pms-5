@@ -296,4 +296,11 @@ public class WorkLink {
 		return true;
 	}
 
+	public String getType() {
+		return type;
+	}
+	
+	public int getLag() {
+		return lag;
+	}
 }

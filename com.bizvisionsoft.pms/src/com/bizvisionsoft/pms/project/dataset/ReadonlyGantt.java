@@ -3,10 +3,12 @@ package com.bizvisionsoft.pms.project.dataset;
 import java.util.List;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
+import com.bizvisionsoft.annotations.md.service.Export;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.exporter.MPPExp;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -33,5 +35,14 @@ public class ReadonlyGantt {
 	@DataSet("links")
 	public List<WorkLink> links() {
 		return workScope.createGanttLinkDataSet();
+	}
+
+	@Export("项目甘特图/导出MPP")
+	public void export() {
+		try {
+			new MPPExp().setTasks(data()).setLinks(links()).setProjectName(workScope.getProjectName()).export();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
