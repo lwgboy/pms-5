@@ -38,6 +38,11 @@ public class Docu {
 	@ReadValue
 	@WriteValue
 	private String name;
+	
+	public Docu setName(String name) {
+		this.name = name;
+		return this;
+	}
 
 	@ReadValue
 	@WriteValue

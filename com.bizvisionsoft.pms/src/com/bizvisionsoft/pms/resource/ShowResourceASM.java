@@ -325,7 +325,7 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "planAmount");
-		col.setText("金额（万元）");
+		col.setText("金额（元）");
 		col.setWidth(110);
 		col.setMoveable(false);
 		col.setResizeable(false);
@@ -394,7 +394,7 @@ public class ShowResourceASM extends GridPart {
 
 		col = new GridColumn(grp, SWT.CENTER);
 		col.setData("name", "actualAmount");
-		col.setText("金额（万元）");
+		col.setText("金额（元）");
 		col.setWidth(110);
 		col.setMoveable(false);
 		col.setResizeable(false);

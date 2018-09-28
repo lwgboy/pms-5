@@ -31,7 +31,7 @@ public class CreateDocuOfPackageACT {
 
 		Selector.open("项目文件夹选择", context, new Project().set_id(project_id), em -> {
 			Docu docu = new Docu().setCreationInfo(brui.operationInfo()).addWorkPackageId(wp.get_id())
-					.setFolder_id(((Folder) em.get(0)).get_id());
+					.setFolder_id(((Folder) em.get(0)).get_id()).setName(wp.getDescription());
 			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
 				((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocument(t));
 			});

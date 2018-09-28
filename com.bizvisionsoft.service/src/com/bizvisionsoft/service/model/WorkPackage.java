@@ -56,6 +56,10 @@ public class WorkPackage {
 	@ReadValue
 	@WriteValue
 	private String name;
+	
+	public String getName() {
+		return name;
+	}
 
 	/**
 	 * 工作包的类型，与TrackView一致
@@ -67,6 +71,10 @@ public class WorkPackage {
 	@ReadValue
 	@WriteValue
 	private String description;
+	
+	public String getDescription() {
+		return description;
+	}
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
