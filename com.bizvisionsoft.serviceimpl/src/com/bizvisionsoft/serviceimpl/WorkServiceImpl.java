@@ -1025,7 +1025,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
-		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+//		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 
@@ -1074,7 +1074,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
-		appendUserInfo(pipeline, "assignerId", "assignerInfo");
+//		appendUserInfo(pipeline, "assignerId", "assignerInfo");
 
 		pipeline.add(Aggregates.sort(new Document("index", 1)));
 

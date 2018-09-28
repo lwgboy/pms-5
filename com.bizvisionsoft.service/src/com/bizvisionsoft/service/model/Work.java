@@ -631,7 +631,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private String chargerId;
 
 	@SetValue
-	@ReadValue
 	private String chargerInfo;
 
 	@SetValue
@@ -654,15 +653,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			return "";
 		}
 		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
-				+ MetaInfoWarpper.userInfo(chargerInfo_meta,chargerInfo)+getDistributedIcon()
-				+ "</div>";
+				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + getDistributedIcon() + "</div>";
 	}
 
+	@ReadValue("chargerInfo")
 	public String getChargerInfo() {
-		if (chargerId == null) {
+		if (chargerInfo == null) {
 			return "";
 		}
-		return chargerInfo;
+		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + "</div>";
 	}
 
 	public String getAssignerInfo() {
