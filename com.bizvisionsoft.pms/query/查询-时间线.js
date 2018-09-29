@@ -2,10 +2,8 @@
 	"$match" : "<match>"
 }, {
 	"$addFields" : {
-		"date" : [ "$actualStart", "$actualFinish" ]
+		"date" : {"$cond":["$actualFinish","$actualFinish","$actualStart"]}
 	}
-}, {
-	"$unwind" : "$date"
 }, {
 	"$match" : {
 		"date" : {
@@ -18,24 +16,4 @@
 	}
 }, {
 	"$limit" : "<limit>"
-}, {
-	"$lookup" : {
-		"from" : "user",
-		"localField" : "chargerId",
-		"foreignField" : "userId",
-		"as" : "user"
-	}
-}, {
-	"$unwind" : {
-		"path" : "$user",
-		"preserveNullAndEmptyArrays" : true
-	}
-}, {
-	"$addFields" : {
-		"userInfo" :"$user.name"
-	}
-}, {
-	"$project" : {
-		"user" : false
-	}
-} ]
+}]

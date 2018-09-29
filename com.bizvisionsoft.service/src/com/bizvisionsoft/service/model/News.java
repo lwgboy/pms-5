@@ -38,4 +38,5 @@ public class News {
 		this.summary = summary;
 		return this;
 	}
+
 }

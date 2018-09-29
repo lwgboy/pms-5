@@ -856,6 +856,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	@SetValue("summaryActualDuration")
 	private double summaryActualDuration;
 
+	/**
+	 * 项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。
+	 * @return
+	 */
 	@ReadValue("war")
 	public Double getWAR() {
 		if (getActualStart() == null) {

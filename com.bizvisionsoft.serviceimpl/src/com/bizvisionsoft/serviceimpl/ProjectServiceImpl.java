@@ -968,22 +968,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<News> getRecentNews(ObjectId _id, int count) {
 		ArrayList<News> result = new ArrayList<News>();
-		c("work")
-				.aggregate(
-						new JQ("查询-时间线").set("match",
-								new Document("manageLevel", new Document("$in", Arrays.asList("1", "2")))
-										.append("project_id", _id))
-								.set("limit", count).array())
-				.forEach((Document doc) -> {
-					Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
-					if (doc.get("date").equals(doc.get("actualStart"))) {
-						result.add(new News().setDate(doc.getDate("date"))
-								.setContent(user + " " + doc.get("name") + " 启动 "));
-					} else if (doc.get("date").equals(doc.get("actualFinish"))) {
-						result.add(new News().setDate(doc.getDate("date"))
-								.setContent(user + " " + doc.get("name") + " 完成"));
-					}
-				});
+		List<Bson> pipeline = new JQ("查询-时间线").set("match",
+				new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
+				.set("limit", count).array();
+		c("work").aggregate(pipeline).forEach((Document doc) -> {
+			Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
+			if (doc.get("date").equals(doc.get("actualFinish"))) {
+				result.add(new News().setDate(doc.getDate("date")).setContent(user + " " + doc.get("name") + " 完成 "));
+			} else if (doc.get("date").equals(doc.get("actualStart"))) {
+				result.add(new News().setDate(doc.getDate("date")).setContent(user + " " + doc.get("name") + " 启动"));
+			}
+		});
 		return result;
 	}
 
@@ -1493,8 +1488,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		pipeline.add(Aggregates.project(new Document("_id", true)));
 
-//		return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
-		//TODO
+		// return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
+		// TODO
 		return 0;
 	}
 
@@ -1570,7 +1565,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAllProjects(BasicDBObject filter) {
 		return count(filter);
 	}
-	
+
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
