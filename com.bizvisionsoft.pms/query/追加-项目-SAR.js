@@ -103,7 +103,7 @@
 	}
 }, {
 	"$addFields" : {
-		"changeNo" : "$_change.count",
+		"changeCount" : {"$cond":["$_change.count","$_change.count",0.0]},
 		"changeStatus" : {
 			"$cond" : [ {
 				"$gt" : [ {

@@ -144,9 +144,9 @@ public class ProjecBasicIndicatorsWidgetASM {
 		}
 
 		page = createPage(parent, carousel, 2);
-		addIndicator(page, toString(project.getWAR()), "工作进度完成率");
+		addIndicator(page, toString(project.getWAR()), "工作量完成率");
 		addIndicator(page, toString(project.getDAR()), "工期完成率");
-		addIndicator(page, toString(project.getCAR()), "成本进度完成率");
+		addIndicator(page, toString(project.getCAR()), "预算使用率");
 		addIndicator(page, toString(project.getBDR()), "预算偏差率");
 
 		page = createPage(parent, carousel, 2);

@@ -858,6 +858,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	/**
 	 * 项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。
+	 * 
 	 * @return
 	 */
 	@ReadValue("war")
@@ -886,7 +887,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("sar")
 	public Double getSAR() {
-		return sar != null ? (sar * Math.pow(0.8, getChangeNo())) : null;
+		if (actualFinish == null) {// 这个指标不适用于未完成项目
+			return null;
+		}
+		return sar != null ? (sar * Math.pow(0.8, getChangeCount())) : null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -911,12 +915,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("car")
 	public Double getCAR() {
-		if (getActualFinish() != null) {
-			return 1d;
-		}
-
-		Double budget = getBudget();
-		if (budget != null && budget != 0) {
+		double budget = getBudget();
+		if (budget != 0) {
 			return getCost() / budget;
 		}
 		return null;
@@ -924,8 +924,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 
 	@ReadValue("bdr")
 	public Double getBDR() {
-		Double budget = getBudget();
-		if (budget != null && budget != 0) {
+		if (getActualFinish() == null) {// 这个指标不适用于未完成项目
+			return null;
+		}
+
+		double budget = getBudget();
+		if (budget != 0) {
 			return (getCost() - budget) / budget;
 		}
 		return null;
@@ -1057,11 +1061,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope {
 	}
 
 	@ReadValue
-	@SetValue("changeNo")
-	private Double changeNo;
+	@SetValue
+	private Double changeCount;
 
-	public double getChangeNo() {
-		return changeNo != null ? changeNo.doubleValue() : 0;
+	public double getChangeCount() {
+		return changeCount.doubleValue();
 	}
 
 	@ReadValue

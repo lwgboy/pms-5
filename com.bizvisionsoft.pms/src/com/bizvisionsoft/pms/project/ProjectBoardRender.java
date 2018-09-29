@@ -145,12 +145,12 @@ public class ProjectBoardRender {
 
 		String ind = Optional.ofNullable(pj.getWAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
-		sb.append(MetaInfoWarpper.warpper(ind+"<br>工作执行", "反映项目工作量完成情况，<br>项目所有工作累计实际工期与计划工期的比值。"));
+		sb.append(MetaInfoWarpper.warpper(ind+"<br>工作量完成率", "反映项目工作量完成情况，<br>项目所有工作累计实际工期与计划工期的比值。"));
 		sb.append("</div>");
 
 		ind = Optional.ofNullable(pj.getDAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
-		sb.append(MetaInfoWarpper.warpper(ind+"<br>工期完成", "反映项目实际工期情况，<br>项目实际工期与计划工期的比值。"));
+		sb.append(MetaInfoWarpper.warpper(ind+"<br>工期完成率", "反映项目实际工期情况，<br>项目实际工期与计划工期的比值。"));
 		sb.append("</div>");
 
 //		ind = Optional.ofNullable(pj.getSAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
@@ -160,7 +160,7 @@ public class ProjectBoardRender {
 
 		ind = Optional.ofNullable(pj.getCAR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
 		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
-		sb.append(MetaInfoWarpper.warpper(ind+"<br>成本完成", "反映项目成本执行情况，<br>项目累计发生成本与总预算的比值。"));
+		sb.append(MetaInfoWarpper.warpper(ind+"<br>预算使用率", "反映项目预算执行情况，<br>项目累计发生成本与总预算的比值。"));
 		sb.append("</div>");
 
 //		ind = Optional.ofNullable(pj.getBDR()).map(d -> new DecimalFormat("#0.0%").format(d)).orElse("</br>");
