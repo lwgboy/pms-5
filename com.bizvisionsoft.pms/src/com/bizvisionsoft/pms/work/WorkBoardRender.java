@@ -155,7 +155,7 @@ public class WorkBoardRender {
 		if (!"".equals(warrningText) && warrningText != null)
 			sb.append("  " + work.getWarningIcon());
 		sb.append("</div>");
-		String chargerInfo = work.getChargerInfo();
+		String chargerInfo = work.getChargerInfoHtml();
 		sb.append("<div style='margin-right:16px;'>负责: "
 				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>"
 						: chargerInfo)

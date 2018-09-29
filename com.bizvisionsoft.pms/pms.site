@@ -22174,7 +22174,7 @@
           },
           {
             "id": "1636bd9b1b2",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 80,
@@ -22550,7 +22550,7 @@
           },
           {
             "id": "1636bd9b1b2",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 80,
@@ -27404,7 +27404,7 @@
           },
           {
             "id": "1636bd9b1b2",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 80,
@@ -28105,7 +28105,7 @@
           },
           {
             "id": "1636bd9b1b2",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 80,
@@ -29491,7 +29491,7 @@
           },
           {
             "id": "16385a4d9d2",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 120,
@@ -41143,7 +41143,7 @@
           },
           {
             "id": "163055ab495",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "type": "文本标签",
             "formFields": [],
@@ -59460,7 +59460,7 @@
           },
           {
             "id": "164eb28b953",
-            "name": "chargerInfo",
+            "name": "chargerInfoHtml",
             "text": "负责人",
             "alignment": 16384,
             "width": 80,

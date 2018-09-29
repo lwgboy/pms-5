@@ -186,7 +186,7 @@ public class RiskEffect {
 
 	@ReadValue("项目风险量化评估/charger")
 	private String readWorkCharger() {
-		return work.getChargerInfo();
+		return work.getChargerInfoHtml();
 	}
 
 	@ReadValue("项目风险量化评估/planFinish")

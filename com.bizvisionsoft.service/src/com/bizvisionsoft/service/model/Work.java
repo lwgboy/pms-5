@@ -631,6 +631,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private String chargerId;
 
 	@SetValue
+	@ReadValue
 	private String chargerInfo;
 
 	@SetValue
@@ -656,8 +657,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + getDistributedIcon() + "</div>";
 	}
 
-	@ReadValue("chargerInfo")
-	public String getChargerInfo() {
+	@ReadValue("chargerInfoHtml")
+	public String getChargerInfoHtml() {
 		if (chargerInfo == null) {
 			return "";
 		}
