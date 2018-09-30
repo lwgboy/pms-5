@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 
 public interface ReportCreator {
-	
+
 	public static final String OUTPUT_HTML = "html";
 
 	public static final String OUTPUT_PDF = "pdf";
@@ -16,12 +16,9 @@ public interface ReportCreator {
 
 	public static final String OUTPUT_PPTX = "pptx";
 
-
-	public default void createReportFromXML(String dataURL, File templateFile, OutputStream os) throws Exception{
+	public default void createReportFromXML(String dataURL, File templateFile, OutputStream os) throws Exception {
 		HashMap<String, String> parameter = new HashMap<String, String>();
-		if (dataURL != null) {
-			parameter.put("FILELIST", dataURL);
-		}
+		parameter.put("FILELIST", dataURL);
 		createReport(parameter, OUTPUT_PDF, templateFile, os);
 	}
 
