@@ -16,7 +16,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.tools.Checker;
 
 @PersistenceCollection(value = "organization")
 public class Organization {
@@ -120,13 +119,11 @@ public class Organization {
 
 	@Structure("组织管理/list")
 	public List<Organization> getSub() {
-		Checker.checkNull(_id);
 		return ServicesLoader.get(OrganizationService.class).getSub(_id);
 	}
 
 	@Structure("组织管理/count")
 	public long countSub() {
-		Checker.checkNull(_id);
 		return ServicesLoader.get(OrganizationService.class).countSub(_id);
 	}
 
