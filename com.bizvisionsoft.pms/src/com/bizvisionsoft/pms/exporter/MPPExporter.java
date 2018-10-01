@@ -10,8 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
-import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.client.service.UrlLauncher;
 
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.EngUtil;
@@ -81,8 +79,7 @@ public class MPPExporter {
 		writer.setLocale(Locale.CHINESE);
 		writer.write(projectFile, filePath);
 		
-		String url = UserSession.bruiToolkit().createLocalFileDownloadURL(filePath);
-		RWT.getClient().getService(UrlLauncher.class).openURL(url);
+		UserSession.bruiToolkit().downloadLocalFile(filePath);
 	}
 
 	private void createLinks(WorkLink w) {
