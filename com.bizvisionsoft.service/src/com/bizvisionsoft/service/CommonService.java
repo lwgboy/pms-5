@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -33,7 +37,7 @@ import com.mongodb.BasicDBObject;
 
 @Path("/common")
 public interface CommonService {
-	
+
 	@GET
 	@Path("/workTag/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -296,7 +300,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.LIST })
 	public List<AccountItem> getAccoutItemRoot();
-	
+
 	@POST
 	@Path("/accountIncome/root/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -309,13 +313,12 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutItemRoot();
-	
+
 	@POST
 	@Path("/accountIncome/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutIncomeRoot();
-
 
 	@POST
 	@Path("/accountItem/parent/{_id}/ds")
@@ -328,7 +331,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countAccoutItem(@PathParam("_id") ObjectId _id);
-	
+
 	@POST
 	@Path("/accountIncome/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -346,7 +349,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<AccountIncome> queryAccountIncome(BasicDBObject filter);
-	
+
 	@POST
 	@Path("/accountItem/")
 	@Consumes("application/json; charset=UTF-8")
@@ -360,7 +363,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.INSERT })
 	public AccountIncome insertAccountIncome(@MethodParam(MethodParam.OBJECT) AccountIncome ai);
-	
+
 	@DELETE
 	@Path("/accountItem/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -374,7 +377,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.DELETE })
 	public long deleteAccountIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-	
+
 	@PUT
 	@Path("/accountItem/")
 	@Consumes("application/json; charset=UTF-8")
@@ -389,7 +392,6 @@ public interface CommonService {
 	@DataSet({ "损益类科目/" + DataSet.UPDATE })
 	public long updateAccountIncome(BasicDBObject filterAndUpdate);
 
-	
 	@POST
 	@Path("/gencode/{name}/{key}")
 	@Consumes("application/json; charset=UTF-8")
@@ -531,5 +533,13 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting);
+
+	@POST
+	@Path("/report/")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response generateReport(@FormDataParam("file") InputStream template,
+			@FormDataParam("parameter") Map<String,String> parameter, @FormDataParam("outputType") String outputType,
+			@FormDataParam("downloadableFileName") String downloadableFileName);
 
 }

@@ -23,7 +23,7 @@ public class FileServiceImpl implements FileService {
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		GridFSFile file = bucket.find(Filters.eq("_id", _id)).first();
 		if (file == null) {
-			Response.status(404);
+			return Response.status(404).build();
 		}
 
 		Object contentType = file.getMetadata().get("contentType");
