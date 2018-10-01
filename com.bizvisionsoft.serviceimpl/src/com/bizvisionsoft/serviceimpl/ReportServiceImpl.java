@@ -6,23 +6,31 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+
+import org.bson.Document;
 
 import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.dps.ReportCreator;
 
 public class ReportServiceImpl extends BasicServiceImpl implements ReportService {
 
-	@Override
-	public Response generateReport(InputStream template, Map<String, String> parameter, String type, String fileName) {
+	public Response generateReport(InputStream template, Document parameter, String type, String fileName) {
 		ReportCreator rc = Service.get(ReportCreator.class);
 		if (rc != null) {
 			try {
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				rc.createReport(parameter, type, template, os);
+				Map<String, String> params = new HashMap<String, String>();
+				if (parameter != null)
+					parameter.entrySet().iterator()
+							.forEachRemaining(e -> params.put(e.getKey(), e.getValue().toString()));
+
+				rc.createReport(params, type, template, os);
 				String contentType = "application/octet-stream";
 
 				String downloadableFileName;
@@ -35,9 +43,9 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 				ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 				os.close();
 				template.close();
-				return Response.ok().entity(is)
+				return responseBuilder()
 						.header("Content-Disposition", "attachment; filename=" + downloadableFileName)
-						.header("Content-Type", contentType).build();
+						.header("Content-Type", contentType).entity(is).build();
 			} catch (Exception e) {
 				logger.error("调用DPS报表服务出错", e);
 				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
@@ -50,17 +58,28 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	@Override
-	public Response generateReport(String templateFileName, Map<String, String> parameter, String type,
-			String fileName) {
-		String filePath = Service.rptDesignFolder.getPath() + "/" + templateFileName;
+	public Response generateReport(String rptParam, String templateName, String outputType, String fileName) {
+		String filePath = Service.rptDesignFolder.getPath() + "/" + templateName;
 		try {
 			FileInputStream is = new FileInputStream(filePath);
-			return generateReport(is, parameter, type, fileName);
+			return generateReport(is, Document.parse(rptParam), outputType, fileName);
 		} catch (FileNotFoundException e) {
 			String msg = "没有报表模板文件" + filePath;
 			logger.error(msg);
 			return Response.status(404).build();
 		}
+	}
+
+	@Override
+	public Response generateReport() {
+		return responseBuilder().build();
+	}
+
+	private ResponseBuilder responseBuilder() {
+		return Response.ok().header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
 	}
 
 }

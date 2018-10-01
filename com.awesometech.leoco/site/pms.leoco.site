@@ -925,6 +925,20 @@
                 "objectBehavier": false,
                 "actionBehavier": false,
                 "type": "customized"
+              },
+              {
+                "id": "16630974acc",
+                "name": "示例报表2",
+                "text": "示例报表2",
+                "bundleId": "com.awesometech.leoco",
+                "className": "com.awesometech.leoco.dev.ReportExample2",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
@@ -11161,7 +11175,21 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16631871b8f",
+            "name": "导出",
+            "text": "导出",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
+          }
+        ],
         "rowActions": [
           {
             "id": "162c9dd1016",
@@ -50608,18 +50636,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "1662fc04545",
-            "name": "导出",
-            "text": "导出",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export"
           }
         ],
         "rowActions": [

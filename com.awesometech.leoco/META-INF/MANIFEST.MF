@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.core.runtime,
  com.bizvisionsoft.sqldb,
  org.apache.commons.lang3,
  slf4j.api
+Import-Package: javax.ws.rs.core

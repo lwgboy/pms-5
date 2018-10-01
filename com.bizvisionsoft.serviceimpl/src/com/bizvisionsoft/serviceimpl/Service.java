@@ -118,7 +118,7 @@ public class Service implements BundleActivator {
 			if (!rptDesignFolder.isDirectory()) {
 				rptDesignFolder.mkdirs();
 			}
-			logger.info("报表模板目录：" + dumpFolder);
+			logger.info("报表模板目录：" + rptDesignFolder);
 		} catch (Exception e) {
 			logger.warn("报表模板目录错误", e);
 		}
