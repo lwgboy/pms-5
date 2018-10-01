@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.pms.exporter.MPPExp;
+import com.bizvisionsoft.pms.exporter.MPPExporter;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -40,7 +40,7 @@ public class ReadonlyGantt {
 	@Export("项目甘特图/导出MPP")
 	public void export() {
 		try {
-			new MPPExp().setTasks(data()).setLinks(links()).setProjectName(workScope.getProjectName()).export();
+			new MPPExporter().setTasks(data()).setLinks(links()).setProjectName(workScope.getProjectName()).export();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

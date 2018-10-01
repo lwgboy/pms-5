@@ -25,7 +25,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpx.MPXWriter;
 
-public class MPPExp {
+public class MPPExporter {
 
 	private ProjectFile projectFile;
 
@@ -37,21 +37,21 @@ public class MPPExp {
 
 	private String projectName;
 
-	public MPPExp() {
+	public MPPExporter() {
 		projectFile = new ProjectFile();
 	}
 	
-	public MPPExp setTasks(List<Work> works) {
+	public MPPExporter setTasks(List<Work> works) {
 		this.works = works;
 		return this;
 	}
 
-	public MPPExp setLinks(List<WorkLink> links) {
+	public MPPExporter setLinks(List<WorkLink> links) {
 		this.links = links;
 		return this;
 	}
 	
-	public MPPExp setProjectName(String projectName) {
+	public MPPExporter setProjectName(String projectName) {
 		this.projectName = projectName;
 		return this;
 	}
