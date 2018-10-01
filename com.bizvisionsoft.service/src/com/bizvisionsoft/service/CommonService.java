@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service;
 
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +12,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -533,13 +529,5 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting);
-
-	@POST
-	@Path("/report/")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response generateReport(@FormDataParam("file") InputStream template,
-			@FormDataParam("parameter") Map<String,String> parameter, @FormDataParam("outputType") String outputType,
-			@FormDataParam("downloadableFileName") String downloadableFileName);
 
 }

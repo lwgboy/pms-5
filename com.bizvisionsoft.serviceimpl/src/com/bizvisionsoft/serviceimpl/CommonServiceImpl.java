@@ -1,9 +1,5 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,15 +10,11 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Stack;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CommonService;
-import com.bizvisionsoft.service.dps.ReportCreator;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
@@ -850,38 +842,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		} else {
 			c("setting").updateOne(new Document("name", name), new Document("$set", setting));
 		}
-	}
-
-	@Override
-	public Response generateReport(InputStream template, Map<String, String> parameter, String type, String fileName) {
-		ReportCreator rc = Service.get(ReportCreator.class);
-		if (rc != null) {
-			try {
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				rc.createReport(parameter, type, template, os);
-				String contentType = "application/octet-stream";
-
-				String downloadableFileName;
-				try {
-					downloadableFileName = new String(fileName.getBytes(), "ISO8859-1");
-				} catch (UnsupportedEncodingException e) {
-					downloadableFileName = fileName;
-				}
-
-				ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-				os.close();
-				return Response.ok().entity(is)
-						.header("Content-Disposition", "attachment; filename=" + downloadableFileName)
-						.header("Content-Type", contentType).build();
-			} catch (Exception e) {
-				logger.error("调用DPS报表服务出错", e);
-				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-			}
-		} else {
-			logger.error("无法获得报表服务");
-			return Response.status(404).build();
-		}
-
 	}
 
 }

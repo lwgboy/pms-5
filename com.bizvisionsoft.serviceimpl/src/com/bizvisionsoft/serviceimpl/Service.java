@@ -48,6 +48,8 @@ public class Service implements BundleActivator {
 	public static File dumpFolder;
 
 	public static File queryFolder;
+	
+	public static File rptDesignFolder;
 
 	private static ServerAddress databaseHost;
 
@@ -66,7 +68,7 @@ public class Service implements BundleActivator {
 		String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
 		loadDatabase(filePath);
 		loadQuery(filePath);
-		loadBackupFolder(filePath);
+		loadPath(filePath);
 	}
 
 	public static <T> T get(Class<T> clazz) {
@@ -85,10 +87,14 @@ public class Service implements BundleActivator {
 		}
 	}
 
-	private void loadBackupFolder(String filePath) {
+	private void loadPath(String filePath) {
+		mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
+		if(mongoDbBinPath==null || mongoDbBinPath.isEmpty()) {
+			logger.warn("数据库备份命令没有配置：com.bizvisionsoft.service.MongoDBPath");
+		}
+		
+		String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
 		try {
-			mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
-			String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
 			if (dumpPath == null || dumpPath.isEmpty()) {
 				dumpFolder = new File(new File(filePath).getParent() + "/dump");
 			} else {
@@ -100,6 +106,21 @@ public class Service implements BundleActivator {
 			logger.info("数据库备份目录：" + dumpFolder);
 		} catch (Exception e) {
 			logger.warn("数据库备份目录错误", e);
+		}
+		
+		String rptDesignPath = context.getProperty("com.bizvisionsoft.service.rptDesignPath");
+		try {
+			if (rptDesignPath == null || rptDesignPath.isEmpty()) {
+				rptDesignFolder = new File(new File(filePath).getParent() + "/rptdesign");
+			} else {
+				rptDesignFolder = new File(rptDesignPath);
+			}
+			if (!rptDesignFolder.isDirectory()) {
+				rptDesignFolder.mkdirs();
+			}
+			logger.info("报表模板目录：" + dumpFolder);
+		} catch (Exception e) {
+			logger.warn("报表模板目录错误", e);
 		}
 	}
 
@@ -118,6 +139,7 @@ public class Service implements BundleActivator {
 			logger.error("JSQuery加载错误：", e);
 		}
 	}
+	
 
 	private void loadDatabase(String filePath) {
 		try {
