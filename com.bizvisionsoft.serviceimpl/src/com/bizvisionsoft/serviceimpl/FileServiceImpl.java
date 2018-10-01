@@ -38,7 +38,10 @@ public class FileServiceImpl implements FileService {
 		}
 		return Response.ok().entity(bucket.openDownloadStream(_id))
 				.header("Content-Disposition", "attachment; filename=" + downloadableFileName)
-				.header("Content-Type", contentType).build();
+				.header("Content-Type", contentType).header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD")
+				.header("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept")
+				.header("Access-Control-Max-Age", "1728000").build();
 	}
 
 	@Override

@@ -50608,6 +50608,18 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1662fc04545",
+            "name": "导出",
+            "text": "导出",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
           }
         ],
         "rowActions": [
