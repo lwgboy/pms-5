@@ -16,10 +16,6 @@ public class ReportExample2 {
 		JsonObject postParam = new JsonObject().set("rptParam", rptParam).set("template", "simple_parameter2.rptdesign")
 				.set("outputType", "pdf").set("fileName", "example2.pdf");//
 		UserSession.bruiToolkit().downloadServerFile("report", postParam);
-		// Document parameter = new Document("pipeline", pipeline);
-		// Services.get(ReportService.class).generateReport(parameter,
-		// "simple_parameter2.rptdesign", "pdf",
-		// "example2.pdf");
 	}
 
 }
