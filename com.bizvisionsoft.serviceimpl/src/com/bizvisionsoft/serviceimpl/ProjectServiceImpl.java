@@ -36,7 +36,8 @@ import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -446,9 +447,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
 			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).array()).forEach((Document w) -> {
 				ids.add(w.getObjectId("_id"));
-				Util.notEmptyOrNull(w.getString("chargerId"),
+				Checker.isAssigned(w.getString("chargerId"),
 						c -> msg.add(Message.distributeWorkMsg(projectName, w, true, com.userId, c)));
-				Util.notEmptyOrNull(w.getString("assignerId"),
+				Checker.isAssigned(w.getString("assignerId"),
 						c -> msg.add(Message.distributeWorkMsg(projectName, w, false, com.userId, c)));
 			});
 		} else {
@@ -875,9 +876,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage(
-				"项目收尾通知", "项目：" + project.getString("name") + "已于"
-						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+		sendMessage("项目收尾通知",
+				"项目：" + project.getString("name") + "已于"
+						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
 				com.userId, memberIds, null);
 
 		return new ArrayList<>();
@@ -915,9 +916,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage(
-				"项目关闭通知", "项目：" + project.getString("name") + "已于"
-						+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+		sendMessage("项目关闭通知",
+				"项目：" + project.getString("name") + "已于"
+						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + "关闭。",
 				com.userId, memberIds, null);
 		return new ArrayList<>();
 	}

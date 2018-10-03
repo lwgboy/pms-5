@@ -12,8 +12,8 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.model.AccountIncome;
+import com.bizvisionsoft.service.tools.Checker;
 
 public class EditRealizeAmountACT {
 
@@ -28,7 +28,7 @@ public class EditRealizeAmountACT {
 					Date _index = r.getDate("index");
 					String _amount = r.getString("amount");
 					double amount = Double.parseDouble(_amount);
-					EngUtil.ifInstanceThen(context.getContent(), RealizeASM.class,
+					Checker.ifInstance(context.getContent(), RealizeASM.class,
 							a -> a.update(((AccountIncome) t), new SimpleDateFormat("yyyyMM").format(_index), amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);

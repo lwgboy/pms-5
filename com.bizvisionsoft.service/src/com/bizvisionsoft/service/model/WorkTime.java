@@ -11,7 +11,7 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class WorkTime {
 
@@ -81,7 +81,7 @@ public class WorkTime {
 		}
 		// String text = name;
 		// if (date != null) {
-		// text += " " + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(date) +
+		// text += " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) +
 		// (workingDay ? "工作日" : "非工作日");
 		// }
 		return "工作日设置";
@@ -91,23 +91,23 @@ public class WorkTime {
 	public String getDescription() {
 		String text = "";
 		if (date != null)
-			text += " " + new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(date) + (workingDay ? "工作日" : "非工作日");
+			text += " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) + (workingDay ? "工作日" : "非工作日");
 
 		if (day != null && !day.isEmpty())
 			text += " 每周工作: " + day;
 
 		if (from1 != null)
-			text += " 上午上班: " + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(from1);
+			text += " 上午上班: " + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(from1);
 		if (to1 != null)
-			text += " 上午下班: " + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(to1);
+			text += " 上午下班: " + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(to1);
 		if (from2 != null)
-			text += " 下午上班: " + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(from2);
+			text += " 下午上班: " + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(from2);
 		if (to2 != null)
-			text += " 下午下班: " + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(to2);
+			text += " 下午下班: " + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(to2);
 		if (from3 != null)
-			text += " 晚班上班: " + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(from3);
+			text += " 晚班上班: " + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(from3);
 		if (to3 != null)
-			text += " 晚班下班" + new SimpleDateFormat(Util.DATE_FORMAT_TIME).format(to3);
+			text += " 晚班下班" + new SimpleDateFormat(Formatter.DATE_FORMAT_TIME).format(to3);
 
 		return text.trim();
 	}

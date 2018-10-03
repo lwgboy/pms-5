@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientSettings.Builder;
@@ -48,7 +48,7 @@ public class Service implements BundleActivator {
 	public static File dumpFolder;
 
 	public static File queryFolder;
-	
+
 	public static File rptDesignFolder;
 
 	private static ServerAddress databaseHost;
@@ -89,10 +89,10 @@ public class Service implements BundleActivator {
 
 	private void loadPath(String filePath) {
 		mongoDbBinPath = context.getProperty("com.bizvisionsoft.service.MongoDBPath");
-		if(mongoDbBinPath==null || mongoDbBinPath.isEmpty()) {
+		if (mongoDbBinPath == null || mongoDbBinPath.isEmpty()) {
 			logger.warn("数据库备份命令没有配置：com.bizvisionsoft.service.MongoDBPath");
 		}
-		
+
 		String dumpPath = context.getProperty("com.bizvisionsoft.service.backupPath");
 		try {
 			if (dumpPath == null || dumpPath.isEmpty()) {
@@ -107,7 +107,7 @@ public class Service implements BundleActivator {
 		} catch (Exception e) {
 			logger.warn("数据库备份目录错误", e);
 		}
-		
+
 		String rptDesignPath = context.getProperty("com.bizvisionsoft.service.rptDesignPath");
 		try {
 			if (rptDesignPath == null || rptDesignPath.isEmpty()) {
@@ -139,7 +139,6 @@ public class Service implements BundleActivator {
 			logger.error("JSQuery加载错误：", e);
 		}
 	}
-	
 
 	private void loadDatabase(String filePath) {
 		try {
@@ -162,14 +161,14 @@ public class Service implements BundleActivator {
 		Builder b2 = MongoClientSettings.builder();
 		final List<ServerAddress> serverList = new ArrayList<ServerAddress>();
 		String replicaSet = props.getProperty("db.hosts"); //$NON-NLS-1$
-		Util.isStringThen(replicaSet, c -> {
-			String[] arr = c.split(" ");
+		if (replicaSet != null) {
+			String[] arr = replicaSet.split(" ");
 			for (int i = 0; i < arr.length; i++) {
 				String[] ari = arr[i].split(":");
 				ServerAddress address = new ServerAddress(ari[0], Integer.parseInt(ari[1]));
 				serverList.add(address);
 			}
-		});
+		}
 		b2.applyToClusterSettings(b -> b.hosts(serverList));
 		databaseHost = serverList.get(0);
 		//////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +177,7 @@ public class Service implements BundleActivator {
 		String password = props.getProperty("db.password"); //$NON-NLS-1$
 
 		// 用户身份验证
-		if (!Util.isEmptyOrNull(user) && !Util.isEmptyOrNull(password))
+		if (!Checker.isNotAssigned(user) && !Checker.isNotAssigned(password))
 			b2.credential(MongoCredential.createCredential(user, database, password.toCharArray()));
 
 		// 使用SSL

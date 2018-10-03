@@ -1,0 +1,337 @@
+package com.bizvisionsoft.service.tools;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Stack;
+import java.util.function.Function;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.service.model.RemoteFile;
+
+public class Formatter {
+
+	public static Logger logger = LoggerFactory.getLogger(Formatter.class);
+
+	private static char[] array = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
+
+	public static final String DATE_FORMAT_JS_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
+
+	public static final String DATE_FORMAT_DATE = "yyyy-MM-dd";
+	
+	public static final String DATE_FORMAT_TIME = "HH:mm";
+
+	public static final String DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+	
+	public static final String MONEY_NUMBER_FORMAT = "#,##0.0";
+
+	/**
+	 * 十进制转其他特殊进制
+	 * 
+	 * @param number
+	 * @param N
+	 * @return
+	 */
+	public static String dec_n(long number, int N) {
+		Long rest = number;
+		Stack<Character> stack = new Stack<Character>();
+		StringBuilder result = new StringBuilder(0);
+		while (rest != 0) {
+			stack.add(array[new Long((rest % N)).intValue()]);
+			rest = rest / N;
+		}
+		for (; !stack.isEmpty();) {
+			result.append(stack.pop());
+		}
+		return result.length() == 0 ? "0" : result.toString();
+	}
+
+	/**
+	 * JS 日期字符串转换日期
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static Date getDatefromJS(String str) {
+		if (str == null)
+			return null;
+		String _str = str.replace("Z", " UTC");
+		SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_JS_FULL);
+		try {
+			return format.parse(_str);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 字符串转int
+	 * 
+	 * @param text
+	 * @param errMsg
+	 *            不能转换时的提示
+	 * @return
+	 */
+	public static int getInt(String text, String errMsg) {
+		if (Checker.isNotAssigned(text)) {
+			return 0;
+		}
+		try {
+			return Integer.parseInt(text.trim());
+		} catch (Exception e) {
+			throw new RuntimeException(errMsg);
+		}
+	}
+
+	public static int getInt(String text) {
+		return getInt(text, "不是合法数值");
+	}
+
+	/**
+	 * 字符串转double
+	 * 
+	 * @param text
+	 * @param errMsg
+	 *            不能转换时的提示
+	 * @return
+	 */
+	public static double getDouble(String text, String errMsg) {
+		if (Checker.isNotAssigned(text)) {
+			return 0d;
+		}
+		try {
+			return Double.parseDouble(text.trim());
+		} catch (Exception e) {
+			throw new RuntimeException(errMsg);
+		}
+	}
+
+	public static double getDouble(String text) {
+		return getDouble(text, "不是合法数值");
+	}
+
+	public static String getString(Object value) {
+		return getString(value, null, null);
+	}
+
+	public static String getPercentageFormatString(Object value) {
+		return getString(value, "#0.0%", null);
+	}
+	
+	public static String getMoneyFormatString(Double budget) {
+		if (budget == null || budget == 0d) {
+			return "";
+		}
+		return Formatter.getString(budget, MONEY_NUMBER_FORMAT);
+	}
+
+	public static String getString(Object value, String format) {
+		return getString(value, format, null);
+	}
+
+	public static String getString(Object value, String format, Locale locale) {
+		String text;
+		if (value instanceof Date) {
+			String sdf = Checker.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
+			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf))
+					.format(value);
+		} else if (value instanceof Integer || value instanceof Long || value instanceof Short) {
+			text = Optional.ofNullable(format)//
+					.map(f -> {
+						DecimalFormat df = new DecimalFormat(f);
+						df.setRoundingMode(RoundingMode.HALF_UP);
+						return df.format(value);
+					}).orElse(value.toString());
+		} else if (value instanceof Float || value instanceof Double) {
+			DecimalFormat df = new DecimalFormat(Optional.ofNullable(format).orElse("0.0"));
+			df.setRoundingMode(RoundingMode.HALF_UP);
+			return df.format(value);
+		} else if (value instanceof Boolean) {
+			text = (boolean) value ? "是" : "否";
+		} else if (value instanceof String) {
+			text = (String) value;
+		} else if (value instanceof List<?>) {
+			text = "";
+			for (int i = 0; i < ((List<?>) value).size(); i++) {
+				if (i != 0) {
+					text += ", ";
+				}
+				text += getString(((List<?>) value).get(i), format, locale);
+			}
+		} else if (value instanceof RemoteFile) {
+			text = ((RemoteFile) value).name;
+		} else if (value instanceof Object) {
+			text = Optional.ofNullable(AUtil.readLabel(value)).orElse("");
+		} else {
+			text = "";
+		}
+		return text;
+	}
+
+	public static <T, R> List<R> getList(List<T> source, Function<T, R> func) {
+		ArrayList<R> result = new ArrayList<R>();
+		source.forEach(item -> result.add(func.apply(item)));
+		return result;
+	}
+
+	public static <T, R> List<R> getList(T[] source, Function<T, R> func) {
+		return getList(Arrays.asList(source), func);
+	}
+	
+	/**
+	 * 
+	 * @param <T>
+	 * @param source
+	 *            要分割的数组
+	 * @param subSize
+	 *            分割的块大小
+	 * @return
+	 *
+	 */
+	public static <T> List<List<T>> getSplitedList(List<T> source, int subSize) {
+		List<List<T>> subAryList = new ArrayList<List<T>>();
+		int count = subSize == 0 ? 0
+				: (source.size() % subSize == 0 ? source.size() / subSize : source.size() / subSize + 1);
+		for (int i = 0; i < count; i++) {
+			int index = i * subSize;
+			List<T> list = new ArrayList<T>();
+			int j = 0;
+			while (j < subSize && index < source.size()) {
+				list.add(source.get(index++));
+				j++;
+			}
+			subAryList.add(list);
+		}
+
+		return subAryList;
+	}
+
+	// i, u, v都不做声母, 跟随前面的字母
+
+	private static char[] alphatable = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+
+			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+	// private static char[] alphatable = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+	// 'h', 'i',
+	//
+	// 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+	// 'x', 'y', 'z' };
+
+	// 初始化
+	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119,
+			49062, 49324, 49896, 50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689,
+			54481, 55289 };
+
+	/**
+	 * 根据一个包含汉字的字符串返回一个汉字拼音首字母的字符串
+	 * 
+	 * @param String
+	 *            SourceStr 包含一个汉字的字符串
+	 */
+	public static String getAlphaString(String src) {
+		if (src == null) {
+			return "";
+		}
+		String result = ""; //$NON-NLS-1$
+		int i;
+		try {
+			for (i = 0; i < src.length(); i++) {
+				result += char_alpha(src.charAt(i));
+			}
+		} catch (Exception e) {
+			result = ""; //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	/**
+	 * 主函数,输入字符,得到他的声母, 英文字母返回对应的字母 其他非简体汉字返回 '0'
+	 * 
+	 * @param char
+	 *            ch 汉字拼音首字母的字符
+	 */
+	private static char char_alpha(char ch) {
+
+		if (ch >= 'a' && ch <= 'z')
+			// return (char) (ch - 'a' + 'A');
+			return ch;
+		if (ch >= 'A' && ch <= 'Z')
+			return ch;
+		if (ch >= '0' && ch <= '9')
+			return ch;
+
+		int gb = getCodeValue(ch, "GB2312"); //$NON-NLS-1$
+		if (gb < alphatable_code[0])
+			return '0';
+
+		int i;
+		for (i = 0; i < 26; ++i) {
+			if (alphaCodeMatch(i, gb))
+				break;
+		}
+
+		if (i >= 26)
+			return ' ';
+		else
+			return alphatable[i];
+	}
+
+	/**
+	 * 判断字符是否于table数组中的字符想匹配
+	 * 
+	 * @param i
+	 *            table数组中的位置
+	 * @param gb
+	 *            中文编码
+	 * @return
+	 */
+	private static boolean alphaCodeMatch(int i, int gb) {
+
+		if (gb < alphatable_code[i])
+			return false;
+
+		int j = i + 1;
+
+		// 字母Z使用了两个标签
+		while (j < 26 && (alphatable_code[j] == alphatable_code[i]))
+			++j;
+
+		if (j == 26)
+			return gb <= alphatable_code[j];
+		else
+			return gb < alphatable_code[j];
+
+	}
+
+	/**
+	 * 取出汉字的编码
+	 * 
+	 * @param char
+	 *            ch 汉字拼音首字母的字符
+	 */
+	private static int getCodeValue(char ch, String charsetName) {
+
+		String str = new String();
+		str += ch;
+		try {
+			byte[] bytes = str.getBytes(charsetName);
+			if (bytes.length < 2)
+				return 0;
+			return (bytes[0] << 8 & 0xff00) + (bytes[1] & 0xff);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+}

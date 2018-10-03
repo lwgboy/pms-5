@@ -3,7 +3,7 @@ package com.bizvisionsoft.service.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class News {
 
@@ -16,7 +16,7 @@ public class News {
 	public String summary;
 
 	public String getSummary() {
-		return new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(date) + ", " + (summary == null ? content : summary);
+		return new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) + ", " + (summary == null ? content : summary);
 	}
 
 	public News setDate(Date date) {

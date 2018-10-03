@@ -24,7 +24,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubjectCost;
 import com.bizvisionsoft.service.model.ICBSScope;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ManagedProjectsCostRender extends GridPartDefaultRender {
@@ -251,7 +251,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 		}
 
 		if (value != null && value instanceof Number && ((Number) value).doubleValue() != 0)
-			col.setFooterText(Util.getFormatNumber(value));
+			col.setFooterText(Formatter.getString(value));
 
 		super.renderColumnFooter(col, column);
 	}

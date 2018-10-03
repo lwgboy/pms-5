@@ -19,7 +19,7 @@ import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -307,7 +307,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return Util.getFormatNumber(d);
+				return Formatter.getString(d);
 			}
 		}
 		return "";

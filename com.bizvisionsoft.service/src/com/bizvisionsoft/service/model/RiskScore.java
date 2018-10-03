@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("riskScoreInd")
 public class RiskScore {
@@ -133,11 +133,11 @@ public class RiskScore {
 	private String getCostImpact() {
 		String text = "";
 		if (minCostImpact != null) {
-			text += Util.getFormatNumber(minCostImpact);
+			text += Formatter.getString(minCostImpact);
 		}
 		text += " ~ ";
 		if (maxCostImpact != null) {
-			text += Util.getFormatNumber(maxCostImpact);
+			text += Formatter.getString(maxCostImpact);
 		}
 		return text;
 	}

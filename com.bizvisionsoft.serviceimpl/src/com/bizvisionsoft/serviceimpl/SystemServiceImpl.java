@@ -9,7 +9,7 @@ import java.util.List;
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
 import com.mongodb.ServerAddress;
@@ -33,7 +33,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port)
 				.dbName(dbName).archive(dumpPath + "\\").build().dump();
 		try {
-			Util.writeFile(note, result + "/notes.txt", "utf-8");
+			FileTools.writeFile(note, result + "/notes.txt", "utf-8");
 		} catch (IOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -54,7 +54,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 					backup.setId(name);
 					File[] note = files[i].listFiles(f -> f.getName().equals("notes.txt"));
 					if (note != null && note.length > 0) {
-						String text = Util.readFile(note[0].getPath(), "utf-8");
+						String text = FileTools.readFile(note[0].getPath(), "utf-8");
 						backup.setNotes(text);
 					}
 					result.add(backup);
@@ -70,7 +70,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
 			try {
-				Util.writeFile(text, files[0].getPath() + "/notes.txt", "utf-8");
+				FileTools.writeFile(text, files[0].getPath() + "/notes.txt", "utf-8");
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}
@@ -81,7 +81,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	public boolean deleteBackup(String id) {
 		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
-			return Util.deleteFolder(files[0].getPath());
+			return FileTools.deleteFolder(files[0].getPath());
 		}
 		return false;
 	}

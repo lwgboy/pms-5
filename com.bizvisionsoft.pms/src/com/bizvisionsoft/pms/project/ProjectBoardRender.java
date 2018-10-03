@@ -24,7 +24,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectBoardInfo;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ProjectBoardRender {
@@ -94,8 +94,8 @@ public class ProjectBoardRender {
 
 		sb.append("<div class='label_title'>" + pj.getName() + "</div>");
 		sb.append("<div style='width:100%;margin-top:4px;display:inline-flex;justify-content:space-between;'><div>计划: "
-				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanStart()) + " ~ "
-				+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(pj.getPlanFinish()));
+				+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(pj.getPlanStart()) + " ~ "
+				+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(pj.getPlanFinish()));
 		sb.append("  <span class='layui-badge-rim'>" + pj.getStatus() + "</span>");
 		sb.append("  " + pj.getOverdueHtml());
 		sb.append("</div>");
@@ -140,18 +140,18 @@ public class ProjectBoardRender {
 
 		sb.append(
 				"<div style='margin-top:0px;width: 100%;display:inline-flex;justify-content:space-between;padding-right: 36px;'>");
-		String ind = Util.getFormatText(pj.getWAR(), "#0.0%", null);
+		String ind = Formatter.getString(pj.getWAR(), "#0.0%", null);
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
 		sb.append(MetaInfoWarpper.warpper(ind+"<br>工作量完成率", "反映项目工作量完成情况，<br>项目所有工作累计实际工期与计划工期的比值。"));
 		sb.append("</div>");
 
 		
-		ind = Util.getFormatText(pj.getDAR(), "#0.0%", null);
+		ind = Formatter.getString(pj.getDAR(), "#0.0%", null);
 		sb.append("<div class='brui_indicator info' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
 		sb.append(MetaInfoWarpper.warpper(ind+"<br>工期完成率", "反映项目实际工期情况，<br>项目实际工期与计划工期的比值。"));
 		sb.append("</div>");
 
-		ind = Util.getFormatText(pj.getCAR(), "#0.0%", null);
+		ind = Formatter.getString(pj.getCAR(), "#0.0%", null);
 		sb.append("<div class='brui_indicator normal' style='padding:8px 16px;font-size:14px;font-weight:lighter;width:25%;'>");
 		sb.append(MetaInfoWarpper.warpper(ind+"<br>预算使用率", "反映项目预算执行情况，<br>项目累计发生成本与总预算的比值。"));
 		sb.append("</div>");

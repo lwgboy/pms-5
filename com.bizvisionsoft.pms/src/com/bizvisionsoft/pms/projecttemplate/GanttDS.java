@@ -13,7 +13,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ProjectTemplate;
@@ -69,7 +69,7 @@ public class GanttDS {
 	@Listener({ "onAfterTaskUpdate", "onAfterTaskMove", "onAfterTaskResize", "onAfterTaskProgress" })
 	public void onAfterTaskUpdate(GanttEvent e) {
 		service.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(EngUtil.getBson((WorkInTemplate) e.task, "_id")).bson());
+				.set(BsonTools.getBson((WorkInTemplate) e.task, "_id")).bson());
 	}
 
 	@Listener("onAfterTaskDelete")
@@ -87,7 +87,7 @@ public class GanttDS {
 	@Listener("onAfterLinkUpdate")
 	public void onAfterLinkUpdateInSpace(GanttEvent e) {
 		service.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(EngUtil.getBson((WorkLinkInTemplate) e.link, "_id")).bson());
+				.set(BsonTools.getBson((WorkLinkInTemplate) e.link, "_id")).bson());
 	}
 
 	@Listener("onAfterLinkDelete")

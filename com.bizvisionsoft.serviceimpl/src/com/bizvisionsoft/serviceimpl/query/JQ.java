@@ -15,7 +15,7 @@ import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.Service;
 
 public class JQ {
@@ -160,7 +160,7 @@ public class JQ {
 
 	private static void load(File file) {
 		try {
-			String text = Util.readFile(file.getPath(), "utf-8");
+			String text = FileTools.readFile(file.getPath(), "utf-8");
 			String name = file.getName();
 			query.put(name.substring(0, name.indexOf(".")), text);
 		} catch (IOException e1) {

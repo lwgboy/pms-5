@@ -17,7 +17,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.CBSItem;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class SetSearchCBSPeriodACT {
 
@@ -58,7 +58,7 @@ public class SetSearchCBSPeriodACT {
 							if (element instanceof CBSItem) {
 								double cost = ((CBSItem) element).getCost(startPeriod, endPeriod);
 								if (cost != 0)
-									return Util.getFormatNumber(cost);
+									return Formatter.getString(cost);
 							}
 							return "";
 						}

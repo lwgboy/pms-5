@@ -25,7 +25,7 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -98,8 +98,8 @@ public class AdministeredProjectProgressWidgetASM {
 		fd.top = new FormAttachment(sep);
 		fd.bottom = new FormAttachment(100);
 		
-		addIndicator(content, Util.getFormatText(project.getPlanStart(),null, RWT.getLocale()), "计划开始");
-		addIndicator(content, Util.getFormatText(project.getPlanFinish(),null, RWT.getLocale()), "计划完成");
+		addIndicator(content, Formatter.getString(project.getPlanStart(),null, RWT.getLocale()), "计划开始");
+		addIndicator(content, Formatter.getString(project.getPlanFinish(),null, RWT.getLocale()), "计划完成");
 		addIndicator(content, project.getPlanDuration() + "天", "计划工期");
 		String overdue = getOverdueHtml(project);
 		if ("超期".equals(overdue)) {
@@ -113,8 +113,8 @@ public class AdministeredProjectProgressWidgetASM {
 		} else {
 			addIndicator(content, "", "进度预警");
 		}
-		addIndicator(content, Util.getFormatText(project.getEstimateFinish(),null, RWT.getLocale()), "估算完工日期");
-		addIndicator(content, Util.getFormatText(project.getEstimateDuration(),null, RWT.getLocale()) + "天", "估算工期");
+		addIndicator(content, Formatter.getString(project.getEstimateFinish(),null, RWT.getLocale()), "估算完工日期");
+		addIndicator(content, Formatter.getString(project.getEstimateDuration(),null, RWT.getLocale()) + "天", "估算工期");
 
 	}
 

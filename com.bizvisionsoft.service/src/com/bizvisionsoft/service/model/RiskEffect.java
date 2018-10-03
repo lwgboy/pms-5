@@ -16,7 +16,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("riskEffect")
 public class RiskEffect {
@@ -117,7 +117,7 @@ public class RiskEffect {
 
 	@WriteValue("timeInf")
 	private void setTimeInf(String _timeInf) {
-		timeInf = Util.str_int(_timeInf, "工期影响必须输入整数。");
+		timeInf = Formatter.getInt(_timeInf, "工期影响必须输入整数。");
 	}
 
 	@ReadValue("timeInf")
@@ -141,7 +141,7 @@ public class RiskEffect {
 
 	@WriteValue("costInf")
 	private void setCostInf(String _timeInf) {
-		costInf = Util.str_double(_timeInf, "成本影响必须输入数值。");
+		costInf = Formatter.getDouble(_timeInf);
 	}
 
 	@ReadValue("costInf")

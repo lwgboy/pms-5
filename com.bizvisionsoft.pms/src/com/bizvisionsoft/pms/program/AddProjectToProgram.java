@@ -12,10 +12,10 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProgramService;
-import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Program;
+import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class AddProjectToProgram {
@@ -31,7 +31,7 @@ public class AddProjectToProgram {
 					List<ObjectId> pjIds = new ArrayList<ObjectId>();
 					s.forEach(pj -> pjIds.add(((Project) pj).get_id()));
 					Services.get(ProgramService.class).addProjects(pjIds, ((Program) em).get_id());
-					EngUtil.ifInstanceThen(context.getContent(), GridPart.class, c -> c.refreshAndExpand(em));
+					Checker.ifInstance(context.getContent(), GridPart.class, c -> c.refreshAndExpand(em));
 				});
 			}
 		});

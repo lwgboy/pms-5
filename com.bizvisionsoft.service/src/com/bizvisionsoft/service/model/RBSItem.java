@@ -22,7 +22,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("rbsItem")
@@ -115,7 +115,7 @@ public class RBSItem {
 
 	@WriteValue("probability")
 	private void setProbability(String _probability) {
-		probability = Util.str_double(_probability, "发生概率影响必须输入浮点数。");
+		probability = Formatter.getDouble(_probability);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class RBSItem {
 
 	@WriteValue("timeInf")
 	private void setTimeInf(String _timeInf) {
-		timeInf = Util.str_int(_timeInf, "工期影响必须输入整数。");
+		timeInf = Formatter.getInt(_timeInf, "工期影响必须输入整数。");
 	}
 
 	@ReadValue("timeInf")
@@ -161,7 +161,7 @@ public class RBSItem {
 
 	@WriteValue("costInf")
 	private void setCostInf(String _timeInf) {
-		costInf = Util.str_double(_timeInf, "成本影响必须输入数值。");
+		costInf = Formatter.getDouble(_timeInf);
 	}
 
 	@ReadValue("costInf")

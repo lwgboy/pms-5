@@ -74,7 +74,7 @@ public class EditableGantt {
 	// public void onAfterTaskUpdateInSpace(GanttEvent e) {
 	// workSpaceService.updateWork(new FilterAndUpdate().filter(new
 	// BasicDBObject("_id", new ObjectId(e.id)))
-	// .set(EngUtil.getBson((WorkInfo) e.task, "_id")).bson());
+	// .set(BsonTools.getBson((WorkInfo) e.task, "_id")).bson());
 	// }
 	//
 	// @Listener("onAfterTaskDelete")
@@ -93,7 +93,7 @@ public class EditableGantt {
 	// public void onAfterLinkUpdateInSpace(GanttEvent e) {
 	// workSpaceService.updateLink(new FilterAndUpdate().filter(new
 	// BasicDBObject("_id", new ObjectId(e.id)))
-	// .set(EngUtil.getBson((WorkLinkInfo) e.link, "_id")).bson());
+	// .set(BsonTools.getBson((WorkLinkInfo) e.link, "_id")).bson());
 	// }
 	//
 	// @Listener("onAfterLinkDelete")

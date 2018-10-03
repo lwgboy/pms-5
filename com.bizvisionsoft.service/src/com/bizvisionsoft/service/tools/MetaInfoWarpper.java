@@ -9,7 +9,7 @@ public class MetaInfoWarpper {
 		if (meta == null) {
 			return text;
 		}
-		if (!Util.isEmptyOrNull(meta.headPics)) {
+		if (!Checker.isNotAssigned(meta.headPics)) {
 			String headPicHtml = "<img src=&#x27;" + meta.headPics.get(0).getURL(ServicesLoader.url)
 					+ "&#x27; style=&#x27;border-radius:28px;width:48px;height:48px;&#x27;/>";
 			String message = "<div style=&#x27;display:flex &#x27;>" + headPicHtml

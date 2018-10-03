@@ -15,7 +15,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
+import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.service.model.Work;
 
 public class SidebarHeader4Work {

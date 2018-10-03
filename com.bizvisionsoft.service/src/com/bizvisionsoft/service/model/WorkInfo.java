@@ -20,7 +20,8 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.sn.WorkGenerator;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 
 //implements IWBSScope 
 @PersistenceCollection("workspace")
@@ -63,7 +64,7 @@ public class WorkInfo {
 		} else {
 			newParent_id = null;
 		}
-		if (!Util.equals(newParent_id, this.parent_id)) {
+		if (!Checker.equals(newParent_id, this.parent_id)) {
 			this.parent_id = newParent_id;
 			return true;
 		} else {
@@ -114,7 +115,7 @@ public class WorkInfo {
 		} else {
 			newId = null;
 		}
-		if (!Util.equals(newId, this.project_id)) {
+		if (!Checker.equals(newId, this.project_id)) {
 			this.project_id = newId;
 			return true;
 		} else {
@@ -203,8 +204,8 @@ public class WorkInfo {
 
 	@WriteValue("项目甘特图（编辑）/start_date")
 	public boolean setStart_date(String start_date) {
-		Date newDate = Util.str_date(start_date);
-		if (!Util.equals(newDate, this.planStart)) {
+		Date newDate = Formatter.getDatefromJS(start_date);
+		if (!Checker.equals(newDate, this.planStart)) {
 			planStart = newDate;
 			return true;
 		}
@@ -249,8 +250,8 @@ public class WorkInfo {
 	 */
 	@WriteValue("项目甘特图（编辑）/end_date")
 	public boolean setEnd_date(String end_date) {
-		Date newDate = Util.str_date(end_date);
-		if (!Util.equals(newDate, this.planFinish)) {
+		Date newDate = Formatter.getDatefromJS(end_date);
+		if (!Checker.equals(newDate, this.planFinish)) {
 			planFinish = newDate;
 			return true;
 		}

@@ -21,7 +21,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 public class WorkWidgetASM {
@@ -104,7 +104,7 @@ public class WorkWidgetASM {
 		calPan = (SchedulerPart) asm.getContext().getContent();
 		calPan.addPostSelectionChangedListener(i -> {
 			String elem = (String) i.getStructuredSelection().getFirstElement();
-			Date date = Util.str_date(elem);
+			Date date = Formatter.getDatefromJS(elem);
 			if (date != null) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(date);

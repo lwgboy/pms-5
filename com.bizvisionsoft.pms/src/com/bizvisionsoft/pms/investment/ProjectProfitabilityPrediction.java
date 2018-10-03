@@ -36,7 +36,7 @@ import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -85,9 +85,9 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 		Object cellValue = getCellValue(row, name);
 		if (cellValue instanceof Number) {
 			if (isPercentRow(row) || isPercentCell(row, name)) {
-				cellValue = Util.getFormatText(cellValue, "0.0%", null);
+				cellValue = Formatter.getString(cellValue, "0.0%", null);
 			} else {
-				// cellValue = EngUtil.getFormatText(cellValue, "0", null);
+				// cellValue = BsonTools.getFormatText(cellValue, "0", null);
 			}
 		}
 
@@ -683,7 +683,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 	private String getNumberText(Number number, String format) {
 		if (number == null || number.doubleValue() == 0)
 			return "";
-		return Util.getFormatText(number, format, null);
+		return Formatter.getString(number, format, null);
 	}
 
 	private double getDoubleValue(Object input) throws Exception {

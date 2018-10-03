@@ -27,7 +27,8 @@ import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -85,7 +86,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		} else {
 			newParent_id = null;
 		}
-		if (!Util.equals(newParent_id, this.parent_id)) {
+		if (!Checker.equals(newParent_id, this.parent_id)) {
 			this.parent_id = newParent_id;
 			return true;
 		} else {
@@ -121,7 +122,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		} else {
 			newId = null;
 		}
-		if (!Util.equals(newId, this.project_id)) {
+		if (!Checker.equals(newId, this.project_id)) {
 			this.project_id = newId;
 			return true;
 		} else {
@@ -255,14 +256,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@WriteValue("项目甘特图/start_date")
 	public boolean setStart_date(String start_date) {
-		Date newDate = Util.str_date(start_date);
+		Date newDate = Formatter.getDatefromJS(start_date);
 		if (actualStart != null) {
-			if (!Util.equals(newDate, this.actualStart)) {
+			if (!Checker.equals(newDate, this.actualStart)) {
 				actualStart = newDate;
 				return true;
 			}
 		} else {
-			if (!Util.equals(newDate, this.planStart)) {
+			if (!Checker.equals(newDate, this.planStart)) {
 				planStart = newDate;
 				return true;
 			}
@@ -318,14 +319,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	 */
 	@WriteValue("项目甘特图/end_date")
 	public boolean setEnd_date(String end_date) {
-		Date newDate = Util.str_date(end_date);
+		Date newDate = Formatter.getDatefromJS(end_date);
 		if (actualFinish != null) {
-			if (!Util.equals(newDate, this.actualFinish)) {
+			if (!Checker.equals(newDate, this.actualFinish)) {
 				actualFinish = newDate;
 				return true;
 			}
 		} else {
-			if (!Util.equals(newDate, this.planFinish)) {
+			if (!Checker.equals(newDate, this.planFinish)) {
 				planFinish = newDate;
 				return true;
 			}
@@ -1120,7 +1121,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		StringBuffer sb = new StringBuffer();
 		List<TrackView> wps = getWorkPackageSetting();
 		sb.append("<div style='display: inline-flex;" + "    justify-content: space-between;" + "    width: 100%;'>");
-		if (Util.isEmptyOrNull(wps)) {
+		if (Checker.isNotAssigned(wps)) {
 			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
 					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {

@@ -7,9 +7,9 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProgramService;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class RemoveProjectFromProgram {
@@ -21,7 +21,7 @@ public class RemoveProjectFromProgram {
 		context.selected(em -> {
 			if ((em instanceof Project) && br.confirm("移出项目集", "请确定将项目" + em + "移出项目集。")) {
 				Services.get(ProgramService.class).unsetProgram(((Project) em).get_id());
-				EngUtil.ifInstanceThen(context.getContent(), GridPart.class, c -> c.remove(em));
+				Checker.ifInstance(context.getContent(), GridPart.class, c -> c.remove(em));
 				Layer.message("已移除项目" + em );
 			}
 		});

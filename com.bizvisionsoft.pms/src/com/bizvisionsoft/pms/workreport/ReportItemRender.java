@@ -29,7 +29,7 @@ import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
 import com.mongodb.BasicDBObject;
 
 public class ReportItemRender extends GridPartDefaultRender {
@@ -60,7 +60,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 						viewer.refresh();
 					}
 				} else if (e.text.startsWith("openStatement/")) {
-					Util.notEmptyOrNull(item.getStatement(), h -> Layer.alert("完成情况", h, 420, 240));
+					Checker.isAssigned(item.getStatement(), h -> Layer.alert("完成情况", h, 420, 240));
 				} else if (e.text.startsWith("editProblems/")) {
 					String initialValue = item.getProblems();
 					InputDialog id = new InputDialog(brui.getCurrentShell(), "存在问题", "请输入工作存在问题", initialValue, null)
@@ -73,7 +73,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 						viewer.refresh();
 					}
 				} else if (e.text.startsWith("openProblems/")) {
-					Util.notEmptyOrNull(item.getProblems(), h -> Layer.alert("存在问题", h, 420, 240));
+					Checker.isAssigned(item.getProblems(), h -> Layer.alert("存在问题", h, 420, 240));
 				} else if (e.text.startsWith("editPMRemark/")) {
 					String initialValue = item.getPmRemark();
 					InputDialog id = new InputDialog(brui.getCurrentShell(), "批注", "请输入工作批注", initialValue, null)
@@ -86,7 +86,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 						viewer.refresh();
 					}
 				} else if (e.text.startsWith("openPMRemark/")) {
-					Util.notEmptyOrNull(item.getPmRemark(), h -> Layer.alert("批注", h, 420, 240));
+					Checker.isAssigned(item.getPmRemark(), h -> Layer.alert("批注", h, 420, 240));
 				} else if (e.text.startsWith("editResourceActual/")) {
 					ResourceTransfer rt = new ResourceTransfer();
 					Work work = ((WorkReportItem) item).getWork();

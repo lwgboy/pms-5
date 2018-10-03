@@ -42,9 +42,9 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
-import com.bizvisionsoft.bruiengine.ui.BruiToolkit;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -52,7 +52,7 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class EditResourceASM extends GridPart {
@@ -911,7 +911,7 @@ public class EditResourceASM extends GridPart {
 		for (Document doc : resource) {
 			value += getDoubleValue(doc.get(key));
 		}
-		return Util.getFormatText(value, "#,##0.0", locale);
+		return Formatter.getString(value, "#,##0.0", locale);
 	}
 
 	private void createDateColumn() {
@@ -937,7 +937,7 @@ public class EditResourceASM extends GridPart {
 	}
 
 	private void createDateColumn(Date now) {
-		String name = Util.getFormatText(now, null, locale);
+		String name = Formatter.getString(now, null, locale);
 		GridColumnGroup grp = new GridColumnGroup(viewer.getGrid(), SWT.CENTER);
 
 		grp.setData("name", name);
@@ -1007,7 +1007,7 @@ public class EditResourceASM extends GridPart {
 							} else {
 								value = doc.get("actual" + key + "Qty");
 							}
-							String text = Util.getFormatText(value, null, locale);
+							String text = Formatter.getString(value, null, locale);
 							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
 									&& now.before((Date) eFinish)
 									&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
@@ -1189,7 +1189,7 @@ public class EditResourceASM extends GridPart {
 					if (value instanceof Number && ((Number) value).doubleValue() == 0.0)
 						value = "";
 				}
-				return Util.getFormatText(value, format, locale);
+				return Formatter.getString(value, format, locale);
 			}
 		};
 	}

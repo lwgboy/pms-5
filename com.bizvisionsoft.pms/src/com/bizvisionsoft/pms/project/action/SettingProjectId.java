@@ -10,9 +10,9 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SettingProjectId {
@@ -27,7 +27,7 @@ public class SettingProjectId {
 					txt -> txt.trim().isEmpty() ? "项目编号不可为空" : null);
 			if (id.open() == Window.OK) {
 				Services.get(ProjectService.class).updateProjectId(((Project) se).get_id(), id.getValue());
-				EngUtil.ifInstanceThen(context.getContent(), GridPart.class,
+				Checker.ifInstance(context.getContent(), GridPart.class,
 						grid -> grid.update(((Project) se).setId(id.getValue())));
 
 			}

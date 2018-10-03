@@ -45,7 +45,7 @@ import com.bizvisionsoft.service.ProductService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Product;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
@@ -257,7 +257,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 		if (format == null) {
 			return "";
 		}
-		return Util.getFormatText(value, format, null);
+		return Formatter.getString(value, format, null);
 	}
 
 	private String getFormat(String row, String col) {

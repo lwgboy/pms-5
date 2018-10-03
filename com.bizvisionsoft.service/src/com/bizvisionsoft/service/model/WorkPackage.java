@@ -18,7 +18,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("workPackage")
 public class WorkPackage {
@@ -182,7 +182,7 @@ public class WorkPackage {
 
 	@WriteValue("planQty")
 	private void setPlanQty(String _planQty) {
-		planQty = Util.str_double(_planQty, "计划数量要求为数值。");
+		planQty = Formatter.getDouble(_planQty);
 	}
 
 	@ReadValue

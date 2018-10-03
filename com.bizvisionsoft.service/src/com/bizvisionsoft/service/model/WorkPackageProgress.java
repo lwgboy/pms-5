@@ -14,7 +14,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("workPackageProgress")
 public class WorkPackageProgress {
@@ -61,7 +61,7 @@ public class WorkPackageProgress {
 
 	@WriteValue("completeQty")
 	private void setCompleteQty(String _completeQty) {
-		completeQty = Util.str_double(_completeQty, "完成数量要求为数值。");
+		completeQty = Formatter.getDouble(_completeQty);
 	}
 
 	@ReadValue
@@ -82,7 +82,7 @@ public class WorkPackageProgress {
 
 	@WriteValue("blsl")
 	private void setBLSL(String _blsl) {
-		blsl = Util.str_double(_blsl, "备料数量要求为数值。");
+		blsl = Formatter.getDouble(_blsl);
 	}
 
 	@Persistence
@@ -91,7 +91,7 @@ public class WorkPackageProgress {
 
 	@WriteValue("jysl")
 	private void setJYSL(String _jysl) {
-		jysl = Util.str_double(_jysl, "检验数量要求为数值。");
+		jysl = Formatter.getDouble(_jysl);
 	}
 
 	@Persistence
@@ -108,7 +108,7 @@ public class WorkPackageProgress {
 
 	@WriteValue("qualifiedQty")
 	private void setQualifiedQty(String _qualifiedQty) {
-		qualifiedQty = Util.str_double(_qualifiedQty, "合格数量要求为数值。");
+		qualifiedQty = Formatter.getDouble(_qualifiedQty);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

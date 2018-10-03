@@ -18,7 +18,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.ICBSAmount;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class SetSearchProjectAnalysisACT {
 
@@ -93,7 +93,7 @@ public class SetSearchProjectAnalysisACT {
 					return "";
 				if (value.doubleValue() == 0d)
 					return "";
-				return Util.getFormatNumber(value);
+				return Formatter.getString(value);
 			}
 		};
 	}

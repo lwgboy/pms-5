@@ -39,7 +39,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ShowResourceASM extends GridPart {
@@ -453,7 +453,7 @@ public class ShowResourceASM extends GridPart {
 		for (Document doc : resource) {
 			value += getDoubleValue(doc.get(key));
 		}
-		return Util.getFormatText(value, "#,##0.0", locale);
+		return Formatter.getString(value, "#,##0.0", locale);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -478,7 +478,7 @@ public class ShowResourceASM extends GridPart {
 			format = "#,##0.0";
 		else
 			format = "0.0";
-		String text = Util.getFormatText(value, format, locale);
+		String text = Formatter.getString(value, format, locale);
 		return "0.0".equals(text) ? "" : text;
 	}
 
@@ -605,7 +605,7 @@ public class ShowResourceASM extends GridPart {
 								format = "#,##0.0";
 							else
 								format = "0.0";
-							String text = Util.getFormatText(value, format, locale);
+							String text = Formatter.getString(value, format, locale);
 							return "0.0".equals(text) ? "" : text;
 						}
 					}
@@ -637,7 +637,7 @@ public class ShowResourceASM extends GridPart {
 					if (value instanceof Number)
 						format = "0.0";
 				}
-				String text = Util.getFormatText(value, format, locale);
+				String text = Formatter.getString(value, format, locale);
 				return "0.0".equals(text) ? "" : text;
 			}
 		};

@@ -26,7 +26,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -196,7 +196,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			WorkInfo workInfo = c(WorkInfo.class).aggregate(pipeline).first();
 			if (workInfo != null) {
 				Date planFinish = workInfo.getPlanFinish();
-				Result result = Result.checkoutError("管理节点完成时间超过限定的计划完成日期，要求不等晚于" + Util.getFormatDate(planFinish),
+				Result result = Result.checkoutError("管理节点完成时间超过限定的计划完成日期，要求不等晚于" + Formatter.getString(planFinish),
 						Result.CODE_UPDATEMANAGEITEM);
 				result.data = new BasicDBObject("name", workInfo.getText());
 				return result;
@@ -214,7 +214,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过阶段计划完工日期，要求不得晚于" + Util.getFormatDate(planFinish),
+				Result result = Result.checkoutError("完成时间超过阶段计划完工日期，要求不得晚于" + Formatter.getString(planFinish),
 						Result.CODE_UPDATESTAGE);
 				result.data = new BasicDBObject("name", name).append("planFinish", planFinish);
 				return result;
@@ -226,7 +226,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				String name = c("workspace").distinct("name",
 						new Document("space_id", workspace.getSpace_id()).append("planFinish", doc.getDate("finish")),
 						String.class).first();
-				Result result = Result.checkoutError("完成时间超过项目计划完工日期，要求不得晚于" + Util.getFormatDate(planFinish),
+				Result result = Result.checkoutError("完成时间超过项目计划完工日期，要求不得晚于" + Formatter.getString(planFinish),
 						Result.CODE_UPDATEPROJECT);
 				result.data = new BasicDBObject("name", name).append("planFinish", planFinish);
 				return result;
@@ -350,14 +350,14 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 					String chargerId = doc.getString("chargerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
 							+ doc.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
+							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
 							workspace.getCheckoutBy(), chargerId, null));
 					String assignerId = doc.getString("assignerId");
 					messages.add(Message.newInstance("工作计划下达通知", "您指派的项目 " + project.getName() + "，工作 "
 							+ doc.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Util.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
+							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
+							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
 							workspace.getCheckoutBy(), assignerId, null));
 				}
 			}

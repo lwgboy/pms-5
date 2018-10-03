@@ -11,10 +11,10 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ApproveProject {
@@ -28,7 +28,7 @@ public class ApproveProject {
 			if (br.confirm("批准项目启动", "请确认是否批准项目启动。")) {
 				Services.get(ProjectService.class)
 						.approveProject(br.command(((Project) se).get_id(), new Date(), ICommand.Approve_Project));
-				EngUtil.ifInstanceThen(context.getContent(), GridPart.class,
+				Checker.ifInstance(context.getContent(), GridPart.class,
 						grid -> grid.update(((Project) se).setStartApproved(true)));
 				Layer.message("已批准项目启动");
 			}

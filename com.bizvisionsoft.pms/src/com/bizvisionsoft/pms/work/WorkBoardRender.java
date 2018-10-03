@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.work;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -33,6 +31,8 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -152,8 +152,8 @@ public class WorkBoardRender {
 		sb.append("<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>" + work.getFullName() + "</div>");
 		sb.append(
 				"<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div style='display:inline-flex;'>计划: "
-						+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanStart()) + " ~ "
-						+ new SimpleDateFormat(EngUtil.DATE_FORMAT_DATE).format(work.getPlanFinish()));
+						+ Formatter.getString(work.getPlanStart()) + " ~ "
+						+Formatter.getString(work.getPlanFinish()) );
 
 		String warningIcon = work.getWarningIcon();
 		// 根据warningIcon是否为null，显示其进度状态
@@ -217,7 +217,7 @@ public class WorkBoardRender {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 工作包按钮
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (EngUtil.isEmptyOrNull(wps)) {
+		if (Checker.isNotAssigned(wps)) {
 			sb.append(
 					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
 							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");

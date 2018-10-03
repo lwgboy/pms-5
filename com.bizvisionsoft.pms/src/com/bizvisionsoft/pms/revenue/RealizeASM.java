@@ -41,12 +41,12 @@ import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 /**
@@ -155,7 +155,7 @@ public class RealizeASM extends GridPart {
 				if (value == 0) {
 					text = "";
 				} else {
-					text = EngUtil.getGenericMoneyFormatText(value);
+					text = Formatter.getMoneyFormatString(value);
 				}
 
 				cell.setText(text);
@@ -216,7 +216,7 @@ public class RealizeASM extends GridPart {
 				String text = "";
 				double value = getAmount(account, index);
 				if (value != 0)
-					text = EngUtil.getGenericMoneyFormatText(value);
+					text = Formatter.getMoneyFormatString(value);
 
 				cell.setText(text);
 				if (isAmountEditable(account))
@@ -270,7 +270,7 @@ public class RealizeASM extends GridPart {
 
 	private boolean isAmountEditable(Object account) {
 		return account instanceof AccountIncome && !((AccountIncome) account).hasChildren()
-				&& Util.isEmptyOrNull(((AccountIncome) account).getFormula());
+				&& Checker.isNotAssigned(((AccountIncome) account).getFormula());
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class RealizeASM extends GridPart {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					update((AccountIncome) element, index, Util.getDoubleInput((String) value));
+					update((AccountIncome) element, index, Formatter.getDouble((String) value));
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
 				}
@@ -424,7 +424,7 @@ public class RealizeASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, String index) {
 		double result = 0d;
-		if (!EngUtil.isEmptyOrNull(children)) {
+		if (!Checker.isNotAssigned(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}

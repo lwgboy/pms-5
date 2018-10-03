@@ -40,7 +40,8 @@ import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
@@ -704,7 +705,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				}
 			} else {
 				if (!tgt.getBoolean("summary", false) && !tgt.getBoolean("stage", false)) {
-					Util.notEmptyOrNull(tgt.getString("chargerId"),
+					Checker.isAssigned(tgt.getString("chargerId"),
 							c -> msg.add(Message.precedenceEventMsg(projectName, src, tgt, type, isStart, c, sender)));
 				}
 			}
@@ -1312,9 +1313,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
 					if (d.get("chargerId") == null) {
 						String roleId = d.getString("chargerRoleId");
-						if (!Util.isEmptyOrNull(roleId)) {
+						if (!Checker.isNotAssigned(roleId)) {
 							String userId = getManagerIdOfRole(ids, roleId);
-							if (!Util.isEmptyOrNull(userId)) {
+							if (!Checker.isNotAssigned(userId)) {
 								c.updateOne(new Document("_id", d.get("_id")),
 										new Document("$set", new Document("chargerId", userId)));
 							}
@@ -1323,9 +1324,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 					if (d.get("assignerId") == null) {
 						String roleId = d.getString("assignerRoleId");
-						if (!Util.isEmptyOrNull(roleId)) {
+						if (!Checker.isNotAssigned(roleId)) {
 							String userId = getManagerIdOfRole(ids, roleId);
-							if (!Util.isEmptyOrNull(userId)) {
+							if (!Checker.isNotAssigned(userId)) {
 								c.updateOne(new Document("_id", d.get("_id")),
 										new Document("$set", new Document("assignerId", userId)));
 							}
@@ -1402,7 +1403,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (value instanceof Number) {
 			double d = ((Number) value).doubleValue();
 			if (d != 0d) {
-				return Util.getFormatNumber(d);
+				return Formatter.getString(d);
 			}
 		}
 		return "";

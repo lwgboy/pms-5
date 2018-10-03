@@ -18,7 +18,8 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("workInTemplate")
 @Strict
@@ -60,7 +61,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		} else {
 			newParent_id = null;
 		}
-		if (!Util.equals(newParent_id, this.parent_id)) {
+		if (!Checker.equals(newParent_id, this.parent_id)) {
 			this.parent_id = newParent_id;
 			return true;
 		} else {
@@ -160,8 +161,8 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@WriteValue("项目模板甘特图/start_date")
 	public boolean setStart_date(String start_date) {
-		Date newDate = Util.str_date(start_date);
-		if (!Util.equals(newDate, this.planStart)) {
+		Date newDate = Formatter.getDatefromJS(start_date);
+		if (!Checker.equals(newDate, this.planStart)) {
 			planStart = newDate;
 			return true;
 		}
@@ -187,8 +188,8 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@WriteValue("项目模板甘特图/end_date")
 	public boolean setEnd_date(String end_date) {
-		Date newDate = Util.str_date(end_date);
-		if (!Util.equals(newDate, this.planFinish)) {
+		Date newDate = Formatter.getDatefromJS(end_date);
+		if (!Checker.equals(newDate, this.planFinish)) {
 			planFinish = newDate;
 			return true;
 		}
@@ -334,7 +335,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@ReadValue({ "项目模板WBS/wpsText", "项目模板WBS（分配角色）/wpsText" })
 	private String getWorkPackageSettingText() {
-		if (Util.isEmptyOrNull(workPackageSetting)) {
+		if (Checker.isNotAssigned(workPackageSetting)) {
 			return "";
 		} else {
 			StringBuffer sb = new StringBuffer();
@@ -385,7 +386,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@Behavior("工作包")
 	private boolean behaviourOpenWorkpackagePlan() {
-		return !Util.isEmptyOrNull(workPackageSetting);
+		return !Checker.isNotAssigned(workPackageSetting);
 	}
 
 	@ReadValue

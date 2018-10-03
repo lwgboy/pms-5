@@ -10,11 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
+import org.eclipse.rap.rwt.RWT;
 
 import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
+import com.bizvisionsoft.service.tools.FileTools;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
@@ -65,7 +66,7 @@ public class MPPExporter {
 	public void export(String fileName) throws IOException {
 		//TODO 检查必要的数据
 
-		File folder = EngUtil.createTempDirectory();
+		File folder = FileTools.createTempDirectory(RWT.getRequest().getSession().getId().toUpperCase());
 		String filePath = folder.getPath()+"/"+fileName;
 		
 		projectFile.getProjectProperties().setName(projectName);

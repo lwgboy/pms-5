@@ -19,7 +19,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.EPSInfo;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class SearchInvestmentAnalysisYearACT {
 
@@ -81,11 +81,11 @@ public class SearchInvestmentAnalysisYearACT {
 					if ("cost".equals(type)) {
 						double cost = ((EPSInfo) element).getCost(startPeriod, endPeriod);
 						if (cost != 0)
-							return Util.getFormatNumber(cost);
+							return Formatter.getString(cost);
 					} else if ("roi".equals(type)) {
 						double roi = ((EPSInfo) element).getROI();
 						if (roi != 0)
-							return Util.getFormatPercentage(roi);
+							return Formatter.getPercentageFormatString(roi);
 					} else if ("profit".equals(type)) {
 						double profit;
 						if (endPeriod != null) {
@@ -94,7 +94,7 @@ public class SearchInvestmentAnalysisYearACT {
 							profit = ((EPSInfo) element).getProfit(startPeriod);
 						}
 						if (profit != 0)
-							return Util.getFormatNumber(profit);
+							return Formatter.getString(profit);
 					}
 				}
 				return "";

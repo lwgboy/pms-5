@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.bizvisionsoft.annotations.md.service.Label;
-import com.bizvisionsoft.service.tools.Util;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class OperationInfo {
 
@@ -21,7 +21,7 @@ public class OperationInfo {
 	@Override
 	@Label
 	public String toString() {
-		return userName + " " + new SimpleDateFormat(Util.DATE_FORMAT_DATETIME).format(date);
+		return userName + " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATETIME).format(date);
 	}
 
 }
