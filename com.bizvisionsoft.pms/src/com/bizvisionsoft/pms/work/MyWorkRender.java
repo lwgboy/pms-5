@@ -27,6 +27,7 @@ import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.tools.Checker;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class MyWorkRender extends GridPartDefaultRender {
@@ -57,15 +58,12 @@ public class MyWorkRender extends GridPartDefaultRender {
 					}
 				}
 			} else {
-				Object element = ((GridItem) e.item).getData();
-				if (element instanceof Work) {
-					viewer.setExpandedElements(new Object[] { element });
-				}
+				Checker.instanceThen(((GridItem) e.item).getData(), Work.class,
+						el -> viewer.setExpandedElements(new Object[] { el }));
 			}
 		});
-		if (((List<?>) viewer.getInput()).size() > 0) {
-			viewer.setExpandedElements(new Object[] { ((List<?>) viewer.getInput()).get(0) });
-		}
+
+		Checker.isAssigned((List<?>) viewer.getInput(), el -> viewer.setExpandedElements(new Object[] { el.get(0) }));
 	}
 
 	private void openWorkPackage(Work work, String idx) {

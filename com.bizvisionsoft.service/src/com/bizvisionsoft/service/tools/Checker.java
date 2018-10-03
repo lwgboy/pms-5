@@ -47,6 +47,24 @@ public class Checker {
 	public static boolean isNotAssigned(List<?> s) {
 		return s == null || s.isEmpty();
 	}
+	
+	public static boolean isAssigned(List<?> s) {
+		return !isNotAssigned(s);
+	}
+	
+	public static boolean isAssigned(List<?> s, Consumer<List<?>> then) {
+		if (!isNotAssigned(s)) {
+			if (then != null)
+				then.accept(s);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static <T> Optional<T> isAssignedThen(List<?> s, Function<List<?>, T> then) {
+		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
+	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> void instanceThen(Object obj, Class<T> clazz, Consumer<T> then) {
