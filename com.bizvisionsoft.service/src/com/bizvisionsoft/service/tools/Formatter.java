@@ -83,7 +83,7 @@ public class Formatter {
 	 * @return
 	 */
 	public static int getInt(String text, String errMsg) {
-		if (Checker.isNotAssigned(text)) {
+		if (Check.isNotAssigned(text)) {
 			return 0;
 		}
 		try {
@@ -106,7 +106,7 @@ public class Formatter {
 	 * @return
 	 */
 	public static double getDouble(String text, String errMsg) {
-		if (Checker.isNotAssigned(text)) {
+		if (Check.isNotAssigned(text)) {
 			return 0d;
 		}
 		try {
@@ -142,7 +142,7 @@ public class Formatter {
 	public static String getString(Object value, String format, Locale locale) {
 		String text;
 		if (value instanceof Date) {
-			String sdf = Checker.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
+			String sdf = Check.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
 			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf))
 					.format(value);
 		} else if (value instanceof Integer || value instanceof Long || value instanceof Short) {

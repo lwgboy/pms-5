@@ -26,7 +26,7 @@ import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obs")
@@ -269,9 +269,9 @@ public class OBSItem {
 	@ReadValue({ "组织结构图/title", "组织结构图（查看）/title" })
 	private String getDiagramTitle() {
 		if (isRole()) {
-			return Checker.isNotAssigned(roleName) ? "[未命名]" : roleName;
+			return Check.isNotAssigned(roleName) ? "[未命名]" : roleName;
 		} else {
-			return Checker.isNotAssigned(name) ? "[未命名]" : name;
+			return Check.isNotAssigned(name) ? "[未命名]" : name;
 		}
 
 	}
@@ -279,20 +279,20 @@ public class OBSItem {
 	@ReadValue({ "组织结构图/text", "组织结构图（查看）/text" })
 	private String getDiagramText() {
 		if (isRole()) {
-			if (Checker.isNotAssigned(managerInfo)) {
+			if (Check.isNotAssigned(managerInfo)) {
 				return "[待定]";
 			} else {
 				return managerInfo;// .substring(0, managerInfo.indexOf("["));
 			}
 		} else {
-			if (Checker.isNotAssigned(roleName)) {
-				if (Checker.isNotAssigned(managerInfo)) {
+			if (Check.isNotAssigned(roleName)) {
+				if (Check.isNotAssigned(managerInfo)) {
 					return "团队";
 				} else {
 					return managerInfo;// .substring(0, managerInfo.indexOf("["));
 				}
 			} else {
-				if (Checker.isNotAssigned(managerInfo)) {
+				if (Check.isNotAssigned(managerInfo)) {
 					return roleName + " [待定]";
 				} else {
 					return roleName + " " + managerInfo;// .substring(0, managerInfo.indexOf("["));

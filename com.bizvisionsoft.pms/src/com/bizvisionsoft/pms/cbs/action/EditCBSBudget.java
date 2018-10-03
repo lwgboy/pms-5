@@ -15,7 +15,7 @@ import com.bizvisionsoft.pms.cbs.assembly.BudgetCBS;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.ICBSScope;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 
 public class EditCBSBudget {
 
@@ -27,7 +27,7 @@ public class EditCBSBudget {
 		context.selected(item -> {
 			CBSPeriod period = new CBSPeriod()//
 					.setCBSItem_id(((CBSItem) item).get_id());
-			Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+			Check.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
 				try {

@@ -11,7 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.User;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 public class AppointmentOBSItem {
@@ -27,7 +27,7 @@ public class AppointmentOBSItem {
 			element.setManager((User) r.get(0));
 			String userId = ((User) r.get(0)).getUserId();
 			BasicDBObject data = new BasicDBObject("_id", element.get_id()).append("managerId", userId);
-			Checker.instanceThen(context.getContent(), IStructuredDataPart.class,
+			Check.instanceThen(context.getContent(), IStructuredDataPart.class,
 					part -> part.doModify(element, element, data));
 		});
 	}

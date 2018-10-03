@@ -45,7 +45,7 @@ import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -270,7 +270,7 @@ public class RealizeASM extends GridPart {
 
 	private boolean isAmountEditable(Object account) {
 		return account instanceof AccountIncome && !((AccountIncome) account).hasChildren()
-				&& Checker.isNotAssigned(((AccountIncome) account).getFormula());
+				&& Check.isNotAssigned(((AccountIncome) account).getFormula());
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class RealizeASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, String index) {
 		double result = 0d;
-		if (!Checker.isNotAssigned(children)) {
+		if (!Check.isNotAssigned(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}

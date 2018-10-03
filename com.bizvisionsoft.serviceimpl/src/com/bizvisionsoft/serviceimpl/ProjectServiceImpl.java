@@ -36,7 +36,7 @@ import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -447,9 +447,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
 			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).array()).forEach((Document w) -> {
 				ids.add(w.getObjectId("_id"));
-				Checker.isAssigned(w.getString("chargerId"),
+				Check.isAssigned(w.getString("chargerId"),
 						c -> msg.add(Message.distributeWorkMsg(projectName, w, true, com.userId, c)));
-				Checker.isAssigned(w.getString("assignerId"),
+				Check.isAssigned(w.getString("assignerId"),
 						c -> msg.add(Message.distributeWorkMsg(projectName, w, false, com.userId, c)));
 			});
 		} else {

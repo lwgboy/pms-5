@@ -22,7 +22,7 @@ import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.WBSModule;
 import com.bizvisionsoft.service.model.WorkInTemplate;
 import com.bizvisionsoft.service.model.WorkLinkInTemplate;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class AddWBSModuleACT {
@@ -56,7 +56,7 @@ public class AddWBSModuleACT {
 		}
 
 		Map<String, String> varMap = new HashMap<String, String>();
-		Checker.isAssigned(module.getVar(),var->{
+		Check.isAssigned(module.getVar(),var->{
 			String[] v = var.trim().split(";");
 			for (int i = 0; i < v.length; i++) {
 				InputDialog id = new InputDialog(br.getCurrentShell(), "WBSÄ£¿é²ÎÊý", v[i], "", null);

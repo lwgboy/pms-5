@@ -19,7 +19,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.ICBSScope;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.Function;
@@ -202,7 +202,7 @@ public class BudgetCBS extends CBSGrid {
 
 		CBSPeriod period = new CBSPeriod()//
 				.setCBSItem_id(((CBSItem) item).get_id());
-		Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+		Check.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 		period.setBudget(inputAmount);
 		period.setId(name);
 		Date periodDate = new SimpleDateFormat("yyyyMM").parse(period.getId());

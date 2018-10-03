@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Checker {
+public class Check {
 
 	public static boolean equals(Object v1, Object v2) {
 		return v1 != null && v1.equals(v2) || v1 == null && v2 == null;
@@ -47,11 +47,11 @@ public class Checker {
 	public static boolean isNotAssigned(List<?> s) {
 		return s == null || s.isEmpty();
 	}
-	
+
 	public static boolean isAssigned(List<?> s) {
 		return !isNotAssigned(s);
 	}
-	
+
 	public static boolean isAssigned(List<?> s, Consumer<List<?>> then) {
 		if (!isNotAssigned(s)) {
 			if (then != null)
@@ -61,15 +61,18 @@ public class Checker {
 			return false;
 		}
 	}
-	
+
 	public static <T> Optional<T> isAssignedThen(List<?> s, Function<List<?>, T> then) {
 		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> void instanceThen(Object obj, Class<T> clazz, Consumer<T> then) {
-		if (clazz.isAssignableFrom(obj.getClass()))
+	public static <T> boolean instanceThen(Object obj, Class<T> clazz, Consumer<T> then) {
+		if (clazz.isAssignableFrom(obj.getClass())) {
 			then.accept((T) obj);
+			return true;
+		}
+		return false;
 	}
 
 }

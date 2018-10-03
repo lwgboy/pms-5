@@ -31,7 +31,7 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -217,7 +217,7 @@ public class WorkBoardRender {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 工作包按钮
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Checker.isNotAssigned(wps)) {
+		if (Check.isNotAssigned(wps)) {
 			sb.append(
 					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
 							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");

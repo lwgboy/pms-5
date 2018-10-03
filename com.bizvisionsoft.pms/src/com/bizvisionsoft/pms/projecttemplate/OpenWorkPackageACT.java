@@ -14,7 +14,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.WorkInTemplate;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 
 public class OpenWorkPackageACT {
 	@Inject
@@ -30,7 +30,7 @@ public class OpenWorkPackageACT {
 
 	protected void openWorkPackageMenu(final WorkInTemplate work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Checker.isNotAssigned(wps)) {
+		if (Check.isNotAssigned(wps)) {
 			brui.openContent(brui.getAssembly("模板工作包计划"), new Object[] { work, null });
 		} else {
 			ArrayList<Action> actions = new ArrayList<Action>();

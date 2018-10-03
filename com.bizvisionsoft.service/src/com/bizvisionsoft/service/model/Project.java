@@ -31,7 +31,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.mongodb.BasicDBObject;
 
@@ -977,7 +977,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@Behavior("设置编号")
 	private boolean behaviourEditProjectId() {
-		return ProjectStatus.Created.equals(status) && Checker.isNotAssigned(id);
+		return ProjectStatus.Created.equals(status) && Check.isNotAssigned(id);
 	}
 
 	@Behavior("批准启动")

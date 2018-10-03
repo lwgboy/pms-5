@@ -16,7 +16,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -39,7 +39,7 @@ public class EditProjectInfo {
 						Services.get(ProjectService.class).update(
 								new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
 						AUtil.simpleCopy(proj, project);
-						Checker.instanceThen(context.getContent(), GridPart.class, grid->grid.update(project));
+						Check.instanceThen(context.getContent(), GridPart.class, grid->grid.update(project));
 					} catch (Exception e) {
 						String message = e.getMessage();
 						if (message.indexOf("index") >= 0) {

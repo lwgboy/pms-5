@@ -28,7 +28,7 @@ import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
@@ -424,7 +424,7 @@ public class BasicServiceImpl {
 	}
 
 	protected boolean sendMessages(List<Message> toBeInsert) {
-		if (Checker.isNotAssigned(toBeInsert))
+		if (Check.isNotAssigned(toBeInsert))
 			return false;
 		c(Message.class).insertMany(toBeInsert);
 		Document setting = getSystemSetting("” º˛…Ë÷√");

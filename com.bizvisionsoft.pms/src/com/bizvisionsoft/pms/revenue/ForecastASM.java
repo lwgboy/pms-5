@@ -44,7 +44,7 @@ import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.Generator;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -87,7 +87,7 @@ public class ForecastASM extends GridPart {
 		scope = context.getRootInput(IRevenueScope.class, false);
 		// 记录计算列
 		calColumns = AccountIncome.collect(scope.getRootAccountIncome(),
-				item -> Checker.isAssigned(item.getFormula()));
+				item -> Check.isAssigned(item.getFormula()));
 
 		type = scope.getRevenueForecastType();
 		if (type.isEmpty()) {// 第一次编辑收益预测
@@ -309,7 +309,7 @@ public class ForecastASM extends GridPart {
 
 	private boolean isAmountEditable(Object account) {
 		return account instanceof AccountIncome && !((AccountIncome) account).hasChildren()
-				&& Checker.isNotAssigned(((AccountIncome) account).getFormula());
+				&& Check.isNotAssigned(((AccountIncome) account).getFormula());
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class ForecastASM extends GridPart {
 			if (ai.hasChildren()) {
 				children = ai.getSubAccountItems();
 				return getRowSummaryAccount(children, index);
-			} else if (Checker.isAssigned(ai.getFormula())) {
+			} else if (Check.isAssigned(ai.getFormula())) {
 				return calculate(ai, index);
 			} else {
 				return Optional.ofNullable(data.get(ai.getId())).map(row -> row.get(index)).map(d -> d.doubleValue())
@@ -427,7 +427,7 @@ public class ForecastASM extends GridPart {
 
 	private double getRowSummaryAccount(List<AccountIncome> children, int index) {
 		double result = 0d;
-		if (!Checker.isNotAssigned(children)) {
+		if (!Check.isNotAssigned(children)) {
 			for (int i = 0; i < children.size(); i++) {
 				result += getAmount(children.get(i), index);
 			}

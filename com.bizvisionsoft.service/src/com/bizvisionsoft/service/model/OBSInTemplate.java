@@ -22,7 +22,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obsInTemplate")
@@ -156,7 +156,7 @@ public class OBSInTemplate {
 	
 	@ReadValue("项目模板组织结构图/title")
 	private String getTitle() {
-		if(Checker.isNotAssigned(name)) {
+		if(Check.isNotAssigned(name)) {
 			return roleId;
 		}else {
 			return name;

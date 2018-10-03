@@ -40,7 +40,7 @@ import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
@@ -705,7 +705,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				}
 			} else {
 				if (!tgt.getBoolean("summary", false) && !tgt.getBoolean("stage", false)) {
-					Checker.isAssigned(tgt.getString("chargerId"),
+					Check.isAssigned(tgt.getString("chargerId"),
 							c -> msg.add(Message.precedenceEventMsg(projectName, src, tgt, type, isStart, c, sender)));
 				}
 			}
@@ -1312,16 +1312,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
 					if (d.get("chargerId") == null) {
-						Checker.isAssigned(d.getString("chargerRoleId"), rId -> {
-							Checker.isAssigned(getManagerIdOfRole(ids, rId),
+						Check.isAssigned(d.getString("chargerRoleId"), rId -> {
+							Check.isAssigned(getManagerIdOfRole(ids, rId),
 									uId -> c.updateOne(new Document("_id", d.get("_id")),
 											new Document("$set", new Document("chargerId", uId))));
 						});
 					}
 
 					if (d.get("assignerId") == null) {
-						Checker.isAssigned(d.getString("assignerRoleId"), rId -> {
-							Checker.isAssigned(getManagerIdOfRole(ids, rId),
+						Check.isAssigned(d.getString("assignerRoleId"), rId -> {
+							Check.isAssigned(getManagerIdOfRole(ids, rId),
 									uId -> c.updateOne(new Document("_id", d.get("_id")),
 											new Document("$set", new Document("assignerId", uId))));
 						});

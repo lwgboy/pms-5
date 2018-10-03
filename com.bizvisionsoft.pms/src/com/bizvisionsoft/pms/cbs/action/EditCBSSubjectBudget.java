@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 
 @Deprecated
 public class EditCBSSubjectBudget {
@@ -37,7 +37,7 @@ public class EditCBSSubjectBudget {
 				period = new CBSSubject().setCBSItem_id(((CBSItem) cbs).get_id()).setSubjectNumber(account.getId());
 			}
 
-			Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+			Check.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("期间预算编辑器", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
 				BudgetSubject grid = (BudgetSubject) context.getContent();

@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientSettings.Builder;
@@ -177,7 +177,7 @@ public class Service implements BundleActivator {
 		String password = props.getProperty("db.password"); //$NON-NLS-1$
 
 		// 用户身份验证
-		if (Checker.isAssigned(user, password))
+		if (Check.isAssigned(user, password))
 			b2.credential(MongoCredential.createCredential(user, database, password.toCharArray()));
 
 		// 使用SSL

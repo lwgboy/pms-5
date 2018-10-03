@@ -14,7 +14,7 @@ import com.bizvisionsoft.bruiengine.util.CommandHandler;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Project;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class DistributeProjectPlan {
@@ -32,7 +32,7 @@ public class DistributeProjectPlan {
 				"项目计划已下达", "项目计划下达失败", //
 				() -> service.distributeProjectPlan(
 						brui.command(((Project) rootInput).get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
-				code -> Checker.instanceThen(context.getContent(), GridPart.class, g->g.setViewerInput()));
+				code -> Check.instanceThen(context.getContent(), GridPart.class, g->g.setViewerInput()));
 	}
 
 }

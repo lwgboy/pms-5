@@ -10,7 +10,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.AccountIncome;
-import com.bizvisionsoft.service.tools.Checker;
+import com.bizvisionsoft.service.tools.Check;
 
 public class EditForecastAmountACT {
 
@@ -26,7 +26,7 @@ public class EditForecastAmountACT {
 					String _amount = r.getString("amount");
 					int index = Integer.parseInt(_index) - 1;
 					double amount = Double.parseDouble(_amount);
-					Checker.instanceThen(context.getContent(), ForecastASM.class,
+					Check.instanceThen(context.getContent(), ForecastASM.class,
 							a -> a.update(((AccountIncome) t), index, amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);
