@@ -19,7 +19,7 @@ public class Checker {
 		return str != null && !str.trim().isEmpty();
 	}
 
-	public static boolean isAllAssigned(String... str) {
+	public static boolean isAssigned(String... str) {
 		if (str == null || str.length == 0)
 			return false;
 		for (int i = 0; i < str.length; i++) {

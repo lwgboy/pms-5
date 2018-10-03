@@ -177,7 +177,7 @@ public class Service implements BundleActivator {
 		String password = props.getProperty("db.password"); //$NON-NLS-1$
 
 		// 用户身份验证
-		if (Checker.isAllAssigned(user, password))
+		if (Checker.isAssigned(user, password))
 			b2.credential(MongoCredential.createCredential(user, database, password.toCharArray()));
 
 		// 使用SSL
