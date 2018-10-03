@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.ICBSScope;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.Function;
 
@@ -189,7 +190,7 @@ public class BudgetCBS extends CBSGrid {
 //	}
 
 	protected void updateCBSItemPeriodBudgetInput(CBSItem item, String name, Object input) throws Exception {
-		double inputAmount = EngUtil.getDoubleInput((String) input);
+		double inputAmount = Util.getDoubleInput((String) input);
 
 		///////////////////////////////////////
 		// 避免在没有修改的时候调用服务端程序

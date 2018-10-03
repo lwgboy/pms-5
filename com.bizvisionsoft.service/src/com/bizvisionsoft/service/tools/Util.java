@@ -2,16 +2,22 @@ package com.bizvisionsoft.service.tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,10 +25,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -37,6 +46,8 @@ import com.bizvisionsoft.service.model.RemoteFile;
 public class Util {
 
 	public static Logger logger = LoggerFactory.getLogger(Util.class);
+	
+	private static char[] array = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
 
 	public static final String DATE_FORMAT_JS_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
 
@@ -45,6 +56,43 @@ public class Util {
 	public static final String DATE_FORMAT_TIME = "HH:mm";
 
 	public static final String DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+	
+	/**
+	 * 十进制转其他特殊进制
+	 * 
+	 * @param number
+	 * @param N
+	 * @return
+	 */
+	public static String _10_to_N(long number, int N) {
+		Long rest = number;
+		Stack<Character> stack = new Stack<Character>();
+		StringBuilder result = new StringBuilder(0);
+		while (rest != 0) {
+			stack.add(array[new Long((rest % N)).intValue()]);
+			rest = rest / N;
+		}
+		for (; !stack.isEmpty();) {
+			result.append(stack.pop());
+		}
+		return result.length() == 0 ? "0" : result.toString();
+	}
+	
+	private static HashMap<String, Integer> nameNumber = new HashMap<String, Integer>();
+
+	public static String generateName(String text, String key) {
+		Integer number = nameNumber.get(key);
+		if (number == null) {
+			number = 1;
+		}
+		nameNumber.put(key, number + 1);
+		return text + number;
+	}
+
+	public static String generateName(String text) {
+		return generateName(text, text);
+	}
+	
 
 	public static Date str_date(String str) {
 		if (str == null)
@@ -287,5 +335,234 @@ public class Util {
 			logger.error(e.getMessage(), e);
 		}
 		return 0;
+	}
+	
+	public static <T, R> List<R> getList(List<T> source, Function<T, R> func) {
+		ArrayList<R> result = new ArrayList<R>();
+		source.forEach(item -> result.add(func.apply(item)));
+		return result;
+	}
+
+	public static <T, R> List<R> getList(T[] source, Function<T, R> func) {
+		return getList(Arrays.asList(source), func);
+	}
+
+	public static String compress(String str) {
+
+		if (str.isEmpty()) {
+			return str;
+		}
+
+		try {
+			ByteArrayOutputStream bos = null;
+			GZIPOutputStream os = null; // 使用默认缓冲区大小创建新的输出流
+			byte[] bs = null;
+			try {
+				bos = new ByteArrayOutputStream();
+				os = new GZIPOutputStream(bos);
+				os.write(str.getBytes()); // 写入输出流
+				os.close();
+				bos.close();
+				bs = bos.toByteArray();
+				return new String(bs, "ISO-8859-1"); // 通过解码字节将缓冲区内容转换为字符串
+			} finally {
+				bs = null;
+				bos = null;
+				os = null;
+			}
+		} catch (Exception ex) {
+			return str;
+		}
+	}
+
+	/**
+	 * 解压缩字符串
+	 * 
+	 * @param str
+	 *            解压缩的字符串
+	 * @return 解压后的字符串
+	 */
+	public static String decompress(String str) {
+		if (str.isEmpty()) {
+			return str;
+		}
+
+		ByteArrayInputStream bis = null;
+		ByteArrayOutputStream bos = null;
+		GZIPInputStream is = null;
+		byte[] buf = null;
+		try {
+			bis = new ByteArrayInputStream(str.getBytes("ISO-8859-1"));
+			bos = new ByteArrayOutputStream();
+			is = new GZIPInputStream(bis); // 使用默认缓冲区大小创建新的输入流
+			buf = new byte[1024];
+			int len = 0;
+			while ((len = is.read(buf)) != -1) { // 将未压缩数据读入字节数组
+				// 将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此byte数组输出流
+				bos.write(buf, 0, len);
+			}
+			is.close();
+			bis.close();
+			bos.close();
+			return new String(bos.toByteArray()); // 通过解码字节将缓冲区内容转换为字符串
+		} catch (Exception ex) {
+			return str;
+		} finally {
+			bis = null;
+			bos = null;
+			is = null;
+			buf = null;
+		}
+	}
+
+	public static void copyStream(InputStream inputStream, OutputStream outputStream, boolean closeOutputWhenFinish)
+			throws IOException {
+		try {
+			byte[] buffer = new byte[8192];
+			boolean finished = false;
+			while (!finished) {
+				int bytesRead = inputStream.read(buffer);
+				if (bytesRead != -1) {
+					outputStream.write(buffer, 0, bytesRead);
+				} else {
+					finished = true;
+				}
+			}
+		} finally {
+			if (closeOutputWhenFinish)
+				outputStream.close();
+		}
+	}
+	
+	// i, u, v都不做声母, 跟随前面的字母
+
+	private static char[] alphatable = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+
+			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+	// private static char[] alphatable = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+	// 'h', 'i',
+	//
+	// 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+	// 'x', 'y', 'z' };
+
+	// 初始化
+	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119,
+			49062, 49324, 49896, 50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689,
+			54481, 55289 };
+
+	/**
+	 * 根据一个包含汉字的字符串返回一个汉字拼音首字母的字符串
+	 * 
+	 * @param String
+	 *            SourceStr 包含一个汉字的字符串
+	 */
+	public static String getAlphaString(String src) {
+		if (src == null) {
+			return "";
+		}
+		String result = ""; //$NON-NLS-1$
+		int i;
+		try {
+			for (i = 0; i < src.length(); i++) {
+				result += char2Alpha(src.charAt(i));
+			}
+		} catch (Exception e) {
+			result = ""; //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	/**
+	 * 主函数,输入字符,得到他的声母, 英文字母返回对应的字母 其他非简体汉字返回 '0'
+	 * 
+	 * @param char
+	 *            ch 汉字拼音首字母的字符
+	 */
+	public static char char2Alpha(char ch) {
+
+		if (ch >= 'a' && ch <= 'z')
+			// return (char) (ch - 'a' + 'A');
+			return ch;
+		if (ch >= 'A' && ch <= 'Z')
+			return ch;
+		if (ch >= '0' && ch <= '9')
+			return ch;
+
+		int gb = getCodeValue(ch, "GB2312"); //$NON-NLS-1$
+		if (gb < alphatable_code[0])
+			return '0';
+
+		int i;
+		for (i = 0; i < 26; ++i) {
+			if (alphaCodeMatch(i, gb))
+				break;
+		}
+
+		if (i >= 26)
+			return ' ';
+		else
+			return alphatable[i];
+	}
+
+	/**
+	 * 判断字符是否于table数组中的字符想匹配
+	 * 
+	 * @param i
+	 *            table数组中的位置
+	 * @param gb
+	 *            中文编码
+	 * @return
+	 */
+	private static boolean alphaCodeMatch(int i, int gb) {
+
+		if (gb < alphatable_code[i])
+			return false;
+
+		int j = i + 1;
+
+		// 字母Z使用了两个标签
+		while (j < 26 && (alphatable_code[j] == alphatable_code[i]))
+			++j;
+
+		if (j == 26)
+			return gb <= alphatable_code[j];
+		else
+			return gb < alphatable_code[j];
+
+	}
+
+	/**
+	 * 取出汉字的编码
+	 * 
+	 * @param char
+	 *            ch 汉字拼音首字母的字符
+	 */
+	private static int getCodeValue(char ch, String charsetName) {
+
+		String str = new String();
+		str += ch;
+		try {
+			byte[] bytes = str.getBytes(charsetName);
+			if (bytes.length < 2)
+				return 0;
+			return (bytes[0] << 8 & 0xff00) + (bytes[1] & 0xff);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public static double getDoubleInput(String input) {
+		double inputAmount;
+		try {
+			if ("".equals(input)) {
+				inputAmount = 0;
+			} else {
+				inputAmount = Double.parseDouble(input.toString());
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("需要输入合法数字");
+		}
+		return inputAmount;
 	}
 }

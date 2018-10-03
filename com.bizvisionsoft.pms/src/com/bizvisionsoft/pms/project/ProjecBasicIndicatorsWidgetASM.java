@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -24,7 +25,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.tools.Util;
 
@@ -75,8 +75,8 @@ public class ProjecBasicIndicatorsWidgetASM {
 		carousel.setIndicator("none");
 
 		Composite page = createPage(parent, carousel, 3);
-		addIndicator(page, EngUtil.getFormatText(project.getPlanStart()), "计划开始");
-		addIndicator(page, EngUtil.getFormatText(project.getPlanFinish()), "计划完成");
+		addIndicator(page, Util.getFormatText(project.getPlanStart(),null, RWT.getLocale()), "计划开始");
+		addIndicator(page, Util.getFormatText(project.getPlanFinish(),null, RWT.getLocale()), "计划完成");
 		addIndicator(page, project.getPlanDuration() + "天", "计划工期");
 		String overdue = getOverdueHtml();
 		if ("超期".equals(overdue)) {
@@ -90,9 +90,9 @@ public class ProjecBasicIndicatorsWidgetASM {
 		} else {
 			addIndicator(page, "", "进度预警");
 		}
-		addIndicator(page, EngUtil.getFormatText(project.getEstimateFinish()), "估算完工日期");
+		addIndicator(page, Util.getFormatText(project.getEstimateFinish(),null, RWT.getLocale()), "估算完工日期");
 
-		addIndicator(page, EngUtil.getFormatText(project.getEstimateDuration()) + "天", "估算工期");
+		addIndicator(page, Util.getFormatText(project.getEstimateDuration(),null, RWT.getLocale()) + "天", "估算工期");
 
 		page = createPage(parent, carousel, 2);
 
@@ -103,7 +103,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(project.getPlanStart());
 			cal.add(Calendar.DATE, t.intValue());
-			String text = EngUtil.getFormatText(cal.getTime()) + "<br/>"
+			String text = Util.getFormatText(cal.getTime(),null, RWT.getLocale()) + "<br/>"
 					+ toString(values.get(0).get(1).doubleValue() / 100);
 			addIndicator(page, text, "乐观估计", "brui_bg_lightgrey", "#757575", "#009688");
 
@@ -111,14 +111,14 @@ public class ProjecBasicIndicatorsWidgetASM {
 			t = values.get(1).get(0);
 			cal.setTime(project.getPlanStart());
 			cal.add(Calendar.DATE, t.intValue());
-			text = EngUtil.getFormatText(cal.getTime());
+			text = Util.getFormatText(cal.getTime(),null, RWT.getLocale());
 			addIndicator(page, text, "悲观估计", "brui_bg_lightgrey", "#757575", "#ff9800");
 
 			// 最可能
 			t = values.get(2).get(0);
 			cal.setTime(project.getPlanStart());
 			cal.add(Calendar.DATE, t.intValue());
-			text = EngUtil.getFormatText(cal.getTime()) + "<br/>" + toString(values.get(2).get(1).doubleValue() / 100);
+			text = Util.getFormatText(cal.getTime(),null, RWT.getLocale()) + "<br/>" + toString(values.get(2).get(1).doubleValue() / 100);
 			addIndicator(page, text, "最可能的完工日期", "brui_bg_lightgrey", "#757575", "#03a9f4");
 		}else {
 			addIndicator(page, "尚未计算", "乐观估计");
@@ -131,7 +131,7 @@ public class ProjecBasicIndicatorsWidgetASM {
 		if (probability == null) {
 			addIndicator(page, "尚未计算", "按期计划完工概率");
 		} else {
-			String text = EngUtil.getFormatText(project.getPlanFinish()) + "<br/>" + toString(probability)+"</span>";
+			String text = Util.getFormatText(project.getPlanFinish(),null, RWT.getLocale()) + "<br/>" + toString(probability)+"</span>";
 			if (probability >= 0.9) {
 				addIndicator(page, text, "按计划完工概率", "layui-bg-green", "#ffffff", "#ffffff");
 			} else if (probability >= 0.7) {

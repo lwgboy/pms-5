@@ -29,6 +29,7 @@ import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.ICBSScope;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public abstract class CBSSubjectGrid extends CBSGrid {
@@ -223,7 +224,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					double d = EngUtil.getDoubleInput((String) value);
+					double d = Util.getDoubleInput((String) value);
 					CBSSubject subject = new CBSSubject().setCBSItem_id(cbsItem.get_id())
 							.setSubjectNumber(((AccountItem) element).getId()).setId(id);
 					setAmount(subject, d);

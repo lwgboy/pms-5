@@ -326,7 +326,7 @@ public class ForecastASM extends GridPart {
 			@Override
 			protected void setValue(Object element, Object value) {
 				try {
-					update((AccountIncome) element, index, EngUtil.getDoubleInput((String) value));
+					update((AccountIncome) element, index, Util.getDoubleInput((String) value));
 				} catch (Exception e) {
 					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
 				}

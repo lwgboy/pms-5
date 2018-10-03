@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.project;
 
 import java.util.Date;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -21,10 +22,10 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.EngUtil;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Util;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -97,8 +98,8 @@ public class AdministeredProjectProgressWidgetASM {
 		fd.top = new FormAttachment(sep);
 		fd.bottom = new FormAttachment(100);
 		
-		addIndicator(content, EngUtil.getFormatText(project.getPlanStart()), "计划开始");
-		addIndicator(content, EngUtil.getFormatText(project.getPlanFinish()), "计划完成");
+		addIndicator(content, Util.getFormatText(project.getPlanStart(),null, RWT.getLocale()), "计划开始");
+		addIndicator(content, Util.getFormatText(project.getPlanFinish(),null, RWT.getLocale()), "计划完成");
 		addIndicator(content, project.getPlanDuration() + "天", "计划工期");
 		String overdue = getOverdueHtml(project);
 		if ("超期".equals(overdue)) {
@@ -112,8 +113,8 @@ public class AdministeredProjectProgressWidgetASM {
 		} else {
 			addIndicator(content, "", "进度预警");
 		}
-		addIndicator(content, EngUtil.getFormatText(project.getEstimateFinish()), "估算完工日期");
-		addIndicator(content, EngUtil.getFormatText(project.getEstimateDuration()) + "天", "估算工期");
+		addIndicator(content, Util.getFormatText(project.getEstimateFinish(),null, RWT.getLocale()), "估算完工日期");
+		addIndicator(content, Util.getFormatText(project.getEstimateDuration(),null, RWT.getLocale()) + "天", "估算工期");
 
 	}
 
