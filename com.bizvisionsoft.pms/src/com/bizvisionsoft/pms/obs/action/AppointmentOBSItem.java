@@ -27,7 +27,7 @@ public class AppointmentOBSItem {
 			element.setManager((User) r.get(0));
 			String userId = ((User) r.get(0)).getUserId();
 			BasicDBObject data = new BasicDBObject("_id", element.get_id()).append("managerId", userId);
-			Checker.ifInstance(context.getContent(), IStructuredDataPart.class,
+			Checker.instanceThen(context.getContent(), IStructuredDataPart.class,
 					part -> part.doModify(element, element, data));
 		});
 	}

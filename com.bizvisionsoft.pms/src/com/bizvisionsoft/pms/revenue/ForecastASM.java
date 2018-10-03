@@ -87,7 +87,7 @@ public class ForecastASM extends GridPart {
 		scope = context.getRootInput(IRevenueScope.class, false);
 		// 记录计算列
 		calColumns = AccountIncome.collect(scope.getRootAccountIncome(),
-				item -> !Checker.isNotAssigned(item.getFormula()));
+				item -> Checker.isAssigned(item.getFormula()));
 
 		type = scope.getRevenueForecastType();
 		if (type.isEmpty()) {// 第一次编辑收益预测
@@ -405,7 +405,7 @@ public class ForecastASM extends GridPart {
 			if (ai.hasChildren()) {
 				children = ai.getSubAccountItems();
 				return getRowSummaryAccount(children, index);
-			} else if (!Checker.isNotAssigned(ai.getFormula())) {
+			} else if (Checker.isAssigned(ai.getFormula())) {
 				return calculate(ai, index);
 			} else {
 				return Optional.ofNullable(data.get(ai.getId())).map(row -> row.get(index)).map(d -> d.doubleValue())

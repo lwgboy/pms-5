@@ -37,7 +37,7 @@ public class EditCBSSubjectCost {
 				period = new CBSSubject().setCBSItem_id(((CBSItem) cbs).get_id()).setSubjectNumber(account.getId());
 			}
 
-			Checker.ifInstance(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+			Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("期间成本编辑器", context, period, true).setTitle("编辑科目期间成本").ok((r, o) -> {
 				CostSubject grid = (CostSubject) context.getContent();

@@ -202,7 +202,7 @@ public class BudgetCBS extends CBSGrid {
 
 		CBSPeriod period = new CBSPeriod()//
 				.setCBSItem_id(((CBSItem) item).get_id());
-		Checker.ifInstance(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+		Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 		period.setBudget(inputAmount);
 		period.setId(name);
 		Date periodDate = new SimpleDateFormat("yyyyMM").parse(period.getId());

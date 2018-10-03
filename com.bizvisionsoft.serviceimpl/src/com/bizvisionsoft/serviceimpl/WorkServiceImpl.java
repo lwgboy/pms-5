@@ -1312,25 +1312,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
 					if (d.get("chargerId") == null) {
-						String roleId = d.getString("chargerRoleId");
-						if (!Checker.isNotAssigned(roleId)) {
-							String userId = getManagerIdOfRole(ids, roleId);
-							if (!Checker.isNotAssigned(userId)) {
-								c.updateOne(new Document("_id", d.get("_id")),
-										new Document("$set", new Document("chargerId", userId)));
-							}
-						}
+						Checker.isAssigned(d.getString("chargerRoleId"), rId -> {
+							Checker.isAssigned(getManagerIdOfRole(ids, rId),
+									uId -> c.updateOne(new Document("_id", d.get("_id")),
+											new Document("$set", new Document("chargerId", uId))));
+						});
 					}
 
 					if (d.get("assignerId") == null) {
-						String roleId = d.getString("assignerRoleId");
-						if (!Checker.isNotAssigned(roleId)) {
-							String userId = getManagerIdOfRole(ids, roleId);
-							if (!Checker.isNotAssigned(userId)) {
-								c.updateOne(new Document("_id", d.get("_id")),
-										new Document("$set", new Document("assignerId", userId)));
-							}
-						}
+						Checker.isAssigned(d.getString("assignerRoleId"), rId -> {
+							Checker.isAssigned(getManagerIdOfRole(ids, rId),
+									uId -> c.updateOne(new Document("_id", d.get("_id")),
+											new Document("$set", new Document("assignerId", uId))));
+						});
 					}
 				});
 	}

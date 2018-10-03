@@ -26,7 +26,7 @@ public class EditForecastAmountACT {
 					String _amount = r.getString("amount");
 					int index = Integer.parseInt(_index) - 1;
 					double amount = Double.parseDouble(_amount);
-					Checker.ifInstance(context.getContent(), ForecastASM.class,
+					Checker.instanceThen(context.getContent(), ForecastASM.class,
 							a -> a.update(((AccountIncome) t), index, amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);

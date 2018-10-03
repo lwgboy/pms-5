@@ -80,17 +80,16 @@ public class AddProjectModuleACT {
 			planStartInParent = parent.getPlanStart();
 		}
 
-		String var = module.getVar();
 		Map<String, String> varMap = new HashMap<String, String>();
-		if (!Checker.isNotAssigned(var)) {
+		Checker.isAssigned(module.getVar(), var->{
 			String[] v = var.trim().split(";");
 			for (int i = 0; i < v.length; i++) {
 				InputDialog id = new InputDialog(br.getCurrentShell(), "WBSÄ£¿é²ÎÊý", v[i], "", null);
-				if (id.open() == InputDialog.OK) {
+				if (id.open() == InputDialog.OK) 
 					varMap.put(v[i], id.getValue());
-				}
 			}
-		}
+		});
+
 		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id());
 		Map<ObjectId, WorkInfo> idMap = new HashMap<ObjectId, WorkInfo>();
 		for (int i = 0; i < works.size(); i++) {

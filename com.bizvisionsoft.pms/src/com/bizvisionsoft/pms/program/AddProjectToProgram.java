@@ -31,7 +31,7 @@ public class AddProjectToProgram {
 					List<ObjectId> pjIds = new ArrayList<ObjectId>();
 					s.forEach(pj -> pjIds.add(((Project) pj).get_id()));
 					Services.get(ProgramService.class).addProjects(pjIds, ((Program) em).get_id());
-					Checker.ifInstance(context.getContent(), GridPart.class, c -> c.refreshAndExpand(em));
+					Checker.instanceThen(context.getContent(), GridPart.class, c -> c.refreshAndExpand(em));
 				});
 			}
 		});

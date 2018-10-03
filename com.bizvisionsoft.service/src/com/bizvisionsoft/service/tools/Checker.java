@@ -1,7 +1,9 @@
 package com.bizvisionsoft.service.tools;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Checker {
 
@@ -17,6 +19,17 @@ public class Checker {
 		return str != null && !str.trim().isEmpty();
 	}
 
+	public static boolean isAllAssigned(String... str) {
+		if (str == null || str.length == 0)
+			return false;
+		for (int i = 0; i < str.length; i++) {
+			if (isNotAssigned(str[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static boolean isAssigned(String s, Consumer<String> then) {
 		if (!isNotAssigned(s)) {
 			if (then != null)
@@ -27,15 +40,18 @@ public class Checker {
 		}
 	}
 
+	public static <T> Optional<T> isAssignedThen(String s, Function<String, T> then) {
+		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
+	}
+
 	public static boolean isNotAssigned(List<?> s) {
 		return s == null || s.isEmpty();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> void ifInstance(Object obj, Class<T> clazz, Consumer<T> then) {
-		if (clazz.isAssignableFrom(obj.getClass())) {
+	public static <T> void instanceThen(Object obj, Class<T> clazz, Consumer<T> then) {
+		if (clazz.isAssignableFrom(obj.getClass()))
 			then.accept((T) obj);
-		}
 	}
 
 }

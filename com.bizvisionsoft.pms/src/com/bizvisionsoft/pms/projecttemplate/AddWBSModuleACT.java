@@ -46,18 +46,17 @@ public class AddWBSModuleACT {
 	}
 
 	private void append(GanttPart gantt, Object input, WBSModule module, WorkInTemplate parent) {
-		ObjectId templateId ;
-		if(input instanceof ProjectTemplate) {
+		ObjectId templateId;
+		if (input instanceof ProjectTemplate) {
 			templateId = ((ProjectTemplate) input).get_id();
-		}else if(input instanceof WBSModule){
+		} else if (input instanceof WBSModule) {
 			templateId = ((WBSModule) input).get_id();
-		}else {
+		} else {
 			templateId = null;
 		}
-		
-		String var = module.getVar();
+
 		Map<String, String> varMap = new HashMap<String, String>();
-		if (!Checker.isNotAssigned(var)) {
+		Checker.isAssigned(module.getVar(),var->{
 			String[] v = var.trim().split(";");
 			for (int i = 0; i < v.length; i++) {
 				InputDialog id = new InputDialog(br.getCurrentShell(), "WBSÄ£¿é²ÎÊý", v[i], "", null);
@@ -65,7 +64,8 @@ public class AddWBSModuleACT {
 					varMap.put(v[i], id.getValue());
 				}
 			}
-		}
+		});
+		
 		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id());
 		Map<ObjectId, WorkInTemplate> idMap = new HashMap<ObjectId, WorkInTemplate>();
 		for (int i = 0; i < works.size(); i++) {
@@ -90,28 +90,28 @@ public class AddWBSModuleACT {
 				}
 			}
 
-			if(templateId!=null) {
+			if (templateId != null) {
 				work.setTemplate_id(templateId);
 			}
-			
+
 			gantt.addTask(work);
 		}
-		
+
 		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id());
 		for (int i = 0; i < links.size(); i++) {
 			WorkLinkInTemplate link = links.get(i);
 			link.set_id(new ObjectId());
-			
+
 			ObjectId src = link.getSourceId();
 			link.setSource(idMap.get(src));
-			
+
 			ObjectId tgt = link.getTargetId();
 			link.setTarget(idMap.get(tgt));
-			
-			if(templateId!=null) {
+
+			if (templateId != null) {
 				link.setTemplate_id(templateId);
 			}
-			
+
 			gantt.addLink(link);
 		}
 	}

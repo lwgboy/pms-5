@@ -39,7 +39,7 @@ public class EditProjectInfo {
 						Services.get(ProjectService.class).update(
 								new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
 						AUtil.simpleCopy(proj, project);
-						Checker.ifInstance(context.getContent(), GridPart.class, grid->grid.update(project));
+						Checker.instanceThen(context.getContent(), GridPart.class, grid->grid.update(project));
 					} catch (Exception e) {
 						String message = e.getMessage();
 						if (message.indexOf("index") >= 0) {

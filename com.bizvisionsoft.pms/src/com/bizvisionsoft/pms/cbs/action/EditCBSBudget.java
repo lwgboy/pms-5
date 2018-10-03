@@ -27,7 +27,7 @@ public class EditCBSBudget {
 		context.selected(item -> {
 			CBSPeriod period = new CBSPeriod()//
 					.setCBSItem_id(((CBSItem) item).get_id());
-			Checker.ifInstance(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
+			Checker.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
 			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
 				try {

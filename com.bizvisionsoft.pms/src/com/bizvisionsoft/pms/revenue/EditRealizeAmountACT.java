@@ -28,7 +28,7 @@ public class EditRealizeAmountACT {
 					Date _index = r.getDate("index");
 					String _amount = r.getString("amount");
 					double amount = Double.parseDouble(_amount);
-					Checker.ifInstance(context.getContent(), RealizeASM.class,
+					Checker.instanceThen(context.getContent(), RealizeASM.class,
 							a -> a.update(((AccountIncome) t), new SimpleDateFormat("yyyyMM").format(_index), amount));
 				} catch (Exception e) {
 					Layer.message("¸üÐÂÊ§°Ü¡£", Layer.ICON_CANCEL);

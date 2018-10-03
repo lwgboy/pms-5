@@ -27,7 +27,7 @@ public class SettingProjectId {
 					txt -> txt.trim().isEmpty() ? "项目编号不可为空" : null);
 			if (id.open() == Window.OK) {
 				Services.get(ProjectService.class).updateProjectId(((Project) se).get_id(), id.getValue());
-				Checker.ifInstance(context.getContent(), GridPart.class,
+				Checker.instanceThen(context.getContent(), GridPart.class,
 						grid -> grid.update(((Project) se).setId(id.getValue())));
 
 			}

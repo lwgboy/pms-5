@@ -21,7 +21,7 @@ public class RemoveProjectFromProgram {
 		context.selected(em -> {
 			if ((em instanceof Project) && br.confirm("移出项目集", "请确定将项目" + em + "移出项目集。")) {
 				Services.get(ProgramService.class).unsetProgram(((Project) em).get_id());
-				Checker.ifInstance(context.getContent(), GridPart.class, c -> c.remove(em));
+				Checker.instanceThen(context.getContent(), GridPart.class, c -> c.remove(em));
 				Layer.message("已移除项目" + em );
 			}
 		});
