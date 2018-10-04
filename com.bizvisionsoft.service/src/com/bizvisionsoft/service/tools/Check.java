@@ -7,14 +7,33 @@ import java.util.function.Function;
 
 public class Check {
 
+	/**
+	 * 检查两个参数是否相等，如果都为null, 返回true
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
 	public static boolean equals(Object v1, Object v2) {
 		return v1 != null && v1.equals(v2) || v1 == null && v2 == null;
 	}
 
+	/**
+	 * 检查传入参数是否为空或者只包含空格
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public static boolean isNotAssigned(String str) {
 		return str == null || str.trim().isEmpty();
 	}
 
+	/**
+	 * 检查传入参数是否有值，不为空，去掉空格后也不是空字符串
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public static boolean isAssigned(String str) {
 		return str != null && !str.trim().isEmpty();
 	}
@@ -44,15 +63,15 @@ public class Check {
 		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
 	}
 
-	public static boolean isNotAssigned(List<?> s) {
+	public static <T> boolean isNotAssigned(List<T> s) {
 		return s == null || s.isEmpty();
 	}
 
-	public static boolean isAssigned(List<?> s) {
+	public static <T> boolean isAssigned(List<T> s) {
 		return !isNotAssigned(s);
 	}
 
-	public static boolean isAssigned(List<?> s, Consumer<List<?>> then) {
+	public static <T> boolean isAssigned(List<T> s, Consumer<List<T>> then) {
 		if (!isNotAssigned(s)) {
 			if (then != null)
 				then.accept(s);
@@ -62,7 +81,7 @@ public class Check {
 		}
 	}
 
-	public static <T> Optional<T> isAssignedThen(List<?> s, Function<List<?>, T> then) {
+	public static <T, E> Optional<T> isAssignedThen(List<E> s, Function<List<E>, T> then) {
 		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
 	}
 

@@ -58222,6 +58222,19 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "query"
+          },
+          {
+            "id": "1663fdd139d",
+            "name": "…Ë÷√±Ì∏Ò",
+            "image": "/img/setting_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "setting"
           }
         ],
         "rowActions": [

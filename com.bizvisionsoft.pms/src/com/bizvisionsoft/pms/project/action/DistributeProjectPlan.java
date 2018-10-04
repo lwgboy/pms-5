@@ -32,7 +32,7 @@ public class DistributeProjectPlan {
 				"项目计划已下达", "项目计划下达失败", //
 				() -> service.distributeProjectPlan(
 						brui.command(((Project) rootInput).get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
-				code -> Check.instanceThen(context.getContent(), GridPart.class, g->g.setViewerInput()));
+				code -> Check.instanceThen(context.getContent(), GridPart.class, GridPart::setViewerInput));
 	}
 
 }
