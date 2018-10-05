@@ -70,6 +70,28 @@ public class Check {
 	public static <T> boolean isAssigned(List<T> s) {
 		return !isNotAssigned(s);
 	}
+	
+	public static <T> boolean isNotAssigned(T[] s) {
+		return s == null || s.length==0;
+	}
+
+	public static <T> boolean isAssigned(T[] s) {
+		return !isNotAssigned(s);
+	}
+	
+	public static <T> boolean isAssigned(T[] s, Consumer<T[]> then) {
+		if (!isNotAssigned(s)) {
+			if (then != null)
+				then.accept(s);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static <T, E> Optional<T> isAssignedThen(E[] s, Function<E[], T> then) {
+		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
+	}
 
 	public static <T> boolean isAssigned(List<T> s, Consumer<List<T>> then) {
 		if (!isNotAssigned(s)) {
@@ -93,5 +115,5 @@ public class Check {
 		}
 		return false;
 	}
-
+	
 }

@@ -138,8 +138,12 @@ public class Formatter {
 	public static String getString(Object value, String format) {
 		return getString(value, format, null);
 	}
-
+	
 	public static String getString(Object value, String format, Locale locale) {
+		return getString(value, format, "", locale);
+	}
+
+	public static String getString(Object value, String format, String defaultValue,Locale locale) {
 		String text;
 		if (value instanceof Date) {
 			String sdf = Check.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
@@ -173,7 +177,7 @@ public class Formatter {
 		} else if (value instanceof Object) {
 			text = Optional.ofNullable(AUtil.readLabel(value)).orElse("");
 		} else {
-			text = "";
+			text = defaultValue;
 		}
 		return text;
 	}

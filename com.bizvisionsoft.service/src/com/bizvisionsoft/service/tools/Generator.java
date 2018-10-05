@@ -61,4 +61,8 @@ public class Generator {
 		return 0;
 	}
 
+	public static String generateId() {
+		return Long.toHexString(System.currentTimeMillis());
+	}
+
 }
