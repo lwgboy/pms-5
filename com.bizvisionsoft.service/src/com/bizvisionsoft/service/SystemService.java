@@ -12,6 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.bson.Document;
+
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
@@ -64,10 +66,9 @@ public interface SystemService {
 			@PathParam("name") String name);
 
 	@PUT
-	@Path("/clientSetting/{userId}/{clientId}/{name}")
+	@Path("/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
-			@PathParam("name") String name, String value);
+	public void updateClientSetting(Document setting);
 
 }

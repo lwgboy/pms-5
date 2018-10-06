@@ -120,14 +120,16 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public void updateClientSetting(String userId, String clientId, String name, String value) {
-		Document query = new Document("userId", userId).append("clientId", clientId).append("name", name);
+	public void updateClientSetting(Document setting) {
+		Document query = new Document();
+		query.putAll(setting);
+		query.remove("value");
 
 		long cnt = c("clientSetting").countDocuments(query);
 		if (cnt == 0) {
-			c("clientSetting").insertOne(query.append("value", value));
+			c("clientSetting").insertOne(setting);
 		} else {
-			c("clientSetting").updateOne(query, new Document("$set", new Document("value", value)));
+			c("clientSetting").updateOne(query, new Document("$set", setting));
 		}
 	}
 
