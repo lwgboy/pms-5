@@ -56,4 +56,18 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	public boolean restoreFromBackup(@PathParam("id") String id);
 
+	@GET
+	@Path("/clientSetting/{userId}/{clientId}/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
+			@PathParam("name") String name);
+
+	@PUT
+	@Path("/clientSetting/{userId}/{clientId}/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
+			@PathParam("name") String name, String value);
+
 }

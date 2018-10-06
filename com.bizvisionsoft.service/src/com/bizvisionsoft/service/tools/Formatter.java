@@ -338,4 +338,22 @@ public class Formatter {
 		}
 	}
 
+	public static String getFriendlyTimeDuration(long diff) {
+		long day = diff / (24 * 60 * 60 * 1000);
+		long hour = (diff / (60 * 60 * 1000) - day * 24);
+		long min = ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
+		long sec = (diff / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+
+		String result = "";
+		if (day != 0)
+			result += day + "天 ";
+		if (hour != 0)
+			result += hour + "小时 ";
+		if (min != 0)
+			result += min + "分钟 ";
+		if (sec != 0)
+			result += sec + "秒";
+		return result;
+	}
+
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.Document;
+
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
@@ -104,6 +106,29 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
 				.archive(archive).build().restore();
 		return true;
+	}
+
+	@Override
+	public String getClientSetting(String userId, String clientId, String name) {
+		Document doc = c("clientSetting")
+				.find(new Document("userId", userId).append("clientId", clientId).append("name", name)).first();
+		if (doc != null) {
+			return doc.getString("value");
+		} else {
+			return "";
+		}
+	}
+
+	@Override
+	public void updateClientSetting(String userId, String clientId, String name, String value) {
+		Document query = new Document("userId", userId).append("clientId", clientId).append("name", name);
+
+		long cnt = c("clientSetting").countDocuments(query);
+		if (cnt == 0) {
+			c("clientSetting").insertOne(query.append("value", value));
+		} else {
+			c("clientSetting").updateOne(query, new Document("$set", new Document("value", value)));
+		}
 	}
 
 }
