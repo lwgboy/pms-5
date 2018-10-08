@@ -6366,6 +6366,20 @@
             "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM#WM"
+          },
+          {
+            "id": "16651d7c303",
+            "name": "…Ë÷√",
+            "text": "…Ë÷√",
+            "image": "/img/setting_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "setting"
           }
         ],
         "rowActions": [],
