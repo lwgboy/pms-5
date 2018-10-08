@@ -59,7 +59,7 @@ public interface SystemService {
 	public boolean restoreFromBackup(@PathParam("id") String id);
 
 	@GET
-	@Path("/clientSetting/{userId}/{clientId}/{name}")
+	@Path("/clientSetting/{clientId}/{name}/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
@@ -70,5 +70,24 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateClientSetting(Document setting);
+
+	@DELETE
+	@Path("/clientSetting/{clientId}/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void deleteClientSetting(@PathParam("clientId") String clientId, @PathParam("name") String name);
+	
+	@DELETE
+	@Path("/clientSetting/{clientId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void deleteClientSetting(@PathParam("clientId") String clientId);
+
+	@DELETE
+	@Path("/clientSetting/{clientId}/{name}/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void deleteClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
+			@PathParam("name") String name);
 
 }

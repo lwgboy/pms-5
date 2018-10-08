@@ -133,4 +133,19 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		}
 	}
 
+	@Override
+	public void deleteClientSetting(String clientId, String name) {
+		c("clientSetting").deleteMany(new Document("clientId", clientId).append("name", name));
+	}
+
+	@Override
+	public void deleteClientSetting(String clientId) {
+		c("clientSetting").deleteMany(new Document("clientId", clientId));
+	}
+
+	@Override
+	public void deleteClientSetting(String userId, String clientId, String name) {
+		c("clientSetting").deleteMany(new Document("userId", userId).append("clientId", clientId).append("name", name));
+	}
+
 }
