@@ -1,7 +1,7 @@
 {
   "typeName": "站点",
   "id": "1618092b217",
-  "name": "BV-PMS Site",
+  "name": "BV-PMS",
   "title": "Bizvision PMS V5",
   "behavior": true,
   "path": "/",
@@ -20025,8 +20025,8 @@
           },
           {
             "id": "16344200545",
-            "name": "撤销",
-            "text": "撤销",
+            "name": "取消",
+            "text": "取消",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.gantt.action.CancelSchedule",
             "openContent": false,
@@ -20067,6 +20067,19 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "166575fe521",
+            "name": "设置",
+            "image": "/img/setting_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "setting"
           }
         ],
         "rowActions": [

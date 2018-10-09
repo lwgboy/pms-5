@@ -4,11 +4,16 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 
-public class DisplayCriticalPath {
-	
+/**
+ * not fully support until version 5.2
+ * 
+ * 5.2版本以前不完全支持
+ */
+public class GanttEditUndo {
+
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT_CONTENT) GanttPart part){
-		part.switchCriticalPathHighLight();
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT_CONTENT) GanttPart part) {
+		part.undo();
 	}
 
 }
