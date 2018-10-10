@@ -8,6 +8,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -43,6 +48,8 @@ public class Service implements BundleActivator {
 
 	private boolean loadJSQueryAtInit;
 
+	private static ExecutorService threadPoolService;
+
 	public static String mongoDbBinPath;
 
 	public static File dumpFolder;
@@ -69,6 +76,23 @@ public class Service implements BundleActivator {
 		loadDatabase(filePath);
 		loadQuery(filePath);
 		loadPath(filePath);
+		initThreadPool();
+	}
+
+	private void initThreadPool() {
+		String strThreads = context.getProperty("com.bizvisionsoft.service.ThreadPoolSize");
+		int nThreads = 256;
+		if (Check.isAssigned(strThreads)) {
+			try {
+				nThreads = Integer.parseInt(strThreads);
+				logger.debug("线程池数量设置为：" + nThreads);
+			} catch (Exception e) {
+				logger.warn("com.bizvisionsoft.service.ThreadPoolSize参数必须为数字，" + strThreads + "不是合法的数字");
+			}
+		} else {
+			logger.warn("com.bizvisionsoft.service.ThreadPoolSize已设置为默认值：" + nThreads);
+		}
+		threadPoolService = Executors.newFixedThreadPool(nThreads);
 	}
 
 	public static <T> T get(Class<T> clazz) {
@@ -227,6 +251,7 @@ public class Service implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
+		threadPoolService.shutdown();
 		mongo.close();
 		mongo = null;
 		database = null;
@@ -246,6 +271,20 @@ public class Service implements BundleActivator {
 
 	public static ServerAddress getDatabaseHost() {
 		return databaseHost;
+	}
+
+	public static <T> T submit(Callable<T> call) {
+		Future<T> f = threadPoolService.submit(call);
+		try {
+			return f.get();
+		} catch (InterruptedException | ExecutionException e) {
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+	
+	public static void run(Runnable command) {
+		threadPoolService.execute(command);
 	}
 
 }
