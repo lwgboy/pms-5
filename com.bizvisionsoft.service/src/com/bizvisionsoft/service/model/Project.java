@@ -1123,14 +1123,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	/**
 	 * 项目类型
 	 */
+	@WriteValue
 	@Persistence
 	private String projectType;
-
-	public static String PROJECTTYPE_DEVELOPMENT = "development";
-
-	public static String PROJECTTYPE_DEPT = "dept";
-
-	public static String PROJECTTYPE_EXTERNAL = "external";
 
 	/**
 	 * 协调单编号

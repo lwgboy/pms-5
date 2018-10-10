@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.cost;
 
 import java.util.Calendar;
+import java.util.function.BiConsumer;
 
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.widgets.grid.GridColumn;
@@ -40,9 +41,11 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
 			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
+			@MethodParam(GridRenderUpdateCell.PARAM_INPUT_ELEMENT) Object element,
 			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
-			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
-		Object element = cell.getElement();
+			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
+			@MethodParam(GridRenderUpdateCell.PARAM_CALLBACK) BiConsumer<String, Object> callback) {
+		element = cell == null ? element : cell.getElement();
 		if ("totalCost".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总成本
@@ -127,7 +130,7 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 				value = cbsSubjectCost.getCost(result + column.getName());
 			}
 		}
-		super.renderCell(cell, column, value, image);
+		super.renderCell(cell, column, element, value, image, callback);
 	}
 
 	@Override

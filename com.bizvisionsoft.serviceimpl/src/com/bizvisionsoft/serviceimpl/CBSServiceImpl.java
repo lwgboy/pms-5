@@ -352,7 +352,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			project = c(Project.class).find(new Document("_id", project_id)).first();
 		}
 
-		sendMessage("项目预算编制完成", "您负责的项目" + project.getName() + "XXX雷达探测已完成项目预算。", userId, project.getPmId(), null);
+		sendMessage("项目预算编制完成", "您负责的项目：" + project.getName() + " 已完成项目预算。", userId, project.getPmId(), null);
 
 		return Result.cbsSuccess("提交预算成功");
 	}
