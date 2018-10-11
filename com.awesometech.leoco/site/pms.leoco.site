@@ -939,6 +939,19 @@
                 "objectBehavier": false,
                 "actionBehavier": false,
                 "type": "customized"
+              },
+              {
+                "id": "1665e87a01f",
+                "name": "≤‚ ‘µº≥ˆExcel",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.model.TestPageExport",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
