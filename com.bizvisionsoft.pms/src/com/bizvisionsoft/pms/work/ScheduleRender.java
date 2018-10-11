@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.work;
 
 import java.util.Date;
+import java.util.function.BiConsumer;
 
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
@@ -107,9 +108,11 @@ public class ScheduleRender extends GridPartDefaultRender {
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
 			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
+			@MethodParam(GridRenderUpdateCell.PARAM_INPUT_ELEMENT) Object element,
 			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
-			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
-		super.renderCell(cell, column, value, image);
+			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
+			@MethodParam(GridRenderUpdateCell.PARAM_CALLBACK) BiConsumer<String, Object> callback) {
+		super.renderCell(cell, column, element, value, image, callback);
 	}
 
 	@Override

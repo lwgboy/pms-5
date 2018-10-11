@@ -1,6 +1,11 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Optional;
+
 import org.bson.types.ObjectId;
+
+import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.UserService;
 
 public class Workspace {
 
@@ -56,5 +61,10 @@ public class Workspace {
 
 	public static Workspace newInstance(ObjectId project_id, ObjectId space_id, String checkoutBy) {
 		return new Workspace().setProject_id(project_id).setSpace_id(space_id).setCheckoutBy(checkoutBy);
+	}
+
+	public User getCheckoutUser() {
+		return Optional.ofNullable(this.checkoutBy).map(_id -> ServicesLoader.get(UserService.class).get(checkoutBy))
+				.orElse(null);
 	}
 }

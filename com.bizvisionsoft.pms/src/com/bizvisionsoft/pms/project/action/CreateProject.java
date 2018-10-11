@@ -23,9 +23,8 @@ public class CreateProject {
 	@Execute
 	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PARAM_EVENT) Event event) {
-		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
-				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true)
-						.setProjectType(Project.PROJECTTYPE_DEVELOPMENT).setCreationInfo(bruiService.operationInfo()))
+		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context).setInput(new Project()
+				.setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(bruiService.operationInfo()))
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {

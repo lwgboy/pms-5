@@ -342,7 +342,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + "已于" + Message.format(com.date) + "启动。", com.userId,
+		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。", com.userId,
 				memberIds, null);
 		return new ArrayList<>();
 	}
@@ -877,8 +877,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目收尾通知",
-				"项目：" + project.getString("name") + "已于"
-						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + "进入收尾。",
+				"项目：" + project.getString("name") + " 已于 "
+						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 进入收尾。",
 				com.userId, memberIds, null);
 
 		return new ArrayList<>();
@@ -917,8 +917,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目关闭通知",
-				"项目：" + project.getString("name") + "已于"
-						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + "关闭。",
+				"项目：" + project.getString("name") + " 已于 "
+						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
 				com.userId, memberIds, null);
 		return new ArrayList<>();
 	}
@@ -1335,14 +1335,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				receivers.add(receiver.user);
 			});
 			sendMessage("项目变更申请",
-					"" + projectChange.getApplicantInfo() + "发起了项目" + projectChange.getProjectName() + "的变更申请，请您进行审核。",
+					"" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，请您进行审核。",
 					projectChange.getApplicantId(), receivers, null);
 
 			String pmId = c("project")
 					.distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
 			if (!receivers.contains(pmId))
 				sendMessage("项目变更申请",
-						"" + projectChange.getApplicantInfo() + "发起了项目" + projectChange.getProjectName() + "的变更申请，",
+						"" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，",
 						projectChange.getApplicantId(), receivers, null);
 
 		});
@@ -1391,11 +1391,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 发送变更批准通知
-		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + "批准了项目" + pc.getProjectName() + "的变更申请，",
+		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，",
 				projectChangeTask.user, pc.getApplicantId(), null);
 		if (ProjectChange.STATUS_PASS.equals(status)) {
 			String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-			sendMessage("项目变更申请已通过", "项目" + pc.getProjectName() + "的变更申请已审核通过，", pc.getApplicantId(), pmId, null);
+			sendMessage("项目变更申请已通过", "项目：" + pc.getProjectName() + " 的变更申请已审核通过，", pc.getApplicantId(), pmId, null);
 		}
 
 		return result;
@@ -1428,7 +1428,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
 
 		c(ProjectChange.class).aggregate(pipeline).forEach((ProjectChange pc) -> {
-			sendMessage("项目变更申请已关闭", "项目" + pc.getProjectName() + "的变更已关闭，", userId, pc.getApplicantId(), null);
+			sendMessage("项目变更申请已关闭", "项目：" + pc.getProjectName() + " 的变更已关闭，", userId, pc.getApplicantId(), null);
 		});
 		return result;
 	}
@@ -1463,7 +1463,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 		String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + "否决了项目" + pc.getProjectName() + "的变更申请，",
+		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，",
 				projectChangeTask.user, Arrays.asList(pmId, pc.getApplicantId()), null);
 
 		return result;

@@ -1,6 +1,5 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -326,39 +325,28 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				Date newPlanStart = d.getDate("planStart");
 				Date oldPlanFinish = doc.getDate("planFinish");
 				Date newPlanFinish = d.getDate("planFinish");
-				if (oldAssignerId != null && newAssignerId != null && !newAssignerId.equals(oldAssignerId)) {
+				// 去除无意义的判断
+				if (oldAssignerId != null && !newAssignerId.equals(oldAssignerId)) {
 					messages.add(Message.newInstance("工作计划通知",
-							"您指派的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定指派者。",
-							workspace.getCheckoutBy(), (String) oldAssignerId, null));
-				} else if (oldAssignerId != null && newAssignerId == null) {
-					messages.add(Message.newInstance("工作计划通知",
-							"您指派的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定指派者。",
+							"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定指派者。",
 							workspace.getCheckoutBy(), (String) oldAssignerId, null));
 				}
 
-				if (oldChargerId != null && newChargerId != null && !newChargerId.equals(oldChargerId)) {
+				if (oldChargerId != null && !newChargerId.equals(oldChargerId)) {
 					messages.add(Message.newInstance("工作计划通知",
-							"您负责的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定负责人。",
-							workspace.getCheckoutBy(), (String) oldChargerId, null));
-				} else if (oldChargerId != null && newChargerId == null) {
-					messages.add(Message.newInstance("工作计划通知",
-							"您负责的项目 " + project.getName() + "，工作 " + doc.getString("fullName") + "已重新指定负责人。",
+							"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定负责人。",
 							workspace.getCheckoutBy(), (String) oldChargerId, null));
 				}
 
 				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
+					// 使用通用的下达工作计划的通知模板
 					String chargerId = doc.getString("chargerId");
-					messages.add(Message.newInstance("工作计划下达通知", "您负责的项目 " + project.getName() + "，工作 "
-							+ doc.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
-							workspace.getCheckoutBy(), chargerId, null));
+					messages.add(Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(),
+							chargerId));
+
 					String assignerId = doc.getString("assignerId");
-					messages.add(Message.newInstance("工作计划下达通知", "您指派的项目 " + project.getName() + "，工作 "
-							+ doc.getString("fullName") + "，预计从"
-							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planStart")) + "开始到"
-							+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(doc.getDate("planFinish")) + "结束",
-							workspace.getCheckoutBy(), assignerId, null));
+					messages.add(Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(),
+							assignerId));
 				}
 			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
@@ -410,7 +398,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		// TODO 进度计划提交的提示，更新。
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
 			if (ProjectStatus.Created.equals(project.getStatus())) {
-				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(),
+				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + " 进度计划已更新。", workspace.getCheckoutBy(),
 						project.getPmId(), null);
 			} else {
 				List<ObjectId> parentIds = c("obs")
@@ -422,7 +410,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 								.append("managerId", new BasicDBObject("$ne", null)), String.class)
 						.into(new ArrayList<>());
 
-				sendMessage("项目进度计划编制完成", "项目" + project.getName() + "进度计划已更新。", workspace.getCheckoutBy(), memberIds,
+				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + " 进度计划已更新。", workspace.getCheckoutBy(), memberIds,
 						null);
 			}
 			return Result.checkoutSuccess("项目进度计划提交成功");

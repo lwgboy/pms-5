@@ -113,16 +113,16 @@ public class Message {
 		Date pstart = work.getDate("planStart");
 		Date pfinish = work.getDate("planFinish");
 		String fname = work.getString("fullName");
-		return Message.newInstance("工作计划下达通知", "项目：" + pjName + "，工作：" + fname + "，计划开始：" + format(pstart) + "，计划完成："
-				+ format(pfinish) + (isCharger ? "，该工作由您负责。" : "，您需在计划开始前指派该工作负责人。"), sender, receiver, null);
+		return Message.newInstance("工作计划下达通知", "项目：" + pjName + " ，工作：" + fname + " ，计划开始：" + format(pstart) + " ，计划完成："
+				+ format(pfinish) + (isCharger ? " ，该工作由您负责。" : "，您需在计划开始前指派该工作负责人。"), sender, receiver, null);
 	}
 
 	public static Message distributeStageMsg(String pjName, Document work, String sender, String receiver) {
 		Date pstart = work.getDate("planStart");
 		Date pfinish = work.getDate("planFinish");
 		String fname = work.getString("fullName");
-		return Message.newInstance("阶段计划下达通知", "项目：" + pjName + "，阶段：" + fname + "，计划开始：" + format(pstart) + "，计划完成："
-				+ format(pfinish) + "，您需要在阶段计划开始以前完成本阶段启动。", sender, receiver, null);
+		return Message.newInstance("阶段计划下达通知", "项目：" + pjName + " ，阶段：" + fname + " ，计划开始：" + format(pstart) + " ，计划完成："
+				+ format(pfinish) + " ，您需要在阶段计划开始以前完成本阶段启动。", sender, receiver, null);
 	}
 
 	public static Message workEventMsg(String pjName, Document work, String eventName, Date eventDate, String sender,
@@ -138,7 +138,7 @@ public class Message {
 		String subject = workType + eventName + "通知";
 		String date = format(eventDate);
 		String fname = work.getString("fullName");
-		return Message.newInstance(subject, "项目：" + pjName + "，" + workType + "：" + fname + "，已于" + date + eventName,
+		return Message.newInstance(subject, "项目：" + pjName + " ，" + workType + "：" + fname + " ，已于" + date + eventName,
 				sender, receiver, null);
 	}
 
@@ -162,9 +162,9 @@ public class Message {
 		}
 
 		StringBuffer sb = new StringBuffer();
-		sb.append("项目:" + pjName + "，工作:" + srcName + "已于" + format(srcDate) + srcAction + "。");
+		sb.append("项目:" + pjName + " ，工作:" + srcName + " 已于 " + format(srcDate) + srcAction + "。");
 		sb.append("<br/>");
-		sb.append("您负责的后序工作：" + tgtName + "，计划" + tgtAction + "：" + format(tgtDate));
+		sb.append("您负责的后序工作：" + tgtName + " ，计划" + tgtAction + "：" + format(tgtDate));
 		return newInstance(subject, sb.toString(), sender, receiver, null);
 	}
 
