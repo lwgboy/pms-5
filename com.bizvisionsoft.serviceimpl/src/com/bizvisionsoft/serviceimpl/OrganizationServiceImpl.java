@@ -210,7 +210,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
-		filter.append("projectBuilder", true);
+		filter.append("qualifiedContractor", true);
 		return createDataSet(condition, Organization.class);
 	}
 
@@ -218,7 +218,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	public long countProjectBuilder(BasicDBObject filter) {
 		if (filter == null)
 			filter = new BasicDBObject();
-		filter.append("projectBuilder", true);
+		filter.append("qualifiedContractor", true);
 		return count(filter, Organization.class);
 	}
 
