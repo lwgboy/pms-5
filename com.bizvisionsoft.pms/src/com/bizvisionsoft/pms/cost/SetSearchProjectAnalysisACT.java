@@ -26,7 +26,7 @@ public class SetSearchProjectAnalysisACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
 		DateTimeInputDialog dt = new DateTimeInputDialog(bruiService.getCurrentShell(), "设置期间", "请设置项目预算成本对比分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());

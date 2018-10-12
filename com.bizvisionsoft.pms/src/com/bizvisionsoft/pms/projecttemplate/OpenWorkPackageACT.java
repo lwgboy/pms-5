@@ -21,8 +21,8 @@ public class OpenWorkPackageACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(elem -> {
 			openWorkPackageMenu((WorkInTemplate) elem);
 		});

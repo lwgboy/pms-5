@@ -18,8 +18,8 @@ public class AddMilestoneACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
 		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板里程碑工作编辑器"), context).setInput(WorkInTemplate

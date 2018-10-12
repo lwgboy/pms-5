@@ -21,8 +21,8 @@ public class EditRiskResponseTypeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_ACTION) Action action) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.ACTION) Action action) {
 		context.selected(c -> {
 			if (c instanceof RiskResponse) {
 				String type = ((RiskResponse) c).getType();

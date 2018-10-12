@@ -19,8 +19,8 @@ public class SwitchReadonyMember {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(em -> {
 			OBSItem obs = (OBSItem) em;
 			ObjectId org_id = obs.getOrg_id();

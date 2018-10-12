@@ -93,7 +93,7 @@ public class Organization {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private Boolean projectBuilder;
+	private boolean qualifiedContractor;
 
 	@WriteValue("manager")
 	private void setManager(User manager) {
@@ -201,8 +201,8 @@ public class Organization {
 		return true;
 	}
 
-	public Boolean getProjectBuilder() {
-		return projectBuilder;
+	public boolean isQualifiedContractor() {
+		return qualifiedContractor;
 	}
 
 }

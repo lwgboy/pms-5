@@ -16,7 +16,7 @@ public class AddSubAccountACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			Object input;
 			if (parent instanceof AccountIncome) {

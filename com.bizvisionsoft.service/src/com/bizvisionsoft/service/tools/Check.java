@@ -63,6 +63,14 @@ public class Check {
 		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
 	}
 
+	public static Optional<String> option(String s) {
+		if (isAssigned(s)) {
+			return Optional.of(s);
+		} else {
+			return Optional.ofNullable(s);
+		}
+	}
+	
 	public static <T> boolean isNotAssigned(List<T> s) {
 		return s == null || s.isEmpty();
 	}
@@ -70,15 +78,15 @@ public class Check {
 	public static <T> boolean isAssigned(List<T> s) {
 		return !isNotAssigned(s);
 	}
-	
+
 	public static <T> boolean isNotAssigned(T[] s) {
-		return s == null || s.length==0;
+		return s == null || s.length == 0;
 	}
 
 	public static <T> boolean isAssigned(T[] s) {
 		return !isNotAssigned(s);
 	}
-	
+
 	public static <T> boolean isAssigned(T[] s, Consumer<T[]> then) {
 		if (!isNotAssigned(s)) {
 			if (then != null)
@@ -115,5 +123,5 @@ public class Check {
 		}
 		return false;
 	}
-	
+
 }

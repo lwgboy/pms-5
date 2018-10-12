@@ -20,8 +20,8 @@ public class CreateEffectACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_ACTION) Action action) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.ACTION) Action action) {
 		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id())
 				.setCreationInfo(brui.operationInfo());
 		context.selected(c -> {

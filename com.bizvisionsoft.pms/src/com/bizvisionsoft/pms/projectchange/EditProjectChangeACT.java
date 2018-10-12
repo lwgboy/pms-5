@@ -21,7 +21,7 @@ public class EditProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Editor.open("项目变更编辑器", context, input, (r, o) -> {
 			ServicesLoader.get(ProjectService.class).updateProjectChange(new FilterAndUpdate()

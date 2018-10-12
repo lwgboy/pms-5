@@ -26,8 +26,8 @@ public class EditProjectInfo {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		Project project = context.search_sele_root(Project.class);
 		
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");

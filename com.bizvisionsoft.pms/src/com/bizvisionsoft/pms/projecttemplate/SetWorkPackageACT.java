@@ -23,8 +23,8 @@ public class SetWorkPackageACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		WorkInTemplate workinfo = (WorkInTemplate) ((GanttEvent) event).task;
 		String editor = "¹¤×÷ÊôÐÔ±à¼­Æ÷";
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {

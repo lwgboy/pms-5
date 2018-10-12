@@ -21,7 +21,7 @@ public class DistributeCBSBudget {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			new Selector(brui.getAssembly("½×¶ÎÑ¡ÔñÆ÷"), context).setInput(context.getRootInput()).setTitle("·ÖÅäÔ¤Ëãµ½Ö¸¶¨½×¶Î")
 					.open(r -> {

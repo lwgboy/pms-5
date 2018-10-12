@@ -22,8 +22,8 @@ public class ApproveProject {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(se -> {
 			if (br.confirm("批准项目启动", "请确认是否批准项目启动。")) {
 				Services.get(ProjectService.class)

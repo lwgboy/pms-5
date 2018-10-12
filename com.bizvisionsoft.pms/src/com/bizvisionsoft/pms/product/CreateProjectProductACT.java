@@ -16,7 +16,7 @@ public class CreateProjectProductACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Product product = new Product().setProject_id(context.getRootInput(Project.class, false).get_id());
 		Editor<?> editor = new Editor<Object>(brui.getAssembly("产品编辑器"), context).setInput(product);
 		editor.setTitle("创建项目目标产品");

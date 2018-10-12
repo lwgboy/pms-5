@@ -17,8 +17,8 @@ public class TimeScaleSetting {
 	private IBruiService bruiService;
 	
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		Editor.open("设置时间刻度", context, new TimeScaleType(), (d,r)->{
 			((GanttPart) context.getContent()).setScaleType(r.type);
 		});

@@ -25,7 +25,7 @@ public class ComparisonBaselineACT {
 
 	@SuppressWarnings("unchecked")
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		StructuredSelection selection = context.getSelection();
 		List<Baseline> list = selection.toList();
 		if (list.size() > 2) {

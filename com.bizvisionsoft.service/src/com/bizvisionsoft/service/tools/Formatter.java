@@ -28,11 +28,11 @@ public class Formatter {
 	public static final String DATE_FORMAT_JS_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
 
 	public static final String DATE_FORMAT_DATE = "yyyy-MM-dd";
-	
+
 	public static final String DATE_FORMAT_TIME = "HH:mm";
 
 	public static final String DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
-	
+
 	public static final String MONEY_NUMBER_FORMAT = "#,##0.0";
 
 	/**
@@ -127,7 +127,7 @@ public class Formatter {
 	public static String getPercentageFormatString(Object value) {
 		return getString(value, "#0.0%", null);
 	}
-	
+
 	public static String getMoneyFormatString(Double budget) {
 		if (budget == null || budget == 0d) {
 			return "";
@@ -138,12 +138,12 @@ public class Formatter {
 	public static String getString(Object value, String format) {
 		return getString(value, format, null);
 	}
-	
+
 	public static String getString(Object value, String format, Locale locale) {
 		return getString(value, format, "", locale);
 	}
 
-	public static String getString(Object value, String format, String defaultValue,Locale locale) {
+	public static String getString(Object value, String format, String defaultValue, Locale locale) {
 		String text;
 		if (value instanceof Date) {
 			String sdf = Check.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
@@ -191,7 +191,7 @@ public class Formatter {
 	public static <T, R> List<R> getList(T[] source, Function<T, R> func) {
 		return getList(Arrays.asList(source), func);
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -354,6 +354,30 @@ public class Formatter {
 		if (sec != 0)
 			result += sec + "√Î";
 		return result;
+	}
+
+	public static String toHtml(String text) {
+		StringBuffer out = new StringBuffer();
+		for (int i = 0; text != null && i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (c == '\'')
+				out.append("&#039;");
+			else if (c == '\"')
+				out.append("&#034;");
+			else if (c == '<')
+				out.append("&lt;");
+			else if (c == '>')
+				out.append("&gt;");
+			else if (c == '&')
+				out.append("&amp;");
+			else if (c == ' ')
+				out.append("&nbsp;");
+			else if (c == '\n')
+				out.append("<br/>");
+			else
+				out.append(c);
+		}
+		return out.toString();
 	}
 
 }

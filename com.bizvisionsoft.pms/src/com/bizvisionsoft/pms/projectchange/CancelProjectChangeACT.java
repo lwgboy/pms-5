@@ -23,7 +23,7 @@ public class CancelProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), "否决", "请填写否决意见", null, t -> {
 			return t.trim().isEmpty() ? "请填写否决意见" : null;
 		}).setTextMultiline(true);

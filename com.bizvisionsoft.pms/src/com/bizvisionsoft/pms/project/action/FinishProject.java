@@ -22,8 +22,8 @@ public class FinishProject {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		Project project = context.getRootInput(Project.class, false);
 		final ObjectId id = project.get_id();
 		ProjectService service = Services.get(ProjectService.class);

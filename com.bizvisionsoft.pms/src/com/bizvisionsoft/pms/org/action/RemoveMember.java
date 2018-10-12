@@ -21,8 +21,8 @@ public class RemoveMember {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(elem -> {
 			if (elem instanceof User) {
 				if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "移除", "请确认将要从组织中移除选择的成员。")) {

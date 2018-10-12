@@ -21,7 +21,7 @@ public class CreateProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		long check = Services.get(ProjectService.class).checkCreateProjectChange(project.get_id());
 		if (check > 0) {

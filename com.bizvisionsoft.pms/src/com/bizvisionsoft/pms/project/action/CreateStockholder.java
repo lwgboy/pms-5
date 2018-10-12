@@ -20,8 +20,8 @@ public class CreateStockholder {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		Editor.open("项目干系人编辑器", context, new Stockholder().setProject_id(((Project) context.getRootInput()).get_id()), (d, c) -> {
 			Stockholder item = Services.get(ProjectService.class).insertStockholder(c);
 			GridPart grid = (GridPart) context.getContent();

@@ -14,7 +14,7 @@ public class OpenBudgetSubjectACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Object rootInput = context.getRootInput();
 		if (rootInput instanceof Work && ((Work) rootInput).getCBS_id() != null) {
 			bruiService.openContent(bruiService.getAssembly("项目资金计划"), rootInput);

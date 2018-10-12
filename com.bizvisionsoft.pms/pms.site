@@ -41600,7 +41600,7 @@
             "text": "´´½¨",
             "image": "",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.filecabinet.CreateDocuOfPackageACT",
+            "className": "com.bizvisionsoft.pms.workpackage.action.CreateDocuOfPackage",
             "openContent": false,
             "propagate": false,
             "forceText": true,

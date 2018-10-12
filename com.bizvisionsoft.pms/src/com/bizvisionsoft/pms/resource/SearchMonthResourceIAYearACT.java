@@ -19,8 +19,8 @@ public class SearchMonthResourceIAYearACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		// 打开查询销售利润期间编辑器
 		DateTimeInputDialog dt = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置销售利润分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());

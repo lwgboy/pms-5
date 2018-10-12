@@ -22,8 +22,8 @@ public class StartWork {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(elem -> {
 
 			if (brui.confirm("启动工作", "请确认启动工作" + elem + "。\n系统将记录现在时刻为工作的实际开始时间。")) {

@@ -21,7 +21,7 @@ public class SubminBudgetSubject {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		CBSItem cbsItem = null;
 		Object input = context.getInput();
 		if (input instanceof CBSItem)

@@ -18,8 +18,8 @@ public class DeleteLink {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
 			WorkLinkInfo link = (WorkLinkInfo) ((GanttEvent) event).link;
 			((GanttPart) context.getContent()).deleteLink(link.getId());

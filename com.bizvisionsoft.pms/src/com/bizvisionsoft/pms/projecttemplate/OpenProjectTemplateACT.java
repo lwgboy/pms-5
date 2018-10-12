@@ -15,7 +15,7 @@ public class OpenProjectTemplateACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof WBSModule) {
 				brui.openContent(brui.getAssembly("项目模板甘特图"), em);

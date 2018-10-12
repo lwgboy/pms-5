@@ -42,10 +42,6 @@ public class DocuTemplate {
 
 	@ReadValue
 	@WriteValue
-	private List<RemoteFile> docuFiles;
-
-	@ReadValue
-	@WriteValue
 	private List<String> tag;
 
 	@ReadValue
@@ -54,7 +50,7 @@ public class DocuTemplate {
 	
 	@ReadValue
 	@WriteValue
-	private String assemblyId;
+	private String editorName;
 
 	@Override
 	@Label
@@ -85,6 +81,20 @@ public class DocuTemplate {
 		return Optional.ofNullable(creationInfo).map(c->c.userId).orElse(null);
 	}
 	
+	public String getEditorName() {
+		return editorName;
+	}
 
-
+	
+	public List<String> getCategory() {
+		return category;
+	}
+	
+	public List<String> getTag() {
+		return tag;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
 }
