@@ -22,7 +22,6 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
-import com.bizvisionsoft.service.model.FuncPermission;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Period;
@@ -1150,12 +1149,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	private boolean checkShowAll(String userid) {
-		// 检查当前用户是否需要显示全部信息
-		return c(FuncPermission.class).countDocuments(
-				new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", Role.ROLES))) > 0;
-	}
-
 	/**
 	 * 获取当前用户作为项目团队PMO成员的项目编号
 	 * 
@@ -1165,7 +1158,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	private List<ObjectId> getUserProjectId(String userid) {
 		final List<ObjectId> result = new ArrayList<ObjectId>();
 		// 判断是否显示全部，显示全部时，返回所有项目ID
-		if (checkShowAll(userid))
+		if (checkUserRoles(userid, Role.SYS_ROLES))
 			result.addAll(c("project").distinct("_id", ObjectId.class).into(new ArrayList<ObjectId>()));
 		else {
 			// 获取用户在項目PMO团队中的项目id

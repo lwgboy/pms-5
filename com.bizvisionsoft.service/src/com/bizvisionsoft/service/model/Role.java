@@ -18,17 +18,17 @@ import com.bizvisionsoft.service.ServicesLoader;
 @PersistenceCollection("role")
 public class Role {
 
-	public static String ROLE_ID_PD = "项目总监";
+	public static String SYS_ROLE_PD_ID = "项目总监";
 
-	public static String ROLE_ID_SCM = "供应链管理";
+	public static String SYS_ROLE_SCM_ID = "供应链管理";
 
-	public static String ROLE_ID_FM = "财务管理";
+	public static String SYS_ROLE_FM_ID = "财务管理";
 
-	public static String ROLE_ID_MM = "制造管理";
+	public static String SYS_ROLE_MM_ID = "制造管理";
 
-	public static List<String> ROLES = Arrays.asList(ROLE_ID_PD, ROLE_ID_SCM, ROLE_ID_FM, ROLE_ID_MM);
+	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID, SYS_ROLE_MM_ID);
 
-	public static String ROLE_ID_PMO = "PMO";
+	public static String SYS_ROLE_PMO_ID = "PMO";
 
 	@ReadValue
 	@WriteValue

@@ -749,7 +749,7 @@ public class BasicServiceImpl {
 		Document user = c("user").find(new Document("userId", userId)).first();
 		if (user == null)
 			return false;
-		
+
 		String receiverAddress = user.getString("email");
 		if (receiverAddress == null || receiverAddress.isEmpty())
 			return false;
@@ -812,6 +812,19 @@ public class BasicServiceImpl {
 			String json = new GsonBuilder().setPrettyPrinting().create().toJson(pipeline);
 			logger.debug("Aggregation Pipeline: \n" + json);
 		}
+	}
+
+	/**
+	 * 检查当前用户是否具有某些角色
+	 * 
+	 * @param userid 用户编号
+	 * @param roles 角色
+	 * @return
+	 */
+	protected boolean checkUserRoles(String userid, List<String> roles) {
+		// 检查当前用户是否需要显示全部信息
+		return c("funcPermission")
+				.countDocuments(new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", roles))) > 0;
 	}
 
 }

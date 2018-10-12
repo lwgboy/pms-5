@@ -23,7 +23,6 @@ import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
-import com.bizvisionsoft.service.model.FuncPermission;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
@@ -1578,7 +1577,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 检查当前用户是否显示全部，不显示全部时，加载PMO团队查询
-		if (!checkShowAll(userid)) {
+		if (!checkUserRoles(userid, Role.SYS_ROLES)) {
 			appendQueryUser(pipeline, userid);
 		}
 
@@ -1590,7 +1589,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long countAllProjects(BasicDBObject filter, String userid) {
 		// 如果当前用户具有显示全部项目的权限，则范围项目总数
-		if (checkShowAll(userid)) {
+		if (checkUserRoles(userid, Role.SYS_ROLES)) {
 			return count(filter);
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数
@@ -1606,12 +1605,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	private void appendQueryUser(List<Bson> pipeline, String userid) {
 		pipeline.addAll(new JQ("查询-项目PMO成员").set("userId", userid).array());
-	}
-
-	private boolean checkShowAll(String userid) {
-		// 检查当前用户是否需要显示全部信息
-		return c(FuncPermission.class).countDocuments(
-				new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", Role.ROLES))) > 0;
 	}
 
 }

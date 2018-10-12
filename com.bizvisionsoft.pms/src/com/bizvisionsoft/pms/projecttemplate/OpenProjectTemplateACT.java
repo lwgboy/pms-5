@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -17,8 +15,7 @@ public class OpenProjectTemplateACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof WBSModule) {
 				brui.openContent(brui.getAssembly("项目模板甘特图"), em);
