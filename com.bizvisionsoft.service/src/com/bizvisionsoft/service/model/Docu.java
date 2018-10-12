@@ -122,4 +122,19 @@ public class Docu implements JsonExternalizable{
 		return this;
 	}
 	
+	public Docu setCategory(List<String> category) {
+		this.category = category;
+		return this;
+	}
+	
+	public Docu setTag(List<String> tag) {
+		this.tag = tag;
+		return this;
+	}
+	
+	public Docu setDocuFiles(List<RemoteFile> docuFiles) {
+		this.docuFiles = docuFiles;
+		return this;
+	}
+	
 }

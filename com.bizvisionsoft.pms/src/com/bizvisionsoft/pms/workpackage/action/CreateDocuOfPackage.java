@@ -98,7 +98,9 @@ public class CreateDocuOfPackage {
 				.setCreationInfo(brui.operationInfo())//
 				.addWorkPackageId(wp.get_id())//
 				.setFolder_id(ds.getFolder_id())//
-				.setName(wp.description);
+				.setName(wp.description)//
+				.setTag(dt.getTag())//
+				.setCategory(dt.getCategory());// ÐèÒª¸´ÖÆ
 
 		String editorName = dt.getEditorName();
 		if (Check.isAssigned(editorName)) {

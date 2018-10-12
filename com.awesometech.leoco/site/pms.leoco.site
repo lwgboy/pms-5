@@ -68625,24 +68625,6 @@
             "grabVertical": false
           },
           {
-            "id": "163dde895de",
-            "name": "docuFiles",
-            "text": "模板文件",
-            "type": "多个文件选择框",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": false,
-            "textLimit": 0,
-            "fileNamespace": "docuFiles",
-            "maxFileSize": 0,
-            "timeLimit": 0,
-            "height": 0,
-            "staticContent": false,
-            "grabVertical": false
-          },
-          {
             "id": "163ddea1193",
             "name": "category",
             "text": "类别",
@@ -68675,7 +68657,7 @@
         "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
-        "nullValueAllowedFields": "tag#category#docuFiles",
+        "nullValueAllowedFields": "tag#category",
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,

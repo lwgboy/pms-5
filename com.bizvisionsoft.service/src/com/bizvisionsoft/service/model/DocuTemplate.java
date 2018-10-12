@@ -42,10 +42,6 @@ public class DocuTemplate {
 
 	@ReadValue
 	@WriteValue
-	private List<RemoteFile> docuFiles;
-
-	@ReadValue
-	@WriteValue
 	private List<String> tag;
 
 	@ReadValue
@@ -89,4 +85,16 @@ public class DocuTemplate {
 		return editorName;
 	}
 
+	
+	public List<String> getCategory() {
+		return category;
+	}
+	
+	public List<String> getTag() {
+		return tag;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
 }
