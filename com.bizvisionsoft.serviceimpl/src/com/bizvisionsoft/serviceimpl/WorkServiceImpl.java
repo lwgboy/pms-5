@@ -1106,7 +1106,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
-		List<ObjectId> items = getProject_id(userid);
+		List<ObjectId> items = getUserProjectId(userid);
 		pipeline.add(Aggregates.match(new BasicDBObject("project_id", new BasicDBObject("$in", items))));
 
 		appendProject(pipeline);
@@ -1159,7 +1159,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return userRoles.containsAll(Role.ROLES);
 	}
 
-	private List<ObjectId> getProject_id(String userid) {
+	/**
+	 * 获取当前用户作为项目团队PMO成员的项目编号
+	 * @param userid
+	 * @return
+	 */
+	private List<ObjectId> getUserProjectId(String userid) {
 		final List<ObjectId> result = new ArrayList<ObjectId>();
 		// 判断是否显示全部，显示全部时，返回所有项目ID
 		if (checkShowAll(userid))
@@ -1178,7 +1183,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long countWorkPackageForSchedule(BasicDBObject filter, String userid, String catagory) {
-		List<ObjectId> items = getProject_id(userid);
+		List<ObjectId> items = getUserProjectId(userid);
 		if (filter == null)
 			filter = new BasicDBObject();
 		return c("work").countDocuments(filter.append("workPackageSetting.catagory", catagory).append("project_id",
