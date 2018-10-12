@@ -33,7 +33,9 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.UpdateWorkPackages;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -1104,6 +1106,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
+		List<ObjectId> items = getProject_id(userid);
+		pipeline.add(Aggregates.match(new BasicDBObject("project_id", new BasicDBObject("$in", items))));
+
 		appendProject(pipeline);
 
 		appendOverdue(pipeline);
@@ -1145,10 +1150,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
+	private boolean checkShowAll(String userid) {
+		// 获取当前用户信息
+		User user = new UserServiceImpl().get(userid);
+		// 获取当前用户角色
+		List<String> userRoles = user.getRoles();
+		// 检查当前用户是否需要显示全部信息
+		return userRoles.containsAll(Role.ROLES);
+	}
+
 	private List<ObjectId> getProject_id(String userid) {
-		// TODO 获取具有访问权限的项目，暂时使用的是作为项目经理的项目
-		return c("project").distinct("_id", new BasicDBObject("pmId", userid), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		final List<ObjectId> result = new ArrayList<ObjectId>();
+		// 判断是否显示全部，显示全部时，返回所有项目ID
+		if (checkShowAll(userid))
+			result.addAll(c("project").distinct("_id", ObjectId.class).into(new ArrayList<ObjectId>()));
+		else {
+			// 获取用户在項目PMO团队中的项目id
+			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("userId", userid).array();
+			pipeline.add(Aggregates.project(new BasicDBObject("_id", true)));
+			c("project").aggregate(pipeline).forEach((Document doc) -> {
+				result.add(doc.getObjectId("_id"));
+			});
+			;
+		}
+		return result;
 	}
 
 	@Override

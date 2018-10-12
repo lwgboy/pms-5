@@ -32,8 +32,10 @@ import com.bizvisionsoft.service.model.ProjectChange;
 import com.bizvisionsoft.service.model.ProjectChangeTask;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
@@ -342,8 +344,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。", com.userId,
-				memberIds, null);
+		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。",
+				com.userId, memberIds, null);
 		return new ArrayList<>();
 	}
 
@@ -1334,9 +1336,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			projectChange.getReviewer().forEach((ProjectChangeTask receiver) -> {
 				receivers.add(receiver.user);
 			});
-			sendMessage("项目变更申请",
-					"" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，请您进行审核。",
-					projectChange.getApplicantId(), receivers, null);
+			sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName()
+					+ " 的变更申请，请您进行审核。", projectChange.getApplicantId(), receivers, null);
 
 			String pmId = c("project")
 					.distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
@@ -1566,7 +1567,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Project> listAllProjects(BasicDBObject condition) {
+	public List<Project> listAllProjects(BasicDBObject condition, String userid) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1576,19 +1577,44 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		List<Bson> pipeline = new ArrayList<Bson>();
+		// 检查当前用户是否显示全部，不显示全部时，加载PMO团队查询
+		if (!checkShowAll(userid)) {
+			appendQueryUser(pipeline, userid);
+		}
+
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
 	@Override
-	public long countAllProjects(BasicDBObject filter) {
-		return count(filter);
+	public long countAllProjects(BasicDBObject filter, String userid) {
+		// 如果当前用户具有显示全部项目的权限，则范围项目总数
+		if (checkShowAll(userid)) {
+			return count(filter);
+		}
+		// 不显示全部时，只返回用户在项目PMO团队中的项目数
+		List<Bson> pipeline = new ArrayList<Bson>();
+		appendQueryUser(pipeline, userid);
+		return c(Project.class).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
+	}
+
+	private void appendQueryUser(List<Bson> pipeline, String userid) {
+		pipeline.addAll(new JQ("查询-项目PMO成员").set("userId", userid).array());
+	}
+
+	private boolean checkShowAll(String userid) {
+		// 获取当前用户信息
+		User user = new UserServiceImpl().get(userid);
+		// 获取当前用户角色
+		List<String> userRoles = user.getRoles();
+		// 检查当前用户是否需要显示全部信息
+		return userRoles.containsAll(Role.ROLES);
 	}
 
 }

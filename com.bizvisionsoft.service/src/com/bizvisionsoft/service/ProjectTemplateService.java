@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.OBSInTemplate;
+import com.bizvisionsoft.service.model.OBSModule;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
@@ -171,7 +172,7 @@ public interface ProjectTemplateService {
 	@Path("/obs/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目模板组织结构图/" + DataSet.DELETE })
+	@DataSet({ "项目模板组织结构图/" + DataSet.DELETE, "OBS模板组织结构图/" + DataSet.DELETE })
 	public void deleteOBSItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
@@ -204,7 +205,7 @@ public interface ProjectTemplateService {
 	@Path("/obs/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目模板组织结构图/" + DataSet.UPDATE)
+	@DataSet({ "项目模板组织结构图/" + DataSet.UPDATE, "OBS模板组织结构图/" + DataSet.UPDATE })
 	public long updateOBSItem(BasicDBObject fu);
 
 	@POST
@@ -305,4 +306,68 @@ public interface ProjectTemplateService {
 	public List<ProjectTemplate> createEnabledTemplateDataSet(
 			@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
+	@POST
+	@Path("/obsModule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板/" + DataSet.INSERT)
+	public OBSModule insertOBSModule(@MethodParam(MethodParam.OBJECT) OBSModule obsModule);
+
+	@POST
+	@Path("/obsModule/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板/" + DataSet.COUNT)
+	public long countOBSModule(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/obsModule/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板/" + DataSet.LIST)
+	public List<OBSModule> listOBSModule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@DELETE
+	@Path("/obsModule/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "组织模板/" + DataSet.DELETE })
+	public long deleteOBSModule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/obsModule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "组织模板/" + DataSet.UPDATE })
+	public long updateOBSModule(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/id/{_id}/obsModule/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("OBS模板组织结构图/list")
+	public List<OBSInTemplate> getOBSModule(
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId module_id);
+
+	@PUT
+	@Path("/useOBSModule/_id/{_id}/project_id/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void useOBSModule(@PathParam("_id") ObjectId _id, @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/obsModule/project_id/{project_id}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板选择器列表/" + DataSet.COUNT)
+	public long countOBSModuleSelector(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+
+	@POST
+	@Path("/obsModule/project_id/{project_id}/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板选择器列表/" + DataSet.LIST)
+	public List<OBSModule> listOBSModuleSelector(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 }

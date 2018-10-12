@@ -18,6 +18,7 @@ import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
+import com.bizvisionsoft.service.model.OBSModule;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 import com.bizvisionsoft.service.model.ResourceAssignment;
@@ -572,6 +573,100 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public long update(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, "projectTemplate");
+	}
+
+	@Override
+	public OBSModule insertOBSModule(OBSModule obsModule) {
+		obsModule = insert(obsModule);
+		createRootOBS(obsModule.get_id());
+		return obsModule;
+	}
+
+	@Override
+	public long countOBSModule(BasicDBObject filter) {
+		return count(filter, OBSModule.class);
+	}
+
+	@Override
+	public List<OBSModule> listOBSModule(BasicDBObject condition) {
+		return createDataSet(condition, OBSModule.class);
+	}
+
+	@Override
+	public long deleteOBSModule(ObjectId _id) {
+		c("obsInTemplate").deleteMany(new Document("scope_id", _id));
+		return delete(_id, OBSModule.class);
+	}
+
+	@Override
+	public long updateOBSModule(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, OBSModule.class);
+	}
+
+	@Override
+	public List<OBSInTemplate> getOBSModule(ObjectId module_id) {
+		return getOBSTemplate(module_id);
+	}
+
+	@Override
+	public void useOBSModule(ObjectId obsModule_id, ObjectId project_id) {
+		// 清除除OBS根外的项目OBS节点，
+		c("obs").deleteMany(new Document("scopeRoot", false).append("scope_id", project_id));
+		// 准备模板对象和新对象之间的id对应表
+		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
+		// 保存准备插入数据库的记录
+		List<Document> tobeInsert = new ArrayList<>();
+		// 项目的OBS_ID
+		ObjectId obs_id = c("project").distinct("obs_id", new Document("_id", project_id), ObjectId.class).first();
+
+		// 创建组织结构
+		c("obsInTemplate").find(new Document("scope_id", obsModule_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					// 建立项目团队上下级关系
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), obs_id);
+					} else {
+						ObjectId _id = new ObjectId();
+						idMap.put(doc.getObjectId("_id"), _id);
+						doc.append("_id", _id).append("scope_id", project_id).append("parent_id", idMap.get(parent_id));
+						tobeInsert.add(doc);
+					}
+
+				});
+		// 插入项目团队
+		if (!tobeInsert.isEmpty()) {
+			c("obs").insertMany(tobeInsert);
+		}
+	}
+
+	@Override
+	public long countOBSModuleSelector(BasicDBObject filter, ObjectId project_id) {
+		// 获取当前项目的eps_id
+		ObjectId eps_id = c("project").distinct("eps_id", new Document("_id", project_id), ObjectId.class).first();
+
+		// 根据eps_id查询组织模板
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.put("eps_id", eps_id);
+
+		return count(filter, OBSModule.class);
+	}
+
+	@Override
+	public List<OBSModule> listOBSModuleSelector(BasicDBObject condition, ObjectId project_id) {
+		// 获取当前项目的eps_id
+		ObjectId eps_id = c("project").distinct("eps_id", new Document("_id", project_id), ObjectId.class).first();
+
+		// 根据eps_id查询组织模板
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.put("eps_id", eps_id);
+
+		return createDataSet(condition, OBSModule.class);
 	}
 
 }

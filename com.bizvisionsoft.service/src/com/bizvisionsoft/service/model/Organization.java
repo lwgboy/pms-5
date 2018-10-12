@@ -201,4 +201,8 @@ public class Organization {
 		return true;
 	}
 
+	public Boolean getProjectBuilder() {
+		return projectBuilder;
+	}
+
 }
