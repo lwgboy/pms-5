@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.filecabinet;
+package com.bizvisionsoft.pms.workpackage.action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateDocuOfPackageACT {
+public class CreateDocuOfPackage {
 
 	@Inject
 	private IBruiService brui;
