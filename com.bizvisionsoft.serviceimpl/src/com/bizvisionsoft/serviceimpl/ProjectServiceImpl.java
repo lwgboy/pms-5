@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Command;
+import com.bizvisionsoft.service.model.FuncPermission;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.News;
@@ -35,7 +36,6 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
@@ -1609,12 +1609,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	private boolean checkShowAll(String userid) {
-		// 获取当前用户信息
-		User user = new UserServiceImpl().get(userid);
-		// 获取当前用户角色
-		List<String> userRoles = user.getRoles();
 		// 检查当前用户是否需要显示全部信息
-		return userRoles.containsAll(Role.ROLES);
+		return c(FuncPermission.class).countDocuments(
+				new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", Role.ROLES))) > 0;
 	}
 
 }

@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
+import com.bizvisionsoft.service.model.FuncPermission;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Period;
@@ -35,7 +36,6 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.UpdateWorkPackages;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -1151,16 +1151,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private boolean checkShowAll(String userid) {
-		// 获取当前用户信息
-		User user = new UserServiceImpl().get(userid);
-		// 获取当前用户角色
-		List<String> userRoles = user.getRoles();
 		// 检查当前用户是否需要显示全部信息
-		return userRoles.containsAll(Role.ROLES);
+		return c(FuncPermission.class).countDocuments(
+				new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", Role.ROLES))) > 0;
 	}
 
 	/**
 	 * 获取当前用户作为项目团队PMO成员的项目编号
+	 * 
 	 * @param userid
 	 * @return
 	 */
