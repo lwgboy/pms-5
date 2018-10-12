@@ -47,7 +47,7 @@ public class OBSInTemplate {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队" , "编辑" })
+	@Behavior({ "添加角色", "创建团队", "编辑" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -152,18 +152,17 @@ public class OBSInTemplate {
 	@WriteValue
 	@SetValue
 	private String roleId;
-	
-	
-	@ReadValue("项目模板组织结构图/title")
+
+	@ReadValue({ "项目模板组织结构图/title", "OBS模板组织结构图/title" })
 	private String getTitle() {
-		if(Check.isNotAssigned(name)) {
+		if (Check.isNotAssigned(name)) {
 			return roleId;
-		}else {
+		} else {
 			return name;
 		}
 	}
 
-	@ReadValue({ "项目模板组织结构图/text","roleName" })
+	@ReadValue({ "项目模板组织结构图/text", "OBS模板组织结构图/text", "roleName" })
 	@WriteValue
 	@SetValue
 	private String roleName;
@@ -211,17 +210,17 @@ public class OBSInTemplate {
 		return null;
 	}
 
-	@ReadValue({ "项目模板组织结构图/id" })
+	@ReadValue({ "项目模板组织结构图/id", "OBS模板组织结构图/id" })
 	private String getDiagramId() {
 		return _id.toHexString();
 	}
 
-	@ReadValue("项目模板组织结构图/parent")
+	@ReadValue({ "项目模板组织结构图/parent", "OBS模板组织结构图/parent" })
 	private String getDiagramParent() {
 		return parent_id == null ? "" : parent_id.toHexString();
 	}
 
-	@ReadValue("项目模板组织结构图/img")
+	@ReadValue({ "项目模板组织结构图/img", "OBS模板组织结构图/img" })
 	private String getDiagramImage() {
 		if (managerHeadPic != null) {
 			return managerHeadPic.getURL(ServicesLoader.url);
@@ -233,7 +232,7 @@ public class OBSInTemplate {
 		}
 		return "";
 	}
-	
+
 	@ReadValue
 	@WriteValue
 	private String dir;

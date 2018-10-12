@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -16,6 +17,18 @@ import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("role")
 public class Role {
+
+	public static String ROLE_ID_PD = "项目总监";
+
+	public static String ROLE_ID_SCM = "供应链管理";
+
+	public static String ROLE_ID_FM = "财务管理";
+
+	public static String ROLE_ID_MM = "制造管理";
+
+	public static List<String> ROLES = Arrays.asList(ROLE_ID_PD, ROLE_ID_SCM, ROLE_ID_FM, ROLE_ID_MM);
+
+	public static String ROLE_ID_PMO = "PMO";
 
 	@ReadValue
 	@WriteValue
@@ -51,7 +64,7 @@ public class Role {
 	public String toString() {
 		return name + " [" + id + "]";
 	}
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "角色";
@@ -66,8 +79,8 @@ public class Role {
 		return ServicesLoader.get(OrganizationService.class).countUsersOfRole(_id);
 	}
 
-	@Behavior({"组织角色/添加用户","组织角色/编辑角色"}) // 控制action
+	@Behavior({ "组织角色/添加用户", "组织角色/编辑角色" }) // 控制action
 	@Exclude // 不用持久化
 	private boolean behaviours = true;
-	
+
 }

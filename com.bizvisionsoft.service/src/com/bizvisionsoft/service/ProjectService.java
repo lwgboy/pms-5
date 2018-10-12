@@ -432,17 +432,19 @@ public interface ProjectService {
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
 
 	@POST
-	@Path("/all/ds")
+	@Path("/all/userid/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "所有项目/list","项目选择列表/list" })
-	public List<Project> listAllProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Project> listAllProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/all/count")
+	@Path("/all/userid/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "所有项目/count","项目选择列表/count" })
-	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 }
