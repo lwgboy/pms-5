@@ -38,8 +38,8 @@ public class AddProjectModuleACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		WorkInfo parent;
 		if("onGridHeaderMenuClick".equals(event.text)) {
 			parent = null;

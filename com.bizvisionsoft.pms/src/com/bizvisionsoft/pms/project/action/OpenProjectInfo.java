@@ -25,8 +25,8 @@ public class OpenProjectInfo {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		
 		ObjectId project_id = context.getRootInput(Project.class,false).get_id();
 		Project project = Services.get(ProjectService.class).get(project_id);

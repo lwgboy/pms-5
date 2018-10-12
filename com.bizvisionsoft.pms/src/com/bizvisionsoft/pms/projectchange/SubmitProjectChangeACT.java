@@ -23,7 +23,7 @@ public class SubmitProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Shell shell = brui.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "提交变更申请", "请确认提交变更申请。\n系统将记录现在时刻为变更申请提交时间，提交后该变更申请将无法进行修改。");

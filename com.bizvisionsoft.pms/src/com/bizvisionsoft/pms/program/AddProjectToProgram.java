@@ -24,7 +24,7 @@ public class AddProjectToProgram {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof Program) {
 				Selector.open("ÏîÄ¿Ñ¡ÔñÆ÷", context, null, s -> {

@@ -18,8 +18,8 @@ public class OpenOBSDiagramACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 
 		ProjectTemplate projectTemplate = context.getRootInput(ProjectTemplate.class, false);
 		ObjectId pjtId = projectTemplate.get_id();

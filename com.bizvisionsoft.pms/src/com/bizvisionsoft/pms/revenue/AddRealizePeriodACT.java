@@ -19,7 +19,7 @@ public class AddRealizePeriodACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Date as = context.getRootInput(Project.class, false).getActualStart();
 		if (as == null) {
 			Layer.message("项目尚未开始", Layer.ICON_CANCEL);

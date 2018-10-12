@@ -54,7 +54,7 @@ public class DocuTemplate {
 	
 	@ReadValue
 	@WriteValue
-	private String assemblyId;
+	private String editorName;
 
 	@Override
 	@Label
@@ -85,6 +85,8 @@ public class DocuTemplate {
 		return Optional.ofNullable(creationInfo).map(c->c.userId).orElse(null);
 	}
 	
-
+	public String getEditorName() {
+		return editorName;
+	}
 
 }

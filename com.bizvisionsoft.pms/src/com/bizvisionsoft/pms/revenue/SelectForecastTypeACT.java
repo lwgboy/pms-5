@@ -12,7 +12,7 @@ public class SelectForecastTypeACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ForecastASM grid = (ForecastASM) context.getChildContextByAssemblyName("项目收益预测").getContent();
 		grid.selectType();
 		grid.reset();

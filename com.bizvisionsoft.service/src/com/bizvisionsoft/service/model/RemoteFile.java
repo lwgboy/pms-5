@@ -6,8 +6,9 @@ import java.net.URLEncoder;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 
-public class RemoteFile {
+public class RemoteFile implements JsonExternalizable{
 
 	@Persistence
 	public ObjectId _id;

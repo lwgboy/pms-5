@@ -20,7 +20,7 @@ public class OpenWorkPackage {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 			openWorkPackageMenu((IWorkPackageMaster) elem);
 		});

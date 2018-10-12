@@ -20,7 +20,7 @@ public class EstimateSchedule {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Object rootInput = context.getRootInput();
 		ObjectId project_id = null;
 		if (rootInput instanceof Project) {

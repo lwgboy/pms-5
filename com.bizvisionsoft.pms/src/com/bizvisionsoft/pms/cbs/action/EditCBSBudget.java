@@ -23,7 +23,7 @@ public class EditCBSBudget {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(item -> {
 			CBSPeriod period = new CBSPeriod()//
 					.setCBSItem_id(((CBSItem) item).get_id());

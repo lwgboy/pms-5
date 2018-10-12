@@ -7,7 +7,7 @@ import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 public class DisplayCriticalPath {
 	
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT_CONTENT) GanttPart part){
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart part){
 		part.switchCriticalPathHighLight();
 	}
 

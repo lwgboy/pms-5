@@ -17,7 +17,7 @@ public class RemoveProjectFromProgram {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if ((em instanceof Project) && br.confirm("移出项目集", "请确定将项目" + em + "移出项目集。")) {
 				Services.get(ProgramService.class).unsetProgram(((Project) em).get_id());

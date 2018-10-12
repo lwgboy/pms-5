@@ -16,7 +16,7 @@ public class CreateRootRBSItemACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		Editor.open("·çÏÕÏî±à¼­Æ÷", context,
 				new RBSItem().setProject_id(project.get_id()).setCreationInfo(brui.operationInfo()), (r, o) -> {

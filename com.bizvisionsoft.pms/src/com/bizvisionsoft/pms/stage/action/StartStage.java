@@ -20,7 +20,7 @@ public class StartStage {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Work stage = context.getRootInput(Work.class, false);
 		CommandHandler.run(ICommand.Start_Stage, //
 				"请确认启动阶段：" + stage + "。", "阶段启动完成", "阶段启动失败", //

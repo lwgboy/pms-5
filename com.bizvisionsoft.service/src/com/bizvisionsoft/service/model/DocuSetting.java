@@ -33,6 +33,12 @@ public class DocuSetting {
 	@ReadValue
 	@WriteValue
 	private ObjectId folderInTemplate_id;
+	
+	private ObjectId folder_id;
+	
+	public ObjectId getFolder_id() {
+		return folder_id;
+	}
 
 	@ReadValue
 	@SetValue
@@ -57,6 +63,10 @@ public class DocuSetting {
 		this.docuTemplate = docuTemplate;
 		this.docuTemplate_id = Optional.ofNullable(docuTemplate).map(e -> e.get_id()).orElse(null);
 	}
+	
+	public ObjectId getDocuTemplate_id() {
+		return docuTemplate_id;
+	}
 
 	@ReadValue
 	@WriteValue
@@ -80,5 +90,13 @@ public class DocuSetting {
 	public DocuSetting setName(String name) {
 		this.name = name;
 		return this;
+	}
+	
+	public ObjectId get_id() {
+		return _id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

@@ -20,8 +20,8 @@ public class SettingProjectId {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		context.selected(se -> {
 			InputDialog id = new InputDialog(br.getCurrentShell(), "设置项目编号", "请输入项目编号", "",
 					txt -> txt.trim().isEmpty() ? "项目编号不可为空" : null);

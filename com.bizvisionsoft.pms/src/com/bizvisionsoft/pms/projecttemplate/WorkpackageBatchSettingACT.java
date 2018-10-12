@@ -26,8 +26,8 @@ public class WorkpackageBatchSettingACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		GridPart part = (GridPart) context.getContent();
 		Iterator<?> iter = part.getViewer().getStructuredSelection().iterator();
 		final ArrayList<ObjectId> ids = new ArrayList<ObjectId>();

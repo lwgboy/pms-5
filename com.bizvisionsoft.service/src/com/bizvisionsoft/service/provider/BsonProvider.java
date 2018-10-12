@@ -38,7 +38,7 @@ import com.mongodb.BasicDBObject;
 public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	public BsonProvider() {
 	}
 
@@ -48,6 +48,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 				.registerTypeAdapter(Date.class, new DateAdapter())//
 				.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
 				.registerTypeAdapter(Document.class, new DocumentAdapter())//
+				// .registerTypeAdapter(RemoteFile.class, new RemoteFileAdapter())//²»ÐèÒª
 				.create();
 	}
 
@@ -98,7 +99,6 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 			}
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private T readFromResult(InputStreamReader reader) {

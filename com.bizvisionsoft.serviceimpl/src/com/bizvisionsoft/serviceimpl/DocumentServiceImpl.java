@@ -222,6 +222,11 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
 		return createDataSet(condition,DocuTemplate.class);
 	}
+	
+	@Override
+	public DocuTemplate getDocumentTemplate(ObjectId _id) {
+		return get(_id, DocuTemplate.class);
+	}
 
 
 	@Override
@@ -247,5 +252,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long deleteDocumentSetting(ObjectId _id) {
 		return delete(_id, DocuSetting.class);
 	}
+
 
 }

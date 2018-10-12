@@ -12,7 +12,7 @@ public class OpenBaselineACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			// brui.switchContent("项目基线甘特图", em);
 			brui.openContent(brui.getAssembly("项目基线甘特图"), em);

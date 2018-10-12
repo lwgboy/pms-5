@@ -23,7 +23,7 @@ public class PassProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), "批准", "请填写批准意见", null, null)
 				.setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {

@@ -16,8 +16,8 @@ public class Reschedule {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		if(MessageDialog.openConfirm(bruiService.getCurrentShell(), "排程", "请确认对当前计划运行自动排程。")) {
 			((GanttPart) context.getContent()).reschedule();
 		}

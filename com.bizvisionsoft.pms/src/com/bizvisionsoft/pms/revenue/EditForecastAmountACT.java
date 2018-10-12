@@ -18,7 +18,7 @@ public class EditForecastAmountACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(t -> {
 			Editor.open("±à¼­ÊÕÒæÔ¤²â", context, new Document(), (r, d) -> {
 				try {

@@ -25,8 +25,8 @@ public class CompareSchedule {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		GanttPart ganttPart = (GanttPart) context.getContent();
 		if (ganttPart.isDirty()) {
 			Layer.message("当前的项目计划还未保存", Layer.ICON_CANCEL);

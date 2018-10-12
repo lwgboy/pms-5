@@ -17,7 +17,7 @@ public class SendMsgACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Editor.create("ĞÂÏûÏ¢", context, new NewMessage(), false).ok((r, o) -> {
 			o.sender = br.getCurrentConsignerInfo();
 			br.sendMessage(o.sender,o.receiver,o.subject,o.content);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -172,7 +173,13 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("ÎÄµµÄ£°å/" + DataSet.LIST)
 	public List<DocuTemplate> listDocumentTemplates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
-
+	
+	@GET
+	@Path("/docuT/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public DocuTemplate getDocumentTemplate(@PathParam("_id")  ObjectId _id);
+	
 	@POST
 	@Path("/docuT/")
 	@Consumes("application/json; charset=UTF-8")

@@ -24,7 +24,7 @@ public class SubmitCBSSubjectCostACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 获取当前显示的CBSItem根，主页打开时从contextInput中获取，项目、阶段打开时从contextRootInput中获取
 		Object input = context.getInput();
 		if (input == null) {

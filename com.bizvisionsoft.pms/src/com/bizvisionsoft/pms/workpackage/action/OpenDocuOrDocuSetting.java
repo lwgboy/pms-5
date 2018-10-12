@@ -13,7 +13,7 @@ public class OpenDocuOrDocuSetting {
 	private BruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		String name;
 		if (context.getRootInput() instanceof ProjectTemplate) {
 			name = " ‰≥ˆŒƒµµ…Ë÷√";

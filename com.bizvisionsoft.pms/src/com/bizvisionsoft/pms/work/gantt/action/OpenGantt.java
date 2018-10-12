@@ -16,8 +16,8 @@ public class OpenGantt {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_ACTION) Action action) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.ACTION) Action action) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		Assembly config;
 		Workspace workspace = rootInput.getWorkspace();

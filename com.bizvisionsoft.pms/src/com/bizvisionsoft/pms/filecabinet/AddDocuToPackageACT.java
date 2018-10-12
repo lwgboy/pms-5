@@ -25,7 +25,7 @@ public class AddDocuToPackageACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(final @MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		WorkPackage wp = (WorkPackage) context.getInput();
 		Selector.create("输出文件选择器", context, wp).open(l -> {
 			if (l != null && l.size() > 0) {

@@ -20,7 +20,7 @@ public class CreateBaselineACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		Editor.open("项目基线编辑器", context, new Baseline().setProject_id(project.get_id()).setCreationDate(new Date()),
 				(r, o) -> {

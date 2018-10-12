@@ -19,7 +19,7 @@ public class UnDistributeCBSBudget {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(c -> {
 			CBSItem item = (CBSItem) c;
 			ObjectId parentItemId = item.getParent_id();

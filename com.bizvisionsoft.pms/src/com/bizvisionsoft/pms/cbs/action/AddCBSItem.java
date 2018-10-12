@@ -16,7 +16,7 @@ public class AddCBSItem {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			Editor.create("成本项编辑器", context, CBSItem.getInstance((CBSItem) parent), true).setTitle("添加子项")
 					.ok((r, o) -> {

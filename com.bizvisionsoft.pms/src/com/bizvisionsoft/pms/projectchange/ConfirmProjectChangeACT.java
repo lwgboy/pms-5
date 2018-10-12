@@ -23,7 +23,7 @@ public class ConfirmProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Shell shell = brui.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "关闭变更申请", "请确认变更后的项目进度计划已编制完成并提交。");

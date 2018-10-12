@@ -25,7 +25,7 @@ public class CreateDocuSettingACT {
 	// }
 
 	@Execute
-	public void execute(final @MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		WorkPackage wp = (WorkPackage) context.getInput();
 		DocuSetting docu = new DocuSetting()//
 				.setWorkPackage_id(wp.get_id())//

@@ -18,7 +18,7 @@ public class EditElement {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Object em = context.getFirstElement();
 		GridPart grid = (GridPart) context.getContent();
 		if (em instanceof Calendar) {

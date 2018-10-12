@@ -21,7 +21,7 @@ public class SetAcceptedQty {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Document prItem = (Document) context.getFirstElement();
 		String pr_num = prItem.getString("PR_NUM");
 		String pr_idx = prItem.getString("PR_IDX");

@@ -20,7 +20,7 @@ public class MonteCarloSimulateACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		IInputValidator v = new IInputValidator() {
 
 			@Override

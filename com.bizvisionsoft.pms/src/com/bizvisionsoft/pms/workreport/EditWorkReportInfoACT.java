@@ -21,7 +21,7 @@ public class EditWorkReportInfoACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		WorkReport input = (WorkReport) context.getInput();
 		Editor.open("工作报告编辑器", context, input, (r, i) -> {

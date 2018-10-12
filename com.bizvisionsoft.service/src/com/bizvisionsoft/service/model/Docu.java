@@ -13,10 +13,11 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.sn.DocNumberGenerator;
 
 @PersistenceCollection("docu")
-public class Docu {
+public class Docu implements JsonExternalizable{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段

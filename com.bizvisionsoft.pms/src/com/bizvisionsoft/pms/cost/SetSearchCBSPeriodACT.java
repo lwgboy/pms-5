@@ -25,7 +25,7 @@ public class SetSearchCBSPeriodACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
 		DateTimeInputDialog dtid = new DateTimeInputDialog(bruiService.getCurrentShell(), "查询成本期间", "请选择查询成本期间",
 				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)
