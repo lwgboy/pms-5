@@ -26,7 +26,7 @@ public class RemoveDocuOfWorkPackage {
 			@MethodParam(Execute.CONTEXT_CONTENT) GridPart grid) {
 		IDialogConstants constants = IDialogConstants.get();
 		MessageDialog d = new MessageDialog(br.getCurrentShell(), "删除文档", null, "请确认是否从项目资料库中删除文档：<span class='layui-badge  layui-bg-blue'>" + docu+"</span>"
-				+ "。<br><span class='layui-badge  layui-bg-green' style='width:48px;'>是</span>，删除文档。<br><span class='layui-badge  layui-bg-orange'  style='width:48px;'>否</span>，移除工作包交付的文档，项目资料库中仍留存该文档。<br><span class='layui-badge  layui-bg-orange'  style='width:48px;'>取消</span>，不作任何决定。",
+				+ "。<br><span class='layui-badge  layui-bg-green' style='width:48px;'>是</span> 删除文档，删除后将无法恢复。<br><span class='layui-badge  layui-bg-orange'  style='width:48px;'>否</span> 移除文档，项目资料库中仍留存该文档。<br><span class='layui-badge  layui-bg-orange'  style='width:48px;'>取消</span> 不作任何操作。",
 				MessageDialog.QUESTION_WITH_CANCEL,
 				new String[] { constants.CANCEL_LABEL, constants.NO_LABEL, constants.YES_LABEL }, 2);
 		d.buttonStyle = MessageDialog.getButtonStyle(MessageDialog.QUESTION_WITH_CANCEL);

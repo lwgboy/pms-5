@@ -90,14 +90,14 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		String className = command.getTargetClassName();
 		String colName = command.getTargetCollection();
 		if (colName != null) {
-			return insertDocument(document,colName,className);
+			return insertDocument(document, colName, className);
 		} else {
 			return insertObject(document, className);
 		}
 	}
 
 	private UniversalResult insertDocument(Document document, String colName, String className) {
-		//去掉null
+		// 去掉null
 		c(colName).insertOne(document);
 		return elementResult(className, document.toJson());
 	}
@@ -117,7 +117,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 				logger.error(e.getMessage(), e);
 				throw new ServiceException(e.getMessage());
 			}
-		}else {
+		} else {
 			String msg = "无法获得类解码器：" + className;
 			logger.error(msg);
 			throw new ServiceException(msg);
@@ -150,13 +150,8 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	public UniversalResult get(UniversalCommand command) {
 		String sid = command.getParameter("_id.$oid", String.class);
 		if (sid != null) {
-			ObjectId _id = new ObjectId(sid);
-			Document document = col(command).find(new Document("_id", _id)).first();
-			UniversalResult uResult = new UniversalResult();
-			uResult.setResult(getGson().toJson(document));
-			uResult.setTargetClassName(command.getTargetClassName());
-			uResult.setList(false);
-			return uResult;
+			Document document = col(command).find(new Document("_id", new ObjectId(sid))).first();
+			return elementResult(command.getTargetClassName(), getGson().toJson(document));
 		}
 		String msg = "缺少唯一关键字";
 		logger.error(msg);

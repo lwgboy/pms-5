@@ -20,6 +20,11 @@
         </encoder>
     </appender>
     
+    <logger name="org.eclipse.jetty"  level="info" additivity="false" >
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+    
     <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />

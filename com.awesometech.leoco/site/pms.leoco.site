@@ -39440,15 +39440,16 @@
             "name": "±à¼­",
             "text": "±à¼­",
             "image": "/img/edit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.filecabinet.OpenDocuACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "style": "normal",
-            "editorAssemblyId": "163dde68aa2",
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "edit"
+            "type": "customized"
           },
           {
             "id": "163ded3b0d5",
@@ -40292,15 +40293,16 @@
             "id": "163e37cdd36",
             "name": "´ò¿ª",
             "image": "/img/edit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.filecabinet.OpenDocuACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,
             "style": "normal",
-            "editorAssemblyId": "163dde68aa2",
-            "editorAssemblyEditable": true,
+            "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "edit"
+            "type": "customized"
           },
           {
             "id": "15ce2ecf5c2",

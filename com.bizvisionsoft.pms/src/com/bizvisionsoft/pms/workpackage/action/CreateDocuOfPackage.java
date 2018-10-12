@@ -100,12 +100,15 @@ public class CreateDocuOfPackage {
 				.setFolder_id(ds.getFolder_id())//
 				.setName(wp.description)//
 				.setTag(dt.getTag())//
-				.setCategory(dt.getCategory());// 需要复制
-
+				.setCategory(dt.getCategory());//
+		
 		String editorName = dt.getEditorName();
 		if (Check.isAssigned(editorName)) {
+			docu.setEditorName(editorName);//保存编辑器名称
 			Document encodeDocument = docu.encodeDocument();
 			Editor.open(editorName, context, encodeDocument, true, (r, t) -> {
+				String id = docu.generateId();
+				t.append("id", id);
 				insert(gridPart, t);
 			});
 		} else {
@@ -134,6 +137,7 @@ public class CreateDocuOfPackage {
 					.addWorkPackageId(wp.get_id())//
 					.setFolder_id(((Folder) em.get(0)).get_id())//
 					.setName(wp.description);
+
 			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
 				gridPart.insert(Services.get(DocumentService.class).createDocument(t));
 			});
