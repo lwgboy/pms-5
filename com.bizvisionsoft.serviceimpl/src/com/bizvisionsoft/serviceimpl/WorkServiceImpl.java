@@ -1150,7 +1150,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	/**
-	 * 获取当前用户作为项目团队PMO成员的项目编号
+	 * 获取当前用户所能看到的项目id。
 	 * 
 	 * @param userid
 	 * @return

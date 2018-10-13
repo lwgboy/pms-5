@@ -204,7 +204,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	}
 
 	@Override
-	public List<Organization> createProjectBuilderDataSet(BasicDBObject condition) {
+	public List<Organization> listQualifiedContractor(BasicDBObject condition) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -215,7 +215,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	}
 
 	@Override
-	public long countProjectBuilder(BasicDBObject filter) {
+	public long countQualifiedContractor(BasicDBObject filter) {
 		if (filter == null)
 			filter = new BasicDBObject();
 		filter.append("qualifiedContractor", true);

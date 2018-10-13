@@ -1271,7 +1271,7 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized",
-            "role": "财务管理#项目总监"
+            "role": "财务经理#财务管理#项目总监"
           },
           {
             "id": "163e433adcb",
@@ -1339,7 +1339,7 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "switch",
-            "role": "供应链管理#项目总监"
+            "role": "供应链经理#供应链管理#项目总监"
           },
           {
             "id": "161989cc03c",
@@ -1353,7 +1353,7 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "switch",
-            "role": "制造管理#项目总监"
+            "role": "制造经理#制造管理#项目总监"
           },
           {
             "id": "16406dea820",
@@ -37166,7 +37166,8 @@
         "gridPageControl": true,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
-        "gridDataSetBundleId": "com.bizvisionsoft.pms",
+        "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridDataSetBundleId": "",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
         "gridPageCount": 0,
         "columns": [
@@ -38938,6 +38939,7 @@
         "gridPageControl": true,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
+        "gridDataSetService": "",
         "gridDataSetBundleId": "com.bizvisionsoft.pms",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
         "gridPageCount": 0,

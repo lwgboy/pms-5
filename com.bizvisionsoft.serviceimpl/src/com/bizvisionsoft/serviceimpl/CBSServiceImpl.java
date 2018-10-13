@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.model.CBSSubject;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -383,12 +384,18 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public List<CBSItem> listProjectCost(BasicDBObject condition) {
+	public List<CBSItem> listProjectCost(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
+		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
+		}
+
+		// TODO 需检查是否可以进行用户并写成JS
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
@@ -414,6 +421,24 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.limit(limit));
 
 		return c(CBSItem.class).aggregate(pipeline).into(new ArrayList<CBSItem>());
+	}
+
+	/**
+	 * 获取当前用户作为项目团队PMO成员的cbs_id
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	private List<ObjectId> getUserInPMOCBSId(String userid) {
+		List<ObjectId> result = new ArrayList<ObjectId>();
+		// 获取用户在項目PMO团队中的项目id
+		List<Bson> pipeline = new JQ("查询-项目PMO成员").set("userId", userid).array();
+		pipeline.add(Aggregates.project(new BasicDBObject("cbs_id", true)));
+		c("project").aggregate(pipeline).forEach((Document doc) -> {
+			result.add(doc.getObjectId("cbs_id"));
+		});
+		;
+		return result;
 	}
 
 	@Override
@@ -460,8 +485,14 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public long countProjectCost(BasicDBObject filter) {
+	public long countProjectCost(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
+		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
+		}
+
+		// TODO 需检查是否可以进行用户并写成JS
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));

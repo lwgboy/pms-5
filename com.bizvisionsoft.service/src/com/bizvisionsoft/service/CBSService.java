@@ -111,7 +111,7 @@ public interface CBSService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
 	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-	
+
 	@PUT
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
@@ -164,22 +164,27 @@ public interface CBSService {
 			@PathParam("project_id") ObjectId project_id);
 
 	@POST
-	@Path("/projectcost/ds")
+	@Path("/projectcost/userId/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<CBSItem> listProjectCost(BasicDBObject condition);
+	@DataSet({ "成本管理/" + DataSet.LIST })
+	public List<CBSItem> listProjectCost(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
-	@Path("/projectcostanalysis/ds")
+	@Path("/projectcostanalysis/userId/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<CBSItem> listProjectCostAnalysis(BasicDBObject condition);
+	@DataSet({ "预算成本对比分析/" + DataSet.LIST })
+	public List<CBSItem> listProjectCostAnalysis(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@POST
-	@Path("/projectcost/count")
+	@Path("/projectcost/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countProjectCost(BasicDBObject filter);
+	@DataSet( "成本管理/" + DataSet.COUNT)
+	public long countProjectCost(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@GET
 	@Path("/settlementdate/{scope_id}")

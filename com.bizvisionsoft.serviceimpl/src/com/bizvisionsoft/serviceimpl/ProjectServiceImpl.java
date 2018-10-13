@@ -1565,6 +1565,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return count(filter);
 	}
 
+	/**
+	 * 获取所有项目，当用户具有项目总监、供应链管理、财务管理、制造管理角色时，显示全部项目信息，否则只显示当前用户作为项目PMO团队成员的项目
+	 */
 	@Override
 	public List<Project> listAllProjects(BasicDBObject condition, String userid) {
 		Integer skip = (Integer) condition.get("skip");
@@ -1578,7 +1581,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 检查当前用户是否显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userid, Role.SYS_ROLES)) {
-			appendQueryUser(pipeline, userid);
+			appendQueryUserInProjectPMO(pipeline, userid);
 		}
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
@@ -1586,6 +1589,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
+	/**
+	 * 获取所有项目数，当用户具有项目总监、供应链管理、财务管理、制造管理角色时，显示全部项目数，否则只显示当前用户作为项目PMO团队成员的项目数
+	 */
 	@Override
 	public long countAllProjects(BasicDBObject filter, String userid) {
 		// 如果当前用户具有显示全部项目的权限，则范围项目总数
@@ -1594,7 +1600,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数
 		List<Bson> pipeline = new ArrayList<Bson>();
-		appendQueryUser(pipeline, userid);
+		appendQueryUserInProjectPMO(pipeline, userid);
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
@@ -1603,7 +1609,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return super.schedule(_id);
 	}
 
-	private void appendQueryUser(List<Bson> pipeline, String userid) {
+	/**
+	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
+	 * 
+	 * @param pipeline
+	 * @param userid
+	 */
+	private void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid) {
 		pipeline.addAll(new JQ("查询-项目PMO成员").set("userId", userid).array());
 	}
 
