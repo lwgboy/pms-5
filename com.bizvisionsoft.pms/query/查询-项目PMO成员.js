@@ -1,4 +1,3 @@
-/* TODO 缺少获取PMO团队下级角色和团队*/
 [ {
 	"$lookup" : {
 		"from" : "obs",
@@ -16,9 +15,35 @@
 				}
 			}
 		}, {
+			"$graphLookup" : {
+				"from" : "obs",
+				"startWith" : "$_id",
+				"connectFromField" : "_id",
+				"connectToField" : "parent_id",
+				"as" : "child"
+			}
+		}, {
+			"$unwind" : {
+				"path" : "$member",
+				"preserveNullAndEmptyArrays" : true
+			}
+		}, {
+			"$unwind" : {
+				"path" : "$child",
+				"preserveNullAndEmptyArrays" : true
+			}
+		},
+
+		{
 			"$project" : {
 				"userId" : {
 					"$concatArrays" : [ [ {
+						"$ifNull" : [ "$child.managerId", null ]
+					} ], {
+						"$ifNull" : [ "$child.member", [
+
+						] ]
+					}, [ {
 						"$ifNull" : [ "$managerId", null ]
 					} ], {
 						"$ifNull" : [ "$member", [
@@ -53,9 +78,8 @@
 	"$project" : {
 		"obs" : false
 	}
-}，, 
-{ 
-    "$match" : {
-        "obsUserId" : "<userId>"
-    }
+}, {
+	"$match" : {
+		"obsUserId" : "<userId>"
+	}
 } ]
