@@ -200,25 +200,26 @@ public interface CBSService {
 	public List<Result> submitCBSSubjectCost(Date id, @PathParam("scope_id") ObjectId scope_id);
 
 	@POST
-	@Path("/costcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/")
+	@Path("/costcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
-			@PathParam("year") String year);
+			@PathParam("year") String year, @PathParam("userId") String userId);
 
 	@POST
-	@Path("/periodcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{startPeriod}/{endPeriod}/")
+	@Path("/periodcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{startPeriod}/{endPeriod}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getPeriodCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
-			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod);
+			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod,
+			@PathParam("userId") String userId);
 
 	@POST
-	@Path("/monthcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/")
+	@Path("/monthcostcompositionanalysis/cbsscope_id/{cbsscope_id}/{year}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getMonthCostCompositionAnalysis(@PathParam("cbsscope_id") ObjectId cbsScope_id,
-			@PathParam("year") String year);
+			@PathParam("year") String year, @PathParam("userId") String userId);
 
 	@POST
 	@Path("/chart/cbsscope_id/{cbsscope_id}/monthlyBudgetAndCost")
@@ -229,36 +230,37 @@ public interface CBSService {
 			@PathParam("cbsscope_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId cbsScope_id);
 
 	@POST
-	@Path("/costcompositionanalysis/{year}/")
+	@Path("/costcompositionanalysis/{year}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getCostCompositionAnalysis(@PathParam("year") String year);
+	public Document getCostCompositionAnalysis(@PathParam("year") String year, @PathParam("userId") String userId);
 
 	@POST
-	@Path("/periodcostcompositionanalysis/{startPeriod}/{endPeriod}/")
+	@Path("/periodcostcompositionanalysis/{startPeriod}/{endPeriod}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getPeriodCostCompositionAnalysis(@PathParam("startPeriod") String startPeriod,
-			@PathParam("endPeriod") String endPeriod);
+			@PathParam("endPeriod") String endPeriod, @PathParam("userId") String userId);
 
 	@POST
-	@Path("/monthcostcompositionanalysis/{year}/")
+	@Path("/monthcostcompositionanalysis/{year}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthCostCompositionAnalysis(@PathParam("year") String year);
+	public Document getMonthCostCompositionAnalysis(@PathParam("year") String year, @PathParam("userId") String userId);
 
 	@POST
-	@Path("/cbssummart/{cbsscope_id}/{startPeriod}/{endPeriod}/")
+	@Path("/cbssummart/{cbsscope_id}/{startPeriod}/{endPeriod}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getCBSSummary(@PathParam("cbsscope_id") ObjectId cbsScope_id,
-			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod);
+			@PathParam("startPeriod") String startPeriod, @PathParam("endPeriod") String endPeriod,
+			@PathParam("userId") String userId);
 
 	@POST
-	@Path("/cbssummart/{startPeriod}/{endPeriod}/")
+	@Path("/cbssummart/{startPeriod}/{endPeriod}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getCBSSummary(@PathParam("startPeriod") String startPeriod,
-			@PathParam("endPeriod") String endPeriod);
+			@PathParam("endPeriod") String endPeriod, @PathParam("userId") String userId);
 
 }

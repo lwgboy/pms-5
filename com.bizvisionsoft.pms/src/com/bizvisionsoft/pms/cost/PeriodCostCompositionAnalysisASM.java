@@ -90,11 +90,13 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
+		String userId = bruiService.getCurrentUserId();
 		if (cbsScope_id != null) {
-			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod);
+			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod, userId);
 		} else {
 			// TODO 增加用户角色判断
-			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
+			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod,
+					userId);
 		}
 	}
 

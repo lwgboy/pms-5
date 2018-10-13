@@ -57,7 +57,8 @@ public class SetSearchCBSPeriodByAnalysisACT {
 				}
 			}
 
-			Document doc = Services.get(CBSService.class).getCBSSummary(startPeriod, endPeriod);
+			Document doc = Services.get(CBSService.class).getCBSSummary(startPeriod, endPeriod,
+					bruiService.getCurrentUserId());
 
 			GridColumn[] columns = viewer.getGrid().getColumns();
 			GridViewerColumn vcol;

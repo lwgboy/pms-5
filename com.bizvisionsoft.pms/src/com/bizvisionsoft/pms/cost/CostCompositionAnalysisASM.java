@@ -67,11 +67,12 @@ public class CostCompositionAnalysisASM extends AbstractChartASM {
 
 	public Document getOptionDocument() {
 		Document option;
+		String userId = bruiService.getCurrentUserId();
 		if (cbsScope_id != null) {
-			option = Services.get(CBSService.class).getCostCompositionAnalysis(cbsScope_id, year);
+			option = Services.get(CBSService.class).getCostCompositionAnalysis(cbsScope_id, year, userId);
 		} else {
-			// TODO 增加用户角色判断
-			option = Services.get(CBSService.class).getCostCompositionAnalysis(year);
+			// 增加用户角色判断
+			option = Services.get(CBSService.class).getCostCompositionAnalysis(year, userId);
 		}
 		return option;
 	}

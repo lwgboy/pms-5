@@ -64,11 +64,12 @@ public class MonthCostCompositionAnalysisASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
+		String userId = bruiService.getCurrentUserId();
 		if (cbsScope_id != null) {
-			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(cbsScope_id, year);
+			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(cbsScope_id, year, userId);
 		} else {
-			// TODO 增加用户角色判断
-			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(year);
+			// 增加用户角色判断
+			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(year, userId);
 		}
 	}
 

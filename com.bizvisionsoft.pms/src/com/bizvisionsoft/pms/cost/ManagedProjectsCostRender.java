@@ -82,10 +82,11 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 		result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
 
+		String userId = bruiService.getCurrentUserId();
 		if (scope_id != null)
-			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result);
+			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result,userId);
 		else
-			doc = Services.get(CBSService.class).getCBSSummary(result, result);
+			doc = Services.get(CBSService.class).getCBSSummary(result, result,userId);
 	}
 
 	@Override

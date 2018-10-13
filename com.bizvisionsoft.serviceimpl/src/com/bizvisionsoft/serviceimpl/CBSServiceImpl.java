@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
@@ -395,7 +397,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
-		// TODO 需检查是否可以进行用户并写成JS
+		// TODO JS查询获取
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
@@ -453,7 +455,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
-		// TODO 需检查是否可以进行用户并写成JS
+		// TODO JS查询获取
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
@@ -498,7 +500,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
-		// TODO 需检查是否可以进行用户并写成JS
+		// TODO JS查询获取
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));
@@ -559,13 +561,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
+	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year, String userId) {
 
 		Document cbsSubjectMatch = new Document();
-		if (cbsScope_id != null)
-			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id)));
+		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
 
-		// TODO JsonArray查询获取
+		// TODO JS查询获取
 		List<? extends Bson> pipeline = Arrays.asList(
 				new Document("$lookup",
 						new Document("from", "cbsSubject")
@@ -616,7 +617,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod) {
+	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod,
+			String userId) {
 		String title;
 		if (startPeriod.equals(endPeriod)) {
 			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6))
@@ -627,8 +629,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		}
 
 		Document cbsSubjectMatch = new Document();
-		if (cbsScope_id != null)
-			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id)));
+		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
 
 		List<? extends Bson> pipeline = Arrays.asList(
 				new Document("$lookup",
@@ -686,8 +687,9 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		String year = new SimpleDateFormat("yyyy").format(new Date());
 
 		Document cbsSubjectMatch = new Document();
+		// TODO 需要修改其进行用户权限判断
 		if (cbsScope_id != null)
-			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id)));
+			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, null)));
 
 		List<? extends Bson> pipeline = Arrays.asList(
 				new Document("$lookup",
@@ -748,13 +750,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Document getMonthCostCompositionAnalysis(ObjectId cbsScope_id, String year) {
+	public Document getMonthCostCompositionAnalysis(ObjectId cbsScope_id, String year, String userId) {
 
 		Document cbsSubjectMatch = new Document();
-		if (cbsScope_id != null)
-			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id)));
+		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
 
-		// TODO JsonArray查询获取
+		// TODO JS查询获取
 		List<? extends Bson> pipeline = Arrays.asList(
 				new Document("$lookup",
 						new Document("from", "cbsSubject")
@@ -848,35 +849,70 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		return null;
 	}
 
-	private List<ObjectId> getCBSItemId(ObjectId cbsScope_id) {
-		List<ObjectId> cbsItem_id = c("cbs").distinct("_id", new Document("scope_id", cbsScope_id), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
-		cbsItem_id = getDesentItems(cbsItem_id, "cbs", "parent_id");
-		List<ObjectId> parent_ids = c("cbs").distinct("parent_id",
-				new Document("_id", new Document("$in", cbsItem_id)).append("parent_id", new Document("$ne", null)),
-				ObjectId.class).into(new ArrayList<ObjectId>());
-		cbsItem_id.removeAll(parent_ids);
-		return cbsItem_id;
+	/**
+	 * cbsScope_id不为空时，为取特定项目的CBS叶子节点Id。 userId不为空时是根据用户权限获取CBS叶子节点id，
+	 * cbsScope_id和userId都为空时，表示传入的数据有误，不获取任何CBS节点Id。
+	 * 
+	 * @param cbsScope_id
+	 * @param userId
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private List<ObjectId> getCBSItemId(ObjectId cbsScope_id, String userId) {
+		Set<ObjectId> result = new HashSet<ObjectId>();
+		// cbsScope_id不为空时，为取特定项目的CBS节点Id。userId不为空时是根据用户权限获取CBS节点id，cbsScope_id和userId都为空时，表示传入的数据有误，不获取任何CBS节点Id。
+		if (cbsScope_id == null && userId == null) {
+			return new ArrayList<ObjectId>();
+		} else if (cbsScope_id != null || checkUserRoles(userId, Role.SYS_ROLES)) {
+			List<Bson> pipeline = new ArrayList<>();
+
+			if (cbsScope_id != null)
+				pipeline.add(Aggregates.match(new BasicDBObject("scope_id", cbsScope_id)));
+
+			pipeline.addAll(new JQ("追加-CBS-CBS叶子节点ID").array());
+			pipeline.add(Aggregates.project(new BasicDBObject("cbsChild_id", true)));
+
+			c("obs").aggregate(pipeline).forEach((Document doc) -> {
+				Object cbsChild_ids = doc.get("cbsChild_id");
+				if (cbsChild_ids instanceof List<?>) {
+					result.addAll((List<ObjectId>) cbsChild_ids);
+				}
+			});
+		} else {
+			List<Bson> pipeline = new ArrayList<>();
+			pipeline.addAll(new JQ("查询-项目PMO成员").set("userId", userId).array());
+			pipeline.addAll(new JQ("追加-CBSScope-CBS叶子节点ID").array());
+			pipeline.add(Aggregates.project(new BasicDBObject("cbsChild_id", true)));
+			c("project").aggregate(pipeline).forEach((Document doc) -> {
+				Object cbsChild_ids = doc.get("cbsChild_id");
+				if (cbsChild_ids instanceof List<?>) {
+					result.addAll((List<ObjectId>) cbsChild_ids);
+				}
+			});
+		}
+
+		return new ArrayList<ObjectId>(result);
 	}
 
 	@Override
-	public Document getCostCompositionAnalysis(String year) {
-		return getCostCompositionAnalysis(null, year);
+	public Document getCostCompositionAnalysis(String year, String userId) {
+		return getCostCompositionAnalysis(null, year, userId);
 	}
 
 	@Override
-	public Document getPeriodCostCompositionAnalysis(String startPeriod, String endPeriod) {
-		return getPeriodCostCompositionAnalysis(null, startPeriod, endPeriod);
+	public Document getPeriodCostCompositionAnalysis(String startPeriod, String endPeriod, String userId) {
+		return getPeriodCostCompositionAnalysis(null, startPeriod, endPeriod, userId);
 	}
 
 	@Override
-	public Document getMonthCostCompositionAnalysis(String year) {
-		return getMonthCostCompositionAnalysis(null, year);
+	public Document getMonthCostCompositionAnalysis(String year, String userId) {
+		return getMonthCostCompositionAnalysis(null, year, userId);
 	}
 
 	@Override
-	public Document getCBSSummary(ObjectId cbsScope_id, String startPeriod, String endPeriod) {
-		List<ObjectId> cbsItemId = getCBSItemId(cbsScope_id);
+	public Document getCBSSummary(ObjectId cbsScope_id, String startPeriod, String endPeriod, String userId) {
+		List<ObjectId> cbsItemId = getCBSItemId(cbsScope_id, userId);
+		// TODO JS查询获取
 		List<? extends Bson> pipeline = Arrays.asList(
 				new Document("$match", new Document("_id",
 						new Document("$in", cbsItemId))),
@@ -938,63 +974,73 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public Document getCBSSummary(String startPeriod, String endPeriod) {
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document(
-								"from", "cbs")
-										.append("let",
-												new Document("parent_id", "$_id"))
-										.append("pipeline", Arrays.asList(
-												new Document("$match",
-														new Document("$expr", new Document("$and",
-																Arrays.asList(new Document("$eq",
-																		Arrays.asList("$parent_id", "$$parent_id")))))),
-												new Document("$count", "count")))
-										.append("as", "count")),
-				new Document("$unwind", new Document("path", "$count").append("preserveNullAndEmptyArrays", true)),
-				new Document("$match", new Document("count", null)),
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("cbsItem_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match",
-												new Document("$expr", new Document("$and",
-														Arrays.asList(new Document("$eq",
-																Arrays.asList("$cbsItem_id", "$$cbsItem_id")))))),
-										new Document("$group",
-												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget")))))
-								.append("as", "cbsSubject1")),
-				new Document("$unwind",
-						new Document("path", "$cbsSubject1").append("preserveNullAndEmptyArrays", true)),
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("cbsItem_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and",
-												Arrays.asList(
-														new Document("$eq",
-																Arrays.asList("$cbsItem_id", "$$cbsItem_id")),
-														new Document("$gte", Arrays.asList("$id", startPeriod)),
-														new Document("$lte", Arrays.asList("$id", endPeriod)))))),
-										new Document("$group",
-												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget")))))
-								.append("as", "cbsSubject2")),
-				new Document("$unwind",
-						new Document("path", "$cbsSubject2").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("totalCost", "$cbsSubject1.cost").append("totalBudget", "$cbsSubject1.budget")
-								.append("cost", "$cbsSubject2.cost").append("budget", "$cbsSubject2.budget")),
-				new Document("$group",
-						new Document("_id", null).append("totalCost", new Document("$sum", "$totalCost"))
-								.append("totalBudget", new Document("$sum", "$totalBudget"))
-								.append("cost", new Document("$sum", "$cost"))
-								.append("budget", new Document("$sum", "$budget"))));
-		return c("cbs").aggregate(pipeline).first();
+	public Document getCBSSummary(String startPeriod, String endPeriod, String userId) {
+		return getCBSSummary(null, startPeriod, endPeriod, userId);
+		// List<ObjectId> cbsItemId = getCBSItemId(null, userId);
+		// List<? extends Bson> pipeline = Arrays.asList(
+		// new Document("$match", new Document("_id",
+		// new Document("$in", cbsItemId))),
+		// new Document("$lookup",
+		// new Document(
+		// "from", "cbs")
+		// .append("let",
+		// new Document("parent_id", "$_id"))
+		// .append("pipeline", Arrays.asList(
+		// new Document("$match",
+		// new Document("$expr", new Document("$and",
+		// Arrays.asList(new Document("$eq",
+		// Arrays.asList("$parent_id", "$$parent_id")))))),
+		// new Document("$count", "count")))
+		// .append("as", "count")),
+		// new Document("$unwind", new Document("path",
+		// "$count").append("preserveNullAndEmptyArrays", true)),
+		// new Document("$match", new Document("count", null)),
+		// new Document("$lookup",
+		// new Document("from", "cbsSubject")
+		// .append("let",
+		// new Document("cbsItem_id", "$_id"))
+		// .append("pipeline", Arrays.asList(
+		// new Document("$match",
+		// new Document("$expr", new Document("$and",
+		// Arrays.asList(new Document("$eq",
+		// Arrays.asList("$cbsItem_id", "$$cbsItem_id")))))),
+		// new Document("$group",
+		// new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+		// .append("budget", new Document("$sum", "$budget")))))
+		// .append("as", "cbsSubject1")),
+		// new Document("$unwind",
+		// new Document("path", "$cbsSubject1").append("preserveNullAndEmptyArrays",
+		// true)),
+		// new Document("$lookup",
+		// new Document("from", "cbsSubject")
+		// .append("let",
+		// new Document("cbsItem_id", "$_id"))
+		// .append("pipeline", Arrays.asList(
+		// new Document("$match", new Document("$expr", new Document("$and",
+		// Arrays.asList(
+		// new Document("$eq",
+		// Arrays.asList("$cbsItem_id", "$$cbsItem_id")),
+		// new Document("$gte", Arrays.asList("$id", startPeriod)),
+		// new Document("$lte", Arrays.asList("$id", endPeriod)))))),
+		// new Document("$group",
+		// new Document("_id", null).append("cost", new Document("$sum", "$cost"))
+		// .append("budget", new Document("$sum", "$budget")))))
+		// .append("as", "cbsSubject2")),
+		// new Document("$unwind",
+		// new Document("path", "$cbsSubject2").append("preserveNullAndEmptyArrays",
+		// true)),
+		// new Document("$addFields",
+		// new Document("totalCost", "$cbsSubject1.cost").append("totalBudget",
+		// "$cbsSubject1.budget")
+		// .append("cost", "$cbsSubject2.cost").append("budget",
+		// "$cbsSubject2.budget")),
+		// new Document("$group",
+		// new Document("_id", null).append("totalCost", new Document("$sum",
+		// "$totalCost"))
+		// .append("totalBudget", new Document("$sum", "$totalBudget"))
+		// .append("cost", new Document("$sum", "$cost"))
+		// .append("budget", new Document("$sum", "$budget"))));
+		// return c("cbs").aggregate(pipeline).first();
 	}
 
 	@Override
