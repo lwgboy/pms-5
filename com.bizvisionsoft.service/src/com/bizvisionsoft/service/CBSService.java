@@ -176,13 +176,14 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "预算成本对比分析/" + DataSet.LIST })
-	public List<CBSItem> listProjectCostAnalysis(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<CBSItem> listProjectCostAnalysis(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
 	@Path("/projectcost/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet( "成本管理/" + DataSet.COUNT)
+	@DataSet({ "成本管理/" + DataSet.COUNT, "预算成本对比分析/" + DataSet.COUNT })
 	public long countProjectCost(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 

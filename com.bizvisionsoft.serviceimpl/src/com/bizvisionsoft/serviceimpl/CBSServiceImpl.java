@@ -442,12 +442,18 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
-	public List<CBSItem> listProjectCostAnalysis(BasicDBObject condition) {
+	public List<CBSItem> listProjectCostAnalysis(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
+		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
+		}
+
+		// TODO 需检查是否可以进行用户并写成JS
 		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
 				.append("foreignField", "cbs_id").append("as", "project")));
 		pipeline.add(new Document("$unwind", "$project"));

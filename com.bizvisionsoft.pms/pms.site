@@ -38939,8 +38939,8 @@
         "gridPageControl": true,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
-        "gridDataSetService": "",
-        "gridDataSetBundleId": "com.bizvisionsoft.pms",
+        "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+        "gridDataSetBundleId": "",
         "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
         "gridPageCount": 0,
         "columns": [
