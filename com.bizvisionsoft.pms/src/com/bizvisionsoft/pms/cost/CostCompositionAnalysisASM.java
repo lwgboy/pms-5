@@ -70,6 +70,7 @@ public class CostCompositionAnalysisASM extends AbstractChartASM {
 		if (cbsScope_id != null) {
 			option = Services.get(CBSService.class).getCostCompositionAnalysis(cbsScope_id, year);
 		} else {
+			// TODO 增加用户角色判断
 			option = Services.get(CBSService.class).getCostCompositionAnalysis(year);
 		}
 		return option;

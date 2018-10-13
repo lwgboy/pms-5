@@ -93,6 +93,7 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 		if (cbsScope_id != null) {
 			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod);
 		} else {
+			// TODO 增加用户角色判断
 			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod);
 		}
 	}

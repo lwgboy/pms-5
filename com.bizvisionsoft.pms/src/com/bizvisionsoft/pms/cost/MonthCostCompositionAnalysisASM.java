@@ -67,6 +67,7 @@ public class MonthCostCompositionAnalysisASM extends AbstractChartASM {
 		if (cbsScope_id != null) {
 			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(cbsScope_id, year);
 		} else {
+			// TODO 增加用户角色判断
 			return Services.get(CBSService.class).getMonthCostCompositionAnalysis(year);
 		}
 	}
