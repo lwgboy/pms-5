@@ -37168,7 +37168,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridDataSetBundleId": "",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
@@ -38941,7 +38941,7 @@
         "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridDataSetBundleId": "",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
