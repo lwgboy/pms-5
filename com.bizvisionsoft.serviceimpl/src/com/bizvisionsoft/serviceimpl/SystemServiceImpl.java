@@ -10,6 +10,7 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.Backup;
+import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -146,6 +147,41 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	@Override
 	public void deleteClientSetting(String userId, String clientId, String name) {
 		c("clientSetting").deleteMany(new Document("userId", userId).append("clientId", clientId).append("name", name));
+	}
+
+	@Override
+	public void updatePMO() {
+		// 1.添加词典（注意名称重复）
+		insertDictionary("角色名称", "PMO", "项目管理组");
+		insertDictionary("功能角色", "项目总监", "项目总监");
+		insertDictionary("功能角色", "项目管理员", "项目管理员");
+		insertDictionary("功能角色", "供应链管理", "供应链管理");
+		insertDictionary("功能角色", "供应链经理", "供应链经理");
+		insertDictionary("功能角色", "制造管理", "制造管理");
+		insertDictionary("功能角色", "制造经理", "制造经理");
+		insertDictionary("功能角色", "成本管理", "成本管理");
+		insertDictionary("功能角色", "财务经理", "财务经理");
+
+		// 2.修改组织里面的qualifiedContractor 原：projectBuilder
+		c("organization").updateMany(new Document("projectBuilder", new Document("$ne", null)),
+				new Document("$rename", new Document("projectBuilder", "qualifiedContractor")));
+		// 3.历史项目添加PMO
+		List<OBSItem> insertOBSItem = new ArrayList<OBSItem>();
+
+		c("project").find().projection(new Document("_id", true).append("obs_id", true)).forEach((Document doc) -> {
+			insertOBSItem.add(new OBSItem().setIsRole(false).generateSeq().setRoleId("PMO").setName("项目管理组")
+					.setScopeRoot(false).setParent_id(doc.getObjectId("obs_id")).setScope_id(doc.getObjectId("_id")));
+		});
+
+		if (insertOBSItem.size() > 0)
+			c(OBSItem.class).insertMany(insertOBSItem);
+	}
+
+	private void insertDictionary(String type, String id, String name) {
+		try {
+			c("dictionary").insertOne(new Document("type", type).append("id", id).append("name", name));
+		} catch (Exception e) {
+		}
 	}
 
 }

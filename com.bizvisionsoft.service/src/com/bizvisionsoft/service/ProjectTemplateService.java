@@ -370,4 +370,10 @@ public interface ProjectTemplateService {
 	@DataSet("组织模板选择器列表/" + DataSet.LIST)
 	public List<OBSModule> listOBSModuleSelector(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+
+	@POST
+	@Path("/obsModule/{template_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void TemplateOBSSaveAsOBSModule(OBSModule obsModule, @PathParam("template_id") ObjectId template_id);
 }

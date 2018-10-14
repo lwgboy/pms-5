@@ -804,6 +804,20 @@
                 "objectBehavier": false,
                 "actionBehavier": false,
                 "type": "customized"
+              },
+              {
+                "id": "16672d567ef",
+                "name": "更新项目管理组",
+                "text": "更新项目管理组",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.UpdatePMOACT",
+                "openContent": false,
+                "propagate": false,
+                "forceText": true,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized"
               }
             ],
             "editorAssemblyEditable": false,
@@ -37607,7 +37621,23 @@
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "166731dbebf",
+            "name": "另存为组织模板",
+            "text": "另存为组织模板",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projecttemplate.SaveAsOBSModuleACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [
           {
             "id": "162e1f767ff",

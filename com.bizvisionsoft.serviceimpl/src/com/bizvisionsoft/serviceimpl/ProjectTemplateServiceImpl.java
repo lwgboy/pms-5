@@ -434,11 +434,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					ObjectId newWorkPackage_id = workPackageMap.get(oldWorkPackage_id);
 					ObjectId oldFolderId = d.getObjectId("folderInTemplate_id");
 					ObjectId newWFolder_id = folderIdMap.get(oldFolderId);
-					
+
 					d.append("_id", new ObjectId())//
-					.append("workPackage_id", newWorkPackage_id)//
-					.append("folder_id", newWFolder_id)//
-					.remove("folderInTemplate_id");
+							.append("workPackage_id", newWorkPackage_id)//
+							.append("folder_id", newWFolder_id)//
+							.remove("folderInTemplate_id");
 					tobeInsert.add(d);
 				});
 		if (!tobeInsert.isEmpty()) {
@@ -667,6 +667,38 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		filter.put("eps_id", eps_id);
 
 		return createDataSet(condition, OBSModule.class);
+	}
+
+	@Override
+	public void TemplateOBSSaveAsOBSModule(OBSModule obsModule, ObjectId template_id) {
+		// 1.创建组织模板，
+		obsModule = insert(obsModule);
+		ObjectId scope_id = obsModule.get_id();
+		OBSInTemplate rootOBS = createRootOBS(scope_id);
+
+		// 2.将项目模板的组织结构复制到组织模板中
+		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
+		List<Document> tobeInsert = new ArrayList<>();
+
+		// 创建组织结构
+		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					// 建立项目团队上下级关系
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), rootOBS.get_id());
+					} else {
+						ObjectId _id = new ObjectId();
+						idMap.put(doc.getObjectId("_id"), _id);
+						doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", idMap.get(parent_id));
+						tobeInsert.add(doc);
+					}
+
+				});
+		// 插入组织模板
+		if (!tobeInsert.isEmpty()) {
+			c("obsInTemplate").insertMany(tobeInsert);
+		}
 	}
 
 }

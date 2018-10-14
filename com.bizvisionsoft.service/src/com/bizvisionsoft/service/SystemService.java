@@ -76,7 +76,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void deleteClientSetting(@PathParam("clientId") String clientId, @PathParam("name") String name);
-	
+
 	@DELETE
 	@Path("/clientSetting/{clientId}")
 	@Consumes("application/json; charset=UTF-8")
@@ -89,5 +89,11 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	public void deleteClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
 			@PathParam("name") String name);
+
+	@POST
+	@Path("/updatePMO/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updatePMO();
 
 }
