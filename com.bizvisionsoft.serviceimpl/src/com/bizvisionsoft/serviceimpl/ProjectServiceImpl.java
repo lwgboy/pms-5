@@ -1594,8 +1594,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		// 检查当前用户是否显示全部，不显示全部时，加载PMO团队查询
-		if (!checkUserRoles(userid, Role.SYS_ROLES)) {
+		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
+		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID)) {
 			appendQueryUserInProjectPMO(pipeline, userid);
 		}
 
@@ -1609,8 +1609,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	 */
 	@Override
 	public long countAllProjects(BasicDBObject filter, String userid) {
-		// 如果当前用户具有显示全部项目的权限，则范围项目总数
-		if (checkUserRoles(userid, Role.SYS_ROLES)) {
+		// 如果当前用户具有项目总监的权限时，则全部项目总数
+		if (checkUserRoles(userid, Role.SYS_ROLE_PD_ID)) {
 			return count(filter);
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数

@@ -392,8 +392,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+		// 当前用户具有财务管理权限时显示全部，否则只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -450,8 +450,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+		// 当前用户具有财务管理权限时显示全部，否则只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -495,8 +495,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public long countProjectCost(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		// 当前用户不在系统角色中时，只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLES)) {
+		// 当前用户具有财务管理权限时，只显示其在pmo团队中的成本信息
+		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -861,9 +861,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	private List<ObjectId> getCBSItemId(ObjectId cbsScope_id, String userId) {
 		Set<ObjectId> result = new HashSet<ObjectId>();
 		// cbsScope_id不为空时，为取特定项目的CBS节点Id。userId不为空时是根据用户权限获取CBS节点id，cbsScope_id和userId都为空时，表示传入的数据有误，不获取任何CBS节点Id。
+		//TODO 根据修改后的查询-项目PMO成员.js else 可以继续优化进行合并，
 		if (cbsScope_id == null && userId == null) {
 			return new ArrayList<ObjectId>();
-		} else if (cbsScope_id != null || checkUserRoles(userId, Role.SYS_ROLES)) {
+		} else if (cbsScope_id != null || checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
 			List<Bson> pipeline = new ArrayList<>();
 
 			if (cbsScope_id != null)
@@ -872,7 +873,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			pipeline.addAll(new JQ("追加-CBS-CBS叶子节点ID").array());
 			pipeline.add(Aggregates.project(new BasicDBObject("cbsChild_id", true)));
 
-			c("obs").aggregate(pipeline).forEach((Document doc) -> {
+			c("cbs").aggregate(pipeline).forEach((Document doc) -> {
 				Object cbsChild_ids = doc.get("cbsChild_id");
 				if (cbsChild_ids instanceof List<?>) {
 					result.addAll((List<ObjectId>) cbsChild_ids);

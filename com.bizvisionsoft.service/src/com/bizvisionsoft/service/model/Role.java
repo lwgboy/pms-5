@@ -18,17 +18,41 @@ import com.bizvisionsoft.service.ServicesLoader;
 @PersistenceCollection("role")
 public class Role {
 
+	/**
+	 * 项目总监
+	 */
+	@Exclude
 	public static String SYS_ROLE_PD_ID = "项目总监";
 
+	/**
+	 * 供应链管理
+	 */
+	@Exclude
 	public static String SYS_ROLE_SCM_ID = "供应链管理";
 
+	/**
+	 * 财务管理
+	 */
+	@Exclude
 	public static String SYS_ROLE_FM_ID = "财务管理";
 
+	/**
+	 * 制造管理
+	 */
+	@Exclude
 	public static String SYS_ROLE_MM_ID = "制造管理";
 
+	/**
+	 * 包含：项目总监、供应链管理、财务管理、制造管理
+	 */
+	@Exclude
 	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID,
 			SYS_ROLE_MM_ID);
 
+	/**
+	 * PMO
+	 */
+	@Exclude
 	public static String SYS_ROLE_PMO_ID = "PMO";
 
 	@ReadValue

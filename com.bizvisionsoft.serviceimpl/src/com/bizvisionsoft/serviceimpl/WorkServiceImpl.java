@@ -34,6 +34,7 @@ import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Role;
+import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.UpdateWorkPackages;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
@@ -1105,8 +1106,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
-		// 判断是否只获取用户在項目PMO团队中的工作信息
-		if (!checkUserRoles(userid, Role.SYS_ROLES))
+		// 获取生产工作情况时，如果用户具有制造管理权限时，只显示全部项目的的生产工作；获取采购工作情况时，如果用户具有供应链管理权限时，只显示全部项目的的采购工作；其它情况时显示当前用户在项目PMO团队中的项目的工作
+		if (!((TrackView.CATAGORY_PRODUCTION.equals(catagory) && checkUserRoles(userid, Role.SYS_ROLE_MM_ID))
+				|| (TrackView.CATAGORY_PURCHASE.equals(catagory) && checkUserRoles(userid, Role.SYS_ROLE_SCM_ID))))
 			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
 
 		appendProject(pipeline);
@@ -1152,19 +1154,26 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long countWorkPackageForSchedule(BasicDBObject filter, String userid, String catagory) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-		// 根据传入的filter构造查询
-		if (filter != null) {
-			pipeline.add(Aggregates.match(filter));
-		}
-		// 构造默认类型查询
-		pipeline.add(Aggregates.match(new BasicDBObject("workPackageSetting.catagory", catagory)));
+		// 获取生产工作情况时，如果用户具有制造管理权限时，只显示全部项目的的生产工作；获取采购工作情况时，如果用户具有供应链管理权限时，只显示全部项目的的采购工作；其它情况时显示当前用户在项目PMO团队中的项目的工作
+		if ((TrackView.CATAGORY_PRODUCTION.equals(catagory) && checkUserRoles(userid, Role.SYS_ROLE_MM_ID))
+				|| (TrackView.CATAGORY_PURCHASE.equals(catagory) && checkUserRoles(userid, Role.SYS_ROLE_SCM_ID))) {
+			if (filter == null)
+				filter = new BasicDBObject();
 
-		// 判断是否只获取用户在項目PMO团队中的工作信息
-		if (!checkUserRoles(userid, Role.SYS_ROLES))
+			filter.append("workPackageSetting.catagory", catagory);
+			return c("work").countDocuments(filter);
+		} else {
+			List<Bson> pipeline = new ArrayList<Bson>();
+			// 根据传入的filter构造查询
+			if (filter != null)
+				pipeline.add(Aggregates.match(filter));
+
+			// 构造默认类型查询
+			pipeline.add(Aggregates.match(new BasicDBObject("workPackageSetting.catagory", catagory)));
+
 			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
-
-		return c("work").aggregate(pipeline).into(new ArrayList<>()).size();
+			return c("work").aggregate(pipeline).into(new ArrayList<>()).size();
+		}
 	}
 
 	@Override

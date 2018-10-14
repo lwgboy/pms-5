@@ -817,8 +817,10 @@ public class BasicServiceImpl {
 	/**
 	 * 检查当前用户是否具有某些角色
 	 * 
-	 * @param userid 用户编号
-	 * @param roles 角色
+	 * @param userid
+	 *            用户编号
+	 * @param roles
+	 *            角色
 	 * @return
 	 */
 	protected boolean checkUserRoles(String userid, List<String> roles) {
@@ -827,4 +829,16 @@ public class BasicServiceImpl {
 				.countDocuments(new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", roles))) > 0;
 	}
 
+	/**
+	 * 检查当前用户是否具有某角色
+	 * 
+	 * @param userid
+	 *            用户编号
+	 * @param role
+	 *            角色
+	 * @return
+	 */
+	protected boolean checkUserRoles(String userid, String role) {
+		return checkUserRoles(userid, Arrays.asList(role));
+	}
 }

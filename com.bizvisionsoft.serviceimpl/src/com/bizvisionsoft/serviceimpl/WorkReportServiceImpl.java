@@ -563,10 +563,12 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public long countAllWorkReportDailyDataSet(BasicDBObject filter, String userid) {
-		if (checkUserRoles(userid, Role.SYS_ROLES))
+		// 如果用户具有项目总监权限时，显示全部已确认的项目日报
+		if (checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
 			return c("workReport").countDocuments(
 					new BasicDBObject("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
+			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目日报
 			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
 			pipeline.add(Aggregates
 					.match(new Document("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM)));
@@ -587,10 +589,12 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public long countAllWorkReportWeeklyDataSet(BasicDBObject filter, String userid) {
-		if (checkUserRoles(userid, Role.SYS_ROLES))
+		// 如果用户具有项目总监权限时，显示全部已确认的项目周报
+		if (checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
 			return c("workReport").countDocuments(
 					new BasicDBObject("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
+			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目周报
 			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
 			pipeline.add(Aggregates
 					.match(new Document("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM)));
@@ -612,10 +616,12 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public long countALLWorkReportMonthlyDataSet(BasicDBObject filter, String userid) {
-		if (checkUserRoles(userid, Role.SYS_ROLES))
+		// 如果用户具有项目总监权限时，显示全部已确认的项目月报
+		if (checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
 			return c("workReport").countDocuments(
 					new BasicDBObject("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
+			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目月报
 			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
 			pipeline.add(Aggregates
 					.match(new Document("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM)));
@@ -624,13 +630,13 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	/**
-	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
+	 * 添加获取项目时，当前用户不是项目总监时，只获取当前用户在项目PMO团队中的项目的查询
 	 * 
 	 * @param userid
 	 * @param pipeline
 	 */
 	private void appendQueryUserInProjectPMO(String userid, List<Bson> pipeline) {
-		if (!checkUserRoles(userid, Role.SYS_ROLES))
+		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
 			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
 	}
 
