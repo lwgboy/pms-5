@@ -68611,7 +68611,7 @@
           },
           {
             "id": "165c6934c39",
-            "name": "assemblyId",
+            "name": "editorName",
             "text": "表单名称",
             "type": "单行文本框",
             "formFields": [],
@@ -68755,7 +68755,7 @@
           },
           {
             "id": "165c6976307",
-            "name": "assemblyId",
+            "name": "editorName",
             "text": "表单名称",
             "alignment": 16384,
             "width": 120,
