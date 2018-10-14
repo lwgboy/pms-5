@@ -1287,6 +1287,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
+	public ProjectChange getProjectChange(ObjectId _id) {
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		pipeline.add(Aggregates.match(new BasicDBObject("_id", _id)));
+
+		pipeline.add(Aggregates.sort(new BasicDBObject("_id", -1)));
+
+		appendProject(pipeline);
+		appendUserInfo(pipeline, "applicant", "applicantInfo");
+		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
+
+		return c(ProjectChange.class).aggregate(pipeline).first();
+	}
+
+	@Override
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("_id", _id)));
@@ -1616,7 +1631,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	 * @param userid
 	 */
 	private void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid) {
-		pipeline.addAll(new JQ("查询-项目PMO成员").set("userId", userid).array());
+		pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userid).array());
 	}
 
 }

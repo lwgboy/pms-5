@@ -626,6 +626,27 @@
         "children": [],
         "name": "项目集管理",
         "id": "16548782113"
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "name": "日报管理",
+            "id": "1667192d628"
+          },
+          {
+            "children": [],
+            "name": "周报管理",
+            "id": "1667192db73"
+          },
+          {
+            "children": [],
+            "name": "月报管理",
+            "id": "1667192e0f2"
+          }
+        ],
+        "name": "报告管理",
+        "id": "1667192ce4c"
       }
     ],
     "name": "站点",
@@ -1221,6 +1242,56 @@
             "actionBehavier": false,
             "type": "switch",
             "role": ""
+          },
+          {
+            "id": "16671952577",
+            "name": "报告管理",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "children": [
+              {
+                "id": "16671956ac3",
+                "name": "日报管理",
+                "switchContentToAssemblyId": "166719362d0",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "16671956e49",
+                "name": "周报管理",
+                "switchContentToAssemblyId": "16671936e1b",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch"
+              },
+              {
+                "id": "166719572de",
+                "name": "月报管理",
+                "switchContentToAssemblyId": "166719377b2",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch"
+              }
+            ],
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "role": "项目管理员#项目总监"
           },
           {
             "id": "161989cc240",
@@ -4565,24 +4636,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "162bc86d42c",
-            "name": "查询用户",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "161fab27a2a",
@@ -8391,21 +8445,6 @@
         "gridAutoColumnWidth": true,
         "actions": [
           {
-            "id": "162b93f0d6f",
-            "name": "查询用户",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
-          {
             "id": "162b95296ab",
             "name": "添加用户",
             "image": "/img/add_16_w.svg",
@@ -9352,22 +9391,6 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
-            "id": "162bc86d42c",
-            "name": "查询账户",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
-          {
             "id": "162bc86d504",
             "name": "创建账户",
             "text": "创建账户",
@@ -10074,19 +10097,6 @@
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Certificate"
-          },
-          {
-            "id": "164254d04bc",
-            "name": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -11234,20 +11244,6 @@
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Equipment"
-          },
-          {
-            "id": "1646fbeb105",
-            "name": "查询设备设施",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -15246,21 +15242,6 @@
         "gridAutoColumnWidth": true,
         "actions": [
           {
-            "id": "162b93f0d6f",
-            "name": "查询用户",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
-          {
             "id": "162b95296ab",
             "name": "添加用户",
             "image": "/img/add_16_w.svg",
@@ -15619,23 +15600,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [
-          {
-            "id": "162b93f0d6f",
-            "name": "查询用户",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -18360,20 +18325,6 @@
         "gridAutoColumnWidth": true,
         "actions": [
           {
-            "id": "1632badb7a6",
-            "name": "查询干系人",
-            "text": "查询干系人",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
-          {
             "id": "1632b9071aa",
             "name": "创建干系人",
             "text": "创建干系人",
@@ -20354,21 +20305,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1632eb0c047",
@@ -20660,19 +20597,6 @@
         ],
         "gridAutoColumnWidth": false,
         "actions": [
-          {
-            "id": "163f7c3b20a",
-            "name": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
           {
             "id": "1653172b4d1",
             "name": "发送消息",
@@ -22197,21 +22121,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1636689b0b9",
-            "name": "查询工作",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "163682f31d3",
@@ -22665,21 +22575,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1636689b0b9",
-            "name": "查询工作",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -24584,23 +24480,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [
-          {
-            "id": "162b93f0d6f",
-            "name": "查询用户",
-            "image": "/img/search_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -32851,21 +32731,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "163870cdcf4",
-            "name": "查询采购计划",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "16385f8e0a3",
@@ -33489,21 +33355,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "163870d9788",
-            "name": "查询生产计划",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "16385f8e0a3",
@@ -34630,12 +34482,13 @@
           {
             "id": "16585f2683d",
             "name": "展开收起",
-            "image": "/img/setting_w.svg",
+            "text": "展开收起",
+            "image": "",
             "bundleId": "com.bizvisionsoft.bruiengine",
             "className": "com.bizvisionsoft.bruiengine.action.ExpandNCollapseGridTree",
             "openContent": false,
             "propagate": false,
-            "forceText": false,
+            "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
@@ -34903,22 +34756,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [
-          {
-            "id": "1632badb7a6",
-            "name": "查询干系人",
-            "text": "查询干系人",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -39383,20 +39221,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "163d9de279a",
-            "name": "查询",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -43980,20 +43804,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "1646fc1eeb0",
-            "name": "查询报告",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -44017,7 +43827,7 @@
             "text": "打开日报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -44027,7 +43837,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -45093,21 +44903,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1632eb0c047",
@@ -45438,20 +45234,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "1646fc249c5",
-            "name": "查询报告",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -45475,7 +45257,7 @@
             "text": "打开周报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -45485,7 +45267,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -45753,20 +45535,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
-          },
-          {
-            "id": "1646fc25e9e",
-            "name": "查询报告",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -45790,7 +45558,7 @@
             "text": "打开月报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -45800,7 +45568,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -46005,7 +45773,7 @@
             "text": "打开日报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -46015,7 +45783,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -46220,7 +45988,7 @@
             "text": "打开周报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -46230,7 +45998,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -46435,7 +46203,7 @@
             "text": "打开月报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -46445,7 +46213,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -47466,19 +47234,6 @@
         ],
         "gridAutoColumnWidth": true,
         "actions": [
-          {
-            "id": "1640e559a41",
-            "name": "查询",
-            "text": "查询",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          },
           {
             "id": "1640e55c415",
             "name": "授权组织",
@@ -49408,7 +49163,23 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [],
+        "actions": [
+          {
+            "id": "1667222de5f",
+            "name": "展开收起",
+            "text": "展开收起",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.action.ExpandNCollapseGridTree",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -49908,21 +49679,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1632eb0c047",
@@ -50105,21 +49862,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1632eb0c047",
@@ -50347,21 +50090,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1632eb0c047",
@@ -53626,6 +53355,8 @@
             "name": "打开变更",
             "text": "打开变更",
             "image": "/img/right.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projectchange.OpenProjectChangeACT",
             "switchContentToAssemblyId": "16445056fe8",
             "openContent": true,
             "propagate": false,
@@ -53635,7 +53366,9 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized",
+            "budgetBundleId": "",
+            "budgetClassName": ""
           }
         ],
         "borderTop": false,
@@ -55394,28 +55127,15 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1646ff3c33f",
-            "name": "查询项目变更",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "16445030a08",
             "name": "打开变更",
             "text": "打开变更",
             "image": "/img/right.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projectchange.OpenProjectChangeACT",
             "switchContentToAssemblyId": "16445056fe8",
             "openContent": true,
             "propagate": false,
@@ -55425,7 +55145,7 @@
             "editorAssemblyEditable": false,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -61362,21 +61082,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "16504ff9e32",
@@ -61776,22 +61482,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1646fc01233",
-            "name": "查询报告",
-            "text": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "163f2dc8560",
@@ -61799,7 +61490,7 @@
             "text": "打开日报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -61809,7 +61500,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch"
+            "type": "customized"
           }
         ],
         "borderTop": false,
@@ -62170,21 +61861,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1636689b0b9",
-            "name": "查询工作",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1646ae2ba7b",
@@ -64514,21 +64191,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "16524d3fb0d",
-            "name": "查询",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -65806,19 +65469,6 @@
             "type": "insert",
             "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Program"
-          },
-          {
-            "id": "1654bdfd04a",
-            "name": "查询项目集",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
           }
         ],
         "rowActions": [
@@ -66448,21 +66098,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1632f054ced",
-            "name": "查询项目",
-            "image": "/img/search_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "query"
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "16504ff9e32",
@@ -70908,6 +70544,822 @@
         "displayInputLabelInTitlebar": false,
         "displayRootInputLabelInTitlebar": false,
         "selectorGridAssemblyId": "166676422ac",
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false
+      },
+      {
+        "id": "166719362d0",
+        "name": "日报管理",
+        "description": "项目管理员和项目总监查看所管理的项目日报",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "日报管理",
+        "folderId": "1667192d628",
+        "gridAutoExpandLevel": -1,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": true,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": true,
+        "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163f29425a0",
+            "name": "period",
+            "text": "周期",
+            "alignment": 16777216,
+            "width": 140,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ca57",
+            "name": "projectInfo",
+            "text": "项目",
+            "alignment": 16384,
+            "width": 320,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ccad",
+            "name": "stageInfo",
+            "text": "阶段",
+            "alignment": 16777216,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297cd82",
+            "name": "reporterInfo",
+            "text": "报告人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ce3f",
+            "name": "reportDate",
+            "text": "报告时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298cb4c",
+            "name": "submitDate",
+            "text": "提交时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298c883",
+            "name": "verifierInfo",
+            "text": "确认人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f2990178",
+            "name": "verifyDate",
+            "text": "确认时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "1646fc30a1f",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1646fc30d5c",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "163f2dc8560",
+            "name": "打开日报",
+            "text": "打开日报",
+            "image": "/img/right.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+            "switchContentToAssemblyId": "163f33b563e",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "editorAssemblyId": "163f2d9d844",
+            "editorAssemblyEditable": true,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false
+      },
+      {
+        "id": "16671936e1b",
+        "name": "周报管理",
+        "description": "项目管理员和项目总监查看所管理的项目周报",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "周报管理",
+        "folderId": "1667192db73",
+        "gridAutoExpandLevel": -1,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": true,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": true,
+        "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163f29425a0",
+            "name": "period",
+            "text": "周期",
+            "alignment": 16777216,
+            "width": 140,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ca57",
+            "name": "projectInfo",
+            "text": "项目",
+            "alignment": 16384,
+            "width": 320,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ccad",
+            "name": "stageInfo",
+            "text": "阶段",
+            "alignment": 16777216,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297cd82",
+            "name": "reporterInfo",
+            "text": "报告人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ce3f",
+            "name": "reportDate",
+            "text": "报告时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298cb4c",
+            "name": "submitDate",
+            "text": "提交时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298c883",
+            "name": "verifierInfo",
+            "text": "确认人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f2990178",
+            "name": "verifyDate",
+            "text": "确认时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "1646fc32629",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1646fc32a5c",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "163f2dc8560",
+            "name": "打开周报",
+            "text": "打开周报",
+            "image": "/img/right.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+            "switchContentToAssemblyId": "163f33b563e",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "editorAssemblyId": "163f2d9d844",
+            "editorAssemblyEditable": true,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false
+      },
+      {
+        "id": "166719377b2",
+        "name": "月报管理",
+        "description": "项目管理员和项目总监查看所管理的项目月报",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "月报管理",
+        "folderId": "1667192e0f2",
+        "gridAutoExpandLevel": -1,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": true,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": true,
+        "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163f29425a0",
+            "name": "period",
+            "text": "周期",
+            "alignment": 16777216,
+            "width": 140,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ca57",
+            "name": "projectInfo",
+            "text": "项目",
+            "alignment": 16384,
+            "width": 320,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ccad",
+            "name": "stageInfo",
+            "text": "阶段",
+            "alignment": 16777216,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297cd82",
+            "name": "reporterInfo",
+            "text": "报告人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f297ce3f",
+            "name": "reportDate",
+            "text": "报告时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298cb4c",
+            "name": "submitDate",
+            "text": "提交时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f298c883",
+            "name": "verifierInfo",
+            "text": "确认人",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "163f2990178",
+            "name": "verifyDate",
+            "text": "确认时间",
+            "alignment": 16777216,
+            "width": 100,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "format": "yyyy-MM-dd",
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "1646fc33e9c",
+            "name": "projectInfo",
+            "text": "项目",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1646fc33f85",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "163f2dc8560",
+            "name": "打开月报",
+            "text": "打开月报",
+            "image": "/img/right.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+            "switchContentToAssemblyId": "163f33b563e",
+            "openContent": true,
+            "propagate": false,
+            "forceText": false,
+            "style": "",
+            "editorAssemblyId": "163f2d9d844",
+            "editorAssemblyEditable": true,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": false,

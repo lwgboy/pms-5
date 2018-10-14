@@ -1105,8 +1105,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
-		List<ObjectId> items = getUserProjectId(userid);
-		pipeline.add(Aggregates.match(new BasicDBObject("project_id", new BasicDBObject("$in", items))));
+		// 判断是否只获取用户在項目PMO团队中的工作信息
+		if (!checkUserRoles(userid, Role.SYS_ROLES))
+			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
 
 		appendProject(pipeline);
 
@@ -1149,36 +1150,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	/**
-	 * 获取当前用户所能看到的项目id。
-	 * 
-	 * @param userid
-	 * @return
-	 */
-	private List<ObjectId> getUserProjectId(String userid) {
-		final List<ObjectId> result = new ArrayList<ObjectId>();
-		// 判断是否显示全部，显示全部时，返回所有项目ID
-		if (checkUserRoles(userid, Role.SYS_ROLES))
-			result.addAll(c("project").distinct("_id", ObjectId.class).into(new ArrayList<ObjectId>()));
-		else {
-			// 获取用户在項目PMO团队中的项目id
-			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("userId", userid).array();
-			pipeline.add(Aggregates.project(new BasicDBObject("_id", true)));
-			c("project").aggregate(pipeline).forEach((Document doc) -> {
-				result.add(doc.getObjectId("_id"));
-			});
-			;
-		}
-		return result;
-	}
-
 	@Override
 	public long countWorkPackageForSchedule(BasicDBObject filter, String userid, String catagory) {
-		List<ObjectId> items = getUserProjectId(userid);
-		if (filter == null)
-			filter = new BasicDBObject();
-		return c("work").countDocuments(filter.append("workPackageSetting.catagory", catagory).append("project_id",
-				new BasicDBObject("$in", items)));
+		List<Bson> pipeline = new ArrayList<Bson>();
+		// 根据传入的filter构造查询
+		if (filter != null) {
+			pipeline.add(Aggregates.match(filter));
+		}
+		// 构造默认类型查询
+		pipeline.add(Aggregates.match(new BasicDBObject("workPackageSetting.catagory", catagory)));
+
+		// 判断是否只获取用户在項目PMO团队中的工作信息
+		if (!checkUserRoles(userid, Role.SYS_ROLES))
+			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
+
+		return c("work").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
