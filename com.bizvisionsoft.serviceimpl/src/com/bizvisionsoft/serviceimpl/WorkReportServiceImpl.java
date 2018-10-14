@@ -12,6 +12,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkReportSummary;
@@ -23,8 +24,9 @@ import com.mongodb.client.result.UpdateResult;
 
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
-	private List<WorkReport> query(BasicDBObject condition, Document match) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询-报告").set("match", match).array();
+	private List<WorkReport> query(BasicDBObject condition, List<Bson> pipeline) {
+		if (pipeline == null)
+			pipeline = new ArrayList<Bson>();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter != null)
@@ -45,8 +47,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReport> createWorkReportDailyDataSet(BasicDBObject condition, String userid) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY);
-		return query(condition, match);
+		return query(condition, new JQ("查询-报告")
+				.set("match", new Document("type", WorkReport.TYPE_DAILY).append("reporter", userid)).array());
 	}
 
 	@Override
@@ -62,8 +64,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReport> createWorkReportWeeklyDataSet(BasicDBObject condition, String userid) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY);
-		return query(condition, match);
+		return query(condition, (List<Bson>) new JQ("查询-报告")
+				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)).array());
 	}
 
 	@Override
@@ -79,8 +81,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 
 	@Override
 	public List<WorkReport> createWorkReportMonthlyDataSet(BasicDBObject condition, String userid) {
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY);
-		return query(condition, match);
+		return query(condition, (List<Bson>) new JQ("查询-报告")
+				.set("match", new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)).array());
 	}
 
 	@Override
@@ -97,9 +99,13 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectDailyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("type", WorkReport.TYPE_DAILY).append("project_id", project_id).append("status",
-				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("type", WorkReport.TYPE_DAILY).append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -117,9 +123,13 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectWeeklyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("type", WorkReport.TYPE_WEEKLY).append("project_id", project_id).append("status",
-				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("type", WorkReport.TYPE_WEEKLY).append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -137,9 +147,13 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createWorkReportProjectMonthlyDataSet(BasicDBObject condition, String userid,
 			ObjectId project_id) {
-		Document match = new Document("type", WorkReport.TYPE_MONTHLY).append("project_id", project_id).append("status",
-				new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("type", WorkReport.TYPE_MONTHLY).append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -159,10 +173,14 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
 
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("reporter", userid).append("type", WorkReport.TYPE_DAILY)
+										.append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -183,11 +201,14 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createWorkReportStageWeeklyDataSet(BasicDBObject condition, String userid,
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
-
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("reporter", userid).append("type", WorkReport.TYPE_WEEKLY)
+										.append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -208,11 +229,14 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createWorkReportStageMonthlyDataSet(BasicDBObject condition, String userid,
 			ObjectId stage_id) {
 		ObjectId project_id = c("work").distinct("project_id", new Document("_id", stage_id), ObjectId.class).first();
-
-		Document match = new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)
-				.append("project_id", project_id).append("status",
-						new BasicDBObject("$in", Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM)));
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告")
+						.set("match",
+								new Document("reporter", userid).append("type", WorkReport.TYPE_MONTHLY)
+										.append("project_id", project_id)
+										.append("status", new BasicDBObject("$in",
+												Arrays.asList(WorkReport.STATUS_SUBMIT, WorkReport.STATUS_CONFIRM))))
+						.array());
 	}
 
 	@Override
@@ -506,11 +530,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid) {
 		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
-
-		Document match = new Document("status", WorkReport.STATUS_SUBMIT);
-		match.put("project_id", new BasicDBObject("$in", projectIds));
-
-		return query(condition, match);
+		return query(condition,
+				(List<Bson>) new JQ("查询-报告").set("match", new Document("status", WorkReport.STATUS_SUBMIT)
+						.append("project_id", new BasicDBObject("$in", projectIds))).array());
 	}
 
 	@Override
@@ -525,6 +547,91 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		filter.put("project_id", new BasicDBObject("$in", projectIds));
 
 		return count(filter, WorkReport.class);
+	}
+
+	@Override
+	public List<WorkReport> createAllWorkReportDailyDataSet(BasicDBObject condition, String userid) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+
+		appendQueryUserInProjectPMO(userid, pipeline);
+
+		pipeline.addAll(new JQ("查询-报告")
+				.set("match", new Document("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM))
+				.array());
+		return query(condition, pipeline);
+	}
+
+	@Override
+	public long countAllWorkReportDailyDataSet(BasicDBObject filter, String userid) {
+		if (checkUserRoles(userid, Role.SYS_ROLES))
+			return c("workReport").countDocuments(
+					new BasicDBObject("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM));
+		else {
+			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			pipeline.add(Aggregates
+					.match(new Document("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM)));
+			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
+		}
+	}
+
+	@Override
+	public List<WorkReport> createAllWorkReportWeeklyDataSet(BasicDBObject condition, String userid) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		appendQueryUserInProjectPMO(userid, pipeline);
+
+		pipeline.addAll(new JQ("查询-报告")
+				.set("match", new Document("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM))
+				.array());
+		return query(condition, pipeline);
+	}
+
+	@Override
+	public long countAllWorkReportWeeklyDataSet(BasicDBObject filter, String userid) {
+		if (checkUserRoles(userid, Role.SYS_ROLES))
+			return c("workReport").countDocuments(
+					new BasicDBObject("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM));
+		else {
+			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			pipeline.add(Aggregates
+					.match(new Document("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM)));
+			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
+		}
+	}
+
+	@Override
+	public List<WorkReport> createAllWorkReportMonthlyDataSet(BasicDBObject condition, String userid) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		// 当前用户不是显示全部日报，但当前用户具有项目管理员角色时，只显示其作为项目团队成员的报告
+		appendQueryUserInProjectPMO(userid, pipeline);
+
+		pipeline.addAll(new JQ("查询-报告")
+				.set("match", new Document("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM))
+				.array());
+		return query(condition, pipeline);
+	}
+
+	@Override
+	public long countALLWorkReportMonthlyDataSet(BasicDBObject filter, String userid) {
+		if (checkUserRoles(userid, Role.SYS_ROLES))
+			return c("workReport").countDocuments(
+					new BasicDBObject("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM));
+		else {
+			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			pipeline.add(Aggregates
+					.match(new Document("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM)));
+			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
+		}
+	}
+
+	/**
+	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
+	 * 
+	 * @param userid
+	 * @param pipeline
+	 */
+	private void appendQueryUserInProjectPMO(String userid, List<Bson> pipeline) {
+		if (!checkUserRoles(userid, Role.SYS_ROLES))
+			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
 	}
 
 }

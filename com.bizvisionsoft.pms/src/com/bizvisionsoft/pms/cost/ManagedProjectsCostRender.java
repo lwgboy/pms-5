@@ -84,9 +84,9 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 
 		String userId = bruiService.getCurrentUserId();
 		if (scope_id != null)
-			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result,userId);
+			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result, userId);
 		else
-			doc = Services.get(CBSService.class).getCBSSummary(result, result,userId);
+			doc = Services.get(CBSService.class).getCBSSummary(result, result, userId);
 	}
 
 	@Override
@@ -233,6 +233,11 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		Object name = col.getData("name");
 		Object value = null;
+		if (doc == null) {
+			super.renderColumnFooter(col, column);
+			return;
+		}
+
 		if ("totalCost".equals(name)) {
 			value = doc.get("totalCost");
 		} else if ("totalBudget".equals(name)) {

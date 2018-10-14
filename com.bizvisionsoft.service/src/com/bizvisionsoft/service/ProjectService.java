@@ -365,6 +365,12 @@ public interface ProjectService {
 	@DataSet("项目变更/" + DataSet.UPDATE)
 	public long updateProjectChange(BasicDBObject filterAndUpdate);
 
+	@GET
+	@Path("/projectchange/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ProjectChange getProjectChange(@PathParam("_id") ObjectId _id);
+
 	@PUT
 	@Path("/projectchange/{_id}/")
 	@Consumes("application/json; charset=UTF-8")

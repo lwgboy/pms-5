@@ -26,7 +26,8 @@ public class Role {
 
 	public static String SYS_ROLE_MM_ID = "制造管理";
 
-	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID, SYS_ROLE_MM_ID);
+	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID,
+			SYS_ROLE_MM_ID);
 
 	public static String SYS_ROLE_PMO_ID = "PMO";
 

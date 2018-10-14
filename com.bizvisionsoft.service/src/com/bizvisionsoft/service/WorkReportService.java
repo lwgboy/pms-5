@@ -295,4 +295,54 @@ public interface WorkReportService {
 	@DataSet({ "待确认的报告/" + DataSet.COUNT, "确认报告/budget" })
 	public long countWorkReportDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/daily/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报管理/" + DataSet.LIST })
+	public List<WorkReport> createAllWorkReportDailyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/daily/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "日报管理/" + DataSet.COUNT })
+	public long countAllWorkReportDailyDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/weekly/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "周报管理/" + DataSet.LIST })
+	public List<WorkReport> createAllWorkReportWeeklyDataSet(
+			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/weekly/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "周报管理/" + DataSet.COUNT })
+	public long countAllWorkReportWeeklyDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/monthly/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "月报管理/" + DataSet.LIST })
+	public List<WorkReport> createAllWorkReportMonthlyDataSet(
+			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/userid/{userid}/all/monthly/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "月报管理/" + DataSet.COUNT })
+	public long countALLWorkReportMonthlyDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 }

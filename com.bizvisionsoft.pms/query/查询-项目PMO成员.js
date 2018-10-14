@@ -2,7 +2,7 @@
 	"$lookup" : {
 		"from" : "obs",
 		"let" : {
-			"scope_id" : "$_id"
+			"scope_id" : "<scopeIdName>"
 		},
 		"pipeline" : [ {
 			"$match" : {
