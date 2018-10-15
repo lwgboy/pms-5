@@ -44147,9 +44147,9 @@
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false,
-        "disableStandardExport": false,
-        "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": true
       },
       {
         "id": "163f2bf5bcd",
