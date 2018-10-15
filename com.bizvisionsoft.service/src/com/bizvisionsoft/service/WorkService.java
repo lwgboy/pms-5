@@ -439,10 +439,16 @@ public interface WorkService {
 	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan rp);
 
 	@POST
-	@Path("/assignRoleToProject/{project_id}")
+	@Path("/assignRoleToProject/{project_id}/{cover}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void assignRoleToProject(@PathParam("project_id") ObjectId _id);
+	public void assignRoleToProject(@PathParam("project_id") ObjectId _id, @PathParam("cover") boolean cover);
+
+	@POST
+	@Path("/checkCoverWork/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean checkCoverWork(@PathParam("project_id") ObjectId project_id);
 
 	@POST
 	@Path("/assignRoleToStage/{work_id}")

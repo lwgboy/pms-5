@@ -670,7 +670,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public void TemplateOBSSaveAsOBSModule(OBSModule obsModule, ObjectId template_id) {
+	public void templateOBSSaveAsOBSModule(OBSModule obsModule, ObjectId template_id) {
 		// 1.创建组织模板，
 		obsModule = insert(obsModule);
 		ObjectId scope_id = obsModule.get_id();

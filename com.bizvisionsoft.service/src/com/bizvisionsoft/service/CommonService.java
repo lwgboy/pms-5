@@ -469,12 +469,6 @@ public interface CommonService {
 	public long updateChangeProcess(BasicDBObject filterAndUpdate);
 
 	@POST
-	@Path("/createindex/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public void createIndex();
-
-	@POST
 	@Path("/strudata/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
