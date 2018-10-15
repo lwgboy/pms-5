@@ -80,7 +80,12 @@ public class PMS0501_pmo implements Runnable {
 				});
 
 		if (insertOBSItem.size() > 0)
-			Service.col(OBSItem.class).insertMany(insertOBSItem);
+			try {
+				Service.col(OBSItem.class).insertMany(insertOBSItem);
+				logger.info("完成项目添加PMO团队。");
+			} catch (Exception e) {
+				logger.info("为项目添加PMO团队时出现错误:"+e.getMessage());
+			}
 	}
 
 	/**
