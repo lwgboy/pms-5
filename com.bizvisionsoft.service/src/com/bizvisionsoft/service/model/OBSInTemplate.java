@@ -47,7 +47,7 @@ public class OBSInTemplate {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队", "编辑" })
+	@Behavior({ "添加角色", "创建团队", "编辑","指定担任者" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -111,7 +111,7 @@ public class OBSInTemplate {
 	private RemoteFile managerHeadPic;
 
 	@WriteValue("manager")
-	private void setManager(User manager) {
+	public void setManager(User manager) {
 		if (manager == null) {
 			managerId = null;
 			managerInfo = "";
@@ -153,7 +153,7 @@ public class OBSInTemplate {
 	@SetValue
 	private String roleId;
 
-	@ReadValue({ "项目模板组织结构图/title", "OBS模板组织结构图/title" })
+	@ReadValue({ "项目模板组织结构图/title"})
 	private String getTitle() {
 		if (Check.isNotAssigned(name)) {
 			return roleId;
@@ -162,10 +162,46 @@ public class OBSInTemplate {
 		}
 	}
 
-	@ReadValue({ "项目模板组织结构图/text", "OBS模板组织结构图/text", "roleName" })
+	@ReadValue({ "项目模板组织结构图/text", "roleName" })
 	@WriteValue
 	@SetValue
 	private String roleName;
+
+	@ReadValue({ "OBS模板组织结构图/title" })
+	private String getDiagramTitle() {
+		if (isRole()) {
+			return Check.isNotAssigned(roleName) ? "[未命名]" : roleName;
+		} else {
+			return Check.isNotAssigned(name) ? "[未命名]" : name;
+		}
+
+	}
+
+	@ReadValue({ "OBS模板组织结构图/text" })
+	private String getDiagramText() {
+		if (isRole()) {
+			if (Check.isNotAssigned(managerInfo)) {
+				return "[待定]";
+			} else {
+				return managerInfo;// .substring(0, managerInfo.indexOf("["));
+			}
+		} else {
+			if (Check.isNotAssigned(roleName)) {
+				if (Check.isNotAssigned(managerInfo)) {
+					return "团队";
+				} else {
+					return managerInfo;// .substring(0, managerInfo.indexOf("["));
+				}
+			} else {
+				if (Check.isNotAssigned(managerInfo)) {
+					return roleName + " [待定]";
+				} else {
+					return roleName + " " + managerInfo;// .substring(0, managerInfo.indexOf("["));
+				}
+			}
+		}
+
+	}
 
 	private boolean scopeRoot;
 

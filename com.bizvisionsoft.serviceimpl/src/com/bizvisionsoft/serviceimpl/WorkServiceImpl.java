@@ -1317,25 +1317,43 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public void assignRoleToProject(ObjectId project_id) {
+	public void assignRoleToProject(ObjectId project_id, boolean cover) {
 		List<ObjectId> ids = getScopeOBS(project_id);
 		Document condition = new Document("project_id", project_id).append("actualFinish", null);
-		updateWorkRoleAssignment(c("work"), ids, condition);
-		updateWorkRoleAssignment(c("workspace"), ids, condition);
+		// 为工作分配人员
+		updateWorkRoleAssignment(c("work"), ids, condition, cover);
+		// 为工作区中的工作分配人员
+		updateWorkRoleAssignment(c("workspace"), ids, condition, cover);
 	}
 
-	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition) {
+	/**
+	 * 依据工作设定的负责人和指派者角色,为工作分配负责人和指派者
+	 * 
+	 * @param c
+	 *            待分配的集合
+	 * @param ids
+	 *            OBS节点ID
+	 * @param condition
+	 *            待分配的工作范围
+	 * @param cover
+	 *            是否覆盖已分配的工作
+	 */
+	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition,
+			boolean cover) {
 		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
-					if (d.get("chargerId") == null) {
+					// 如需要覆盖或者负责人为空时,更新工作的负责人
+					if (cover || d.get("chargerId") == null) {
+						// 负责人角色不为空时,根据该角色的_id找到该角色的管理者,如果管理者不为空,则更新为工作的负责人.
 						Check.isAssigned(d.getString("chargerRoleId"), rId -> {
 							Check.isAssigned(getManagerIdOfRole(ids, rId),
 									uId -> c.updateOne(new Document("_id", d.get("_id")),
 											new Document("$set", new Document("chargerId", uId))));
 						});
 					}
-
-					if (d.get("assignerId") == null) {
+					// 如需要覆盖或者指派者为空时,更新工作的指派者
+					if (cover || d.get("assignerId") == null) {
+						// 指派者角色不为空时,根据该角色的_id找到该角色的管理者,如果管理者不为空,则更新为工作的指派者.
 						Check.isAssigned(d.getString("assignerRoleId"), rId -> {
 							Check.isAssigned(getManagerIdOfRole(ids, rId),
 									uId -> c.updateOne(new Document("_id", d.get("_id")),
@@ -1345,13 +1363,30 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				});
 	}
 
+	/**
+	 * 检查是否存在需要覆盖负责人和指派者的工作
+	 */
+	@Override
+	public boolean checkCoverWork(ObjectId project_id) {
+		// 当工作未完成，并且存在负责人角色且负责人不为空或指派者角色且指派者不为空时，存在需要覆盖负责人和指派者的工作
+		Document condition = new Document("project_id", project_id).append("actualFinish", null).append("$or",
+				Arrays.asList(
+						new Document("chargerRoleId", new Document("$ne", null)).append("chargerId",
+								new Document("$ne", null)),
+						new Document("assignerRoleId", new Document("$ne", null)).append("assignerId",
+								new Document("$ne", null))));
+
+		// 对工作和工作区进行检查。
+		return c("work").countDocuments(condition) > 0 ? true : (c("workspace").countDocuments(condition) > 0);
+	}
+
 	@Override
 	public void assignRoleToStage(ObjectId work_id) {
 		List<ObjectId> ids = getScopeOBS(work_id);
 		List<ObjectId> workIds = getDesentItems(Arrays.asList(work_id), "work", "parent_id");
 		Document condition = new Document("_id", new Document("$in", workIds)).append("actualFinish", null);
-		updateWorkRoleAssignment(c("work"), ids, condition);
-		updateWorkRoleAssignment(c("workspace"), ids, condition);
+		updateWorkRoleAssignment(c("work"), ids, condition, false);
+		updateWorkRoleAssignment(c("workspace"), ids, condition, false);
 	}
 
 	private String getManagerIdOfRole(List<ObjectId> ids, String roleId) {

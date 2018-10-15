@@ -91,9 +91,16 @@ public interface SystemService {
 			@PathParam("name") String name);
 
 	@POST
-	@Path("/updatePMO/")
+	@Path("/updateSystem/{versionNumber}/{packageCode}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updatePMO();
+	public void updateSystem(@PathParam("versionNumber") String versionNumber,
+			@PathParam("packageCode") String packageCode);
+
+	@POST
+	@Path("/createindex/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void createIndex();
 
 }

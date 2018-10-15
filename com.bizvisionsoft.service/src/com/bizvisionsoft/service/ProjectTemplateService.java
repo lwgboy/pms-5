@@ -375,5 +375,5 @@ public interface ProjectTemplateService {
 	@Path("/obsModule/{template_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void TemplateOBSSaveAsOBSModule(OBSModule obsModule, @PathParam("template_id") ObjectId template_id);
+	public void templateOBSSaveAsOBSModule(OBSModule obsModule, @PathParam("template_id") ObjectId template_id);
 }

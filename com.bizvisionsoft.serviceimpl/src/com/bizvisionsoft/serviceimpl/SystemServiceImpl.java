@@ -10,12 +10,13 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.Backup;
-import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
+import com.bizvisionsoft.serviceimpl.update.PMS0501_pmo;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.model.IndexOptions;
 
 public class SystemServiceImpl extends BasicServiceImpl implements SystemService {
 
@@ -150,37 +151,238 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public void updatePMO() {
-		// 1.添加词典（注意名称重复）
-		insertDictionary("角色名称", "PMO", "项目管理组");
-		insertDictionary("功能角色", "项目总监", "项目总监");
-		insertDictionary("功能角色", "项目管理员", "项目管理员");
-		insertDictionary("功能角色", "供应链管理", "供应链管理");
-		insertDictionary("功能角色", "供应链经理", "供应链经理");
-		insertDictionary("功能角色", "制造管理", "制造管理");
-		insertDictionary("功能角色", "制造经理", "制造经理");
-		insertDictionary("功能角色", "成本管理", "成本管理");
-		insertDictionary("功能角色", "财务经理", "财务经理");
-
-		// 2.修改组织里面的qualifiedContractor 原：projectBuilder
-		c("organization").updateMany(new Document("projectBuilder", new Document("$ne", null)),
-				new Document("$rename", new Document("projectBuilder", "qualifiedContractor")));
-		// 3.历史项目添加PMO
-		List<OBSItem> insertOBSItem = new ArrayList<OBSItem>();
-
-		c("project").find().projection(new Document("_id", true).append("obs_id", true)).forEach((Document doc) -> {
-			insertOBSItem.add(new OBSItem().setIsRole(false).generateSeq().setRoleId("PMO").setName("项目管理组")
-					.setScopeRoot(false).setParent_id(doc.getObjectId("obs_id")).setScope_id(doc.getObjectId("_id")));
-		});
-
-		if (insertOBSItem.size() > 0)
-			c(OBSItem.class).insertMany(insertOBSItem);
+	public void updateSystem(String versionNumber, String packageCode) {
+		if ("5.1M1".equals(versionNumber) && "PMO".equals(packageCode))
+			new PMS0501_pmo().run();
 	}
 
-	private void insertDictionary(String type, String id, String name) {
+	@Override
+	public void createIndex() {
+		// 移到 systemservice中
+		Service.db().listCollectionNames().forEach((String col) -> {
+			c(col).dropIndexes();
+		});
+
+		createUniqueIndex("accountItem", new Document("id", 1), "id");
+		createIndex("accountItem", new Document("parent_id", 1), "parent");
+
+		createIndex("baseline", new Document("project_id", 1), "project");
+		createIndex("baseline", new Document("creationDate", -1), "date");// 按时间倒序
+
+		createIndex("baselineWork", new Document("project_id", 1), "project");
+		createIndex("baselineWork", new Document("wbsCode", 1), "wbs");
+		createIndex("baselineWork", new Document("index", 1), "index");
+		createIndex("baselineWork", new Document("baseline_id", 1), "baseline");
+		createIndex("baselineWork", new Document("parent_id", 1), "parent");
+
+		createIndex("baselineWorkLinks", new Document("project_id", 1), "project");
+		createIndex("baselineWorkLinks", new Document("source", 1), "source");
+		createIndex("baselineWorkLinks", new Document("target", 1), "target");
+		createIndex("baselineWorkLinks", new Document("baseline_id", 1), "baseline");
+
+		createIndex("cbs", new Document("scope_id", 1), "scope");
+		createIndex("cbs", new Document("parent_id", 1), "parent");
+		createUniqueIndex("cbs", new Document("id", 1).append("scope_id", 1), "id_scope");
+
+		createIndex("cbsPeriod", new Document("cbsItem_id", 1), "item");
+		createIndex("cbsPeriod", new Document("id", 1), "id");
+		createUniqueIndex("cbsPeriod", new Document("cbsItem_id", 1).append("id", 1), "id_cbsitem");
+
+		createIndex("cbsSubject", new Document("cbsItem_id", 1), "item");
+		createIndex("cbsSubject", new Document("id", 1), "id");
+		createIndex("cbsSubject", new Document("subjectNumber", 1), "subject");
+		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type");
+		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1),
+				"id_item_subject");
+
+		createIndex("docu", new Document("folder_id", 1), "folder");
+		createIndex("docu", new Document("tag", 1), "tag");
+		createIndex("docu", new Document("category", 1), "category");
+		createIndex("docu", new Document("name", 1), "name");
+		createIndex("docu", new Document("id", 1), "id");
+
+		createUniqueIndex("eps", new Document("id", 1), "id");
+
+		createIndex("equipment", new Document("org_id", 1), "org");
+		createIndex("equipment", new Document("id", 1), "id");
+		createIndex("equipment", new Document("resourceType_id", 1), "resourceType");
+
+		createIndex("folder", new Document("project_id", 1), "project");
+		createIndex("folder", new Document("parent_id", 1), "parent");
+		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1),
+				"name_project");
+
+		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type");
+
+		createIndex("message", new Document("receiver", 1), "receiver");
+		createIndex("message", new Document("sendDate", 1), "sendDate");
+		createIndex("message", new Document("subject", 1), "subject");
+
+		createIndex("monteCarloSimulate", new Document("project_id", 1), "project");
+
+		createIndex("obs", new Document("scope_id", 1), "scope");
+		createIndex("obs", new Document("roleId", 1), "role");
+		createIndex("obs", new Document("managerId", 1), "manager");
+		createIndex("obs", new Document("parent_id", 1), "parent");
+		createIndex("obs", new Document("seq", 1), "seq");
+		createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1), "role_scope");
+
+		createIndex("obsInTemplate", new Document("scope_id", 1), "scope");
+		createIndex("obsInTemplate", new Document("roleId", 1), "role");
+		createIndex("obsInTemplate", new Document("parent_id", 1), "parent");
+		createIndex("obsInTemplate", new Document("seq", 1), "seq");
+		createUniqueIndex("obsInTemplate", new Document("roleId", 1).append("scope_id", 1), "role_scope");
+
+		createIndex("organization", new Document("id", 1), "id");
+		createIndex("organization", new Document("managerId", 1), "manager");
+		createIndex("organization", new Document("parent_id", 1), "parent");
+
+		createIndex("project", new Document("pmId", 1), "pm");
+		createIndex("project", new Document("cbs_id", 1), "cbs");
+		// createIndex("project", new Document("workOrder", 1), "workOrder");
+		createIndex("project", new Document("obs_id", 1), "obs");
+		createIndex("project", new Document("planStart", 1), "planStart");
+		createIndex("project", new Document("planFinish", -1), "planFinish");
+		createIndex("project", new Document("actualStart", 1), "actualStart");
+		createIndex("project", new Document("actualFinish", 1), "actualFinish");
+		createIndex("project", new Document("eps_id", 1), "eps");
+		createUniqueIndex("project", new Document("id", 1), new IndexOptions().name("id").unique(true).sparse(true));
+
+		createIndex("projectChange", new Document("project_id", 1), "project");
+		createIndex("projectChange", new Document("applicantDate", -1), "date");
+
+		// createIndex("program", new Document("workOrder", 1), "workOrder");
+		createIndex("program", new Document("eps_id", 1), "eps");
+
+		// createIndex("projectTemplate", new Document("id", 1), "id");
+
+		createIndex("rbsItem", new Document("project_id", 1), "project");
+		createIndex("rbsItem", new Document("parent_id", 1), "parent");
+		createIndex("rbsItem", new Document("index", 1), "index");
+
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"equip");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"type");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"hr");
+		createIndex("resourceActual", new Document("id", 1), "id");
+		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
+				"resource");
+
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
+				"equip");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
+				"type");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
+				"hr");
+		createIndex("resourcePlan", new Document("id", 1), "id");
+		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
+
+		createIndex("resourceType", new Document("id", 1), "id");
+
+		createIndex("riskEffect", new Document("project_id", 1), "project");
+		createIndex("riskEffect", new Document("rbsItem_id", 1), "item");
+
+		createIndex("salesItem", new Document("period", 1), "period");
+		createIndex("salesItem", new Document("project_id", 1), "project");
+
+		createIndex("stockholder", new Document("project_id", 1), "project");
+
+		createIndex("user", new Document("userId", 1), "user");
+		createIndex("user", new Document("org_id", 1), "org");
+		createIndex("user", new Document("resourceType_id", 1), "resource");
+
+		createIndex("work", new Document("project_id", 1), "project");
+		createIndex("work", new Document("planStart", 1), "planStart");
+		createIndex("work", new Document("planFinish", 1), "planFinish");
+		createIndex("work", new Document("actualStart", 1), "actualStart");
+		createIndex("work", new Document("actualFinish", 1), "actualFinish");
+		createIndex("work", new Document("wbsCode", 1), "wbs");
+		createIndex("work", new Document("index", 1), "index");
+		createIndex("work", new Document("parent_id", 1), "parent");
+		createIndex("work", new Document("chargerId", 1), "charger");
+		createIndex("work", new Document("assignerId", 1), "assigner");
+		createIndex("work", new Document("manageLevel", 1), "manageLevel");
+
+		createIndex("workInTemplate", new Document("wbsCode", 1), "wbs");
+		createIndex("workInTemplate", new Document("index", 1), "index");
+		createIndex("workInTemplate", new Document("parent_id", 1), "parent");
+		createIndex("workInTemplate", new Document("template_id", 1), "template");
+
+		createIndex("workPackage", new Document("work_id", 1), "work");
+
+		createIndex("workPackageProgress", new Document("package_id", 1), "package");
+		createIndex("workPackageProgress", new Document("time", -1), "time");
+
+		createIndex("workReport", new Document("project_id", 1).append("type", 1), "type_project");
+		createIndex("workReport", new Document("period", 1), "period");
+		createIndex("workReport", new Document("reporter", 1).append("type", 1), "type_reporter");
+
+		createIndex("workReportItem", new Document("report_id", 1), "report");
+		createIndex("workReportItem", new Document("project_id", 1), "project");
+
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedTypedResId", 1), "type");
+		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
+				.append("resTypeId", 1).append("usedHumanResId", 1), "hr");
+		createIndex("workReportResourceActual", new Document("id", 1), "id");
+		createUniqueIndex("workReportResourceActual",
+				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1)
+						.append("id", 1),
+				"resource");
+
+		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
+				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
+
+		createIndex("worklinks", new Document("project_id", 1), "project");
+		createIndex("worklinks", new Document("space_id", 1), "space");
+
+		createIndex("workspace", new Document("project_id", 1), "project");
+		createIndex("workspace", new Document("wbsCode", 1), "wbs");
+		createIndex("workspace", new Document("index", 1), "index");
+		createIndex("workspace", new Document("parent_id", 1), "parent");
+		createIndex("workspace", new Document("space_id", 1), "space");
+
+		createIndex("traceInfo", new Document("date", -1), "date");
+
+		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1),
+				"name_template");
+
+		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type");
+
+		createIndex("accountIncome", new Document("parentId", 1), "parentId");
+		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
+		createUniqueIndex("accountIncome", new Document("id", 1), "id");
+
+	}
+
+	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
 		try {
-			c("dictionary").insertOne(new Document("type", type).append("id", id).append("name", name));
+			c(collectionName).createIndex(keys, indexOptions);
 		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
+		}
+	}
+
+	private void createIndex(String collectionName, final Document keys, String name) {
+		try {
+			c(collectionName).createIndex(keys, new IndexOptions().name(name));
+		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建索引错误。" + e.getMessage());
+		}
+	}
+
+	private void createUniqueIndex(String collectionName, final Document keys, String name) {
+		try {
+			c(collectionName).createIndex(keys, new IndexOptions().name(name).unique(true));
+		} catch (Exception e) {
+			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
 		}
 	}
 
