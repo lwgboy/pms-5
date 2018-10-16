@@ -8043,7 +8043,7 @@
           },
           {
             "id": "164698e9de7",
-            "name": "projectBuilder",
+            "name": "qualifiedContractor",
             "text": "项目承担单位",
             "type": "复选框",
             "formFields": [],
@@ -8214,7 +8214,7 @@
           },
           {
             "id": "164698ff443",
-            "name": "projectBuilder",
+            "name": "qualifiedContractor",
             "text": "项目承担单位",
             "type": "复选框",
             "formFields": [],
