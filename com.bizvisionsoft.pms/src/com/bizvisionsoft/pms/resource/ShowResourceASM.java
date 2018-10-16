@@ -54,8 +54,6 @@ public class ShowResourceASM extends GridPart {
 
 	private Calendar end;
 
-	private GridTreeViewer viewer;
-
 	private Locale locale;
 
 	private List<Document> resource;
