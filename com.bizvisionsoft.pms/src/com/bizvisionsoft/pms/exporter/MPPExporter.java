@@ -2,6 +2,8 @@ package com.bizvisionsoft.pms.exporter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +20,9 @@ import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.tools.FileTools;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -69,7 +73,21 @@ public class MPPExporter {
 		File folder = FileTools.createTempDirectory(RWT.getRequest().getSession().getId().toUpperCase());
 		String filePath = folder.getPath()+"/"+fileName;
 		
-		projectFile.getProjectProperties().setName(projectName);
+		ProjectProperties properties = projectFile.getProjectProperties();
+		properties.setName(projectName);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE,0);
+		cal.set(Calendar.SECOND, 0);
+		properties.setDefaultStartTime(cal.getTime());
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		cal.add(Calendar.SECOND, -1);
+		
+		properties.setMinutesPerDay(24*60);
+		properties.setMinutesPerWeek(7*24*60);
+		createCalendar();
+		
 		
 		// 创建工作和关联
 		works.forEach(w -> createTasks(w));
@@ -81,6 +99,16 @@ public class MPPExporter {
 		writer.write(projectFile, filePath);
 		
 		UserSession.bruiToolkit().downloadLocalFile(filePath);
+	}
+
+	private ProjectCalendar createCalendar() {
+		//TODO日历问题
+		ProjectCalendar c = projectFile.add7x24Calendar();
+		c.setName(projectName);
+		c.setMinutesPerDay(24*60);
+		c.setMinutesPerWeek(7*24*60);
+		projectFile.setDefaultCalendar(c);
+		return c;
 	}
 
 	private void createLinks(WorkLink w) {
@@ -112,11 +140,11 @@ public class MPPExporter {
 
 		task.setName(w.getText());
 		task.setNotes(w.getFullName());
-		task.setStart(w.getPlanStart());
-		task.setFinish(w.getPlanFinish());
-		task.setActualStart(w.getActualStart());
-		task.setActualFinish(w.getActualFinish());
-
+		Date planStart = w.getPlanStart();
+		task.setStart(planStart);
+		Date planFinish = w.getPlanFinish();
+		task.setFinish(planFinish);
+		task.setDuration(Duration.getInstance(w.getPlanDuration(),TimeUnit.DAYS));
 		ObjectId parent_id = w.getParent_id();
 		if (parent_id != null) {
 			Task parentTask = taskMap.get(parent_id);
