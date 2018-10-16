@@ -254,8 +254,6 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		// createIndex("program", new Document("workOrder", 1), "workOrder");
 		createIndex("program", new Document("eps_id", 1), "eps");
 
-		// createIndex("projectTemplate", new Document("id", 1), "id");
-
 		createIndex("rbsItem", new Document("project_id", 1), "project");
 		createIndex("rbsItem", new Document("parent_id", 1), "parent");
 		createIndex("rbsItem", new Document("index", 1), "index");
@@ -337,8 +335,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 						.append("id", 1),
 				"resource");
 
-		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
-				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
+//		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
+//				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
 
 		createIndex("worklinks", new Document("project_id", 1), "project");
 		createIndex("worklinks", new Document("space_id", 1), "space");
@@ -360,6 +358,10 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
 		createUniqueIndex("accountIncome", new Document("id", 1), "id");
 
+		createIndex("projectTemplate", new Document("id", 1), "id");
+		createUniqueIndex("projectTemplate", new Document("id", 1).append("module",1), "module");
+
+		createUniqueIndex("obsModule", new Document("id", 1), "id");
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
