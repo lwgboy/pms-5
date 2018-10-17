@@ -24,16 +24,18 @@ public class SubmitSchedule {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		if (rootInput != null) {
 			GanttPart ganttPart = (GanttPart) context.getContent();
-			if (ganttPart.isDirty()) {
-				Layer.message("当前的项目计划还未保存", Layer.ICON_CANCEL);
-			} else if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交计划", "请确认提交当前计划。")) {
-				submit(rootInput);
+			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交计划", "请确认提交当前计划。")) {
+				if (ganttPart.isDirty()) {
+					ganttPart.save((t, l) -> submit(rootInput));
+				} else {
+					submit(rootInput);
+				}
 			}
+
 		}
 	}
 

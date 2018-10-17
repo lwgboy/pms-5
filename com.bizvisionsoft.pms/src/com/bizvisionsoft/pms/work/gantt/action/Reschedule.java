@@ -7,19 +7,18 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 
 public class Reschedule {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart part,
 			@MethodParam(Execute.EVENT) Event event) {
-		if(MessageDialog.openConfirm(bruiService.getCurrentShell(), "排程", "请确认对当前计划运行自动排程。")) {
-			((GanttPart) context.getContent()).reschedule();
+		if(MessageDialog.openConfirm(br.getCurrentShell(), "排程", "请确认对当前计划运行排程。")) {
+			part.reschedule();
 		}
 	}
 
