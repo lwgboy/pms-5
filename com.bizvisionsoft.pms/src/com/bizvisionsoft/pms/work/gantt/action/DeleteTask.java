@@ -8,21 +8,19 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.WorkInfo;
 
 public class DeleteTask {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		if(MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart part, @MethodParam(Execute.EVENT) Event event) {
+		if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
 			WorkInfo task = (WorkInfo) ((GanttEvent) event).task;
-			((GanttPart) context.getContent()).deleteTask(task.getId());
+			part.deleteTask(task.getId());
 		}
 	}
 
