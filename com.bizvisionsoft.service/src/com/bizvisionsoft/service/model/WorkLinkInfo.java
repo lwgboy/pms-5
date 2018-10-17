@@ -164,6 +164,10 @@ public class WorkLinkInfo {
 		this.type = type;
 		return this;
 	}
+	
+	public String getType() {
+		return type;
+	}
 
 	public WorkLinkInfo setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
@@ -178,6 +182,10 @@ public class WorkLinkInfo {
 	public WorkLinkInfo setLag(int lag) {
 		this.lag = lag;
 		return this;
+	}
+	
+	public int getLag() {
+		return lag;
 	}
 
 	@Override
@@ -204,5 +212,6 @@ public class WorkLinkInfo {
 			return false;
 		return true;
 	}
+
 
 }

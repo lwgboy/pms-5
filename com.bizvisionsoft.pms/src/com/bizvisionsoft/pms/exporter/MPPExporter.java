@@ -3,7 +3,6 @@ package com.bizvisionsoft.pms.exporter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -15,47 +14,56 @@ import org.bson.types.ObjectId;
 import org.eclipse.rap.rwt.RWT;
 
 import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.tools.FileTools;
 
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpx.MPXWriter;
 
-public class MPPExporter {
+public class MPPExporter<W, L> {
 
 	private ProjectFile projectFile;
 
-	private List<Work> works;
+	private List<W> works;
 
-	private List<WorkLink> links;
-
+	private List<L> links;
+	
 	private Map<ObjectId, Task> taskMap = new HashMap<>();
 
 	private String projectName;
+	
+	private TaskConvertor<W> taskConvertor;
+	
+	private LinkConvertor<L> linkConvertor;
 
 	public MPPExporter() {
 		projectFile = new ProjectFile();
 	}
 	
-	public MPPExporter setTasks(List<Work> works) {
+	public MPPExporter<W,L> setTasks(List<W> works) {
 		this.works = works;
 		return this;
 	}
 
-	public MPPExporter setLinks(List<WorkLink> links) {
+	public MPPExporter<W,L> setLinks(List<L> links) {
 		this.links = links;
 		return this;
 	}
 	
-	public MPPExporter setProjectName(String projectName) {
+	public MPPExporter<W,L> setProjectName(String projectName) {
 		this.projectName = projectName;
+		return this;
+	}
+	
+	public MPPExporter<W,L> setLinkConvertor(LinkConvertor<L> linkConvertor) {
+		this.linkConvertor = linkConvertor;
+		return this;
+	}
+	
+	public MPPExporter<W,L> setTaskConvertor(TaskConvertor<W> taskConvertor) {
+		this.taskConvertor = taskConvertor;
 		return this;
 	}
 	
@@ -90,8 +98,8 @@ public class MPPExporter {
 		
 		
 		// 创建工作和关联
-		works.forEach(w -> createTasks(w));
-		links.forEach(l -> createLinks(l));
+		works.forEach(this::convertTask);
+		links.forEach(this::convertLink);
 
 		MPXWriter writer = new MPXWriter();
 		// 设置中文
@@ -99,6 +107,14 @@ public class MPPExporter {
 		writer.write(projectFile, filePath);
 		
 		UserSession.bruiToolkit().downloadLocalFile(filePath);
+	}
+
+	private void convertLink(L l) {
+		linkConvertor.accept(l, taskMap);
+	}
+
+	private void convertTask(W w) {
+		taskConvertor.accept(w, projectFile.addTask(), taskMap);
 	}
 
 	private ProjectCalendar createCalendar() {
@@ -110,48 +126,5 @@ public class MPPExporter {
 		projectFile.setDefaultCalendar(c);
 		return c;
 	}
-
-	private void createLinks(WorkLink w) {
-		ObjectId sourceId = w.getSourceId();
-		ObjectId targetId = w.getTargetId();
-		String type = w.getType();
-		int lag = w.getLag();
-
-		Task src = taskMap.get(sourceId);
-		Task tgt = taskMap.get(targetId);
-
-		RelationType rt;
-		if ("FF".equals(type)) {
-			rt = RelationType.FINISH_FINISH;
-		} else if ("SS".equals(type)) {
-			rt = RelationType.START_START;
-		} else if ("SF".equals(type)) {
-			rt = RelationType.START_FINISH;
-		} else {
-			rt = RelationType.FINISH_START;
-		}
-
-		tgt.addPredecessor(src, rt, Duration.getInstance(lag, TimeUnit.DAYS));
-	}
-
-	private void createTasks(Work w) {
-		Task task = projectFile.addTask();
-		taskMap.put(w.get_id(), task);
-
-		task.setName(w.getText());
-		task.setNotes(w.getFullName());
-		Date planStart = w.getPlanStart();
-		task.setStart(planStart);
-		Date planFinish = w.getPlanFinish();
-		task.setFinish(planFinish);
-		task.setDuration(Duration.getInstance(w.getPlanDuration(),TimeUnit.DAYS));
-		ObjectId parent_id = w.getParent_id();
-		if (parent_id != null) {
-			Task parentTask = taskMap.get(parent_id);
-			parentTask.addChildTask(task);
-		}
-	}
-
-
 
 }

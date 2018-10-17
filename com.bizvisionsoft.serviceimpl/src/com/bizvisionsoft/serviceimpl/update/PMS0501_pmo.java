@@ -148,20 +148,17 @@ public class PMS0501_pmo implements Runnable {
  * 2.组件库-增加报告管理的一组组件
  * <p>
  * 2.1日报管理组件: 组件名称:日报管理; 组件类型:表格组件;
- * 取数服务名称:com.bizvisionsoft.service.WorkReportService
- * 启用顶部标题栏和工具栏;组件标题:日报管理
+ * 取数服务名称:com.bizvisionsoft.service.WorkReportService 启用顶部标题栏和工具栏;组件标题:日报管理
  * 表格列:同"日报(id:163f1e35a8f)"组件
  * 行操作:打开日报(操作类型:自定义操作,图标:/img/right.svg,样式:默认,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.workreport.OpenWorkReportACT)
  * <p>
  * 2.2周报管理组件: 组件名称:周报管理; 组件类型:表格组件;
- * 取数服务名称:com.bizvisionsoft.service.WorkReportService
- * 启用顶部标题栏和工具栏;组件标题:周报管理
+ * 取数服务名称:com.bizvisionsoft.service.WorkReportService 启用顶部标题栏和工具栏;组件标题:周报管理
  * 表格列:同"周报(id:163fe7e3c53)"组件
  * 行操作:打开周报(操作类型:自定义操作,图标:/img/right.svg,样式:默认,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.workreport.OpenWorkReportACT)
  * <p>
  * 2.3月报管理组件: 组件名称:月报管理; 组件类型:表格组件;
- * 取数服务名称:com.bizvisionsoft.service.WorkReportService
- * 启用顶部标题栏和工具栏;组件标题:月报管理
+ * 取数服务名称:com.bizvisionsoft.service.WorkReportService 启用顶部标题栏和工具栏;组件标题:月报管理
  * 表格列:同"月报(id:163fe9eba7f)"组件
  * 行操作:打开月报(操作类型:自定义操作,图标:/img/right.svg,样式:默认,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.workreport.OpenWorkReportACT)
  * <p>
@@ -193,10 +190,13 @@ public class PMS0501_pmo implements Runnable {
  * 7.打开变更操作修改
  * 行操作"打开变更"修改:(操作类型:自定义操作,图标:/img/right.svg,样式:默认,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.projectchange.OpenProjectChangeACT)
  * <p>
+ * 8.添加自定义导出
  * <p>
+ * 8.1项目资金计划组件(id:162faeee5d8):操作中添加
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.cbs.action.ExportProjectBudgetACT)
  * <p>
- * <p>
- * <p>
+ * 8.2项目实际成本组件(id:165c2a4b23a):操作中添加
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.cbs.action.ExportProjectCostACT)
  * <p>
  * <p>
  * <p>
