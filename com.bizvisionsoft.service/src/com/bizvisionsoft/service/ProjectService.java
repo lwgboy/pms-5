@@ -339,11 +339,10 @@ public interface ProjectService {
 	@Path("/projectchange/reviewer/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "待审批的项目变更/" + DataSet.COUNT,"审批项目变更/budget" })
+	@DataSet({ "待审批的项目变更/" + DataSet.COUNT, "审批项目变更/budget" })
 	public long countReviewerProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
-	
 	@POST
 	@Path("/projectchange")
 	@Consumes("application/json; charset=UTF-8")
@@ -441,7 +440,7 @@ public interface ProjectService {
 	@Path("/all/userid/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "所有项目/list","项目选择列表/list" })
+	@DataSet({ "所有项目/list", "项目选择列表/list" })
 	public List<Project> listAllProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -449,8 +448,22 @@ public interface ProjectService {
 	@Path("/all/userid/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "所有项目/count","项目选择列表/count" })
+	@DataSet({ "所有项目/count", "项目选择列表/count" })
 	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/addOBSModule/{module_id}/{parent_id}/{cover}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void addOBSModule(@PathParam("module_id") ObjectId module_id, @PathParam("parent_id") ObjectId parent_id,
+			@PathParam("cover") boolean cover);
+
+	@GET
+	@Path("/addOBSModule/{module_id}/{scope_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean checkOBSModuleRole(@PathParam("module_id") ObjectId module_id,
+			@PathParam("scope_id") ObjectId scope_id);
 
 }

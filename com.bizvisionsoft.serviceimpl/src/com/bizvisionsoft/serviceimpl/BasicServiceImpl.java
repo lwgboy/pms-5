@@ -139,6 +139,22 @@ public class BasicServiceImpl {
 	}
 
 	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, Bson... appendPipelines) {
+		List<Bson> pipeline = null;
+
+		if (appendPipelines != null)
+			pipeline = Arrays.asList(appendPipelines);
+		return list(clazz, condition, pipeline);
+	}
+
+	/**
+	 * 增加传入pipeline的list类型的实现
+	 * 
+	 * @param clazz
+	 * @param condition
+	 * @param appendPipelines
+	 * @return
+	 */
+	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, List<Bson> appendPipelines) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -158,7 +174,7 @@ public class BasicServiceImpl {
 			pipeline.add(Aggregates.limit(limit));
 
 		if (appendPipelines != null) {
-			pipeline.addAll(Arrays.asList(appendPipelines));
+			pipeline.addAll(appendPipelines);
 		}
 
 		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
