@@ -6368,8 +6368,8 @@
             "id": "1661e84743f",
             "name": "导出MPP",
             "text": "导出",
-            "tooltips": "导出MPP",
-            "image": "/img/excel_w.svg",
+            "tooltips": "导出MPP文件",
+            "image": "/img/mpp_w.svg",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -20148,6 +20148,20 @@
             "type": "customized"
           },
           {
+            "id": "1667fbbc2de",
+            "name": "导出",
+            "tooltips": "导出MPP文件",
+            "image": "/img/mpp_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
+          },
+          {
             "id": "164554de05f",
             "name": "保存",
             "text": "保存",
@@ -23260,6 +23274,20 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1667fbc840b",
+            "name": "导出MPP文件",
+            "tooltips": "导出MPP文件",
+            "image": "/img/mpp_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
           }
         ],
         "rowActions": [],
@@ -40651,6 +40679,22 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
+            "id": "1667fbd5620",
+            "name": "关键路径",
+            "text": "关键路径",
+            "image": "/img/path_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.gantt.action.DisplayCriticalPath",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized"
+          },
+          {
             "id": "16362f9b990",
             "name": "时间刻度",
             "text": "时间刻度",
@@ -40666,6 +40710,20 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1667fbcf2c9",
+            "name": "导出MPP文件",
+            "tooltips": "导出MPP文件",
+            "image": "/img/mpp_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
           }
         ],
         "rowActions": [],
@@ -46618,7 +46676,7 @@
           {
             "id": "163fe9538ed",
             "name": "下达计划",
-            "text": "下达计划",
+            "text": "下达",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
             "openContent": false,
@@ -50833,6 +50891,20 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "1667fbdf835",
+            "name": "导出MPP文件",
+            "tooltips": "导出MPP文件",
+            "image": "/img/mpp_w.svg",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "export"
           }
         ],
         "rowActions": [],
