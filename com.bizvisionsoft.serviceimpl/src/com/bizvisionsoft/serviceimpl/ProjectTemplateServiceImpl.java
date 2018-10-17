@@ -589,7 +589,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSModule> listOBSModule(BasicDBObject condition) {
-		return createDataSet(condition, OBSModule.class);
+		//附加模板中角色信息
+		return list(OBSModule.class,condition, new JQ("追加-组织模板-角色").array());
 	}
 
 	@Override

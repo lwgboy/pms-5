@@ -1634,4 +1634,80 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userid).array());
 	}
 
+	@Override
+	public void addOBSModule(ObjectId module_id, ObjectId obsParent_id, boolean cover) {
+		// 准备模板对象和新对象之间的id对应表
+		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
+		// 保存准备插入数据库的记录
+		List<Document> tobeInsert = new ArrayList<>();
+		// 项目的OBS_ID
+		Document parent = c("obs").find(new Document("_id", obsParent_id)).first();
+		ObjectId scope_id = parent.getObjectId("scope_id");
+
+		// 得到重复角色
+		List<String> repeatRole = getRepeatRole(module_id, scope_id);
+
+		// 创建组织结构
+		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					// 建立项目团队上下级关系
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), obsParent_id);
+					} else {
+						ObjectId newParent_id = idMap.get(parent_id);
+						if (newParent_id != null) {
+							ObjectId _id = new ObjectId();
+							idMap.put(doc.getObjectId("_id"), _id);
+							doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
+							// TODO 产生随机编号
+							String roleId = doc.getString("roleId");
+							if (cover && repeatRole.contains(roleId)) {
+								String dec = Formatter.dec_n(System.currentTimeMillis(), 20);
+								doc.append("roleId", roleId + dec);
+								tobeInsert.add(doc);
+							} else if (!repeatRole.contains(roleId)) {
+								tobeInsert.add(doc);
+							}
+						}
+					}
+
+				});
+		// 插入项目团队
+		if (!tobeInsert.isEmpty()) {
+			c("obs").insertMany(tobeInsert);
+		}
+	}
+
+	@Override
+	public boolean checkOBSModuleRole(ObjectId module_id, ObjectId scope_id) {
+		List<String> repeatRole = getRepeatRole(module_id, scope_id);
+		return repeatRole.size() > 0;
+	}
+
+	/**
+	 * TODO 得到重复角色
+	 * 
+	 * @param module_id
+	 * @param scope_id
+	 * @return
+	 */
+	private List<String> getRepeatRole(ObjectId module_id, ObjectId scope_id) {
+		// TODO 使用JS进行查询。
+		// 获取当前模板除根节点外的所有的roleId
+		List<String> moduleRole = c("obsInTemplate").distinct("roleId",
+				new Document("scope_id", module_id).append("parent_id", new Document("$ne", null)), String.class)
+				.into(new ArrayList<String>());
+		// 在scope范围类查询重复的roleId
+		List<String> scopeRole = c("obs").distinct("roleId",
+				new Document("scope_id", scope_id).append("parent_id", new Document("$ne", null)), String.class)
+				.into(new ArrayList<String>());
+		List<String> scopeRole1 = new ArrayList<String>(scopeRole);
+		// 从项目role集合中删除模板中重复的角色，得到不重复角色
+		scopeRole1.removeAll(moduleRole);
+		// 从项目role集合中删除不重复的角色，得到重复角色
+		scopeRole.removeAll(scopeRole1);
+		return scopeRole;
+	}
+
 }

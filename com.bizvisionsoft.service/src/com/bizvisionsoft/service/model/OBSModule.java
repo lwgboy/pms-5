@@ -72,6 +72,28 @@ public class OBSModule {
 	@Persistence
 	private List<ObjectId> eps_id;
 
+	/**
+	 * 角色团队
+	 */
+	@SetValue
+	private List<String> obsTeam;
+
+	@ReadValue("obsTeam")
+	private String getOBSTeam() {
+		StringBuffer sb = new StringBuffer();
+		if (obsTeam != null && obsTeam.size() > 0) {
+			// TODO 增加Warpper显示
+			// sb.append("<div style='cursor:pointer;display:inline-flex;width:
+			// 100%;justify-content: space-between;'>");
+
+			for (String teamString : obsTeam) {
+				sb.append(teamString + " ");
+			}
+			// sb.append("</div>");
+		}
+		return sb.toString();
+	}
+
 	public ObjectId get_id() {
 		return _id;
 	}
