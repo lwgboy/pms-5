@@ -1680,7 +1680,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public boolean checkOBSModuleRole(ObjectId module_id, ObjectId scope_id) {
+	public boolean isRoleNumberDuplicated(ObjectId module_id, ObjectId scope_id) {
 		List<String> repeatRole = getRepeatRole(module_id, scope_id);
 		return repeatRole.size() > 0;
 	}

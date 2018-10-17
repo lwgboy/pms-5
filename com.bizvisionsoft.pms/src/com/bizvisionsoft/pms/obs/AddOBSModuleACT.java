@@ -23,20 +23,20 @@ public class AddOBSModuleACT {
 		Project project = (Project) context.getRootInput();
 		context.selected(o -> {
 			Selector.open("组织模板选择器", context, project, l -> {
-				boolean cover = false;
+				boolean overide = false;
 				// 检查重复的角色
-				boolean check = Services.get(ProjectService.class).checkOBSModuleRole(((OBSModule) l.get(0)).get_id(),
-						project.get_id());
-				if (!check || brui.confirm("添加组织模块", "存在编号相同的角色，请确认重新生成导入模块中角色编号.")) {
-					cover = true;
+				boolean duplicated = Services.get(ProjectService.class)
+						.isRoleNumberDuplicated(((OBSModule) l.get(0)).get_id(), project.get_id());
+				if (duplicated && !brui.confirm("添加组织模块", "存在编号相同的角色，请确认是否移除编号重复的角色。")) {
+					overide = true;
 				}
 				// 添加模块
 				Services.get(ProjectService.class).addOBSModule(((OBSModule) l.get(0)).get_id(), ((OBSItem) o).get_id(),
-						cover);
+						overide);
 				// TODO 刷新节点
 				TreePart tree = (TreePart) context.getContent();
 				tree.refresh(o);
-				Layer.message("组织模块已添加到本项目团队，");
+				Layer.message("组织模块已添加到本项目团队。");
 			});
 		});
 

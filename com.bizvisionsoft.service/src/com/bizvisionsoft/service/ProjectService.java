@@ -460,10 +460,10 @@ public interface ProjectService {
 			@PathParam("cover") boolean cover);
 
 	@GET
-	@Path("/addOBSModule/{module_id}/{scope_id}")
+	@Path("/isRoleNumberDuplicated /{module_id}/{scope_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean checkOBSModuleRole(@PathParam("module_id") ObjectId module_id,
+	public boolean isRoleNumberDuplicated (@PathParam("module_id") ObjectId module_id,
 			@PathParam("scope_id") ObjectId scope_id);
 
 }
