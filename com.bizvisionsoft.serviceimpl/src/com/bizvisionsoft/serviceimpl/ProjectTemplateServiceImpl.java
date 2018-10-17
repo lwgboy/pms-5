@@ -666,8 +666,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 			condition.put("filter", filter);
 		}
 		filter.put("eps_id", eps_id);
-
-		return createDataSet(condition, OBSModule.class);
+		
+		return list(OBSModule.class,condition, new JQ("追加-组织模板-角色").array());
 	}
 
 	@Override
