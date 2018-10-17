@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,22 @@ import com.bizvisionsoft.service.tools.Formatter;
 @Strict
 public class WorkInfo {
 
+	public static WorkInfo newInstance(Project project) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id())
+				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber());
+	}
+
+	public static WorkInfo newInstance(Work work) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
+				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber());
+	}
+
+	public static WorkInfo newInstance(WorkInfo workinfo) {
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id())
+				.setParent_id(workinfo.get_id()).setProjectName(workinfo.projectName)
+				.setProjectNumber(workinfo.projectNumber);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
 	@Persistence
@@ -39,7 +56,7 @@ public class WorkInfo {
 	}
 
 	@WriteValue("id")
-	public WorkInfo setId(String id) {
+	private WorkInfo setId(String id) {
 		this._id = id == null ? null : new ObjectId(id);
 		return this;
 	}
@@ -52,12 +69,12 @@ public class WorkInfo {
 	private ObjectId parent_id;
 
 	@ReadValue("parent")
-	public String getParent() {
+	private String readParent() {
 		return parent_id == null ? null : parent_id.toHexString();
 	}
 
 	@WriteValue("parent")
-	public boolean setParent(Object parent) {
+	private boolean writeParent(Object parent) {
 		ObjectId newParent_id;
 		if (parent instanceof String) {
 			newParent_id = new ObjectId((String) parent);
@@ -103,12 +120,12 @@ public class WorkInfo {
 	}
 
 	@ReadValue("project")
-	public String getProjectId() {
+	public String getProjectIdInString() {
 		return project_id == null ? null : project_id.toHexString();
 	}
 
 	@WriteValue("project")
-	public boolean setProjectId(String project_id) {
+	private boolean writeProjectId(String project_id) {
 		ObjectId newId;
 		if (project_id instanceof String) {
 			newId = new ObjectId((String) project_id);
@@ -191,9 +208,15 @@ public class WorkInfo {
 	@Persistence("actualStart")
 	private Date actualStart;
 
+	/**
+	 * 处理编辑器对本对象的编辑
+	 * 
+	 * @param start_date
+	 * @return
+	 */
 	@WriteValue({ "甘特图总成工作编辑器/start_date", "甘特图工作编辑器/start_date", "甘特图阶段工作编辑器/start_date", "甘特图里程碑工作编辑器/start_date" })
-	public WorkInfo setStart_date(Date start_date) {
-		checkDate(start_date, this.getEnd_date());
+	private WorkInfo writeStart_date(Date start_date) {
+		checkDate(start_date, this.readEnd_date());
 		if (actualStart != null) {
 			actualStart = start_date;
 		} else {
@@ -202,8 +225,14 @@ public class WorkInfo {
 		return this;
 	}
 
+	/**
+	 * 处理从gantt组件对本对象的编辑，例如拖拽等。如果采用的是保存方式，这个方法是无用的
+	 * 
+	 * @param start_date
+	 * @return
+	 */
 	@WriteValue("项目甘特图（编辑）/start_date")
-	public boolean setStart_date(String start_date) {
+	private boolean writeStart_date(String start_date) {
 		Date newDate = Formatter.getDatefromJS(start_date);
 		if (!Check.equals(newDate, this.planStart)) {
 			planStart = newDate;
@@ -213,7 +242,7 @@ public class WorkInfo {
 	}
 
 	@ReadValue({ "start_date" })
-	public Date getStart_date() {
+	private Date readStart_date() {
 		return planStart;
 	}
 
@@ -230,10 +259,47 @@ public class WorkInfo {
 	private Date actualFinish;
 
 	@WriteValue({ "甘特图总成工作编辑器/end_date", "甘特图工作编辑器/end_date", "甘特图阶段工作编辑器/end_date" })
-	public WorkInfo setEnd_date(Date end_date) {
-		checkDate(getStart_date(), end_date);
+	private WorkInfo writeEnd_date(Date end_date) {
+		checkDate(readStart_date(), end_date);
 		planFinish = end_date;
+		caculateDuration();
 		return this;
+	}
+	
+	/**
+	 * 根据计划开始、完成，算工期
+	 */
+	private void caculateDuration() {
+		if (planStart == null || planFinish == null) {
+			return;
+		}
+		_duration = getPlanDuration();
+	}
+
+	/**
+	 * 用于填写工期反算完成时间的方式
+	 */
+	private Integer _duration;
+
+	@WriteValue({ "甘特图总成工作编辑器/duration", "甘特图工作编辑器/duration", "甘特图阶段工作编辑器/duration" })
+	private void write_duration(Integer duration) {
+		checkDuration(duration);
+		_duration = duration;
+		caculateFinish();
+	}
+	
+	/**
+	 * 根据计划开始、工期，算完成
+	 */
+	private void caculateFinish() {
+		Date start = getPlanStart();
+		if (start == null || _duration == null) {
+			return;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(start);
+		cal.add(Calendar.DATE, _duration);
+		planFinish = cal.getTime();
 	}
 
 	/**
@@ -249,7 +315,7 @@ public class WorkInfo {
 	 * @return
 	 */
 	@WriteValue("项目甘特图（编辑）/end_date")
-	public boolean setEnd_date(String end_date) {
+	private boolean writeEnd_date(String end_date) {
 		Date newDate = Formatter.getDatefromJS(end_date);
 		if (!Check.equals(newDate, this.planFinish)) {
 			planFinish = newDate;
@@ -259,14 +325,15 @@ public class WorkInfo {
 	}
 
 	@ReadValue("end_date")
-	public Date getEnd_date() {
+	private Date readEnd_date() {
 		return planFinish;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 工期, 需要保存，但无需传递到gantt和编辑器
+	// 工期, 需要保存，但无需传递到gantt，考虑可以传递到编辑器
 	@GetValue("planDuration")
+	@ReadValue({ "甘特图总成工作编辑器/duration", "甘特图工作编辑器/duration", "甘特图阶段工作编辑器/duration" })
 	public int getPlanDuration() {
 		if (planFinish != null && planStart != null) {
 			return (int) ((planFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24));
@@ -321,12 +388,12 @@ public class WorkInfo {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 以下是控制gantt的客户端的属性
 	@ReadValue("editable")
-	public Boolean getEditable() {
+	private Boolean readIsEditable() {
 		return true;
 	}
 
 	@ReadValue("open")
-	public Boolean getOpen() {
+	private Boolean readIsOpen() {
 		return true;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +419,7 @@ public class WorkInfo {
 	private String chargerInfo;
 
 	@ReadValue("chargerInfo")
-	public String getChargerInfo() {
+	private String readChargerInfo() {
 		return chargerInfo != null ? chargerInfo : "";
 	}
 
@@ -368,7 +435,7 @@ public class WorkInfo {
 	}
 
 	@ReadValue("charger")
-	private OBSItemWarpper getCharger() {
+	private OBSItemWarpper readCharger() {
 		return Optional.ofNullable(chargerId)
 				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
 	}
@@ -383,7 +450,7 @@ public class WorkInfo {
 	private String assignerInfo;
 
 	@WriteValue("assigner")
-	private void setAssigner(OBSItemWarpper assigner) throws Exception {
+	private void writeAssigner(OBSItemWarpper assigner) throws Exception {
 		if (actualFinish == null)
 			if (assigner != null) {
 				this.assignerId = assigner.getUserId();
@@ -397,7 +464,7 @@ public class WorkInfo {
 	}
 
 	@ReadValue("assigner")
-	private OBSItemWarpper getAssigner() {
+	private OBSItemWarpper readAssigner() {
 		return Optional.ofNullable(assignerId)
 				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
 	}
@@ -427,7 +494,7 @@ public class WorkInfo {
 	private Date actualFinish1;
 
 	@ReadValue("end_date1")
-	public Date getEnd_date1() {
+	private Date readEnd_date1() {
 		return planFinish1;
 	}
 
@@ -444,7 +511,7 @@ public class WorkInfo {
 	private Date actualStart1;
 
 	@ReadValue("start_date1")
-	public Date getStart_date1() {
+	private Date readStart_date1() {
 		return planStart1;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -476,26 +543,15 @@ public class WorkInfo {
 		return parent_id;
 	}
 
-	public static WorkInfo newInstance(Project project) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id())
-				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber());
-	}
-
-	public static WorkInfo newInstance(Work work) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
-				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber());
-	}
-
-	public static WorkInfo newInstance(WorkInfo workinfo) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id())
-				.setParent_id(workinfo.get_id()).setProjectName(workinfo.projectName)
-				.setProjectNumber(workinfo.projectNumber);
-	}
-
 	private void checkDate(Date start_date, Date end_date) {
 		if (start_date != null && end_date != null && start_date.after(end_date)) {
 			throw new RuntimeException("开始日期不得晚于完成日期");
 		}
+	}
+
+	private void checkDuration(Integer duration) {
+		if (duration != null && duration < 0)
+			throw new RuntimeException("工期不得小于0");
 	}
 
 	public String getText() {
@@ -561,7 +617,7 @@ public class WorkInfo {
 	private boolean summary;
 
 	@ReadValue("type")
-	public String getType() {
+	private String readType() {
 		if (milestone)
 			return "milestone";
 		else if (summary)
@@ -571,7 +627,7 @@ public class WorkInfo {
 	}
 
 	@WriteValue("type")
-	public boolean setType(String type) {
+	private boolean writeType(String type) {
 		boolean milestone = "milestone".equals(type);
 		boolean summary = "project".equals(type);
 		if (this.milestone != milestone || this.summary != summary) {
