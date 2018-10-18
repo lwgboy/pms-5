@@ -70,7 +70,7 @@ public class Check {
 			return Optional.ofNullable(s);
 		}
 	}
-	
+
 	public static <T> boolean isNotAssigned(List<T> s) {
 		return s == null || s.isEmpty();
 	}
@@ -117,11 +117,20 @@ public class Check {
 
 	@SuppressWarnings("unchecked")
 	public static <T> boolean instanceThen(Object obj, Class<T> clazz, Consumer<T> then) {
-		if (clazz.isAssignableFrom(obj.getClass())) {
+		if (obj != null && clazz.isAssignableFrom(obj.getClass())) {
 			then.accept((T) obj);
 			return true;
 		}
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Optional<T> instanceOf(Object obj, Class<T> clazz) {
+		T result = null;
+		if (obj != null && clazz.isAssignableFrom(obj.getClass())) {
+			result = (T) obj;
+		}
+		return Optional.ofNullable(result);
 	}
 
 }
