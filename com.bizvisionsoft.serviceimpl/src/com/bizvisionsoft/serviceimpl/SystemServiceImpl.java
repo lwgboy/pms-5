@@ -225,13 +225,17 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("obs", new Document("managerId", 1), "manager");
 		createIndex("obs", new Document("parent_id", 1), "parent");
 		createIndex("obs", new Document("seq", 1), "seq");
-		createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1), "role_scope");
+		// OBS允许出现重复的索引
+		// createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1),
+		// "role_scope");
 
 		createIndex("obsInTemplate", new Document("scope_id", 1), "scope");
 		createIndex("obsInTemplate", new Document("roleId", 1), "role");
 		createIndex("obsInTemplate", new Document("parent_id", 1), "parent");
 		createIndex("obsInTemplate", new Document("seq", 1), "seq");
-		createUniqueIndex("obsInTemplate", new Document("roleId", 1).append("scope_id", 1), "role_scope");
+		// OBS允许出现重复的索引
+		// createUniqueIndex("obsInTemplate", new Document("roleId",
+		// 1).append("scope_id", 1), "role_scope");
 
 		createIndex("organization", new Document("id", 1), "id");
 		createIndex("organization", new Document("managerId", 1), "manager");
@@ -335,8 +339,10 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 						.append("id", 1),
 				"resource");
 
-//		createUniqueIndex("resourcePlanInTemplate", new Document("work_id", 1).append("resTypeId", 1)
-//				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1), "resource");
+		// createUniqueIndex("resourcePlanInTemplate", new Document("work_id",
+		// 1).append("resTypeId", 1)
+		// .append("usedHumanResId", 1).append("usedEquipResId",
+		// 1).append("usedTypedResId", 1), "resource");
 
 		createIndex("worklinks", new Document("project_id", 1), "project");
 		createIndex("worklinks", new Document("space_id", 1), "space");
@@ -359,7 +365,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createUniqueIndex("accountIncome", new Document("id", 1), "id");
 
 		createIndex("projectTemplate", new Document("id", 1), "id");
-		createUniqueIndex("projectTemplate", new Document("id", 1).append("module",1), "module");
+		createUniqueIndex("projectTemplate", new Document("id", 1).append("module", 1), "module");
 
 		createUniqueIndex("obsModule", new Document("id", 1), "id");
 	}

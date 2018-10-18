@@ -452,18 +452,4 @@ public interface ProjectService {
 	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
-	@POST
-	@Path("/addOBSModule/{module_id}/{parent_id}/{cover}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public void addOBSModule(@PathParam("module_id") ObjectId module_id, @PathParam("parent_id") ObjectId parent_id,
-			@PathParam("cover") boolean cover);
-
-	@GET
-	@Path("/isRoleNumberDuplicated /{module_id}/{scope_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public boolean isRoleNumberDuplicated (@PathParam("module_id") ObjectId module_id,
-			@PathParam("scope_id") ObjectId scope_id);
-
 }

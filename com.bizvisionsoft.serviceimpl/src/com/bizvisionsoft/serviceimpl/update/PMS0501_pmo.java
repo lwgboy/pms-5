@@ -10,18 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.serviceimpl.Service;
+import com.bizvisionsoft.serviceimpl.SystemServiceImpl;
 import com.mongodb.client.MongoCollection;
 
 /**
  * 更新内容：
  * <p>
- * 1. 增加组织模板，在项目创建后，可直接通过套用组织模板的方式创建项目团队。
+ * 1. 重新创建数据库索引
  * <p>
- * 2. 修改组织中项目承担单位字段名称为：qualifiedContractor。
+ * 2. 增加组织模板，在项目创建后，可直接通过套用组织模板的方式创建项目团队。
  * <p>
- * 3. 增加报告管理，在其中可以查看我管理的项目的日报、周报和月报。
+ * 3. 修改组织中项目承担单位字段名称为：qualifiedContractor。
  * <p>
- * 4.
+ * 4. 增加报告管理，在其中可以查看我管理的项目的日报、周报和月报。
+ * <p>
+ * 5.
  * 增加项目角色：项目管理组（角色编号为：PMO），功能角色：供应链经理、制造经理、财务经理，并通过PMO角色对所有项目、采购管理、生产管理、成本管理和报告管理中显示的内容进行细分。
  * <p>
  * 所有项目：具有项目总监和项目管理员权限的账户可以访问，具有项目总监权限的用户在其中可以查看所有项目信息。项目管理员权限的账户只能看到其作为项目PMO团队成员的项目。
@@ -49,7 +52,10 @@ public class PMS0501_pmo implements Runnable {
 
 	@Override
 	public void run() {
-		// 1.添加词典（注意名称重复）
+		// 1.重新创建数据库索引
+		new SystemServiceImpl().createIndex();
+
+		// 2.添加词典（注意名称重复）
 		insertDictionary("角色名称", "PMO", "项目管理组");
 		insertDictionary("功能角色", "项目总监", "项目总监");
 		insertDictionary("功能角色", "项目管理员", "项目管理员");
@@ -60,12 +66,12 @@ public class PMS0501_pmo implements Runnable {
 		insertDictionary("功能角色", "成本管理", "成本管理");
 		insertDictionary("功能角色", "财务经理", "财务经理");
 
-		// 2.修改组织里面的qualifiedContractor 原：projectBuilder
+		// 3.修改组织里面的qualifiedContractor 原：projectBuilder
 		c("organization").updateMany(new Document("projectBuilder", new Document("$ne", null)),
 				new Document("$rename", new Document("projectBuilder", "qualifiedContractor")));
 		logger.info("完成组织字段projectBuilder字段名修改，修改为qualifiedContractor。");
 
-		// 3.历史项目添加PMO
+		// 4.历史项目添加PMO
 		List<OBSItem> insertOBSItem = new ArrayList<OBSItem>();
 		// 获取当前OBS团队中存在PMO的范围ID
 		List<ObjectId> scope_ids = c("OBS").distinct("scope_id", new Document("roleId", "PMO"), ObjectId.class)

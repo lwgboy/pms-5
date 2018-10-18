@@ -8,7 +8,7 @@ import com.bizvisionsoft.bruiengine.assembly.TreePart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.service.ProjectService;
+import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSModule;
 import com.bizvisionsoft.service.model.Project;
@@ -25,13 +25,13 @@ public class AddOBSModuleACT {
 			Selector.open("组织模板选择器", context, project, l -> {
 				boolean overide = false;
 				// 检查重复的角色
-				boolean duplicated = Services.get(ProjectService.class)
+				boolean duplicated = Services.get(OBSService.class)
 						.isRoleNumberDuplicated(((OBSModule) l.get(0)).get_id(), project.get_id());
-				if (duplicated && !brui.confirm("添加组织模块", "存在编号相同的角色，请确认是否移除编号重复的角色。")) {
+				if (duplicated && brui.confirm("添加组织模块", "存在编号相同的角色，请确认是否创建编号重复的角色。")) {
 					overide = true;
 				}
 				// 添加模块
-				Services.get(ProjectService.class).addOBSModule(((OBSModule) l.get(0)).get_id(), ((OBSItem) o).get_id(),
+				Services.get(OBSService.class).addOBSModule(((OBSModule) l.get(0)).get_id(), ((OBSItem) o).get_id(),
 						overide);
 				// TODO 刷新节点
 				TreePart tree = (TreePart) context.getContent();
