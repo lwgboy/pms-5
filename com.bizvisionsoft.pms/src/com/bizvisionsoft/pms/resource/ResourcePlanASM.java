@@ -89,7 +89,8 @@ public class ResourcePlanASM {
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
 		bar.addListener(SWT.Selection, l -> {
-			if ("分配资源".equals(((Action) l.data).getName())) {
+			Action action = ((Action) l.data);
+			if ("分配资源".equals(action.getName())) {
 				if (this.work == null) {
 					Layer.message("请先选择将要分配资源的工作");
 					return;
@@ -101,6 +102,8 @@ public class ResourcePlanASM {
 					return;
 				}
 				allocateResource();
+			} else {
+				UserSession.bruiToolkit().runAction(action, l, brui, context);
 			}
 		});
 
@@ -195,6 +198,7 @@ public class ResourcePlanASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
+		rt.setTitle(work.getFullName() + "工作资源计划用量");
 
 		grid.setResourceTransfer(rt);
 

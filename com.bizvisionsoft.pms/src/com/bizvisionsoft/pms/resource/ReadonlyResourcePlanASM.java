@@ -73,9 +73,8 @@ public class ReadonlyResourcePlanASM {
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
 
-		grid = (EditResourceASM) new AssemblyContainer(content, context)
-				.setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt).setServices(brui).create().getContext()
-				.getContent();
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
+				.setInput(rt).setServices(brui).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
@@ -112,6 +111,7 @@ public class ReadonlyResourcePlanASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
+		rt.setTitle(work.getFullName() + "工作资源计划用量");
 
 		grid.setResourceTransfer(rt);
 	}

@@ -193,11 +193,28 @@ public class PMS0501_pmo implements Runnable {
  * 8.添加自定义导出
  * <p>
  * 8.1项目资金计划组件(id:162faeee5d8):操作中添加
- * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.cbs.action.ExportProjectBudgetACT)
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.bruiengine,类名:com.bizvisionsoft.bruiengine.action.ExportAll)
  * <p>
  * 8.2项目实际成本组件(id:165c2a4b23a):操作中添加
- * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.cbs.action.ExportProjectCostACT)
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.bruiengine,类名:com.bizvisionsoft.bruiengine.action.ExportAll)
  * <p>
+ * 8.3资源分配组件(id:16370ff5184):工具栏中添加
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.bruiengine,类名:com.bizvisionsoft.bruiengine.action.ExportAll)
+ * <p>
+ * 8.4资源用量组件(id:16396e1b1ae):工具栏中添加
+ * 导出(操作类型:自定义操作,图标:/img/excel_w.svg,样式:一般,插件标识:com.bizvisionsoft.bruiengine,类名:com.bizvisionsoft.bruiengine.action.ExportAll)
+ * <p>
+ * 9.增加undo和redo按钮：组件库-项目-进度计划-项目甘特图（编辑）（id：1633ee05a77）的工具栏操作中增加撤销和恢复按钮
+ * <p>
+ * 9.1撤销按钮：操作类型：自定义操作；操作名称：撤销；文本：撤销；强制使用文本；风格：一般；插件标识：com.bizvisionsoft.pms；类名：com.bizvisionsoft.pms.work.gantt.action.GanttEditUndo
+ * <p>
+ * 9.2恢复按钮：操作类型：自定义操作；操作名称：恢复；文本：恢复；强制使用文本；风格：一般；插件标识：com.bizvisionsoft.pms；类名：com.bizvisionsoft.pms.work.gantt.action.GanttEditRedo
+ * <p>
+ * 10.增加阶段编辑器：组件库-项目-编辑器-工作编辑器中增加甘特图总成阶段编辑器，组件名称：甘特图总成阶段编辑器，组件标题：阶段，描述：用于阶段分解后编辑阶段，窄，加入到父上下文
+ * 字段：text（字段类型：单行文本框，字段名称：text，字段文本：阶段名称，不可为空）；
+ * start_date（字段类型：日期时间选择，字段名称：start_date，字段文本：计划开始，只读，日期类型：日期时间）；
+ * end_date（字段类型：日期时间选择，字段名称：end_date，字段文本：计划完成，只读，日期类型：日期时间）；
+ * charger（字段类型：对象选择框，字段名称：charger，字段文本：阶段负责，不可为空，选择器组件：项目团队（id：162d7e505eb））
  * <p>
  * <p>
  * <p>

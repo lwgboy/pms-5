@@ -1200,4 +1200,9 @@ public class EditResourceASM extends GridPart {
 
 		return 0;
 	}
+
+	@Override
+	public void export() {
+		exportExcel(rt.getTitle() != null ? rt.getTitle() : "资源用量", viewer, viewer.getInput());
+	}
 }

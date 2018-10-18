@@ -88,7 +88,8 @@ public class ResourceActualASM {
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
 		bar.addListener(SWT.Selection, l -> {
-			if ("添加资源用量".equals(((Action) l.data).getName())) {
+			Action action = ((Action) l.data);
+			if ("添加资源用量".equals(action.getName())) {
 				if (this.work == null) {
 					Layer.message("请先选择将要添加资源用量的工作");
 					return;
@@ -100,6 +101,8 @@ public class ResourceActualASM {
 					return;
 				}
 				allocateResource();
+			} else {
+				UserSession.bruiToolkit().runAction(action, l, brui, context);
 			}
 		});
 
@@ -180,6 +183,7 @@ public class ResourceActualASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(false);
 		rt.setShowFooter(true);
+		rt.setTitle(work.getFullName() + "工作资源实际用量");
 
 		grid.setResourceTransfer(rt);
 	}

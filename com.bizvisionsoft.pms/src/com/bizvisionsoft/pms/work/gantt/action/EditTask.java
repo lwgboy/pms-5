@@ -18,12 +18,14 @@ public class EditTask {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
 		WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;
 		String editor;
 		if (workinfo.isStage()) {
-			editor = "甘特图阶段工作编辑器";
+			if (workinfo.isSummary())
+				editor = "甘特图总成阶段编辑器";
+			else
+				editor = "甘特图阶段工作编辑器";
 		} else if (workinfo.isSummary()) {
 			editor = "甘特图总成工作编辑器";
 		} else if (workinfo.isMilestone()) {
