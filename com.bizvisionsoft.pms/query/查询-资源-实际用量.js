@@ -80,10 +80,18 @@
 									"resTypeId" : "$resTypeId"
 								},
 								"planOverTimeQty" : {
-									"$sum" : "$planOverTimeQty"
+									"$sum" : {
+										"$multiply" : [ "$planOverTimeQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
+									}
 								},
 								"planBasicQty" : {
-									"$sum" : "$planBasicQty"
+									"$sum" : {
+										"$multiply" : [ "$planBasicQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
+									}
 								}
 							}
 						} ],

@@ -283,7 +283,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
 				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
 
-		createIndex("resourceType", new Document("id", 1), "id");
+		createUniqueIndex("resourceType", new Document("id", 1), "id");
 
 		createIndex("riskEffect", new Document("project_id", 1), "project");
 		createIndex("riskEffect", new Document("rbsItem_id", 1), "item");

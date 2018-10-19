@@ -922,7 +922,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 					ResourcePlan res = resa.getResourcePlan();
 					res.setId(time);
-					res.setPlanBasicQty(works * resa.qty);
+					// 取消工时增加数量的计算
+					res.setPlanBasicQty(works);
 					res.setQty(resa.qty);
 
 					documents.add(res);

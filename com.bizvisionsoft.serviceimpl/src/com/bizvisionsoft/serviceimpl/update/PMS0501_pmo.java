@@ -222,6 +222,10 @@ public class PMS0501_pmo implements Runnable {
  * end_date（字段类型：日期时间选择，字段名称：end_date，字段文本：计划完成，只读，日期类型：日期时间）；
  * charger（字段类型：对象选择框，字段名称：charger，字段文本：阶段负责，不可为空，选择器组件：项目团队（id：162d7e505eb））
  * <p>
+ * 11.增加编辑工作时计划开始时间、计划完成和工期的交互：
+ * 组件-项目-编辑器-工作编辑器中：甘特图工作编辑器(id：1628fc969a5)和甘特图阶段工作编辑器(id：162ff4cd460)中在start_date下方增加行，并将end_date移动到新增行的下级。并在end_date下方增加新字段：duration。
+ * 修改end_date字段（写入后更新其他字段：duration）
+ * 新增duration字段（字段类型：单行文本框、字段名称：duration、文本：工期、输入检验：整数、写入后更新其它字段：end_date）
  * <p>
  * <p>
  * <p>

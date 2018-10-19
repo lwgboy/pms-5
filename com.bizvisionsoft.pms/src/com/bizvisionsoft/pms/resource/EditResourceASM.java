@@ -54,6 +54,7 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class EditResourceASM extends GridPart {
 
@@ -435,12 +436,41 @@ public class EditResourceASM extends GridPart {
 		});
 	}
 
-	private void updateQty(String text, Object data) {
+	private void updateQty(Object data) {
+		if (data == null)
+			return;
+		Document doc = (Document) data;
+		Integer qty = doc.getInteger("qty");
+		String name = doc.getString("name");
+		String usedTypedResId = doc.getString("usedTypedResId");
+		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量",
+				"请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量", qty.toString(), t -> {
+					if (t.trim().isEmpty())
+						return "请输入资源使用数量";
+					try {
+						Integer.parseInt(t);
+					} catch (Exception e) {
+						return "输入的类型错误";
+					}
+					return null;
+				});
+		if (InputDialog.OK == id.open()) {
+			int userQty = Integer.parseInt(id.getValue());
+
+			workService
+					.updateResourcePlan(new FilterAndUpdate()
+							.filter(new BasicDBObject("work_id", doc.get("work_id"))
+									.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
+							.set(new BasicDBObject("qty", userQty)).bson());
+		}
+		doRefresh();
+	}
+
+	private void updateResourceQty(String text, Object data) {
 		if (data == null)
 			return;
 
 		Document doc = (Document) data;
-		Integer qty = doc.getInteger("qty");
 
 		String title = "";
 		String msg = "";
@@ -468,11 +498,12 @@ public class EditResourceASM extends GridPart {
 				return "输入的类型错误";
 			}
 			try {
-				if (text.startsWith("Basic") && d > basicWorks * qty) {
-					return "资源标准用量不能大于:" + basicWorks * qty;
+				// 取消资源用量*数量的判断
+				if (text.startsWith("Basic") && d > basicWorks) {
+					return "资源标准用量不能大于:" + basicWorks;
 				} else {
-					if (text.startsWith("OverTime") && d > overTimeWorks * qty) {
-						return "资源加班用量不能大于:" + overTimeWorks * qty;
+					if (text.startsWith("OverTime") && d > overTimeWorks) {
+						return "资源加班用量不能大于:" + overTimeWorks;
 					}
 				}
 			} catch (Exception e) {
@@ -494,7 +525,7 @@ public class EditResourceASM extends GridPart {
 						rp.setUsedTypedResId(doc.getString("usedTypedResId"));
 						rp.setResTypeId(doc.getObjectId("resTypeId"));
 						rp.setId(period);
-						rp.setQty(qty);
+						rp.setQty(doc.getInteger("qty"));
 						if (text.startsWith("Basic")) {
 							rp.setPlanBasicQty(userQty);
 						} else if (text.startsWith("OverTime")) {
@@ -901,8 +932,10 @@ public class EditResourceASM extends GridPart {
 					delete(l.item.getData());
 				else if ("conflict".equals(l.text))
 					openResourceConflict(l.item.getData());
+				else if ("qty".equals(l.text))
+					updateQty(l.item.getData());
 				else
-					updateQty(l.text, l.item.getData());
+					updateResourceQty(l.text, l.item.getData());
 		});
 	}
 
@@ -1184,6 +1217,14 @@ public class EditResourceASM extends GridPart {
 							value = "<span class='layui-badge layui-bg-red' >冲突</span>";
 					else
 						value = "";
+				} else if ("qty".equals(name)) {
+					// TODO资源用量时，计划数量错误。
+					// 增加资源计划数量填写功能，只有类型为资源类型时，才能填写数量
+					value = ((Document) element).get("qty");
+					if (ResourceTransfer.TYPE_PLAN == rt.getType() && "资源类型".equals(((Document) element).get("type"))) {
+						value = Formatter.getString(value, format, locale);
+						return "<a href='qty' target='_rwt' style='width: 100%;'>" + value + "</a>";
+					}
 				} else {
 					value = ((Document) element).get(name);
 					if (value instanceof Number && ((Number) value).doubleValue() == 0.0)
