@@ -173,9 +173,9 @@ public class PMS0501_pmo implements Runnable {
  * <p>
  * 3.组件库-业务管理-组织管理：组织编辑器（id：162b75519b0）和根组织编辑器（id：162b7bb8236）中项目承担组织字段名改为qualifiedContractor
  * <p>
- * 4.开荒环境侧边栏,操作栏目新增子栏目:名称为"更新项目管理组",插件标识:com.bizvisionsoft.onlinedesigner,类名:com.bizvisionsoft.onlinedesigner.systemupdate.SystemUpdateV0501_pmo
+ * 4.开发环境侧边栏,操作栏目新增子栏目:名称为"更新项目管理组",插件标识:com.bizvisionsoft.onlinedesigner,类名:com.bizvisionsoft.onlinedesigner.systemupdate.SystemUpdateV0501_pmo
  * <p>
- * 5.主頁侧边栏修改:
+ * 5.主页侧边栏修改:
  * <p>
  * 5.1新增侧边栏"报告管理",放在"我的报告"栏目下方,角色设置为:项目管理员#项目总监.报告管理栏目下存在3个子栏目:1.日报管理:操作类型为打开内容区,内容区设置为"日报管理";2.周报管理:操作类型为打开内容区,内容区设置为"周报管理";3.月报管理:操作类型为打开内容区,内容区设置为"月报管理"
  * <p>
@@ -185,15 +185,21 @@ public class PMS0501_pmo implements Runnable {
  * <p>
  * 5.4修改生产管理角色设置为:制造经理#制造管理#项目总监
  * <p>
- * 6.业务管理侧边栏增加组织,
+ * 5.5需要添加：查询-项目PMO成员.js、追加-CBS-CBS叶子节点ID.js和追加-CBSScope-CBS叶子节点ID.js
+ * <p>
+ * 6.业务管理侧边栏增加组织模板,
  * <p>
  * 6.1放在"WBS模块"栏目下方.操作类型为打开内容区,内容区设置为"组织模板";
  * <p>
  * 6.2组件库-主页-项目主页-项目快速启动(创建状态)面板操作中增加action:套用组织模板,放在"使用项目模板"action下方.套用组织模板操作类型:自定义操作;图标为:/img/org_c.svg;插件标识com.bizvisionsoft.pms;类名:com.bizvisionsoft.pms.project.action.UseOBSModule;角色:PM#PPM
  * <p>
- * 6.3组件库-业务管理-项目模板管理-OBS模板-项目模板组织结构图.增加工具栏操作:另存为组织模板.操作类型:自定义操作;强制使用文本;按钮风格:一般;插件标识com.bizvisionsoft.pms;类名:com.bizvisionsoft.pms.projecttemplate.SaveAsOBSModuleACT
+ * 6.3组件库-项目-项目团队-组织结构图节点操作中增加actuon：添加组织模板,放在"创建团队"action下方.添加组织模板操作类型:自定义操作;名称:添加组织模板;文本:添加模板;图标为:/img/module_w.svg;插件标识com.bizvisionsoft.pms;类名:com.bizvisionsoft.pms.obs.AddOBSModuleACT;
  * <p>
- * 7.打开变更操作修改
+ * 6.4组件库-业务管理-项目模板管理-OBS模板-项目模板组织结构图.增加工具栏操作:另存为组织模板.操作类型:自定义操作;强制使用文本;按钮风格:一般;插件标识com.bizvisionsoft.pms;类名:com.bizvisionsoft.pms.projecttemplate.SaveAsOBSModuleACT
+ * <p>
+ * 6.5需要添加：查询-OBS-组织模板中重复的角色.js和追加-组织模板-角色.js
+ * <p>
+ * 7.打开变更操作修改:组件:项目变更(id:16441e4dd33)和待审批的项目变更(id:1644f5bf5cf)
  * 行操作"打开变更"修改:(操作类型:自定义操作,图标:/img/right.svg,样式:默认,插件标识:com.bizvisionsoft.pms,类名:com.bizvisionsoft.pms.projectchange.OpenProjectChangeACT)
  * <p>
  * 8.添加自定义导出
@@ -216,7 +222,8 @@ public class PMS0501_pmo implements Runnable {
  * <p>
  * 9.2恢复按钮：操作类型：自定义操作；操作名称：恢复；文本：恢复；强制使用文本；风格：一般；插件标识：com.bizvisionsoft.pms；类名：com.bizvisionsoft.pms.work.gantt.action.GanttEditRedo
  * <p>
- * 10.增加阶段编辑器：组件库-项目-编辑器-工作编辑器中增加甘特图总成阶段编辑器，组件名称：甘特图总成阶段编辑器，组件标题：阶段，描述：用于阶段分解后编辑阶段，窄，加入到父上下文
+ * 10.增加阶段编辑器(可复制"甘特图阶段工作编辑器(id:162ff4cd460)"进行修改)：
+ * 组件库-项目-编辑器-工作编辑器中增加甘特图总成阶段编辑器，组件名称：甘特图总成阶段编辑器，组件标题：阶段，描述：用于阶段分解后编辑阶段，窄，加入到父上下文
  * 字段：text（字段类型：单行文本框，字段名称：text，字段文本：阶段名称，不可为空）；
  * start_date（字段类型：日期时间选择，字段名称：start_date，字段文本：计划开始，只读，日期类型：日期时间）；
  * end_date（字段类型：日期时间选择，字段名称：end_date，字段文本：计划完成，只读，日期类型：日期时间）；
@@ -227,6 +234,8 @@ public class PMS0501_pmo implements Runnable {
  * 修改end_date字段（写入后更新其他字段：duration）
  * 新增duration字段（字段类型：单行文本框、字段名称：duration、文本：工期、输入检验：整数、写入后更新其它字段：end_date）
  * <p>
+ * 12.修改资源计划维护方式，其中需要修改以下JS： 查询-资源-计划和实际用量-负责人所在部门.js 查询-资源-计划和实际用量-项目.js
+ * 查询-资源-计划用量-部门.js 查询-资源-计划用量-项目.js 查询-资源-计划用量.js 查询-资源-实际用量.js 查询-资源.js
  * <p>
  * <p>
  * <p>

@@ -17,6 +17,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
@@ -67,8 +68,11 @@ public class ResourceActualASM {
 		fd.bottom = new FormAttachment(100, -8);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
 
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源实际分配）"))
-				.setServices(brui).create().getContext().getContent();
+		//修改控件title，以便在导出按钮进行显示
+		Assembly assembly = brui.getAssembly("项目甘特图（资源实际分配）");
+		assembly.setTitle("甘特图");
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(assembly).setServices(brui).create()
+				.getContext().getContent();
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_ACTUAL);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
@@ -82,8 +86,11 @@ public class ResourceActualASM {
 		rt.setShowConflict(false);
 		rt.setShowFooter(true);
 
-		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
-				.setInput(rt).setServices(brui).create().getContext().getContent();
+		//修改控件title，以便在导出按钮进行显示
+		assembly = brui.getAssembly("编辑资源情况");
+		assembly.setTitle("资源用量");
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(assembly).setInput(rt)
+				.setServices(brui).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
