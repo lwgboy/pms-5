@@ -20,6 +20,7 @@ import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
@@ -30,7 +31,7 @@ import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obs")
-public class OBSItem {
+public class OBSItem implements JsonExternalizable {
 
 	@Exclude
 	public static final String ID_PM = "PM";
@@ -64,7 +65,7 @@ public class OBSItem {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队", "编辑","指定担任者" })
+	@Behavior({ "添加角色", "创建团队", "编辑", "指定担任者" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -388,5 +389,4 @@ public class OBSItem {
 	public boolean isRole() {
 		return isRole;
 	}
-
 }

@@ -128,8 +128,8 @@ public interface OBSService {
 	@Path("/addOBSModule/{module_id}/{parent_id}/{cover}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void addOBSModule(@PathParam("module_id") ObjectId module_id, @PathParam("parent_id") ObjectId parent_id,
-			@PathParam("cover") boolean cover);
+	public List<OBSItem> addOBSModule(@PathParam("module_id") ObjectId module_id,
+			@PathParam("parent_id") ObjectId parent_id, @PathParam("cover") boolean cover);
 
 	@GET
 	@Path("/isRoleNumberDuplicated /{module_id}/{scope_id}")

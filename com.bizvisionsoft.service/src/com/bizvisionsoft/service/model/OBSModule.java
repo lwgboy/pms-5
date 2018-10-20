@@ -2,6 +2,8 @@ package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 
@@ -17,6 +19,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 
 /**
@@ -76,12 +79,8 @@ public class OBSModule {
 	 * ╫ги╚ме╤с
 	 */
 	@SetValue
+	@ReadValue
 	private List<String> obsTeam;
-
-	@ReadValue("obsTeam")
-	private String getOBSTeam() {
-		return Formatter.getString(obsTeam);
-	}
 
 	public ObjectId get_id() {
 		return _id;
@@ -114,19 +113,13 @@ public class OBSModule {
 
 	@WriteValue("epsInfos")
 	public void setEPSInfos(List<EPS> epss) {
-		if (epss == null || epss.isEmpty()) {
-			eps_id = null;
-		} else {
-			eps_id = Formatter.getList(epss, EPS::get_id);
-		}
+		eps_id = Check.isAssignedThen(epss, e -> Formatter.getList(e, EPS::get_id)).orElse(null);
 	}
 
 	@ReadValue("epsInfos")
 	public List<EPS> getEPSInfos() {
-		List<EPS> result = new ArrayList<EPS>();
-		if (eps_id != null) {
-			eps_id.forEach(item -> result.add(ServicesLoader.get(EPSService.class).get(item)));
-		}
-		return result;
+		EPSService epsService = ServicesLoader.get(EPSService.class);
+		return Optional.ofNullable(eps_id).orElse(new ArrayList<>()).stream().map(epsService::get)
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 }
