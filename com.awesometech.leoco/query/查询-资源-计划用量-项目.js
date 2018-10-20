@@ -15,6 +15,16 @@
 				"format" : "%Y",
 				"date" : "$id"
 			}
+		},
+		"planBasicQty" : {
+			"$multiply" : [ "$planBasicQty", {
+				"$ifNull" : [ "$qty", 1 ]
+			} ]
+		},
+		"planOverTimeQty" : {
+			"$multiply" : [ "$planOverTimeQty", {
+				"$ifNull" : [ "$qty", 1 ]
+			} ]
 		}
 	}
 }, {
