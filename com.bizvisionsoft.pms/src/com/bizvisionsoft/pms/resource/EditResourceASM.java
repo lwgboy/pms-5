@@ -44,8 +44,8 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -1244,6 +1244,9 @@ public class EditResourceASM extends GridPart {
 
 	@Override
 	public void export() {
-		exportExcel(rt.getTitle() != null ? rt.getTitle() : "资源用量", viewer, viewer.getInput());
+		// 修改没有数据时的导出文件名称
+		exportExcel(
+				rt.getTitle() != null ? rt.getTitle() : (ResourceTransfer.TYPE_PLAN == rt.getType() ? "资源计划" : "资源用量"),
+				viewer, viewer.getInput());
 	}
 }

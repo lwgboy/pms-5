@@ -80,18 +80,7 @@ public class OBSModule {
 
 	@ReadValue("obsTeam")
 	private String getOBSTeam() {
-		StringBuffer sb = new StringBuffer();
-		if (obsTeam != null && obsTeam.size() > 0) {
-			// TODO ‘ˆº”Warpperœ‘ æ
-			// sb.append("<div style='cursor:pointer;display:inline-flex;width:
-			// 100%;justify-content: space-between;'>");
-
-			for (String teamString : obsTeam) {
-				sb.append(teamString + " ");
-			}
-			// sb.append("</div>");
-		}
-		return sb.toString();
+		return Formatter.getString(obsTeam);
 	}
 
 	public ObjectId get_id() {
@@ -100,6 +89,14 @@ public class OBSModule {
 
 	public void set_id(ObjectId _id) {
 		this._id = _id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	@Override

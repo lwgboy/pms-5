@@ -47,7 +47,7 @@ public class OBSInTemplate {
 		return txt;
 	}
 
-	@Behavior({ "添加角色", "创建团队", "编辑","指定担任者" })
+	@Behavior({ "添加角色", "创建团队", "编辑", "指定担任者" })
 	public boolean behaviorAddItem() {
 		return true;
 	}
@@ -153,7 +153,7 @@ public class OBSInTemplate {
 	@SetValue
 	private String roleId;
 
-	@ReadValue({ "项目模板组织结构图/title"})
+	@ReadValue({ "项目模板组织结构图/title" })
 	private String getTitle() {
 		if (Check.isNotAssigned(name)) {
 			return roleId;
@@ -332,6 +332,34 @@ public class OBSInTemplate {
 
 	public boolean isRole() {
 		return isRole;
+	}
+
+	/**
+	 * 获取OBSInTemplate实例
+	 * 
+	 * @param scope_id
+	 *            所属范围
+	 * @param parent_id
+	 *            上级节点
+	 * @param name
+	 *            节点名称
+	 * @param roleId
+	 *            角色id
+	 * @param roleName
+	 *            角色名称
+	 * @param scopeRoot
+	 *            是否根节点
+	 * @return
+	 */
+	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId,
+			String roleName, boolean scopeRoot) {
+		return new OBSInTemplate()// 创建本项目的OBS根节点
+				.set_id(new ObjectId()).setScope_id(scope_id)// 设置scope_id表明该组织节点的范围
+				.setParent_id(parent_id)// 设置上级的id
+				.setName(name)// 设置该组织节点的默认名称
+				.setRoleId(roleId)// 设置该组织节点的角色id
+				.setRoleName(roleName)// 设置该组织节点的名称
+				.setScopeRoot(scopeRoot);// 区分这个节点是范围内的根节点
 	}
 
 }
