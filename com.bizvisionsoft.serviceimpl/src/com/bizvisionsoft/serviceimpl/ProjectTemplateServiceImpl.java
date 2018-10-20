@@ -170,14 +170,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public OBSInTemplate createRootOBS(ObjectId _id) {
-		OBSInTemplate obsRoot = new OBSInTemplate()// 创建本项目的OBS根节点
-				.set_id(new ObjectId())// 设置_id与项目关联
-				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
-				.setParent_id(null)// 设置上级的id
-				.setName("项目组")// 设置该组织节点的默认名称
-				.setRoleId(OBSItem.ID_PM)// 设置该组织节点的角色id
-				.setRoleName(OBSItem.NAME_PM)// 设置该组织节点的名称
-				.setScopeRoot(true);// 区分这个节点是范围内的根节点
+		OBSInTemplate obsRoot = OBSInTemplate.getInstanceTeam(_id, null, "项目组", OBSItem.ID_PM, OBSItem.NAME_PM, true);
 		return insert(obsRoot);// 插入记录
 	}
 
@@ -578,7 +571,9 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	@Override
 	public OBSModule insertOBSModule(OBSModule obsModule) {
 		obsModule = insert(obsModule);
-		createRootOBS(obsModule.get_id());
+		// 使用组织模板名称和id构建OBSInTemplate的根节点
+		insert(OBSInTemplate.getInstanceTeam(obsModule.get_id(), null, obsModule.getName(), obsModule.getId(),
+				obsModule.getName(), true));// 插入根节点记录
 		return obsModule;
 	}
 
@@ -589,8 +584,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSModule> listOBSModule(BasicDBObject condition) {
-		//附加模板中角色信息
-		return list(OBSModule.class,condition, new JQ("追加-组织模板-角色").array());
+		// 附加模板中角色信息
+		return list(OBSModule.class, condition, new JQ("追加-组织模板-角色").array());
 	}
 
 	@Override
@@ -605,8 +600,18 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public List<OBSInTemplate> getOBSModule(ObjectId module_id) {
+	public List<OBSInTemplate> getOBSInTemplateByModule(ObjectId module_id) {
 		return getOBSTemplate(module_id);
+	}
+
+	@Override
+	public OBSModule getOBSModule(ObjectId _id) {
+		
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("_id", _id)));
+		pipeline.addAll(new JQ("追加-组织模板-角色").array());
+		
+		return c(OBSModule.class).aggregate(pipeline).first();
 	}
 
 	@Override
@@ -666,8 +671,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 			condition.put("filter", filter);
 		}
 		filter.put("eps_id", eps_id);
-		
-		return list(OBSModule.class,condition, new JQ("追加-组织模板-角色").array());
+
+		return list(OBSModule.class, condition, new JQ("追加-组织模板-角色").array());
 	}
 
 	@Override
