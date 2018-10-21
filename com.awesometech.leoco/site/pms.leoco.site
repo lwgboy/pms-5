@@ -6924,23 +6924,6 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
-            "id": "1661e84743f",
-            "name": "导出MPP",
-            "text": "导出",
-            "tooltips": "导出MPP文件",
-            "image": "/img/mpp_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
             "id": "163620bdec1",
             "name": "关键路径",
             "text": "关键路径",
@@ -7016,23 +6999,6 @@
             "actionBehavier": false,
             "type": "customized",
             "role": "PM#PPM#WM",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
-            "id": "16651d7c303",
-            "name": "设置",
-            "text": "设置",
-            "tooltips": "设置",
-            "image": "/img/setting_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "setting",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -20989,22 +20955,6 @@
             "verticalSpan": 0
           },
           {
-            "id": "1667fbbc2de",
-            "name": "导出MPP",
-            "tooltips": "导出MPP文件",
-            "image": "/img/mpp_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
             "id": "164554de05f",
             "name": "保存",
             "text": "保存",
@@ -21053,21 +21003,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
-            "id": "166575fe521",
-            "name": "设置",
-            "image": "/img/setting_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "setting",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -24195,22 +24130,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
-            "id": "1667fbc840b",
-            "name": "导出MPP",
-            "tooltips": "导出MPP文件",
-            "image": "/img/mpp_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -41885,22 +41804,6 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
-          },
-          {
-            "id": "1667fbcf2c9",
-            "name": "导出MPP",
-            "tooltips": "导出MPP文件",
-            "image": "/img/mpp_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
           }
         ],
         "rowActions": [],
@@ -52172,22 +52075,6 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
-            "id": "1667fbdf835",
-            "name": "导出MPP文件",
-            "tooltips": "导出MPP文件",
-            "image": "/img/mpp_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "export",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
