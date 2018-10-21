@@ -12,6 +12,7 @@
 				} ]
 			}
 		},
+
 		{
 			"$group" : {
 				"_id" : {
@@ -94,31 +95,47 @@
 					"usedHumanResId" : "$usedHumanResId",
 					"usedEquipResId" : "$usedEquipResId"
 				},
-				"pipeline" : [ {
-					"$match" : {
-						"$expr" : {
-							"$and" : [
-									{
-										"$eq" : [ "$work_id", "$$work_id" ]
-									},
-									{
-										"$eq" : [ "$resTypeId", "$$resTypeId" ]
-									},
-									{
-										"$eq" : [ "$usedTypedResId",
-												"$$usedTypedResId" ]
-									},
-									{
-										"$eq" : [ "$usedHumanResId",
-												"$$usedHumanResId" ]
-									},
-									{
-										"$eq" : [ "$usedEquipResId",
-												"$$usedEquipResId" ]
+				"pipeline" : [
+						{
+							"$match" : {
+								"$expr" : {
+									"$and" : [
+											{
+												"$eq" : [ "$work_id",
+														"$$work_id" ]
+											},
+											{
+												"$eq" : [ "$resTypeId",
+														"$$resTypeId" ]
+											},
+											{
+												"$eq" : [ "$usedTypedResId",
+														"$$usedTypedResId" ]
+											},
+											{
+												"$eq" : [ "$usedHumanResId",
+														"$$usedHumanResId" ]
+											},
+											{
+												"$eq" : [ "$usedEquipResId",
+														"$$usedEquipResId" ]
+											} ]
+								}
+							}
+						}, {
+							"$addFields" : {
+								"planBasicQty" : {
+									"$multiply" : [ "$planBasicQty", {
+										"$ifNull" : [ "$qty", 1 ]
 									} ]
-						}
-					}
-				} ],
+								},
+								"planOverTimeQty" : {
+									"$multiply" : [ "$planOverTimeQty", {
+										"$ifNull" : [ "$qty", 1 ]
+									} ]
+								},
+							}
+						} ],
 				"as" : "resourcePlan"
 			}
 		},
@@ -160,9 +177,11 @@
 				"as" : "resourceActual"
 			}
 		},
+
 		{
 			"$match" : "<match>"
 		},
+
 		{
 			"$project" : {
 				"_id" : false
@@ -406,6 +425,7 @@
 					}, {
 						"$sum" : "$resourcePlan.planOverTimeQty"
 					} ]
+
 				},
 				"actualBasicQty" : {
 					"$sum" : "$resourceActual.actualBasicQty"

@@ -15798,22 +15798,6 @@
             "type": "customized"
           },
           {
-            "id": "162e1f7edd5",
-            "name": "É¾³ý",
-            "text": "É¾³ý",
-            "image": "/img/minus_w.svg",
-            "bundleId": "",
-            "className": "",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "warning",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "delete"
-          },
-          {
             "id": "162e1f7f403",
             "name": "³ÉÔ±",
             "text": "³ÉÔ±",
@@ -15828,6 +15812,22 @@
             "objectBehavier": true,
             "actionBehavier": false,
             "type": "customized"
+          },
+          {
+            "id": "162e1f7edd5",
+            "name": "É¾³ý",
+            "text": "É¾³ý",
+            "image": "/img/minus_w.svg",
+            "bundleId": "",
+            "className": "",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "warning",
+            "editorAssemblyEditable": false,
+            "objectBehavier": true,
+            "actionBehavier": false,
+            "type": "delete"
           }
         ],
         "borderTop": false,

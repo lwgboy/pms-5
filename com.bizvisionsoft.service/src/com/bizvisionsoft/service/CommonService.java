@@ -487,12 +487,6 @@ public interface CommonService {
 	public void updateStructuredData(BasicDBObject fu);
 
 	@POST
-	@Path("/mockup/salesdata/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public void mockupSalesData();
-
-	@POST
 	@Path("/newMessage/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
