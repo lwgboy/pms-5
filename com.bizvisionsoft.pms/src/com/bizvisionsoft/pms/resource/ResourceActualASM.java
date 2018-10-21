@@ -70,7 +70,7 @@ public class ResourceActualASM {
 		// 修改控件title，以便在导出按钮进行显示
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源实际分配）"))
 				.setServices(brui).create().getContext().getContent();
-		// setExportActionText("甘特图")
+		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_ACTUAL);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);

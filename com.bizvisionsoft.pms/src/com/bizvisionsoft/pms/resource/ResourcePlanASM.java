@@ -72,7 +72,7 @@ public class ResourcePlanASM {
 		// 修改控件title，以便在导出按钮进行显示
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源计划分配）"))
 				.setServices(brui).create().getContext().getContent();
-//		.setExportActionText("甘特图")
+		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
@@ -88,7 +88,7 @@ public class ResourcePlanASM {
 		// 修改控件title，以便在导出按钮进行显示
 		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
 				.setInput(rt).setServices(brui).create().getContext().getContent();
-		grid.setExportActionText("资源计划")
+		grid.setExportActionText("资源计划");
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
