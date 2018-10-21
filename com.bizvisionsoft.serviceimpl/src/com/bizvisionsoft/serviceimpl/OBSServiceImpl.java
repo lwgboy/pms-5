@@ -185,7 +185,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	}
 
 	@Override
-	public void addOBSModule(ObjectId module_id, ObjectId obsParent_id, boolean cover) {
+	public List<OBSItem> addOBSModule(ObjectId module_id, ObjectId obsParent_id, boolean cover) {
 		// 准备模板对象和新对象之间的id对应表
 		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
 		// 保存准备插入数据库的记录
@@ -219,10 +219,19 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 					}
 
 				});
+		List<OBSItem> result = new ArrayList<OBSItem>();
 		// 插入项目团队
 		if (!tobeInsert.isEmpty()) {
 			c("obs").insertMany(tobeInsert);
+			tobeInsert.forEach(doc -> {
+				OBSItem obsItem = new OBSItem();
+				//无法使用new JsonExternalizable() {}.decodeDocument(new Document(),new OBSItem())进行转换，在得到codec时，getClass()获取的是OBSServiceImpl而非OBSItem
+				obsItem.decodeDocument(doc);
+				result.add(obsItem);
+			});
 		}
+
+		return result;
 	}
 
 	/**
