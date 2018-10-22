@@ -69,8 +69,10 @@ public class ResourcePlanASM {
 		fd.bottom = new FormAttachment(100, -8);
 		content.setLayout(new FillLayout(SWT.VERTICAL));
 
+		// 修改控件title，以便在导出按钮进行显示
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源计划分配）"))
 				.setServices(brui).create().getContext().getContent();
+		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
@@ -83,13 +85,16 @@ public class ResourcePlanASM {
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
 
+		// 修改控件title，以便在导出按钮进行显示
 		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
 				.setInput(rt).setServices(brui).create().getContext().getContent();
+		grid.setExportActionText("资源计划");
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
 		bar.addListener(SWT.Selection, l -> {
-			if ("分配资源".equals(((Action) l.data).getName())) {
+			Action action = ((Action) l.data);
+			if ("分配资源".equals(action.getName())) {
 				if (this.work == null) {
 					Layer.message("请先选择将要分配资源的工作");
 					return;
@@ -101,6 +106,8 @@ public class ResourcePlanASM {
 					return;
 				}
 				allocateResource();
+			} else {
+				UserSession.bruiToolkit().runAction(action, l, brui, context);
 			}
 		});
 
@@ -195,6 +202,7 @@ public class ResourcePlanASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(true);
 		rt.setShowFooter(true);
+		rt.setTitle(work.getFullName() + "工作资源计划用量");
 
 		grid.setResourceTransfer(rt);
 

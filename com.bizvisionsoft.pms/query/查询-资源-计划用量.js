@@ -22,21 +22,25 @@
 											} ]
 								}
 							}
-						},
-						{
+						}, {
 							"$match" : {
 								"usedHumanResId" : {
 									"$ne" : null
 								}
 							}
-						},
-						{
+						}, {
 							"$project" : {
 								"usedHumanResId" : true,
 								"id" : true,
 								"planWorks" : {
-									"$sum" : [ "$planBasicQty",
-											"$planOverTimeQty" ]
+									"$sum" : [ {
+										"$multiply" : [ "$planBasicQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
+									}, {
+										"$multiply" : [ "$planOverTimeQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
 								}
 							}
 						}, {
@@ -79,21 +83,25 @@
 											} ]
 								}
 							}
-						},
-						{
+						}, {
 							"$match" : {
 								"usedTypedResId" : {
 									"$ne" : null
 								}
 							}
-						},
-						{
+						}, {
 							"$project" : {
 								"usedTypedResId" : true,
 								"id" : true,
 								"planWorks" : {
-									"$sum" : [ "$planBasicQty",
-											"$planOverTimeQty" ]
+									"$sum" : [ {
+										"$multiply" : [ "$planBasicQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
+									}, {
+										"$multiply" : [ "$planOverTimeQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
 								}
 							}
 						}, {
@@ -136,21 +144,25 @@
 											} ]
 								}
 							}
-						},
-						{
+						}, {
 							"$match" : {
 								"usedEquipResId" : {
 									"$ne" : null
 								}
 							}
-						},
-						{
+						}, {
 							"$project" : {
 								"usedEquipResId" : true,
 								"id" : true,
 								"planWorks" : {
-									"$sum" : [ "$planBasicQty",
-											"$planOverTimeQty" ]
+									"$sum" : [ {
+										"$multiply" : [ "$planBasicQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
+									}, {
+										"$multiply" : [ "$planOverTimeQty", {
+											"$ifNull" : [ "$qty", 1 ]
+										} ]
 								}
 							}
 						}, {
@@ -200,10 +212,17 @@
 					"usedEquipResId" : "$usedEquipResId"
 				},
 				"planBasicQty" : {
-					"$sum" : "$planBasicQty"
+					"$sum" : {
+						"$multiply" : [ "$planBasicQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						} ]
+					}
 				},
 				"planOverTimeQty" : {
-					"$sum" : "$planOverTimeQty"
+					"$sum" : {
+						"$multiply" : [ "$planOverTimeQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						}
 				},
 				"conflict" : {
 					"$first" : "$conflict"

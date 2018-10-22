@@ -45,7 +45,7 @@ public class ReadonlyGantt {
 		return workScope.createGanttLinkDataSet();
 	}
 
-	@Export("µ¼³ö")
+	@Export(Export.DEFAULT)
 	public void export() {
 		try {
 			new MPPExporter<Work, WorkLink>().setTasks(data()).setLinks(links())

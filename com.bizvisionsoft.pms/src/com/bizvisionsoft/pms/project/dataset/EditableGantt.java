@@ -143,7 +143,7 @@ public class EditableGantt {
 		}
 	}
 
-	@Export("µ¼³ö")
+	@Export(Export.DEFAULT)
 	public void export() {
 		ObjectId pj_id = workspace.getProject_id();
 		String name = Services.get(ProjectService.class).get(pj_id).getProjectName();

@@ -92,7 +92,6 @@ public class ReadonlyResourceActualASM {
 
 	}
 
-
 	private void select(Work work) {
 		if (this.work != null && this.work.get_id().equals(work.get_id())) {
 			return;
@@ -113,6 +112,7 @@ public class ReadonlyResourceActualASM {
 		rt.setShowResTypeInfo(true);
 		rt.setShowConflict(false);
 		rt.setShowFooter(true);
+		rt.setTitle(work.getFullName() + "工作资源实际用量");
 
 		grid.setResourceTransfer(rt);
 	}

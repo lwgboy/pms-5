@@ -77,7 +77,10 @@ public class EventHandler {
 	public void onTaskDblClickBySpace(GanttEvent event) {
 		String editor;
 		if (((WorkInfo) event.task).isStage()) {
-			editor = "甘特图阶段工作编辑器";
+			if (((WorkInfo) event.task).isSummary())
+				editor = "甘特图总成阶段编辑器";
+			else
+				editor = "甘特图阶段工作编辑器";
 		} else if (((WorkInfo) event.task).isSummary()) {
 			editor = "甘特图总成工作编辑器";
 		} else if (((WorkInfo) event.task).isMilestone()) {

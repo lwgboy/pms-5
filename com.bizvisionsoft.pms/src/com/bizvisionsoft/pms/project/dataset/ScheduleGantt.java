@@ -53,7 +53,7 @@ public class ScheduleGantt {
 		return workScope.createGanttLinkDataSet();
 	}
 	
-	@Export("µ¼³ö")
+	@Export(Export.DEFAULT)
 	public void export() {
 		try {
 			new MPPExporter<WorkScheduleInfo, WorkLink>().setTasks(data()).setLinks(links())

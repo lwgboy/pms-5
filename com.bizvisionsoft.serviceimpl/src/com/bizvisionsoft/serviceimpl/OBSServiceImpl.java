@@ -2,7 +2,9 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -180,6 +182,82 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	public boolean checkScopeRole(ScopeRoleParameter param) {
 		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes))
 				.append("managerId", param.userId).append("roleId", new Document("$in", param.roles))) > 0;
+	}
+
+	@Override
+	public List<OBSItem> addOBSModule(ObjectId module_id, ObjectId obsParent_id, boolean cover) {
+		// 准备模板对象和新对象之间的id对应表
+		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
+		// 保存准备插入数据库的记录
+		List<Document> tobeInsert = new ArrayList<>();
+		// 项目的OBS_ID
+		Document parent = c("obs").find(new Document("_id", obsParent_id)).first();
+		ObjectId scope_id = parent.getObjectId("scope_id");
+
+		// 得到重复角色
+		List<String> repeatRole = getRepeatRole(module_id, scope_id);
+
+		// 创建组织结构
+		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					// 建立项目团队上下级关系
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), obsParent_id);
+					} else {
+						ObjectId newParent_id = idMap.get(parent_id);
+						if (newParent_id != null) {
+							ObjectId _id = new ObjectId();
+							idMap.put(doc.getObjectId("_id"), _id);
+							doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
+							String roleId = doc.getString("roleId");
+							if (!cover && repeatRole.contains(roleId)) {
+								return;
+							}
+							tobeInsert.add(doc);
+						}
+					}
+
+				});
+		List<OBSItem> result = new ArrayList<OBSItem>();
+		// 插入项目团队
+		if (!tobeInsert.isEmpty()) {
+			c("obs").insertMany(tobeInsert);
+			tobeInsert.forEach(doc -> {
+				OBSItem obsItem = new OBSItem();
+				//无法使用new JsonExternalizable() {}.decodeDocument(new Document(),new OBSItem())进行转换，在得到codec时，getClass()获取的是OBSServiceImpl而非OBSItem
+				obsItem.decodeDocument(doc);
+				result.add(obsItem);
+			});
+		}
+
+		return result;
+	}
+
+	/**
+	 * 检查模板中的角色在scope范围中是否重复
+	 */
+	@Override
+	public boolean isRoleNumberDuplicated(ObjectId module_id, ObjectId scope_id) {
+		List<String> repeatRole = getRepeatRole(module_id, scope_id);
+		return repeatRole.size() > 0;
+	}
+
+	/**
+	 * 得到重复角色
+	 * 
+	 * @param module_id
+	 * @param scope_id
+	 * @return
+	 */
+	private List<String> getRepeatRole(ObjectId module_id, ObjectId scope_id) {
+		// 使用JS进行查询，获取scope范围内存在与组织模板中的角色id。
+		List<String> result = new ArrayList<String>();
+		c("obs").aggregate(new JQ("查询-OBS-组织模板中重复的角色").set("scope_id", scope_id).set("module_id", module_id).array())
+				.forEach((Document doc) -> {
+					result.add(doc.getString("roleId"));
+				});
+		return result;
 	}
 
 }

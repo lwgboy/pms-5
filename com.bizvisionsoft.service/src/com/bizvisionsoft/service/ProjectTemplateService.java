@@ -345,9 +345,16 @@ public interface ProjectTemplateService {
 	@Path("/id/{_id}/obsModule/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("OBS模板组织结构图/list")
-	public List<OBSInTemplate> getOBSModule(
+	@DataSet("OBS模板组织结构图/" + DataSet.LIST)
+	public List<OBSInTemplate> getOBSInTemplateByModule(
 			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId module_id);
+
+	@GET
+	@Path("/id/{_id}/obsModule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("组织模板/" + DataSet.INPUT)
+	public OBSModule getOBSModule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/useOBSModule/_id/{_id}/project_id/{project_id}")

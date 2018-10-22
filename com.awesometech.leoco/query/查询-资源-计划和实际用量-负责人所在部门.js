@@ -72,10 +72,18 @@
 					"$sum" : "$actualOverTimeQty"
 				},
 				"planBasicQty" : {
-					"$sum" : "$planBasicQty"
+					"$sum" : {
+						"$multiply" : [ "$planBasicQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						} ]
+					}
 				},
 				"planOverTimeQty" : {
-					"$sum" : "$planOverTimeQty"
+					"$sum" : {
+						"$multiply" : [ "$planOverTimeQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						} ]
+					}
 				}
 			}
 		},
