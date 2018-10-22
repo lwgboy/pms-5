@@ -7356,7 +7356,7 @@
         "selectorMultiSelection": false,
         "actionPanelColumnCount": 0,
         "smallEditor": true,
-        "tinyEditor": false,
+        "tinyEditor": true,
         "addToParentContext": false,
         "removeBorder": false,
         "disableInitLoadData": false,
