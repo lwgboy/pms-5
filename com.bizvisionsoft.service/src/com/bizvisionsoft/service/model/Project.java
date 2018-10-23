@@ -917,6 +917,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 		return this;
 	}
 
+	public ObjectId getEps_id() {
+		return eps_id;
+	}
+
 	public Project setPlanStart(Date planStart) {
 		this.planStart = planStart;
 		return this;
@@ -1239,7 +1243,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	public String getProjectType() {
 		return projectType;
 	}
-
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

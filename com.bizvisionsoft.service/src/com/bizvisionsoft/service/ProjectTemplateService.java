@@ -379,8 +379,14 @@ public interface ProjectTemplateService {
 			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
 
 	@POST
-	@Path("/obsModule/{template_id}/")
+	@Path("/obsModule/template_id/{template_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void templateOBSSaveAsOBSModule(OBSModule obsModule, @PathParam("template_id") ObjectId template_id);
+
+	@POST
+	@Path("/obsModule/project_id/{project_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void projectOBSSaveAsOBSModule(OBSModule obsModule, @PathParam("project_id") ObjectId project_id);
 }

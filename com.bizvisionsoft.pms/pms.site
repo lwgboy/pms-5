@@ -16314,6 +16314,23 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
+            "id": "166a163e330",
+            "name": "另存为组织模板",
+            "text": "另存为组织模板",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.SaveAsOBSModule",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0
+          },
+          {
             "id": "163d971ccb3",
             "name": "分配工作",
             "text": "分配工作",
