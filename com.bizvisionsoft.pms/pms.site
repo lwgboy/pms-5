@@ -21097,6 +21097,23 @@
         "actions": [],
         "rowActions": [
           {
+            "id": "166a0ca80af",
+            "name": "导出PDF",
+            "text": "导出",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.ExportProjectPDFACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0
+          },
+          {
             "id": "1632eb0c047",
             "name": "打开",
             "image": "/img/right.svg",
