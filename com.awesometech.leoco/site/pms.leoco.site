@@ -15602,6 +15602,23 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
+          },
+          {
+            "id": "166a3247590",
+            "name": "Áí´æÄ£°å",
+            "text": "Áí´æÄ£°å",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.SaveAsOBSModule",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0
           }
         ],
         "rowActions": [
