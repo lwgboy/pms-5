@@ -696,7 +696,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		ObjectId scope_id = obsModule.get_id();
 		OBSInTemplate rootOBS = createRootOBS(scope_id);
 
-		// 2.将项目模板的组织结构复制到组织模板中
+		// 2.将组织结构复制到组织模板中
 		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
 		List<Document> tobeInsert = new ArrayList<>();
 
