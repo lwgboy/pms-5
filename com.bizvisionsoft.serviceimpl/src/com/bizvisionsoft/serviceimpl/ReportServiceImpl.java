@@ -14,9 +14,11 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.dps.ReportCreator;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ReportServiceImpl extends BasicServiceImpl implements ReportService {
@@ -80,8 +82,15 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		String selected_id = command.getString("selected_id");
 		String page_input_id = command.getString("page_input_id");
 		String root_input_id = command.getString("root_input_id");
-		JQ jq = new JQ(command.getString("jq")).set("input_obj_id", input_obj_id).set("selected_id", selected_id)
-				.set("page_input_id", page_input_id).set("root_input_id", root_input_id);
+		JQ jq = new JQ(command.getString("jq"));
+		if (Check.isAssigned(input_obj_id))
+			jq.set("input_obj_id", new ObjectId(input_obj_id));
+		if (Check.isAssigned(selected_id))
+			jq.set("selected_id", new ObjectId(selected_id));
+		if (Check.isAssigned(page_input_id))
+			jq.set("page_input_id", new ObjectId(page_input_id));
+		if (Check.isAssigned(root_input_id))
+			jq.set("root_input_id", new ObjectId(root_input_id));
 
 		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
 		try {

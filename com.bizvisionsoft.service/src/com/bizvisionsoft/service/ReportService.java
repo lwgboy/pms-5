@@ -29,7 +29,7 @@ public interface ReportService {
 	@Path("/command/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response commandReport(@FormParam("param") String rptParam);
+	public Response commandReport(@FormParam("command") String rptParam);
 	
 	@OPTIONS
 	@Path("/command/")
