@@ -1219,7 +1219,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c(ResourceActual.class).insertMany(documents);
+		// 增加判断，如果是重复添加，会造成documents没有插入数据
+		if (documents.size() > 0)
+			c(ResourceActual.class).insertMany(documents);
 
 		return documents;
 	}
