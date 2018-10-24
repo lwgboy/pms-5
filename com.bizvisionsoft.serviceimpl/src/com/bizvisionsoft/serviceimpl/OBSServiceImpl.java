@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -223,12 +224,10 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		// 插入项目团队
 		if (!tobeInsert.isEmpty()) {
 			c("obs").insertMany(tobeInsert);
-			tobeInsert.forEach(doc -> {
-				OBSItem obsItem = new OBSItem();
-				//无法使用new JsonExternalizable() {}.decodeDocument(new Document(),new OBSItem())进行转换，在得到codec时，getClass()获取的是OBSServiceImpl而非OBSItem
-				obsItem.decodeDocument(doc);
-				result.add(obsItem);
-			});
+			//通过查询获取OBSItem
+			Collection<ObjectId> ids = idMap.values();
+			ids.remove(obsParent_id);
+			result = query(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
 		}
 
 		return result;
