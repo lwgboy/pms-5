@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.resource;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -40,14 +38,8 @@ public class ReadonlyResourceActualASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源用量")
-				.setActions(context.getAssembly().getActions());
-		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
+		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right()
+				.get().setText("资源用量").setActions(context.getAssembly().getActions());
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
