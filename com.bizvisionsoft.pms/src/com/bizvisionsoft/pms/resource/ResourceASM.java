@@ -50,6 +50,9 @@ public class ResourceASM {
 	private String gridExportActionText;
 
 	@Inject
+	private Boolean editable;
+
+	@Inject
 	private String type;
 
 	private GanttPart gantt;
@@ -90,7 +93,7 @@ public class ResourceASM {
 			rt.setShowResActual(true);
 			rt.setShowConflict(false);
 		}
-		
+
 		// 修改控件title，以便在导出按钮进行显示
 		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
 				.setInput(rt).setServices(brui).create().getContext().getContent();
@@ -112,19 +115,21 @@ public class ResourceASM {
 					Layer.message("无需对里程碑" + action.getName());
 					return;
 				}
-				allocateResource();
+				if (Boolean.TRUE.equals(editable))
+					allocateResource();
 			} else {
 				UserSession.bruiToolkit().runAction(action, l, brui, context);
 			}
 		});
-
-		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
-			Work work = (Work) ((GanttEvent) l).task;
-			if (work != null && !work.isSummary() && !work.isMilestone()) {
-				allocateResource();
-			}
-		});
-		Layer.message("提示： 您可以双击叶子任务选择要添加的资源");
+		if (Boolean.TRUE.equals(editable)) {
+			gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
+				Work work = (Work) ((GanttEvent) l).task;
+				if (work != null && !work.isSummary() && !work.isMilestone()) {
+					allocateResource();
+				}
+			});
+			Layer.message("提示： 您可以双击叶子任务选择要添加的资源");
+		}
 	}
 
 	private void allocateResource() {
