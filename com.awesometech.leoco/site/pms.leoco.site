@@ -1795,7 +1795,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":true\n}"
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
               },
               {
                 "id": "163c14c1fd6",
@@ -1810,7 +1810,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":true\n}"
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":true}"
               },
               {
                 "id": "16426486153",
@@ -1870,7 +1870,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "1641c105f08",
@@ -1885,7 +1885,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -2525,7 +2525,7 @@
             "role": "PM#PA#PPM",
             "horizontalSpan": 0,
             "verticalSpan": 0,
-            "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":true\n}"
+            "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
           },
           {
             "id": "1641c046ef8",
@@ -2542,7 +2542,7 @@
             "excludeRole": "PM#PA#PPM",
             "horizontalSpan": 0,
             "verticalSpan": 0,
-            "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
+            "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
           },
           {
             "id": "16370fb0942",
@@ -2816,7 +2816,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "9628decc58a",
@@ -2831,7 +2831,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -3506,7 +3506,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "9928decc58a",
@@ -3521,7 +3521,7 @@
                 "type": "switch",
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
-                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               }
             ],
             "editorAssemblyEditable": false,
