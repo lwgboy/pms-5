@@ -23356,7 +23356,7 @@
         "id": "16370ff5184",
         "name": "资源分配",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourcePlanASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
         "layout": [],
         "folderId": "16396e06a26",
         "gridAutoExpandLevel": 0,
@@ -23418,7 +23418,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "parameters": "{\n  \"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n  \"stickerTitleText\":\"资源计划\"\n}"
+        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\"\n}"
       },
       {
         "id": "16371c338b9",
@@ -33756,7 +33756,7 @@
         "id": "16390d02c3a",
         "name": "资源分配（查看）",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ReadonlyResourcePlanASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
         "layout": [],
         "folderId": "16396e06a26",
         "gridAutoExpandLevel": 0,
@@ -33817,7 +33817,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
       },
       {
         "id": "16390d46af6",
@@ -34663,7 +34664,7 @@
         "id": "16396e1b1ae",
         "name": "资源用量",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceActualASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
         "layout": [],
         "folderId": "16396e136be",
         "gridAutoExpandLevel": 0,
@@ -34724,7 +34725,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":true\n}"
       },
       {
         "id": "16399f2c7e5",
@@ -54587,7 +54589,7 @@
         "id": "16464736d5b",
         "name": "资源用量（查看）",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ReadonlyResourceActualASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
         "layout": [],
         "folderId": "16396e136be",
         "gridAutoExpandLevel": 0,
@@ -54630,7 +54632,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
       },
       {
         "id": "16464ef8fd1",
