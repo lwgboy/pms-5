@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.obs.action;
 
 import org.bson.types.ObjectId;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 import com.bizvisionsoft.annotations.AUtil;
@@ -22,8 +21,7 @@ public class OpenOBSScopeRootDiagram extends AbstractCreateOBSItem {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Shell s = brui.getCurrentShell();
 		Object scope = context.getRootInput();
 		if (scope instanceof IOBSScope) {

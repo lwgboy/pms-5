@@ -37,9 +37,4 @@ public class OBSItemDS {
 		return ServicesLoader.get(OBSService.class).getOBSItemWarpper(condition, obsScope_id);
 	}
 
-	@DataSet(DataSet.COUNT)
-	public long countOBSItem(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		return 0;// ServicesLoader.get(OBSService.class).countMember(filter, org.get_id());
-	}
-
 }

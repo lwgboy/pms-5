@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.org.action;
 
 import org.bson.types.ObjectId;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -21,8 +20,7 @@ public class CreateRole {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ObjectId org_id = ((Organization) context.getInput()).get_id();
 		Role role = new Role().setOrg_id(org_id);
 
