@@ -22,7 +22,7 @@ public class AddSubAccountACT {
 			if (parent instanceof AccountIncome) {
 				input = new AccountIncome().setParentId(((AccountIncome) parent).getId());
 			} else if (parent instanceof AccountItem) {
-				input = new AccountItem().setParent_id(((AccountItem) parent).get_id());
+				input = new AccountItem().setParentId(((AccountItem) parent).getId());
 			} else {
 				return;
 			}

@@ -15,6 +15,7 @@ import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
 import com.bizvisionsoft.serviceimpl.update.PMS0501_pmo;
+import com.bizvisionsoft.serviceimpl.update.PMS0502_accountitem;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.model.IndexOptions;
 
@@ -154,6 +155,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	public void updateSystem(String versionNumber, String packageCode) {
 		if ("5.1M1".equals(versionNumber) && "PMO".equals(packageCode))
 			new PMS0501_pmo().run();
+		if ("5.1M2".equals(versionNumber) && "accountitem".equals(packageCode))
+			new PMS0502_accountitem().run();
 	}
 
 	@Override
@@ -165,6 +168,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 		createUniqueIndex("accountItem", new Document("id", 1), "id");
 		createIndex("accountItem", new Document("parent_id", 1), "parent");
+		createIndex("accountItem", new Document("subAccounts", 1), "subAccounts");
 
 		createIndex("baseline", new Document("project_id", 1), "project");
 		createIndex("baseline", new Document("creationDate", -1), "date");// °´Ê±¼äµ¹Ðò
