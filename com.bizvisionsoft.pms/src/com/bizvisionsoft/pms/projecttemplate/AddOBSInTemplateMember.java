@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -26,7 +25,7 @@ public class AddOBSInTemplateMember {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		new Selector(bruiService.getAssembly("用户选择器"), context).setTitle("选择用户添加为团队成员").open(r -> {
 			final List<String> ids = new ArrayList<String>();
 			GridPart grid = (GridPart) context.getContent();

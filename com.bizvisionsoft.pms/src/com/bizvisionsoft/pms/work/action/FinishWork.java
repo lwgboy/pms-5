@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.work.action;
 
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -22,8 +20,7 @@ public class FinishWork {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(e -> {
 			if (brui.confirm("完成工作", "请确认完成工作：" + (Work) e + "。")) {
 				if (Services.get(WorkService.class)

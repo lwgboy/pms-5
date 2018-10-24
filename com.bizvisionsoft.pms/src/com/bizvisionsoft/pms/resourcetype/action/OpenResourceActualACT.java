@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.resourcetype.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -17,8 +15,7 @@ public class OpenResourceActualACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 			ResourceAssignment resourceAssignment = null;
 			if (elem instanceof WorkReportItem) {

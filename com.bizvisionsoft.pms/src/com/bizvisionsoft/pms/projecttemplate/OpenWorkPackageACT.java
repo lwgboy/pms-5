@@ -3,13 +3,10 @@ package com.bizvisionsoft.pms.projecttemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.service.model.TrackView;
@@ -21,14 +18,7 @@ public class OpenWorkPackageACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		context.selected(elem -> {
-			openWorkPackageMenu((WorkInTemplate) elem);
-		});
-	}
-
-	protected void openWorkPackageMenu(final WorkInTemplate work) {
+	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) WorkInTemplate work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (Check.isNotAssigned(wps)) {
 			brui.openContent(brui.getAssembly("模板工作包计划"), new Object[] { work, null });

@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -30,10 +28,8 @@ public class AddWBSModuleACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		StructuredSelection selection = context.getSelection();
-		WorkInTemplate parent = (WorkInTemplate) selection.getFirstElement();
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+		WorkInTemplate parent = (WorkInTemplate) context.getFirstElement();
 		Selector.open("WBSÄ£¿éÑ¡ÔñÆ÷", context, null, r -> {
 			GanttPart content = (GanttPart) context.getContent();
 			Object input = context.getInput();

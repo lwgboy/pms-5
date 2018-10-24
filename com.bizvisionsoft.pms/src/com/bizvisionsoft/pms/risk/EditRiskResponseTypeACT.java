@@ -4,7 +4,6 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -21,8 +20,7 @@ public class EditRiskResponseTypeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.ACTION) Action action) {
+	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(c -> {
 			if (c instanceof RiskResponse) {
 				String type = ((RiskResponse) c).getType();

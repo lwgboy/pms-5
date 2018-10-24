@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -18,8 +16,8 @@ public class EditTaskACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		WorkInTemplate workinfo = (WorkInTemplate) ((GanttEvent) event).task;
+			@MethodParam(Execute.EVENT) GanttEvent event) {
+		WorkInTemplate workinfo = (WorkInTemplate) event.task;
 		String editor = "项目模板工作编辑器";
 		if (workinfo.isMilestone()) {
 			editor = "项目模板里程碑工作编辑器";

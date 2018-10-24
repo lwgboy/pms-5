@@ -3,8 +3,6 @@ package com.bizvisionsoft.pms.resource;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -19,16 +17,15 @@ public class SearchMonthResourceIAYearACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询销售利润期间编辑器
 		DateTimeInputDialog dt = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置销售利润分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());
 		if (dt.open() == DateTimeInputDialog.OK) {
 			// 获取查询的成本期间
 			String startPeriod = getPeriod(dt.getValue());
-			DeptResourceAllAnalysisASM content = (DeptResourceAllAnalysisASM) context.getChildContextByAssemblyName("部门资源用量对比分析组件")
-					.getContent();
+			DeptResourceAllAnalysisASM content = (DeptResourceAllAnalysisASM) context
+					.getChildContextByAssemblyName("部门资源用量对比分析组件").getContent();
 			content.setYear(startPeriod);
 			content.refresh();
 		}

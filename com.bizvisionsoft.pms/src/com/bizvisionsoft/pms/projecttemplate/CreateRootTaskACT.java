@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,14 +18,12 @@ public class CreateRootTaskACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		String title = "创建工作";
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Assembly editor = bruiService.getAssembly("项目模板工作编辑器");
 
 		WorkInTemplate workInT = createWork(context);
 
-		new Editor<WorkInTemplate>(editor, context).setTitle(title).setInput(workInT).ok((r, wi) -> {
+		new Editor<WorkInTemplate>(editor, context).setTitle("创建工作").setInput(workInT).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addTask(wi);
 		});
