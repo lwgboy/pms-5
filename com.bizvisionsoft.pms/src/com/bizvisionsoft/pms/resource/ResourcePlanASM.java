@@ -41,18 +41,24 @@ public class ResourcePlanASM {
 
 	@Inject
 	private BruiAssemblyContext context;
+	
+	@Inject
+	private String ganttAssemblyName;
+	
+	@Inject
+	private String stickerTitleText;
 
 	private GanttPart gantt;
 
 	private EditResourceASM grid;
 
 	private Work work;
-
+	
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("资源计划")
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText(stickerTitleText)
 				.setActions(context.getAssembly().getActions());
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
@@ -64,8 +70,9 @@ public class ResourcePlanASM {
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源计划分配）"))
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly(ganttAssemblyName))
 				.setServices(brui).create().getContext().getContent();
+		
 		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.setType(ResourceTransfer.TYPE_PLAN);

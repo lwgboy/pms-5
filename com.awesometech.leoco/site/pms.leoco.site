@@ -23893,7 +23893,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n  \"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n  \"stickerTitleText\":\"资源计划\"\n}"
       },
       {
         "id": "16371c338b9",
