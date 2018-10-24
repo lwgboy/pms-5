@@ -10,6 +10,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.pms.cbs.assembly.BudgetCBS;
 import com.bizvisionsoft.service.model.CBSItem;
 
+@Deprecated
 public class AddCBSItem {
 
 	@Inject

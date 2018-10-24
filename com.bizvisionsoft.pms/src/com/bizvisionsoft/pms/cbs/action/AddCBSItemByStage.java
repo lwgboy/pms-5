@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class AddCBSItemByStage {
 
 	@Inject

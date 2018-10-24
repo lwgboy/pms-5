@@ -1794,12 +1794,13 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":true\n}"
               },
               {
                 "id": "163c14c1fd6",
                 "name": "项目资源用量",
-                "switchContentToAssemblyId": "16396e1b1ae",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1808,7 +1809,8 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":true\n}"
               },
               {
                 "id": "16426486153",
@@ -1858,7 +1860,7 @@
               {
                 "id": "1641c105971",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "16390d02c3a",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1867,12 +1869,13 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
               },
               {
                 "id": "1641c105f08",
                 "name": "项目资源用量",
-                "switchContentToAssemblyId": "16464736d5b",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -1881,7 +1884,8 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -2520,13 +2524,14 @@
             "type": "switch",
             "role": "PM#PA#PPM",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":true\n}"
           },
           {
             "id": "1641c046ef8",
             "name": "项目资源计划（查看）",
             "text": "项目资源计划",
-            "switchContentToAssemblyId": "16390d02c3a",
+            "switchContentToAssemblyId": "16370ff5184",
             "openContent": false,
             "propagate": false,
             "forceText": false,
@@ -2536,7 +2541,8 @@
             "type": "switch",
             "excludeRole": "PM#PA#PPM",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
           },
           {
             "id": "16370fb0942",
@@ -2800,7 +2806,7 @@
               {
                 "id": "9628decc40b",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "16390d02c3a",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2809,12 +2815,13 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
               },
               {
                 "id": "9628decc58a",
                 "name": "资源用量状况",
-                "switchContentToAssemblyId": "16464736d5b",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -2823,7 +2830,8 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -3488,7 +3496,7 @@
               {
                 "id": "9928decc40b",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "16390d02c3a",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -3497,12 +3505,13 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
               },
               {
                 "id": "9928decc58a",
                 "name": "资源用量状况",
-                "switchContentToAssemblyId": "16464736d5b",
+                "switchContentToAssemblyId": "16370ff5184",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -3511,7 +3520,8 @@
                 "actionBehavier": false,
                 "type": "switch",
                 "horizontalSpan": 0,
-                "verticalSpan": 0
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -23418,7 +23428,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\"\n}"
+        "parameters": ""
       },
       {
         "id": "16371c338b9",
@@ -33753,74 +33763,6 @@
         "disableStdQuery": false
       },
       {
-        "id": "16390d02c3a",
-        "name": "资源分配（查看）",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
-        "layout": [],
-        "folderId": "16396e06a26",
-        "gridAutoExpandLevel": 0,
-        "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
-        "gridLineVisiable": false,
-        "gridMultiSelection": false,
-        "gridHeaderVisiable": false,
-        "gridFooterVisiable": false,
-        "gridHasBorder": false,
-        "gridHasHScroll": false,
-        "gridHasVScroll": false,
-        "gridHideIndentionImage": false,
-        "gridAutoHeight": false,
-        "gridFix": 0,
-        "gridPageControl": false,
-        "gridDataSetBundleId": "",
-        "gridDataSetClassName": "",
-        "gridPageCount": 0,
-        "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "166859f1018",
-            "name": "导出",
-            "image": "/img/excel_w.svg",
-            "bundleId": "com.bizvisionsoft.bruiengine",
-            "className": "com.bizvisionsoft.bruiengine.action.ExportAll",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          }
-        ],
-        "rowActions": [],
-        "borderTop": false,
-        "borderRight": false,
-        "borderBottom": false,
-        "borderLeft": false,
-        "readonly": false,
-        "enableGanttCompare": false,
-        "ganttGridWidthCalculate": false,
-        "ganttGridWidth": 0,
-        "hasTitlebar": false,
-        "displayInputLabelInTitlebar": false,
-        "displayRootInputLabelInTitlebar": false,
-        "selectorMultiSelection": false,
-        "actionPanelColumnCount": 0,
-        "smallEditor": false,
-        "tinyEditor": false,
-        "addToParentContext": false,
-        "removeBorder": false,
-        "disableInitLoadData": false,
-        "disableStandardExport": false,
-        "disableCustomized": false,
-        "disableStdQuery": false,
-        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n\"stickerTitleText\":\"资源计划\",\n\"gridExportActionText\":\"资源计划\",\n\"type\":\"plan\",\n\"editable\":false\n}"
-      },
-      {
         "id": "16390d46af6",
         "name": "项目风险登记簿（查看）",
         "layout": [],
@@ -34659,74 +34601,6 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false
-      },
-      {
-        "id": "16396e1b1ae",
-        "name": "资源用量",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
-        "layout": [],
-        "folderId": "16396e136be",
-        "gridAutoExpandLevel": 0,
-        "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
-        "gridLineVisiable": false,
-        "gridMultiSelection": false,
-        "gridHeaderVisiable": false,
-        "gridFooterVisiable": false,
-        "gridHasBorder": false,
-        "gridHasHScroll": false,
-        "gridHasVScroll": false,
-        "gridHideIndentionImage": false,
-        "gridAutoHeight": false,
-        "gridFix": 0,
-        "gridPageControl": false,
-        "gridDataSetBundleId": "",
-        "gridDataSetClassName": "",
-        "gridPageCount": 0,
-        "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "1668f54f165",
-            "name": "导出",
-            "image": "/img/excel_w.svg",
-            "bundleId": "com.bizvisionsoft.bruiengine",
-            "className": "com.bizvisionsoft.bruiengine.action.ExportAll",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "style": "info",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          }
-        ],
-        "rowActions": [],
-        "borderTop": false,
-        "borderRight": false,
-        "borderBottom": false,
-        "borderLeft": false,
-        "readonly": false,
-        "enableGanttCompare": false,
-        "ganttGridWidthCalculate": false,
-        "ganttGridWidth": 0,
-        "hasTitlebar": false,
-        "displayInputLabelInTitlebar": false,
-        "displayRootInputLabelInTitlebar": false,
-        "selectorMultiSelection": false,
-        "actionPanelColumnCount": 0,
-        "smallEditor": false,
-        "tinyEditor": false,
-        "addToParentContext": false,
-        "removeBorder": false,
-        "disableInitLoadData": false,
-        "disableStandardExport": false,
-        "disableCustomized": false,
-        "disableStdQuery": false,
-        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":true\n}"
       },
       {
         "id": "16399f2c7e5",
@@ -48019,7 +47893,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\"type\":\"plan\"}"
       },
       {
         "id": "1642681706e",
@@ -48104,7 +47979,7 @@
         "id": "1642681758e",
         "name": "资源实际用量分析组件",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceActualAnalysisASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceAnalysisASM",
         "layout": [],
         "folderId": "164268150ff",
         "gridAutoExpandLevel": 0,
@@ -48145,7 +48020,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\"type\":\"actual\"}"
       },
       {
         "id": "164268f2b50",
@@ -54584,56 +54460,6 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false
-      },
-      {
-        "id": "16464736d5b",
-        "name": "资源用量（查看）",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceASM",
-        "layout": [],
-        "folderId": "16396e136be",
-        "gridAutoExpandLevel": 0,
-        "gridCustomItemHeight": 0,
-        "gridMarkupEnabled": false,
-        "gridLineVisiable": false,
-        "gridMultiSelection": false,
-        "gridHeaderVisiable": false,
-        "gridFooterVisiable": false,
-        "gridHasBorder": false,
-        "gridHasHScroll": false,
-        "gridHasVScroll": false,
-        "gridHideIndentionImage": false,
-        "gridAutoHeight": false,
-        "gridFix": 0,
-        "gridPageControl": false,
-        "gridDataSetBundleId": "",
-        "gridDataSetClassName": "",
-        "gridPageCount": 0,
-        "gridAutoColumnWidth": false,
-        "actions": [],
-        "rowActions": [],
-        "borderTop": false,
-        "borderRight": false,
-        "borderBottom": false,
-        "borderLeft": false,
-        "readonly": false,
-        "enableGanttCompare": false,
-        "ganttGridWidthCalculate": false,
-        "ganttGridWidth": 0,
-        "hasTitlebar": false,
-        "displayInputLabelInTitlebar": false,
-        "displayRootInputLabelInTitlebar": false,
-        "selectorMultiSelection": false,
-        "actionPanelColumnCount": 0,
-        "smallEditor": false,
-        "tinyEditor": false,
-        "addToParentContext": false,
-        "removeBorder": false,
-        "disableInitLoadData": false,
-        "disableStandardExport": false,
-        "disableCustomized": false,
-        "disableStdQuery": false,
-        "parameters": "{\n\"ganttAssemblyName\":\"项目甘特图（资源实际分配）\",\n\"stickerTitleText\":\"资源用量\",\n\"gridExportActionText\":\"资源用量\",\n\"type\":\"actual\",\n\"editable\":false\n}"
       },
       {
         "id": "16464ef8fd1",
