@@ -54478,9 +54478,9 @@
         "gridAutoHeight": false,
         "gridFix": 0,
         "gridPageControl": false,
-        "gridDataSetService": "",
-        "gridDataSetBundleId": "com.bizvisionsoft.pms",
-        "gridDataSetClassName": "com.bizvisionsoft.pms.baseline.ReadonlyBaselineGantt",
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
