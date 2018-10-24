@@ -41,15 +41,6 @@ public class ResourceASM {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private String ganttAssemblyName;
-
-	@Inject
-	private String stickerTitleText;
-
-	@Inject
-	private String gridExportActionText;
-
-	@Inject
 	private Boolean editable;
 
 	@Inject
@@ -63,6 +54,22 @@ public class ResourceASM {
 
 	@CreateUI
 	public void createUI(Composite parent) {
+
+		String ganttAssemblyName;
+
+		String stickerTitleText;
+
+		String gridExportActionText;
+
+		if ("plan".equals(this.type)) {
+			ganttAssemblyName = "项目甘特图（资源计划分配）";
+			stickerTitleText = "资源计划";
+			gridExportActionText = "资源计划";
+		} else {
+			ganttAssemblyName = "项目甘特图（资源实际分配）";
+			stickerTitleText = "资源用量";
+			gridExportActionText = "资源用量";
+		}
 		parent.setLayout(new FormLayout());
 
 		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right()
@@ -79,7 +86,8 @@ public class ResourceASM {
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setCheckTime(true);
 		rt.setCanAdd(false);
-		rt.setCanDelete(true);
+		rt.setCanDelete(Boolean.TRUE.equals(editable));
+		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
@@ -218,7 +226,8 @@ public class ResourceASM {
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.addWorkIds(work.get_id());
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
-		rt.setCanDelete(true);
+		rt.setCanDelete(Boolean.TRUE.equals(editable));
+		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
