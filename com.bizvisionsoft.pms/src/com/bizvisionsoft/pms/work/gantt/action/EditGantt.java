@@ -42,7 +42,7 @@ public class EditGantt {
 					}
 				}
 			} else {
-				MessageDialog.openError(brui.getCurrentShell(), "提示", "计划已经由其他用户检出：" + checkoutUserId);
+				brui.error("提示", "计划已经由其他用户检出：" + checkoutUserId);
 			}
 		}
 	}

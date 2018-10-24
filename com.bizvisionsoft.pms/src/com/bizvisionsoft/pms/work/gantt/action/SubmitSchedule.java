@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -56,13 +54,13 @@ public class SubmitSchedule {
 					br.switchContent("项目甘特图", null);
 				}
 			} else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
-				MessageDialog.openError(br.getCurrentShell(), "检查结果",
+				br.error("检查结果",
 						"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 			} else if (Result.CODE_UPDATESTAGE == result.code) {
-				MessageDialog.openError(br.getCurrentShell(), "检查结果",
+				br.error( "检查结果",
 						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过阶段限定。");
 			} else if (Result.CODE_UPDATEPROJECT == result.code) {
-				MessageDialog.openError(br.getCurrentShell(), "检查结果",
+				br.error( "检查结果",
 						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过项目限定。");
 			}
 		}

@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.cbs.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -38,7 +36,7 @@ public class SubminBudgetSubject {
 		if (result.code == Result.CODE_SUCCESS) {
 			Layer.message("科目预算已提交");
 		} else {
-			MessageDialog.openError(brui.getCurrentShell(), "提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");
+			brui.error( "提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");
 		}
 		// BudgetSubject grid = (BudgetSubject)
 		// context.getChildContextByName("cbssubject").getContent();

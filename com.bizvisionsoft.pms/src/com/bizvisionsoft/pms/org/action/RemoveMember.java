@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.org.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -29,7 +27,6 @@ public class RemoveMember {
 				grid.remove(grid.getParentElement(user), user);
 			} catch (Exception e) {
 				br.error("ÒÆ³ý", e.getMessage());
-				MessageDialog.openError(br.getCurrentShell(), "ÒÆ³ý", e.getMessage());
 			}
 		}
 

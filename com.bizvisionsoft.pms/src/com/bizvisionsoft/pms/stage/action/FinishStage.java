@@ -62,7 +62,7 @@ public class FinishStage {
 			}
 			// TODO 显示多条错误信息的通用方法
 		} else {
-			MessageDialog.openError(shell, "完工阶段", "阶段所在项目未启动，无法完工阶段。");
+			brui.error( "完工阶段", "阶段所在项目未启动，无法完工阶段。");
 		}
 	}
 

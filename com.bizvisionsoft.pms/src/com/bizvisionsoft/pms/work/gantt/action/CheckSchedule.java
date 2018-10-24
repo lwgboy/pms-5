@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -18,7 +16,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CheckSchedule {
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService brui;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput) {
@@ -39,13 +37,13 @@ public class CheckSchedule {
 				if (Result.CODE_WORK_SUCCESS == result.code) {
 					Layer.message(result.message);
 				} else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
-					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
+					brui.error( "检查结果",
 							"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过限定。");
 				} else if (Result.CODE_UPDATESTAGE == result.code) {
-					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
+					brui.error( "检查结果",
 							"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过阶段限定。");
 				} else if (Result.CODE_UPDATEPROJECT == result.code) {
-					MessageDialog.openError(bruiService.getCurrentShell(), "检查结果",
+					brui.error("检查结果",
 							"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过項目限定。");
 				}
 			}
