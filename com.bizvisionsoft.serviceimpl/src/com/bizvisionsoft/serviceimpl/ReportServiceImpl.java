@@ -95,7 +95,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
 		try {
 			FileInputStream is = new FileInputStream(filePath);
-			return generateReport(is, jq.doc(), outputType, fileName);
+			return generateReport(is,new Document("pipeline", jq.doc().toJson()), outputType, fileName);
 		} catch (FileNotFoundException e) {
 			String msg = "没有报表模板文件" + filePath;
 			logger.error(msg);
