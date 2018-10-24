@@ -48442,7 +48442,7 @@
         "name": "查看部门资源汇总情况",
         "title": "资源数据表",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ShowDeptResourceASM",
+        "className": "com.bizvisionsoft.pms.resource.ShowResourceASM",
         "layout": [],
         "folderId": "1642c53c8ae",
         "gridAutoExpandLevel": 0,
