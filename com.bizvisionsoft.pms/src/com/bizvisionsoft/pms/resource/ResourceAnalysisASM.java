@@ -17,13 +17,16 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ResourcePlanAnalysisASM extends AbstractChartASM {
+public class ResourceAnalysisASM extends AbstractChartASM {
 
 	@Inject
 	private IBruiService bruiService;
 
 	@Inject
 	private BruiAssemblyContext context;
+
+	@Inject
+	private String type;
 
 	private ObjectId project_id = null;
 
@@ -52,7 +55,10 @@ public class ResourcePlanAnalysisASM extends AbstractChartASM {
 	public Document getOptionDocument() {
 		Document option;
 		// if (project_id != null) {
-		option = Services.get(WorkService.class).getResourcePlanAnalysis(project_id,year);
+		if ("plan".equals(type))
+			option = Services.get(WorkService.class).getResourcePlanAnalysis(project_id, year);
+		else
+			option = Services.get(WorkService.class).getResourceActualAnalysis(project_id, year);
 		// } else {
 		// option = Services.get(WorkService.class).getResourcePlanAnalysis(year);
 		// }
