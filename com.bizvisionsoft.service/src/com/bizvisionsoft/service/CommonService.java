@@ -317,16 +317,16 @@ public interface CommonService {
 	public long countAccoutIncomeRoot();
 
 	@POST
-	@Path("/accountItem/parent/{_id}/ds")
+	@Path("/accountItem/parent/{id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> getAccoutItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public List<AccountItem> getAccoutItem(@PathParam("id")  String id);
 
 	@POST
-	@Path("/accountItem/parent/{_id}/count")
+	@Path("/accountItem/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutItem(@PathParam("_id") ObjectId _id);
+	public long countAccoutItem(@PathParam("id") String id);
 
 	@POST
 	@Path("/accountIncome/parent/{id}/count")

@@ -842,6 +842,21 @@
                 "type": "customized",
                 "horizontalSpan": 0,
                 "verticalSpan": 0
+              },
+              {
+                "id": "166a67e2187",
+                "name": "V5.1M2¸üÐÂ",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.systemupdate.SystemUpdateV0502_accountitem",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized",
+                "horizontalSpan": 0,
+                "verticalSpan": 0
               }
             ],
             "editorAssemblyEditable": false,
