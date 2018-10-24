@@ -606,11 +606,11 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public OBSModule getOBSModule(ObjectId _id) {
-		
+
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", _id)));
 		pipeline.addAll(new JQ("追加-组织模板-角色").array());
-		
+
 		return c(OBSModule.class).aggregate(pipeline).first();
 	}
 
@@ -677,34 +677,53 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public void templateOBSSaveAsOBSModule(OBSModule obsModule, ObjectId template_id) {
+		copyToOBSModule(obsModule, "obsInTemplate", new Document("scope_id", template_id));
+	}
+
+	/**
+	 * 复制OBS结构到组织模板
+	 * 
+	 * @param obsModule
+	 *            组织模板
+	 * @param name
+	 *            需复制的obs集合
+	 * @param filter
+	 *            obs查询条件
+	 */
+	private void copyToOBSModule(OBSModule obsModule, String name, Document filter) {
 		// 1.创建组织模板，
 		obsModule = insert(obsModule);
 		ObjectId scope_id = obsModule.get_id();
 		OBSInTemplate rootOBS = createRootOBS(scope_id);
 
-		// 2.将项目模板的组织结构复制到组织模板中
+		// 2.将组织结构复制到组织模板中
 		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
 		List<Document> tobeInsert = new ArrayList<>();
 
 		// 创建组织结构
-		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1))
-				.forEach((Document doc) -> {
-					// 建立项目团队上下级关系
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					if (parent_id == null) {
-						idMap.put(doc.getObjectId("_id"), rootOBS.get_id());
-					} else {
-						ObjectId _id = new ObjectId();
-						idMap.put(doc.getObjectId("_id"), _id);
-						doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", idMap.get(parent_id));
-						tobeInsert.add(doc);
-					}
+		c(name).find(filter).sort(new Document("_id", 1)).forEach((Document doc) -> {
+			// 建立项目团队上下级关系
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id == null) {
+				idMap.put(doc.getObjectId("_id"), rootOBS.get_id());
+			} else {
+				ObjectId _id = new ObjectId();
+				idMap.put(doc.getObjectId("_id"), _id);
+				doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", idMap.get(parent_id));
+				tobeInsert.add(doc);
+			}
 
-				});
+		});
 		// 插入组织模板
 		if (!tobeInsert.isEmpty()) {
 			c("obsInTemplate").insertMany(tobeInsert);
 		}
+	}
+
+	@Override
+	public void projectOBSSaveAsOBSModule(OBSModule obsModule, ObjectId project_id) {
+		// TODO 暂不考虑阶段组织结构
+		copyToOBSModule(obsModule, "obs", new Document("scope_id", project_id));
 	}
 
 }

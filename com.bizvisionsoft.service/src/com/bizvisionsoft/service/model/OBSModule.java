@@ -122,4 +122,12 @@ public class OBSModule {
 		return Optional.ofNullable(eps_id).orElse(new ArrayList<>()).stream().map(epsService::get)
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
+
+	public OBSModule addEPS_id(ObjectId eps_id) {
+		if (this.eps_id == null)
+			this.eps_id = new ArrayList<ObjectId>();
+
+		this.eps_id.add(eps_id);
+		return this;
+	}
 }

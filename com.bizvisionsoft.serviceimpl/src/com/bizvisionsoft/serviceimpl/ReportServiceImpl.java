@@ -14,9 +14,12 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.dps.ReportCreator;
+import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ReportServiceImpl extends BasicServiceImpl implements ReportService {
 
@@ -43,8 +46,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 				ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 				os.close();
 				template.close();
-				return responseBuilder()
-						.header("Content-Disposition", "attachment; filename=" + downloadableFileName)
+				return responseBuilder().header("Content-Disposition", "attachment; filename=" + downloadableFileName)
 						.header("Content-Type", contentType).entity(is).build();
 			} catch (Exception e) {
 				logger.error("调用DPS报表服务出错", e);
@@ -71,7 +73,43 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	@Override
+	public Response commandReport(String commandParam) {
+		Document command = Document.parse(commandParam);
+		String outputType = command.getString("outputType");
+		String template = command.getString("template");
+		String fileName = command.getString("fileName");
+		String input_obj_id = command.getString("input_obj_id");
+		String selected_id = command.getString("selected_id");
+		String page_input_id = command.getString("page_input_id");
+		String root_input_id = command.getString("root_input_id");
+		JQ jq = new JQ(command.getString("jq"));
+		if (Check.isAssigned(input_obj_id))
+			jq.set("input_obj_id", new ObjectId(input_obj_id));
+		if (Check.isAssigned(selected_id))
+			jq.set("selected_id", new ObjectId(selected_id));
+		if (Check.isAssigned(page_input_id))
+			jq.set("page_input_id", new ObjectId(page_input_id));
+		if (Check.isAssigned(root_input_id))
+			jq.set("root_input_id", new ObjectId(root_input_id));
+
+		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
+		try {
+			FileInputStream is = new FileInputStream(filePath);
+			return generateReport(is, jq.doc(), outputType, fileName);
+		} catch (FileNotFoundException e) {
+			String msg = "没有报表模板文件" + filePath;
+			logger.error(msg);
+			return Response.status(404).build();
+		}
+	}
+
+	@Override
 	public Response generateReport() {
+		return responseBuilder().build();
+	}
+
+	@Override
+	public Response commandReport() {
 		return responseBuilder().build();
 	}
 

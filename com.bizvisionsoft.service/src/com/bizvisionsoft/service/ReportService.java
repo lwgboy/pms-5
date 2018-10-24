@@ -23,5 +23,18 @@ public interface ReportService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response generateReport();
+	
+	
+	@POST
+	@Path("/command/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response commandReport(@FormParam("command") String rptParam);
+	
+	@OPTIONS
+	@Path("/command/")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response commandReport();
+	
 
 }
