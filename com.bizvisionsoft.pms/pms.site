@@ -50693,7 +50693,7 @@
         "id": "164264bc852",
         "name": "资源计划用量分析组件",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourcePlanAnalysisASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceAnalysisASM",
         "layout": [],
         "folderId": "16426806eaf",
         "gridAutoExpandLevel": 0,
@@ -50734,7 +50734,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n\"type\":\"plan\"\n}"
       },
       {
         "id": "1642681706e",
@@ -50819,7 +50820,7 @@
         "id": "1642681758e",
         "name": "资源实际用量分析组件",
         "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.resource.ResourceActualAnalysisASM",
+        "className": "com.bizvisionsoft.pms.resource.ResourceAnalysisASM",
         "layout": [],
         "folderId": "164268150ff",
         "gridAutoExpandLevel": 0,
@@ -50860,7 +50861,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n\"type\":\"actual\"\n}"
       },
       {
         "id": "164268f2b50",
