@@ -17,10 +17,9 @@ import com.bizvisionsoft.bruiengine.assembly.SchedulerPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
@@ -51,7 +50,7 @@ public class WorkWidgetASM {
 				workPane.openQueryEditor();
 			}
 		});
-		
+
 		FormData fd = new FormData();
 		bar.setLayoutData(fd);
 		fd.left = new FormAttachment(0);
@@ -59,16 +58,8 @@ public class WorkWidgetASM {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		content.setBackground(BruiColors.getColor(BruiColor.Grey_200));
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-
-		content.setLayout(new FormLayout());
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FormLayout())
+				.background(BruiColor.Grey_200).get();
 
 		Composite cal = createCalendarSelector(content);
 		// Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -78,7 +69,7 @@ public class WorkWidgetASM {
 		fd = new FormData();
 		cal.setLayoutData(fd);
 		fd.left = new FormAttachment();
-		fd.right = new FormAttachment(100);
+		fd.right = new FormAttachment(100, 1);
 		fd.top = new FormAttachment();
 		fd.height = 360;
 
@@ -93,7 +84,7 @@ public class WorkWidgetASM {
 		grid.setLayoutData(fd);
 		fd.left = new FormAttachment();
 		fd.top = new FormAttachment(cal, 1);
-		fd.right = new FormAttachment(100);
+		fd.right = new FormAttachment(100, 1);
 		fd.bottom = new FormAttachment(100);
 
 	}

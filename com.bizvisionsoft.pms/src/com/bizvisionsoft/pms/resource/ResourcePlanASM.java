@@ -26,6 +26,7 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Selector;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourceTransfer;
@@ -60,14 +61,7 @@ public class ResourcePlanASM {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-		content.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目甘特图（资源计划分配）"))

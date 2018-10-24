@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -22,10 +20,10 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Selector;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlanInTemplate;
@@ -52,21 +50,10 @@ public class ResourceReqASM {
 
 		StickerTitlebar bar = new StickerTitlebar(parent, null, null)
 				.setActions(context.getAssembly().getActions()).setText("资源需求");
-		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-		content.setLayout(new FillLayout(SWT.VERTICAL));
+		Controls.handle(bar).height(48).left().top().right();
+
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板甘特图（用于资源分配）"))
 				.setServices(brui).create().getContext().getContent();

@@ -19,10 +19,10 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.IFolder;
@@ -38,12 +38,12 @@ public abstract class CabinetASM {
 	private GridPart folderPane;
 
 	private GridPart filePane;
-	
+
 	public CabinetASM setContext(BruiAssemblyContext context) {
 		this.context = context;
 		return this;
 	}
-	
+
 	public CabinetASM setBruiService(IBruiService brui) {
 		this.brui = brui;
 		return this;
@@ -61,14 +61,7 @@ public abstract class CabinetASM {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-		content.setLayout(new FormLayout());
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FormLayout()).get();
 
 		Composite left = createFolderPane(content);
 
@@ -233,7 +226,7 @@ public abstract class CabinetASM {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
-			return doCreateFolder(parentFolder,id.getValue());
+			return doCreateFolder(parentFolder, id.getValue());
 		}
 		return false;
 	}
@@ -246,20 +239,19 @@ public abstract class CabinetASM {
 		return false;
 	}
 
-
 	private boolean renameFolder(IFolder folder) {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
-			return doRenameFolder(folder,id.getValue());
+			return doRenameFolder(folder, id.getValue());
 		}
 		return false;
 	}
-	
+
 	protected abstract boolean doCreateFolder(IFolder parentFolder, String folderName);
 
-	protected abstract boolean doDeleteFolder(IFolder folder) ;
+	protected abstract boolean doDeleteFolder(IFolder folder);
 
 	protected abstract boolean doRenameFolder(IFolder folder, String name);
 

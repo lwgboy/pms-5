@@ -46,6 +46,7 @@ import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.BruiToolkit;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -207,21 +208,14 @@ public class EditResourceASM extends GridPart {
 			bar.setText(barText);
 		}
 
-		content = UserSession.bruiToolkit().newContentPanel(parent);
-		FormData fd = new FormData();
-		content.setLayoutData(fd);
+		Controls<Composite> ctl = Controls.contentPanel(parent);
 		if (bar != null) {
-			fd.left = new FormAttachment(0, 8);
-			fd.top = new FormAttachment(bar, 8);
-			fd.right = new FormAttachment(100, -8);
-			fd.bottom = new FormAttachment(100, -8);
+			ctl.mLoc().mTop(bar);
 		} else {
-			fd.left = new FormAttachment(0);
-			fd.top = new FormAttachment(0);
-			fd.right = new FormAttachment(100);
-			fd.bottom = new FormAttachment(100);
+			ctl.loc();
 		}
-		content.setLayout(new FillLayout(SWT.VERTICAL));
+		content = ctl.layout(new FillLayout(SWT.VERTICAL)).get();
+		
 		start = Calendar.getInstance();
 		if (rt.getFrom() != null) {
 			start.setTime(rt.getFrom());

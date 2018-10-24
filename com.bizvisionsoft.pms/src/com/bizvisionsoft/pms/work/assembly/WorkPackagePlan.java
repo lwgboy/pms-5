@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -20,6 +18,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.WorkPackage;
@@ -62,20 +61,9 @@ public class WorkPackagePlan {
 		bar.setActions(
 				UserSession.bruiToolkit().getAcceptedActions(targetAssembly, brui.getCurrentUserInfo(), context));
 
-		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
+		Controls.handle(bar).height(48).left().top().right();
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout()).get();
 
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);
@@ -86,7 +74,6 @@ public class WorkPackagePlan {
 			}
 		});
 
-		content.setLayout(new FillLayout());
 		grid = (GridPart) new AssemblyContainer(content, context).setInput(view).setAssembly(targetAssembly)
 				.setServices(brui).create().getContext().getContent();
 	}
