@@ -3,9 +3,6 @@ package com.bizvisionsoft.pms.workreport;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -27,8 +24,7 @@ public class SubmitWorkReportACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		WorkReport input = (WorkReport) context.getInput();
-		Shell shell = brui.getCurrentShell();
-		boolean ok = MessageDialog.openConfirm(shell, "提交" + input.getType(),
+		boolean ok = brui.confirm("提交" + input.getType(),
 				"请确认提交报告：" + input.getLabel() + "。\n系统将记录现在时刻为报告提交时间，提交后该报告将无法进行修改。");
 		if (!ok) {
 			return;
@@ -40,8 +36,8 @@ public class SubmitWorkReportACT {
 			ip.reload();
 			brui.closeCurrentContent();
 		} else {
-			if(result.get(0).code==Result.CODE_WORKREPORT_HASNOSTATEMENTWORK)
-			Layer.message("请为所有工作填写完成情況后，再进行提交。",Layer.ICON_CANCEL);
+			if (result.get(0).code == Result.CODE_WORKREPORT_HASNOSTATEMENTWORK)
+				Layer.message("请为所有工作填写完成情況后，再进行提交。", Layer.ICON_CANCEL);
 		}
 	}
 }

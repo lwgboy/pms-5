@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -18,8 +16,9 @@ public class EditTask {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
-		WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) GanttEvent event) {
+		WorkInfo workinfo = (WorkInfo) event.task;
 		String editor;
 		if (workinfo.isStage()) {
 			if (workinfo.isSummary())

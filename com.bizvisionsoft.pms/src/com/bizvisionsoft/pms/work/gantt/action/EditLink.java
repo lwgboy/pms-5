@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -18,8 +16,8 @@ public class EditLink {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link, (r, wi) -> {
+			@MethodParam(Execute.EVENT) GanttEvent event) {
+		Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.updateLink(wi);
 		});

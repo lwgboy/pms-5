@@ -6,14 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Assembly;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Project;
@@ -23,11 +21,9 @@ public class ComparisonBaselineACT {
 	@Inject
 	private IBruiService brui;
 
-	@SuppressWarnings("unchecked")
 	@Execute
-	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		StructuredSelection selection = context.getSelection();
-		List<Baseline> list = selection.toList();
+	private void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Project project,
+			@MethodParam(Execute.CONTEXT_SELECTION) List<Baseline> list) {
 		if (list.size() > 2) {
 			Layer.message("只允许对两个基线进行对比", Layer.ICON_CANCEL);
 			return;
@@ -39,8 +35,8 @@ public class ComparisonBaselineACT {
 		List<ObjectId> projectIds = new ArrayList<ObjectId>();
 		String title = "";
 		if (list.size() < 2) {
-			projectIds.add(((Project) context.getRootInput()).get_id());
-			title += "上 : " + ((Project) context.getRootInput()).getName();
+			projectIds.add(project.get_id());
+			title += "上 : " + project.getName();
 		}
 		Collections.sort(list, new Comparator<Baseline>() {
 			@Override

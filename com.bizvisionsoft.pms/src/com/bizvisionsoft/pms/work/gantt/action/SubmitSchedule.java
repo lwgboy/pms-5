@@ -1,14 +1,12 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
@@ -21,21 +19,17 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SubmitSchedule {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
-		IWBSScope rootInput = (IWBSScope) context.getRootInput();
-		if (rootInput != null) {
-			GanttPart ganttPart = (GanttPart) context.getContent();
-			if (MessageDialog.openConfirm(brui.getCurrentShell(), "提交计划", "请确认提交当前计划。")) {
-				if (ganttPart.isDirty()) {
-					ganttPart.save((t, l) -> submit(rootInput));
-				} else {
-					submit(rootInput);
-				}
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput,
+			@MethodParam(Execute.CONTEXT_CONTENT) GanttPart ganttPart) {
+		if (rootInput != null && br.confirm("提交计划", "请确认提交当前计划。")) {
+			if (ganttPart.isDirty()) {
+				ganttPart.save((t, l) -> submit(rootInput));
+			} else {
+				submit(rootInput);
 			}
-
 		}
 	}
 
@@ -59,16 +53,16 @@ public class SubmitSchedule {
 
 				if (Result.CODE_WORK_SUCCESS == result.code) {
 					Layer.message(result.message);
-					brui.switchContent("项目甘特图", null);
+					br.switchContent("项目甘特图", null);
 				}
 			} else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
-				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
+				MessageDialog.openError(br.getCurrentShell(), "检查结果",
 						"管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b> 完成时间超过限定。");
 			} else if (Result.CODE_UPDATESTAGE == result.code) {
-				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
+				MessageDialog.openError(br.getCurrentShell(), "检查结果",
 						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过阶段限定。");
 			} else if (Result.CODE_UPDATEPROJECT == result.code) {
-				MessageDialog.openError(brui.getCurrentShell(), "检查结果",
+				MessageDialog.openError(br.getCurrentShell(), "检查结果",
 						"工作 <b style='color:red;'>" + result.data.getString("name") + "</b> 的完成时间超过项目限定。");
 			}
 		}
