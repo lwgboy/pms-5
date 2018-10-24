@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -427,8 +428,13 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	private String typeName = "项目";
 
 	@Structure("我的项目（首页小组件）/list")
-	private List<ProjectBoardInfo> getProjectBoardInfo() {
-		return Arrays.asList(new ProjectBoardInfo().setProject(this));
+	private List<ProjectBoardInfo> listProjectBoardInfo() {
+		// 只展开进行中的项目
+		if (ProjectStatus.Processing.equals(status)||ProjectStatus.Closing.equals(status)) {
+			return Arrays.asList(new ProjectBoardInfo().setProject(this));
+		}else {
+			return new ArrayList<>();
+		}
 	}
 
 	@Structure("我的项目（首页小组件）/count")

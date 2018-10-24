@@ -37,6 +37,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -135,15 +136,7 @@ public class ShowDeptResourceASM extends GridPart {
 
 		bar.setText("资源数据表");
 
-		content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-
-		content.setLayout(new FillLayout(SWT.VERTICAL));
+		content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		viewer = new GridTreeViewer(content, SWT.H_SCROLL | SWT.V_SCROLL);
 		Grid grid = viewer.getGrid();

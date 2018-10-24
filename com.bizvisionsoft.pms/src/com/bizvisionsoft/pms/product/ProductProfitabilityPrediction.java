@@ -37,9 +37,9 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ProductService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -154,15 +154,8 @@ public class ProductProfitabilityPrediction extends GridPart {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-		content.setLayout(new FormLayout());
-
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).get();
+		
 		Control grid = createGridControl(content);
 		fd = new FormData();
 		grid.setLayoutData(fd);

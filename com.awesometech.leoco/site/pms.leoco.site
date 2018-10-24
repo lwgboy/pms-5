@@ -15602,6 +15602,23 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
+          },
+          {
+            "id": "166a3247590",
+            "name": "另存模板",
+            "text": "另存模板",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.SaveAsOBSModule",
+            "openContent": false,
+            "propagate": false,
+            "forceText": true,
+            "style": "normal",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0
           }
         ],
         "rowActions": [
@@ -23876,7 +23893,8 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "parameters": "{\n  \"ganttAssemblyName\":\"项目甘特图（资源计划分配）\",\n  \"stickerTitleText\":\"资源计划\"\n}"
       },
       {
         "id": "16371c338b9",

@@ -17,8 +17,6 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -32,6 +30,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
@@ -59,29 +58,17 @@ public class SingleResourceConflictSolutionASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null)
-				.setActions(context.getAssembly().getActions());
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setActions(context.getAssembly().getActions());
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);
 			if ("close".equals(action.getName())) {
 				brui.closeCurrentContent();
 			}
 		});
-		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
 
-		Composite content = UserSession.bruiToolkit().newContentPanel(parent);
-		fd = new FormData();
-		content.setLayoutData(fd);
-		fd.left = new FormAttachment(0, 8);
-		fd.top = new FormAttachment(bar, 8);
-		fd.right = new FormAttachment(100, -8);
-		fd.bottom = new FormAttachment(100, -8);
-		content.setLayout(new FillLayout(SWT.VERTICAL));
+		Controls.handle(bar).left().top().right().height(48);
+
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		ResourcePlan rp = (ResourcePlan) context.getInput();
 		bar.setText("解决资源冲突 - " + rp);
