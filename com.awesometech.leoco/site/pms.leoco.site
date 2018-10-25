@@ -1024,6 +1024,22 @@
                 "type": "customized",
                 "horizontalSpan": 0,
                 "verticalSpan": 0
+              },
+              {
+                "id": "166a86eaed3",
+                "name": "V5.1-M1-AccountItem更新",
+                "text": "V5.1-M1-AccountItem更新",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.systemupdate.SystemUpdateV0502_accountitem",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "customized",
+                "horizontalSpan": 0,
+                "verticalSpan": 0
               }
             ],
             "editorAssemblyEditable": false,
