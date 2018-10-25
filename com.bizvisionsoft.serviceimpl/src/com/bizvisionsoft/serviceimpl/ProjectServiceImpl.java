@@ -1517,15 +1517,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId)
 				.set("status", ProjectChange.STATUS_SUBMIT).array();
 
-		appendProject(pipeline);
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
 
-		pipeline.add(Aggregates.match(filter));
-
-		pipeline.add(Aggregates.project(new Document("_id", true)));
-
-		// return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
-		// TODO
-		return 0;
+		return c("projectChange").aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
