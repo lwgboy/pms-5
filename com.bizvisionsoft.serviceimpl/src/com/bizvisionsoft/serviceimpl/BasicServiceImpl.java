@@ -757,6 +757,10 @@ public class BasicServiceImpl {
 	public Document getSystemSetting(String name) {
 		return c("setting").find(new Document("name", name)).first();
 	}
+	
+	public Object getSystemSetting(String name,String parameter) {
+		return Optional.ofNullable(getSystemSetting(name)).map(d->d.get(parameter)).orElse(null);
+	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
 		Service.run(() -> {
@@ -768,8 +772,19 @@ public class BasicServiceImpl {
 				return;
 
 			String receiverAddress = user.getString("email");
-			if (receiverAddress == null || receiverAddress.isEmpty())
+			if (Check.isNotAssigned(receiverAddress)) {
+				logger.error("邮件未能发送，原因是没有邮箱地址，用户："+user);
 				return;
+			}
+			
+			if(logger.isDebugEnabled()) {
+				logger.warn("调试模式启动下，只发送到系统设置的接受账号");
+				receiverAddress = (String)getSystemSetting("测试邮件接收账户","testEmail");
+				if (Check.isNotAssigned(receiverAddress)) {
+					logger.error("邮件未能发送，原因是没有设置系统参数：测试邮件接收账户/testEmail");
+					return;
+				}
+			}
 
 			if (Boolean.TRUE.equals(setting.get("dps"))) {
 				EmailSender sender = Service.get(EmailSender.class);
