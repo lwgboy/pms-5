@@ -2981,6 +2981,35 @@
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
                 "passParametersToAssembly": "{\n\"type\":\"actual\",\n\"editable\":true\n}"
+              },
+              {
+                "id": "166aa2c1314",
+                "name": "资源用量综合分析",
+                "switchContentToAssemblyId": "16426495913",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch",
+                "horizontalSpan": 0,
+                "verticalSpan": 0
+              },
+              {
+                "id": "166aa2c402b",
+                "name": "资源数据表",
+                "switchContentToAssemblyId": "164288038a1",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch",
+                "horizontalSpan": 0,
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
               }
             ],
             "editorAssemblyEditable": false,
@@ -3671,6 +3700,35 @@
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
                 "passParametersToAssembly": "{\n\"type\":\"actual\",\n\"editable\":false\n}"
+              },
+              {
+                "id": "166ab0a084d",
+                "name": "资源用量综合分析",
+                "switchContentToAssemblyId": "16426495913",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch",
+                "horizontalSpan": 0,
+                "verticalSpan": 0
+              },
+              {
+                "id": "166ab0a0c62",
+                "name": "资源数据表",
+                "switchContentToAssemblyId": "164288038a1",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch",
+                "horizontalSpan": 0,
+                "verticalSpan": 0,
+                "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
               }
             ],
             "editorAssemblyEditable": false,
