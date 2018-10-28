@@ -20633,7 +20633,7 @@
             "markupEnabled": false,
             "sort": 0,
             "forceDisplayZero": false,
-            "hide": false,
+            "hide": true,
             "element": false,
             "noToggleGridColumnGroup": false
           }
@@ -20643,7 +20643,7 @@
           {
             "id": "16675f1e68c",
             "name": "undo",
-            "tooltips": "Undo",
+            "tooltips": "Undo (CTRL+Z)",
             "image": "/img/undo_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.gantt.action.GanttEditUndo",
@@ -20656,12 +20656,13 @@
             "actionBehavier": false,
             "type": "customized",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "shortcutKey": "CTRL+Z"
           },
           {
             "id": "16675f18362",
             "name": "redo",
-            "tooltips": "Redo",
+            "tooltips": "Redo (CTRL+Y)",
             "image": "/img/redo_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.gantt.action.GanttEditRedo",
@@ -20674,7 +20675,8 @@
             "actionBehavier": false,
             "type": "customized",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "shortcutKey": "CTRL+Y"
           },
           {
             "id": "1642b43ca2a",
@@ -20769,12 +20771,14 @@
             "actionBehavier": false,
             "type": "customized",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "shortcutKey": ""
           },
           {
             "id": "164554de05f",
             "name": "保存",
             "text": "保存",
+            "tooltips": "保存当前的编辑 (CTRL+S)",
             "image": "/img/save_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.gantt.action.SaveGantt",
@@ -20787,7 +20791,8 @@
             "actionBehavier": false,
             "type": "customized",
             "horizontalSpan": 0,
-            "verticalSpan": 0
+            "verticalSpan": 0,
+            "shortcutKey": "CTRL+S"
           },
           {
             "id": "16344200545",
@@ -20996,7 +21001,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "inlineEdit": true
+        "inlineEdit": false
       },
       {
         "id": "16343e4a715",
