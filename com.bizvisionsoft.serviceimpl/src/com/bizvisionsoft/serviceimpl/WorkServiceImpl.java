@@ -63,85 +63,57 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return queryWork(null, null, condition, null, new BasicDBObject("index", 1)).into(new ArrayList<Work>());
 	}
 
-	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject basicCondition,
-			BasicDBObject filter, BasicDBObject sort) {
-		List<Bson> pipeline = new ArrayList<Bson>();
-
-		if (basicCondition != null)
-			pipeline.add(Aggregates.match(basicCondition));
-
-		appendProject(pipeline);
-
-		appendUserInfo(pipeline, "chargerId", "chargerInfo");
-
-		appendUserInfo(pipeline, "assignerId", "assignerInfo");
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		appendOverdue(pipeline);
-
-		appendWorkTime(pipeline);
-
-		return c(Work.class).aggregate(pipeline);
-	}
-
 	private void appendWorkTime(List<Bson> pipeline) {
 		pipeline.addAll(Arrays.asList(
-				new Document("$lookup", new Document("from", "work")
-						.append("let",
-								new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
-						.append("pipeline",
-								Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-												new Document("$eq",
-														Arrays.asList(new Document("$indexOfBytes",
-																Arrays.asList("$wbsCode",
-																		new Document("$concat",
-																				Arrays.asList("$$wbsCode", ".")))),
-																0)),
-												new Document("$eq", Arrays.asList("$summary", false)))))),
-										new Document().append("$addFields", new Document()
-												.append("planDuration",
-														new Document("$divide", Arrays.asList(
-																new Document("$subtract",
-																		Arrays.asList(new Document("$ifNull",
-																				Arrays.asList("$estimatedFinish",
-																						"$planFinish")),
-																				"$planStart")),
-																1000 * 3600 * 24)))
-												.append("actualDuration",
-														new Document("$divide", Arrays.asList(
-																new Document("$subtract", Arrays.asList(
-																		new Document("$ifNull",
-																				Arrays.asList("$actualFinish",
-																						new Date())),
-																		new Document("$ifNull",
-																				Arrays.asList("$actualStart",
-																						new Date())))),
-																1000 * 3600 * 24)))),
-										new Document("$group", new Document("_id", null)
-												.append("planDuration", new Document("$sum", "$planDuration"))
-												.append("actualDuration", new Document("$sum", "$actualDuration"))
-												.append("actualWorks", new Document("$sum", "$actualWorks"))
-												.append("planWorks", new Document("$sum", "$planWorks")))))
-						.append("as", "work")),
+				new Document("$lookup",
+						new Document("from", "work").append("let", new Document("wbsCode", "$wbsCode").append("project_id", "$project_id"))
+								.append("pipeline", Arrays.asList(
+										new Document("$match",
+												new Document("$expr", new Document("$and",
+														Arrays.asList(
+																new Document("$eq", Arrays.asList("$project_id",
+																		"$$project_id")),
+																new Document("$eq",
+																		Arrays.asList(
+																				new Document("$indexOfBytes",
+																						Arrays.asList("$wbsCode",
+																								new Document("$concat",
+																										Arrays.asList("$$wbsCode", ".")))),
+																				0)),
+																new Document("$eq", Arrays.asList("$summary", false)))))),
+										new Document()
+												.append("$addFields",
+														new Document()
+																.append("planDuration",
+																		new Document("$divide",
+																				Arrays.asList(new Document("$subtract",
+																						Arrays.asList(
+																								new Document("$ifNull",
+																										Arrays.asList("$estimatedFinish",
+																												"$planFinish")),
+																								"$planStart")),
+																						1000 * 3600 * 24)))
+																.append("actualDuration",
+																		new Document("$divide", Arrays.asList(
+																				new Document("$subtract",
+																						Arrays.asList(
+																								new Document("$ifNull",
+																										Arrays.asList("$actualFinish",
+																												new Date())),
+																								new Document("$ifNull",
+																										Arrays.asList("$actualStart",
+																												new Date())))),
+																				1000 * 3600 * 24)))),
+										new Document("$group",
+												new Document("_id", null).append("planDuration", new Document("$sum", "$planDuration"))
+														.append("actualDuration", new Document("$sum", "$actualDuration"))
+														.append("actualWorks", new Document("$sum", "$actualWorks"))
+														.append("planWorks", new Document("$sum", "$planWorks")))))
+								.append("as", "work")),
 				new Document("$unwind", new Document("path", "$work").append("preserveNullAndEmptyArrays", true)),
 				new Document("$addFields",
-						new Document("summaryPlanDuration", "$work.planDuration")
-								.append("summaryActualDuration", "$work.actualDuration")
-								.append("summaryActualWorks", "$workTime.actualWorks")
-								.append("summaryPlanWorks", "$workTime.planWorks")),
+						new Document("summaryPlanDuration", "$work.planDuration").append("summaryActualDuration", "$work.actualDuration")
+								.append("summaryActualWorks", "$workTime.actualWorks").append("summaryPlanWorks", "$workTime.planWorks")),
 				new Document("$project", new Document("work", false))));
 
 	}
@@ -153,11 +125,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				"$actualFinish",
 				// 完成时。依据计划完成时间小于实际完成时间，返回true，否则为false
 				new BasicDBObject("$cond",
-						Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", "$actualFinish")), true,
-								false)),
+						Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", "$actualFinish")), true, false)),
 				// 未完成时。依据计划完成时间小于当前时间，返回true，否则为false
-				new BasicDBObject("$cond",
-						Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", new Date())), true, false))
+				new BasicDBObject("$cond", Arrays.asList(new BasicDBObject("$lt", Arrays.asList("$planFinish", new Date())), true, false))
 
 		))));
 
@@ -314,25 +284,23 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Stage.equals(com.name)) {
-			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array())
-					.first().get("count");
+			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array()).first().get("count");
 			if (count.intValue() > 0) {
 				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
 			}
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 获得时间
-		Document latest = c("work").find(new Document("parent_id", com._id))
-				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1)).first();
+		Document latest = c("work").find(new Document("parent_id", com._id)).projection(new Document("actualFinish", true))
+				.sort(new Document("actualFinish", -1)).first();
 		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新
-		c("work").updateOne(new Document("_id", com._id),
-				new Document("$set", new Document("status", ProjectStatus.Closing)//
-						.append("actualFinish", actualFinish)//
-						.append("progress", 1d)//
-						.append("finishInfo", com.info())));
+		c("work").updateOne(new Document("_id", com._id), new Document("$set", new Document("status", ProjectStatus.Closing)//
+				.append("actualFinish", actualFinish)//
+				.append("progress", 1d)//
+				.append("finishInfo", com.info())));
 
 		sendStageMessage(stage, "收尾", com.date, com.userId);
 		return new ArrayList<Result>();
@@ -354,8 +322,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果阶段下存在未完成的工作，警告
 		if (ICommand.Close_Stage.equals(com.name)) {
-			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array())
-					.first().get("count");
+			Number count = (Number) c("work").aggregate(new JQ("查询-工作-阶段未完成工作数").set("stage_id", com._id).array()).first().get("count");
 			if (count.intValue() > 0) {
 				return Arrays.asList(Result.warning("阶段存在一些尚未完成的工作。"));
 			}
@@ -372,11 +339,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public Workspace getWorkspace(ObjectId _id) {
 		BasicDBObject dbo = c("work").find(new BasicDBObject("_id", _id), BasicDBObject.class)
-				.projection(new BasicDBObject("space_id", Boolean.TRUE).append("checkoutBy", Boolean.TRUE)
-						.append("project_id", Boolean.TRUE))
+				.projection(
+						new BasicDBObject("space_id", Boolean.TRUE).append("checkoutBy", Boolean.TRUE).append("project_id", Boolean.TRUE))
 				.first();
-		return Workspace.newInstance(dbo.getObjectId("project_id"), _id, dbo.getObjectId("space_id"),
-				dbo.getString("checkoutBy"));
+		return Workspace.newInstance(dbo.getObjectId("project_id"), _id, dbo.getObjectId("space_id"), dbo.getString("checkoutBy"));
 	}
 
 	@Override
@@ -384,21 +350,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<ObjectId> inputIds = new ArrayList<ObjectId>();
 		inputIds.add(parent_id);
 		inputIds = getDesentItems(inputIds, "work", "parent_id");
-		return c(WorkLink.class).find(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target",
-				new BasicDBObject("$in", inputIds))).into(new ArrayList<WorkLink>());
+		return c(WorkLink.class)
+				.find(new BasicDBObject("source", new BasicDBObject("$in", inputIds)).append("target", new BasicDBObject("$in", inputIds)))
+				.into(new ArrayList<WorkLink>());
 	}
 
 	@Override
 	public List<Work> createWorkTaskDataSet(ObjectId parent_id) {
 		List<Work> result = new ArrayList<Work>();
-		queryWork(null, null, new BasicDBObject("parent_id", parent_id), null, new BasicDBObject("index", 1))
-				.forEach(new Block<Work>() {
-					@Override
-					public void apply(final Work work) {
-						result.add(work);
-						result.addAll(createWorkTaskDataSet(work.get_id()));
-					}
-				});
+		queryWork(null, null, new BasicDBObject("parent_id", parent_id), null, new BasicDBObject("index", 1)).forEach(new Block<Work>() {
+			@Override
+			public void apply(final Work work) {
+				result.add(work);
+				result.addAll(createWorkTaskDataSet(work.get_id()));
+			}
+		});
 		return result;
 	}
 
@@ -414,19 +380,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.into(new ArrayList<Work>());
 	}
 
-	@Override
-	public List<Work> createProcessingWorkDataSet(BasicDBObject condition, String userid) {
-		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
-
+	private AggregateIterable<Work> queryWork(Integer skip, Integer limit, BasicDBObject basicCondition, BasicDBObject filter,
+			BasicDBObject sort) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		pipeline.add(Aggregates.match(new BasicDBObject("$or",
-				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", null).append("distributed", true)
-						.append("stage", new BasicDBObject("$ne", true))));
+		if (basicCondition != null)
+			pipeline.add(Aggregates.match(basicCondition));
 
 		appendProject(pipeline);
 
@@ -439,8 +398,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
-		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planStart", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -448,38 +405,117 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+		appendOverdue(pipeline);
+
+		appendWorkTime(pipeline);
+
+		return c(Work.class).aggregate(pipeline);
+	}
+	
+	private BasicDBObject appendMyPlanWorkCondition(BasicDBObject condition, String userid) {
+		condition.append("chargerId", userid)//
+				.append("summary", false)//
+				.append("actualStart", null)//
+				.append("distributed", true)//
+				.append("stage", new BasicDBObject("$ne", true));//
+		return condition;
+	}
+	
+	private BasicDBObject appendMyExecWorkCondition(BasicDBObject condition, String userid) {
+		condition.append("chargerId", userid)//
+				.append("summary", false)//
+				.append("actualStart", new BasicDBObject("$ne",null))//
+				.append("actualFinish", null)//
+				.append("distributed", true)//
+				.append("stage", new BasicDBObject("$ne", true));//
+		return condition;
 	}
 
 	@Override
-	public long countProcessingWorkDataSet(BasicDBObject filter, String userid) {
+	public List<Work> listMyProcessingWork(BasicDBObject condition, String userid) {
+		BasicDBObject basicCondition = new BasicDBObject("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
+						.append("summary", false).append("actualFinish", null).append("distributed", true)
+						.append("stage", new BasicDBObject("$ne", true));
+
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countMyProcessingWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
 
 		filter.put("summary", false);
 		filter.put("actualFinish", null);
 		filter.put("distributed", true);
-		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
-				new BasicDBObject("assignerId", userid) });
+		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) });
 		filter.put("stage", new BasicDBObject("$ne", true));
 		return count(filter, Work.class);
 	}
 
 	@Override
-	public List<Work> createFinishedWorkDataSet(BasicDBObject condition, String userid) {
+	public List<Work> listMyPlannedWork(BasicDBObject condition, String userid) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendMyPlanWorkCondition(new BasicDBObject(), userid);
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countMyPlannedWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendMyPlanWorkCondition(filter, userid);
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> listMyExecutingWork(BasicDBObject condition, String userid) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendMyExecWorkCondition(new BasicDBObject(), userid);
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countMyExecutingWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendMyExecWorkCondition(filter, userid);
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> listMyFinishedWork(BasicDBObject condition, String userid) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 
-		return queryWork(skip, limit, new BasicDBObject("$or",
-				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-						.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
-						.append("stage", new BasicDBObject("$ne", true)),
+		return queryWork(skip, limit,
+				new BasicDBObject("$or",
+						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
+								.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
+								.append("stage", new BasicDBObject("$ne", true)),
 				filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
 	}
 
 	@Override
-	public long countFinishedWorkDataSet(BasicDBObject filter, String userid) {
+	public long countMyFinishedWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
 
@@ -488,8 +524,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		filter.put("summary", false);
 		filter.put("distributed", true);
-		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid),
-				new BasicDBObject("assignerId", userid) });
+		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) });
 		filter.put("stage", new BasicDBObject("$ne", true));
 
 		return count(filter, Work.class);
@@ -506,18 +541,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// 获取用户所在部门的下级部门
 			orgIds = getDesentItems(orgIds, "organization", "parent_id");
 			// 获取部门中的成员
-			List<String> users = c("user").distinct("userId",
-					new BasicDBObject().append("org_id", new BasicDBObject("$in", orgIds)), String.class)
+			List<String> users = c("user")
+					.distinct("userId", new BasicDBObject().append("org_id", new BasicDBObject("$in", orgIds)), String.class)
 					.into(new ArrayList<String>());
 
 			return queryWork(null, null,
 					new BasicDBObject("$or",
 							new BasicDBObject[] { new BasicDBObject("chargerId", new BasicDBObject("$in", users)),
-									new BasicDBObject("assignerId", new BasicDBObject("$in", users)) })
-											.append("summary", false).append("actualFinish", null)
-											.append("distributed", true),
-					null, new BasicDBObject("chargerId", 1).append("assignerId", 1).append("planFinish", 1))
-							.into(new ArrayList<Work>());
+									new BasicDBObject("assignerId", new BasicDBObject("$in", users)) }).append("summary", false)
+											.append("actualFinish", null).append("distributed", true),
+					null, new BasicDBObject("chargerId", 1).append("assignerId", 1).append("planFinish", 1)).into(new ArrayList<Work>());
 		} else
 			return new ArrayList<Work>();
 	}
@@ -545,10 +578,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.add(Aggregates.lookup(master, "work_id", "_id", "work"));
 		pipeline.add(Aggregates.addFields(
-				new Field<BasicDBObject>("deadline",
-						new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 })),
-				new Field<BasicDBObject>("actualFinish",
-						new BasicDBObject("$arrayElemAt", new Object[] { "$work.actualFinish", 0 }))));
+				new Field<BasicDBObject>("deadline", new BasicDBObject("$arrayElemAt", new Object[] { "$work.planFinish", 0 })),
+				new Field<BasicDBObject>("actualFinish", new BasicDBObject("$arrayElemAt", new Object[] { "$work.actualFinish", 0 }))));
 		pipeline.add(Aggregates.project(new BasicDBObject("work", false)));
 
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
@@ -573,31 +604,22 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	private void appendProgress(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("workPackageProgress", "_id", "package_id", "progress"));
-		pipeline.add(Aggregates.addFields(
-				Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
-						new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")),
-						new Field<Bson>("qualifiedQty", new BasicDBObject("$sum", "$progress.qualifiedQty")))));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<Bson>("updateTime", new BasicDBObject("$max", "$progress.updateTime")),
+				new Field<Bson>("completeQty", new BasicDBObject("$sum", "$progress.completeQty")),
+				new Field<Bson>("qualifiedQty", new BasicDBObject("$sum", "$progress.qualifiedQty")))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		pipeline.add(
 				new BasicDBObject("$lookup",
 						new BasicDBObject("from", "workPackageProgress")
-								.append("let",
-										new BasicDBObject("pid", "$_id").append("pupdateTime", "$updateTime"))
-								.append("pipeline",
-										Arrays.asList(
-												new BasicDBObject(
-														"$match",
-														new BasicDBObject("$expr",
-																new BasicDBObject(
-																		"$and",
-																		Arrays.asList(
-																				new BasicDBObject("$eq", Arrays.asList(
-																						"$package_id", "$$pid")),
-																				new BasicDBObject("$eq",
-																						Arrays.asList("$updateTime",
-																								"$$pupdateTime")))))),
-												new BasicDBObject("$project",
-														new BasicDBObject("completeStatus", true))))
+								.append("let", new BasicDBObject("pid",
+										"$_id").append("pupdateTime",
+												"$updateTime"))
+								.append("pipeline", Arrays.asList(
+										new BasicDBObject("$match",
+												new BasicDBObject("$expr", new BasicDBObject("$and",
+														Arrays.asList(new BasicDBObject("$eq", Arrays.asList("$package_id", "$$pid")),
+																new BasicDBObject("$eq", Arrays.asList("$updateTime", "$$pupdateTime")))))),
+										new BasicDBObject("$project", new BasicDBObject("completeStatus", true))))
 								.append("as", "progress1")));
 		pipeline.add(Aggregates.unwind("$progress1", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 		pipeline.add(Aggregates.addFields(new Field<String>("completeStatus", "$progress1.completeStatus")));
@@ -658,8 +680,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新工作和上级工作的实际开始时间
-		c("work").updateMany(new Document("_id", new Document("$in", toUpd)),
-				new Document("$set", new Document("actualStart", com.date)));// 更新为当前时间
+		c("work").updateMany(new Document("_id", new Document("$in", toUpd)), new Document("$set", new Document("actualStart", com.date)));// 更新为当前时间
 
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新项目的实际开始时间
@@ -669,8 +690,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 根据工作搭接关系处理搭接工作，包括里程碑，并发通知
 		String projectName = getName("project", work.getProject_id());
-		List<Message> msg = handlePostPreced(projectName, toUpd, Arrays.asList("SS", "SF"), true, com.date, com.userId,
-				new ArrayList<>());
+		List<Message> msg = handlePostPreced(projectName, toUpd, Arrays.asList("SS", "SF"), true, com.date, com.userId, new ArrayList<>());
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 发出消息通知
@@ -683,8 +703,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return new ArrayList<Result>();
 	}
 
-	private List<Message> handlePostPreced(String projectName, List<ObjectId> toUpd, List<String> types,
-			boolean isStart, Date date, String sender, List<Message> msg) {
+	private List<Message> handlePostPreced(String projectName, List<ObjectId> toUpd, List<String> types, boolean isStart, Date date,
+			String sender, List<Message> msg) {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 查找工作搭接关系处理搭接工作
 		List<? extends Bson> pipeline = Arrays.asList(//
@@ -722,8 +742,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 处理里程碑
 		if (!milestones.isEmpty()) {
-			c("work").updateMany(new Document("_id", new Document("$in", milestones)), new Document("$set",
-					new Document("actualStart", date).append("actualFinish", date).append("progress", 1d)));// 更新为当前时间
+			c("work").updateMany(new Document("_id", new Document("$in", milestones)),
+					new Document("$set", new Document("actualStart", date).append("actualFinish", date).append("progress", 1d)));// 更新为当前时间
 			generateWorkNotice(milestones, msg, "完成", date, sender, "PM", "PPM");
 			handlePostPreced(projectName, milestones, Arrays.asList("SS", "SF"), true, date, sender, msg);
 			handlePostPreced(projectName, milestones, Arrays.asList("FS", "FF"), false, date, sender, msg);
@@ -732,8 +752,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, String eventName, Date eventDate,
-			String sender, String... receiverRole) {
+	private void generateWorkNotice(List<ObjectId> workIds, List<Message> msg, String eventName, Date eventDate, String sender,
+			String... receiverRole) {
 		Consumer<Document> action = (Document d) -> {
 			String projectName = ((Document) d.get("project")).getString("name");
 			new HashSet<>((List<String>) d.get("receiver")).forEach(receiver -> {
@@ -804,8 +824,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 根据工作搭接关系处理搭接工作，包括里程碑，并发通知
 		String projectName = getName("project", work.getProject_id());
-		List<Message> msg = handlePostPreced(projectName, toUpdate, Arrays.asList("FS", "FF"), false, com.date,
-				com.userId, new ArrayList<>());
+		List<Message> msg = handlePostPreced(projectName, toUpdate, Arrays.asList("FS", "FF"), false, com.date, com.userId,
+				new ArrayList<>());
 
 		generateWorkNotice(noticeWorks, msg, "完成", com.date, com.userId, "PM", "PPM");
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -828,18 +848,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		});
 		final String projectName = getName("project", stage.getObjectId("project_id"));
 		final List<Message> msg = new ArrayList<>();
-		new HashSet<String>(receivers)
-				.forEach(r -> msg.add(Message.workEventMsg(projectName, stage, event, eventDate, sender, r)));
+		new HashSet<String>(receivers).forEach(r -> msg.add(Message.workEventMsg(projectName, stage, event, eventDate, sender, r)));
 		sendMessages(msg);
 	}
 
 	private List<String> getStageMembers(ObjectId _id) {
-		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class).into(new ArrayList<>());
 		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
-		ArrayList<String> memberIds = c("obs")
-				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
-						new BasicDBObject("$ne", null)), String.class)
+		ArrayList<String> memberIds = c("obs").distinct("managerId",
+				new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)), String.class)
 				.into(new ArrayList<>());
 		String charger = c("work").find(new Document("_id", _id)).first().getString("chargerId");
 		if (!memberIds.contains(charger))
@@ -858,48 +875,42 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long deleteHumanResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlan")
-				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
+		DeleteResult dr = c("resourcePlan").deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
 		updateWorkPlanWorks(work_id);
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteEquipmentResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlan")
-				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		DeleteResult dr = c("resourcePlan").deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
 		updateWorkPlanWorks(work_id);
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteTypedResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlan")
-				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		DeleteResult dr = c("resourcePlan").deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
 		updateWorkPlanWorks(work_id);
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteHumanResourceActual(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourceActual")
-				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
+		DeleteResult dr = c("resourceActual").deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
 		updateWorkActualWorks(work_id);
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteEquipmentResourceActual(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourceActual")
-				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		DeleteResult dr = c("resourceActual").deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
 		updateWorkActualWorks(work_id);
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteTypedResourceActual(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourceActual")
-				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		DeleteResult dr = c("resourceActual").deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
 		updateWorkActualWorks(work_id);
 		return dr.getDeletedCount();
 	}
@@ -923,8 +934,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
 				Date time = planStartCal.getTime();
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourcePlan", time,
-						resa.work_id, resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourcePlan", time, resa.work_id,
+						resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
 
 					ResourcePlan res = resa.getResourcePlan();
 					res.setId(time);
@@ -960,16 +971,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// TODO 修改计算方式
 			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
 					new Document("$addFields",
-							new Document("planQty",
-									new Document("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
-					new Document("$group",
-							new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
+							new Document("planQty", new Document("$sum", Arrays.asList("$planBasicQty", "$planOverTimeQty")))),
+					new Document("$group", new Document("_id", "$work_id").append("planWorks", new Document("$sum", "$planQty"))));
 
-			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first())
-					.map(d -> d.getDouble("planWorks")).map(p -> p.doubleValue()).orElse(0d);
+			double works = Optional.ofNullable(c("resourcePlan").aggregate(pipeline).first()).map(d -> d.getDouble("planWorks"))
+					.map(p -> p.doubleValue()).orElse(0d);
 
-			c(Work.class).updateOne(new Document("_id", work_id),
-					new Document("$set", new Document("planWorks", works)));
+			c(Work.class).updateOne(new Document("_id", work_id), new Document("$set", new Document("planWorks", works)));
 		}
 	}
 
@@ -992,8 +1000,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<WorkPackageProgress> listWorkPackageProgress(BasicDBObject condition) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(new Document("$lookup", new Document().append("from", "workPackage")
-				.append("localField", "package_id").append("foreignField", "_id").append("as", "workpackage")));
+		pipeline.add(new Document("$lookup", new Document().append("from", "workPackage").append("localField", "package_id")
+				.append("foreignField", "_id").append("as", "workpackage")));
 		pipeline.add(new Document("$unwind", "$workpackage"));
 		pipeline.add(new Document("$addFields", new Document().append("unit", "$workpackage.unit")));
 		pipeline.add(new Document("$project", new Document().append("workpackage", false)));
@@ -1073,15 +1081,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public long countWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
-		return c("work").countDocuments(
-				new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
+		return c("work").countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("project_id", project_id));
 	}
 
 	@Override
 	public List<Work> listWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
-		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包")
-				.set("match", new Document("_id", new Document("$in", items))).set("catagory", catagory).array();
+		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包").set("match", new Document("_id", new Document("$in", items)))
+				.set("catagory", catagory).array();
 
 		appendProject(pipeline);
 
@@ -1101,15 +1108,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public long countWorkPackageForScheduleInStage(ObjectId stage_id, String catagory) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(stage_id), "work", "parent_id");
-		return c("work").countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id",
-				new BasicDBObject("$in", items)));
+		return c("work")
+				.countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id", new BasicDBObject("$in", items)));
 	}
 
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
-		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包").set("match", new Document("summary", false)
-				.append("actualFinish", null).append("stage", new BasicDBObject("$ne", true))).set("catagory", catagory)
-				.array();
+		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包")
+				.set("match", new Document("summary", false).append("actualFinish", null).append("stage", new BasicDBObject("$ne", true)))
+				.set("catagory", catagory).array();
 
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
@@ -1206,8 +1213,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 			while (planStartCal.getTime().before(planFinishCal.getTime())) {
 				Date time = planStartCal.getTime();
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourceActual", time,
-						resa.work_id, resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
+				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourceActual", time, resa.work_id,
+						resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
 					ResourceActual res = resa.getResourceActual();
 					res.setId(time);
 					documents.add(res);
@@ -1234,9 +1241,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	private boolean hasResource(String col, Date time, ObjectId work_id, String usedHumanResId, String usedEquipResId,
 			String usedTypedResId, ObjectId resTypeId) {
-		return c(col).countDocuments(new Document("id", time).append("work_id", work_id)
-				.append("usedHumanResId", usedHumanResId).append("usedEquipResId", usedEquipResId)
-				.append("usedTypedResId", usedTypedResId).append("resTypeId", resTypeId)) == 0;
+		return c(col).countDocuments(new Document("id", time).append("work_id", work_id).append("usedHumanResId", usedHumanResId)
+				.append("usedEquipResId", usedEquipResId).append("usedTypedResId", usedTypedResId).append("resTypeId", resTypeId)) == 0;
 	}
 
 	@Override
@@ -1258,23 +1264,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// TODO 修改计算方式
 			List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", work_id)),
 					new Document("$addFields",
-							new Document("actualQty",
-									new Document("$sum", Arrays.asList("$actualBasicQty", "$actualOverTimeQty")))),
-					new Document("$group",
-							new Document("_id", "$work_id").append("actualWorks", new Document("$sum", "$actualQty"))));
+							new Document("actualQty", new Document("$sum", Arrays.asList("$actualBasicQty", "$actualOverTimeQty")))),
+					new Document("$group", new Document("_id", "$work_id").append("actualWorks", new Document("$sum", "$actualQty"))));
 
-			double works = Optional.ofNullable(c("resourceActual").aggregate(pipeline).first())
-					.map(d -> d.getDouble("actualWorks")).map(p -> p.doubleValue()).orElse(0d);
+			double works = Optional.ofNullable(c("resourceActual").aggregate(pipeline).first()).map(d -> d.getDouble("actualWorks"))
+					.map(p -> p.doubleValue()).orElse(0d);
 
-			c(Work.class).updateOne(new Document("_id", work_id),
-					new Document("$set", new Document("actualWorks", works)));
+			c(Work.class).updateOne(new Document("_id", work_id), new Document("$set", new Document("actualWorks", works)));
 		}
 	}
 
 	@Override
 	public List<ResourceActual> listResourceActual(ObjectId _id) {
-		return c(ResourceActual.class)
-				.aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
+		return c(ResourceActual.class).aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
 				.into(new ArrayList<>());
 	}
 
@@ -1285,16 +1287,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		else if (resp.getUsedEquipResId() != null)
 			eq.put("$eq", Arrays.asList("$usedEquipResId", resp.getUsedEquipResId()));
 
-		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("_id", resp.getWork_id())),
-				new Document("$lookup", new Document("from", "resourcePlan")
-						.append("let", new Document("planStart", "$planStart").append("planFinish", "$planFinish"))
-						.append("pipeline",
-								Arrays.asList(new Document("$match", new Document("$expr", new Document("$and",
-										Arrays.asList(new Document("$gte", Arrays.asList("$id", "$$planStart")),
-												new Document("$lte", Arrays.asList("$id", "$$planFinish")), eq))))))
-						.append("as", "resourcePlan")),
-				new Document("$unwind", "$resourcePlan"),
-				new Document("$replaceRoot", new Document("newRoot", "$resourcePlan")),
+		List<? extends Bson> pipeline = Arrays.asList(
+				new Document("$match", new Document("_id",
+						resp.getWork_id())),
+				new Document("$lookup",
+						new Document("from", "resourcePlan")
+								.append("let", new Document("planStart", "$planStart").append("planFinish", "$planFinish"))
+								.append("pipeline",
+										Arrays.asList(new Document("$match",
+												new Document("$expr",
+														new Document("$and",
+																Arrays.asList(new Document("$gte", Arrays.asList("$id", "$$planStart")),
+																		new Document("$lte", Arrays.asList("$id", "$$planFinish")), eq))))))
+								.append("as", "resourcePlan")),
+				new Document("$unwind", "$resourcePlan"), new Document("$replaceRoot", new Document("newRoot", "$resourcePlan")),
 				// new Document("$project",
 				// new Document("_id", "$resourcePlan._id").append("work_id",
 				// "$resourcePlan.work_id")
@@ -1303,26 +1309,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				// .append("planOverTimeQty", "$resourcePlan.planOverTimeQty")
 				// .append("id", "$resourcePlan.id").append("planBasicQty",
 				// "$resourcePlan.planBasicQty")),
-				new Document("$group",
-						new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
+				new Document("$group", new Document("_id", "$work_id").append("children", new Document("$push", "$$ROOT"))),
 				new Document("$lookup",
-						new Document("from", "work")
-								.append("localField", "_id").append("foreignField", "_id").append("as", "work")),
+						new Document("from", "work").append("localField", "_id").append("foreignField", "_id").append("as", "work")),
 				new Document("$unwind", "$work"),
-				new Document("$addFields",
-						new Document("project_id", "$work.project_id").append("planStart", "$work.planStart")
-								.append("planFinish", "$work.planFinish").append("name", "$work.name")
-								.append("actualStart", "$work.actualStart").append("actualFinish", "$work.actualFinish")
-								.append("id", "$work.code")),
+				new Document("$addFields", new Document("project_id", "$work.project_id").append("planStart", "$work.planStart")
+						.append("planFinish", "$work.planFinish").append("name", "$work.name").append("actualStart", "$work.actualStart")
+						.append("actualFinish", "$work.actualFinish").append("id", "$work.code")),
 				new Document("$lookup",
-						new Document("from", "project").append("localField", "project_id").append("foreignField", "_id")
-								.append("as", "project")),
+						new Document("from", "project").append("localField", "project_id").append("foreignField", "_id").append("as",
+								"project")),
 				new Document("$unwind", "$project"),
-				new Document("$addFields",
-						new Document("projectId", "$project.id").append("projectName", "$project.name")),
+				new Document("$addFields", new Document("projectId", "$project.id").append("projectName", "$project.name")),
 				new Document("$project", new Document("project", false).append("work", false)));
-		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline)
-				.into(new ArrayList<WorkResourcePlanDetail>());
+		return c("work", WorkResourcePlanDetail.class).aggregate(pipeline).into(new ArrayList<WorkResourcePlanDetail>());
 	}
 
 	@Override
@@ -1347,26 +1347,23 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	 * @param cover
 	 *            是否覆盖已分配的工作
 	 */
-	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition,
-			boolean cover) {
+	private void updateWorkRoleAssignment(MongoCollection<Document> c, List<ObjectId> ids, Document condition, boolean cover) {
 		c.find(condition.append("$or", Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)),
 				new Document("assignerRoleId", new Document("$ne", null))))).forEach((Document d) -> {
 					// 如需要覆盖或者负责人为空时,更新工作的负责人
 					if (cover || d.get("chargerId") == null) {
 						// 负责人角色不为空时,根据该角色的_id找到该角色的管理者,如果管理者不为空,则更新为工作的负责人.
 						Check.isAssigned(d.getString("chargerRoleId"), rId -> {
-							Check.isAssigned(getManagerIdOfRole(ids, rId),
-									uId -> c.updateOne(new Document("_id", d.get("_id")),
-											new Document("$set", new Document("chargerId", uId))));
+							Check.isAssigned(getManagerIdOfRole(ids, rId), uId -> c.updateOne(new Document("_id", d.get("_id")),
+									new Document("$set", new Document("chargerId", uId))));
 						});
 					}
 					// 如需要覆盖或者指派者为空时,更新工作的指派者
 					if (cover || d.get("assignerId") == null) {
 						// 指派者角色不为空时,根据该角色的_id找到该角色的管理者,如果管理者不为空,则更新为工作的指派者.
 						Check.isAssigned(d.getString("assignerRoleId"), rId -> {
-							Check.isAssigned(getManagerIdOfRole(ids, rId),
-									uId -> c.updateOne(new Document("_id", d.get("_id")),
-											new Document("$set", new Document("assignerId", uId))));
+							Check.isAssigned(getManagerIdOfRole(ids, rId), uId -> c.updateOne(new Document("_id", d.get("_id")),
+									new Document("$set", new Document("assignerId", uId))));
 						});
 					}
 				});
@@ -1379,11 +1376,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public boolean checkCoverWork(ObjectId project_id) {
 		// 当工作未完成，并且存在负责人角色且负责人不为空或指派者角色且指派者不为空时，存在需要覆盖负责人和指派者的工作
 		Document condition = new Document("project_id", project_id).append("actualFinish", null).append("$or",
-				Arrays.asList(
-						new Document("chargerRoleId", new Document("$ne", null)).append("chargerId",
-								new Document("$ne", null)),
-						new Document("assignerRoleId", new Document("$ne", null)).append("assignerId",
-								new Document("$ne", null))));
+				Arrays.asList(new Document("chargerRoleId", new Document("$ne", null)).append("chargerId", new Document("$ne", null)),
+						new Document("assignerRoleId", new Document("$ne", null)).append("assignerId", new Document("$ne", null))));
 
 		// 对工作和工作区进行检查。
 		return c("work").countDocuments(condition) > 0 ? true : (c("workspace").countDocuments(condition) > 0);
@@ -1399,15 +1393,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	private String getManagerIdOfRole(List<ObjectId> ids, String roleId) {
-		return Optional
-				.ofNullable(
-						c("obs").find(new Document("_id", new Document("$in", ids)).append("roleId", roleId)).first())
+		return Optional.ofNullable(c("obs").find(new Document("_id", new Document("$in", ids)).append("roleId", roleId)).first())
 				.map(d -> d.getString("managerId")).orElse(null);
 	}
 
 	private List<ObjectId> getScopeOBS(ObjectId scope_id) {
-		List<ObjectId> parentIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> parentIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class).into(new ArrayList<>());
 		return getDesentItems(parentIds, "obs", "parent_id");
 	}
 
@@ -1435,16 +1426,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 		Document match;
 		if (ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE == rt.getShowType()) {
-			match = new Document("usedEquipResId", rt.getUsedEquipResId())
-					.append("usedHumanResId", rt.getUsedHumanResId()).append("usedTypedResId", rt.getUsedTypedResId())
-					.append("resTypeId", rt.getResTypeId());
+			match = new Document("usedEquipResId", rt.getUsedEquipResId()).append("usedHumanResId", rt.getUsedHumanResId())
+					.append("usedTypedResId", rt.getUsedTypedResId()).append("resTypeId", rt.getResTypeId());
 		} else {
 			match = new Document("work_id", new Document("$in", rt.getWorkIds()));
 			if (rt.isReport())
 				match.append("workReportItemId", rt.getWorkReportItemId());
 		}
-		return c(col).aggregate(new JQ("查询-资源").set("match", match).set("resourceCollection", col)
-				.set("from", rt.getFrom()).set("to", rt.getTo()).array()).into(new ArrayList<Document>());
+		return c(col).aggregate(
+				new JQ("查询-资源").set("match", match).set("resourceCollection", col).set("from", rt.getFrom()).set("to", rt.getTo()).array())
+				.into(new ArrayList<Document>());
 	}
 
 	/**
@@ -1475,8 +1466,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		c("resourcePlan")
-				.aggregate(new JQ("查询-资源-计划用量-项目")
-						.set("match", new Document("year", year).append("project_id", project_id)).array())
+				.aggregate(new JQ("查询-资源-计划用量-项目").set("match", new Document("year", year).append("project_id", project_id)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = worksMap.get(id);
@@ -1528,19 +1518,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// option.append("tooltip", new Document("trigger",
 		// "axis").append("axisPointer", new Document("type", "shadow")));
 
-		option.append("legend",
-				new Document("data", Arrays.asList("工时", "金额")).append("y", "bottom").append("x", "center"));
-		option.append("grid",
-				new Document("left", "2%").append("right", "2%").append("bottom", "3%").append("containLabel", true));
+		option.append("legend", new Document("data", Arrays.asList("工时", "金额")).append("y", "bottom").append("x", "center"));
+		option.append("grid", new Document("left", "2%").append("right", "2%").append("bottom", "3%").append("containLabel", true));
 
 		option.append("yAxis", Arrays.asList(new Document("type", "category").append("data",
 				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
 		option.append("xAxis",
 				Arrays.asList(
-						new Document("type", "value").append("name", "工时").append("axisLabel",
-								new Document("formatter", "{value} 小时")),
-						new Document("type", "value").append("name", "金额").append("axisLabel",
-								new Document("formatter", "{value} 万元"))));
+						new Document("type", "value").append("name", "工时").append("axisLabel", new Document("formatter", "{value} 小时")),
+						new Document("type", "value").append("name", "金额").append("axisLabel", new Document("formatter", "{value} 万元"))));
 
 		option.append("series", series);
 		return option;
@@ -1559,8 +1545,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		c("resourceActual")
-				.aggregate(new JQ("查询-资源-实际用量-项目")
-						.set("match", new Document("year", year).append("project_id", project_id)).array())
+				.aggregate(new JQ("查询-资源-实际用量-项目").set("match", new Document("year", year).append("project_id", project_id)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = worksMap.get(id);
@@ -1612,19 +1597,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// option.append("tooltip", new Document("trigger",
 		// "axis").append("axisPointer", new Document("type", "shadow")));
 
-		option.append("legend",
-				new Document("data", Arrays.asList("工时", "金额")).append("y", "bottom").append("x", "center"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "10%").append("bottom", "3%").append("containLabel", true));
+		option.append("legend", new Document("data", Arrays.asList("工时", "金额")).append("y", "bottom").append("x", "center"));
+		option.append("grid", new Document("left", "3%").append("right", "10%").append("bottom", "3%").append("containLabel", true));
 
 		option.append("yAxis", Arrays.asList(new Document("type", "category").append("data",
 				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
 		option.append("xAxis",
 				Arrays.asList(
-						new Document("type", "value").append("name", "工时").append("axisLabel",
-								new Document("formatter", "{value} 小时")),
-						new Document("type", "value").append("name", "金额").append("axisLabel",
-								new Document("formatter", "{value} 万元"))));
+						new Document("type", "value").append("name", "工时").append("axisLabel", new Document("formatter", "{value} 小时")),
+						new Document("type", "value").append("name", "金额").append("axisLabel", new Document("formatter", "{value} 万元"))));
 
 		option.append("series", series);
 		return option;
@@ -1692,15 +1673,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Double> planWorks = Arrays.asList(planWorksMap.values().toArray(new Double[0]));
 		List<Double> actualWorks = Arrays.asList(actualWorksMap.values().toArray(new Double[0]));
-		return new JQ("图表-资源计划和实际-项目").set("title", "项目资源计划和用量状况（小时）").set("xAxis", xAxisDate)
-				.set("planWorks", planWorks).set("actualWorks", actualWorks).doc();
+		return new JQ("图表-资源计划和实际-项目").set("title", "项目资源计划和用量状况（小时）").set("xAxis", xAxisDate).set("planWorks", planWorks)
+				.set("actualWorks", actualWorks).doc();
 	}
 
 	@Override
 	public Document getResourceAllAnalysis(ObjectId project_id) {
 		Document first = c("project").find(new Document("_id", project_id)).projection(new Document("actualStart", true)
-				.append("actualFinish", true).append("planStart", true).append("planFinish", true).append("name", true))
-				.first();
+				.append("actualFinish", true).append("planStart", true).append("planFinish", true).append("name", true)).first();
 		Calendar start = Calendar.getInstance();
 		Calendar end = Calendar.getInstance();
 		Object actualStart = first.get("actualStart");
@@ -1791,11 +1771,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		Document option = createResourceAllAnalysis(start, end, "" + name + " 资源用量综合分析", actualWorksMap,
-				actualAmountMap, planWorksMap, planAmountMap, xAxisDate);
-		option.append("dataZoom",
-				Arrays.asList(new Document("type", "inside").append("xAxisIndex", Arrays.asList(0, 1)),
-						new Document("type", "slider").append("xAxisIndex", Arrays.asList(0, 1))));
+		Document option = createResourceAllAnalysis(start, end, "" + name + " 资源用量综合分析", actualWorksMap, actualAmountMap, planWorksMap,
+				planAmountMap, xAxisDate);
+		option.append("dataZoom", Arrays.asList(new Document("type", "inside").append("xAxisIndex", Arrays.asList(0, 1)),
+				new Document("type", "slider").append("xAxisIndex", Arrays.asList(0, 1))));
 		return option;
 
 	}
@@ -1830,12 +1809,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 
 		Document match = new Document("year", year);
-		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class).into(new ArrayList<ObjectId>());
 		orgids = getDesentItems(orgids, "organization", "parent_id");
-		c("resourcePlan")
-				.aggregate(
-						new JQ("查询-资源-计划用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+		c("resourcePlan").aggregate(new JQ("查询-资源-计划用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = planWorksMap.get(id);
@@ -1857,9 +1833,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					}
 				});
 
-		c("resourceActual")
-				.aggregate(
-						new JQ("查询-资源-实际用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
+		c("resourceActual").aggregate(new JQ("查询-资源-实际用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
 					Double worksD = actualWorksMap.get(id);
@@ -1881,15 +1855,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					}
 				});
 
-		Document option = createResourceAllAnalysis(start, end, year + "年 资源用量综合分析", actualWorksMap, actualAmountMap,
-				planWorksMap, planAmountMap, xAxisDate);
+		Document option = createResourceAllAnalysis(start, end, year + "年 资源用量综合分析", actualWorksMap, actualAmountMap, planWorksMap,
+				planAmountMap, xAxisDate);
 		return option;
 
 	}
 
-	private Document createResourceAllAnalysis(Calendar start, Calendar end, Object text,
-			Map<String, Double> actualWorksMap, Map<String, Double> actualAmountMap, Map<String, Double> planWorksMap,
-			Map<String, Double> planAmountMap, List<String> xAxisDate) {
+	private Document createResourceAllAnalysis(Calendar start, Calendar end, Object text, Map<String, Double> actualWorksMap,
+			Map<String, Double> actualAmountMap, Map<String, Double> planWorksMap, Map<String, Double> planAmountMap,
+			List<String> xAxisDate) {
 
 		List<Document> series = new ArrayList<Document>();
 
@@ -1949,24 +1923,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		option.append("title", new Document("text", text).append("x", "center"));
 		option.append("tooltip", new Document("trigger", "axis").append("axisPointer", new Document("type", "shadow")));
 
-		option.append("legend", new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额")).append("y", "top")
-				.append("x", "right"));
-		option.append("grid",
-				Arrays.asList(
-						new Document("left", 10).append("right", 10).append("bottom", "50%").append("containLabel",
-								true),
-						new Document("left", 10).append("right", 10).append("bottom", 40).append("top", "55%")
-								.append("containLabel", true)));
+		option.append("legend",
+				new Document("data", Arrays.asList("计划工时", "实际工时", "计划金额", "实际金额")).append("y", "top").append("x", "right"));
+		option.append("grid", Arrays.asList(
+				new Document("left", 10).append("right", 10).append("bottom", "50%").append("containLabel", true),
+				new Document("left", 10).append("right", 10).append("bottom", 40).append("top", "55%").append("containLabel", true)));
 
 		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data", xAxisDate),
 				new Document("type", "category").append("data", xAxisDate).append("gridIndex", 1)));
 
 		option.append("yAxis",
 				Arrays.asList(
-						new Document("type", "value").append("name", "工时").append("axisLabel",
-								new Document("formatter", "{value} 小时")),
-						new Document("type", "value").append("name", "金额")
-								.append("axisLabel", new Document("formatter", "{value} 万元")).append("gridIndex", 1)));
+						new Document("type", "value").append("name", "工时").append("axisLabel", new Document("formatter", "{value} 小时")),
+						new Document("type", "value").append("name", "金额").append("axisLabel", new Document("formatter", "{value} 万元"))
+								.append("gridIndex", 1)));
 
 		option.append("series", series);
 		return option;
@@ -1974,15 +1944,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> getProjectResource(ObjectId project_id) {
-		return c("work")
-				.aggregate(new JQ("查询-资源-计划和实际用量-项目").set("match", new Document("project_id", project_id)).array())
+		return c("work").aggregate(new JQ("查询-资源-计划和实际用量-项目").set("match", new Document("project_id", project_id)).array())
 				.into(new ArrayList<Document>());
 	}
 
 	@Override
 	public List<Document> getResourceOfChargedDept(Period period, String chargerId) {
-		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class).into(new ArrayList<ObjectId>());
 		orgids = getDesentItems(orgids, "organization", "parent_id");
 
 		return c("work").aggregate(new JQ("查询-资源-计划和实际用量-负责人所在部门").set("workMatch", new Document())
@@ -2018,11 +1986,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				res.append("workReportItemId", workReportItemId);
 				documents.add(res);
 
-				c("workReportResourceActual").deleteMany(new Document("id", time).append("work_id", res.get("work_id"))
-						.append("usedHumanResId", res.get("usedHumanResId"))
-						.append("usedEquipResId", res.get("usedEquipResId"))
-						.append("usedTypedResId", res.get("usedTypedResId")).append("resTypeId", res.get("resTypeId"))
-						.append("workReportItemId", workReportItemId));
+				c("workReportResourceActual").deleteMany(
+						new Document("id", time).append("work_id", res.get("work_id")).append("usedHumanResId", res.get("usedHumanResId"))
+								.append("usedEquipResId", res.get("usedEquipResId")).append("usedTypedResId", res.get("usedTypedResId"))
+								.append("resTypeId", res.get("resTypeId")).append("workReportItemId", workReportItemId));
 				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
 			}
 
@@ -2042,11 +2009,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public Document insertWorkReportResourceActual(ResourceActual ra, ObjectId workReportItemId) {
-		Document doc = new Document("id", ra.getId()).append("work_id", ra.getWork_id())
-				.append("usedHumanResId", ra.getUsedHumanResId()).append("usedEquipResId", ra.getUsedEquipResId())
-				.append("usedTypedResId", ra.getUsedTypedResId()).append("resTypeId", ra.getResTypeId())
-				.append("workReportItemId", workReportItemId).append("actualBasicQty", ra.getActualBasicQty())
-				.append("actualOverTimeQty", ra.getActualOverTimeQty());
+		Document doc = new Document("id", ra.getId()).append("work_id", ra.getWork_id()).append("usedHumanResId", ra.getUsedHumanResId())
+				.append("usedEquipResId", ra.getUsedEquipResId()).append("usedTypedResId", ra.getUsedTypedResId())
+				.append("resTypeId", ra.getResTypeId()).append("workReportItemId", workReportItemId)
+				.append("actualBasicQty", ra.getActualBasicQty()).append("actualOverTimeQty", ra.getActualOverTimeQty());
 
 		c("workReportResourceActual").insertOne(doc);
 		return doc;
@@ -2075,8 +2041,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
@@ -2104,8 +2070,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		pipeline.add(Aggregates.lookup("baselineWork", "target", "_id", "targetWork"));
 		pipeline.add(Aggregates.unwind("$targetWork"));
 
-		ArrayList<WorkLink> into = c("baselineWorkLinks", WorkLink.class).aggregate(pipeline)
-				.into(new ArrayList<WorkLink>());
+		ArrayList<WorkLink> into = c("baselineWorkLinks", WorkLink.class).aggregate(pipeline).into(new ArrayList<WorkLink>());
 		return into;
 	}
 
@@ -2118,8 +2083,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public Document getAdministratedProjectWorkScoreChart(String managerId) {
 		List<ObjectId> pjIdList = getAdministratedProjects(managerId);
-		Document workFilter = new Document("project_id", new Document("$in", pjIdList)).append("actualStart",
-				new Document("$ne", null));
+		Document workFilter = new Document("project_id", new Document("$in", pjIdList)).append("actualStart", new Document("$ne", null));
 		return getWorkScoreChart(workFilter);
 	}
 
@@ -2127,29 +2091,28 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();
 
-		c("work").aggregate(new JQ("查询-评分-工作按期率").set("match", new Document("actualStart", new Document("$ne", null)))
-				.set("now", new Date()).array()).forEach((Document d) -> {
+		c("work").aggregate(
+				new JQ("查询-评分-工作按期率").set("match", new Document("actualStart", new Document("$ne", null))).set("now", new Date()).array())
+				.forEach((Document d) -> {
 					indicator.add(new Document("name", d.getString("_id")).append("max", 100));
 					avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
 				});
 
 		Double[] value = new Double[avg.size()];
 
-		c("work").aggregate(new JQ("查询-评分-工作按期率").set("match", workFilter).set("now", new Date()).array())
-				.forEach((Document d) -> {
-					for (int i = 0; i < indicator.size(); i++) {
-						if (indicator.get(i).getString("name").equals(d.getString("_id"))) {
-							value[i] = (double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10;
-							break;
-						}
-					}
-				});
+		c("work").aggregate(new JQ("查询-评分-工作按期率").set("match", workFilter).set("now", new Date()).array()).forEach((Document d) -> {
+			for (int i = 0; i < indicator.size(); i++) {
+				if (indicator.get(i).getString("name").equals(d.getString("_id"))) {
+					value[i] = (double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10;
+					break;
+				}
+			}
+		});
 
 		if (indicator.size() == 0)
 			indicator.add(new Document("name", "").append("max", 100));
 
-		return new JQ("图表-评分-工作按期率").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value))
-				.doc();
+		return new JQ("图表-评分-工作按期率").set("indicator", indicator).set("avg", avg).set("value", Arrays.asList(value)).doc();
 	}
 
 	@Override
@@ -2162,9 +2125,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		pipeline.add(Aggregates
-				.match(new BasicDBObject("chargerId", userid).append("summary", false).append("actualFinish", null)
-						.append("distributed", true).append("stage", new BasicDBObject("$ne", true))));
+		pipeline.add(Aggregates.match(new BasicDBObject("chargerId", userid).append("summary", false).append("actualFinish", null)
+				.append("distributed", true).append("stage", new BasicDBObject("$ne", true))));
 
 		appendProject(pipeline);
 
@@ -2203,44 +2165,21 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Work> createAssignerProcessingWorkDataSet(BasicDBObject condition, String userid) {
+	public List<Work> listMyAssignmentWork(BasicDBObject condition, String userid) {
+		BasicDBObject basicCondition = new BasicDBObject("assignerId", userid).append("summary", false).append("actualFinish", null)
+				.append("distributed", true).append("stage", new BasicDBObject("$ne", true));
 
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planFinish", 1).append("_id", -1));
 
-		List<Bson> pipeline = new ArrayList<Bson>();
-
-		pipeline.add(Aggregates
-				.match(new BasicDBObject("assignerId", userid).append("summary", false).append("actualFinish", null)
-						.append("distributed", true).append("stage", new BasicDBObject("$ne", true))));
-
-		appendProject(pipeline);
-
-		appendUserInfo(pipeline, "chargerId", "chargerInfo");
-
-		appendUserInfo(pipeline, "assignerId", "assignerInfo");
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<>());
 	}
 
 	@Override
-	public long countAssignerProcessingWorkDataSet(BasicDBObject filter, String userid) {
+	public long countMyAssignmentWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
 
@@ -2254,19 +2193,20 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages uwp) {
-		c(WorkPackage.class).deleteMany(new BasicDBObject("work_id", uwp.getWork_id())
-				.append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
+		c(WorkPackage.class).deleteMany(
+				new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
 		List<WorkPackage> workPackages = uwp.getWorkPackages();
 		if (workPackages.size() > 0)
 			c(WorkPackage.class).insertMany(workPackages);
-		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
-				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+		return listWorkPackage(new Query()
+				.filter(new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()))
+				.bson());
 	}
 
 	@Override
 	public List<WorkPackage> updateProductionWorkPackage(UpdateWorkPackages uwp) {
-		BasicDBObject dbo = new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory())
-				.append("name", uwp.getName());
+		BasicDBObject dbo = new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name",
+				uwp.getName());
 		List<ObjectId> ids = c(WorkPackage.class).distinct("_id", dbo, ObjectId.class).into(new ArrayList<ObjectId>());
 		c(WorkPackage.class).deleteMany(dbo);
 		c(WorkPackageProgress.class).deleteMany(new Document("package_id", new Document("$in", ids)));
@@ -2292,11 +2232,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			workPackages.forEach(workPackage -> {
 				ObjectId _id = workPackage.get_id();
 				c(WorkPackage.class).updateOne(new BasicDBObject("_id", _id),
-						new BasicDBObject("$set",
-								new BasicDBObject("id", workPackage.id).append("description", workPackage.description)
-										.append("verNo", workPackage.verNo).append("planStatus", workPackage.planStatus)
-										.append("documentType", workPackage.documentType)
-										.append("completeStatus", workPackage.completeStatus)));
+						new BasicDBObject("$set", new BasicDBObject("id", workPackage.id).append("description", workPackage.description)
+								.append("verNo", workPackage.verNo).append("planStatus", workPackage.planStatus)
+								.append("documentType", workPackage.documentType).append("completeStatus", workPackage.completeStatus)));
 
 				workPackageIds.add(_id);
 			});
@@ -2307,8 +2245,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				c(WorkPackageProgress.class).insertMany(workPackageProgresss);
 		}
 
-		return listWorkPackage(new Query().filter(new BasicDBObject("work_id", uwp.getWork_id())
-				.append("catagory", uwp.getCatagory()).append("name", uwp.getName())).bson());
+		return listWorkPackage(new Query()
+				.filter(new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()))
+				.bson());
 	}
 
 	@Override
@@ -2324,8 +2263,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		info.remove("name");
 		if (_id == null) {
 			_id = new ObjectId();
-			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name)
-					.append("catagory", catagory).append("completeQty", completeQty).append("info", info));
+			c("workPackage").insertOne(new Document("_id", _id).append("work_id", work_id).append("name", name).append("catagory", catagory)
+					.append("completeQty", completeQty).append("info", info));
 		} else {
 			c("workPackage").updateOne(new Document("_id", _id),
 					new Document("$set", new Document("info", info).append("completeQty", completeQty)));

@@ -596,7 +596,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (impl.countChargerProcessingWorkDataSet(new BasicDBObject(), userId) > 0) {
 			return true;
 		}
-		if (impl.countAssignerProcessingWorkDataSet(new BasicDBObject(), userId) > 0) {
+		if (impl.countMyAssignmentWork(new BasicDBObject(), userId) > 0) {
 			return true;
 		}
 		if (new ProjectServiceImpl().countReviewerProjectChange(new BasicDBObject(), userId) > 0) {

@@ -7,6 +7,17 @@ import java.util.function.Function;
 
 public class Check {
 
+	public static boolean isTrue(Object target) {
+		if (target == null)
+			return false;
+		if ("true".equalsIgnoreCase(target.toString()))
+			return true;
+		if (target instanceof Number) {
+			return ((Number) target).doubleValue() != 0;
+		}
+		return Boolean.TRUE.equals(target);
+	}
+
 	/**
 	 * 检查两个参数是否相等，如果都为null, 返回true
 	 * 
