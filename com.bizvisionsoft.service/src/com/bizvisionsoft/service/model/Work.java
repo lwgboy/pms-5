@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -952,9 +953,41 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
+	@Exclude
+	public static final int warningLevelDelayed = 1;
+	@Exclude
+	public static final int warningLevelEstDelay = 2;
+	@Exclude
+	public static final int warningLevelLag = 3;
+	@Exclude
+	public static final int warningLevelLead = 4;
+	
+	public int getWarningLevel() {
+		// 如果超期，显示红底超期信息
+		if (overdue) {
+			return warningLevelDelayed;
+		} 
+		
+		if (actualFinish == null) {
+			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish())) {
+				return warningLevelEstDelay;
+			}
+			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
+			Double dar = getDAR();
+			if (dar != null) {
+				// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+				if (getWAR() < dar) {
+					return warningLevelLag;
+				} else if (getWAR() > dar) {
+					return warningLevelLead;
+				}
+			}
+		}
+		return 0;
+	}
+	
 	@ReadValue("warningIcon")
 	public String getWarningIcon() {
-
 		// 如果超期，显示红底超期信息
 		if (getOverdue()) {
 			String label = "<span class='layui-badge' style='cursor:pointer;'>超期</span>";
