@@ -237,8 +237,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public List<AccountItem> getAccoutItem(ObjectId parent_id) {
-		return queryAccountItem(new BasicDBObject("parent_id", parent_id));
+	public List<AccountItem> getAccoutItem(String id) {
+		return queryAccountItem(new BasicDBObject("parentId", id));
 	}
 
 	public List<AccountIncome> getAccoutIncome(String parentId) {
@@ -246,8 +246,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public long countAccoutItem(ObjectId _id) {
-		return count(new BasicDBObject("parent_id", _id), AccountItem.class);
+	public long countAccoutItem(String id) {
+		return count(new BasicDBObject("parentId", id), AccountItem.class);
 	}
 
 	@Override
@@ -267,7 +267,15 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public AccountItem insertAccountItem(AccountItem ai) {
-		return insert(ai, AccountItem.class);
+		ai = insert(ai, AccountItem.class);
+		String parentId = ai.getParentId();
+		if (parentId != null) {
+			c("accountItem").updateMany(
+					new Document("$or",
+							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$push", new Document("subAccounts", ai.getId())));
+		}
+		return ai;
 	}
 
 	@Override
@@ -285,7 +293,30 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long deleteAccountItem(ObjectId _id) {
-		return delete(_id, AccountItem.class);
+		Document doc = c("accountItem").find(new Document("_id", _id)).first();
+		if (doc != null) {
+			String id = doc.getString("id");
+			ArrayList<Object> toDelete = new ArrayList<>();
+			toDelete.add(id);
+			List<?> accounts = (List<?>) doc.get("subAccounts");
+			if (accounts != null) {
+				toDelete.addAll(accounts);
+			}
+
+			// 引用的
+			long refCnt = c("cbsSubject").countDocuments(new Document("subjectNumber", new Document("$in", toDelete)));
+			if (refCnt > 0) {
+				throw new ServiceException("不能删除项目预算和成本正在使用的科目。");
+			}
+
+			c("accountItem").updateMany(new Document("subAccounts", new Document("$in", toDelete)),
+					new Document("$pullAll", new Document("subAccounts", toDelete)));
+
+			c("accountItem").deleteMany(new Document("id", new Document("$in", toDelete)));
+
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override
@@ -468,7 +499,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		return update(filterAndUpdate, ChangeProcess.class);
 	}
 
-
 	@Override
 	public List<String> listWorkTag() {
 		return new ArrayList<String>(getDictionaryIdNamePair("工作标签").values());
@@ -489,60 +519,65 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		update(fu, "structuredData");
 	}
 
-//	///////////////////////////////////////
-//	// DEMO DATA
-//	// TODO REMOVE
-//	@Override
-//	@Deprecated
-//	public void mockupSalesData() {
-//		// 创建产品主数据
-//		List<Bson> pipeline = Arrays.asList(new Document("$group",
-//				new Document("_id", new Document("a", "$productId").append("b", "$project_id"))));
-//		c("salesItem").aggregate(pipeline).forEach((Document d) -> {
-//			Document _r = (Document) d.get("_id");
-//			String productId = _r.getString("a");
-//			if (Arrays.asList("02302", "02303", "02304", "02305", "02306", "02307").contains(productId)) {
-//				return;
-//			}
-//
-//			ObjectId project_id = _r.getObjectId("b");
-//			String series = getRandomSeries();
-//			String name = series + "-" + Formatter.dec_n(System.currentTimeMillis(), 24);
-//			String position = "定位XXX";
-//			String sellPoint = "滑翔，变形，声光电。";
-//			ObjectId benchmarking_id = new ObjectId("5b4acc0be37dab0cfcb4458e");
-//
-//			Document product = new Document("_id", new ObjectId()).append("sellPoint", sellPoint)
-//					.append("project_id", project_id).append("series", series).append("name", name)
-//					.append("id", productId).append("position", position).append("benchmarking_id", benchmarking_id);
-//			c("product").insertOne(product);
-//
-//		});
-//
-//		// 制造销售额和销售量
-//		c("salesItem").find().forEach((Document d) -> {
-//			Number profit = (Number) d.get("profit");
-//			double income = profit.doubleValue() / 0.4;
-//			int val = getRandomInt();
-//			c("salesItem").updateOne(new Document("_id", d.get("_id")),
-//					new Document("$set", new Document("income", income).append("volumn", val)));
-//		});
-//
-//	}
-//
-//	@Deprecated
-//	// TODO REMOVE
-//	private String getRandomSeries() {
-//		String[] series = new String[] { "超级飞侠", "萌鸡小队", "巴啦啦小魔仙", "火力少年王", "铠甲勇士" };
-//		return series[new Random().nextInt(series.length)];
-//	}
-//
-//	@Deprecated
-//	// TODO REMOVE
-//	private int getRandomInt() {
-//		int[] series = new int[] { 10, 20, 30, 40, 15, 5, 12, 50 };
-//		return series[new Random().nextInt(series.length)];
-//	}
+	// ///////////////////////////////////////
+	// // DEMO DATA
+	// // TODO REMOVE
+	// @Override
+	// @Deprecated
+	// public void mockupSalesData() {
+	// // 创建产品主数据
+	// List<Bson> pipeline = Arrays.asList(new Document("$group",
+	// new Document("_id", new Document("a", "$productId").append("b",
+	// "$project_id"))));
+	// c("salesItem").aggregate(pipeline).forEach((Document d) -> {
+	// Document _r = (Document) d.get("_id");
+	// String productId = _r.getString("a");
+	// if (Arrays.asList("02302", "02303", "02304", "02305", "02306",
+	// "02307").contains(productId)) {
+	// return;
+	// }
+	//
+	// ObjectId project_id = _r.getObjectId("b");
+	// String series = getRandomSeries();
+	// String name = series + "-" + Formatter.dec_n(System.currentTimeMillis(), 24);
+	// String position = "定位XXX";
+	// String sellPoint = "滑翔，变形，声光电。";
+	// ObjectId benchmarking_id = new ObjectId("5b4acc0be37dab0cfcb4458e");
+	//
+	// Document product = new Document("_id", new ObjectId()).append("sellPoint",
+	// sellPoint)
+	// .append("project_id", project_id).append("series", series).append("name",
+	// name)
+	// .append("id", productId).append("position",
+	// position).append("benchmarking_id", benchmarking_id);
+	// c("product").insertOne(product);
+	//
+	// });
+	//
+	// // 制造销售额和销售量
+	// c("salesItem").find().forEach((Document d) -> {
+	// Number profit = (Number) d.get("profit");
+	// double income = profit.doubleValue() / 0.4;
+	// int val = getRandomInt();
+	// c("salesItem").updateOne(new Document("_id", d.get("_id")),
+	// new Document("$set", new Document("income", income).append("volumn", val)));
+	// });
+	//
+	// }
+	//
+	// @Deprecated
+	// // TODO REMOVE
+	// private String getRandomSeries() {
+	// String[] series = new String[] { "超级飞侠", "萌鸡小队", "巴啦啦小魔仙", "火力少年王", "铠甲勇士" };
+	// return series[new Random().nextInt(series.length)];
+	// }
+	//
+	// @Deprecated
+	// // TODO REMOVE
+	// private int getRandomInt() {
+	// int[] series = new int[] { 10, 20, 30, 40, 15, 5, 12, 50 };
+	// return series[new Random().nextInt(series.length)];
+	// }
 
 	@Override
 	public long updateMessage(BasicDBObject fu) {

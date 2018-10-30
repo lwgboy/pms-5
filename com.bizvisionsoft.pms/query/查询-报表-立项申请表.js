@@ -1,116 +1,114 @@
 {
-    "pipeline": "{
-    '$match': {
-        '_id': '<selected_id>'
+    "$match": {
+        "_id": "<selected_id>"
     }
 },
 {
-    '$lookup': {
-        'from': 'organization',
-        'localField': 'impUnit_id',
-        'foreignField': '_id',
-        'as': 'organization'
+    "$lookup": {
+        "from": "organization",
+        "localField": "impUnit_id",
+        "foreignField": "_id",
+        "as": "organization"
     }
 },
 {
-    '$unwind': {
-        'path': '$organization',
-        'preserveNullAndEmptyArrays': true
+    "$unwind": {
+        "path": "$organization",
+        "preserveNullAndEmptyArrays": true
     }
 },
 {
-    '$addFields': {
-        'impUnitOrgFullName': '$organization.name'
+    "$addFields": {
+        "impUnitOrgFullName": "$organization.name"
     }
 },
 {
-    '$lookup': {
-        'from': 'eps',
-        'localField': 'eps_id',
-        'foreignField': '_id',
-        'as': 'eps'
+    "$lookup": {
+        "from": "eps",
+        "localField": "eps_id",
+        "foreignField": "_id",
+        "as": "eps"
     }
 },
 {
-    '$unwind': {
-        'path': '$eps',
-        'preserveNullAndEmptyArrays': true
+    "$unwind": {
+        "path": "$eps",
+        "preserveNullAndEmptyArrays": true
     }
 },
 {
-    '$addFields': {
-        'epsName': '$eps.name'
+    "$addFields": {
+        "epsName": "$eps.name"
     }
 },
 {
-    '$lookup': {
-        'from': 'user',
-        'let': {
-            'userId': '$pmId'
+    "$lookup": {
+        "from": "user",
+        "let": {
+            "userId": "$pmId"
         },
-        'pipeline': [
+        "pipeline": [
             {
-                '$match': {
-                    '$expr': {
-                        '$eq': [
-                            '$$userId',
-                            '$userId'
+                "$match": {
+                    "$expr": {
+                        "$eq": [
+                            "$$userId",
+                            "$userId"
                         ]
                     }
                 }
             },
             {
-                '$project': {
-                    '_id': false,
-                    'userId': true,
-                    'name': true,
-                    'headPics': true,
-                    'position': true,
-                    'tel': true,
-                    'org_id': true,
-                    'email': true
+                "$project": {
+                    "_id": false,
+                    "userId": true,
+                    "name": true,
+                    "headPics": true,
+                    "position": true,
+                    "tel": true,
+                    "org_id": true,
+                    "email": true
                 }
             }
         ],
-        'as': 'pmInfo_meta'
+        "as": "pmInfo_meta"
     }
 },
 {
-    '$unwind': {
-        'path': '$pmInfo_meta',
-        'preserveNullAndEmptyArrays': true
+    "$unwind": {
+        "path": "$pmInfo_meta",
+        "preserveNullAndEmptyArrays": true
     }
 },
 {
-    '$lookup': {
-        'from': 'organization',
-        'localField': 'pmInfo_meta.org_id',
-        'foreignField': '_id',
-        'as': 'temp_Org'
+    "$lookup": {
+        "from": "organization",
+        "localField": "pmInfo_meta.org_id",
+        "foreignField": "_id",
+        "as": "temp_Org"
     }
 },
 {
-    '$addFields': {
-        'pmInfo': {
-            '$cond': [
-                '$pmInfo_meta.name',
-                '$pmInfo_meta.name',
-                ''
+    "$addFields": {
+        "pmInfo": {
+            "$cond": [
+                "$pmInfo_meta.name",
+                "$pmInfo_meta.name",
+                ""
             ]
         },
-        'pmInfo_meta.orgInfo': {
-            '$arrayElemAt': [
-                '$temp_Org.fullName',
+        "pmInfo_meta.orgInfo": {
+            "$arrayElemAt": [
+                "$temp_Org.fullName",
                 0.0
             ]
         }
     }
 },
 {
-    '$project': {
-        'temp_Org': false,
-        'organization': false,
-        'eps': false
+    "$project": {
+        "temp_Org": false,
+        "organization": false,
+        "eps": false
     }
-}"
 }

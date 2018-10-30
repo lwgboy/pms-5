@@ -2485,6 +2485,8 @@
                     <cell id="67">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="221">

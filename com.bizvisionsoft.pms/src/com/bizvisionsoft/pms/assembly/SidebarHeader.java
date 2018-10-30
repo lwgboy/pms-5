@@ -3,56 +3,44 @@ package com.bizvisionsoft.pms.assembly;
 import java.util.Optional;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiService;
-import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.bruiengine.util.BruiToolkit;
+import com.bizvisionsoft.bruiengine.util.Controls;
 
 public class SidebarHeader {
 
 	@Inject
 	private BruiService br;
 
+	private static final int size = 48;
+
 	@CreateUI
 	public void createUI(Composite parent) {
-		BruiToolkit bruiToolkit = UserSession.bruiToolkit();
-		int size = 48;
-		parent.setLayout(new FormLayout());
-		Label pic = new Label(parent, SWT.NONE);
-		bruiToolkit.enableMarkup(pic);
-		Label title = new Label(parent, SWT.NONE);
-		bruiToolkit.enableMarkup(title);
-		FormData fd = new FormData(size, size);
-		pic.setLayoutData(fd);
-		fd.left = new FormAttachment();
-		fd.top = new FormAttachment();
-		fd = new FormData();
-		title.setLayoutData(fd);
-		fd.top = new FormAttachment();
-		fd.left = new FormAttachment(pic);
-		fd.height = size;
-		fd.right = new FormAttachment(100);
+		Controls.handle(parent).layout(new FormLayout());
 
-		// 获得当前进程用户信息中的头像
-		String url = Optional.ofNullable(br.getCurrentUserInfo().getHeadpicURL())
-				.orElse(br.getResourceURL("/img/user_g_60x60.png"));
-		pic.setText("<img alt='headpic' src='" + url + "' width=" + size + "px height=" + size + "px/>");
+		Controls.label(parent).loc(SWT.LEFT | SWT.TOP, size, size).html(getImageHtml())
+				.addRight(() -> Controls.label(parent).height(size).loc(SWT.TOP | SWT.RIGHT).html(getNameHtml()));
+
+	}
+
+	private String getImageHtml() {
+		String url = Optional.ofNullable(br.getCurrentUserInfo().getHeadpicURL()).orElse("resource/image/icon_p_br_bl.svg");
+		return "<img alt='headpic' src='" + url + "' width=" + size + "px height=" + size + "px/>";
+	}
+
+	private String getNameHtml() {
 		String name = br.getCurrentUserInfo().getName();
 		String cid = br.getCurrentConsignerId();
 		String uid = br.getCurrentUserId();
 		if (!uid.equals(cid)) {
 			name += " (" + br.getCurrentConsignerInfo().getName() + " 代管)";
 		}
-		title.setText(
-				"<div style='color:white;margin-left:8px;margin-top:4px'><div style='font-size:16px;'>项目管理系统</div><div style='font-size:14px;'>"
-						+ name + "</div></div>");
 
+		return "<div style='margin-top:4px;width:144px'><img src='resource/image/logo_w.svg' height=22px><div style='margin-left:2px;margin-top:2px;color:white;font-size:13px;'>"
+				+ name + "</div></div>";
 	}
 }

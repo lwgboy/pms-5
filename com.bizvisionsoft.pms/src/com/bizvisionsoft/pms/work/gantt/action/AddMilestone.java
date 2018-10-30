@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -19,11 +17,11 @@ public class AddMilestone {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+			@MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// ÏÔÊ¾±à¼­Æ÷
 
-		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) ((GanttEvent) event).task).setMilestone(true)
+		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) event.task).setMilestone(true)
 				.setManageLevel("1");
 		new Editor<WorkInfo>(br.getAssembly("¸ÊÌØÍ¼Àï³Ì±®¹¤×÷±à¼­Æ÷"), context).setInput(workInfo).ok((r, wi) -> {
 			wi.setPlanFinish(wi.getPlanStart());

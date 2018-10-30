@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.work.action;
 
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -22,8 +20,7 @@ public class StartWork {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 
 			if (brui.confirm("启动工作", "请确认启动工作" + elem + "。\n系统将记录现在时刻为工作的实际开始时间。")) {

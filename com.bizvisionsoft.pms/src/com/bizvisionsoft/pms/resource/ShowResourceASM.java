@@ -37,7 +37,9 @@ import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -48,6 +50,9 @@ public class ShowResourceASM extends GridPart {
 
 	@Inject
 	private BruiAssemblyContext context;
+
+	@Inject
+	private String type;
 
 	private Calendar start;
 
@@ -62,6 +67,10 @@ public class ShowResourceASM extends GridPart {
 	private ArrayList<GridColumn> footerTotalCols;
 
 	private ArrayList<GridColumn> footerDateCols;
+
+	private Object rootInput;
+
+	private String userId;
 
 	public ShowResourceASM() {
 	}
@@ -79,10 +88,10 @@ public class ShowResourceASM extends GridPart {
 
 	@Init
 	protected void init() {
-		Object rootInput = context.getRootInput();
-		if (rootInput != null && rootInput instanceof Project) {
-			resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id());
-		}
+		userId = brui.getCurrentUserId();
+
+		rootInput = context.getRootInput();
+
 		start = Calendar.getInstance();
 		end = Calendar.getInstance();
 		start.set(Calendar.DAY_OF_MONTH, 1);
@@ -192,6 +201,17 @@ public class ShowResourceASM extends GridPart {
 	}
 
 	public void doRefresh() {
+		if ("project".equals(type)) {
+			Check.instanceThen(rootInput, Project.class, p -> {
+				resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id());
+			});
+		} else {
+			Check.isAssigned(userId, u -> {
+				resource = Services.get(WorkService.class)
+						.getResourceOfChargedDept(new Period(start.getTime(), end.getTime()), u);
+			});
+		}
+
 		if (resource != null) {
 			viewer.setInput(resource);
 			doRefreshFooterText();
@@ -456,13 +476,13 @@ public class ShowResourceASM extends GridPart {
 
 			}
 		}
-		String format = null;
+		if (value == 0d)
+			return "";
+
 		if ("planAmount".equals(name) || "actualAmount".equals(name))
-			format = "#,##0.0";
+			return Formatter.getMoneyFormatString(value);
 		else
-			format = "0.0";
-		String text = Formatter.getString(value, format, locale);
-		return "0.0".equals(text) ? "" : text;
+			return Formatter.getString(value, null, locale);
 	}
 
 	private void createDateColumn() {
@@ -582,14 +602,15 @@ public class ShowResourceASM extends GridPart {
 					List<Document> list = (List<Document>) obj;
 					for (Document doc : list) {
 						if (id.equals(doc.get("id"))) {
-							Object value = doc.get(key);
-							String format = null;
+							Object keyValue = doc.get(key);
+							if (keyValue == null)
+								return "";
+
+							double value = Formatter.getDouble(keyValue.toString());
 							if ("planAmount".equals(key) || "actualAmount".equals(key))
-								format = "#,##0.0";
+								return Formatter.getMoneyFormatString(value);
 							else
-								format = "0.0";
-							String text = Formatter.getString(value, format, locale);
-							return "0.0".equals(text) ? "" : text;
+								return Formatter.getString(value, null, locale);
 						}
 					}
 
@@ -609,19 +630,19 @@ public class ShowResourceASM extends GridPart {
 		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				String format = null;
-				Object value;
+				Object value = ((Document) element).get(name);
+				if (value == null)
+					return "";
+
 				if ("planAmount".equals(name) || "actualAmount".equals(name) || "totalPlanAmount".equals(name)
 						|| "totalActualAmount".equals(name)) {
-					format = "#,##0.0";
-					value = ((Document) element).get(name);
-				} else {
-					value = ((Document) element).get(name);
-					if (value instanceof Number)
-						format = "0.0";
+					return Formatter.getMoneyFormatString(Formatter.getDouble(value.toString()));
+				} else if (value instanceof Number) {
+					double d = Formatter.getDouble(value.toString());
+					if (d == 0d)
+						return "";
 				}
-				String text = Formatter.getString(value, format, locale);
-				return "0.0".equals(text) ? "" : text;
+				return Formatter.getString(value, null, locale);
 			}
 		};
 	}

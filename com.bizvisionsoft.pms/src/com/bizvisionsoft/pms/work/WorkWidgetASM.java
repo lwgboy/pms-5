@@ -59,7 +59,7 @@ public class WorkWidgetASM {
 		fd.height = 48;
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FormLayout())
-				.background(BruiColor.Grey_200).get();
+				.bg(BruiColor.Grey_200).get();
 
 		Composite cal = createCalendarSelector(content);
 		// Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);

@@ -757,70 +757,88 @@ public class BasicServiceImpl {
 	public Document getSystemSetting(String name) {
 		return c("setting").find(new Document("name", name)).first();
 	}
+	
+	public Object getSystemSetting(String name,String parameter) {
+		return Optional.ofNullable(getSystemSetting(name)).map(d->d.get(parameter)).orElse(null);
+	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
-		String subject = m.getSubject();
-		String content = m.getContent();
-		String userId = m.getReceiver();
-		Document user = c("user").find(new Document("userId", userId)).first();
-		if (user == null)
-			return false;
+		Service.run(() -> {
+			String subject = m.getSubject();
+			String content = m.getContent();
+			String userId = m.getReceiver();
+			Document user = c("user").find(new Document("userId", userId)).first();
+			if (user == null)
+				return;
 
-		String receiverAddress = user.getString("email");
-		if (receiverAddress == null || receiverAddress.isEmpty())
-			return false;
-
-		if (Boolean.TRUE.equals(setting.get("dps"))) {
-			EmailSender sender = Service.get(EmailSender.class);
-			if (sender != null) {
-				try {
-					sender.send("BizVision PMS5", receiverAddress, subject, content, from);
-					return true;
-				} catch (Exception e) {
-					logger.error("DPS 发送邮件错误。", e);
+			String receiverAddress = user.getString("email");
+			if (Check.isNotAssigned(receiverAddress)) {
+				logger.error("邮件未能发送，原因是没有邮箱地址，用户："+user);
+				return;
+			}
+			
+			if(logger.isDebugEnabled()) {
+				logger.warn("调试模式启动下，只发送到系统设置的接受账号");
+				receiverAddress = (String)getSystemSetting("测试邮件接收账户","testEmail");
+				if (Check.isNotAssigned(receiverAddress)) {
+					logger.error("邮件未能发送，原因是没有设置系统参数：测试邮件接收账户/testEmail");
+					return;
 				}
-			} else {
-				logger.error("发送邮件失败。");
 			}
-			return false;
-		} else {
-			String smtpHost = setting.getString("smtpHost");
-			int smtpPort;
-			try {
-				smtpPort = Integer.parseInt(setting.getString("smtpPort"));
-			} catch (Exception e) {
-				logger.error("smtp端口号配置错误。", e);
-				return false;
-			}
-			Boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
-			String senderPassword = setting.getString("senderPassword");
-			String senderAddress = setting.getString("senderAddress");
 
-			try {
-				EmailClient client = new EmailClientBuilder(EmailClientBuilder.SIMPLE)//
-						.setSenderAddress(senderAddress)//
-						.setSenderPassword(senderPassword)//
-						.setSmtpHost(smtpHost)//
-						.setSmtpPort(smtpPort)//
-						.setSmtpUseSSL(smtpUseSSL)//
-						.setCharset("GB2312")//
-						.build();
+			if (Boolean.TRUE.equals(setting.get("dps"))) {
+				EmailSender sender = Service.get(EmailSender.class);
+				if (sender != null) {
+					try {
+						sender.send("BizVision PMS5", receiverAddress, subject, content, from);
+						return;
+					} catch (Exception e) {
+						logger.error("DPS 发送邮件错误。", e);
+					}
+				} else {
+					logger.error("发送邮件失败。");
+				}
+				return;
+			} else {
+				String smtpHost = setting.getString("smtpHost");
+				int smtpPort;
 				try {
-					client.setSubject(subject)//
-							.setMessage(content)//
-							.setFrom(new NamedAccount(from, senderAddress))//
-							.addCc(new NamedAccount(receiverAddress))//
-							.send();
-					return true;
+					smtpPort = Integer.parseInt(setting.getString("smtpPort"));
+				} catch (Exception e) {
+					logger.error("smtp端口号配置错误。", e);
+					return;
+				}
+				Boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
+				String senderPassword = setting.getString("senderPassword");
+				String senderAddress = setting.getString("senderAddress");
+
+				try {
+					EmailClient client = new EmailClientBuilder(EmailClientBuilder.SIMPLE)//
+							.setSenderAddress(senderAddress)//
+							.setSenderPassword(senderPassword)//
+							.setSmtpHost(smtpHost)//
+							.setSmtpPort(smtpPort)//
+							.setSmtpUseSSL(smtpUseSSL)//
+							.setCharset("GB2312")//
+							.build();
+					try {
+						client.setSubject(subject)//
+								.setMessage(content)//
+								.setFrom(new NamedAccount(from, senderAddress))//
+								.addCc(new NamedAccount(receiverAddress))//
+								.send();
+						return;
+					} catch (Exception e) {
+						logger.error(e.getMessage(), e);
+						return;
+					}
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);
-					return false;
+					return;
 				}
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-				return false;
 			}
-		}
+		});
+		return true;
 	}
 
 	protected void debugPipeline(List<? extends Bson> pipeline) {

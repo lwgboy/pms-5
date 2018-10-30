@@ -1,8 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -17,9 +14,10 @@ public class DeleteTask {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart part, @MethodParam(Execute.EVENT) Event event) {
-		if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的工作。")) {
-			WorkInfo task = (WorkInfo) ((GanttEvent) event).task;
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart part,
+			@MethodParam(Execute.EVENT) GanttEvent event) {
+		if (br.confirm("删除", "请确认将要删除选择的工作。")) {
+			WorkInfo task = (WorkInfo) event.task;
 			part.deleteTask(task.getId());
 		}
 	}

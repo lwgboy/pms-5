@@ -7,7 +7,6 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.Project;
@@ -20,8 +19,8 @@ public class EstimateSchedule {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Object rootInput = context.getRootInput();
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object rootInput,
+			@MethodParam(Execute.CONTEXT_CONTENT) GridPart grid) {
 		ObjectId project_id = null;
 		if (rootInput instanceof Project) {
 			project_id = ((Project) rootInput).get_id();
@@ -43,7 +42,7 @@ public class EstimateSchedule {
 			} else {
 				Layer.message("进度估算完成<br/>没有预警信息");
 			}
-			((GridPart) context.getContent()).refreshAll();
+			grid.refreshAll();
 		}
 	}
 

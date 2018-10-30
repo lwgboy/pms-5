@@ -2,13 +2,10 @@ package com.bizvisionsoft.pms.project.action;
 
 import java.util.Date;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.CommandHandler;
 import com.bizvisionsoft.service.ProjectService;
@@ -23,16 +20,15 @@ public class DistributeProjectPlan {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		Object rootInput = context.getRootInput();
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) Object content,
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Project project) {
 		ProjectService service = Services.get(ProjectService.class);
 		CommandHandler.run(ICommand.Distribute_Project_Plan, //
-				"项目：" + (Project) rootInput + "，请确认下达计划。", //
+				"项目：" + project + "，请确认下达计划。", //
 				"项目计划已下达", "项目计划下达失败", //
 				() -> service.distributeProjectPlan(
-						brui.command(((Project) rootInput).get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
-				code -> Check.instanceThen(context.getContent(), GridPart.class, GridPart::setViewerInput));
+						brui.command(project.get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
+				code -> Check.instanceThen(content, GridPart.class, GridPart::setViewerInput));
 	}
 
 }

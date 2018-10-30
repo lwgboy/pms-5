@@ -28,7 +28,7 @@ public class AccountItem implements Comparable<AccountItem> {
 
 	@ReadValue
 	@WriteValue
-	private ObjectId parent_id;
+	private String parentId;
 
 	/** 编号 Y **/
 	@ReadValue
@@ -61,12 +61,12 @@ public class AccountItem implements Comparable<AccountItem> {
 
 	@Structure("list")
 	public List<AccountItem> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).queryAccountItem(new BasicDBObject("parent_id", _id));
+		return ServicesLoader.get(CommonService.class).queryAccountItem(new BasicDBObject("parentId", id));
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countAccoutItem(_id);
+		return ServicesLoader.get(CommonService.class).countAccoutItem(id);
 	}
 
 	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
@@ -80,9 +80,13 @@ public class AccountItem implements Comparable<AccountItem> {
 		return _id;
 	}
 
-	public AccountItem setParent_id(ObjectId parent_id) {
-		this.parent_id = parent_id;
+	public AccountItem setParentId(String parent_id) {
+		this.parentId = parent_id;
 		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
 	}
 
 	@Override

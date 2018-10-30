@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.projecttemplate;
 
 import java.util.List;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -24,8 +22,8 @@ public class SetWorkPackageACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		WorkInTemplate workinfo = (WorkInTemplate) ((GanttEvent) event).task;
+			@MethodParam(Execute.EVENT) GanttEvent event) {
+		WorkInTemplate workinfo = (WorkInTemplate) event.task;
 		String editor = "¹¤×÷ÊôÐÔ±à¼­Æ÷";
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 			Services.get(ProjectTemplateService.class).updateWork(

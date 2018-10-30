@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -22,8 +20,7 @@ public class AssignerWorkACT {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(e -> {
 			Selector.open("指派用户选择器", context, (Work) e, l -> {
 				ServicesLoader.get(WorkService.class)

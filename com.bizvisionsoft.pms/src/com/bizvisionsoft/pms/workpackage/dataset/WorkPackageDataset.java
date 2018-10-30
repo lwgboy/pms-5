@@ -9,7 +9,6 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
-import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
@@ -21,9 +20,6 @@ public class WorkPackageDataset {
 
 	@Inject
 	private BruiAssemblyContext context;
-
-	@Inject
-	private IBruiService brui;
 
 	private IWorkPackageMaster master;
 

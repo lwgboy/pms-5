@@ -497,11 +497,17 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> createDeptUserWorkDataSet(String userid) {
-		ObjectId organization_id = c("user").distinct("org_id", new BasicDBObject("userId", userid), ObjectId.class)
-				.first();
-		if (organization_id != null) {
-			List<String> users = c("user")
-					.distinct("userId", new BasicDBObject().append("org_id", organization_id), String.class)
+		// 修改部门工作无法显示下级部门人员的工作问题
+		// TODO 503行到511行可以通过JQ获取。
+		// 获取当前用户所在部门
+		List<ObjectId> orgIds = c("organization").distinct("_id", new Document("managerId", userid), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		if (orgIds.size() > 0) {
+			// 获取用户所在部门的下级部门
+			orgIds = getDesentItems(orgIds, "organization", "parent_id");
+			// 获取部门中的成员
+			List<String> users = c("user").distinct("userId",
+					new BasicDBObject().append("org_id", new BasicDBObject("$in", orgIds)), String.class)
 					.into(new ArrayList<String>());
 
 			return queryWork(null, null,
@@ -1219,7 +1225,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			}
 		});
 
-		c(ResourceActual.class).insertMany(documents);
+		// 增加判断，如果是重复添加，会造成documents没有插入数据
+		if (documents.size() > 0)
+			c(ResourceActual.class).insertMany(documents);
 
 		return documents;
 	}

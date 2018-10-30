@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -19,12 +17,12 @@ public class AddTask {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+			@MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// ÏÔÊ¾±à¼­Æ÷
 
 		new Editor<WorkInfo>(bruiService.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷"), context)
-				.setInput(WorkInfo.newInstance((WorkInfo) ((GanttEvent) event).task)).ok((r, wi) -> {
+				.setInput(WorkInfo.newInstance((WorkInfo) event.task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi);
 				});

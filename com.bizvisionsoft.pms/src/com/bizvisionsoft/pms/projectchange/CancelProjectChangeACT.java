@@ -9,7 +9,6 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -23,12 +22,11 @@ public class CancelProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input) {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), "否决", "请填写否决意见", null, t -> {
 			return t.trim().isEmpty() ? "请填写否决意见" : null;
 		}).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
-			ProjectChange input = (ProjectChange) context.getInput();
 			ProjectChangeTask task = new ProjectChangeTask();
 			task.user = brui.getCurrentUserId();
 			task.projectChange_id = input.get_id();

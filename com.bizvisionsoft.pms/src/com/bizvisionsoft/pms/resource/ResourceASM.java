@@ -7,8 +7,6 @@ import java.util.List;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -34,91 +32,112 @@ import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ResourcePlanASM {
+public class ResourceASM {
 
 	@Inject
 	private IBruiService brui;
 
 	@Inject
 	private BruiAssemblyContext context;
-	
+
 	@Inject
-	private String ganttAssemblyName;
-	
+	private Boolean editable;
+
 	@Inject
-	private String stickerTitleText;
+	private String type;
 
 	private GanttPart gantt;
 
 	private EditResourceASM grid;
 
 	private Work work;
-	
+
 	@CreateUI
 	public void createUI(Composite parent) {
+
+		String ganttAssemblyName;
+
+		String stickerTitleText;
+
+		String gridExportActionText;
+
+		if ("plan".equals(this.type)) {
+			ganttAssemblyName = "项目甘特图（资源计划分配）";
+			stickerTitleText = "资源计划";
+			gridExportActionText = "资源计划";
+		} else {
+			ganttAssemblyName = "项目甘特图（资源实际分配）";
+			stickerTitleText = "资源用量";
+			gridExportActionText = "资源用量";
+		}
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText(stickerTitleText)
-				.setActions(context.getAssembly().getActions());
-		FormData fd = new FormData();
-		bar.setLayoutData(fd);
-		fd.left = new FormAttachment(0);
-		fd.top = new FormAttachment(0);
-		fd.right = new FormAttachment(100);
-		fd.height = 48;
+		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right()
+				.get().setText(stickerTitleText).setActions(context.getAssembly().getActions());
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
 		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly(ganttAssemblyName))
 				.setServices(brui).create().getContext().getContent();
-		
+
 		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
-		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
 		rt.setCheckTime(true);
 		rt.setCanAdd(false);
-		rt.setCanDelete(true);
+		rt.setCanDelete(Boolean.TRUE.equals(editable));
+		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
-		rt.setShowConflict(true);
 		rt.setShowFooter(true);
+
+		if ("plan".equals(this.type)) {
+			rt.setType(ResourceTransfer.TYPE_PLAN);
+			rt.setShowConflict(true);
+		} else {
+			rt.setType(ResourceTransfer.TYPE_ACTUAL);
+			rt.setShowResActual(true);
+			rt.setShowConflict(false);
+		}
 
 		// 修改控件title，以便在导出按钮进行显示
 		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
 				.setInput(rt).setServices(brui).create().getContext().getContent();
-		grid.setExportActionText("资源计划");
+		grid.setExportActionText(gridExportActionText);
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
 
 		bar.addListener(SWT.Selection, l -> {
 			Action action = ((Action) l.data);
-			if ("分配资源".equals(action.getName())) {
+			if ("分配资源".equals(action.getName()) || "添加资源用量".equals(action.getName())) {
+				// 资源计划按钮
 				if (this.work == null) {
-					Layer.message("请先选择将要分配资源的工作");
+					Layer.message("请先选择将要" + action.getName() + "的工作");
 					return;
 				} else if (this.work.isSummary()) {
-					Layer.message("无需对总成型工作分配资源");
+					Layer.message("无需对总成型工作" + action.getName());
 					return;
 				} else if (this.work.isMilestone()) {
-					Layer.message("无需对里程碑分配资源");
+					Layer.message("无需对里程碑" + action.getName());
 					return;
 				}
-				allocateResource();
+				if (Boolean.TRUE.equals(editable))
+					allocateResource();
 			} else {
 				UserSession.bruiToolkit().runAction(action, l, brui, context);
 			}
 		});
-
-		gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
-			Work work = (Work) ((GanttEvent) l).task;
-			if (work != null && !work.isSummary() && !work.isMilestone()) {
-				allocateResource();
-			}
-		});
-		Layer.message("提示： 您可以双击叶子任务选择要添加的资源");
+		if (Boolean.TRUE.equals(editable)) {
+			gantt.addGanttEventListener(GanttEventCode.onTaskDblClick.name(), l -> {
+				Work work = (Work) ((GanttEvent) l).task;
+				if (work != null && !work.isSummary() && !work.isMilestone()) {
+					allocateResource();
+				}
+			});
+			Layer.message("提示： 您可以双击叶子任务选择要添加的资源");
+		}
 	}
 
 	private void allocateResource() {
@@ -159,29 +178,43 @@ public class ResourcePlanASM {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
 			l.forEach(o -> {
 				ResourceAssignment ra = new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id());
-				if (o instanceof ResourceType) {
-					InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源 " + o.toString() + " 数量",
-							null, t -> {
-								if (t.trim().isEmpty())
-									return "请输入资源数量";
-								try {
-									Integer.parseInt(t);
-								} catch (Exception e) {
-									return "输入的类型错误";
-								}
-								return null;
-							});
-					if (InputDialog.OK == id.open()) {
-						ra.qty = Integer.parseInt(id.getValue());
+				// 资源计划
+				if ("plan".equals(this.type)) {
+					if (o instanceof ResourceType) {
+						InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量",
+								"请输入资源 " + o.toString() + " 数量", null, t -> {
+									if (t.trim().isEmpty())
+										return "请输入资源数量";
+									try {
+										Integer.parseInt(t);
+									} catch (Exception e) {
+										return "输入的类型错误";
+									}
+									return null;
+								});
+						if (InputDialog.OK == id.open()) {
+							ra.qty = Integer.parseInt(id.getValue());
+						}
+					} else {
+						ra.qty = 1;
 					}
 				} else {
-					ra.qty = 1;
+					// 资源用量
+					ra.from = work.getStart_date();
+					ra.to = work.getEnd_date();
 				}
+
 				resa.add(ra);
 			});
-			Services.get(WorkService.class).addResourcePlan(resa);
+			if ("plan".equals(this.type))
+				// 资源计划
+				Services.get(WorkService.class).addResourcePlan(resa);
+			else
+				// 资源用量
+				Services.get(WorkService.class).addResourceActual(resa);
 			grid.doRefresh();
 		});
+
 	}
 
 	private void select(Work work) {
@@ -192,19 +225,31 @@ public class ResourcePlanASM {
 		// 查询
 		ResourceTransfer rt = new ResourceTransfer();
 		rt.addWorkIds(work.get_id());
-		rt.setType(ResourceTransfer.TYPE_PLAN);
 		rt.setShowType(ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE);
-		rt.setFrom(work.getPlanStart());
-		rt.setTo(work.getPlanEndDate());
-		rt.setCanAdd(false);
-		rt.setCanDelete(true);
+		rt.setCanDelete(Boolean.TRUE.equals(editable));
+		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
 		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
-		rt.setShowConflict(true);
 		rt.setShowFooter(true);
-		rt.setTitle(work.getFullName() + "工作资源计划用量");
-
+		if ("plan".equals(this.type)) {
+			// 资源计划
+			rt.setType(ResourceTransfer.TYPE_PLAN);
+			rt.setFrom(work.getPlanStart());
+			rt.setTo(work.getPlanEndDate());
+			rt.setCanAdd(false);
+			rt.setShowConflict(true);
+			rt.setTitle(work.getFullName() + "工作资源计划用量");
+		} else {
+			// 资源用量
+			rt.setType(ResourceTransfer.TYPE_ACTUAL);
+			rt.setFrom(work.getStart_date());
+			rt.setTo(work.getEnd_date());
+			rt.setCanAdd(work.getActualStart() != null);
+			rt.setShowResActual(true);
+			rt.setShowConflict(false);
+			rt.setTitle(work.getFullName() + "工作资源实际用量");
+		}
 		grid.setResourceTransfer(rt);
 
 	}

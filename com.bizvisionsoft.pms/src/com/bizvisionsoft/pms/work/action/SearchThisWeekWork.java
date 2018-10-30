@@ -2,13 +2,10 @@ package com.bizvisionsoft.pms.work.action;
 
 import java.util.Calendar;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.mongodb.BasicDBObject;
 
@@ -18,9 +15,7 @@ public class SearchThisWeekWork {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		GridPart gridPart = (GridPart) context.getContent();
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GridPart gridPart) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);

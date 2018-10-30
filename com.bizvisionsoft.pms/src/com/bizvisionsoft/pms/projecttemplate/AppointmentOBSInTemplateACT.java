@@ -1,7 +1,5 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
-import org.eclipse.swt.widgets.Event;
-
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,8 +18,7 @@ public class AppointmentOBSInTemplateACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSInTemplate element = (OBSInTemplate) context.getSelection().getFirstElement();
 		new Selector(bruiService.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
 			element.setManager((User) r.get(0));

@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.cbs.action;
 
 import org.bson.types.ObjectId;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -32,7 +31,7 @@ public class DistributeCBSBudget {
 						Work workInfo = (Work) r.get(0);
 						ObjectId cbs_id = workInfo.getCBS_id();
 						if (cbs_id != null) {
-							MessageDialog.openError(brui.getCurrentShell(), "错误", "已经为该阶段分配预算，无法再次分配。");
+							brui.error( "错误", "已经为该阶段分配预算，无法再次分配。");
 						} else {
 							CBSItem cbsItem = Services.get(CBSService.class).allocateBudget(((CBSItem) parent).get_id(),
 									workInfo.get_id(), workInfo.toString());

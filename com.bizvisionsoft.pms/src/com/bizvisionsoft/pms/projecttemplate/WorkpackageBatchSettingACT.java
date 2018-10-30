@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bson.types.ObjectId;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -26,8 +25,7 @@ public class WorkpackageBatchSettingACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		GridPart part = (GridPart) context.getContent();
 		Iterator<?> iter = part.getViewer().getStructuredSelection().iterator();
 		final ArrayList<ObjectId> ids = new ArrayList<ObjectId>();

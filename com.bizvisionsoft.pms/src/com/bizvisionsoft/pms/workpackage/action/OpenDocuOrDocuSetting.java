@@ -4,7 +4,6 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiService;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.service.model.ProjectTemplate;
 
 public class OpenDocuOrDocuSetting {
@@ -13,14 +12,15 @@ public class OpenDocuOrDocuSetting {
 	private BruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object rootInput,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object sele) {
 		String name;
-		if (context.getRootInput() instanceof ProjectTemplate) {
+		if (rootInput instanceof ProjectTemplate) {
 			name = "输出文档设置";
 		} else {
 			name = "输出文档";
 		}
-		br.openContent(br.getAssembly(name), context.getSelection().getFirstElement());
+		br.openContent(br.getAssembly(name), sele);
 	}
 
 }
