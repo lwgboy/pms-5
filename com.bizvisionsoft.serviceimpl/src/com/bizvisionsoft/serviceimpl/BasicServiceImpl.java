@@ -467,32 +467,6 @@ public class BasicServiceImpl {
 		return c(cName).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
 	}
 
-	protected Document getPieChart(String title, Object legendData, Object series) {
-		Document option = new Document();
-		option.append("title", new Document("text", title).append("x", "center"));
-		option.append("tooltip", new Document("trigger", "item").append("formatter", "{b} : {c} ({d}%)"));
-		option.append("legend", new Document("orient", "vertical").append("left", "left").append("data", legendData));
-		option.append("series", series);
-		return option;
-	}
-
-	protected Document getBarChart(String text, Object legendData, Object series) {
-		Document option = new Document();
-		option.append("title", new Document("text", text).append("x", "center"));
-		// option.append("tooltip", new Document("trigger",
-		// "axis").append("axisPointer", new Document("type", "shadow")));
-
-		option.append("legend", new Document("data", legendData).append("orient", "vertical").append("left", "right"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "4%").append("bottom", "3%").append("containLabel", true));
-
-		option.append("xAxis", Arrays.asList(new Document("type", "category").append("data",
-				Arrays.asList(" 1月", " 2月", " 3月", " 4月", " 5月", " 6月", " 7月", " 8月", " 9月", "10月", "11月", "12月"))));
-		option.append("yAxis", Arrays.asList(new Document("type", "value")));
-
-		option.append("series", series);
-		return option;
-	}
 
 	protected void convertGraphic(ArrayList<Document> works, ArrayList<Document> links, final ArrayList<Task> tasks,
 			final ArrayList<Route> routes) {
