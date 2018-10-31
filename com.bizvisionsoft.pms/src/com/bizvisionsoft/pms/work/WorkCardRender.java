@@ -84,6 +84,9 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
 		renderTitle(theme, sb, work);
+		// 标签
+//		renderNoticeBudgets(work, sb);
+
 		// 显示项目图标和名称
 		renderProjectLine(theme,sb, work);
 
@@ -97,8 +100,6 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
 
-		// 标签
-		renderNoticeBudgets(work, sb);
 
 		sb.append("</div>");
 
@@ -124,6 +125,10 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
 		renderTitle(theme, sb, work);
+		
+		// 标签
+//		renderNoticeBudgets(work, sb);
+		
 		// 显示项目图标和名称
 		renderProjectLine(theme,sb, work);
 
@@ -141,8 +146,6 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "完成", "finishWork/" + work.get_id());
 
-		// 标签
-		renderNoticeBudgets(work, sb);
 
 		sb.append("</div>");
 

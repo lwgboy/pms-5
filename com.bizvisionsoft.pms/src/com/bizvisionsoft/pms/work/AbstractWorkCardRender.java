@@ -123,7 +123,7 @@ public abstract class AbstractWorkCardRender {
 
 
 	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
-		sb.append("<div style='padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Check.isAssigned(work.getManageLevel(), l -> {
 			if ("1".equals(l)) {
 				String label = "<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>";
@@ -137,6 +137,7 @@ public abstract class AbstractWorkCardRender {
 		});
 		// 警告
 		Check.isAssigned(work.getWarningIcon(), sb::append);
+		sb.append("</div>");
 	}
 
 	protected void renderButtons(CardTheme theme, StringBuffer sb, Work work, String label, String href) {
@@ -151,7 +152,7 @@ public abstract class AbstractWorkCardRender {
 				btns.add(new String[] { "openWorkPackage/" + i, wps.get(i).getName() });
 			}
 		}
-		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
+		sb.append("<div style='margin-top:16px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
@@ -187,7 +188,7 @@ public abstract class AbstractWorkCardRender {
 	}
 	
 	protected void renderProjectLine(CardTheme theme,StringBuffer sb, Work work) {
-		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL("img/project_c.svg")
+		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL("img/project_c.svg")
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#" + theme.lightText
 				+ ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
