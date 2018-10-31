@@ -22,9 +22,8 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectBoardInfo;
-import com.bizvisionsoft.service.model.ProjectStatus;
-import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ProjectBoardRender {
@@ -44,8 +43,7 @@ public class ProjectBoardRender {
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				 if (e.text.startsWith("openProject/")) {
-					String id = e.text.split("/")[1];
-					openProject(new ObjectId(id));
+					SwitchPage.openProject(bruiService, new ObjectId(e.text.split("/")[1]));
 				}
 			} else {
 				Object element = ((GridItem) e.item).getData();
@@ -59,18 +57,7 @@ public class ProjectBoardRender {
 		}
 	}
 
-	private void openProject(ObjectId _id) {
-		Project pj = Services.get(ProjectService.class).get(_id);
-		if (ProjectStatus.Created.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（启动）", _id.toHexString());
-		} else if (ProjectStatus.Processing.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（执行）", _id.toHexString());
-		} else if (ProjectStatus.Closing.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（收尾）", _id.toHexString());
-		} else if (ProjectStatus.Closed.equals(pj.getStatus())) {
-			bruiService.switchPage("项目首页（关闭）", _id.toHexString());
-		}
-	}
+
 
 	@GridRenderUpdateCell
 	private void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {

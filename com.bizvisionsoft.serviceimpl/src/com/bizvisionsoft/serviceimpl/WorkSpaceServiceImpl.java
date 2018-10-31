@@ -318,6 +318,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		Project project = c(Project.class).find(new Document("_id", workspace.getProject_id())).first();
 		final List<Message> messages = new ArrayList<>();
 
+		String msgSubject = "工作计划更改通知";
+
 		c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", updateIds))).forEach((Document d) -> {
 			// 更新Work
 			Object _id = d.get("_id");
@@ -336,28 +338,39 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				Date newPlanStart = d.getDate("planStart");
 				Date oldPlanFinish = doc.getDate("planFinish");
 				Date newPlanFinish = d.getDate("planFinish");
-				// 去除无意义的判断
+				String checkoutBy = workspace.getCheckoutBy();
+
+				String content = "项目：" + project.getName() + " ，工作：" + doc.getString("fullName");
 				if (!Check.equals(oldAssignerId, newAssignerId)) {
-					Check.isAssigned(oldAssignerId,
-							o -> messages.add(Message.newInstance("工作计划通知",
-									"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定指派者。",
-									workspace.getCheckoutBy(), o, null)));
+					if (oldAssignerId != null) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作指派者。", checkoutBy,
+								(String) oldAssignerId, null));
+					}
+					if (newAssignerId != null) {
+						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作指派者。", checkoutBy,
+								(String) newAssignerId, null));
+					}
 				}
 
 				if (!Check.equals(oldChargerId, newChargerId)) {
-					Check.isAssigned(oldChargerId,
-							o -> messages.add(Message.newInstance("工作计划通知",
-									"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定负责人。",
-									workspace.getCheckoutBy(), o, null)));
+					if (oldChargerId != null) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作负责人。", checkoutBy,
+								(String) oldAssignerId, null));
+					}
+					if (newChargerId != null) {
+						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作负责人。", checkoutBy,
+								(String) oldAssignerId, null));
+					}
 				}
 
 				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
 					// 使用通用的下达工作计划的通知模板
-					Check.isAssigned(doc.getString("chargerId"), c -> messages.add(
-							Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(), c)));
-
-					Check.isAssigned(doc.getString("assignerId"), a -> messages.add(
-							Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(), a)));
+					String chargerId = doc.getString("chargerId");
+					messages.add(
+							Message.distributeWorkMsg(msgSubject, project.getName(), doc, true, checkoutBy, chargerId));
+					String assignerId = doc.getString("assignerId");
+					messages.add(Message.distributeWorkMsg(msgSubject, project.getName(), doc, true, checkoutBy,
+							assignerId));
 				}
 			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));

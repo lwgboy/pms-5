@@ -108,12 +108,12 @@ public class Message {
 	 * @param receiver
 	 * @return
 	 */
-	public static Message distributeWorkMsg(String pjName, Document work, boolean isCharger, String sender,
+	public static Message distributeWorkMsg(String title,String pjName, Document work, boolean isCharger, String sender,
 			String receiver) {
 		Date pstart = work.getDate("planStart");
 		Date pfinish = work.getDate("planFinish");
 		String fname = work.getString("fullName");
-		return Message.newInstance("工作计划下达通知", "项目：" + pjName + " ，工作：" + fname + " ，计划开始：" + format(pstart) + " ，计划完成："
+		return Message.newInstance(title, "项目：" + pjName + " ，工作：" + fname + " ，计划开始：" + format(pstart) + " ，计划完成："
 				+ format(pfinish) + (isCharger ? " ，该工作由您负责。" : "，您需在计划开始前指派该工作负责人。"), sender, receiver, null);
 	}
 
