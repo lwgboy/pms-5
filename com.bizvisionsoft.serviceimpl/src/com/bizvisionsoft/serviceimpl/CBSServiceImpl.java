@@ -533,62 +533,26 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
+	// yangjun 2018/10/31
 	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year, String userId) {
-
-		Document cbsSubjectMatch = new Document();
-		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
-
-		// TODO JS查询获取
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("subjectNumber", "$id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$subjectNumber", "$$subjectNumber")),
-												new Document("$eq",
-														Arrays.asList(new Document("$indexOfBytes",
-																Arrays.asList("$id", year)), 0)),
-												cbsSubjectMatch)))),
-										new Document("$group",
-												new Document("_id", "$subjectNumber")
-														.append("cost", new Document("$sum", "$cost"))
-														.append("count", new Document("$sum", 1)))))
-								.append("as", "cbsSubject")),
-				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("cost", "$cbsSubject.cost").append("count", "$cbsSubject.count")),
-				new Document("$project", new Document("cbsSubject", false)));
-
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object count = doc.get("count");
-			if (count != null && ((Number) count).doubleValue() > 0) {
-				data2.add(new Document("name", doc.getString("name")).append("value", getStringValue(doc.get("cost"))));
-				data1.add(doc.getString("name"));
-			}
-		});
-		List<Document> series = Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", data2));
-		return getPieChart(year + "年 项目成本组成分析（万元）", data1, series);
+		c("accountItem").aggregate(
+				new JQ("查询-费用科目-成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array())
+				.forEach((Document doc) -> {
+					Object count = doc.get("count");
+					if (count != null && ((Number) count).doubleValue() > 0) {
+						data2.add(new Document("name", doc.getString("name")).append("value",
+								getStringValue(doc.get("cost"))));
+						data1.add(doc.getString("name"));
+					}
+				});
+		return new JQ("图表-项目成本组成分析（年）").set("title", year + "年 项目成本组成分析（万元）").set("data1", data1).set("data2", data2)
+				.doc();
 	}
 
 	@Override
+	// yangjun 2018/10/31
 	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod,
 			String userId) {
 		String title;
@@ -600,35 +564,11 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
 		}
 
-		Document cbsSubjectMatch = new Document();
-		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
-		// TODO js查询
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "cbsSubject").append("let", new Document("subjectNumber", "$id"))
-								.append("pipeline",
-										Arrays.asList(
-												new Document("$match",
-														new Document("$expr", new Document("$and", Arrays.asList(
-																new Document("$eq",
-																		Arrays.asList("$subjectNumber",
-																				"$$subjectNumber")),
-																new Document("$gte", Arrays.asList("$id", startPeriod)),
-																new Document("$lte", Arrays.asList("$id", endPeriod)),
-																cbsSubjectMatch)))),
-												new Document("$group",
-														new Document("_id", "$subjectNumber")
-																.append("cost", new Document("$sum", "$cost"))
-																.append("count", new Document("$sum", 1)))))
-								.append("as", "cbsSubject")),
-				new Document("$unwind", new Document("path", "$cbsSubject").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("cost", "$cbsSubject.cost").append("count", "$cbsSubject.count")),
-				new Document("$project", new Document("cbsSubject", false)));
-
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
+		List<Bson> array = new JQ("查询-费用科目-成本-期间").set("startPeriod", startPeriod).set("endPeriod", endPeriod)
+				.set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array();
+		c("accountItem").aggregate(array).forEach((Document doc) -> {
 			Object count = doc.get("count");
 			if (count != null && ((Number) count).doubleValue() > 0) {
 				data2.add(new Document("name", doc.getString("name")).append("value", getStringValue(doc.get("cost"))));
@@ -636,52 +576,13 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			}
 		});
 
-		List<Document> series = Arrays.asList(new Document("name", "成本组成").append("type", "pie").append("radius", "55%")
-				.append("center", Arrays.asList("50%", "60%"))
-				.append("label", new Document("normal", new Document("formatter", "{b|{b}：{c}万元} {per|{d}%}").append(
-						"rich",
-						new Document("b",
-								new Document("color", "#747474").append("lineHeight", 22).append("align", "center"))
-										.append("hr",
-												new Document("color", "#aaa").append("width", "100%")
-														.append("borderWidth", 0.5).append("height", 0))
-										.append("per",
-												new Document("color", "#eee").append("backgroundColor", "#334455")
-														.append("padding", Arrays.asList(2, 4))
-														.append("borderRadius", 2)))))
-
-				.append("data", data2));
-		return getPieChart(title, data1, series);
+		return new JQ("图表-项目成本组成分析（期间）").set("title", title).set("data1", data1).set("data2", data2).doc();
 	}
 
 	@Override
+	// yangjun 2018/10/31
 	public Document getMonthlyCostAndBudgetChart(ObjectId cbsScope_id) {
 		String year = new SimpleDateFormat("yyyy").format(new Date());
-
-		Document cbsSubjectMatch = new Document();
-		// TODO 需要修改其进行用户权限判断
-		if (cbsScope_id != null)
-			cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, null)));
-		// TODO js 查询
-
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("subjectNumber", "$id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$subjectNumber", "$$subjectNumber")),
-												new Document("$eq",
-														Arrays.asList(new Document("$indexOfBytes",
-																Arrays.asList("$id", year)), 0)),
-												cbsSubjectMatch)))),
-										new Document("$group",
-												new Document("_id", "$id").append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget"))),
-										new Document("$sort", new Document("_id", 1))))
-								.append("as", "cbsSubject")),
-				new Document("$sort", new Document("id", 1)));
 
 		Map<String, Double> costMap = new LinkedHashMap<String, Double>();
 		Map<String, Double> budgetMap = new LinkedHashMap<String, Double>();
@@ -691,72 +592,46 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			budgetMap.put(key, 0d);
 		}
 
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object subjects = doc.get("cbsSubject");
-			if (subjects instanceof List && ((List<?>) subjects).size() > 0) {
-				((List<?>) subjects).forEach(item -> {
-					String id = ((Document) item).getString("_id");
-					Double costD = costMap.get(id);
-					if (costD != null) {
-						Object cost = ((Document) item).get("cost");
-						if (cost != null) {
-							costD += ((Number) cost).doubleValue();
-							costMap.put(id, (double) Math.round(costD * 10) / 10);
-						}
-					}
+		c("accountItem").aggregate(
+				new JQ("查询-费用科目-预算和成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, null)).array())
+				.forEach((Document doc) -> {
+					Object subjects = doc.get("cbsSubject");
+					if (subjects instanceof List && ((List<?>) subjects).size() > 0) {
+						((List<?>) subjects).forEach(item -> {
+							String id = ((Document) item).getString("_id");
+							Double costD = costMap.get(id);
+							if (costD != null) {
+								Object cost = ((Document) item).get("cost");
+								if (cost != null) {
+									costD += ((Number) cost).doubleValue();
+									costMap.put(id, (double) Math.round(costD * 10) / 10);
+								}
+							}
 
-					Double budgetD = budgetMap.get(id);
-					if (budgetD != null) {
-						Object budget = ((Document) item).get("budget");
-						if (budget != null) {
-							budgetD += ((Number) budget).doubleValue();
-							budgetMap.put(id, (double) Math.round(budgetD * 10) / 10);
-						}
+							Double budgetD = budgetMap.get(id);
+							if (budgetD != null) {
+								Object budget = ((Document) item).get("budget");
+								if (budget != null) {
+									budgetD += ((Number) budget).doubleValue();
+									budgetMap.put(id, (double) Math.round(budgetD * 10) / 10);
+								}
+							}
+						});
 					}
 				});
-			}
-		});
 
-		return new JQ("图表-预算和实际-项目").set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
+		return new JQ("图表-预算和实际-项目").set("title", year + "年 资金预算和使用状况（万元）")
+				.set("budget", Arrays.asList(budgetMap.values().toArray(new Double[0])))
 				.set("cost", Arrays.asList(costMap.values().toArray(new Double[0]))).doc();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
+	// yangjun 2018/10/31
 	public Document getMonthCostCompositionAnalysis(ObjectId cbsScope_id, String year, String userId) {
 
 		Document cbsSubjectMatch = new Document();
 		cbsSubjectMatch.append("$in", Arrays.asList("$cbsItem_id", getCBSItemId(cbsScope_id, userId)));
-
-		// TODO JS查询获取
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("subjectNumber", "$id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and", Arrays.asList(
-												new Document("$eq", Arrays.asList("$subjectNumber", "$$subjectNumber")),
-												new Document("$eq",
-														Arrays.asList(new Document("$indexOfBytes",
-																Arrays.asList("$id", year)), 0)),
-												cbsSubjectMatch)))),
-										new Document("$group",
-												new Document("_id", "$id").append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget"))),
-										new Document("$sort", new Document("_id", 1))))
-								.append("as", "cbsSubject")),
-				new Document("$sort", new Document("id", 1)));
-
-		Document budgetData2 = new Document();
-		budgetData2.append("name", "预算");
-		budgetData2.append("type", "bar");
-		budgetData2.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
-
-		Document costData2 = new Document();
-		costData2.append("name", "成本");
-		costData2.append("type", "bar");
-		costData2.append("label", new Document("normal", new Document("show", true).append("position", "inside")));
 
 		Map<String, Double> costMap = new TreeMap<String, Double>();
 		Map<String, Double> budgetMap = new TreeMap<String, Double>();
@@ -766,50 +641,46 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			budgetMap.put(key, 0d);
 		}
 
-		c("accountItem").aggregate(pipeline).forEach((Document doc) -> {
-			Object cbsSubjects = doc.get("cbsSubject");
-			if (cbsSubjects != null && cbsSubjects instanceof List && ((List<Document>) cbsSubjects).size() > 0) {
-				((List<Document>) cbsSubjects).forEach(cbsSubject -> {
-					String id = cbsSubject.getString("_id");
-					Double costD = costMap.get(id);
-					if (costD != null) {
-						Object cost = cbsSubject.get("cost");
-						if (cost != null) {
-							costD += ((Number) cost).doubleValue();
-							costMap.put(id, costD);
-						}
-					}
+		c("accountItem").aggregate(new JQ("查询-费用科目-预算和成本-年").set("year", year)
+				.set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array()).forEach((Document doc) -> {
+					Object cbsSubjects = doc.get("cbsSubject");
+					if (cbsSubjects != null && cbsSubjects instanceof List
+							&& ((List<Document>) cbsSubjects).size() > 0) {
+						((List<Document>) cbsSubjects).forEach(cbsSubject -> {
+							String id = cbsSubject.getString("_id");
+							Double costD = costMap.get(id);
+							if (costD != null) {
+								Object cost = cbsSubject.get("cost");
+								if (cost != null) {
+									costD += ((Number) cost).doubleValue();
+									costMap.put(id, costD);
+								}
+							}
 
-					Double budgetD = budgetMap.get(id);
-					if (budgetD != null) {
-						Object budget = cbsSubject.get("budget");
-						if (budget != null) {
-							budgetD += ((Number) budget).doubleValue();
-							budgetMap.put(id, budgetD);
-						}
-					}
+							Double budgetD = budgetMap.get(id);
+							if (budgetD != null) {
+								Object budget = cbsSubject.get("budget");
+								if (budget != null) {
+									budgetD += ((Number) budget).doubleValue();
+									budgetMap.put(id, budgetD);
+								}
+							}
 
+						});
+					}
 				});
-			}
-		});
 
-		List<Document> data2 = new ArrayList<Document>();
 		List<Object> budgetdata = new ArrayList<Object>();
 		for (Double d : budgetMap.values()) {
 			budgetdata.add(getStringValue(d));
 		}
-		budgetData2.append("data", budgetdata);
-		data2.add(budgetData2);
 
 		List<Object> costData = new ArrayList<Object>();
 		for (Double d : costMap.values()) {
 			costData.add(getStringValue(d));
 		}
-		costData2.append("data", costData);
-
-		data2.add(costData2);
-
-		return getBarChart(year + "年 各月项目预算和成本分析（万元）", Arrays.asList("预算", "成本"), data2);
+		return new JQ("图表-项目成本组成分析（月）").set("title", year + "年 各月项目预算和成本分析（万元）").set("budget", budgetdata)
+				.set("cost", costData).doc();
 	}
 
 	private String getStringValue(Object value) {
@@ -884,67 +755,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	}
 
 	@Override
+	// yangjun 2018/10/31
 	public Document getCBSSummary(ObjectId cbsScope_id, String startPeriod, String endPeriod, String userId) {
-		List<ObjectId> cbsItemId = getCBSItemId(cbsScope_id, userId);
-		// TODO JS查询获取
-		List<? extends Bson> pipeline = Arrays.asList(
-				new Document("$match", new Document("_id",
-						new Document("$in", cbsItemId))),
-				new Document("$lookup",
-						new Document(
-								"from", "cbs")
-										.append("let",
-												new Document("parent_id", "$_id"))
-										.append("pipeline", Arrays.asList(
-												new Document("$match",
-														new Document("$expr", new Document("$and",
-																Arrays.asList(new Document("$eq",
-																		Arrays.asList("$parent_id", "$$parent_id")))))),
-												new Document("$count", "count")))
-										.append("as", "count")),
-				new Document("$unwind", new Document("path", "$count").append("preserveNullAndEmptyArrays", true)),
-				new Document("$match", new Document("count", null)),
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("cbsItem_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match",
-												new Document("$expr", new Document("$and",
-														Arrays.asList(new Document("$eq",
-																Arrays.asList("$cbsItem_id", "$$cbsItem_id")))))),
-										new Document("$group",
-												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget")))))
-								.append("as", "cbsSubject1")),
-				new Document("$unwind",
-						new Document("path", "$cbsSubject1").append("preserveNullAndEmptyArrays", true)),
-				new Document("$lookup",
-						new Document("from", "cbsSubject")
-								.append("let",
-										new Document("cbsItem_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match", new Document("$expr", new Document("$and",
-												Arrays.asList(
-														new Document("$eq",
-																Arrays.asList("$cbsItem_id", "$$cbsItem_id")),
-														new Document("$gte", Arrays.asList("$id", startPeriod)),
-														new Document("$lte", Arrays.asList("$id", endPeriod)))))),
-										new Document("$group",
-												new Document("_id", null).append("cost", new Document("$sum", "$cost"))
-														.append("budget", new Document("$sum", "$budget")))))
-								.append("as", "cbsSubject2")),
-				new Document("$unwind",
-						new Document("path", "$cbsSubject2").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("totalCost", "$cbsSubject1.cost").append("totalBudget", "$cbsSubject1.budget")
-								.append("cost", "$cbsSubject2.cost").append("budget", "$cbsSubject2.budget")),
-				new Document("$group",
-						new Document("_id", null).append("totalCost", new Document("$sum", "$totalCost"))
-								.append("totalBudget", new Document("$sum", "$totalBudget"))
-								.append("cost", new Document("$sum", "$cost"))
-								.append("budget", new Document("$sum", "$budget"))));
-		return c("cbs").aggregate(pipeline).first();
+		return c("cbs").aggregate(new JQ("查询-预算成本对比分析").set("cbsItem_id", getCBSItemId(cbsScope_id, userId))
+				.set("startPeriod", startPeriod).set("endPeriod", endPeriod).array()).first();
 	}
 
 	@Override

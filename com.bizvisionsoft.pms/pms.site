@@ -525,8 +525,8 @@
           },
           {
             "children": [],
-            "name": "项目管理者主页",
-            "id": "1645e3822ed"
+            "name": "工作看板",
+            "id": "166bdf4dc3f"
           }
         ],
         "name": "主页",
@@ -1639,6 +1639,14 @@
             "role": "项目总监#项目管理员",
             "image": "/img/dashboard_w.svg",
             "text": "项目管理者主页"
+          },
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "166be9f6f0d",
+            "defaultAssembly": false,
+            "image": "/img/todo_w.svg",
+            "text": "工作看板"
           }
         ]
       },
@@ -4885,7 +4893,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16187d39041",
@@ -4932,7 +4943,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "161db822d98",
@@ -5278,7 +5292,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16203c462f5",
@@ -5558,7 +5575,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1621d403c8b",
@@ -5758,7 +5778,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1626b1d80dc",
@@ -6399,7 +6422,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1626f9d096e",
@@ -6640,7 +6666,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16270130745",
@@ -6756,7 +6785,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16275cba497",
@@ -7218,7 +7250,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1628e1d1914",
@@ -7266,7 +7301,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1628f2f73ab",
@@ -7496,7 +7534,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1628fc969a5",
@@ -7710,7 +7751,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1629e37338a",
@@ -7830,7 +7874,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b2bd3dff",
@@ -7897,7 +7944,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b3758572",
@@ -8071,7 +8121,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b3910923",
@@ -8273,7 +8326,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b3c7c903",
@@ -8541,7 +8597,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b75519b0",
@@ -8729,7 +8788,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b7bb8236",
@@ -8900,7 +8962,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b834b167",
@@ -9162,7 +9227,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162b988d8d5",
@@ -9207,7 +9275,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ba875640",
@@ -9413,7 +9484,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bca49f7c",
@@ -9729,7 +9803,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bca813e1",
@@ -10183,7 +10260,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bcc9cbc1",
@@ -10465,7 +10545,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bcd47030",
@@ -10547,7 +10630,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bd19922a",
@@ -10649,7 +10735,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bd1b7bb3",
@@ -10837,7 +10926,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bd6340f5",
@@ -10908,7 +11000,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162bda0c55c",
@@ -11007,7 +11102,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c10e1449",
@@ -11191,7 +11289,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c12b0afa",
@@ -11307,7 +11408,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c4579eee",
@@ -11609,7 +11713,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c46151c9",
@@ -11781,7 +11888,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c739fac5",
@@ -12000,7 +12110,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c73bfbcc",
@@ -12117,7 +12230,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c74b68d7",
@@ -12162,7 +12278,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c74cd862",
@@ -12320,7 +12439,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c98182da",
@@ -12485,7 +12607,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c9948c11",
@@ -12534,7 +12659,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c9ed9eed",
@@ -12790,7 +12918,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162c9f73fa4",
@@ -12903,7 +13034,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ca15931b",
@@ -13159,7 +13293,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162cc7c2985",
@@ -13384,7 +13521,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162cc7d74e1",
@@ -13572,7 +13712,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ccb550ac",
@@ -13868,7 +14011,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162d1fc8443",
@@ -14044,7 +14190,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162d2bfa73e",
@@ -15150,7 +15299,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162d7e505eb",
@@ -15352,7 +15504,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dbff5e91",
@@ -15491,7 +15646,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dc3fab0c",
@@ -15681,7 +15839,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dc40bd28",
@@ -15801,7 +15962,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dcc76808",
@@ -16043,7 +16207,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dd6cb668",
@@ -16145,7 +16312,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162dd95b76b",
@@ -16371,7 +16541,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162e10dc2e4",
@@ -16581,7 +16754,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162e59bc8f7",
@@ -16765,7 +16941,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162e5aa73b9",
@@ -16864,7 +17043,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ec2b8570",
@@ -17003,7 +17185,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ec7a411c",
@@ -17100,7 +17285,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ed80cc9d",
@@ -17182,7 +17370,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ee6c543e",
@@ -17267,7 +17458,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162fa5009ed",
@@ -17335,7 +17529,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162faeee5d8",
@@ -17432,7 +17629,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "162ff4cd460",
@@ -17588,7 +17788,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16305416779",
@@ -17901,7 +18104,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163056fb075",
@@ -18112,7 +18318,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16305720b4b",
@@ -18332,7 +18541,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1630607a1fb",
@@ -18549,7 +18761,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1631ac3637f",
@@ -18649,7 +18864,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1631b43cace",
@@ -18697,7 +18915,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1631b7ee056",
@@ -18845,7 +19066,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1631b96864a",
@@ -18890,7 +19114,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1631b9723c5",
@@ -19001,7 +19228,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1632b6942a0",
@@ -19285,7 +19515,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1632b8968e4",
@@ -19468,7 +19701,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1632e5a7502",
@@ -21255,7 +21491,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1632fd854c1",
@@ -21300,7 +21539,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1632fd8c5dc",
@@ -21411,7 +21653,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16338ca0777",
@@ -21547,7 +21792,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163399430d8",
@@ -21625,7 +21873,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1633ee05a77",
@@ -22104,7 +22355,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16343e4a715",
@@ -22152,7 +22406,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1635c2a9c42",
@@ -22227,7 +22484,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1635d7d0d35",
@@ -22276,7 +22536,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163622866dc",
@@ -22486,7 +22749,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636229c4a5",
@@ -22620,7 +22886,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16362425e75",
@@ -22699,7 +22968,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163624f036e",
@@ -23168,7 +23440,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163673074e6",
@@ -23589,7 +23864,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16367155906",
@@ -23708,7 +23986,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16368910aaa",
@@ -23776,7 +24057,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16368fa3a97",
@@ -23888,7 +24172,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636bd8162a",
@@ -24034,7 +24321,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636c45719a",
@@ -24116,7 +24406,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636cadb0c3",
@@ -24459,7 +24752,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636cd41587",
@@ -24594,7 +24890,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1636e54cc45",
@@ -24766,7 +25065,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16370ff5184",
@@ -24834,7 +25136,10 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "parameters": ""
+        "parameters": "",
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637183ede1",
@@ -24938,7 +25243,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16371c338b9",
@@ -25006,7 +25314,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16371ebbf89",
@@ -25199,7 +25510,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16372045263",
@@ -25278,7 +25592,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163720498db",
@@ -25347,7 +25664,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637206cd62",
@@ -25553,7 +25873,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16372176e94",
@@ -25632,7 +25955,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163721778d4",
@@ -25681,7 +26007,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163722a9d18",
@@ -25760,7 +26089,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163723be22d",
@@ -25893,7 +26225,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163723c27be",
@@ -25971,7 +26306,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163723c3033",
@@ -26071,7 +26409,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637ce87d72",
@@ -26242,7 +26583,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637d1c06b1",
@@ -26413,7 +26757,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637d1c3f4d",
@@ -26584,7 +26931,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637d486d64",
@@ -26770,7 +27120,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637e58c81b",
@@ -26933,7 +27286,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1637e5acb43",
@@ -27031,7 +27387,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16380a1c169",
@@ -27535,7 +27894,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16380bfc21f",
@@ -27815,7 +28177,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16380c97d72",
@@ -27982,7 +28347,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16380df0b77",
@@ -28082,7 +28450,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163812c1f16",
@@ -28425,7 +28796,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381485e7d",
@@ -28560,7 +28934,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381499349",
@@ -28767,7 +29144,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381614ec7",
@@ -28903,7 +29283,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1638191f3a4",
@@ -29286,7 +29669,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163819946c4",
@@ -29421,7 +29807,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1638199d0ec",
@@ -29608,7 +29997,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163819dcd5f",
@@ -29726,7 +30118,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381c3cf38",
@@ -30028,7 +30423,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381ca6c93",
@@ -30148,7 +30546,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381cb2479",
@@ -30315,7 +30716,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16381f8011c",
@@ -30415,7 +30819,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163830ca3ce",
@@ -30584,7 +30991,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163868653d9",
@@ -30746,7 +31156,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163868971b2",
@@ -30828,7 +31241,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386c1cbfb",
@@ -30970,7 +31386,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386c44e87",
@@ -31051,7 +31470,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163856055de",
@@ -31533,7 +31955,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163869a1e8b",
@@ -32015,7 +32440,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386a04541",
@@ -32497,7 +32925,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386a3a9c9",
@@ -32979,7 +33410,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386aa8485",
@@ -33605,7 +34039,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386aa8c2a",
@@ -34231,7 +34668,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16386db45c3",
@@ -34373,7 +34813,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1638b3952da",
@@ -34456,7 +34899,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1638c13db9e",
@@ -34663,7 +35109,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1638c2c16a9",
@@ -35403,7 +35852,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16390ce5577",
@@ -35630,7 +36082,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16390d46af6",
@@ -35967,7 +36422,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163957f842a",
@@ -36057,7 +36515,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": true,
         "disableCustomized": true,
-        "disableStdQuery": true
+        "disableStdQuery": true,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163958383b0",
@@ -36229,7 +36690,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16394e5432f",
@@ -36274,7 +36738,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16394e82f67",
@@ -36319,7 +36786,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163959c974a",
@@ -36470,7 +36940,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16399f2c7e5",
@@ -36612,7 +37085,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163ae4ab439",
@@ -36660,7 +37136,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c31c8328",
@@ -36994,7 +37473,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c6247d94",
@@ -37135,7 +37617,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c8e56ef0",
@@ -37309,7 +37794,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c9c4a0c4",
@@ -37408,7 +37896,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c9ec9fc8",
@@ -37580,7 +38071,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c925f0d5",
@@ -37760,7 +38254,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c974f145",
@@ -37899,7 +38396,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c9d53d9b",
@@ -38002,7 +38502,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163c9ed4a9d",
@@ -38141,7 +38644,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163ca3d007f",
@@ -38391,7 +38897,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cd548b8e",
@@ -38475,7 +38984,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cd649d22",
@@ -38565,7 +39077,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cf76a45d",
@@ -38613,7 +39128,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cf7aa9e2",
@@ -38740,7 +39258,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cfdbba22",
@@ -38877,7 +39398,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163cf25e6cf",
@@ -38962,7 +39486,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d33c877c",
@@ -39476,7 +40003,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d3ef7ce7",
@@ -40035,7 +40565,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d44c5c88",
@@ -40099,7 +40632,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d2b1c9ec",
@@ -40292,7 +40828,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d954322f",
@@ -40339,7 +40878,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d9548883",
@@ -40438,7 +40980,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163d46b7ca2",
@@ -40483,7 +41028,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163dac2719a",
@@ -40531,7 +41079,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163dacfe401",
@@ -40600,7 +41151,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163dad02200",
@@ -40876,7 +41430,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163dde68aa2",
@@ -41063,7 +41620,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163de351c0f",
@@ -41135,7 +41695,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163de39f183",
@@ -41207,7 +41770,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163de6622de",
@@ -41254,7 +41820,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163de79fcdc",
@@ -41301,7 +41870,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163df6b1035",
@@ -41400,7 +41972,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163df88737f",
@@ -41499,7 +42074,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "15ce2dafe9d",
@@ -41739,7 +42317,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "15ce3195007",
@@ -41784,7 +42365,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "15ce319afad",
@@ -41854,7 +42438,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163e36dc30b",
@@ -41929,7 +42516,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163e45c5275",
@@ -42525,7 +43115,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163e4ed7da2",
@@ -42680,7 +43273,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "15df617602d",
@@ -42853,7 +43449,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "15df6241f4a",
@@ -42978,7 +43577,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac3392d",
@@ -43025,7 +43627,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac33f03",
@@ -43122,7 +43727,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac343d9",
@@ -43169,7 +43777,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac349a4",
@@ -43216,7 +43827,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac35076",
@@ -43313,7 +43927,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eac35519",
@@ -43427,7 +44044,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eb0672aa",
@@ -43541,7 +44161,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163eb06a83b",
@@ -43588,7 +44211,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163ecf0554c",
@@ -43687,7 +44313,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f1d2326e",
@@ -43770,7 +44399,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f1f421af",
@@ -43818,7 +44450,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f1e35a8f",
@@ -44125,7 +44760,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f1ec41b4",
@@ -44384,7 +45022,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": true,
         "disableCustomized": true,
-        "disableStdQuery": true
+        "disableStdQuery": true,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f2bf5bcd",
@@ -44429,7 +45070,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f32e91cc",
@@ -44758,7 +45402,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f33b563e",
@@ -44849,7 +45496,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f4a0fbe2",
@@ -44930,7 +45580,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163f7d4d225",
@@ -45030,7 +45683,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163fa64c94c",
@@ -45214,7 +45870,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163fd6ed945",
@@ -45262,7 +45921,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163fe7e3c53",
@@ -45569,7 +46231,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163fe9eba7f",
@@ -45876,7 +46541,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401bb95a9",
@@ -46093,7 +46761,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401bbfa5c",
@@ -46310,7 +46981,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401bc7721",
@@ -46527,7 +47201,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163ff61cdd6",
@@ -46575,7 +47252,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401ed04d3",
@@ -46812,7 +47492,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401ed4b56",
@@ -47049,7 +47732,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16401ed898f",
@@ -47286,7 +47972,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1640675398d",
@@ -47605,7 +48294,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164067c6cfe",
@@ -47653,7 +48345,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164067f2815",
@@ -47701,7 +48396,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16406dbb812",
@@ -47749,7 +48447,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16406f27fa2",
@@ -47827,7 +48528,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16407096c19",
@@ -47875,7 +48579,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16407a48f3b",
@@ -48088,7 +48795,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16407f0bbdf",
@@ -48394,7 +49104,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1640e56eb0a",
@@ -48513,7 +49226,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1640e5bedee",
@@ -48632,7 +49348,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "163feddb1a7",
@@ -48969,7 +49688,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164171b043a",
@@ -49014,7 +49736,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1641c25e273",
@@ -49516,7 +50241,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1641fe37163",
@@ -49853,7 +50581,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16421a6f2e5",
@@ -50038,7 +50769,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16421dd0f07",
@@ -50223,7 +50957,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16421dd1ac7",
@@ -50268,7 +51005,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16421dd9677",
@@ -50453,7 +51193,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16421dd9ddf",
@@ -50498,7 +51241,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16426495913",
@@ -50575,7 +51321,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164264acb24",
@@ -50654,7 +51403,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164264bc852",
@@ -50702,7 +51454,10 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "parameters": "{\n\"type\":\"plan\"\n}"
+        "parameters": "{\n\"type\":\"plan\"\n}",
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642681706e",
@@ -50781,7 +51536,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642681758e",
@@ -50829,7 +51587,10 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
-        "parameters": "{\n\"type\":\"actual\"\n}"
+        "parameters": "{\n\"type\":\"actual\"\n}",
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164268f2b50",
@@ -50908,7 +51669,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164268f9c2c",
@@ -50955,7 +51719,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164288038a1",
@@ -51003,7 +51770,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642c544f01",
@@ -51080,7 +51850,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642c55012a",
@@ -51177,7 +51950,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642c5505c7",
@@ -51224,7 +52000,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642fce9783",
@@ -51427,7 +52206,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1642fd53a4d",
@@ -51651,7 +52433,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643524850c",
@@ -52027,7 +52812,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643b3e6abb",
@@ -52164,7 +52952,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16439d4774b",
@@ -52229,7 +53020,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643c329d58",
@@ -52276,7 +53070,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643cc6830e",
@@ -52691,7 +53488,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643cf6225d",
@@ -52828,7 +53628,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643fd0eae0",
@@ -52876,7 +53679,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16445283c81",
@@ -52922,7 +53728,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643ef819d9",
@@ -53115,7 +53924,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643f851f42",
@@ -53316,7 +54128,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1643fa838fe",
@@ -53396,7 +54211,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16441e4dd33",
@@ -53707,7 +54525,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16445056fe8",
@@ -53796,7 +54617,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16445070079",
@@ -54169,7 +54993,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164450f5dfc",
@@ -54303,7 +55130,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644693c7db",
@@ -54446,7 +55276,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16446b6f66d",
@@ -54526,7 +55359,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164496f7d09",
@@ -54699,7 +55535,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164496ff134",
@@ -54774,7 +55613,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644adf757f",
@@ -54928,7 +55770,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16449080b74",
@@ -54974,7 +55819,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164496357b8",
@@ -55020,7 +55868,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644af95670",
@@ -55100,7 +55951,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644bc31c05",
@@ -55145,7 +55999,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644f5bf5cf",
@@ -55508,7 +56365,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1644f7c77d6",
@@ -56157,7 +57017,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645134dc4a",
@@ -56204,7 +57067,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645992a8e8",
@@ -56307,7 +57173,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645e38b730",
@@ -56418,7 +57287,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645e395921",
@@ -56465,7 +57337,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645e3b7812",
@@ -56512,7 +57387,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645e3ca2fa",
@@ -56672,7 +57550,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1645e3d1f82",
@@ -56805,7 +57686,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16460fdc2ea",
@@ -56853,7 +57737,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164643ef550",
@@ -56923,7 +57810,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16464444a26",
@@ -56968,7 +57858,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646457ead0",
@@ -57034,7 +57927,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16463ee7cad",
@@ -57220,7 +58116,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16464ef8fd1",
@@ -57359,7 +58258,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16469565b67",
@@ -57406,7 +58308,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646956ea67",
@@ -57765,7 +58670,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164695b3e05",
@@ -57915,7 +58823,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164695cb283",
@@ -58187,7 +59098,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164695d33c7",
@@ -58276,7 +59190,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164695d940a",
@@ -58563,7 +59480,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164695e68d1",
@@ -58717,7 +59637,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16469805bbb",
@@ -58786,7 +59709,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646980662c",
@@ -59047,7 +59973,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16469990b58",
@@ -59247,7 +60176,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646aa864c4",
@@ -61157,7 +62089,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646acf088f",
@@ -61484,7 +62419,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1646adb4e03",
@@ -61863,7 +62801,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164702eb88c",
@@ -61966,7 +62907,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16473493daf",
@@ -62242,7 +63186,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164734a2c7b",
@@ -62287,7 +63234,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16474f71da3",
@@ -62424,7 +63374,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16474f72414",
@@ -62561,7 +63514,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16475254c44",
@@ -62606,7 +63562,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164e5a8777c",
@@ -62727,7 +63686,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164e5b27779",
@@ -62866,7 +63828,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164ef232afd",
@@ -63048,7 +64013,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164ef3a29bd",
@@ -63165,7 +64133,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164f0d78c26",
@@ -63210,7 +64181,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164fdf3c370",
@@ -63255,7 +64229,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "164fdf4210e",
@@ -63461,7 +64438,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165243a69b2",
@@ -63673,7 +64653,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16524c6b3dc",
@@ -64188,7 +65171,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16527b473ad",
@@ -64334,7 +65320,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16531768cbe",
@@ -64432,7 +65421,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165553650bd",
@@ -64743,7 +65735,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165c2a4b23a",
@@ -64840,7 +65835,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165c2b953c3",
@@ -64908,7 +65906,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165c30264ec",
@@ -64987,7 +65988,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165c3029428",
@@ -65036,7 +66040,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165466adabe",
@@ -65108,7 +66115,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16546fee084",
@@ -65153,7 +66163,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654725bcb6",
@@ -65233,7 +66246,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16548a927b2",
@@ -65617,7 +66633,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654ad4f765",
@@ -65687,7 +66706,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654bab62c9",
@@ -65803,7 +66825,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654dfa68b9",
@@ -66243,7 +67268,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654dfae56f",
@@ -66288,7 +67316,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1654e6c4de1",
@@ -66359,7 +67390,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16555c066ed",
@@ -66583,7 +67617,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165566753a4",
@@ -66649,7 +67686,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16557ef578d",
@@ -66763,7 +67803,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1655ab0545b",
@@ -66847,7 +67890,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1655f065fa8",
@@ -66947,7 +67993,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165624e7a83",
@@ -67013,7 +68062,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16562534a1e",
@@ -67110,7 +68162,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16566508b3a",
@@ -67211,7 +68266,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165658e830a",
@@ -67473,7 +68531,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "165658e8aea",
@@ -68166,7 +69227,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16565ad81a4",
@@ -68779,7 +69843,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16565ad8667",
@@ -69840,7 +70907,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16569a380d0",
@@ -69975,7 +71045,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16667289665",
@@ -70177,7 +71250,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1666728f2e6",
@@ -70294,7 +71370,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "166674b55f1",
@@ -70453,7 +71532,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "166676422ac",
@@ -70656,7 +71738,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16667759798",
@@ -70702,7 +71787,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "166719362d0",
@@ -70976,7 +72064,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16671936e1b",
@@ -71250,7 +72341,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "166719377b2",
@@ -71524,7 +72618,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "1667642e94f",
@@ -71767,7 +72864,10 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       },
       {
         "id": "16686465d83",
@@ -71887,12 +72987,645 @@
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
-        "disableStdQuery": false
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
+      },
+      {
+        "id": "166bdf7991a",
+        "name": "工作看板-已计划",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "已计划",
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 64,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": true,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridRenderBundleId": "com.bizvisionsoft.pms",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163958005c5",
+            "name": "myWork",
+            "text": "myWork",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "163f49c2505",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49a8a18",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49cb371",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": false,
+        "parameters": "",
+        "inlineEdit": false,
+        "scrollLoadData": true,
+        "compactTitleBar": true
+      },
+      {
+        "id": "166bdfdcfc1",
+        "name": "工作看板-处理中",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "处理中",
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 64,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": true,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridRenderBundleId": "com.bizvisionsoft.pms",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163958005c5",
+            "name": "myWork",
+            "text": "myWork",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "163f49c2505",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49a8a18",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49cb371",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": false,
+        "parameters": "",
+        "inlineEdit": false,
+        "scrollLoadData": true,
+        "compactTitleBar": true
+      },
+      {
+        "id": "166bdfe1f41",
+        "name": "工作看板-已完成",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "已完成",
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 64,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": true,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridRenderBundleId": "com.bizvisionsoft.pms",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163958005c5",
+            "name": "myWork",
+            "text": "myWork",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "163f49c2505",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49a8a18",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49cb371",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": false,
+        "parameters": "",
+        "inlineEdit": false,
+        "scrollLoadData": true,
+        "compactTitleBar": true
+      },
+      {
+        "id": "166be005c97",
+        "name": "工作看板-待指派",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "待指派",
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 64,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": true,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridRenderBundleId": "com.bizvisionsoft.pms",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkAssignmentCardRender",
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "163958005c5",
+            "name": "myWork",
+            "text": "myWork",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [
+          {
+            "id": "163f49c2505",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49a8a18",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "163f49cb371",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": false,
+        "parameters": "",
+        "inlineEdit": false,
+        "scrollLoadData": true,
+        "compactTitleBar": true
+      },
+      {
+        "id": "166be9f6f0d",
+        "name": "我的工作看板",
+        "layout": [
+          {
+            "id": "166bea2ae4b",
+            "name": "默认",
+            "minimalDeviceWidth": 0,
+            "maximalDeviceWidth": 0,
+            "columnCount": 4,
+            "horizontalSpacing": 8,
+            "verticalSpacing": 8,
+            "makeColumnsEqualWidth": true,
+            "extendHorizontalSpace": true,
+            "extendVerticalSpace": false,
+            "marginBottom": 0,
+            "marginHeight": 16,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "marginWidth": 8,
+            "assemblys": [
+              {
+                "id": "166bdf7991a",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": false,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": 380,
+                "heightHint": -1
+              },
+              {
+                "id": "166bdfdcfc1",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": false,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": 380,
+                "heightHint": -1
+              },
+              {
+                "id": "166be005c97",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": false,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": 380,
+                "heightHint": -1
+              },
+              {
+                "id": "166bdfe1f41",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": false,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": 380,
+                "heightHint": -1
+              }
+            ]
+          }
+        ],
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       }
     ]
   },
   "password": "admin",
   "pageBackgroundImageCSS": "brui_blur",
   "headLogoWidth": 150,
-  "headLogoHeight": 38
+  "headLogoHeight": 38,
+  "disableNotice": false
 }
