@@ -74,7 +74,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 	private void renderToStartCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 244;
+		int rowHeight = 232;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -115,7 +115,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 	 */
 	private void renderToFinishCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 372;
+		int rowHeight = 360;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 

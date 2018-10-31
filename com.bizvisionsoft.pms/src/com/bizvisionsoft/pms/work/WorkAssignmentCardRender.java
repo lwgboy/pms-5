@@ -45,7 +45,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 	protected void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
 		Work work = (Work) cell.getItem().getData();
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 244;
+		int rowHeight = 232;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -71,7 +71,6 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());
-
 
 		sb.append("</div>");
 

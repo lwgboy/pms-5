@@ -10,7 +10,6 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
-import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
@@ -32,14 +31,14 @@ import com.mongodb.BasicDBObject;
 
 public abstract class AbstractWorkCardRender {
 
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
 	private BruiAssemblyContext context;
 
 	protected void init() {
-		brui = getBruiService();
+		br = getBruiService();
 		context = getContext();
 	}
 
@@ -69,7 +68,7 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	private void openProject(Work work) {
-		SwitchPage.openProject(brui, work.getProject_id());
+		SwitchPage.openProject(br, work.getProject_id());
 	}
 
 	protected GridTreeViewer getViewer() {
@@ -82,10 +81,10 @@ public abstract class AbstractWorkCardRender {
 
 	private void openWorkPackage(Work work, String idx) {
 		if ("default".equals(idx)) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, null });
 		} else {
 			List<TrackView> wps = work.getWorkPackageSetting();
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
 		}
 	}
 
@@ -95,32 +94,31 @@ public abstract class AbstractWorkCardRender {
 					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
 			work.setChargerId(((User) l.get(0)).getUserId());
-			viewer.update(work, null);
+			viewer.remove(work);
+			br.updateSidebarActionBudget("指派工作");
 		});
 	}
 
 	private void finishWork(Work work) {
-		if (brui.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
+		if (br.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
+			List<Result> result = Services.get(WorkService.class).finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				viewer.remove(work);
-				brui.updateSidebarActionBudget("处理工作");
+				br.updateSidebarActionBudget("处理工作");
 			}
 		}
 	}
 
 	private void startWork(Work work) {
-		if (brui.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
+		if (br.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
+			List<Result> result = Services.get(WorkService.class).startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
-				Work t = Services.get(WorkService.class).getWork(work.get_id());
-				viewer.update(AUtil.simpleCopy(t, work), null);
+				viewer.remove(work);
 			}
 		}
 	}
-
 
 	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
 		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
@@ -152,6 +150,7 @@ public abstract class AbstractWorkCardRender {
 				btns.add(new String[] { "openWorkPackage/" + i, wps.get(i).getName() });
 			}
 		}
+//		sb.append("<div style='margin-top:12px;width:100%;background:#d0d0d0;height:1px;'></div>");
 		sb.append("<div style='margin-top:16px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
@@ -176,21 +175,24 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work) {
-		sb.append("<div class='label_title brui_card_head' style='position:relative;height:64px;background:#" + theme.headBgColor
-				+ ";color:#" + theme.headFgColor + ";padding:8px;word-break:break-word;white-space:pre-line;'>"
-				+ "<div style='position:absolute;bottom:4px;'>" + work.getFullName() + "</div></div>");
+		String name = work.getFullName();
+//		name = "详细设计系统模型设计和测试";
+		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor
+				+ ";color:#" + theme.headFgColor + ";padding:8px'>"
+				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div></div>");
 	}
 
 	protected void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {
-		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL(icon)
+		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + br.getResourceURL(icon)
 				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
 				+ ";margin-left:8px;width:100%'>" + text + "</div></div>");
 	}
-	
-	protected void renderProjectLine(CardTheme theme,StringBuffer sb, Work work) {
-		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL("img/project_c.svg")
-				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#" + theme.lightText
-				+ ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
+
+	protected void renderProjectLine(CardTheme theme, StringBuffer sb, Work work) {
+		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
+				+ br.getResourceURL("img/project_c.svg")
+				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
+				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
 
 }
