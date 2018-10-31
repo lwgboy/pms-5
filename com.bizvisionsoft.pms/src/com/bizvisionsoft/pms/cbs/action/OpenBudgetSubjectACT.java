@@ -7,6 +7,12 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 
+/**
+ * 
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
 public class OpenBudgetSubjectACT {
 
 	@Inject

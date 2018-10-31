@@ -25,6 +25,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -34,13 +35,19 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 	@Override
 	public int nextWBSIndex(BasicDBObject condition) {
-		Document doc = c("workspace").find(condition).sort(new BasicDBObject("index", -1))
+		// yangjun 2018/10/31
+		Document doc = c("workspace").find(condition).sort(new BasicDBObject("index", -1).append("_id", -1))
 				.projection(new BasicDBObject("index", 1)).first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("index", 0)).orElse(0) + 1;
 	}
 
 	public WorkInfo getWorkInfo(ObjectId _id) {
-		return get(_id, WorkInfo.class);
+		// yangjun 2018/10/31
+		List<WorkInfo> list = createTaskDataSet(new BasicDBObject("_id", _id));
+		if (list.size() > 0)
+			return list.get(0);
+
+		return null;
 	}
 
 	@Override
@@ -57,7 +64,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		fields.add(new Field<String>("projectNumber", "$project.id"));
 		pipeline.add(Aggregates.addFields(fields));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
-		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		// yangjun 2018/10/31
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1).append("_id", -1)));
 		return c(WorkInfo.class).aggregate(pipeline).into(new ArrayList<WorkInfo>());
 	}
 
@@ -185,8 +193,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		// 获取需检查的节点。
 		if (checkManageItem) {
 			List<Bson> pipeline = new ArrayList<Bson>();
+			// TODO 不检查三级监控节点,应该通过系统设置确定检查级别
+			// yangjun 2018/10/31
 			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id()).append("manageLevel",
-					new BasicDBObject("$ne", null))));
+					new BasicDBObject("$nin", Arrays.asList("1", "2")))));
 			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
 			pipeline.add(Aggregates.unwind("$work"));
 			pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("wpf",
@@ -317,36 +327,37 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			boolean distributed = d.getBoolean("distributed", false);
 			if (distributed) {
 				Document doc = c("work").find(new Document("_id", _id)).first();
-				Object oldAssignerId = doc.get("assignerId");
-				Object newAssignerId = d.get("assignerId");
-				Object oldChargerId = doc.get("chargerId");
-				Object newChargerId = d.get("chargerId");
+				// yangjun 2018/10/31 修改
+				String oldAssignerId = doc.getString("assignerId");
+				String newAssignerId = d.getString("assignerId");
+				String oldChargerId = doc.getString("chargerId");
+				String newChargerId = d.getString("chargerId");
 				Date oldPlanStart = doc.getDate("planStart");
 				Date newPlanStart = d.getDate("planStart");
 				Date oldPlanFinish = doc.getDate("planFinish");
 				Date newPlanFinish = d.getDate("planFinish");
 				// 去除无意义的判断
-				if (oldAssignerId != null && !newAssignerId.equals(oldAssignerId)) {
-					messages.add(Message.newInstance("工作计划通知",
-							"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定指派者。",
-							workspace.getCheckoutBy(), (String) oldAssignerId, null));
+				if (!Check.equals(oldAssignerId, newAssignerId)) {
+					Check.isAssigned(oldAssignerId,
+							o -> messages.add(Message.newInstance("工作计划通知",
+									"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定指派者。",
+									workspace.getCheckoutBy(), o, null)));
 				}
 
-				if (oldChargerId != null && !newChargerId.equals(oldChargerId)) {
-					messages.add(Message.newInstance("工作计划通知",
-							"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定负责人。",
-							workspace.getCheckoutBy(), (String) oldChargerId, null));
+				if (!Check.equals(oldChargerId, newChargerId)) {
+					Check.isAssigned(oldChargerId,
+							o -> messages.add(Message.newInstance("工作计划通知",
+									"项目：" + project.getName() + " ，工作：" + doc.getString("fullName") + " 已重新指定负责人。",
+									workspace.getCheckoutBy(), o, null)));
 				}
 
 				if (!oldPlanStart.equals(newPlanStart) || !oldPlanFinish.equals(newPlanFinish)) {
 					// 使用通用的下达工作计划的通知模板
-					String chargerId = doc.getString("chargerId");
-					messages.add(Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(),
-							chargerId));
+					Check.isAssigned(doc.getString("chargerId"), c -> messages.add(
+							Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(), c)));
 
-					String assignerId = doc.getString("assignerId");
-					messages.add(Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(),
-							assignerId));
+					Check.isAssigned(doc.getString("assignerId"), a -> messages.add(
+							Message.distributeWorkMsg(project.getName(), doc, true, workspace.getCheckoutBy(), a)));
 				}
 			}
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));

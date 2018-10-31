@@ -792,7 +792,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@ReadValue("cost")
 	public double getCost() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectCost).orElse(0d);
 	}
@@ -800,7 +800,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@ReadValue("budget")
 	public double getBudget() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectBudget).orElse(0d);
 	}

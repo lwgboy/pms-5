@@ -404,14 +404,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkLink> createProjectLinkDataSet(ObjectId project_id) {
-		return c(WorkLink.class).find(new BasicDBObject("project_id", project_id)).sort(new BasicDBObject("index", 1))
-				.into(new ArrayList<WorkLink>());
+		// yangjun 2018/10/31
+		return c(WorkLink.class).find(new BasicDBObject("project_id", project_id))
+				.sort(new BasicDBObject("index", 1).append("_id", -1)).into(new ArrayList<WorkLink>());
 	}
 
 	@Override
 	public List<Work> createProjectTaskDataSet(ObjectId project_id) {
-		return queryWork(null, null, new BasicDBObject("project_id", project_id), null, new BasicDBObject("index", 1))
-				.into(new ArrayList<Work>());
+		// yangjun 2018/10/31
+		return queryWork(null, null, new BasicDBObject("project_id", project_id), null,
+				new BasicDBObject("index", 1).append("_id", -1)).into(new ArrayList<Work>());
 	}
 
 	@Override
@@ -1043,8 +1045,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		// appendUserInfo(pipeline, "assignerId", "assignerInfo");
-
-		pipeline.add(Aggregates.sort(new Document("index", 1)));
+		// yangjun 2018/10/31
+		pipeline.add(Aggregates.sort(new Document("index", 1).append("_id", -1)));
 
 		// List<Work> result = new ArrayList<Work>();
 		//
@@ -1092,8 +1094,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 
 		// appendUserInfo(pipeline, "assignerId", "assignerInfo");
-
-		pipeline.add(Aggregates.sort(new Document("index", 1)));
+		// yangjun 2018/10/31
+		pipeline.add(Aggregates.sort(new Document("index", 1).append("_id", -1)));
 
 		return c(Work.class).aggregate(pipeline).into(new ArrayList<Work>());
 	}
@@ -1135,8 +1137,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
-		else
-			pipeline.add(Aggregates.sort(new Document("project_id", 1).append("planFinish", 1)));
+		else// yangjun 2018/10/31
+			pipeline.add(Aggregates.sort(new Document("project_id", 1).append("planFinish", 1).append("_id", -1)));
 
 		Integer skip = (Integer) condition.get("skip");
 		if (skip != null)
@@ -2070,8 +2072,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		pipeline.add(Aggregates.match(new BasicDBObject("baseline_id", baseline_id)));
-
-		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		// yangjun 2018/10/31
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1).append("_id", -1)));
 
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
@@ -2095,8 +2097,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<WorkLink> createBaselineLinkDataSet(ObjectId baseline_id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("baseline_id", baseline_id)));
-
-		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1)));
+		// yangjun 2018/10/31
+		pipeline.add(Aggregates.sort(new BasicDBObject("index", 1).append("_id", -1)));
 
 		pipeline.add(Aggregates.lookup("baselineWork", "source", "_id", "sourceWork"));
 		pipeline.add(Aggregates.unwind("$sourceWork"));
@@ -2177,8 +2179,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
-		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+		else// yangjun 2018/10/31
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -2227,8 +2229,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
-		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+		else// yangjun 2018/10/31
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));

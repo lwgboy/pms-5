@@ -107,7 +107,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			insert(cbsRoot, CBSItem.class);
 
 		} else {
-			// TODO 根据模板创建
 			try {
 				project = insert(input, Project.class);
 			} catch (Exception e) {
@@ -169,7 +168,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+			// yangjun 2018/10/31
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -208,6 +208,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						.append("summaryPlanWorks", "$worktime.planWorks")),
 				new Document("$project", new Document("worktime", false))));
 
+		// TODO 可以与上面的合并
 		pipeline.addAll(Arrays.asList(
 				new Document("$lookup",
 						new Document("from", "work")
@@ -292,7 +293,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return 0;
 	}
 
+	/**
+	 * 使用update来修改项目
+	 */
 	@Override
+	@Deprecated
 	public void updateProjectId(ObjectId _id, String id) {
 		Document cond = new Document("_id", _id);
 		Project project = c(Project.class).find(cond).first();
@@ -544,17 +549,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		// 杨骏 2018/10/30
 		if (filter == null) {
 			filter = new BasicDBObject();
-			condition.put("filter", filter);
+			// condition.put("filter", filter);
 		}
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort == null) {
-			sort = new BasicDBObject();
-			condition.put("sort", sort);
-		}
+		// if (sort == null) {
+		// sort = new BasicDBObject();
+		// condition.put("sort", sort);
+		// }
 
-		sort.put("pmId", userid);
+		filter.put("pmId", userid);
 		return query(skip, limit, filter, sort);
 	}
 
@@ -865,8 +871,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 获得时间
+		// yangjun 2018/10/31
 		Document latest = c("work").find(new Document("parent_id", com._id))
-				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1)).first();
+				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1).append("_id", -1))
+				.first();
 		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -924,6 +932,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return new ArrayList<>();
 	}
 
+	/**
+	 * TODO 迁移到前台进行
+	 * 
+	 * @param _id
+	 * @return
+	 */
 	private String generateWorkOrder(ObjectId _id) {
 		/**
 		 * TODO 需要根据九洲定制
@@ -1122,6 +1136,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<BaselineComparable> getBaselineComparable(List<ObjectId> projectIds) {
+		// TODO JQ
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("project_id", new Document("$in", projectIds))));
 		pipeline.add(Aggregates.sort(new Document("project_id", 1).append("index", 1)));
@@ -1235,9 +1250,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendProject(pipeline);
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-
-		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
-		return into;
+		// yangjun 2018/10/31
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
 
 	@Override
@@ -1258,7 +1272,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		for (ChangeProcess changeProcess : changeProcesss) {
 			if (changeProcess.getProjectOBSId() != null) {
 				for (OBSItem obsItem : obsItems) {
-					if (obsItem.getRoleId() != null && obsItem.getRoleId().equals(changeProcess.getProjectOBSId())) {
+					// yangjun 2018/10/31
+					if (Check.equals(obsItem.getRoleId(), changeProcess.getProjectOBSId())) {
 						ProjectChangeTask pct = new ProjectChangeTask();
 						pct.user = obsItem.getManagerId();
 						pct.name = changeProcess.getTaskName();
@@ -1305,7 +1320,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("_id", _id)));
-
+//TODO JQ
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
 		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
@@ -1381,8 +1396,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (!result.isEmpty()) {
 			return result;
 		}
-
-		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
+		// yangjun 2018/10/31
+		ProjectChange pc = getProjectChange(projectChangeTask.projectChange_id);
 		List<ProjectChangeTask> reviewers = pc.getReviewer();
 		List<BasicDBObject> reviewer = new ArrayList<BasicDBObject>();
 		String status = ProjectChange.STATUS_PASS;
@@ -1585,7 +1600,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort == null) {
-			sort = new BasicDBObject("creationInfo.date", -1);
+			// yangjun 2018/10/31
+			sort = new BasicDBObject("creationInfo.date", -1).append("_id", -1);
 		}
 
 		List<Bson> pipeline = new ArrayList<Bson>();

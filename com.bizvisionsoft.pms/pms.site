@@ -49877,7 +49877,7 @@
         "gridFix": 3,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
-        "gridDataSetClassName": "com.bizvisionsoft.service.WorkReportProjectDS",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
@@ -50062,7 +50062,7 @@
         "gridFix": 3,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
-        "gridDataSetClassName": "com.bizvisionsoft.service.WorkReportProjectDS",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {
@@ -50292,7 +50292,7 @@
         "gridFix": 3,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
-        "gridDataSetClassName": "com.bizvisionsoft.service.WorkReportProjectDS",
+        "gridDataSetClassName": "",
         "gridPageCount": 0,
         "columns": [
           {

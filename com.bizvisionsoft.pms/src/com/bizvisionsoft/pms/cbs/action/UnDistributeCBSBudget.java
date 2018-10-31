@@ -13,6 +13,7 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class UnDistributeCBSBudget {
 
 	@Inject

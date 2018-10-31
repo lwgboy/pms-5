@@ -91,6 +91,7 @@ public interface CBSService {
 	@Path("/{_id}/cost/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@Deprecated
 	public CBSItem getCBSItemCost(@PathParam("_id") ObjectId _id);
 
 	@POST
@@ -103,7 +104,7 @@ public interface CBSService {
 	@Path("/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<CBSItem> createDataSet(BasicDBObject filter);
+	public List<CBSItem> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
 	@DELETE
 	@Path("/_id/{_id}")

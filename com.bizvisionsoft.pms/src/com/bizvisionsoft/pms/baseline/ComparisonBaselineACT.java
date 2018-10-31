@@ -16,6 +16,12 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Project;
 
+/**
+ * 
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
 public class ComparisonBaselineACT {
 
 	@Inject
@@ -54,6 +60,7 @@ public class ComparisonBaselineACT {
 			projectIds.add(l.get_id());
 		}
 		// brui.openContent(brui.getAssembly("项目进度跟踪甘特图"), null);
+		// TODO 不能直接设置Assembly，应将其作为参数传入到content中
 		Assembly assembly = brui.getAssembly("项目基线比较甘特图");
 		assembly.setTitle(title);
 		assembly.setStickerTitle(title);
