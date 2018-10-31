@@ -11,9 +11,7 @@ import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class WorkCardRender extends AbstractWorkCardRender{
 
@@ -59,7 +57,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
+		renderProjectLine(theme,sb, work);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
@@ -87,7 +85,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
+		renderProjectLine(theme,sb, work);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
@@ -127,7 +125,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
+		renderProjectLine(theme,sb, work);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
@@ -149,23 +147,6 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		sb.append("</div>");
 
 		cell.setText(sb.toString());
-	}
-
-	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
-		sb.append("<div style='padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
-		Check.isAssigned(work.getManageLevel(), l -> {
-			if ("1".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>";
-				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
-			}
-
-			if ("2".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-cyan' style='width:36px;margin-right:4px;'>2级</div>";
-				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
-			}
-		});
-		// 警告
-		Check.isAssigned(work.getWarningIcon(), sb::append);
 	}
 
 	@Override

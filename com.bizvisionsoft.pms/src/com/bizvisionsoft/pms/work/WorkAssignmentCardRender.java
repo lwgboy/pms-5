@@ -56,7 +56,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
+		renderProjectLine(theme,sb, work);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());

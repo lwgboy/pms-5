@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
@@ -12,13 +11,12 @@ import org.eclipse.swt.SWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
-import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.pms.project.SwitchPage;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -28,7 +26,6 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -58,15 +55,21 @@ public abstract class AbstractWorkCardRender {
 				} else if (e.text.startsWith("finishWork/")) {
 					finishWork(work);
 				} else {
-					String idx = e.text.split("/")[1];
 					if (e.text.startsWith("openWorkPackage/")) {
+						String idx = e.text.split("/")[1];
 						openWorkPackage(work, idx);
 					} else if (e.text.startsWith("assignWork/")) {
 						assignWork(work);
+					} else if (e.text.startsWith("openProject/")) {
+						openProject(work);
 					}
 				}
 			}
 		});
+	}
+
+	private void openProject(Work work) {
+		SwitchPage.openProject(brui, work.getProject_id());
 	}
 
 	protected GridTreeViewer getViewer() {
@@ -118,123 +121,6 @@ public abstract class AbstractWorkCardRender {
 		}
 	}
 
-	@GridRenderUpdateCell
-	protected void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
-		Work work = (Work) cell.getElement();
-		// 执行中
-		if (work.getActualStart() != null && work.getActualFinish() == null) {
-			renderToFinishCard(cell, work);
-		} else if (work.getActualStart() == null) {// 已计划，未开始
-			renderToStartCard(cell, work);
-		} else if (work.getActualFinish() != null) {// 已完成
-			renderFinishedCard(cell, work);
-		}
-	}
-
-	private void renderFinishedCard(ViewerCell cell, Work work) {
-		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 180;
-		gridItem.setHeight(rowHeight);
-		CardTheme theme = new CardTheme("deepGrey");
-
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
-		renderTitle(theme, sb, work);
-		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
-
-		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
-
-		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
-
-		sb.append("</div>");
-
-		cell.setText(sb.toString());
-
-	}
-
-	private void renderToStartCard(ViewerCell cell, Work work) {
-		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 244;
-		gridItem.setHeight(rowHeight);
-		CardTheme theme = new CardTheme(work);
-
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
-		renderTitle(theme, sb, work);
-		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
-
-		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
-
-		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
-
-		// 显示工作包和完成工作
-		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
-
-		// 标签
-		renderNoticeBudgets(work, sb);
-
-		sb.append("</div>");
-
-		cell.setText(sb.toString());
-
-	}
-
-	/**
-	 * 绘制待处理工作卡片
-	 * 
-	 * @param cell
-	 * @param work
-	 */
-	private void renderToFinishCard(ViewerCell cell, Work work) {
-		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 372;
-		gridItem.setHeight(rowHeight);
-		CardTheme theme = new CardTheme(work);
-
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
-		renderTitle(theme, sb, work);
-		// 显示项目图标和名称
-		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
-
-		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
-				+ Formatter.getString(work.getActualStart());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
-
-		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
-
-		// 显示两个指标
-		renderIndicators(theme, sb, "进度", work.getWAR(), "工期", work.getDAR());
-
-		// 显示工作包和完成工作
-		renderButtons(theme, sb, work, "完成", "finishWork/" + work.get_id());
-
-		// 标签
-		renderNoticeBudgets(work, sb);
-
-		sb.append("</div>");
-
-		cell.setText(sb.toString());
-	}
 
 	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
 		sb.append("<div style='padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
@@ -298,6 +184,12 @@ public abstract class AbstractWorkCardRender {
 		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL(icon)
 				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
 				+ ";margin-left:8px;width:100%'>" + text + "</div></div>");
+	}
+	
+	protected void renderProjectLine(CardTheme theme,StringBuffer sb, Work work) {
+		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + brui.getResourceURL("img/project_c.svg")
+				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#" + theme.lightText
+				+ ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
 
 }
