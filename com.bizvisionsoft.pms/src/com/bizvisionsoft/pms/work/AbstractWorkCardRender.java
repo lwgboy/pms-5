@@ -194,5 +194,12 @@ public abstract class AbstractWorkCardRender {
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
 				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
+	
+	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
+		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
+				+ br.getResourceURL("img/user_c.svg")
+				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
+				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;cursor:pointer;'>负责：" + work.warpperChargerInfo() + "</div></div>");
+	}
 
 }

@@ -67,7 +67,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
+		renderCharger(theme,sb, work);
 
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());

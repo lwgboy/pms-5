@@ -64,7 +64,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
+		renderCharger(theme,sb, work);
 
 		sb.append("</div>");
 
@@ -95,7 +95,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
+		renderCharger(theme,sb, work);
 
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
@@ -138,7 +138,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
+		renderCharger(theme,sb, work);
 
 		// 显示两个指标
 		renderIndicators(theme, sb, "进度", work.getWAR(), "工期", work.getDAR());
