@@ -73378,7 +73378,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
-        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkBoardRender",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "columns": [
@@ -73636,7 +73636,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
-        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkBoardRender",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "columns": [
@@ -73765,7 +73765,7 @@
         "gridFix": 0,
         "gridPageControl": false,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
-        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkBoardRender",
+        "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkAssignmentCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "columns": [

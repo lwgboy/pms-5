@@ -1,172 +1,111 @@
 package com.bizvisionsoft.pms.work;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridItem;
-import org.eclipse.rap.rwt.RWT;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
-import com.bizivisionsoft.widgets.util.Layer;
-import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderUICreated;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.ICommand;
-import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.serviceconsumer.Services;
-import com.mongodb.BasicDBObject;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
-public class WorkCardRender {
+public class WorkCardRender extends AbstractWorkCardRender{
 
 	@Inject
 	private BruiAssemblyContext context;
 
 	@Inject
 	private IBruiService brui;
-
-	private GridTreeViewer viewer;
+	
+	@Init
+	protected void init() {
+		super.init();
+	}
 
 	@GridRenderUICreated
-	private void uiCreated() {
-		viewer = (GridTreeViewer) context.getContent("viewer");
-		viewer.getGrid().setBackground(BruiColors.getColor(BruiColor.Grey_200));
-		viewer.getGrid().setData(RWT.CUSTOM_VARIANT, "board");
-		viewer.getGrid().addListener(SWT.Selection, e -> {
-			if (e.text != null) {
-				if (e.text.startsWith("startWork/")) {
-					startWork((Work) ((GridItem) e.item).getData());
-				} else if (e.text.startsWith("finishWork/")) {
-					finishWork((Work) ((GridItem) e.item).getData());
-				} else {
-					String idx = e.text.split("/")[1];
-					if (e.text.startsWith("openWorkPackage/")) {
-						openWorkPackage((Work) ((GridItem) e.item).getData(), idx);
-					} else if (e.text.startsWith("assignWork/")) {
-						assignWork((Work) ((GridItem) e.item).getData());
-					}
-				}
-			} else {
-				Object element = ((GridItem) e.item).getData();
-				if (element instanceof Work) {
-					viewer.setExpandedElements(new Object[] { element });
-				}
-			}
-		});
-		if (((List<?>) viewer.getInput()).size() > 0) {
-			viewer.setExpandedElements(new Object[] { ((List<?>) viewer.getInput()).get(0) });
-		}
-	}
-
-	private void openWorkPackage(Work work, String idx) {
-		if ("default".equals(idx)) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
-		} else {
-			List<TrackView> wps = work.getWorkPackageSetting();
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
-		}
-	}
-
-	private void assignWork(Work work) {
-		Selector.open("指派用户选择器", context, work, l -> {
-			ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
-					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
-
-			work.setChargerId(((User) l.get(0)).getUserId());
-			viewer.update(work, null);
-		});
-	}
-
-	private void finishWork(Work work) {
-		if (brui.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已完成");
-				viewer.remove(work);
-				brui.updateSidebarActionBudget("处理工作");
-			}
-		}
-	}
-
-	private void startWork(Work work) {
-		if (brui.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已启动");
-				Work t = Services.get(WorkService.class).getWork(work.get_id());
-				viewer.update(AUtil.simpleCopy(t, work), null);
-			}
-		}
+	protected void uiCreated() {
+		super.uiCreated();
 	}
 
 	@GridRenderUpdateCell
-	private void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
-		Object element = cell.getElement();
-		if (element instanceof Work) {
-			renderTitle(cell, (Work) element);
+	protected void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
+		Work work = (Work) cell.getElement();
+		// 执行中
+		if (work.getActualStart() != null && work.getActualFinish() == null) {
+			renderToFinishCard(cell, work);
+		} else if (work.getActualStart() == null) {// 已计划，未开始
+			renderToStartCard(cell, work);
+		} else if (work.getActualFinish() != null) {// 已完成
+			renderFinishedCard(cell, work);
 		}
 	}
 
-	private void renderTitle(ViewerCell cell, Work work) {
-		if (work.getActualStart() != null && work.getActualFinish() == null) {
-			renderExecuteWorkCard(cell, work);
-			return;
-		}
-
+	private void renderFinishedCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		gridItem.setHeight(84);
-		gridItem.setBackground(BruiColors.getColor(BruiColor.Grey_50));
+		int rowHeight = 180;
+		gridItem.setHeight(rowHeight);
+		CardTheme theme = new CardTheme("deepGrey");
+
 		StringBuffer sb = new StringBuffer();
-		// 开始和完成按钮
-		if (work.getActualStart() == null) {
-			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='startWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/start.svg'/></a></div>");
-		} else if (work.getActualFinish() == null) {
-			sb.append("<div style='float:right;margin-right:16px;margin-top:0px;'><a href='finishWork/" + work.get_id()
-					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish.svg'/></a></div>");
-		}
+		// 显示页签
+		int margin = 8;
+		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		sb.append("<div style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
-				+ work.getProjectName() + "</div>");
-		sb.append(
-				"<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
-						+ work.getFullName() + "</div>");
-		sb.append(
-				"<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div style='display:inline-flex;'>计划: "
-						+ Formatter.getString(work.getPlanStart()) + " ~ " + Formatter.getString(work.getPlanFinish()));
+		renderTitle(theme, sb, work);
+		// 显示项目图标和名称
+		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
 
-		String warningIcon = work.getWarningIcon();
-		// 根据warningIcon是否为null，显示其进度状态
-		if (warningIcon != null) {
-			sb.append(warningIcon);
-		}
+		// 显示计划开始和计划完成
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
+		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+
+		// 工作负责人
+		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
 
 		sb.append("</div>");
-		String chargerInfo = work.getChargerInfoHtml();
-		sb.append("<div style='margin-right:16px;'>负责: "
-				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>" : chargerInfo)
-				+ "</div></div>");
+
 		cell.setText(sb.toString());
+
+	}
+
+	private void renderToStartCard(ViewerCell cell, Work work) {
+		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
+		int rowHeight = 244;
+		gridItem.setHeight(rowHeight);
+		CardTheme theme = new CardTheme(work);
+
+		StringBuffer sb = new StringBuffer();
+		// 显示页签
+		int margin = 8;
+		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
+
+		renderTitle(theme, sb, work);
+		// 显示项目图标和名称
+		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
+
+		// 显示计划开始和计划完成
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
+		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+
+		// 工作负责人
+		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
+
+		// 显示工作包和完成工作
+		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
+
+		// 标签
+		renderNoticeBudgets(work, sb);
+
+		sb.append("</div>");
+
+		cell.setText(sb.toString());
+
 	}
 
 	/**
@@ -175,186 +114,68 @@ public class WorkCardRender {
 	 * @param cell
 	 * @param work
 	 */
-	private void renderExecuteWorkCard(ViewerCell cell, Work work) {
-		int rowHeight = 380;
-		int margin = 8;
+	private void renderToFinishCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
+		int rowHeight = 372;
 		gridItem.setHeight(rowHeight);
+		CardTheme theme = new CardTheme(work);
 
-		// 设置演示方案
-		String headBg, cycleBg, cycleFg;
-
-		switch (work.getWarningLevel()) {
-		case Work.warningLevelDelayed:
-			headBg = "e51c23";
-			cycleBg = "fde0dc";
-			cycleFg = "f36c60";
-			break;
-		case Work.warningLevelEstDelay:
-		case Work.warningLevelLag:
-			headBg = "ff9800";
-			cycleBg = "fff3e0";
-			cycleFg = "ffb74d";
-			break;
-		case Work.warningLevelLead:
-			headBg = "3f51b5";
-			cycleBg = "81d4fa";
-			cycleFg = "0091ea";
-			break;
-		default:
-			headBg = "3f51b5";
-			cycleBg = "81d4fa";
-			cycleFg = "0091ea";
-			break;
-		}
-
-		// 显示页签
-		String title = work.getFullName();
 		StringBuffer sb = new StringBuffer();
+		// 显示页签
+		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-		sb.append("<div class='label_title brui_card_head' style='position:relative;height:64px;background:#" + headBg
-				+ ";color:#fff;padding:8px;word-break:break-word;white-space:pre-line;'>" + "<div style='position:absolute;bottom:4px;'>"
-				+ title + "</div></div>");
 
+		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		String text = "项目：" + work.getProjectName();
-		sb.append(htmlIconText(text, "img/project_c.svg"));
+		renderIconTextLine(sb, "项目：" + work.getProjectName(), "img/project_c.svg", theme.lightText);
 
 		// 显示计划开始和计划完成
-		text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
 				+ Formatter.getString(work.getActualStart());
-		sb.append(htmlIconText(text, "img/calendar_c.svg"));
+		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		text = "负责：" + work.getChargerInfoHtml();
-		sb.append(htmlIconText(text, "img/user_c.svg"));
+		renderIconTextLine(sb, "负责：" + work.getChargerInfoHtml(), "img/user_c.svg", theme.emphasizeText);
 
 		// 显示两个指标
-		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
-		double ind = work.getWAR();
-		sb.append("<div><img src='/bvs/svg?type=progress&percent=" + ind + "&bgColor=" + cycleBg + "&fgColor=" + cycleFg
-				+ "' width=100 height=100/>");
-		sb.append("<div class='label_body1' style='text-align:center;color:#9e9e9e'>进度</div></div>");
-		sb.append("<div style='background:#d0d0d0;width:1px;height:80px'></div>");
-		ind = work.getDAR();
-		sb.append("<div><img src='/bvs/svg?type=progress&percent=" + ind + "&bgColor=" + cycleBg + "&fgColor=" + cycleFg
-				+ "' width=100 height=100/>");
-		sb.append("<div class='label_body1' style='text-align:center;color:#9e9e9e'>工期</div></div>");
-		sb.append("</div>");
+		renderIndicators(theme, sb, "进度", work.getWAR(), "工期", work.getDAR());
 
 		// 显示工作包和完成工作
-		List<TrackView> wps = work.getWorkPackageSetting();
-		List<String[]> btns = new ArrayList<>();
-		if (Check.isNotAssigned(wps)) {
-			btns.add(new String[] { "openWorkPackage/default", "工作包" });
-		} else if (wps.size() == 1) {
-			btns.add(new String[] { "openWorkPackage/0", wps.get(0).getName() });
-		} else {
-			for (int i = 0; i < wps.size(); i++) {
-				btns.add(new String[] { "openWorkPackage/" + i, wps.get(i).getName() });
-			}
-		}
-		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
-		btns.forEach(e -> {
-			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
-		});
-		sb.append("<a class='label_card' style='color:#ff9800;' href='finishWork/" + work.get_id() + "' target='_rwt'>完成</a>");
-		sb.append("</div>");
+		renderButtons(theme, sb, work, "完成", "finishWork/" + work.get_id());
 
 		// 标签
-		sb.append("<div style='margin-top:8px;padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		renderNoticeBudgets(work, sb);
+
+		sb.append("</div>");
+
+		cell.setText(sb.toString());
+	}
+
+	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
+		sb.append("<div style='padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Check.isAssigned(work.getManageLevel(), l -> {
-			if ("1".equals(l))
-				sb.append("<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>");
-			if ("2".equals(l))
-				sb.append("<div class='layui-badge layui-bg-cyan' style='width:36px;margin-right:4px;'>2级</div>");
+			if ("1".equals(l)) {
+				String label = "<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>";
+				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
+			}
+
+			if ("2".equals(l)) {
+				String label = "<div class='layui-badge layui-bg-cyan' style='width:36px;margin-right:4px;'>2级</div>";
+				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
+			}
 		});
 		// 警告
 		Check.isAssigned(work.getWarningIcon(), sb::append);
-
-		sb.append("</div>");
-
-		cell.setText(sb.toString());
 	}
 
-	private String htmlIconText(String text, String icon) {
-		String url = brui.getResourceURL(icon);
-		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + url
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#9e9e9e;margin-left:8px;width:100%'>"
-				+ text + "</div></div>";
+	@Override
+	protected BruiAssemblyContext getContext() {
+		return context;
 	}
 
-	private void renderContent(ViewerCell cell, Work work) {
-		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		gridItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		gridItem.setHeight(112);
-
-		String perc;
-		Double ind;
-
-		StringBuffer sb = new StringBuffer();
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 显示进度指标信息
-		sb.append(
-				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		ind = work.getWAR();
-		// ind = 0.2365555d;
-		sb.append("<div style='width:112px;'>工作量：</div>");
-		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
-		if (ind != null) {
-			NumberFormat df = DecimalFormat.getInstance();
-			df.setMaximumFractionDigits(1);
-			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>" + perc
-					+ "</span></div>");
-		}
-		sb.append("</div></div></div>");
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 显示工期指标信息
-		ind = work.getDAR();
-		// ind = 0.9365555d;
-		sb.append(
-				"<div style='padding-right:32px;margin-top:8px;width:100%;'><div style='display:inline-flex;justify-content:space-between;width:100%;'>");
-		sb.append("<div style='width:112px;'>工期(天)：" + "</div>");
-		sb.append("<div class='layui-progress layui-progress-big' style='margin-left:16px;flex:auto;'>");
-		if (ind != null) {
-			NumberFormat df = DecimalFormat.getInstance();
-			df.setMaximumFractionDigits(1);
-			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>" + perc
-					+ "</span></div>");
-		}
-		sb.append("</div></div></div>");
-
-		sb.append("<div style='display:inline-flex;width:100%;justify-content:flex-end;padding-right:24px'>");
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 工作包按钮
-		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Check.isNotAssigned(wps)) {
-			sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
-		} else if (wps.size() == 1) {
-			sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-					+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
-
-		} else {
-			for (int i = 0; i < wps.size(); i++) {
-				sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-						+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
-			}
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 指派按钮
-		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:8px;margin-right:4px;' href='assignWork/"
-							+ work.get_id() + "' target='_rwt'>指派</a>");
-		}
-		sb.append("</div>");
-
-		cell.setText(sb.toString());
+	@Override
+	protected IBruiService getBruiService() {
+		return brui;
 	}
 
 }

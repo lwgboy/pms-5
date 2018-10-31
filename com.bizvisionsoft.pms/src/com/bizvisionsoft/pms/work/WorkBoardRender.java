@@ -36,6 +36,13 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
+/**
+ * 将要使用WorkCardRender取代
+ * 
+ * @author hua
+ *
+ */
+@Deprecated
 public class WorkBoardRender {
 
 	@Inject
@@ -89,9 +96,8 @@ public class WorkBoardRender {
 	private void assignWork(WorkBoardInfo workInfo) {
 		Work work = workInfo.getWork();
 		Selector.open("指派用户选择器", context, work, l -> {
-			ServicesLoader.get(WorkService.class)
-					.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
-							.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
+			ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
+					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
 			work.setChargerId(((User) l.get(0)).getUserId());
 			viewer.update(work, null);
@@ -100,8 +106,7 @@ public class WorkBoardRender {
 
 	private void finishWork(Work work) {
 		if (brui.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class)
-					.finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
+			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				viewer.remove(work);
@@ -112,8 +117,7 @@ public class WorkBoardRender {
 
 	private void startWork(Work work) {
 		if (brui.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class)
-					.startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
+			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				Work t = Services.get(WorkService.class).getWork(work.get_id());
@@ -146,14 +150,14 @@ public class WorkBoardRender {
 					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish.svg'/></a></div>");
 		}
 
+		sb.append("<div style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
+				+ work.getProjectName() + "</div>");
 		sb.append(
-				"<div style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
-						+ work.getProjectName() + "</div>");
-		sb.append("<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>" + work.getFullName() + "</div>");
+				"<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
+						+ work.getFullName() + "</div>");
 		sb.append(
 				"<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div style='display:inline-flex;'>计划: "
-						+ Formatter.getString(work.getPlanStart()) + " ~ "
-						+Formatter.getString(work.getPlanFinish()) );
+						+ Formatter.getString(work.getPlanStart()) + " ~ " + Formatter.getString(work.getPlanFinish()));
 
 		String warningIcon = work.getWarningIcon();
 		// 根据warningIcon是否为null，显示其进度状态
@@ -164,8 +168,7 @@ public class WorkBoardRender {
 		sb.append("</div>");
 		String chargerInfo = work.getChargerInfoHtml();
 		sb.append("<div style='margin-right:16px;'>负责: "
-				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>"
-						: chargerInfo)
+				+ (chargerInfo == null ? "<a class='layui-btn layui-btn-xs layui-btn-radius layui-btn-warm'>需指派</a>" : chargerInfo)
 				+ "</div></div>");
 		cell.setText(sb.toString());
 	}
@@ -191,8 +194,8 @@ public class WorkBoardRender {
 			NumberFormat df = DecimalFormat.getInstance();
 			df.setMaximumFractionDigits(1);
 			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>"
-					+ perc + "</span></div>");
+			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>" + perc
+					+ "</span></div>");
 		}
 		sb.append("</div></div></div>");
 
@@ -208,8 +211,8 @@ public class WorkBoardRender {
 			NumberFormat df = DecimalFormat.getInstance();
 			df.setMaximumFractionDigits(1);
 			perc = df.format(100 * ind.doubleValue()) + "%";
-			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>"
-					+ perc + "</span></div>");
+			sb.append("<div class='layui-progress-bar' style='width:" + perc + ";'><span class='layui-progress-text'>" + perc
+					+ "</span></div>");
 		}
 		sb.append("</div></div></div>");
 
@@ -218,19 +221,16 @@ public class WorkBoardRender {
 		// 工作包按钮
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (Check.isNotAssigned(wps)) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-							+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
+			sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
+					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
-			sb.append(
-					"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-							+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
+			sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
+					+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
-				sb.append(
-						"<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
-								+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+				sb.append("<a class='layui-btn layui-btn-sm layui-btn-primary' style='float:right;margin-top:8px;margin-right:4px;' href='"
+						+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
 
