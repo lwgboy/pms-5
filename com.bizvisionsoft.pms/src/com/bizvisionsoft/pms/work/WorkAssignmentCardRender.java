@@ -45,7 +45,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 	protected void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
 		Work work = (Work) cell.getItem().getData();
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 232;
+		int rowHeight = 220;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -56,8 +56,6 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 
-		// 标签
-//		renderNoticeBudgets(work, sb);
 		
 		// 显示项目图标和名称
 		renderProjectLine(theme,sb, work);
@@ -67,11 +65,13 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderCharger(theme,sb, work);
+//		renderCharger(theme,sb, work);
 
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());
 
+		// 标签
+		renderNoticeBudgets(sb,work);
 		sb.append("</div>");
 
 		cell.setText(sb.toString());

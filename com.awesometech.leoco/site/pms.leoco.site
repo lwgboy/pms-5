@@ -1622,7 +1622,7 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "163958383b0",
-            "defaultAssembly": true,
+            "defaultAssembly": false,
             "role": "",
             "excludeRole": "",
             "image": "/img/todo_w.svg",
@@ -1649,7 +1649,7 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "166be9f6f0d",
-            "defaultAssembly": false,
+            "defaultAssembly": true,
             "image": "/img/todo_w.svg",
             "text": "工作看板"
           }

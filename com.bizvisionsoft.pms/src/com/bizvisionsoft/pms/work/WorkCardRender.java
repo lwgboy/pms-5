@@ -13,14 +13,14 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class WorkCardRender extends AbstractWorkCardRender{
+public class WorkCardRender extends AbstractWorkCardRender {
 
 	@Inject
 	private BruiAssemblyContext context;
 
 	@Inject
 	private IBruiService brui;
-	
+
 	@Init
 	protected void init() {
 		super.init();
@@ -46,7 +46,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 	private void renderFinishedCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 180;
+		int rowHeight = 172;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme("deepGrey");
 
@@ -57,14 +57,15 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 		// 显示项目图标和名称
-		renderProjectLine(theme,sb, work);
+		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，完成于"
+				+ Formatter.getString(work.getActualFinish());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderCharger(theme,sb, work);
+		renderCharger(theme, sb, work);
 
 		sb.append("</div>");
 
@@ -74,7 +75,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 
 	private void renderToStartCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 232;
+		int rowHeight = 247;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -84,22 +85,22 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
 		renderTitle(theme, sb, work);
-		// 标签
-//		renderNoticeBudgets(work, sb);
 
 		// 显示项目图标和名称
-		renderProjectLine(theme,sb, work);
+		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderCharger(theme,sb, work);
+		renderCharger(theme, sb, work);
 
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
 
+		// 标签
+		renderNoticeBudgets(sb, work);
 
 		sb.append("</div>");
 
@@ -115,7 +116,7 @@ public class WorkCardRender extends AbstractWorkCardRender{
 	 */
 	private void renderToFinishCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 360;
+		int rowHeight = 374;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -125,20 +126,17 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
 		renderTitle(theme, sb, work);
-		
-		// 标签
-//		renderNoticeBudgets(work, sb);
-		
+
 		// 显示项目图标和名称
-		renderProjectLine(theme,sb, work);
+		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，开始于"
 				+ Formatter.getString(work.getActualStart());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 工作负责人
-		renderCharger(theme,sb, work);
+		renderCharger(theme, sb, work);
 
 		// 显示两个指标
 		renderIndicators(theme, sb, "进度", work.getWAR(), "工期", work.getDAR());
@@ -146,6 +144,8 @@ public class WorkCardRender extends AbstractWorkCardRender{
 		// 显示工作包和完成工作
 		renderButtons(theme, sb, work, "完成", "finishWork/" + work.get_id());
 
+		// 标签
+		renderNoticeBudgets(sb, work);
 
 		sb.append("</div>");
 

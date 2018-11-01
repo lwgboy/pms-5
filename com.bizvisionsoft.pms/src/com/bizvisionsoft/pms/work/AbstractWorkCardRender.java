@@ -120,21 +120,47 @@ public abstract class AbstractWorkCardRender {
 		}
 	}
 
-	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
-		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+	protected void renderNoticeBudgets(StringBuffer sb, Work work) {
+		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		Double value = work.getTF();
+		if (value != null) {
+			String css;
+			if (value <= 0)
+				css = "layui-badge  layui-bg-orange";
+			else
+				css = "layui-badge layui-bg-green";
+			String label = "<div class='" + css + "' style='margin-right:4px;cursor:pointer;'>TF " + (int) Math.ceil(value) + "</div>";
+			sb.append(MetaInfoWarpper.warpper(label,
+					"总时差（TF）：<br>在不影响总工期的前提下，本工作可以利用的机动时间，即工作的最迟开始时间与最早开始时间之差。利用这段时间延长工作的持续时间或推迟其开工时间，不会影响计划的总工期。", 3000));
+		}
+
+		value = work.getFF();
+		if (value != null) {
+			String css;
+			if (value <= 0)
+				css = "layui-badge  layui-bg-orange";
+			else
+				css = "layui-badge layui-bg-green";
+			String label = "<div class='" + css + "' style='margin-right:4px;cursor:pointer;'>FF " + (int) Math.ceil(value) + "</div>";
+			sb.append(
+					MetaInfoWarpper.warpper(label, "自由时差（FF）：<br>在不影响其紧后工作最早开始时间的条件下，本工作可以利用的机动时间。即该工作的所有紧后工作的最早开始时间，减去该工作的最早结束时间。", 3000));
+		}
+
 		Check.isAssigned(work.getManageLevel(), l -> {
 			if ("1".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>";
+				String label = "<div class='layui-badge layui-bg-blue' style='margin-right:4px;'>&#8544;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
 			}
 
 			if ("2".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-cyan' style='width:36px;margin-right:4px;'>2级</div>";
+				String label = "<div class='layui-badge layui-bg-cyan' style='margin-right:4px;'>&#8545;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
 			}
 		});
 		// 警告
 		Check.isAssigned(work.getWarningIcon(), sb::append);
+		//
+
 		sb.append("</div>");
 	}
 
@@ -150,7 +176,8 @@ public abstract class AbstractWorkCardRender {
 				btns.add(new String[] { "openWorkPackage/" + i, wps.get(i).getName() });
 			}
 		}
-//		sb.append("<div style='margin-top:12px;width:100%;background:#d0d0d0;height:1px;'></div>");
+		// sb.append("<div
+		// style='margin-top:12px;width:100%;background:#d0d0d0;height:1px;'></div>");
 		sb.append("<div style='margin-top:16px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
@@ -176,10 +203,10 @@ public abstract class AbstractWorkCardRender {
 
 	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work) {
 		String name = work.getFullName();
-//		name = "详细设计系统模型设计和测试";
-		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor
-				+ ";color:#" + theme.headFgColor + ";padding:8px'>"
-				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div></div>");
+		// name = "详细设计系统模型设计和测试";
+		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor + ";color:#"
+				+ theme.headFgColor + ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
+				+ "</div></div>");
 	}
 
 	protected void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {
@@ -194,12 +221,12 @@ public abstract class AbstractWorkCardRender {
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
 				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
-	
+
 	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
 		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
-				+ br.getResourceURL("img/user_c.svg")
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;cursor:pointer;'>负责：" + work.warpperChargerInfo() + "</div></div>");
+				+ br.getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
+				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;'>负责：<span style='cursor:pointer;'>" + work.warpperChargerInfo()
+				+ "</span></div></div>");
 	}
 
 }
