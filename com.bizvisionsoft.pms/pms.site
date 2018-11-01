@@ -1470,7 +1470,7 @@
             "objectBehavier": false,
             "actionBehavier": false,
             "type": "customized",
-            "role": "财务经理#财务管理#项目总监",
+            "role": "财务经理#财务管理",
             "horizontalSpan": 0,
             "verticalSpan": 0
           },
