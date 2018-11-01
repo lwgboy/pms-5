@@ -45,7 +45,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 /**
@@ -1170,21 +1169,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("_id", _id)));
-		// TODO JQ
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"), new Field<String>("projectPMId", "$project.pmId"))));
+		
+		pipeline.addAll(new JQ("查询-项目变更").set("match", new Document("_id", _id)).array());
 
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
-		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$organization.fullName"),
-				new Field<String>("managerId", "$applicantUnitId.managerId"))));
-		pipeline.add(Aggregates.project(new Document("organization", false)));
-
+		
 		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
 
