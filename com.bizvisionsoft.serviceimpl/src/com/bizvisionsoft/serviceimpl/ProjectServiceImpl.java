@@ -45,7 +45,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 /**
@@ -176,82 +175,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		appendWorkTime(pipeline);
+		// yangjun 2018/11/1
+		pipeline.addAll(new JQ("追加-项目-工期与工时").array());
 
 		pipeline.addAll(new JQ("追加-项目-SAR").array());
 
 		return pipeline;
-	}
-
-	private void appendWorkTime(List<Bson> pipeline) {
-		pipeline.addAll(
-				Arrays.asList(
-						new Document("$lookup",
-								new Document()
-										.append("from", "work").append("let",
-												new Document("project_id", "$_id"))
-										.append("pipeline", Arrays.asList(
-												new Document("$match", new Document("$expr", new Document("$and",
-														Arrays.asList(new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-																new Document("$eq", Arrays.asList("$summary", false)))))),
-												new Document("$group",
-														new Document("_id", null)
-																.append("actualWorks", new Document("$sum", "$actualWorks"))
-																.append("planWorks", new Document("$sum", "$planWorks")))))
-										.append("as", "worktime")),
-						new Document("$unwind", new Document("path", "$worktime").append("preserveNullAndEmptyArrays", true)),
-						new Document("$addFields", new Document("summaryActualWorks", "$worktime.actualWorks").append("summaryPlanWorks",
-								"$worktime.planWorks")),
-						new Document("$project", new Document("worktime", false))));
-
-		// TODO 可以与上面的合并
-		pipeline.addAll(Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "work").append("let", new Document("project_id", "$_id"))
-								.append("pipeline", Arrays.asList(
-										new Document("$match",
-												new Document("$expr", new Document("$and",
-														Arrays.asList(new Document("$eq", Arrays.asList("$project_id", "$$project_id")),
-																new Document("$eq", Arrays.asList("$summary", false)))))),
-										new Document()
-												.append("$addFields",
-														new Document()
-																.append("planDuration",
-																		new Document("$divide",
-																				Arrays.asList(
-																						new Document("$subtract",
-																								Arrays.asList("$planFinish", "$planStart")),
-																						86400000)))
-																.append("actualDuration",
-																		new Document("$divide", Arrays.asList(
-																				new Document("$subtract",
-																						Arrays.asList(
-																								new Document("$ifNull",
-																										Arrays.asList("$actualFinish",
-																												new Date())),
-																								new Document("$ifNull",
-																										Arrays.asList("$actualStart",
-																												new Date())))),
-																				86400000)))),
-										new Document("$group",
-												new Document("_id", null).append("planDuration", new Document("$sum", "$planDuration"))
-														.append("actualDuration", new Document("$sum", "$actualDuration")))))
-								.append("as", "workDuration")),
-				new Document("$unwind", new Document("path", "$workDuration").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document("summaryPlanDuration", "$workDuration.planDuration").append("summaryActualDuration",
-						"$workDuration.actualDuration")),
-				new Document("$project", new Document("workDuration", false))));
-
-		pipeline.addAll(Arrays.asList(
-				new Document().append("$lookup",
-						new Document().append("from", "work").append("let", new Document().append("project_id", "$_id"))
-								.append("pipeline", Arrays.asList(new Document().append("$match",
-										new Document().append("$expr", new Document().append("$and",
-												Arrays.asList(new Document().append("$eq", Arrays.asList("$stage", true)),
-														new Document().append("$eq", Arrays.asList("$project_id", "$$project_id"))))))))
-								.append("as", "stageWork")),
-				new Document().append("$addFields", new Document().append("stage_ids", "$stageWork._id")),
-				new Document().append("$project", new Document().append("stageWork", false))));
 	}
 
 	@Override
@@ -469,8 +398,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Work> listStage(ObjectId _id) {
-		// TODO 排序
-		return new WorkServiceImpl().query(null, null, new BasicDBObject("project_id", _id).append("stage", true), Work.class);
+		return new WorkServiceImpl().query(null, null, new BasicDBObject("project_id", _id).append("stage", true),
+				new BasicDBObject("wbsCode", 1), Work.class);
 	}
 
 	@Override
@@ -558,50 +487,19 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-
-		appendParticipatedProjectQuery(userId, pipeline);
+		// 杨骏 2018/11/1
+		pipeline.addAll(new JQ("查询-项目-参与者").set("userId", userId).array());
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
 		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
 	}
 
-	private void appendParticipatedProjectQuery(String userId, List<Bson> pipeline) {
-		pipeline.add(new Document("$match",
-				new Document("$or", Arrays.asList(new Document("member", userId), new Document("managerId", userId)))));
-
-		pipeline.add(new Document("$lookup",
-				new Document("from", "work").append("localField", "scope_id").append("foreignField", "_id").append("as", "work")));
-
-		pipeline.add(new Document("$lookup",
-				new Document("from", "project").append("localField", "scope_id").append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "work.project_id")
-				.append("foreignField", "_id").append("as", "project2")));
-
-		pipeline.add(new Document("$unwind", new Document("path", "$project").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(new Document("$unwind", new Document("path", "$project2").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(new Document("$addFields", new Document("project_id", new Document("$cond",
-				Arrays.asList("$project", "$project._id", new Document("$cond", Arrays.asList("$project2", "$project2._id", null)))))));
-
-		pipeline.add(new Document("$group", new Document("_id", "$project_id")));
-
-		pipeline.add(new Document("$lookup",
-				new Document("from", "project").append("localField", "_id").append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$replaceRoot", new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
-
-		pipeline.add(new Document("$match", new Document("status", new Document("$ne", ProjectStatus.Closed))));
-	}
-
 	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-
-		appendParticipatedProjectQuery(userId, pipeline);
-
+		// 杨骏 2018/11/1
+		pipeline.addAll(new JQ("查询-项目-参与者").set("userId", userId).array());
 		if (filter != null)
 			pipeline.add(new Document("$match", filter));
 
@@ -739,7 +637,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long delete(ObjectId _id) {
-		// TODO 删除检查
 		Project project = get(_id);
 		if (!ProjectStatus.Created.equals(project.getStatus())) {
 			throw new ServiceException("当前项目不允许删除，只能删除已创建状态的项目。");
@@ -833,9 +730,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 获得时间
 		// yangjun 2018/10/31
-		Document latest = c("work").find(new Document("parent_id", com._id))
-				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1).append("_id", -1))
-				.first();
+		Document latest = c("work").find(new Document("parent_id", com._id)).projection(new Document("actualFinish", true))
+				.sort(new Document("actualFinish", -1).append("_id", -1)).first();
 		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1273,21 +1169,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("_id", _id)));
-//TODO JQ
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"), new Field<String>("projectPMId", "$project.pmId"))));
+		
+		pipeline.addAll(new JQ("查询-项目变更").set("match", new Document("_id", _id)).array());
 
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
-		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$organization.fullName"),
-				new Field<String>("managerId", "$applicantUnitId.managerId"))));
-		pipeline.add(Aggregates.project(new Document("organization", false)));
-
+		
 		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
 

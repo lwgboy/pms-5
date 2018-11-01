@@ -151,15 +151,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public ObjectId updateCBSPeriodBudget(CBSPeriod o) {
 		Document filter = new Document("cbsItem_id", o.getCbsItem_id()).append("id", o.getId());
-		ObjectId _id = Optional.ofNullable(c("cbsPeriod").find(filter).first()).map(d -> d.getObjectId("_id"))
-				.orElse(null);
+		ObjectId _id = Optional.ofNullable(c("cbsPeriod").find(filter).first()).map(d -> d.getObjectId("_id")).orElse(null);
 		if (_id == null) {
 			_id = new ObjectId();
-			c("cbsPeriod").insertOne(
-					filter.append("_id", _id).append("budget", Optional.ofNullable(o.getBudget()).orElse(0d)));
+			c("cbsPeriod").insertOne(filter.append("_id", _id).append("budget", Optional.ofNullable(o.getBudget()).orElse(0d)));
 		} else {
-			c("cbsPeriod").updateOne(filter,
-					new Document("$set", new Document("budget", Optional.ofNullable(o.getBudget()).orElse(0d))));
+			c("cbsPeriod").updateOne(filter, new Document("$set", new Document("budget", Optional.ofNullable(o.getBudget()).orElse(0d))));
 		}
 		return _id;
 	}
@@ -168,15 +165,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	public CBSSubject upsertCBSSubjectBudget(CBSSubject o) {
 		Document filter = new Document("cbsItem_id", o.getCbsItem_id()).append("id", o.getId()).append("subjectNumber",
 				o.getSubjectNumber());
-		ObjectId _id = Optional.ofNullable(c("cbsSubject").find(filter).first()).map(d -> d.getObjectId("_id"))
-				.orElse(null);
+		ObjectId _id = Optional.ofNullable(c("cbsSubject").find(filter).first()).map(d -> d.getObjectId("_id")).orElse(null);
 		if (_id == null) {
 			_id = new ObjectId();
-			c("cbsSubject").insertOne(
-					filter.append("_id", _id).append("budget", Optional.ofNullable(o.getBudget()).orElse(0d)));
+			c("cbsSubject").insertOne(filter.append("_id", _id).append("budget", Optional.ofNullable(o.getBudget()).orElse(0d)));
 		} else {
-			c("cbsSubject").updateOne(filter,
-					new Document("$set", new Document("budget", Optional.ofNullable(o.getBudget()).orElse(0d))));
+			c("cbsSubject").updateOne(filter, new Document("$set", new Document("budget", Optional.ofNullable(o.getBudget()).orElse(0d))));
 		}
 
 		return get(_id, CBSSubject.class);
@@ -186,15 +180,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	public CBSSubject upsertCBSSubjectCost(CBSSubject o) {
 		Document filter = new Document("cbsItem_id", o.getCbsItem_id()).append("id", o.getId()).append("subjectNumber",
 				o.getSubjectNumber());
-		ObjectId _id = Optional.ofNullable(c("cbsSubject").find(filter).first()).map(d -> d.getObjectId("_id"))
-				.orElse(null);
+		ObjectId _id = Optional.ofNullable(c("cbsSubject").find(filter).first()).map(d -> d.getObjectId("_id")).orElse(null);
 		if (_id == null) {
 			_id = new ObjectId();
-			c("cbsSubject")
-					.insertOne(filter.append("_id", _id).append("cost", Optional.ofNullable(o.getCost()).orElse(0d)));
+			c("cbsSubject").insertOne(filter.append("_id", _id).append("cost", Optional.ofNullable(o.getCost()).orElse(0d)));
 		} else {
-			c("cbsSubject").updateOne(filter,
-					new Document("$set", new Document("cost", Optional.ofNullable(o.getCost()).orElse(0d))));
+			c("cbsSubject").updateOne(filter, new Document("$set", new Document("cost", Optional.ofNullable(o.getCost()).orElse(0d))));
 		}
 
 		return get(_id, CBSSubject.class);
@@ -219,8 +210,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	public List<CBSSubject> getAllSubCBSSubjectByNumber(ObjectId cbs_id, String number) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id");
-		return c(CBSSubject.class)
-				.find(new BasicDBObject("cbsItem_id", new BasicDBObject("$in", items)).append("subjectNumber", number))
+		return c(CBSSubject.class).find(new BasicDBObject("cbsItem_id", new BasicDBObject("$in", items)).append("subjectNumber", number))
 				.into(new ArrayList<CBSSubject>());
 	}
 
@@ -262,15 +252,15 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	// yangjun 2018/10/31
 	public CBSItem allocateBudget(ObjectId _id, ObjectId scope_id, String scopename) {
 		try {
-			update(new FilterAndUpdate().filter(new BasicDBObject("_id", scope_id))
-					.set(new BasicDBObject("cbs_id", _id)).bson(), Work.class);
+			update(new FilterAndUpdate().filter(new BasicDBObject("_id", scope_id)).set(new BasicDBObject("cbs_id", _id)).bson(),
+					Work.class);
 
 			List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "cbs", "parent_id");
 			update(new FilterAndUpdate().filter(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)))
 					.set(new BasicDBObject("scope_id", scope_id).append("scopename", scopename)).bson(), CBSItem.class);
 
-			update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("scopeRoot", true))
-					.bson(), CBSItem.class);
+			update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("scopeRoot", true)).bson(),
+					CBSItem.class);
 		} catch (Exception e) {
 			handleMongoException(e, "分配CBS到" + scopename + " 错误");
 		}
@@ -282,9 +272,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		CBSItem parent = get(parent_id);
 		UpdateResult ur = c(Work.class).updateOne(new BasicDBObject("cbs_id", _id),
 				new BasicDBObject("$unset", new BasicDBObject("cbs_id", 1)));
-		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id),
-				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id())
-						.append("scopename", parent.getScopeName()).append("scopeRoot", false)));
+		ur = c(CBSItem.class).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set",
+				new BasicDBObject("scope_id", parent.getScope_id()).append("scopename", parent.getScopeName()).append("scopeRoot", false)));
 
 		if (ur.getModifiedCount() == 0) {
 
@@ -293,8 +282,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		list.add(_id);
 		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id");
 		ur = c(CBSItem.class).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
-				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id()).append("scopename",
-						parent.getScopeName())));
+				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id()).append("scopename", parent.getScopeName())));
 		// TODO 错误返回
 
 		if (ur.getModifiedCount() == 0) {
@@ -312,13 +300,12 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		for (CBSSubject cbsSubject : subjectBudget) {
 			String id = cbsSubject.getId();
 			Double budget = cbsPeriodMap.get(id);
-			cbsPeriodMap.put(id,
-					(cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d) + (budget != null ? budget : 0d));
+			cbsPeriodMap.put(id, (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d) + (budget != null ? budget : 0d));
 			totalBudget += (cbsSubject.getBudget() != null ? cbsSubject.getBudget() : 0d);
 		}
 
-		List<Document> pipeline = Arrays.asList(new Document("$match", new Document("cbsItem_id", _id)), new Document(
-				"$group", new Document("_id", "$cbsItem_id").append("totalBudget", new Document("$sum", "$budget"))));
+		List<Document> pipeline = Arrays.asList(new Document("$match", new Document("cbsItem_id", _id)),
+				new Document("$group", new Document("_id", "$cbsItem_id").append("totalBudget", new Document("$sum", "$budget"))));
 		Document doc = c("cbsPeriod").aggregate(pipeline).first();
 
 		if (doc != null && totalBudget.doubleValue() != doc.getDouble("totalBudget").doubleValue()) {
@@ -340,8 +327,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		ObjectId scope_id = c(CBSItem.class).distinct("scope_id", new Document("_id", _id), ObjectId.class).first();
 		Project project = c(Project.class).find(new Document("_id", scope_id)).first();
 		if (project == null) {
-			ObjectId project_id = c(Work.class).distinct("project_id", new Document("_id", scope_id), ObjectId.class)
-					.first();
+			ObjectId project_id = c(Work.class).distinct("project_id", new Document("_id", scope_id), ObjectId.class).first();
 			project = c(Project.class).find(new Document("_id", project_id)).first();
 		}
 
@@ -355,8 +341,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		List<CBSItem> cbsItemList = new ArrayList<CBSItem>();
 		List<ObjectId> cbsItemIdList = new ArrayList<ObjectId>();
 		CBSItem parentCBSItem = get(_id);
-		List<Work> workList = c(Work.class)
-				.find(new BasicDBObject("project_id", project_id).append("stage", Boolean.TRUE))
+		List<Work> workList = c(Work.class).find(new BasicDBObject("project_id", project_id).append("stage", Boolean.TRUE))
 				.into(new ArrayList<Work>());
 		if (workList.size() > 0) {
 			for (Work work : workList) {
@@ -384,7 +369,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户具有财务管理权限时显示全部，否则只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
+		if (!checkUserRoles(userId, Arrays.asList(Role.SYS_ROLE_FM_ID, Role.SYS_ROLE_PD_ID))) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -393,8 +378,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
 
-		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("children", new BasicDBObject("$map",
-				new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
+		pipeline.add(Aggregates.addFields(new Field<BasicDBObject>("children",
+				new BasicDBObject("$map", new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in", "$$id")))));
 		// yangjun 2018/10/31
 		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
 
@@ -436,7 +421,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户具有财务管理权限时显示全部，否则只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
+		if (!checkUserRoles(userId, Arrays.asList(Role.SYS_ROLE_FM_ID, Role.SYS_ROLE_PD_ID))) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -445,14 +430,16 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 		pipeline.add(Aggregates.lookup("cbs", "_id", "parent_id", "_children"));
 
-		pipeline.add(Aggregates.addFields(
-				new Field<BasicDBObject>("children",
-						new BasicDBObject("$map",
-								new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in",
-										"$$id"))),
-				new Field<String>("scopePlanStart", "$project.planStart"),
-				new Field<String>("scopePlanFinish", "$project.planFinish"),
-				new Field<String>("scopeStatus", "$project.status")));
+		pipeline.add(
+				Aggregates
+						.addFields(
+								new Field<BasicDBObject>("children",
+										new BasicDBObject("$map",
+												new BasicDBObject().append("input", "$_children._id").append("as", "id").append("in",
+														"$$id"))),
+								new Field<String>("scopePlanStart", "$project.planStart"),
+								new Field<String>("scopePlanFinish", "$project.planFinish"),
+								new Field<String>("scopeStatus", "$project.status")));
 
 		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
 
@@ -473,7 +460,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	public long countProjectCost(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户具有财务管理权限时，只显示其在pmo团队中的成本信息
-		if (!checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
+		if (!checkUserRoles(userId, Arrays.asList(Role.SYS_ROLE_FM_ID, Role.SYS_ROLE_PD_ID))) {
 			pipeline.add(Aggregates.match(new Document("_id", new Document("$in", getUserInPMOCBSId(userId)))));
 		}
 
@@ -488,8 +475,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public Date getNextSettlementDate(ObjectId scope_id) {
-		Document workDoc = c("work").find(new Document("_id", scope_id)).projection(new Document("project_id", 1))
-				.first();
+		Document workDoc = c("work").find(new Document("_id", scope_id)).projection(new Document("project_id", 1)).first();
 		if (workDoc != null) {
 			scope_id = workDoc.getObjectId("project_id");
 		}
@@ -516,8 +502,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			return result;
 		}
 		// 修改项目结算时间
-		c(Project.class).updateOne(new BasicDBObject("_id", scope_id),
-				new BasicDBObject("$set", new BasicDBObject("settlementDate", id)));
+		c(Project.class).updateOne(new BasicDBObject("_id", scope_id), new BasicDBObject("$set", new BasicDBObject("settlementDate", id)));
 
 		return result;
 	}
@@ -537,31 +522,26 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	public Document getCostCompositionAnalysis(ObjectId cbsScope_id, String year, String userId) {
 		List<String> data1 = new ArrayList<String>();
 		List<Document> data2 = new ArrayList<Document>();
-		c("accountItem").aggregate(
-				new JQ("查询-费用科目-成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array())
+		c("accountItem").aggregate(new JQ("查询-费用科目-成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array())
 				.forEach((Document doc) -> {
 					Object count = doc.get("count");
 					if (count != null && ((Number) count).doubleValue() > 0) {
-						data2.add(new Document("name", doc.getString("name")).append("value",
-								getStringValue(doc.get("cost"))));
+						data2.add(new Document("name", doc.getString("name")).append("value", getStringValue(doc.get("cost"))));
 						data1.add(doc.getString("name"));
 					}
 				});
-		return new JQ("图表-项目成本组成分析（年）").set("title", year + "年 项目成本组成分析（万元）").set("data1", data1).set("data2", data2)
-				.doc();
+		return new JQ("图表-项目成本组成分析（年）").set("title", year + "年 项目成本组成分析（万元）").set("data1", data1).set("data2", data2).doc();
 	}
 
 	@Override
 	// yangjun 2018/10/31
-	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod,
-			String userId) {
+	public Document getPeriodCostCompositionAnalysis(ObjectId cbsScope_id, String startPeriod, String endPeriod, String userId) {
 		String title;
 		if (startPeriod.equals(endPeriod)) {
-			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6))
-					+ "月 项目成本组成分析（万元）";
+			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月 项目成本组成分析（万元）";
 		} else {
-			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-"
-					+ endPeriod.substring(0, 4) + "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
+			title = startPeriod.substring(0, 4) + "年" + Integer.parseInt(startPeriod.substring(4, 6)) + "月-" + endPeriod.substring(0, 4)
+					+ "年" + Integer.parseInt(endPeriod.substring(4, 6)) + "月 成本组成";
 		}
 
 		List<String> data1 = new ArrayList<String>();
@@ -592,8 +572,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			budgetMap.put(key, 0d);
 		}
 
-		c("accountItem").aggregate(
-				new JQ("查询-费用科目-预算和成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, null)).array())
+		c("accountItem").aggregate(new JQ("查询-费用科目-预算和成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, null)).array())
 				.forEach((Document doc) -> {
 					Object subjects = doc.get("cbsSubject");
 					if (subjects instanceof List && ((List<?>) subjects).size() > 0) {
@@ -641,11 +620,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			budgetMap.put(key, 0d);
 		}
 
-		c("accountItem").aggregate(new JQ("查询-费用科目-预算和成本-年").set("year", year)
-				.set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array()).forEach((Document doc) -> {
+		c("accountItem").aggregate(new JQ("查询-费用科目-预算和成本-年").set("year", year).set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).array())
+				.forEach((Document doc) -> {
 					Object cbsSubjects = doc.get("cbsSubject");
-					if (cbsSubjects != null && cbsSubjects instanceof List
-							&& ((List<Document>) cbsSubjects).size() > 0) {
+					if (cbsSubjects != null && cbsSubjects instanceof List && ((List<Document>) cbsSubjects).size() > 0) {
 						((List<Document>) cbsSubjects).forEach(cbsSubject -> {
 							String id = cbsSubject.getString("_id");
 							Double costD = costMap.get(id);
@@ -679,8 +657,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		for (Double d : costMap.values()) {
 			costData.add(getStringValue(d));
 		}
-		return new JQ("图表-项目成本组成分析（月）").set("title", year + "年 各月项目预算和成本分析（万元）").set("budget", budgetdata)
-				.set("cost", costData).doc();
+		return new JQ("图表-项目成本组成分析（月）").set("title", year + "年 各月项目预算和成本分析（万元）").set("budget", budgetdata).set("cost", costData).doc();
 	}
 
 	private String getStringValue(Object value) {
@@ -708,7 +685,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		// TODO 根据修改后的查询-项目PMO成员.js else 可以继续优化进行合并，
 		if (cbsScope_id == null && userId == null) {
 			return new ArrayList<ObjectId>();
-		} else if (cbsScope_id != null || checkUserRoles(userId, Role.SYS_ROLE_FM_ID)) {
+		} else if (cbsScope_id != null || checkUserRoles(userId, Arrays.asList(Role.SYS_ROLE_FM_ID, Role.SYS_ROLE_PD_ID))) {
 			List<Bson> pipeline = new ArrayList<>();
 
 			if (cbsScope_id != null)
@@ -757,8 +734,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	@Override
 	// yangjun 2018/10/31
 	public Document getCBSSummary(ObjectId cbsScope_id, String startPeriod, String endPeriod, String userId) {
-		return c("cbs").aggregate(new JQ("查询-预算成本对比分析").set("cbsItem_id", getCBSItemId(cbsScope_id, userId))
-				.set("startPeriod", startPeriod).set("endPeriod", endPeriod).array()).first();
+		return c("cbs").aggregate(new JQ("查询-预算成本对比分析").set("cbsItem_id", getCBSItemId(cbsScope_id, userId)).set("startPeriod", startPeriod)
+				.set("endPeriod", endPeriod).array()).first();
 	}
 
 	@Override
