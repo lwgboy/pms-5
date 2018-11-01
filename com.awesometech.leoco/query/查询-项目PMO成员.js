@@ -45,11 +45,11 @@
 						] ]
 					}, [ {
 						"$ifNull" : [ "$managerId", null ]
-					} ], {
+					} ], [ {
 						"$ifNull" : [ "$member", [
 
 						] ]
-					} ]
+					} ] ]
 				}
 			}
 		}, {
