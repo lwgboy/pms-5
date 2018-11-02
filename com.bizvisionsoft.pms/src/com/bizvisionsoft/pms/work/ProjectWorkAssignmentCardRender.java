@@ -1,17 +1,48 @@
 package com.bizvisionsoft.pms.work;
 
+import org.eclipse.jface.viewers.ViewerCell;
+
 import com.bizvisionsoft.annotations.ui.common.Init;
+import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.annotations.ui.grid.GridRenderUICreated;
+import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
+import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 
 public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 
-	private String userId;
+	@Inject
+	private BruiAssemblyContext context;
+
+	@Inject
+	private IBruiService brui;
+
+	@Override
+	protected BruiAssemblyContext getContext() {
+		return context;
+	}
+
+	@Override
+	protected IBruiService getBruiService() {
+		return brui;
+	}
 
 	@Init
 	protected void init() {
 		super.init();
-		userId = getBruiService().getCurrentUserId();
+	}
+
+	@GridRenderUICreated
+	protected void uiCreated() {
+		super.uiCreated();
+	}
+
+	@GridRenderUpdateCell
+	protected void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell) {
+		super.renderCell(cell);
 	}
 
 	@Override
@@ -23,6 +54,6 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	@Override
 	protected void showButtons(Work work, CardTheme theme, StringBuffer sb, String label, String href) {
 		// 根据当前用户判断是否显示操作按钮
-		renderButtons(theme, sb, work, Check.equals(userId, work.getAssignerId()), label, href);
+		renderButtons(theme, sb, work, Check.equals(getBruiService().getCurrentUserId(), work.getAssignerId()), label, href);
 	}
 }
