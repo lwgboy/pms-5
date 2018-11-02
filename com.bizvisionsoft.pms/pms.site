@@ -73565,7 +73565,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "planned"
               },
               {
                 "id": "166bdfdcfc1",
@@ -73576,7 +73577,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "executing"
               },
               {
                 "id": "166be005c97",
@@ -73587,7 +73589,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "assignment"
               },
               {
                 "id": "166bdfe1f41",
@@ -73598,7 +73601,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "finished"
               }
             ]
           }
@@ -74199,7 +74203,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "planned"
               },
               {
                 "id": "166d1b62334",
@@ -74210,7 +74215,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "executing"
               },
               {
                 "id": "166d1b62ddc",
@@ -74221,7 +74227,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "assignment"
               },
               {
                 "id": "166d1b62802",
@@ -74232,7 +74239,8 @@
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": 380,
-                "heightHint": -1
+                "heightHint": -1,
+                "layoutName": "finished"
               }
             ]
           }
