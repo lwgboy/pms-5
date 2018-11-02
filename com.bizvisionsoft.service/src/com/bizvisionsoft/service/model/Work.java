@@ -699,6 +699,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	private String assignerInfo;
 
+	@SetValue
+	private UserMeta assignerInfo_meta;
+
 	@WriteValue("assigner")
 	private void setAssigner(User assigner) {
 		this.assignerId = Optional.ofNullable(assigner).map(o -> o.getUserId()).orElse(null);
@@ -707,6 +710,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("assigner")
 	private User getAssigner() {
 		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	}
+
+	public String warpperAssignerInfo() {
+		return MetaInfoWarpper.userInfo(assignerInfo_meta, assignerInfo);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

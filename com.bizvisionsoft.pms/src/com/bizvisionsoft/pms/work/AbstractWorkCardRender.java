@@ -134,10 +134,9 @@ public abstract class AbstractWorkCardRender {
 		}
 
 		value = work.getTF();
-		if (value != null && value.doubleValue()==0) {
+		if (value != null && value.doubleValue() == 0) {
 			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>CP</div>";
-			sb.append(
-					MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
+			sb.append(MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
 		}
 
 		Check.isAssigned(work.getManageLevel(), l -> {
@@ -223,10 +222,14 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
+		renderUser(sb, work, "负责", work.warpperChargerInfo(), theme.emphasizeText);
+	}
+
+	protected void renderUser(StringBuffer sb, Work work, String title, String text, String color) {
 		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
 				+ br.getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;'>负责：<span style='cursor:pointer;'>"
-				+ work.warpperChargerInfo() + "</span></div></div>");
+				+ color + ";margin-left:8px;width:100%;display:flex;'>" + title + "：<span style='cursor:pointer;'>" + text
+				+ "</span></div></div>");
 	}
 
 }
