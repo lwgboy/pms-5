@@ -14,29 +14,35 @@ public class CardTheme {
 	public CardTheme(Work work) {
 		switch (work.getWarningLevel()) {
 		case Work.warningLevelDelayed:
-			headBgColor = "e51c23";
+			headBgColor = "e84e40";
 			headFgColor = "ffffff";
-			contrastBgColor = "fde0dc";
-			contrastFgColor = "f36c60";
+			contrastBgColor = "e1f5fe";
+			contrastFgColor = "03a9f4";
+//			contrastBgColor = "fde0dc";
+//			contrastFgColor = "f36c60";
 			break;
 		case Work.warningLevelEstDelay:
 		case Work.warningLevelLag:
 			headBgColor = "ff9800";
 			headFgColor = "ffffff";
-			contrastBgColor = "fff3e0";
-			contrastFgColor = "ffb74d";
+			contrastBgColor = "e1f5fe";
+			contrastFgColor = "03a9f4";
+//			contrastBgColor = "fff3e0";
+//			contrastFgColor = "ffb74d";
 			break;
 		case Work.warningLevelLead:
-			headBgColor = "009688";
+			headBgColor = "26a69a";
 			headFgColor = "ffffff";
-			contrastBgColor = "e0f1f2";
-			contrastFgColor = "4bd6ac";
+			contrastBgColor = "e1f5fe";
+			contrastFgColor = "03a9f4";
+//			contrastBgColor = "fff3e0";
+//			contrastFgColor = "ffb74d";
 			break;
 		default:
-			headBgColor = "3f51b5";
+			headBgColor = "5c6bc0";
 			headFgColor = "ffffff";
-			contrastBgColor = "81d4fa";
-			contrastFgColor = "0091ea";
+			contrastBgColor = "e1f5fe";
+			contrastFgColor = "03a9f4";
 			break;
 		}
 	}

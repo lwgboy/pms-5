@@ -1134,13 +1134,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("TF")
 	@SetValue
-	private Double getTF() {
+	public Double getTF() {
 		return summary || scheduleEst == null ? null : scheduleEst.tf;
 	}
 
 	@ReadValue("FF")
 	@SetValue
-	private Double getFF() {
+	public Double getFF() {
 		return summary || scheduleEst == null ? null : scheduleEst.ff;
 	}
 

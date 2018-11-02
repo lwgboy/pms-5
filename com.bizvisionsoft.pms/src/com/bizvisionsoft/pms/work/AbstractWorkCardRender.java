@@ -120,21 +120,44 @@ public abstract class AbstractWorkCardRender {
 		}
 	}
 
-	protected void renderNoticeBudgets(Work work, StringBuffer sb) {
-		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+	protected void renderNoticeBudgets(StringBuffer sb, Work work) {
+		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		Double value = work.getTF();
+		if (value != null) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>TF " + (int) Math.ceil(value) + "</div>";
+			sb.append(MetaInfoWarpper.warpper(label,
+					"总时差（TF）：<br>在不影响总工期的前提下，本工作可以利用的机动时间，即工作的最迟开始时间与最早开始时间之差。利用这段时间延长工作的持续时间或推迟其开工时间，不会影响计划的总工期。", 3000));
+		}
+
+		value = work.getFF();
+		if (value != null) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>FF " + (int) Math.ceil(value) + "</div>";
+			sb.append(
+					MetaInfoWarpper.warpper(label, "自由时差（FF）：<br>在不影响其紧后工作最早开始时间的条件下，本工作可以利用的机动时间。即该工作的所有紧后工作的最早开始时间，减去该工作的最早结束时间。", 3000));
+		}
+
+		value = work.getTF();
+		if (value != null && value.doubleValue()==0) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>C/P</div>";
+			sb.append(
+					MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
+		}
+		
 		Check.isAssigned(work.getManageLevel(), l -> {
 			if ("1".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-blue' style='width:36px;margin-right:4px;'>1级</div>";
+				String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8544;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
 			}
 
 			if ("2".equals(l)) {
-				String label = "<div class='layui-badge layui-bg-cyan' style='width:36px;margin-right:4px;'>2级</div>";
+				String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8545;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
 			}
 		});
 		// 警告
 		Check.isAssigned(work.getWarningIcon(), sb::append);
+		//
+
 		sb.append("</div>");
 	}
 
@@ -205,8 +228,8 @@ public abstract class AbstractWorkCardRender {
 	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
 		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
 				+ br.getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;cursor:pointer;'>负责：" + work.warpperChargerInfo()
-				+ "</div></div>");
+				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;'>负责：<span style='cursor:pointer;'>" + work.warpperChargerInfo()
+				+ "</span></div></div>");
 	}
 
 }

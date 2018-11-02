@@ -1622,7 +1622,7 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "163958383b0",
-            "defaultAssembly": true,
+            "defaultAssembly": false,
             "role": "",
             "excludeRole": "",
             "image": "/img/todo_w.svg",
@@ -1649,7 +1649,7 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "166be9f6f0d",
-            "defaultAssembly": false,
+            "defaultAssembly": true,
             "image": "/img/todo_w.svg",
             "text": "工作看板"
           }
@@ -73361,7 +73361,7 @@
         "name": "工作看板-已计划",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "已计划",
+        "stickerTitle": "已分配",
         "folderId": "166bdf4dc3f",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 64,

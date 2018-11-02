@@ -46,7 +46,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 
 	private void renderFinishedCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 180;
+		int rowHeight = 172;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme("deepGrey");
 
@@ -61,7 +61,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		showFirstRow(work, theme, sb);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际完成："
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，完成于"
 				+ Formatter.getString(work.getActualFinish());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
@@ -76,7 +76,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 
 	private void renderToStartCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 232;
+		int rowHeight = 247;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -86,8 +86,6 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
 		renderTitle(theme, sb, work);
-		// 标签
-		// renderNoticeBudgets(work, sb);
 
 		// 显示第一行信息
 		showFirstRow(work, theme, sb);
@@ -99,7 +97,10 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		// 工作负责人
 		renderCharger(theme, sb, work);
 
+		// 显示工作包和开始工作
 		showButtons(work, theme, sb, "开始", "startWork/" + work.get_id());
+		// 标签
+		renderNoticeBudgets(sb, work);
 
 		sb.append("</div>");
 
@@ -125,7 +126,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 	 */
 	private void renderToFinishCard(ViewerCell cell, Work work) {
 		GridItem gridItem = (GridItem) cell.getViewerRow().getItem();
-		int rowHeight = 360;
+		int rowHeight = 374;
 		gridItem.setHeight(rowHeight);
 		CardTheme theme = new CardTheme(work);
 
@@ -136,14 +137,11 @@ public class WorkCardRender extends AbstractWorkCardRender {
 
 		renderTitle(theme, sb, work);
 
-		// 标签
-		// renderNoticeBudgets(work, sb);
-
 		// 显示第一行信息
 		showFirstRow(work, theme, sb);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，实际开始："
+		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，开始于"
 				+ Formatter.getString(work.getActualStart());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
@@ -155,6 +153,9 @@ public class WorkCardRender extends AbstractWorkCardRender {
 
 		// 显示工作包和完成工作
 		showButtons(work, theme, sb, "完成", "finishWork/" + work.get_id());
+
+		// 标签
+		renderNoticeBudgets(sb, work);
 
 		sb.append("</div>");
 
