@@ -139,6 +139,10 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	protected void renderButtons(CardTheme theme, StringBuffer sb, Work work, String label, String href) {
+		renderButtons(theme, sb, work, true, label, href);
+	}
+
+	protected void renderButtons(CardTheme theme, StringBuffer sb, Work work, boolean showActionButton, String label, String href) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		List<String[]> btns = new ArrayList<>();
 		if (Check.isNotAssigned(wps)) {
@@ -150,12 +154,15 @@ public abstract class AbstractWorkCardRender {
 				btns.add(new String[] { "openWorkPackage/" + i, wps.get(i).getName() });
 			}
 		}
-//		sb.append("<div style='margin-top:12px;width:100%;background:#d0d0d0;height:1px;'></div>");
+		// sb.append("<div
+		// style='margin-top:12px;width:100%;background:#d0d0d0;height:1px;'></div>");
 		sb.append("<div style='margin-top:16px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
-		sb.append("<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+		if (showActionButton)
+			sb.append(
+					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 		sb.append("</div>");
 	}
 
@@ -176,10 +183,10 @@ public abstract class AbstractWorkCardRender {
 
 	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work) {
 		String name = work.getFullName();
-//		name = "详细设计系统模型设计和测试";
-		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor
-				+ ";color:#" + theme.headFgColor + ";padding:8px'>"
-				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div></div>");
+		// name = "详细设计系统模型设计和测试";
+		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor + ";color:#"
+				+ theme.headFgColor + ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
+				+ "</div></div>");
 	}
 
 	protected void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {
@@ -194,12 +201,12 @@ public abstract class AbstractWorkCardRender {
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
 				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
-	
+
 	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
 		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
-				+ br.getResourceURL("img/user_c.svg")
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;cursor:pointer;'>负责：" + work.warpperChargerInfo() + "</div></div>");
+				+ br.getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
+				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;cursor:pointer;'>负责：" + work.warpperChargerInfo()
+				+ "</div></div>");
 	}
 
 }
