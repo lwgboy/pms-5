@@ -13,12 +13,14 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 
 public class ProjectWorkCardRender extends WorkCardRender {
-	
+
 	@Inject
 	private BruiAssemblyContext context;
 
 	@Inject
 	private IBruiService brui;
+
+	private String userId;
 
 	@Override
 	protected BruiAssemblyContext getContext() {
@@ -33,6 +35,7 @@ public class ProjectWorkCardRender extends WorkCardRender {
 	@Init
 	protected void init() {
 		super.init();
+		userId = getBruiService().getCurrentUserId();
 	}
 
 	@GridRenderUICreated
@@ -54,7 +57,7 @@ public class ProjectWorkCardRender extends WorkCardRender {
 	@Override
 	protected void showButtons(Work work, CardTheme theme, StringBuffer sb, String label, String href) {
 		// 根据当前用户判断是否显示操作按钮
-		renderButtons(theme, sb, work, Check.equals(getBruiService().getCurrentUserId(), work.getChargerId()), label, href);
+		renderButtons(theme, sb, work, Check.equals(userId, work.getChargerId()), label, href);
 	}
 
 }

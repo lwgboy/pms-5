@@ -20,6 +20,8 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	@Inject
 	private IBruiService brui;
 
+	private String userId;
+
 	@Override
 	protected BruiAssemblyContext getContext() {
 		return context;
@@ -33,6 +35,7 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	@Init
 	protected void init() {
 		super.init();
+		userId = getBruiService().getCurrentUserId();
 	}
 
 	@GridRenderUICreated
@@ -54,6 +57,6 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	@Override
 	protected void showButtons(Work work, CardTheme theme, StringBuffer sb, String label, String href) {
 		// 根据当前用户判断是否显示操作按钮
-		renderButtons(theme, sb, work, Check.equals(getBruiService().getCurrentUserId(), work.getAssignerId()), label, href);
+		renderButtons(theme, sb, work, Check.equals(userId, work.getAssignerId()), label, href);
 	}
 }
