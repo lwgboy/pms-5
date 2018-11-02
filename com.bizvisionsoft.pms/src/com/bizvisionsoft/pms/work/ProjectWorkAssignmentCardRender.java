@@ -59,4 +59,14 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 		// 根据当前用户判断是否显示操作按钮
 		renderButtons(theme, sb, work, Check.equals(userId, work.getAssignerId()), label, href);
 	}
+
+	@Override
+	protected void showAssigner(CardTheme theme, StringBuffer sb, Work work) {
+		renderUser(sb, work, "指派", work.warpperAssignerInfo(), theme.emphasizeText);
+	}
+	
+	@Override
+	protected int getRowHeight() {
+		return 247;
+	}
 }
