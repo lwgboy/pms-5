@@ -259,6 +259,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。", com.userId, memberIds,
 				null);
+		
+		// TODO
+		com.name = ICommand.Distribute_Project_Plan;
+		distributeProjectPlan(com);
 		return new ArrayList<>();
 	}
 
@@ -349,7 +353,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			c("work").find(//
 					new Document("project_id", com._id)// 本项目中
 							.append("chargerId", new Document("$ne", null))// 负责人不为空
-							.append("distributed", new Document("$ne", true))// 没有下达的
+							// .append("distributed", new Document("$ne", true))// 没有下达的
 							.append("status", ProjectStatus.Created) // 已创建的阶段
 							.append("stage", true))// 阶段
 					.forEach((Document w) -> {
@@ -371,7 +375,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			c("work").find(//
 					new Document("project_id", com._id)// 本项目中
 							.append("chargerId", new Document("$ne", null))// 负责人不为空
-							.append("distributed", new Document("$ne", true))// 没有下达的
+			// .append("distributed", new Document("$ne", true))// 没有下达的
 			).forEach((Document w) -> {
 				ids.add(w.getObjectId("_id"));
 				msg.add(Message.distributeStageMsg(projectName, w, com.userId, w.getString("chargerId")));

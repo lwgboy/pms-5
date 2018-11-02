@@ -14,6 +14,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class DistributeProjectPlan {
 
 	@Inject
@@ -26,8 +27,7 @@ public class DistributeProjectPlan {
 		CommandHandler.run(ICommand.Distribute_Project_Plan, //
 				"项目：" + project + "，请确认下达计划。", //
 				"项目计划已下达", "项目计划下达失败", //
-				() -> service.distributeProjectPlan(
-						brui.command(project.get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
+				() -> service.distributeProjectPlan(brui.command(project.get_id(), new Date(), ICommand.Distribute_Project_Plan)), //
 				code -> Check.instanceThen(content, GridPart.class, GridPart::setViewerInput));
 	}
 

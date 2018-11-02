@@ -3,40 +3,27 @@
 		"project_id" : "<project_id>"
 	}
 }, {
-	"$lookup" : {
+	"$graphLookup" : {
 		"from" : "work",
-		"let" : {
-			"project_id" : "$project_id",
-			"wbsCode" : "$wbsCode"
-		},
-		"pipeline" : [ {
-			"$match" : {
-				"$expr" : {
-					"$and" : [ {
-						"$eq" : [ "$project_id", "$$project_id" ]
-					}, {
-						"$eq" : [ "$wbsCode", {
-							"$arrayElemAt" : [ {
-								"$split" : [ "$$wbsCode", "." ]
-							}, 0.0 ]
-						} ]
-					} ]
-				}
-			}
-		} ],
+		"startWith" : "$parent_id",
+		"connectFromField" : "parent_id",
+		"connectToField" : "_id",
 		"as" : "_stage"
 	}
 }, {
+	"$addFields" : {
+		"_stage" : {
+			"$filter" : {
+				"input" : "$_stage",
+				"as" : "patentStage",
+				"cond" : {
+					"$eq" : [ "$$patentStage.stage", true ]
+				}
+			}
+		}
+	}
+, {
 	"$match" : {
-		"$or" : [ {
-			"chargerId" : {
-				"$ne" : null
-			}
-		}, {
-			"assignerId" : {
-				"$ne" : null
-			}
-		} ],
 		"distributed" : {
 			"$ne" : true
 		},
@@ -54,6 +41,8 @@
 			"_stage" : null
 		}, {
 			"_stage.status" : "进行中"
+		}, {
+			"_stage.status" : "收尾中"
 		} ]
 	}
 } ]

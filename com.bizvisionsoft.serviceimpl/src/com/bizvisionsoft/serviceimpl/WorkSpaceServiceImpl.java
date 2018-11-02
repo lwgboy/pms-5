@@ -14,6 +14,8 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
+import com.bizvisionsoft.service.model.Command;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -245,7 +247,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			return Result.checkoutError("提交失败。", Result.CODE_ERROR);
 		}
 
-		new ProjectServiceImpl()
+		ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl();
+		projectServiceImpl
 				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setCreationDate(new Date()).setName("修改进度计划"));
 
 		List<ObjectId> workIds = c(Work.class).distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
@@ -425,6 +428,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + " 进度计划已更新。", workspace.getCheckoutBy(), memberIds, null);
 			}
+
+			projectServiceImpl.distributeProjectPlan(Command.newInstance(ICommand.Distribute_Project_Plan, workspace.getCheckoutUser(),
+					null, new Date(), workspace.getProject_id()));
+
 			return Result.checkoutSuccess("项目进度计划提交成功");
 		} else {
 			return Result.checkoutError("项目进度计划提交失败", Result.CODE_ERROR);

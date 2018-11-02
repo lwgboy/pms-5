@@ -35766,24 +35766,6 @@
         "gridAutoColumnWidth": false,
         "actions": [
           {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "customized",
-            "role": "",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
             "id": "1642d637bdb",
             "name": "进度估算",
             "text": "进度估算",

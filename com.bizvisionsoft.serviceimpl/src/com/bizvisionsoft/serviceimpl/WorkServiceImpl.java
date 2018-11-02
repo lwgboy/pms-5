@@ -265,6 +265,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 发送消息
 		sendStageMessage(stage, "启动", com.date, com.userId);
+
+		// TODO
+		com.name = ICommand.Distribute_Project_Plan;
+		new ProjectServiceImpl().distributeProjectPlan(com);
 		return new ArrayList<>();
 	}
 
