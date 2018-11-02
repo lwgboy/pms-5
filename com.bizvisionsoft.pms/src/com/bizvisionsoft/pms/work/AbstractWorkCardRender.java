@@ -3,8 +3,6 @@ package com.bizvisionsoft.pms.work;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridItem;
@@ -12,9 +10,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
-import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
-import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
@@ -99,16 +95,6 @@ public abstract class AbstractWorkCardRender {
 			work.setChargerId(((User) l.get(0)).getUserId());
 			viewer.remove(work);
 			br.updateSidebarActionBudget("指派工作");
-
-			Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
-				@Override
-				public boolean test(IBruiContext t) {
-					return Check.equals("planned", ((BruiAssemblyContext) t).getName());
-				}
-			}, IBruiContext.SEARCH_DOWN);
-			if (optional.isPresent()) {
-				((GridPart) optional.get()).setViewerInput();
-			}
 		});
 	}
 
@@ -120,15 +106,9 @@ public abstract class AbstractWorkCardRender {
 				viewer.remove(work);
 				br.updateSidebarActionBudget("处理工作");
 
-				Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
-					@Override
-					public boolean test(IBruiContext t) {
-						return Check.equals("finished", ((BruiAssemblyContext) t).getName());
-					}
-				}, IBruiContext.SEARCH_DOWN);
-				if (optional.isPresent()) {
-					((GridPart) optional.get()).setViewerInput();
-				}
+//				context.getParentContext()
+//						.searchContent(t -> Check.equals("finished", ((BruiAssemblyContext) t).getName()), IBruiContext.SEARCH_DOWN)
+//						.ifPresent((Object o) -> ((GridPart) o).setViewerInput());
 			}
 		}
 	}
@@ -140,15 +120,10 @@ public abstract class AbstractWorkCardRender {
 				Layer.message("工作已启动");
 				viewer.remove(work);
 
-				Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
-					@Override
-					public boolean test(IBruiContext t) {
-						return Check.equals("executing", ((BruiAssemblyContext) t).getName());
-					}
-				}, IBruiContext.SEARCH_DOWN);
-				if (optional.isPresent()) {
-					((GridPart) optional.get()).setViewerInput();
-				}
+				// context.getParentContext()
+				// .searchContent(t -> Check.equals("executing", ((BruiAssemblyContext)
+				// t).getName()), IBruiContext.SEARCH_DOWN)
+				// .ifPresent((Object o) -> ((GridPart) o).setViewerInput());
 			}
 		}
 	}
