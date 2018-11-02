@@ -2314,7 +2314,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendPlanWorkCondition(new BasicDBObject().append("project_id", project_id));
+		BasicDBObject basicCondition = appendPlanWorkCondition(
+				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
 		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
 	}
 
@@ -2323,7 +2324,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		appendPlanWorkCondition(filter.append("project_id", project_id));
+		appendPlanWorkCondition(filter.append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
 
 		return count(filter, Work.class);
 	}
@@ -2336,7 +2337,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendExecWorkCondition(new BasicDBObject().append("project_id", project_id));
+		BasicDBObject basicCondition = appendExecWorkCondition(
+				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
 		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
 	}
 
@@ -2344,7 +2346,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long countProjectExecutingWork(BasicDBObject filter, ObjectId project_id) {
 		if (filter == null)
 			filter = new BasicDBObject();
-		appendExecWorkCondition(filter.append("project_id", project_id));
+		appendExecWorkCondition(filter.append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
 		return count(filter, Work.class);
 	}
 
