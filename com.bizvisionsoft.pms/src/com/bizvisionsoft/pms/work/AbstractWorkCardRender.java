@@ -13,8 +13,6 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.pms.project.SwitchPage;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -43,7 +41,7 @@ public abstract class AbstractWorkCardRender {
 
 	protected void uiCreated() {
 		viewer = getViewer();
-		viewer.getGrid().setBackground(BruiColors.getColor(BruiColor.Grey_200));
+		viewer.getGrid().getParent().setBackground(null);
 		viewer.getGrid().setData(RWT.CUSTOM_VARIANT, "board");
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
@@ -105,10 +103,6 @@ public abstract class AbstractWorkCardRender {
 				Layer.message("工作已完成");
 				viewer.remove(work);
 				br.updateSidebarActionBudget("处理工作");
-
-//				context.getParentContext()
-//						.searchContent(t -> Check.equals("finished", ((BruiAssemblyContext) t).getName()), IBruiContext.SEARCH_DOWN)
-//						.ifPresent((Object o) -> ((GridPart) o).setViewerInput());
 			}
 		}
 	}
@@ -119,11 +113,6 @@ public abstract class AbstractWorkCardRender {
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				viewer.remove(work);
-
-				// context.getParentContext()
-				// .searchContent(t -> Check.equals("executing", ((BruiAssemblyContext)
-				// t).getName()), IBruiContext.SEARCH_DOWN)
-				// .ifPresent((Object o) -> ((GridPart) o).setViewerInput());
 			}
 		}
 	}
@@ -145,19 +134,20 @@ public abstract class AbstractWorkCardRender {
 		}
 
 		value = work.getTF();
-		if (value != null && value.doubleValue() == 0) {
-			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>C/P</div>";
-			sb.append(MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
+		if (value != null && value.doubleValue()==0) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>CP</div>";
+			sb.append(
+					MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
 		}
 
 		Check.isAssigned(work.getManageLevel(), l -> {
 			if ("1".equals(l)) {
-				String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8544;</div>";
+				String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>&#8544;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
 			}
 
 			if ("2".equals(l)) {
-				String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8545;</div>";
+				String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>&#8545;</div>";
 				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
 			}
 		});
