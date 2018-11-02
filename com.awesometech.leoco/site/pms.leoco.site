@@ -73380,7 +73380,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
-        "gridPageCount": 0,
+        "gridPageCount": 8,
         "columns": [
           {
             "id": "163958005c5",
@@ -73509,7 +73509,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
-        "gridPageCount": 0,
+        "gridPageCount": 6,
         "columns": [
           {
             "id": "163958005c5",
@@ -73638,7 +73638,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
-        "gridPageCount": 0,
+        "gridPageCount": 10,
         "columns": [
           {
             "id": "163958005c5",
@@ -73767,7 +73767,7 @@
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.work.WorkAssignmentCardRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
-        "gridPageCount": 0,
+        "gridPageCount": 10,
         "columns": [
           {
             "id": "163958005c5",
@@ -73893,6 +73893,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 8,
+            "css": "brui_bg_dirty_beauty",
             "assemblys": [
               {
                 "id": "166bdf7991a",
