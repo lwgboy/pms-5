@@ -3426,7 +3426,17 @@
             "typeName": "组件链接",
             "behavior": true,
             "id": "16305720b4b",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "image": "/img/dashboard_w.svg",
+            "text": "项目仪表台"
+          },
+          {
+            "typeName": "组件链接",
+            "behavior": true,
+            "id": "166d1b632c6",
+            "defaultAssembly": false,
+            "image": "/img/todo_w.svg",
+            "text": "项目工作看板"
           }
         ]
       },
@@ -17407,6 +17417,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 8,
+            "css": "brui_bg_dirty_beauty",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
@@ -17494,6 +17505,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 16,
+            "css": "brui_bg_dirty_beauty",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
@@ -74008,7 +74020,7 @@
         "description": "用于项目中显示已下达的工作",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "已计划",
+        "stickerTitle": "已下达",
         "folderId": "166d2b7d771",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 64,
@@ -74657,5 +74669,6 @@
   "noticeImg2": "/img/bg02.svg",
   "noticeContent2": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:45px;font-weight:lighter;color:#4d4d4d\u0027\u003e全新的进度排程功能，帮助您更快更准确地编制项目计划，但操作起来更加简单\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:24px;font-weight:lighter;color:#808080\u0027\u003eWisPlanner提供了非常方便的计划排程功能。通过套用项目模板和WBS模块可以很容易完成WBS的构建工作。您可以在甘特图上所见所得地编辑，拖拽和移动任务，而同时，系统自动的对整个项目进行了排程。\u003cdiv\u003e",
   "noticeImg3": "/img/bg03.svg",
-  "noticeContent3": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:45px;font-weight:lighter;color:#4d4d4d\u0027\u003e新增加了定性和定量的风险管理功能。\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:24px;font-weight:lighter;color:#808080\u0027\u003eWisPlanner能够帮助您识别风险、建立风险登记簿、对风险进行定性分析。使用WisPlanner可针对风险指定应对措施，并实施对风险的跟踪。借助WisPlanner的Monte Carlos进度模拟功能，更可对项目进度计划进行定量的分析。给出项目完工的乐观工期、悲观工期以及当前进度按期完成的概率。\u003cdiv\u003e"
+  "noticeContent3": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:45px;font-weight:lighter;color:#4d4d4d\u0027\u003e新增加了定性和定量的风险管理功能。\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:24px;font-weight:lighter;color:#808080\u0027\u003eWisPlanner能够帮助您识别风险、建立风险登记簿、对风险进行定性分析。使用WisPlanner可针对风险指定应对措施，并实施对风险的跟踪。借助WisPlanner的Monte Carlos进度模拟功能，更可对项目进度计划进行定量的分析。给出项目完工的乐观工期、悲观工期以及当前进度按期完成的概率。\u003cdiv\u003e",
+  "defaultPageCSS": "brui_bg_deep_relief"
 }
