@@ -381,8 +381,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "变更详情信息面板/list", "变更审核信息面板/list", "变更详情信息面板（查看）/list", "变更审核信息面板（查看）/list" })
-	public List<ProjectChange> listProjectChangeInfo(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public List<ProjectChange> listProjectChangeInfo(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/submitprojectchange")

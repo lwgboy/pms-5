@@ -3,6 +3,8 @@ package com.bizvisionsoft.pms.work;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.GridItem;
@@ -10,7 +12,9 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.pms.project.SwitchPage;
@@ -88,32 +92,68 @@ public abstract class AbstractWorkCardRender {
 
 	private void assignWork(Work work) {
 		Selector.open("指派用户选择器", context, work, l -> {
-			ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
+			WorkService workService = ServicesLoader.get(WorkService.class);
+			workService.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
 					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
 			work.setChargerId(((User) l.get(0)).getUserId());
 			viewer.remove(work);
 			br.updateSidebarActionBudget("指派工作");
+
+			Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
+				@Override
+				public boolean test(IBruiContext t) {
+					return Check.equals("planned", ((BruiAssemblyContext) t).getName());
+				}
+			}, IBruiContext.SEARCH_DOWN);
+			if (optional.isPresent()) {
+				Work w = Services.get(WorkService.class).getWork(work.get_id());
+				((GridPart) optional.get()).insert(w);
+			}
 		});
 	}
 
 	private void finishWork(Work work) {
 		if (br.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
+			WorkService workService = Services.get(WorkService.class);
+			List<Result> result = workService.finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				viewer.remove(work);
 				br.updateSidebarActionBudget("处理工作");
+
+				Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
+					@Override
+					public boolean test(IBruiContext t) {
+						return Check.equals("finished", ((BruiAssemblyContext) t).getName());
+					}
+				}, IBruiContext.SEARCH_DOWN);
+				if (optional.isPresent()) {
+					work = Services.get(WorkService.class).getWork(work.get_id());
+					((GridPart) optional.get()).insert(work);
+				}
 			}
 		}
 	}
 
 	private void startWork(Work work) {
 		if (br.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
+			WorkService workService = Services.get(WorkService.class);
+			List<Result> result = workService.startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				viewer.remove(work);
+
+				Optional<Object> optional = context.getParentContext().searchContent(new Predicate<IBruiContext>() {
+					@Override
+					public boolean test(IBruiContext t) {
+						return Check.equals("executing", ((BruiAssemblyContext) t).getName());
+					}
+				}, IBruiContext.SEARCH_DOWN);
+				if (optional.isPresent()) {
+					work = Services.get(WorkService.class).getWork(work.get_id());
+					((GridPart) optional.get()).insert(work);
+				}
 			}
 		}
 	}
@@ -140,7 +180,7 @@ public abstract class AbstractWorkCardRender {
 			sb.append(
 					MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
 		}
-		
+
 		Check.isAssigned(work.getManageLevel(), l -> {
 			if ("1".equals(l)) {
 				String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>&#8544;</div>";
@@ -160,6 +200,10 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	protected void renderButtons(CardTheme theme, StringBuffer sb, Work work, String label, String href) {
+		renderButtons(theme, sb, work, true, label, href);
+	}
+
+	protected void renderButtons(CardTheme theme, StringBuffer sb, Work work, boolean showActionButton, String label, String href) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		List<String[]> btns = new ArrayList<>();
 		if (Check.isNotAssigned(wps)) {
@@ -177,7 +221,9 @@ public abstract class AbstractWorkCardRender {
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
-		sb.append("<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+		if (showActionButton)
+			sb.append(
+					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 		sb.append("</div>");
 	}
 
@@ -220,8 +266,8 @@ public abstract class AbstractWorkCardRender {
 	protected void renderCharger(CardTheme theme, StringBuffer sb, Work work) {
 		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
 				+ br.getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;'>负责：<span style='cursor:pointer;'>" + work.warpperChargerInfo()
-				+ "</span></div></div>");
+				+ theme.emphasizeText + ";margin-left:8px;width:100%;display:flex;'>负责：<span style='cursor:pointer;'>"
+				+ work.warpperChargerInfo() + "</span></div></div>");
 	}
 
 }

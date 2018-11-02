@@ -13,7 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class WorkAssignmentCardRender extends AbstractWorkCardRender{
+public class WorkAssignmentCardRender extends AbstractWorkCardRender {
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -30,7 +30,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 	protected IBruiService getBruiService() {
 		return brui;
 	}
-	
+
 	@Init
 	protected void init() {
 		super.init();
@@ -56,9 +56,11 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 
 		renderTitle(theme, sb, work);
 
-		
-		// 显示项目图标和名称
-		renderProjectLine(theme,sb, work);
+		// 标签
+		// renderNoticeBudgets(work, sb);
+
+		// 显示第一行信息
+		showFirstRow(work, theme, sb);
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
@@ -67,8 +69,8 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 		// 工作负责人
 //		renderCharger(theme,sb, work);
 
-		// 显示工作包和完成工作
-		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());
+		// 显示工作包和指派工作
+		showButtons(work, theme, sb, "指派", "assignWork/" + work.get_id());
 
 		// 标签
 		renderNoticeBudgets(sb,work);
@@ -77,5 +79,14 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender{
 		cell.setText(sb.toString());
 	}
 
+	protected void showButtons(Work work, CardTheme theme, StringBuffer sb, String label, String href) {
+		// 显示工作包和工作操作
+		renderButtons(theme, sb, work, label, href);
+	}
+
+	protected void showFirstRow(Work work, CardTheme theme, StringBuffer sb) {
+		// 默认 显示项目图标和名称
+		renderProjectLine(theme, sb, work);
+	}
 
 }

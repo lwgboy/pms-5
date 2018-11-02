@@ -1169,12 +1169,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		
+
 		pipeline.addAll(new JQ("查询-项目变更").set("match", new Document("_id", _id)).array());
 
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-		
+
 		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
 

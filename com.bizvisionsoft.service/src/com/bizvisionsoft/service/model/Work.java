@@ -517,6 +517,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue
 	private String stageName;
 
+	public String getStageName() {
+		return stageName;
+	}
+
 	@Persistence
 	private boolean distributed;
 

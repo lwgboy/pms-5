@@ -411,25 +411,33 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		appendWorkTime(pipeline);
 
+		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
+
 		return c(Work.class).aggregate(pipeline);
 	}
 
-	private BasicDBObject appendMyPlanWorkCondition(BasicDBObject condition, String userid) {
-		condition.append("chargerId", userid)//
-				.append("summary", false)//
+	private BasicDBObject appendPlanWorkCondition(BasicDBObject condition) {
+		condition.append("summary", false)//
 				.append("actualStart", null)//
 				.append("distributed", true)//
 				.append("stage", new BasicDBObject("$ne", true));//
 		return condition;
 	}
 
-	private BasicDBObject appendMyExecWorkCondition(BasicDBObject condition, String userid) {
-		condition.append("chargerId", userid)//
-				.append("summary", false)//
+	private BasicDBObject appendExecWorkCondition(BasicDBObject condition) {
+		condition.append("summary", false)//
 				.append("actualStart", new BasicDBObject("$ne", null))//
 				.append("actualFinish", null)//
 				.append("distributed", true)//
 				.append("stage", new BasicDBObject("$ne", true));//
+		return condition;
+	}
+
+	private BasicDBObject appendFinishedWorkCondition(BasicDBObject condition) {
+		if (condition.get("actualFinish") == null)
+			condition.put("actualFinish", new BasicDBObject("$ne", null));
+
+		condition.append("summary", false).append("distributed", true).append("stage", new BasicDBObject("$ne", true));
 		return condition;
 	}
 
@@ -470,7 +478,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendMyPlanWorkCondition(new BasicDBObject(), userid);
+		BasicDBObject basicCondition = appendPlanWorkCondition(new BasicDBObject().append("chargerId", userid));
 		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
 	}
 
@@ -478,7 +486,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long countMyPlannedWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
-		appendMyPlanWorkCondition(filter, userid);
+		appendPlanWorkCondition(filter.append("chargerId", userid));
 		return count(filter, Work.class);
 	}
 
@@ -490,7 +498,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendMyExecWorkCondition(new BasicDBObject(), userid);
+		BasicDBObject basicCondition = appendExecWorkCondition(new BasicDBObject().append("chargerId", userid));
 		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
 	}
 
@@ -498,7 +506,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long countMyExecutingWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
-		appendMyExecWorkCondition(filter, userid);
+		appendExecWorkCondition(filter.append("chargerId", userid));
 		return count(filter, Work.class);
 	}
 
@@ -508,12 +516,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 
-		return queryWork(skip, limit,
-				new BasicDBObject("$or",
-						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) })
-								.append("summary", false).append("actualFinish", new BasicDBObject("$ne", null))
-								.append("stage", new BasicDBObject("$ne", true)),
-				filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
+		BasicDBObject basicCondition = appendFinishedWorkCondition(new BasicDBObject().append("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
+
+		return queryWork(skip, limit, basicCondition, filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
 	}
 
 	@Override
@@ -521,13 +527,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		if (filter.get("actualFinish") == null)
-			filter.put("actualFinish", new BasicDBObject("$ne", null));
-
-		filter.put("summary", false);
-		filter.put("distributed", true);
-		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) });
-		filter.put("stage", new BasicDBObject("$ne", true));
+		appendFinishedWorkCondition(filter.append("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
 
 		return count(filter, Work.class);
 	}
@@ -1039,6 +1040,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listWorkPackageForScheduleInProject(ObjectId project_id, String catagory) {
+		// TODO 检查是否可以合并到queryWork中
 		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包").set("match", new Document("project_id", project_id))
 				.set("catagory", catagory).array();
 
@@ -1114,12 +1116,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.countDocuments(new BasicDBObject("workPackageSetting.catagory", catagory).append("_id", new BasicDBObject("$in", items)));
 	}
 
+	// TODO 检查是否可以与listWorkPackageForScheduleInProject进行合并
 	@Override
 	public List<Work> listWorkPackageForSchedule(BasicDBObject condition, String userid, String catagory) {
 		List<Bson> pipeline = (List<Bson>) new JQ("追加-工作-工作包")
 				.set("match", new Document("summary", false).append("actualFinish", null).append("stage", new BasicDBObject("$ne", true)))
 				.set("catagory", catagory).array();
-
+		// TODO 检查是否可以合并到queryWork中
 		pipeline.addAll(new JQ("追加-工作-阶段名称").array());
 
 		// 获取生产工作情况时，如果用户具有制造管理权限时，只显示全部项目的的生产工作；获取采购工作情况时，如果用户具有供应链管理权限时，只显示全部项目的的采购工作；其它情况时显示当前用户在项目PMO团队中的项目的工作
@@ -2172,7 +2175,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listMyAssignmentWork(BasicDBObject condition, String userid) {
-		BasicDBObject basicCondition = appendMyAssignmentWorkCondition(new BasicDBObject(), userid);
+		BasicDBObject basicCondition = appendAssignmentWorkCondition(new BasicDBObject().append("assignerId", userid));
 
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
@@ -2183,9 +2186,12 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<>());
 	}
 
-	private BasicDBObject appendMyAssignmentWorkCondition(BasicDBObject condition, String userid) {
-		condition.append("assignerId", userid).append("summary", false).append("actualFinish", null).append("distributed", true)
-				.append("stage", new BasicDBObject("$ne", true));
+	private BasicDBObject appendAssignmentWorkCondition(BasicDBObject condition) {
+		if (condition.get("assignerId") == null)
+			condition.put("assignerId", new BasicDBObject("$ne", null));
+
+		condition.append("summary", false).append("actualFinish", null).append("distributed", true).append("stage",
+				new BasicDBObject("$ne", true));
 		return condition;
 	}
 
@@ -2194,13 +2200,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (filter == null)
 			filter = new BasicDBObject();
 
-		appendMyAssignmentWorkCondition(filter, userid);
+		appendAssignmentWorkCondition(filter.append("assignerId", userid));
 		return count(filter, Work.class);
 	}
 
 	@Override
 	public List<Work> listMyUnAssignmentWork(BasicDBObject condition, String userid) {
-		BasicDBObject basicCondition = appendMyAssignmentWorkCondition(new BasicDBObject("chargerId", null), userid);
+		BasicDBObject basicCondition = appendAssignmentWorkCondition(new BasicDBObject("chargerId", null).append("assignerId", userid));
 
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
@@ -2215,9 +2221,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long countMyUnAssignmentWork(BasicDBObject filter, String userid) {
 		if (filter == null)
 			filter = new BasicDBObject();
-
-		filter.put("chargerId", null);
-		appendMyAssignmentWorkCondition(filter, userid);
+		appendAssignmentWorkCondition(filter.append("assignerId", userid).append("chargerId", null));
 		return count(filter, Work.class);
 	}
 
@@ -2302,4 +2306,86 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return _id;
 	}
 
+	@Override
+	public List<Work> listProjectPlannedWork(BasicDBObject condition, ObjectId project_id) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendPlanWorkCondition(new BasicDBObject().append("project_id", project_id));
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countProjectPlannedWork(BasicDBObject filter, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		appendPlanWorkCondition(filter.append("project_id", project_id));
+
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> listProjectExecutingWork(BasicDBObject condition, ObjectId project_id) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendExecWorkCondition(new BasicDBObject().append("project_id", project_id));
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countProjectExecutingWork(BasicDBObject filter, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendExecWorkCondition(filter.append("project_id", project_id));
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> listProjectFinishedWork(BasicDBObject condition, ObjectId project_id) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendFinishedWorkCondition(new BasicDBObject().append("project_id", project_id));
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countProjectFinishedWork(BasicDBObject filter, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendFinishedWorkCondition(filter.append("project_id", project_id));
+		return count(filter, Work.class);
+	}
+
+	@Override
+	public List<Work> listProjectUnAssignmentWork(BasicDBObject condition, ObjectId project_id) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
+				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+
+		BasicDBObject basicCondition = appendAssignmentWorkCondition(
+				new BasicDBObject().append("chargerId", null).append("project_id", project_id));
+		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public long countProjectUnAssignmentWork(BasicDBObject filter, ObjectId project_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendAssignmentWorkCondition(filter.append("chargerId", null).append("project_id", project_id));
+		return count(filter, Work.class);
+	}
 }
