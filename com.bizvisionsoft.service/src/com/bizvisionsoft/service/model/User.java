@@ -107,6 +107,9 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	@ReadValue
 	private boolean buzAdmin;
+	
+	@Persistence
+	private boolean changePSW;
 
 	public String getUserId() {
 		return userId;
@@ -281,6 +284,10 @@ public class User implements IResourceAssignment {
 
 	public String getPosition() {
 		return position;
+	}
+	
+	public boolean isChangePSW() {
+		return changePSW;
 	}
 
 }
