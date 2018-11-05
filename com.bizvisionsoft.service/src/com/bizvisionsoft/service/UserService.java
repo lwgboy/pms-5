@@ -125,5 +125,10 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("用户操作审计/" + DataSet.COUNT)
 	public long countTraceInfo(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	
+	@PUT
+	@Path("/reqChgPsw/")
+	@Consumes("application/json; charset=UTF-8")
+	public void requestChangePassword(List<String> userids);
 
 }

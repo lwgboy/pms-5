@@ -214,4 +214,9 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		return count(filter, TraceInfo.class);
 	}
 
+	@Override
+	public void requestChangePassword(List<String> userIds) {
+		c("user").updateMany(new Document("userId",new Document("$in",userIds)), new Document("$set",new Document("changePSW",true)));
+	}
+
 }
