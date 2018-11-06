@@ -14,14 +14,13 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.Baseline;
-import com.bizvisionsoft.service.model.Command;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
@@ -29,6 +28,7 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -248,8 +248,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl();
-		projectServiceImpl
-				.createBaseline(new Baseline().setProject_id(workspace.getProject_id()).setCreationDate(new Date()).setName("修改进度计划"));
+		ObjectId project_id = workspace.getProject_id();
+		projectServiceImpl.createBaseline(new Baseline().setProject_id(project_id).setCreationDate(new Date()).setName("修改进度计划"));
 
 		List<ObjectId> workIds = c(Work.class).distinct("_id", new BasicDBObject("space_id", workspace.getSpace_id()), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
@@ -308,7 +308,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			c("work").insertMany(insertDoc);
 		}
 
-		Project project = c(Project.class).find(new Document("_id", workspace.getProject_id())).first();
+		Project project = c(Project.class).find(new Document("_id", project_id)).first();
 		final List<Message> messages = new ArrayList<>();
 
 		String msgSubject = "工作计划更改通知";
@@ -370,7 +370,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 			c("work").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", d));
 		});
-		if (messages.size() > 0 && !ProjectStatus.Created.equals(project.getStatus()))
+		String projectStatus = project.getStatus();
+		if (messages.size() > 0 && !ProjectStatus.Created.equals(projectStatus))
 			sendMessages(messages);
 
 		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();
@@ -416,11 +417,39 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		// TODO 进度计划提交的提示，更新。
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
-			if (ProjectStatus.Created.equals(project.getStatus())) {
+
+			if (Arrays.asList(ProjectStatus.Closing, ProjectStatus.Processing).contains(projectStatus)) {
+				List<ObjectId> workids = new ArrayList<ObjectId>();
+				if (project.isStageEnable()) {
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// 下达阶段计划
+					workids.addAll(c("work").distinct("_id", new Document("project_id", project_id)// 本项目中的所有阶段
+							.append("stage", true).append("distributed", new Document("$ne", true)), ObjectId.class)
+							.into(new ArrayList<ObjectId>()));
+
+					c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", project_id).set("match", new Document()).array())
+							.forEach((Document w) -> workids.add(w.getObjectId("_id")));
+				} else {
+					workids.addAll(insertIds);
+				}
+				/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// 如果没有可下达的计划，提示
+				if (!workids.isEmpty()) {
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// 更新下达计划的和项目，记录下达信息
+					User user = workspace.getCheckoutUser();
+					Document distributeInfo = new Document("date", new Date()).append("userId", user.getUserId()).append("userName",
+							user.getName());
+					c("work").updateMany(new Document("_id", new Document("$in", workids)), //
+							new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+				}
+			}
+
+			if (ProjectStatus.Created.equals(projectStatus)) {
 				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + " 进度计划已更新。", workspace.getCheckoutBy(), project.getPmId(), null);
 			} else {
-				List<ObjectId> parentIds = c("obs")
-						.distinct("_id", new BasicDBObject("scope_id", workspace.getProject_id()), ObjectId.class).into(new ArrayList<>());
+				List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", project_id), ObjectId.class)
+						.into(new ArrayList<>());
 				List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
 				ArrayList<String> memberIds = c("obs").distinct("managerId",
 						new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)),
@@ -428,9 +457,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 				sendMessage("项目进度计划编制完成", "项目：" + project.getName() + " 进度计划已更新。", workspace.getCheckoutBy(), memberIds, null);
 			}
-
-			projectServiceImpl.distributeProjectPlan(Command.newInstance(ICommand.Distribute_Project_Plan, workspace.getCheckoutUser(),
-					null, new Date(), workspace.getProject_id()));
 
 			return Result.checkoutSuccess("项目进度计划提交成功");
 		} else {

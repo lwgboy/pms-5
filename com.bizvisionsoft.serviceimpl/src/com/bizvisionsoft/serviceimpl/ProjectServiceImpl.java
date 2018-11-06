@@ -254,15 +254,36 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Processing).append("startInfo", com.info())));
 
+		List<ObjectId> ids;
+
+		boolean stageEnabled = getValue("project", "stageEnable", com._id, Boolean.class);
+
+		if (stageEnabled) {
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 下达阶段计划
+			ids = c("work").distinct("_id", new Document("project_id", com._id)// 本项目中的所有阶段
+					.append("stage", true), ObjectId.class).into(new ArrayList<ObjectId>());
+		} else {
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 下达非阶段管理的项目的工作计划
+			ids = c("work").distinct("_id", new Document("project_id", com._id)// 本项目中的所有工作
+					, ObjectId.class).into(new ArrayList<ObjectId>());
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新下达计划的工作和项目，记录下达信息
+		if (!ids.isEmpty()) {
+			Document distributeInfo = com.info();
+			c("work").updateMany(new Document("_id", new Document("$in", ids)), //
+					new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+			c("project").updateOne(new Document("_id", com._id), //
+					new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+		}
+
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。", com.userId, memberIds,
 				null);
-		
-		// TODO
-		com.name = ICommand.Distribute_Project_Plan;
-		distributeProjectPlan(com);
 		return new ArrayList<>();
 	}
 
@@ -338,7 +359,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return result;
 	}
 
-	@Override
 	public List<Result> distributeProjectPlan(Command com) {
 		final List<Message> msg = new ArrayList<>();
 		final Set<ObjectId> ids = new HashSet<>();
@@ -362,13 +382,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					});
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
-			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).array()).forEach((Document w) -> {
-				ids.add(w.getObjectId("_id"));
-				Check.isAssigned(w.getString("chargerId"),
-						c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, true, com.userId, c)));
-				Check.isAssigned(w.getString("assignerId"),
-						c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, false, com.userId, c)));
-			});
+			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).set("match", new Document()).array())
+					.forEach((Document w) -> {
+						ids.add(w.getObjectId("_id"));
+						Check.isAssigned(w.getString("chargerId"),
+								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, true, com.userId, c)));
+						Check.isAssigned(w.getString("assignerId"),
+								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, false, com.userId, c)));
+					});
 		} else {
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达非阶段管理的项目的工作计划

@@ -213,11 +213,10 @@ public class BasicServiceImpl {
 	}
 
 	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField) {
-		pipeline.add(new Document("$lookup", new Document("from", from).append("localField", field)
-				.append("foreignField", "_id").append("as", newField)));
+		pipeline.add(new Document("$lookup",
+				new Document("from", from).append("localField", field).append("foreignField", "_id").append("as", newField)));
 
-		pipeline.add(new Document("$unwind",
-				new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", true)));
+		pipeline.add(new Document("$unwind", new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", true)));
 	}
 
 	protected void appendOrgFullName(List<Bson> pipeline, String inputField, String outputField) {
@@ -254,8 +253,7 @@ public class BasicServiceImpl {
 				.array());
 	}
 
-	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField,
-			String headPicField) {
+	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField, String headPicField) {
 		String tempField = "_user_" + useIdField;
 
 		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
@@ -284,8 +282,8 @@ public class BasicServiceImpl {
 	protected void appendProject(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
@@ -350,8 +348,8 @@ public class BasicServiceImpl {
 		// new Document("$project", new Document("works", true)));
 
 		List<? extends Bson> pipeline = new JQ("查询-日历-资源类-每日工时").set("resTypeId", resTypeId).array();
-		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks"))
-				.map(w -> w.doubleValue()).orElse(0d);
+		return Optional.ofNullable(c("calendar").aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks")).map(w -> w.doubleValue())
+				.orElse(0d);
 	}
 
 	public boolean checkDayIsWorkingDay(Calendar cal, ObjectId resTypeId) {
@@ -391,8 +389,8 @@ public class BasicServiceImpl {
 		// new Document("$sort", new Document("workdate", -1).append("workingDay",
 		// -1)));
 
-		List<? extends Bson> pipeline = new JQ("查询-日历-资源类-工作日").set("resTypeId", resTypeId)
-				.set("week", getDateWeek(cal)).set("date", cal.getTime()).array();
+		List<? extends Bson> pipeline = new JQ("查询-日历-资源类-工作日").set("resTypeId", resTypeId).set("week", getDateWeek(cal))
+				.set("date", cal.getTime()).array();
 
 		Document doc = c("calendar").aggregate(pipeline).first();
 		if (doc != null) {
@@ -434,8 +432,7 @@ public class BasicServiceImpl {
 
 	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url) {
 		List<Message> toBeInsert = new ArrayList<>();
-		new HashSet<String>(receivers)
-				.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
+		new HashSet<String>(receivers).forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert);
 	}
 
@@ -467,6 +464,9 @@ public class BasicServiceImpl {
 		return c(cName).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
 	}
 
+	protected <T> T getValue(String cName, String fName, ObjectId _id, Class<T> c) {
+		return c(cName).distinct(fName, new BasicDBObject("_id", _id), c).first();
+	}
 
 	protected void convertGraphic(ArrayList<Document> works, ArrayList<Document> links, final ArrayList<Task> tasks,
 			final ArrayList<Route> routes) {
@@ -475,9 +475,8 @@ public class BasicServiceImpl {
 		links.forEach(doc -> createGrphicRoute(routes, tasks, doc));
 	}
 
-	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links,
-			ArrayList<Document> riskEffect, final ArrayList<Task> tasks, final ArrayList<Route> routes,
-			final ArrayList<Risk> risks) {
+	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links, ArrayList<Document> riskEffect,
+			final ArrayList<Task> tasks, final ArrayList<Route> routes, final ArrayList<Risk> risks) {
 		convertGraphic(works, links, tasks, routes);
 		riskEffect.forEach(doc -> createGraphicRiskNode(tasks, risks, doc));
 		riskEffect.forEach(doc -> setGraphicRiskParent(risks, doc));
@@ -540,8 +539,8 @@ public class BasicServiceImpl {
 				Document rf = (Document) riskEffects.get(i);
 				Integer timeInf = rf.getInteger("timeInf");
 				if (timeInf != null) {
-					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString()))
-							.findFirst().orElse(null);
+					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString())).findFirst()
+							.orElse(null);
 					if (task != null) {
 						cons.add(new Consequence(task, timeInf.intValue()));
 					}
@@ -654,8 +653,7 @@ public class BasicServiceImpl {
 		if (pj.getBoolean("backgroundScheduling", false)) {
 			return -1;
 		}
-		c("project").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("backgroundScheduling", true)));
+		c("project").updateOne(new Document("_id", _id), new Document("$set", new Document("backgroundScheduling", true)));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 前处理：构造图
@@ -682,8 +680,8 @@ public class BasicServiceImpl {
 		Document scheduleEst = null;
 		// 0级预警检查
 		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime)
-				.append("finish", gh.getFinishDate()).append("duration", (int) gh.getT());
+		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime).append("finish", gh.getFinishDate())
+				.append("duration", (int) gh.getT());
 
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
@@ -716,14 +714,13 @@ public class BasicServiceImpl {
 				update = new Document();
 			}
 			update.append("tf", (double) task.getTF()).append("ff", (double) task.getFF());
-			c("work").updateOne(new Document("_id", doc.getObjectId("_id")),
-					new Document("$set", new Document("scheduleEst", update)));
+			c("work").updateOne(new Document("_id", doc.getObjectId("_id")), new Document("$set", new Document("scheduleEst", update)));
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 后处理：保存排程结果，解除锁定
-		c("project").updateOne(new Document("_id", _id), new Document("$set", new Document("overdueIndex", warningLevel)
-				.append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
+		c("project").updateOne(new Document("_id", _id), new Document("$set",
+				new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
 
 		return warningLevel;
 	}
@@ -731,9 +728,9 @@ public class BasicServiceImpl {
 	public Document getSystemSetting(String name) {
 		return c("setting").find(new Document("name", name)).first();
 	}
-	
-	public Object getSystemSetting(String name,String parameter) {
-		return Optional.ofNullable(getSystemSetting(name)).map(d->d.get(parameter)).orElse(null);
+
+	public Object getSystemSetting(String name, String parameter) {
+		return Optional.ofNullable(getSystemSetting(name)).map(d -> d.get(parameter)).orElse(null);
 	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
@@ -747,13 +744,13 @@ public class BasicServiceImpl {
 
 			String receiverAddress = user.getString("email");
 			if (Check.isNotAssigned(receiverAddress)) {
-				logger.error("邮件未能发送，原因是没有邮箱地址，用户："+user);
+				logger.error("邮件未能发送，原因是没有邮箱地址，用户：" + user);
 				return;
 			}
-			
-			if(logger.isDebugEnabled()) {
+
+			if (logger.isDebugEnabled()) {
 				logger.warn("调试模式启动下，只发送到系统设置的接受账号");
-				receiverAddress = (String)getSystemSetting("测试邮件接收账户","testEmail");
+				receiverAddress = (String) getSystemSetting("测试邮件接收账户", "testEmail");
 				if (Check.isNotAssigned(receiverAddress)) {
 					logger.error("邮件未能发送，原因是没有设置系统参数：测试邮件接收账户/testEmail");
 					return;
@@ -833,8 +830,7 @@ public class BasicServiceImpl {
 	 */
 	protected boolean checkUserRoles(String userid, List<String> roles) {
 		// 检查当前用户是否需要显示全部信息
-		return c("funcPermission")
-				.countDocuments(new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", roles))) > 0;
+		return c("funcPermission").countDocuments(new BasicDBObject("id", userid).append("role", new BasicDBObject("$in", roles))) > 0;
 	}
 
 	/**

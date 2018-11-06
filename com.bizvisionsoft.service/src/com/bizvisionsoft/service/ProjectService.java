@@ -113,12 +113,6 @@ public interface ProjectService {
 	public void approveProject(Command command);
 
 	@POST
-	@Path("/command/distribute/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> distributeProjectPlan(Command command);
-
-	@POST
 	@Path("/_id/{_id}/stockholder/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

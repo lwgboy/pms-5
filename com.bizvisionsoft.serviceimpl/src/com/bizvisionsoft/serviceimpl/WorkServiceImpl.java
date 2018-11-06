@@ -258,6 +258,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 						.append("distributed", true)// 需设为已下达
 						.append("startInfo", com.info())));
 
+		List<ObjectId> ids = new ArrayList<ObjectId>();
+		c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", pj_id).set("match", new Document("_stage._id", com._id)).array())
+				.forEach((Document w) -> ids.add(w.getObjectId("_id")));
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 如果没有可下达的计划，提示
+		if (!ids.isEmpty()) {
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 更新下达计划的和项目，记录下达信息
+			Document distributeInfo = com.info();
+			c("work").updateMany(new Document("_id", new Document("$in", ids)), //
+					new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+		}
+
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 更新项目阶段
 		c("project").updateOne(new Document("_id", pj_id), new Document("$set", new Document("stage_id", com._id)));
@@ -266,9 +279,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 发送消息
 		sendStageMessage(stage, "启动", com.date, com.userId);
 
-		// TODO
-		com.name = ICommand.Distribute_Project_Plan;
-		new ProjectServiceImpl().distributeProjectPlan(com);
 		return new ArrayList<>();
 	}
 

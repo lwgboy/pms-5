@@ -22,7 +22,7 @@
 			}
 		}
 	}
-, {
+}, {
 	"$match" : {
 		"distributed" : {
 			"$ne" : true
@@ -45,4 +45,6 @@
 			"_stage.status" : "收尾中"
 		} ]
 	}
+}, {
+	"$match" :"<match>"
 } ]

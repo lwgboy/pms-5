@@ -7498,24 +7498,6 @@
             "verticalSpan": 0
           },
           {
-            "id": "163baaf52a6",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "customized",
-            "role": "PM#PPM#WM",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          },
-          {
             "id": "1633edcb8c8",
             "name": "编辑计划",
             "text": "编辑计划",
@@ -19015,25 +18997,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
-        "actions": [
-          {
-            "id": "1638be1d4db",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c11bccd",
@@ -49636,25 +49600,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c0f97f9",
@@ -50529,25 +50475,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
-        "actions": [
-          {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "openContent": false,
-            "propagate": false,
-            "forceText": true,
-            "style": "normal",
-            "editorAssemblyEditable": false,
-            "objectBehavier": true,
-            "actionBehavier": false,
-            "type": "customized",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c0f97f9",

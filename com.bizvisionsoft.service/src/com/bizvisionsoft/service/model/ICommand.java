@@ -16,8 +16,6 @@ public interface ICommand {
 
 	public static final String Close_Project = "项目关闭";
 
-	public static final String Distribute_Project_Plan = "项目计划下达";
-
 	public static final String Finish_Work = "工作完成";
 
 	public static final String Start_Work = "工作开始";
