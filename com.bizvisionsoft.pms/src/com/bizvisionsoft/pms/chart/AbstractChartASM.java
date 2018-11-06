@@ -12,6 +12,8 @@ import com.bizvisionsoft.annotations.ui.common.GetContent;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
 public abstract class AbstractChartASM {
 
@@ -36,6 +38,7 @@ public abstract class AbstractChartASM {
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FillLayout());
+		parent.setBackground(BruiColors.getColor(BruiColor.white));
 		content = new ECharts(parent, SWT.NONE);
 		setOptionBefore();
 		content.setOption(getOption());

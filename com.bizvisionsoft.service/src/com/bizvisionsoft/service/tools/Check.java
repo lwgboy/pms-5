@@ -78,7 +78,7 @@ public class Check {
 		if (isAssigned(s)) {
 			return Optional.of(s);
 		} else {
-			return Optional.ofNullable(s);
+			return Optional.ofNullable(null);
 		}
 	}
 
