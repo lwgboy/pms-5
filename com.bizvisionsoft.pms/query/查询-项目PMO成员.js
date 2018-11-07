@@ -60,6 +60,31 @@
 				}
 			}
 		}, {
+			"$project" : {
+				"userId" : {
+					"$reduce" : {
+						"input" : "$userId",
+						"initialValue" : [],
+						"in" : {
+							"$concatArrays" : [ "$$value", "$$this" ]
+						}
+					}
+				}
+			}
+		}, {
+			"$unwind" : "$userId"
+		}, {
+			"$project" : {
+				"_id" : false
+			}
+		}, {
+			"$group" : {
+				"_id" : null,
+				"userId" : {
+					"$addToSet" : "$userId"
+				}
+			}
+		}, {
 			"$unwind" : "$userId"
 		}, {
 			"$project" : {
