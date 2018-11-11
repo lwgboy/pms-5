@@ -17355,7 +17355,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 16,
-            "css": "brui_bg_dirty_beauty",
+            "css": "brui_bg_new_york",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
@@ -17443,7 +17443,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 16,
-            "css": "brui_bg_dirty_beauty",
+            "css": "brui_bg_new_york",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
@@ -54432,7 +54432,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 16,
-            "css": "brui_bg_dirty_beauty",
+            "css": "brui_bg_new_york",
             "assemblys": [
               {
                 "id": "1645e3ca2fa",
@@ -73421,10 +73421,65 @@
             "height": 0,
             "staticContent": false,
             "grabVertical": false
+          },
+          {
+            "id": "167011e2586",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "日期时间（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167011e5bd1",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "日期时间（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16701098a69",
+            "name": "filter",
+            "text": "",
+            "tooltips": "过滤必须在今天以前开始处理的工作",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0,
+            "parameters": "{\"field\":\"planStart\",\"operator\":\"$lte\"}"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -73553,7 +73608,28 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "167011084e8",
+            "name": "filter",
+            "text": "",
+            "tooltips": "过滤必须在今天以前开始完成的工作",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0,
+            "parameters": "{\"field\":\"planFinish\",\"operator\":\"$lte\"}"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -73682,7 +73758,27 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "167034355a0",
+            "name": "filter",
+            "tooltips": "过滤所选日期完成的工作",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0,
+            "parameters": "{\"field\":\"actualFinish\",\"operator\":\"$eq\"}"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -73855,12 +73951,12 @@
             "extendHorizontalSpace": true,
             "extendVerticalSpace": false,
             "marginBottom": 0,
-            "marginHeight": 16,
+            "marginHeight": 0,
             "marginLeft": 0,
             "marginRight": 0,
-            "marginTop": 0,
+            "marginTop": 16,
             "marginWidth": 8,
-            "css": "brui_bg_dirty_beauty",
+            "css": "brui_bg_new_york",
             "assemblys": [
               {
                 "id": "166bdf7991a",
@@ -74495,7 +74591,7 @@
             "marginRight": 0,
             "marginTop": 0,
             "marginWidth": 8,
-            "css": "brui_bg_dirty_beauty",
+            "css": "brui_bg_new_york",
             "assemblys": [
               {
                 "id": "166d1b61cc4",

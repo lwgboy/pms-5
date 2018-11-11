@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -200,12 +201,12 @@ public abstract class AbstractWorkCardRender {
 		sb.append("</div>");
 	}
 
-	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work) {
+	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work, Date date) {
 		String name = work.getFullName();
-		// name = "详细设计系统模型设计和测试";
-		sb.append("<div class='label_title brui_card_head' style='display:flex;height:64px;background:#" + theme.headBgColor + ";color:#"
+		String _date = Formatter.getString(date, "M/d");
+		sb.append("<div class='label_title brui_card_head' style='display:flex;justify-content:space-between;height:64px;background:#" + theme.headBgColor + ";color:#"
 				+ theme.headFgColor + ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
-				+ "</div></div>");
+				+ "</div><div style='font-size:36px;'>"+_date+"</div></div>");
 	}
 
 	protected void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {

@@ -281,11 +281,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return planStart;
 	}
 
-	@ReadValue({ "项目甘特图/start_date", "项目甘特图（资源计划分配）/start_date", "我的工作（日历牌）/start_date", "部门工作日程表/start_date" })
-	public Date getPlanStartDate() {
-		return planStart;
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue("terminateOn")
@@ -343,11 +338,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		} else if (actualStart != null) {
 			return new Date(planFinish.getTime() - planStart.getTime() + actualStart.getTime());
 		}
-		return planFinish;
-	}
-
-	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date", "我的工作（日历牌）/end_date" })
-	public Date getPlanEndDate() {
 		return planFinish;
 	}
 
@@ -1052,10 +1042,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue
 	private Integer warningDay;
 
+	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date", "我的工作（日历牌）/end_date" })
 	public Date getPlanFinish() {
 		return planFinish;
 	}
 
+	@ReadValue({ "项目甘特图/start_date", "项目甘特图（资源计划分配）/start_date", "我的工作（日历牌）/start_date", "部门工作日程表/start_date" })
 	public Date getPlanStart() {
 		return planStart;
 	}

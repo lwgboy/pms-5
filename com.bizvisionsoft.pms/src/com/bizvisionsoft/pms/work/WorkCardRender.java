@@ -55,7 +55,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work);
+		renderTitle(theme, sb, work, work.getActualFinish());
 
 		// 显示第一行信息
 		showFirstRow(work, theme, sb);
@@ -85,7 +85,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work);
+		renderTitle(theme, sb, work, work.getPlanStart());
 
 		// 显示第一行信息
 		showFirstRow(work, theme, sb);
@@ -135,7 +135,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work);
+		renderTitle(theme, sb, work,work.getPlanFinish());
 
 		// 显示第一行信息
 		showFirstRow(work, theme, sb);

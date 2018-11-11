@@ -54,7 +54,7 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work);
+		renderTitle(theme, sb, work,work.getPlanFinish());
 
 		// ±Í«©
 		// renderNoticeBudgets(work, sb);

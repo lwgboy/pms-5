@@ -236,7 +236,7 @@ public class ResourceASM {
 			// 资源计划
 			rt.setType(ResourceTransfer.TYPE_PLAN);
 			rt.setFrom(work.getPlanStart());
-			rt.setTo(work.getPlanEndDate());
+			rt.setTo(work.getPlanFinish());
 			rt.setCanAdd(false);
 			rt.setShowConflict(true);
 			rt.setTitle(work.getFullName() + "工作资源计划用量");
