@@ -23,7 +23,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public ServerInfo getServerInfo(String req) {
-		return new ServerInfo(req).setHostMessage("Hello " + req);
+		return new ServerInfo(req).setHostMessage("Hello " + req).seDebugEnabled(logger.isDebugEnabled());
 
 	}
 

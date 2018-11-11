@@ -10,6 +10,8 @@ public class ServerInfo {
 
 	private String hostMessage;
 
+	private boolean debugEnabled;
+
 	public ServerInfo(String requester) {
 		this.requester = requester;
 		this.requestTime = new Date();
@@ -32,4 +34,12 @@ public class ServerInfo {
 		return this;
 	}
 
+	public ServerInfo seDebugEnabled(boolean debugEnabled) {
+		this.debugEnabled = debugEnabled;
+		return this;
+	}
+	
+	public boolean isDebugEnabled() {
+		return debugEnabled;
+	}
 }
