@@ -17,6 +17,7 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.UpdateResult;
 
 public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
@@ -30,6 +31,13 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter", new BasicDBObject("consigner", userId)));
 		ds.forEach(user -> updateRole(user));
 		return ds;
+	}
+
+	@Override
+	public long updatePassword(String userId, String newPassword) {
+		UpdateResult r = c("user").updateOne(new Document("userId", userId),
+				new Document("$set", new Document("password", newPassword).append("changePSW", false)));
+		return r.getModifiedCount();
 	}
 
 	@Override

@@ -135,5 +135,11 @@ public interface UserService {
 	@Path("/reqAllChgPsw/")
 	@Consumes("application/json; charset=UTF-8")
 	public void requestAllChangePassword();
+	
+	@PUT
+	@Path("/updatePsw/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updatePassword(@PathParam("userId") String userId,@PathParam("newPassword") String newPassword);
 
 }
