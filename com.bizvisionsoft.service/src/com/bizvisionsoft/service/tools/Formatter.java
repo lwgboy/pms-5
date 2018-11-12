@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -147,8 +148,7 @@ public class Formatter {
 		String text;
 		if (value instanceof Date) {
 			String sdf = Check.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
-			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf))
-					.format(value);
+			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf)).format(value);
 		} else if (value instanceof Integer || value instanceof Long || value instanceof Short) {
 			text = Optional.ofNullable(format)//
 					.map(f -> {
@@ -204,8 +204,7 @@ public class Formatter {
 	 */
 	public static <T> List<List<T>> getSplitedList(List<T> source, int subSize) {
 		List<List<T>> subAryList = new ArrayList<List<T>>();
-		int count = subSize == 0 ? 0
-				: (source.size() % subSize == 0 ? source.size() / subSize : source.size() / subSize + 1);
+		int count = subSize == 0 ? 0 : (source.size() % subSize == 0 ? source.size() / subSize : source.size() / subSize + 1);
 		for (int i = 0; i < count; i++) {
 			int index = i * subSize;
 			List<T> list = new ArrayList<T>();
@@ -233,9 +232,8 @@ public class Formatter {
 	// 'x', 'y', 'z' };
 
 	// 初始化
-	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119,
-			49062, 49324, 49896, 50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689,
-			54481, 55289 };
+	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119, 49062, 49324, 49896,
+			50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689, 54481, 55289 };
 
 	/**
 	 * 根据一个包含汉字的字符串返回一个汉字拼音首字母的字符串
@@ -378,6 +376,28 @@ public class Formatter {
 				out.append(c);
 		}
 		return out.toString();
+	}
+
+	public static Date getStartOfDay(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
+	public static Date getEndOfDay(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.add(Calendar.DATE, 1);
+		c.add(Calendar.MILLISECOND, -1);
+		return c.getTime();
 	}
 
 }

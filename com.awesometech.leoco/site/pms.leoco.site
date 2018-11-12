@@ -16579,7 +16579,8 @@
                 "heightHint": -1,
                 "layoutName": "cbssubject"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -17424,7 +17425,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           },
           {
             "id": "164e0636640",
@@ -17511,7 +17513,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "stickerTitle": "项目",
@@ -20552,7 +20555,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "stickerTitle": "项目",
@@ -24336,7 +24340,8 @@
                 "heightHint": -1,
                 "layoutName": "cbssubject（查看）"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -24525,7 +24530,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "stickerTitle": "项目",
@@ -34757,7 +34763,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           },
           {
             "id": "163a4b92a58",
@@ -34799,7 +34806,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           },
           {
             "id": "1640c87e29b",
@@ -34830,7 +34838,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "1639583e46c",
@@ -39098,7 +39107,8 @@
                 "heightHint": -1,
                 "layoutName": "成本组成分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -40091,7 +40101,8 @@
                 "heightHint": -1,
                 "layoutName": "成本组成分析组件-期间"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -40193,7 +40204,8 @@
                 "heightHint": -1,
                 "layoutName": "预算成本按月分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -41569,7 +41581,8 @@
                 "heightHint": -1,
                 "layoutName": "成本组成分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -41769,7 +41782,8 @@
                 "heightHint": -1,
                 "layoutName": "成本组成分析组件-期间"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -41869,7 +41883,8 @@
                 "heightHint": -1,
                 "layoutName": "销售利润分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -41986,7 +42001,8 @@
                 "heightHint": -1,
                 "layoutName": "资金投入分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -42174,7 +42190,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "163d33c2f06",
@@ -43356,7 +43373,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "stickerTitle": "项目日报",
@@ -45685,7 +45703,8 @@
                 "widthHint": 800,
                 "heightHint": 600
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "162bccab082",
@@ -48508,7 +48527,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "1642648dcbf",
@@ -48589,7 +48609,8 @@
                 "heightHint": -1,
                 "layoutName": "资源计划用量分析"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -48722,7 +48743,8 @@
                 "heightHint": -1,
                 "layoutName": "资源实际用量分析"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -48855,7 +48877,8 @@
                 "heightHint": -1,
                 "layoutName": "资源计划实际用量对比分析"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -49037,7 +49060,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "1642c53c8ae",
@@ -49118,7 +49142,8 @@
                 "heightHint": -1,
                 "layoutName": "部门资源用量对比分析组件"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -51805,7 +51830,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "16441e49ba4",
@@ -53143,7 +53169,8 @@
                 "heightHint": -1,
                 "layoutName": "gantt"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "163b6fe6dac",
@@ -54478,7 +54505,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "1645e3822ed",
@@ -56313,7 +56341,8 @@
                 "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "16441e49ba4",
@@ -62528,7 +62557,8 @@
                 "heightHint": -1,
                 "layoutName": "cbssubject"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -62699,7 +62729,8 @@
                 "heightHint": -1,
                 "layoutName": "cbssubject"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -64495,7 +64526,8 @@
                 "heightHint": -1,
                 "layoutName": ""
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -64871,7 +64903,8 @@
                 "heightHint": -1,
                 "layoutName": ""
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "type": "sticker",
@@ -73463,7 +73496,7 @@
             "id": "16701098a69",
             "name": "filter",
             "text": "",
-            "tooltips": "过滤必须在今天以前开始处理的工作",
+            "tooltips": "过滤在所选日期以前需开始的工作",
             "image": "/img/calendar_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.action.FilterWork",
@@ -73477,7 +73510,7 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0,
-            "parameters": "{\"field\":\"planStart\",\"operator\":\"$lte\"}"
+            "parameters": "{\"filterType\":\"计划开始\"}"
           }
         ],
         "rowActions": [],
@@ -73613,7 +73646,7 @@
             "id": "167011084e8",
             "name": "filter",
             "text": "",
-            "tooltips": "过滤必须在今天以前开始完成的工作",
+            "tooltips": "过滤必须在所选日期以前需完成的工作",
             "image": "/img/calendar_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.action.FilterWork",
@@ -73627,7 +73660,7 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0,
-            "parameters": "{\"field\":\"planFinish\",\"operator\":\"$lte\"}"
+            "parameters": "{\"filterType\":\"计划完成\"}"
           }
         ],
         "rowActions": [],
@@ -73776,7 +73809,7 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0,
-            "parameters": "{\"field\":\"actualFinish\",\"operator\":\"$eq\"}"
+            "parameters": "{\"filterType\":\"实际完成\"}"
           }
         ],
         "rowActions": [],
@@ -73907,7 +73940,27 @@
           }
         ],
         "gridAutoColumnWidth": true,
-        "actions": [],
+        "actions": [
+          {
+            "id": "16705d85d10",
+            "name": "filter",
+            "tooltips": "过滤在所选日期以前需开始的工作",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0,
+            "parameters": "{\"filterType\":\"计划开始\"}"
+          }
+        ],
         "rowActions": [],
         "borderTop": false,
         "borderRight": false,
@@ -73957,52 +74010,43 @@
             "marginTop": 16,
             "marginWidth": 8,
             "css": "brui_bg_new_york",
+            "layoutType": "lane",
             "assemblys": [
               {
                 "id": "166bdf7991a",
                 "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": false,
-                "grabExcessVerticalSpace": true,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
-                "widthHint": 380,
+                "widthHint": -1,
                 "heightHint": -1
               },
               {
                 "id": "166bdfdcfc1",
                 "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": false,
-                "grabExcessVerticalSpace": true,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
-                "widthHint": 380,
-                "heightHint": -1
-              },
-              {
-                "id": "166be005c97",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": false,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": 380,
+                "widthHint": -1,
                 "heightHint": -1
               },
               {
                 "id": "166bdfe1f41",
                 "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": false,
-                "grabExcessVerticalSpace": true,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
-                "widthHint": 380,
+                "widthHint": -1,
                 "heightHint": -1
               }
-            ]
+            ],
+            "laneWidth": 380
           }
         ],
         "folderId": "166bdf4dc3f",
@@ -74047,7 +74091,13 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": [
+          "166be005c97",
+          "166bdf7991a",
+          "166bdfe1f41",
+          "166bdfdcfc1"
+        ]
       },
       {
         "id": "166d1b61cc4",
@@ -74641,7 +74691,8 @@
                 "heightHint": -1,
                 "layoutName": "finished"
               }
-            ]
+            ],
+            "laneWidth": 0
           }
         ],
         "folderId": "166d2b7d771",
@@ -74686,7 +74737,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "166e2135530",
