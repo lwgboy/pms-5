@@ -13,6 +13,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Formatter;
 
+@Deprecated
 public class WorkAssignmentCardRender extends AbstractWorkCardRender {
 
 	@Inject

@@ -1,8 +1,7 @@
-package com.bizvisionsoft.pms.work;
+package com.bizvisionsoft.serviceimpl.renderer;
 
 import com.bizvisionsoft.service.model.Work;
 
-@Deprecated
 public class CardTheme {
 
 	String headBgColor;

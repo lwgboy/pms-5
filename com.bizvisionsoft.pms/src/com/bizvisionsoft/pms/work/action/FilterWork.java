@@ -10,7 +10,7 @@ import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruiengine.assembly.GridPart;
+import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
@@ -20,7 +20,7 @@ public class FilterWork {
 	private String filterType;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GridPart grid, @MethodParam(Execute.EVENT) Event e) {
+	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) IQueryEnable grid, @MethodParam(Execute.EVENT) Event e) {
 
 		new DateTimeSelector(DateTimeSetting.date()).bind(e.widget, SWT.LEFT).open(date -> {
 			BasicDBObject condition = new BasicDBObject();

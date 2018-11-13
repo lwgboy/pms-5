@@ -27,6 +27,7 @@ import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
+@Deprecated
 public abstract class AbstractWorkCardRender {
 
 	private IBruiService br;

@@ -45,6 +45,7 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.WorkRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
@@ -468,9 +469,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+		AggregateIterable<Work> iter = queryWork(skip, limit, basicCondition, filter, sort);
+		return iter.into(new ArrayList<Work>());
 	}
-
+	
 	@Override
 	public long countMyProcessingWork(BasicDBObject filter, String userid) {
 		if (filter == null)
@@ -486,6 +488,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listMyPlannedWork(BasicDBObject condition, String userid) {
+		return iterateMyPlannedWork(condition, userid).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
+		return iterateMyPlannedWork(condition, userid).map(WorkRenderer::renderingPlannedWorkCard).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, String userid) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
@@ -493,7 +504,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
 		BasicDBObject basicCondition = appendPlanWorkCondition(new BasicDBObject().append("chargerId", userid));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
+		return iterable;
 	}
 
 	@Override
@@ -506,6 +518,16 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listMyExecutingWork(BasicDBObject condition, String userid) {
+		AggregateIterable<Work> iterable = iterateMyExecutingWork(condition, userid);
+		return iterable.into(new ArrayList<Work>());
+	}
+	
+	@Override
+	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
+		return iterateMyExecutingWork(condition, userid).map(WorkRenderer::renderingExecutingWorkCard).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateMyExecutingWork(BasicDBObject condition, String userid) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
@@ -513,7 +535,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
 		BasicDBObject basicCondition = appendExecWorkCondition(new BasicDBObject().append("chargerId", userid));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
+		return iterable;
 	}
 
 	@Override
@@ -526,6 +549,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listMyFinishedWork(BasicDBObject condition, String userid) {
+		return iterateMyFinishedWork(condition, userid).into(new ArrayList<Work>());
+	}
+	
+	@Override
+	public List<Document> listMyFinishedWorkCard(BasicDBObject condition, String userid) {
+		return iterateMyFinishedWork(condition, userid).map(WorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateMyFinishedWork(BasicDBObject condition, String userid) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
@@ -533,7 +565,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		BasicDBObject basicCondition = appendFinishedWorkCondition(new BasicDBObject().append("$or",
 				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
 
-		return queryWork(skip, limit, basicCondition, filter, new BasicDBObject("actualFinish", -1)).into(new ArrayList<Work>());
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, new BasicDBObject("actualFinish", -1));
+		return iterable;
 	}
 
 	@Override
@@ -2220,15 +2253,22 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listMyUnAssignmentWork(BasicDBObject condition, String userid) {
-		BasicDBObject basicCondition = appendAssignmentWorkCondition(new BasicDBObject("chargerId", null).append("assignerId", userid));
+		return iterateMyUnassignmentWork(condition, userid).into(new ArrayList<>());
+	}
+	
+	@Override
+	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid) {
+		return iterateMyUnassignmentWork(condition, userid).map(WorkRenderer::renderingUnAssignmentWorkCard).into(new ArrayList<>());
+	}
 
+	private AggregateIterable<Work> iterateMyUnassignmentWork(BasicDBObject condition, String userid) {
+		BasicDBObject basicCondition = appendAssignmentWorkCondition(new BasicDBObject("chargerId", null).append("assignerId", userid));
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planFinish", 1).append("_id", -1));
-
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<>());
+		return queryWork(skip, limit, basicCondition, filter, sort);
 	}
 
 	@Override
@@ -2404,4 +2444,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendAssignmentWorkCondition(filter.append("chargerId", null).append("project_id", project_id));
 		return count(filter, Work.class);
 	}
+
+
 }
