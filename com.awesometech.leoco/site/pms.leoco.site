@@ -16585,7 +16585,8 @@
                 "layoutName": "cbssubject"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -17362,6 +17363,7 @@
             "marginTop": 0,
             "marginWidth": 16,
             "css": "brui_bg_new_york",
+            "itemCss": "brui_card",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
@@ -17431,7 +17433,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           },
           {
             "id": "164e0636640",
@@ -17475,7 +17478,7 @@
                 "heightHint": -1
               },
               {
-                "id": "163ff61cdd6",
+                "id": "1670b245db8",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
@@ -17519,7 +17522,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "stickerTitle": "项目",
@@ -20562,7 +20566,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "stickerTitle": "项目",
@@ -24347,7 +24352,8 @@
                 "layoutName": "cbssubject（查看）"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -24537,7 +24543,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "stickerTitle": "项目",
@@ -34770,7 +34777,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           },
           {
             "id": "163a4b92a58",
@@ -34813,7 +34821,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           },
           {
             "id": "1640c87e29b",
@@ -34845,7 +34854,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "1639583e46c",
@@ -39114,7 +39124,8 @@
                 "layoutName": "成本组成分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -40108,7 +40119,8 @@
                 "layoutName": "成本组成分析组件-期间"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -40211,7 +40223,8 @@
                 "layoutName": "预算成本按月分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -41588,7 +41601,8 @@
                 "layoutName": "成本组成分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -41789,7 +41803,8 @@
                 "layoutName": "成本组成分析组件-期间"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -41890,7 +41905,8 @@
                 "layoutName": "销售利润分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -42008,7 +42024,8 @@
                 "layoutName": "资金投入分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -42197,7 +42214,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "163d33c2f06",
@@ -43380,7 +43398,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "stickerTitle": "项目日报",
@@ -45711,7 +45730,8 @@
                 "heightHint": 600
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "162bccab082",
@@ -48535,7 +48555,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "1642648dcbf",
@@ -48617,7 +48638,8 @@
                 "layoutName": "资源计划用量分析"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -48751,7 +48773,8 @@
                 "layoutName": "资源实际用量分析"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -48885,7 +48908,8 @@
                 "layoutName": "资源计划实际用量对比分析"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -49068,7 +49092,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "1642c53c8ae",
@@ -49150,7 +49175,8 @@
                 "layoutName": "部门资源用量对比分析组件"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -51838,7 +51864,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "16441e49ba4",
@@ -53177,7 +53204,8 @@
                 "layoutName": "gantt"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "163b6fe6dac",
@@ -54467,6 +54495,7 @@
             "marginTop": 0,
             "marginWidth": 16,
             "css": "brui_bg_new_york",
+            "itemCss": "brui_card",
             "assemblys": [
               {
                 "id": "1645e3ca2fa",
@@ -54513,7 +54542,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "1645e3822ed",
@@ -54558,7 +54588,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "1645e395921",
@@ -56350,7 +56381,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "folderId": "16441e49ba4",
@@ -62566,7 +62598,8 @@
                 "layoutName": "cbssubject"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -62738,7 +62771,8 @@
                 "layoutName": "cbssubject"
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -64535,7 +64569,8 @@
                 "layoutName": ""
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -64912,7 +64947,8 @@
                 "layoutName": ""
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselInterval": 0
           }
         ],
         "type": "sticker",
@@ -73411,7 +73447,8 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 380
+            "laneWidth": 380,
+            "carouselInterval": 0
           }
         ],
         "folderId": "166bdf4dc3f",
@@ -73461,7 +73498,8 @@
           "1670b81457f",
           "1670ccb40d8",
           "1670cd61827",
-          "1670ce1a50a"
+          "1670ce1a50a",
+          "1670df35b2a"
         ]
       },
       {
@@ -74034,7 +74072,8 @@
                 "layoutName": "executing"
               }
             ],
-            "laneWidth": 380
+            "laneWidth": 380,
+            "carouselInterval": 0
           }
         ],
         "folderId": "166d2b7d771",
@@ -74268,7 +74307,11 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 0
+            "laneWidth": 0,
+            "carouselAnimation": "default",
+            "carouselArrow": "none",
+            "carouselIndicator": "none",
+            "carouselInterval": 4000
           }
         ],
         "folderId": "1670b23f7a3",
@@ -75084,6 +75127,131 @@
             "name": "操作",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.work.WorkCardACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0
+          }
+        ],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": true,
+        "candidates": []
+      },
+      {
+        "id": "1670df35b2a",
+        "name": "未读消息",
+        "layout": [],
+        "type": "board",
+        "stickerTitle": "未读消息",
+        "folderId": "166bdf4dc3f",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 8,
+        "columns": [],
+        "fields": [
+          {
+            "id": "1670bd50992",
+            "name": "subject",
+            "text": "标题",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1670bd50c7e",
+            "name": "content",
+            "text": "内容",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "actions": [
+          {
+            "id": "1670bd63854",
+            "name": "filter",
+            "tooltips": "过滤",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.message.FilterMsgCardACT",
+            "openContent": false,
+            "propagate": false,
+            "forceText": false,
+            "style": "info",
+            "editorAssemblyEditable": false,
+            "objectBehavier": false,
+            "actionBehavier": false,
+            "type": "customized",
+            "horizontalSpan": 0,
+            "verticalSpan": 0,
+            "parameters": "{\"filterType\":\"计划开始\"}"
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "1670d294caf",
+            "name": "操作",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.message.MsgCardACT",
             "openContent": false,
             "propagate": false,
             "forceText": false,

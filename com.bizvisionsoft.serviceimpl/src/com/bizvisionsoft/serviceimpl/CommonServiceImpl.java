@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
+import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -159,8 +160,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public void addCalendarWorktime(BasicDBObject r, ObjectId _cal_id) {
-		c(Calendar.class).updateOne(new BasicDBObject("_id", _cal_id),
-				new BasicDBObject("$addToSet", new BasicDBObject("workTime", r)));
+		c(Calendar.class).updateOne(new BasicDBObject("_id", _cal_id), new BasicDBObject("$addToSet", new BasicDBObject("workTime", r)));
 	}
 
 	/**
@@ -207,8 +207,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public Map<String, String> getDictionary(String type) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterable<Document> itr = c("dictionary").find(new BasicDBObject("type", type));
-		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]",
-				d.getString("id") + "#" + d.getString("name")));
+		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]", d.getString("id") + "#" + d.getString("name")));
 		return result;
 	}
 
@@ -222,8 +221,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<String> listDictionary(String type, String valueField) {
-		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class)
-				.into(new ArrayList<>());
+		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class).into(new ArrayList<>());
 	}
 
 	@Override
@@ -271,8 +269,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountItem").updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -284,8 +281,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountIncome").updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -332,8 +328,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("revenueForecastItem")
-					.countDocuments(new Document("subject", new Document("$in", toDelete)));
+			long refCnt = c("revenueForecastItem").countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益预测正在使用的科目。");
 			}
@@ -389,7 +384,25 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public Message getMessage(ObjectId _id) {
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		
+		pipeline.add(Aggregates.match(new Document("_id",_id)));
+		
+		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
+
+		appendUserInfo(pipeline, "receiver", "receiverInfo");
+		
+		return c(Message.class).aggregate(pipeline).first();
+	}
+	
+	@Override
 	public List<Message> listMessage(BasicDBObject condition, String userId) {
+		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId);
+		return c(Message.class).aggregate(pipeline).into(new ArrayList<Message>());
+	}
+
+	private ArrayList<Bson> createUserMessagePippline(BasicDBObject condition, String userId) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			condition.put("filter", filter = new BasicDBObject());
@@ -401,7 +414,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 
-		pipeline.add(Aggregates.sort(new BasicDBObject("sendDate", -1)));
+		pipeline.add(Aggregates.sort(new BasicDBObject("sendDate", -1).append("_id", -1)));
 
 		Integer skip = (Integer) condition.get("skip");
 		if (skip != null)
@@ -414,8 +427,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
 
 		appendUserInfo(pipeline, "receiver", "receiverInfo");
-
-		return c(Message.class).aggregate(pipeline).into(new ArrayList<Message>());
+		return pipeline;
 	}
 
 	@Override
@@ -424,6 +436,27 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			filter = new BasicDBObject();
 		}
 		filter.put("receiver", userId);
+		return count(filter, Message.class);
+	}
+
+	@Override
+	public List<Document> listUnreadMessage(BasicDBObject condition, String userId) {
+		if(condition == null) {
+			condition = new BasicDBObject();
+		}
+		condition.put("read", false);
+		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId);
+		return c(Message.class).aggregate(pipeline).map(MessageRenderer::render).into(new ArrayList<>());
+
+	}
+
+	@Override
+	public long countUnreadMessage(BasicDBObject filter, String userId) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.put("receiver", userId);
+		filter.put("read", false);
 		return count(filter, Message.class);
 	}
 
@@ -455,8 +488,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public Date getCurrentCBSPeriod() {
 		Document doc = c("project")
-				.find(new Document("status",
-						new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
+				.find(new Document("status", new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
 				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.add(java.util.Calendar.MONTH, -1);
@@ -611,8 +643,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public void syncOrgFullName() {
 		c("organization").find().into(new ArrayList<>()).forEach((Document d) -> {
-			c("organization").updateOne(new Document("_id", d.get("_id")),
-					new Document("$set", new Document("fullName", d.get("name"))));
+			c("organization").updateOne(new Document("_id", d.get("_id")), new Document("$set", new Document("fullName", d.get("name"))));
 		});
 	}
 
@@ -632,5 +663,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			c("setting").updateOne(new Document("name", name), new Document("$set", setting));
 		}
 	}
+
+
 
 }

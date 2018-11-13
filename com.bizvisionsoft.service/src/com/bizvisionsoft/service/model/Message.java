@@ -41,11 +41,15 @@ public class Message {
 	private RemoteFile senderHeadPic;
 
 	@ReadValue("Í·Ïñ")
-	private String getSenderHeadImageURL() {
+	public String getSenderHeadImageURL() {
 		if (senderHeadPic != null) {
 			return senderHeadPic.getURL(ServicesLoader.url);
 		}
 		return null;
+	}
+	
+	public RemoteFile getSenderHeadPic() {
+		return senderHeadPic;
 	}
 
 	@ReadValue
@@ -184,4 +188,19 @@ public class Message {
 		return content;
 	}
 
+	public boolean isRead() {
+		return read;
+	}
+	
+	public String getSenderInfo() {
+		return senderInfo;
+	}
+	
+	public Date getSendDate() {
+		return sendDate;
+	}
+	
+	public ObjectId get_id() {
+		return _id;
+	}
 }
