@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.project;
 
 import java.util.List;
 
-import org.bson.Document;
-import org.eclipse.rap.json.JsonObject;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -15,8 +13,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
-import com.bizivisionsoft.widgets.carousel.Carousel;
-import com.bizivisionsoft.widgets.chart.ECharts;
 import com.bizivisionsoft.widgets.tools.WidgetHandler;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
@@ -26,20 +22,12 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.ProjectService;
-import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-/**
- * 使用轮播布局可替代本类
- * 
- * @author hua
- *
- */
-@Deprecated
-public class ProjectProgressWidgetASM {
+public class ProjectProgressSummaryWidgetASM {
 
 	@Inject
 	private IBruiService brui;
@@ -56,28 +44,7 @@ public class ProjectProgressWidgetASM {
 
 	@CreateUI
 	public void createUI(Composite parent) {
-		parent.setLayout(new FillLayout());
-		Carousel carousel = new Carousel(parent, SWT.NONE);
-		carousel.setAnimation("default");
-		carousel.setInterval(5000);
-		carousel.setIndicator("none");
-
-		createProgressPage(carousel.addPage(new Composite(carousel, SWT.NONE)));
-
-		createRiskPage(carousel.addPage(new Composite(carousel, SWT.NONE)));
-
-	}
-
-	private void createRiskPage(Composite parent) {
-		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		parent.setLayout(new FillLayout());
-		ECharts chart = new ECharts(parent, SWT.NONE);
-		Document data = Services.get(RiskService.class).getRiskProximityChart(project.get_id());
-		chart.setOption(JsonObject.readFrom(data.toJson()));
-	}
-
-	private void createProgressPage(Composite parent) {
-		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		parent.setBackground(BruiColors.getColor(BruiColor.white));
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
 
