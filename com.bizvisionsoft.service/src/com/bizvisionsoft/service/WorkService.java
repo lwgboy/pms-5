@@ -194,7 +194,7 @@ public interface WorkService {
 	@DataSet("工作看板-已计划/list")
 	public List<Work> listMyPlannedWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/planned/card/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -207,7 +207,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/planned/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"工作看板-已计划/count","工作看板（已计划）/count"})
+	@DataSet({ "工作看板-已计划/count", "工作看板（已计划）/count" })
 	public long countMyPlannedWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -218,7 +218,7 @@ public interface WorkService {
 	@DataSet("工作看板-处理中/list")
 	public List<Work> listMyExecutingWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/exec/card/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -227,12 +227,11 @@ public interface WorkService {
 	public List<Document> listMyExecutingWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
-
 	@POST
 	@Path("/userid/{userid}/exec/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"工作看板-处理中/count","工作看板（处理中）/count"})
+	@DataSet({ "工作看板-处理中/count", "工作看板（处理中）/count" })
 	public long countMyExecutingWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -243,7 +242,7 @@ public interface WorkService {
 	@DataSet({ "我的工作（已完成）/list", "工作看板-已完成/list" })
 	public List<Work> listMyFinishedWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/finished/card/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -256,7 +255,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/finished/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的工作（已完成）/count", "工作看板-已完成/count","工作看板（已完成）/count" })
+	@DataSet({ "我的工作（已完成）/count", "工作看板-已完成/count", "工作看板（已完成）/count" })
 	public long countMyFinishedWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -267,7 +266,7 @@ public interface WorkService {
 	@DataSet({ "我的待指派工作/list" })
 	public List<Work> listMyAssignmentWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/assigner/processing/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -283,7 +282,7 @@ public interface WorkService {
 	@DataSet({ "工作看板-待指派/list" })
 	public List<Work> listMyUnAssignmentWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/userid/{userid}/unassigner/processing/card/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -296,7 +295,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/unassigner/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "指派工作/budget", "工作看板-待指派/count","工作看板（待指派）/count" })
+	@DataSet({ "指派工作/budget", "工作看板-待指派/count", "工作看板（待指派）/count" })
 	public long countMyUnAssignmentWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -694,7 +693,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/planned/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-已计划/" + DataSet.LIST)
+	@DataSet({ "项目工作看板-已计划/" + DataSet.LIST })
 	public List<Work> listProjectPlannedWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -702,7 +701,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/planned/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-已计划/" + DataSet.COUNT)
+	@DataSet({ "项目工作看板-已计划/" + DataSet.COUNT, "项目工作看板（已计划）/" + DataSet.COUNT })
 	public long countProjectPlannedWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -710,7 +709,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/exec/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-处理中/" + DataSet.LIST)
+	@DataSet({ "项目工作看板-处理中/" + DataSet.LIST })
 	public List<Work> listProjectExecutingWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -718,7 +717,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/exec/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-处理中/" + DataSet.COUNT)
+	@DataSet({ "项目工作看板-处理中/" + DataSet.COUNT, "项目工作看板（处理中）/" + DataSet.COUNT })
 	public long countProjectExecutingWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -726,7 +725,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/finished/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-已完成/" + DataSet.LIST)
+	@DataSet({ "项目工作看板-已完成/" + DataSet.LIST })
 	public List<Work> listProjectFinishedWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -734,7 +733,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/finished/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-已完成/" + DataSet.COUNT)
+	@DataSet({ "项目工作看板-已完成/" + DataSet.COUNT, "项目工作看板（已完成）/" + DataSet.COUNT })
 	public long countProjectFinishedWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -742,7 +741,7 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/unassigner/processing/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-待指派/" + DataSet.LIST)
+	@DataSet({ "项目工作看板-待指派/" + DataSet.LIST })
 	public List<Work> listProjectUnAssignmentWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
@@ -750,8 +749,44 @@ public interface WorkService {
 	@Path("/projectid/{projectid}/unassigner/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("项目工作看板-待指派/" + DataSet.COUNT)
+	@DataSet({ "项目工作看板-待指派/" + DataSet.COUNT, "项目工作看板（待指派）/" + DataSet.COUNT })
 	public long countProjectUnAssignmentWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
+
+	@POST
+	@Path("/projectid/{projectid}/{userid}/planned/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目工作看板（已计划）/" + DataSet.LIST })
+	public List<Document> listProjectPlannedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectid/{projectid}/{userid}/exec/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目工作看板（处理中）/" + DataSet.LIST })
+	public List<Document> listProjectExecutingWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectid/{projectid}/{userid}/finished/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目工作看板（已完成）/" + DataSet.LIST })
+	public List<Document> listProjectFinishedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectid/{projectid}/{userid}/unassigner/processing/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目工作看板（待指派）/" + DataSet.LIST })
+	public List<Document> listProjectUnAssignmentWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 }

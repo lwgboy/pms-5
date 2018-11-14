@@ -3,11 +3,12 @@ package com.bizvisionsoft.serviceimpl.renderer;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class WorkRenderer extends AbstractRenderer {
+public class ProjectWorkRenderer extends AbstractRenderer {
 
-	public static Document renderingUnAssignmentWorkCard(Work work) {
+	public static Document renderingUnAssignmentWorkCard(Work work, String userid) {
 		Document doc = new Document();
 		int rowHeight = 220;
 		CardTheme theme = new CardTheme(work);
@@ -19,18 +20,15 @@ public class WorkRenderer extends AbstractRenderer {
 
 		renderTitle(theme, sb, work, work.getPlanFinish());
 
-		// 标签
-		// renderNoticeBudgets(work, sb);
-
 		// 显示第一行信息
-		renderProjectLine(theme, sb, work);
+		Check.isAssigned(work.getStageName(), s -> renderIconTextLine(sb, s, "img/task_c.svg", theme.emphasizeText));
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
 		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
 
 		// 显示工作包和指派工作
-		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());
+		renderButtons(theme, sb, work, Check.equals(userid, work.getChargerId()), "指派", "assignWork/" + work.get_id());
 
 		// 标签
 		renderNoticeBudgets(sb, work);
@@ -41,7 +39,6 @@ public class WorkRenderer extends AbstractRenderer {
 		doc.put("_id", work.get_id());
 		return doc;
 	}
-
 
 	public static Document renderingFinishedWorkCard(Work work) {
 		Document doc = new Document();
@@ -55,7 +52,7 @@ public class WorkRenderer extends AbstractRenderer {
 
 		renderTitle(theme, sb, work, work.getActualFinish());
 
-		renderProjectLine(theme, sb, work);
+		Check.isAssigned(work.getStageName(), s -> renderIconTextLine(sb, s, "img/task_c.svg", theme.emphasizeText));
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，完成于"
@@ -78,7 +75,7 @@ public class WorkRenderer extends AbstractRenderer {
 	 * @param work
 	 * @return
 	 */
-	public static Document renderingExecutingWorkCard(Work work) {
+	public static Document renderingExecutingWorkCard(Work work, String userid) {
 		Document doc = new Document();
 		int rowHeight = 374;
 		CardTheme theme = new CardTheme(work);
@@ -90,7 +87,7 @@ public class WorkRenderer extends AbstractRenderer {
 
 		renderTitle(theme, sb, work, work.getPlanFinish());
 
-		renderProjectLine(theme, sb, work);
+		Check.isAssigned(work.getStageName(), s -> renderIconTextLine(sb, s, "img/task_c.svg", theme.emphasizeText));
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，开始于"
@@ -104,7 +101,7 @@ public class WorkRenderer extends AbstractRenderer {
 		renderIndicators(theme, sb, "进度", work.getWAR(), "工期", work.getDAR());
 
 		// 显示工作包和完成工作
-		renderButtons(theme, sb, work, "完成", "finishWork/" + work.get_id());
+		renderButtons(theme, sb, work, Check.equals(userid, work.getChargerId()), "完成", "finishWork/" + work.get_id());
 
 		// 标签
 		renderNoticeBudgets(sb, work);
@@ -123,7 +120,7 @@ public class WorkRenderer extends AbstractRenderer {
 	 * @param work
 	 * @return
 	 */
-	public static Document renderingPlannedWorkCard(Work work) {
+	public static Document renderingPlannedWorkCard(Work work, String userid) {
 		Document doc = new Document();
 		int rowHeight = 247;
 
@@ -136,7 +133,7 @@ public class WorkRenderer extends AbstractRenderer {
 
 		renderTitle(theme, sb, work, work.getPlanStart());
 
-		renderProjectLine(theme, sb, work);
+		Check.isAssigned(work.getStageName(), s -> renderIconTextLine(sb, s, "img/task_c.svg", theme.emphasizeText));
 
 		// 显示计划开始和计划完成
 		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
@@ -146,7 +143,7 @@ public class WorkRenderer extends AbstractRenderer {
 		renderCharger(theme, sb, work);
 
 		// 显示工作包和开始工作
-		renderButtons(theme, sb, work, "开始", "startWork/" + work.get_id());
+		renderButtons(theme, sb, work, Check.equals(userid, work.getChargerId()), "开始", "startWork/" + work.get_id());
 
 		// 标签
 		renderNoticeBudgets(sb, work);
@@ -158,6 +155,4 @@ public class WorkRenderer extends AbstractRenderer {
 		doc.put("_id", work.get_id());
 		return doc;
 	}
-
-
 }
