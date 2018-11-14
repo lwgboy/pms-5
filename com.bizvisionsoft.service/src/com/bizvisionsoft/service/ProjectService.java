@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -170,10 +171,18 @@ public interface ProjectService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
+	@Path("/member/{userid}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我参与的项目看板（未关闭）/list" })
+	public List<Document> listParticipatedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+	
+	@POST
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count" })
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count","我参与的项目看板（未关闭）/count" })
 	public long countParticipatedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 

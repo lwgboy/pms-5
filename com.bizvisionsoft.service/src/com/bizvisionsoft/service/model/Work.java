@@ -651,7 +651,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperChargerInfo()
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperChargerInfo()
 				+ getDistributedIcon() + "</div>";
 	}
 
@@ -660,7 +660,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerInfo == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperChargerInfo()
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperChargerInfo()
 				+ "</div>";
 	}
 

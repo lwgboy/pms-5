@@ -33,8 +33,8 @@ public class WorkRenderer {
 		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		sb.append(RenderTools.getIconTextLine(text, "img/calendar_c.svg", theme.emphasizeText));
 
 		// 显示工作包和指派工作
 		renderButtons(theme, sb, work, "指派", "assignWork/" + work.get_id());
@@ -65,9 +65,9 @@ public class WorkRenderer {
 		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，完成于"
-				+ Formatter.getString(work.getActualFinish());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
+				+ RenderTools.shortDate(work.getActualFinish());
+		sb.append(RenderTools.getIconTextLine(text, "img/calendar_c.svg", theme.emphasizeText));
 
 		// 工作负责人
 		renderCharger(theme, sb, work);
@@ -101,9 +101,9 @@ public class WorkRenderer {
 		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish()) + "，开始于"
-				+ Formatter.getString(work.getActualStart());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
+				+ RenderTools.shortDate(work.getActualStart());
+		sb.append(RenderTools.getIconTextLine(text, "img/calendar_c.svg", theme.emphasizeText));
 
 		// 工作负责人
 		renderCharger(theme, sb, work);
@@ -148,8 +148,8 @@ public class WorkRenderer {
 		renderProjectLine(theme, sb, work);
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + Formatter.getString(work.getPlanStart()) + "~" + Formatter.getString(work.getPlanFinish());
-		renderIconTextLine(sb, text, "img/calendar_c.svg", theme.emphasizeText);
+		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
 
 		// 工作负责人
 		renderCharger(theme, sb, work);
@@ -172,19 +172,11 @@ public class WorkRenderer {
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
 		sb.append("<div class='label_title brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-				+ ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
-				+ "</div><div style='font-size:36px;'>" + _date + "</div></div>");
-	}
-
-	private static void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {
-		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + getResourceURL(icon)
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
-				+ ";margin-left:8px;width:100%'>" + text + "</div></div>");
+				+ ";padding:8px'>" + "<div class='brui_card_text'>" + name + "</div><div class='label_display1'>" + _date + "</div></div>");
 	}
 
 	private static void renderProjectLine(CardTheme theme, StringBuffer sb, Work work) {
-		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
-				+ getResourceURL("img/project_c.svg")
+		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_PROJECT
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
 				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>");
 	}
@@ -194,49 +186,43 @@ public class WorkRenderer {
 	}
 
 	private static void renderUser(StringBuffer sb, Work work, String title, String text, String color) {
-		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='"
-				+ getResourceURL("img/user_c.svg") + "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#"
-				+ color + ";margin-left:8px;width:100%;display:flex;'>" + title + "：<span style='cursor:pointer;'>" + text
-				+ "</span></div></div>");
-	}
-
-	private static String getResourceURL(String url) {
-		return "rwt-resources/extres/" + url;
+		sb.append("<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_USER
+				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
+				+ ";margin-left:8px;width:100%;display:flex;'>" + title + "：<span style='cursor:pointer;'>" + text + "</span></div></div>");
 	}
 
 	private static void renderNoticeBudgets(StringBuffer sb, Work work) {
 		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Double value = work.getTF();
 		if (value != null) {
-			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>TF " + (int) Math.ceil(value) + "</div>";
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>TF " + (int) Math.ceil(value) + "</div>";
 			sb.append(MetaInfoWarpper.warpper(label,
 					"总时差（TF）：<br>在不影响总工期的前提下，本工作可以利用的机动时间，即工作的最迟开始时间与最早开始时间之差。利用这段时间延长工作的持续时间或推迟其开工时间，不会影响计划的总工期。", 3000));
 		}
 
 		value = work.getFF();
 		if (value != null) {
-			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>FF " + (int) Math.ceil(value) + "</div>";
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>FF " + (int) Math.ceil(value) + "</div>";
 			sb.append(
 					MetaInfoWarpper.warpper(label, "自由时差（FF）：<br>在不影响其紧后工作最早开始时间的条件下，本工作可以利用的机动时间。即该工作的所有紧后工作的最早开始时间，减去该工作的最早结束时间。", 3000));
 		}
 
 		value = work.getTF();
 		if (value != null && value.doubleValue() == 0) {
-			String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>CP</div>";
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>CP</div>";
 			sb.append(MetaInfoWarpper.warpper(label, "本工作处于项目关键路径", 3000));
 		}
 
-		Check.isAssigned(work.getManageLevel(), l -> {
-			if ("1".equals(l)) {
-				String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>&#8544;</div>";
-				sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
-			}
+		String manageLevel = work.getManageLevel();
+		if ("1".equals(manageLevel)) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8544;</div>";
+			sb.append(MetaInfoWarpper.warpper(label, "这是一个1级管理级别的工作。", 3000));
+		}
 
-			if ("2".equals(l)) {
-				String label = "<div class='layui-badge-rim' style='margin-right:4px;cursor:pointer;'>&#8545;</div>";
-				sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
-			}
-		});
+		if ("2".equals(manageLevel)) {
+			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>&#8545;</div>";
+			sb.append(MetaInfoWarpper.warpper(label, "这是一个2级管理级别的工作。", 3000));
+		}
 		// 警告
 		Check.isAssigned(work.getWarningIcon(), sb::append);
 		//

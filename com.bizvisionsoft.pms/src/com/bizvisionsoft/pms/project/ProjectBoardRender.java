@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class ProjectBoardRender {
 
 	@Inject
@@ -43,7 +44,7 @@ public class ProjectBoardRender {
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				 if (e.text.startsWith("openProject/")) {
-					SwitchPage.openProject(bruiService, new ObjectId(e.text.split("/")[1]));
+					SwitchProjectPage.openProject(bruiService, new ObjectId(e.text.split("/")[1]));
 				}
 			} else {
 				Object element = ((GridItem) e.item).getData();

@@ -8,7 +8,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class SwitchPage {
+public class SwitchProjectPage {
 
 	public static void openProject(IBruiService br, ObjectId _id) {
 		Project pj = Services.get(ProjectService.class).get(_id);

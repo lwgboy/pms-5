@@ -15,7 +15,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.pms.project.SwitchPage;
+import com.bizvisionsoft.pms.project.SwitchProjectPage;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ICommand;
@@ -88,7 +88,7 @@ public class WorkCardACT {
 	}
 
 	private void openProject(Work work, GridTreeViewer viewer, BruiAssemblyContext context) {
-		SwitchPage.openProject(br, work.getProject_id());
+		SwitchProjectPage.openProject(br, work.getProject_id());
 	}
 
 	private void openWorkPackage(Work work, String idx, GridTreeViewer viewer, BruiAssemblyContext context) {

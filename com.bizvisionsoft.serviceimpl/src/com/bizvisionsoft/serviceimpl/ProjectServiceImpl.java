@@ -41,8 +41,10 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoBulkWriteException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.result.UpdateResult;
@@ -506,6 +508,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Project> listParticipatedProjects(BasicDBObject condition, String userId) {
+		return iterateParticipatedProject(condition, userId).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> listParticipatedProjectsCard(BasicDBObject condition, String userId) {
+		return iterateParticipatedProject(condition, userId).map(ProjectRenderer::render).into(new ArrayList<>());
+	}
+	
+	private AggregateIterable<Project> iterateParticipatedProject(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -517,9 +528,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
-		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		AggregateIterable<Project> iterable = c("obs").aggregate(pipeline, Project.class);
+		return iterable;
 	}
-
+	
 	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();

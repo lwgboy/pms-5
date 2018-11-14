@@ -13,7 +13,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.pms.project.SwitchPage;
+import com.bizvisionsoft.pms.project.SwitchProjectPage;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ICommand;
@@ -67,7 +67,7 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	private void openProject(Work work) {
-		SwitchPage.openProject(br, work.getProject_id());
+		SwitchProjectPage.openProject(br, work.getProject_id());
 	}
 
 	protected GridTreeViewer getViewer() {

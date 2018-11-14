@@ -97,7 +97,7 @@ public class Program {
 		if (pgmId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>"
 				+ MetaInfoWarpper.userInfo(pgmInfo_meta, pgmInfo) + "</div>";
 	}
 

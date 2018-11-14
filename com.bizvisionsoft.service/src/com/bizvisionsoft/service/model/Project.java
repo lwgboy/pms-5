@@ -359,13 +359,17 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@SetValue
 	private UserMeta pmInfo_meta;
+	
+	public String warpperPMInfo() {
+		return MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo);
+	}
 
 	@ReadValue("pmInfoHtml")
 	private String readPMInfoHtml() {
 		if (pmId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>"
 				+ MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
 	}
 
@@ -391,6 +395,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
 	private String impUnitOrgFullName;
+	
+	public String getImpUnitOrgFullName() {
+		return impUnitOrgFullName;
+	}
 
 	public ObjectId getImpUnit_id() {
 		return impUnit_id;
@@ -443,6 +451,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@Persistence
 	private OperationInfo creationInfo;
+	
+	public OperationInfo getCreationInfo() {
+		return creationInfo;
+	}
 
 	@ReadValue("createOn")
 	private Date readCreateOn() {
