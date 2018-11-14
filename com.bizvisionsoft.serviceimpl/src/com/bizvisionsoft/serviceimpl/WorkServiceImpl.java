@@ -45,6 +45,7 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.ProjectWorkRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.WorkRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
@@ -472,7 +473,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		AggregateIterable<Work> iter = queryWork(skip, limit, basicCondition, filter, sort);
 		return iter.into(new ArrayList<Work>());
 	}
-	
+
 	@Override
 	public long countMyProcessingWork(BasicDBObject filter, String userid) {
 		if (filter == null)
@@ -483,100 +484,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		filter.put("distributed", true);
 		filter.put("$or", new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) });
 		filter.put("stage", new BasicDBObject("$ne", true));
-		return count(filter, Work.class);
-	}
-
-	@Override
-	public List<Work> listMyPlannedWork(BasicDBObject condition, String userid) {
-		return iterateMyPlannedWork(condition, userid).into(new ArrayList<Work>());
-	}
-
-	@Override
-	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyPlannedWork(condition, userid).map(WorkRenderer::renderingPlannedWorkCard).into(new ArrayList<>());
-	}
-
-	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, String userid) {
-		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
-				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
-
-		BasicDBObject basicCondition = appendPlanWorkCondition(new BasicDBObject().append("chargerId", userid));
-		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
-		return iterable;
-	}
-
-	@Override
-	public long countMyPlannedWork(BasicDBObject filter, String userid) {
-		if (filter == null)
-			filter = new BasicDBObject();
-		appendPlanWorkCondition(filter.append("chargerId", userid));
-		return count(filter, Work.class);
-	}
-
-	@Override
-	public List<Work> listMyExecutingWork(BasicDBObject condition, String userid) {
-		AggregateIterable<Work> iterable = iterateMyExecutingWork(condition, userid);
-		return iterable.into(new ArrayList<Work>());
-	}
-	
-	@Override
-	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyExecutingWork(condition, userid).map(WorkRenderer::renderingExecutingWorkCard).into(new ArrayList<>());
-	}
-
-	private AggregateIterable<Work> iterateMyExecutingWork(BasicDBObject condition, String userid) {
-		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
-				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
-
-		BasicDBObject basicCondition = appendExecWorkCondition(new BasicDBObject().append("chargerId", userid));
-		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
-		return iterable;
-	}
-
-	@Override
-	public long countMyExecutingWork(BasicDBObject filter, String userid) {
-		if (filter == null)
-			filter = new BasicDBObject();
-		appendExecWorkCondition(filter.append("chargerId", userid));
-		return count(filter, Work.class);
-	}
-
-	@Override
-	public List<Work> listMyFinishedWork(BasicDBObject condition, String userid) {
-		return iterateMyFinishedWork(condition, userid).into(new ArrayList<Work>());
-	}
-	
-	@Override
-	public List<Document> listMyFinishedWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyFinishedWork(condition, userid).map(WorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
-	}
-
-	private AggregateIterable<Work> iterateMyFinishedWork(BasicDBObject condition, String userid) {
-		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-
-		BasicDBObject basicCondition = appendFinishedWorkCondition(new BasicDBObject().append("$or",
-				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
-
-		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, new BasicDBObject("actualFinish", -1));
-		return iterable;
-	}
-
-	@Override
-	public long countMyFinishedWork(BasicDBObject filter, String userid) {
-		if (filter == null)
-			filter = new BasicDBObject();
-
-		appendFinishedWorkCondition(filter.append("$or",
-				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
-
 		return count(filter, Work.class);
 	}
 
@@ -2252,34 +2159,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Work> listMyUnAssignmentWork(BasicDBObject condition, String userid) {
-		return iterateMyUnassignmentWork(condition, userid).into(new ArrayList<>());
-	}
-	
-	@Override
-	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyUnassignmentWork(condition, userid).map(WorkRenderer::renderingUnAssignmentWorkCard).into(new ArrayList<>());
-	}
-
-	private AggregateIterable<Work> iterateMyUnassignmentWork(BasicDBObject condition, String userid) {
-		BasicDBObject basicCondition = appendAssignmentWorkCondition(new BasicDBObject("chargerId", null).append("assignerId", userid));
-		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
-				.orElse(new BasicDBObject("planFinish", 1).append("_id", -1));
-		return queryWork(skip, limit, basicCondition, filter, sort);
-	}
-
-	@Override
-	public long countMyUnAssignmentWork(BasicDBObject filter, String userid) {
-		if (filter == null)
-			filter = new BasicDBObject();
-		appendAssignmentWorkCondition(filter.append("assignerId", userid).append("chargerId", null));
-		return count(filter, Work.class);
-	}
-
-	@Override
 	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages uwp) {
 		c(WorkPackage.class).deleteMany(
 				new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
@@ -2362,38 +2241,100 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listProjectPlannedWork(BasicDBObject condition, ObjectId project_id) {
+		return iterateMyPlannedWork(condition,
+				new BasicDBObject("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
+						.into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listProjectPlannedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+		ArrayList<Document> into = iterateMyPlannedWork(condition,
+				new BasicDBObject("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
+						.map((Work work) -> ProjectWorkRenderer.renderingPlannedWorkCard(work, userid)).into(new ArrayList<>());
+		return into;
+	}
+
+	@Override
+	public List<Work> listMyPlannedWork(BasicDBObject condition, String userid) {
+		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
+		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::renderingPlannedWorkCard)
+				.into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, BasicDBObject basicCondition) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+		appendPlanWorkCondition(basicCondition);
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
+		return iterable;
+	}
 
-		BasicDBObject basicCondition = appendPlanWorkCondition(
-				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	@Override
+	public long countMyPlannedWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendPlanWorkCondition(filter.append("chargerId", userid));
+		return count(filter, Work.class);
 	}
 
 	@Override
 	public long countProjectPlannedWork(BasicDBObject filter, ObjectId project_id) {
 		if (filter == null)
 			filter = new BasicDBObject();
-
 		appendPlanWorkCondition(filter.append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
-
 		return count(filter, Work.class);
 	}
 
 	@Override
 	public List<Work> listProjectExecutingWork(BasicDBObject condition, ObjectId project_id) {
+		return iterateExecutingWork(condition,
+				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
+						.into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listProjectExecutingWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+		return iterateExecutingWork(condition,
+				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
+						.map((Work work) -> ProjectWorkRenderer.renderingExecutingWorkCard(work, userid)).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Work> listMyExecutingWork(BasicDBObject condition, String userid) {
+		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
+		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::renderingExecutingWorkCard)
+				.into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateExecutingWork(BasicDBObject condition, BasicDBObject basicCondition) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
 				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendExecWorkCondition(
-				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+		appendExecWorkCondition(basicCondition);
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, sort);
+		return iterable;
+	}
+
+	@Override
+	public long countMyExecutingWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendExecWorkCondition(filter.append("chargerId", userid));
+		return count(filter, Work.class);
 	}
 
 	@Override
@@ -2406,14 +2347,51 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listProjectFinishedWork(BasicDBObject condition, ObjectId project_id) {
+		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id)).into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listProjectFinishedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id))
+				.map(ProjectWorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Work> listMyFinishedWork(BasicDBObject condition, String userid) {
+		return iterateFinishedWork(condition,
+				new BasicDBObject("$or",
+						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }))
+								.into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listMyFinishedWorkCard(BasicDBObject condition, String userid) {
+		return iterateFinishedWork(condition,
+				new BasicDBObject("$or",
+						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }))
+								.map(WorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateFinishedWork(BasicDBObject condition, BasicDBObject basicCondition) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
-				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
 
-		BasicDBObject basicCondition = appendFinishedWorkCondition(new BasicDBObject().append("project_id", project_id));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+		appendFinishedWorkCondition(basicCondition);
+
+		AggregateIterable<Work> iterable = queryWork(skip, limit, basicCondition, filter, new BasicDBObject("actualFinish", -1));
+		return iterable;
+	}
+
+	@Override
+	public long countMyFinishedWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+
+		appendFinishedWorkCondition(filter.append("$or",
+				new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }));
+
+		return count(filter, Work.class);
 	}
 
 	@Override
@@ -2426,15 +2404,44 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Work> listProjectUnAssignmentWork(BasicDBObject condition, ObjectId project_id) {
+		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
+				.into(new ArrayList<Work>());
+	}
+
+	@Override
+	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
+				.map((Work work) -> ProjectWorkRenderer.renderingUnAssignmentWorkCard(work, userid)).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Work> listMyUnAssignmentWork(BasicDBObject condition, String userid) {
+		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("assignerId", userid))
+				.into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid) {
+		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("assignerId", userid))
+				.map(WorkRenderer::renderingUnAssignmentWorkCard).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Work> iterateUnassignmentWork(BasicDBObject condition, BasicDBObject basicCondition) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort"))
-				.orElse(new BasicDBObject("planStart", 1).append("_id", -1));
+				.orElse(new BasicDBObject("planFinish", 1).append("_id", -1));
+		appendAssignmentWorkCondition(basicCondition);
+		return queryWork(skip, limit, basicCondition, filter, sort);
+	}
 
-		BasicDBObject basicCondition = appendAssignmentWorkCondition(
-				new BasicDBObject().append("chargerId", null).append("project_id", project_id));
-		return queryWork(skip, limit, basicCondition, filter, sort).into(new ArrayList<Work>());
+	@Override
+	public long countMyUnAssignmentWork(BasicDBObject filter, String userid) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		appendAssignmentWorkCondition(filter.append("assignerId", userid).append("chargerId", null));
+		return count(filter, Work.class);
 	}
 
 	@Override
@@ -2444,6 +2451,5 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		appendAssignmentWorkCondition(filter.append("chargerId", null).append("project_id", project_id));
 		return count(filter, Work.class);
 	}
-
 
 }
