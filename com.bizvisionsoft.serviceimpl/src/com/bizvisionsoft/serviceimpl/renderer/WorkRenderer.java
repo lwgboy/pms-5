@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class WorkRenderer {
-	
+
 	public static Document renderingUnAssignmentWorkCard(Work work) {
 		Document doc = new Document();
 		int rowHeight = 220;
@@ -24,7 +24,7 @@ public class WorkRenderer {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work,work.getPlanFinish());
+		renderTitle(theme, sb, work, work.getPlanFinish());
 
 		// 标签
 		// renderNoticeBudgets(work, sb);
@@ -42,13 +42,13 @@ public class WorkRenderer {
 		// 标签
 		renderNoticeBudgets(sb, work);
 		sb.append("</div>");
-		
+
 		doc.put("height", rowHeight);
 		doc.put("html", sb.toString());
 		doc.put("_id", work.get_id());
 		return doc;
 	}
-	
+
 	public static Document renderingFinishedWorkCard(Work work) {
 		Document doc = new Document();
 		int rowHeight = 172;
@@ -95,7 +95,7 @@ public class WorkRenderer {
 		int margin = 8;
 		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 
-		renderTitle(theme, sb, work,work.getPlanFinish());
+		renderTitle(theme, sb, work, work.getPlanFinish());
 
 		// 显示第一行信息
 		renderProjectLine(theme, sb, work);
@@ -118,7 +118,7 @@ public class WorkRenderer {
 		renderNoticeBudgets(sb, work);
 
 		sb.append("</div>");
-		
+
 		doc.put("height", rowHeight);
 		doc.put("html", sb.toString());
 		doc.put("_id", work.get_id());
@@ -171,10 +171,9 @@ public class WorkRenderer {
 	private static void renderTitle(CardTheme theme, StringBuffer sb, Work work, Date date) {
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
-		sb.append("<div class='label_title brui_card_head' style='display:flex;justify-content:space-between;height:64px;background:#"
-				+ theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>"
-				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div><div style='font-size:36px;'>" + _date
-				+ "</div></div>");
+		sb.append("<div class='label_title brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
+				+ "</div><div style='font-size:36px;'>" + _date + "</div></div>");
 	}
 
 	private static void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {

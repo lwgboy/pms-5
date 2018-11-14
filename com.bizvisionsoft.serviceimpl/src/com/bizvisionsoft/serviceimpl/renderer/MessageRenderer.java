@@ -38,7 +38,7 @@ public class MessageRenderer {
 		}
 
 		sb.append(
-				"<div class='brui_card_head' style='display:flex;justify-content:space-between;height:64px;background:#f9f9f9;color:#4d4d4d;padding:8px;'>"
+				"<div class='brui_card_head' style='background:#f9f9f9;color:#4d4d4d;padding:8px;'>"
 						+ "<div>"//
 						+ "<div class='label_title'>" + msg.getSubject() + "</div>"//
 						+ "<div>" + senderName + "&nbsp;&nbsp;&nbsp;" + Formatter.getString(msg.getSendDate(), "yyyy-MM-dd HH:mm:ss")
