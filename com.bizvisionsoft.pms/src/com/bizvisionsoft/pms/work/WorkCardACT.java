@@ -40,48 +40,51 @@ public class WorkCardACT {
 		Work work = Services.get(WorkService.class).getWork(_id);
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if (e.text.startsWith("startWork/")) {
-			startWork(work, viewer, context);
+			startWork(work, element, viewer, context);
 		} else if (e.text.startsWith("finishWork/")) {
-			finishWork(work, viewer, context);
+			finishWork(work, element, viewer, context);
 		} else {
 			if (e.text.startsWith("openWorkPackage/")) {
 				String idx = e.text.split("/")[1];
 				openWorkPackage(work, idx, viewer, context);
 			} else if (e.text.startsWith("assignWork/")) {
-				assignWork(work, viewer, context);
+				assignWork(work, element, viewer, context);
 			} else if (e.text.startsWith("openProject/")) {
 				openProject(work, viewer, context);
 			}
 		}
 	}
 
-	private void startWork(Work work, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void startWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		if (br.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
 			List<Result> result = Services.get(WorkService.class).startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
-				viewer.remove(work);
+				((List<?>) viewer.getInput()).remove(doc);
+				viewer.remove(doc);
 			}
 		}
 	}
 
-	private void assignWork(Work work, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void assignWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		Selector.open("指派用户选择器", context, work, l -> {
 			Services.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
 					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
 
 			work.setChargerId(((User) l.get(0)).getUserId());
-			viewer.remove(work);
+			((List<?>) viewer.getInput()).remove(doc);
+			viewer.remove(doc);
 			br.updateSidebarActionBudget("指派工作");
 		});
 	}
 
-	private void finishWork(Work work, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void finishWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		if (br.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
 			List<Result> result = Services.get(WorkService.class).finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
-				viewer.remove(work);
+				((List<?>) viewer.getInput()).remove(doc);
+				viewer.remove(doc);
 				br.updateSidebarActionBudget("处理工作");
 			}
 		}

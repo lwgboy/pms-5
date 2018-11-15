@@ -45,7 +45,6 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.bizvisionsoft.serviceimpl.renderer.ProjectWorkRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.WorkRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
@@ -1084,7 +1083,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				&& checkUserRoles(userid, Arrays.asList(Role.SYS_ROLE_MM_ID, Role.SYS_ROLE_PD_ID)))
 				|| (TrackView.CATAGORY_PURCHASE.equals(catagory)
 						&& checkUserRoles(userid, Arrays.asList(Role.SYS_ROLE_SCM_ID, Role.SYS_ROLE_PD_ID)))))
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 
 		appendProject(pipeline);
 
@@ -1148,7 +1147,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// 构造默认类型查询
 			pipeline.add(Aggregates.match(new BasicDBObject("workPackageSetting.catagory", catagory)));
 
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 			return c("work").aggregate(pipeline).into(new ArrayList<>()).size();
 		}
 	}
@@ -2251,7 +2250,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Document> listProjectPlannedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		ArrayList<Document> into = iterateMyPlannedWork(condition,
 				new BasicDBObject("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work work) -> ProjectWorkRenderer.renderingPlannedWorkCard(work, userid)).into(new ArrayList<>());
+						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
 		return into;
 	}
 
@@ -2262,8 +2261,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::renderingPlannedWorkCard)
-				.into(new ArrayList<>());
+		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2304,7 +2302,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Document> listProjectExecutingWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		return iterateExecutingWork(condition,
 				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work work) -> ProjectWorkRenderer.renderingExecutingWorkCard(work, userid)).into(new ArrayList<>());
+						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2314,8 +2312,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
-		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::renderingExecutingWorkCard)
-				.into(new ArrayList<>());
+		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateExecutingWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2354,7 +2351,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Document> listProjectFinishedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id))
-				.map(ProjectWorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2370,7 +2367,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return iterateFinishedWork(condition,
 				new BasicDBObject("$or",
 						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }))
-								.map(WorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+								.map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateFinishedWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2412,7 +2409,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
-				.map((Work work) -> ProjectWorkRenderer.renderingUnAssignmentWorkCard(work, userid)).into(new ArrayList<>());
+				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getAssignerId()), false)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2424,7 +2421,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("assignerId", userid))
-				.map(WorkRenderer::renderingUnAssignmentWorkCard).into(new ArrayList<>());
+				.map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateUnassignmentWork(BasicDBObject condition, BasicDBObject basicCondition) {

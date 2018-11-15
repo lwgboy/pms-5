@@ -13,116 +13,125 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class WorkRenderer {
-
-	public static Document renderingUnAssignmentWorkCard(Work work) {
-		return new WorkRenderer(work).renderingUnAssignmentWorkCard();
+	public static Document render(Work work) {
+		return new WorkRenderer(work).setCanAction(true).setShowProject(true).render();
 	}
 
-	public static Document renderingFinishedWorkCard(Work work) {
-		return new WorkRenderer(work).setTheme(new CardTheme("deepGrey")).renderingFinishedWorkCard();
+	public static Document render(Work work, boolean canAction, boolean showProject) {
+		return new WorkRenderer(work).setCanAction(canAction).setShowProject(showProject).render();
 	}
 
-	public static Document renderingExecutingWorkCard(Work work) {
-		return new WorkRenderer(work).renderingExecutingWorkCard();
-	}
-
-	public static Document renderingPlannedWorkCard(Work work) {
-		return new WorkRenderer(work).renderingPlannedWorkCard();
+	private Document render() {
+		StringBuffer sb = new StringBuffer();
+		if (work.getActualStart() == null && work.getChargerId() != null) {
+			renderingPlannedWorkCard(sb);
+		} else if (work.getActualStart() == null && work.getChargerId() == null && work.getAssignerId() != null) {
+			renderingUnAssignmentWorkCard(sb);
+		} else if (work.getActualStart() != null && work.getActualFinish() == null) {
+			renderingExecutingWorkCard(sb);
+		} else if (work.getActualStart() != null && work.getActualFinish() != null) {
+			renderingFinishedWorkCard(sb);
+		}
+		sb.insert(0, "<div class='brui_card' style='cursor:pointer;height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
+		sb.append("</div>");
+		return new Document("_id", work.get_id()).append("html", sb.toString()).append("height", rowHeight);
 	}
 
 	private Work work;
 
 	private CardTheme theme;
 
-	private Document doc;
+	private boolean canAction;
 
-	public WorkRenderer(Work work) {
+	private boolean showProject;
+
+	private int rowHeight;
+
+	private static final int margin = 8;
+
+	private WorkRenderer(Work work) {
 		this.work = work;
 		theme = new CardTheme(work);
-		doc = new Document("_id", work.get_id());
+		canAction = true;
+		showProject = true;
+		rowHeight = margin * 3;
 	}
 
-	public WorkRenderer setTheme(CardTheme theme) {
-		this.theme = theme;
+	private WorkRenderer setCanAction(boolean canAction) {
+		this.canAction = canAction;
 		return this;
 	}
 
-	public Document renderingUnAssignmentWorkCard() {
-		int rowHeight = 220;
+	private WorkRenderer setShowProject(boolean showProject) {
+		this.showProject = showProject;
+		return this;
+	}
 
-		StringBuffer sb = new StringBuffer();
+	private void renderingFinishedWorkCard(StringBuffer sb) {
+		sb.append(renderTitle(work.getActualFinish()));
+
+		// 显示第一行信息
+		if (showProject)
+			sb.append(renderProjectLine());
+
+		if (Check.isAssigned(work.getStageName()))
+			sb.append(renderStageName());
+
+		// 显示计划开始和计划完成
+		sb.append(renderPlanSchedule());
+
+		// 工作负责人
+		sb.append(renderCharger());
+
+	}
+
+	private void renderingUnAssignmentWorkCard(StringBuffer sb) {
+
 		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
 		sb.append(renderTitle(work.getPlanFinish()));
 
 		// 显示第一行信息
-		sb.append(renderProjectLine());
+		if (showProject)
+			sb.append(renderProjectLine());
+
+		if (Check.isAssigned(work.getStageName()))
+			sb.append(renderStageName());
 
 		// 显示计划开始和计划完成
-		String label = "计划";
-		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine(label, text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
+		sb.append(renderPlanSchedule());
+
+		// 工作指派者
+		sb.append(renderAssigner());
 
 		// 显示工作包和指派工作
 		sb.append(renderButtons("指派", "assignWork/" + work.get_id()));
 
 		// 标签
 		sb.append(renderNoticeBudgets());
-		sb.append("</div>");
 
-		return doc.append("height", rowHeight).append("html", sb.toString());
-	}
-
-	public Document renderingFinishedWorkCard() {
-		int rowHeight = 172;
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
-		sb.append(renderTitle(work.getActualFinish()));
-
-		// 显示第一行信息
-		sb.append(renderProjectLine());
-
-		// 显示计划开始和计划完成
-		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
-				+ RenderTools.shortDate(work.getActualFinish());
-		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
-
-		// 工作负责人
-		sb.append(renderCharger());
-
-		sb.append("</div>");
-
-		return doc.append("height", rowHeight).append("html", sb.toString());
 	}
 
 	/**
 	 * 渲染处理中的工作
 	 * 
+	 * @param c
+	 * @param b
+	 * 
 	 * @param work
 	 * @return
 	 */
-	public Document renderingExecutingWorkCard() {
-		int rowHeight = 374;
-
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
+	private void renderingExecutingWorkCard(StringBuffer sb) {
 
 		sb.append(renderTitle(work.getPlanFinish()));
 
 		// 显示第一行信息
-		sb.append(renderProjectLine());
+		if (showProject)
+			sb.append(renderProjectLine());
 
-		// 显示计划开始和计划完成
-		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
-				+ RenderTools.shortDate(work.getActualStart());
-		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
+		if (Check.isAssigned(work.getStageName()))
+			sb.append(renderStageName());
+
+		sb.append(renderPlanSchedule());
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -136,33 +145,29 @@ public class WorkRenderer {
 		// 标签
 		sb.append(renderNoticeBudgets());
 
-		sb.append("</div>");
-
-		return doc.append("height", rowHeight).append("html", sb.toString());
 	}
 
 	/**
 	 * 渲染已计划的工作
 	 * 
+	 * @param c
+	 * @param b
+	 * 
 	 * @param work
 	 * @return
 	 */
-	public Document renderingPlannedWorkCard() {
-		int rowHeight = 247;
-
-		StringBuffer sb = new StringBuffer();
-		// 显示页签
-		int margin = 8;
-		sb.append("<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-
+	private void renderingPlannedWorkCard(StringBuffer sb) {
 		sb.append(renderTitle(work.getPlanStart()));
 
 		// 显示第一行信息
-		sb.append(renderProjectLine());
+		if (showProject)
+			sb.append(renderProjectLine());
+
+		if (Check.isAssigned(work.getStageName()))
+			sb.append(renderStageName());
 
 		// 显示计划开始和计划完成
-		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
+		sb.append(renderPlanSchedule());
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -173,12 +178,29 @@ public class WorkRenderer {
 		// 标签
 		sb.append(renderNoticeBudgets());
 
-		sb.append("</div>");
+	}
 
-		return doc.append("height", rowHeight).append("html", sb.toString());
+	private String renderStageName() {
+		rowHeight += 20 + 8;
+		return RenderTools.getIconTextLine("阶段", work.getStageName(), RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE);
+	}
+
+	private String renderPlanSchedule() {
+		rowHeight += 20 + 8;
+
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		if (work.getActualFinish() != null)
+			text += "，完成于" + RenderTools.shortDate(work.getActualFinish());
+
+		else if (work.getActualStart() != null)
+			text += "，开始于" + RenderTools.shortDate(work.getActualStart());
+
+		return RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE);
 	}
 
 	private String renderTitle(Date date) {
+		rowHeight += 64;
+
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
 		return "<div class='label_title brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
@@ -186,13 +208,20 @@ public class WorkRenderer {
 	}
 
 	private String renderProjectLine() {
+		rowHeight += 20 + 8;
 		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_PROJECT
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
 				+ theme.emphasizeText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
 	}
 
 	private String renderCharger() {
+		rowHeight += 20 + 8;
 		return renderUser("负责", work.warpperChargerInfo(), theme.emphasizeText);
+	}
+
+	private String renderAssigner() {
+		rowHeight += 20 + 8;
+		return renderUser("指派", work.warpperAssignerInfo(), theme.emphasizeText);
 	}
 
 	private String renderUser(String title, String text, String color) {
@@ -202,6 +231,7 @@ public class WorkRenderer {
 	}
 
 	private String renderNoticeBudgets() {
+		rowHeight += 18 + 4 + 8;
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Double value = work.getTF();
@@ -242,10 +272,8 @@ public class WorkRenderer {
 	}
 
 	private String renderButtons(String label, String href) {
-		return renderButtons(true, label, href);
-	}
+		rowHeight += 24 + 4 + 16;
 
-	private String renderButtons(boolean showActionButton, String label, String href) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		List<String[]> btns = new ArrayList<>();
 		if (Check.isNotAssigned(wps)) {
@@ -263,7 +291,7 @@ public class WorkRenderer {
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
-		if (showActionButton)
+		if (canAction)
 			sb.append(
 					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 		sb.append("</div>");
@@ -271,6 +299,7 @@ public class WorkRenderer {
 	}
 
 	private String renderIndicators(String label1, double ind1, String label2, double ind2) {
+		rowHeight += 120 + 8 ;
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
 

@@ -15,6 +15,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 @PersistenceCollection("workReport")
 public class WorkReport {
@@ -102,7 +103,11 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
-	private String projectInfo;
+	private String projectName;
+
+	@ReadValue
+	@SetValue
+	private String projectNumber;
 
 	@ReadValue
 	@Persistence
@@ -115,7 +120,7 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
-	private String stageInfo;
+	private String stageName;
 
 	@WriteValue
 	@Persistence
@@ -125,6 +130,10 @@ public class WorkReport {
 	@SetValue
 	private String reporterInfo;
 
+	@ReadValue
+	@SetValue
+	private UserMeta reporterInfo_meta;
+
 	public WorkReport setReporter(String reporter) {
 		this.reporter = reporter;
 		return this;
@@ -132,6 +141,18 @@ public class WorkReport {
 
 	public String getReporter() {
 		return reporter;
+	}
+
+	@ReadValue("reporterInfoHtml")
+	public String getReporterInfoHtml() {
+		if (reporterInfo == null) {
+			return "";
+		}
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperReporterInfo() + "</div>";
+	}
+
+	public String warpperReporterInfo() {
+		return MetaInfoWarpper.userInfo(reporterInfo_meta, reporterInfo);
 	}
 
 	@ReadValue
@@ -156,6 +177,22 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
+	private UserMeta verifierInfo_meta;
+
+	@ReadValue("verifierInfoHtml")
+	public String getVerifierInfoHtml() {
+		if (verifierInfo == null) {
+			return "";
+		}
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperVerifierInfo() + "</div>";
+	}
+
+	public String warpperVerifierInfo() {
+		return MetaInfoWarpper.userInfo(verifierInfo_meta, verifierInfo);
+	}
+
+	@ReadValue
+	@SetValue
 	private Date verifyDate;
 
 	@ReadValue
@@ -170,6 +207,11 @@ public class WorkReport {
 
 	@SetValue
 	private String pmId;
+
+	// TODO
+	@ReadValue
+	@SetValue
+	private String pmInfo;
 
 	@ReadValue
 	@WriteValue
@@ -188,14 +230,14 @@ public class WorkReport {
 	@Label
 	public String getLabel() {
 		if (TYPE_DAILY.equals(type)) {
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
+			return projectName + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
 		} else if (TYPE_WEEKLY.equals(type)) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(period);
 			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "÷‹";
+			return projectName + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "÷‹";
 		} else if (TYPE_MONTHLY.equals(type)) {
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period);
+			return projectName + "/" + new SimpleDateFormat("yyyy-MM").format(period);
 		}
 		return "";
 	}

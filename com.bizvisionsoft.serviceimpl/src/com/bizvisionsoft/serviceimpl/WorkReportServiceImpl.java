@@ -48,6 +48,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
+		appendUserInfo(pipeline, "reporter", "reporterInfo");
+
+		appendUserInfo(pipeline, "verifier", "verifierInfo");
+
 		AggregateIterable<WorkReport> iter = c(WorkReport.class).aggregate(pipeline);
 		return iter;
 	}
@@ -242,18 +246,17 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 				.append("type", workReport.getType()).append("reporter", workReport.getReporter())) > 0) {
 			throw new ServiceException("已经创建报告。");
 		}
+		ObjectId workReport_id = new ObjectId();
 
-		WorkReport newWorkReport = super.insert(workReport);
-
-		List<WorkReportItem> into = c("work", WorkReportItem.class)
-				.aggregate(new JQ("查询-报告项-项目").set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
-						.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter())
-						.set("chargerid", workReport.getReporter()).array())
+		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询-报告项-项目")
+				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod()).set("report_id", workReport_id)
+				.set("reportorId", workReport.getReporter()).set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
 		if (into.size() == 0) {
-			delete(newWorkReport.get_id(), WorkReport.class);
 			throw new ServiceException("没有需要填写报告的工作。");
 		}
+		workReport.set_id(workReport_id);
+		WorkReport newWorkReport = super.insert(workReport);
 		c(WorkReportItem.class).insertMany(into);
 		return getWorkReport(newWorkReport.get_id());
 	}
@@ -488,7 +491,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createAllWorkReportDailyDataSet(BasicDBObject condition, String userid) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
-		appendQueryUserInProjectPMO(userid, pipeline);
+		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 
 		pipeline.addAll(new JQ("查询-报告")
 				.set("match", new Document("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM)).array());
@@ -503,7 +507,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 					.countDocuments(new BasicDBObject("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
 			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目日报
-			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			List<Bson> pipeline = new ArrayList<>();
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 			pipeline.add(Aggregates.match(new Document("type", WorkReport.TYPE_DAILY).append("status", WorkReport.STATUS_CONFIRM)));
 			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
 		}
@@ -512,7 +517,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	@Override
 	public List<WorkReport> createAllWorkReportWeeklyDataSet(BasicDBObject condition, String userid) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		appendQueryUserInProjectPMO(userid, pipeline);
+		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 
 		pipeline.addAll(new JQ("查询-报告")
 				.set("match", new Document("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM)).array());
@@ -527,7 +533,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 					.countDocuments(new BasicDBObject("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
 			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目周报
-			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			List<Bson> pipeline = new ArrayList<>();
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 			pipeline.add(Aggregates.match(new Document("type", WorkReport.TYPE_WEEKLY).append("status", WorkReport.STATUS_CONFIRM)));
 			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
 		}
@@ -537,7 +544,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createAllWorkReportMonthlyDataSet(BasicDBObject condition, String userid) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户不是显示全部日报，但当前用户具有项目管理员角色时，只显示其作为项目团队成员的报告
-		appendQueryUserInProjectPMO(userid, pipeline);
+		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 
 		pipeline.addAll(new JQ("查询-报告")
 				.set("match", new Document("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM)).array());
@@ -552,21 +560,11 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 					.countDocuments(new BasicDBObject("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM));
 		else {
 			// 否则只显示当前用户在项目PMO团队中的项目的已确认的项目月报
-			List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array();
+			List<Bson> pipeline = new ArrayList<>();
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 			pipeline.add(Aggregates.match(new Document("type", WorkReport.TYPE_MONTHLY).append("status", WorkReport.STATUS_CONFIRM)));
 			return c("workReport").aggregate(pipeline).into(new ArrayList<>()).size();
 		}
-	}
-
-	/**
-	 * 添加获取项目时，当前用户不是项目总监时，只获取当前用户在项目PMO团队中的项目的查询
-	 * 
-	 * @param userid
-	 * @param pipeline
-	 */
-	private void appendQueryUserInProjectPMO(String userid, List<Bson> pipeline) {
-		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID))
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
 	}
 
 }

@@ -515,7 +515,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<Document> listParticipatedProjectsCard(BasicDBObject condition, String userId) {
 		return iterateParticipatedProject(condition, userId).map(ProjectRenderer::render).into(new ArrayList<>());
 	}
-	
+
 	private AggregateIterable<Project> iterateParticipatedProject(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
@@ -531,7 +531,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		AggregateIterable<Project> iterable = c("obs").aggregate(pipeline, Project.class);
 		return iterable;
 	}
-	
+
 	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
@@ -1451,6 +1451,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		filter.append("_id", new BasicDBObject("$in", projectIds));
 		return list(condition);
 	}
+
 	@Override
 	public List<Document> listAdministratedProjectsCard(BasicDBObject condition, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
@@ -1460,11 +1461,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			condition.put("filter", filter);
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
-		
+
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		
+
 		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
 		return c(Project.class).aggregate(pipeline).map(ProjectRenderer::render).into(new ArrayList<>());
 	}
@@ -1496,7 +1497,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID)) {
-			appendQueryUserInProjectPMO(pipeline, userid);
+			appendQueryUserInProjectPMO(pipeline, userid, "$_id");
 		}
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
@@ -1515,23 +1516,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数
 		List<Bson> pipeline = new ArrayList<Bson>();
-		appendQueryUserInProjectPMO(pipeline, userid);
+		appendQueryUserInProjectPMO(pipeline, userid,"$_id");
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
-	}
-
-	/**
-	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
-	 * 
-	 * @param pipeline
-	 * @param userid
-	 */
-	private void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid) {
-		pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userid).array());
 	}
 
 }
