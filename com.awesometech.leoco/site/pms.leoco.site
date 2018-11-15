@@ -76002,7 +76002,7 @@
         "name": "待确认的项目报告",
         "layout": [],
         "type": "board",
-        "stickerTitle": "已分配",
+        "stickerTitle": "待确认的项目报告",
         "folderId": "166bdf4dc3f",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
