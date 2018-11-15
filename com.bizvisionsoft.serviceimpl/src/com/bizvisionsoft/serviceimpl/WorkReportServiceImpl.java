@@ -18,13 +18,19 @@ import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkReportSummary;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.ReportRenderer;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.result.UpdateResult;
 
 public class WorkReportServiceImpl extends BasicServiceImpl implements WorkReportService {
 
 	private List<WorkReport> query(BasicDBObject condition, List<Bson> pipeline) {
+		return interateReport(condition, pipeline).into(new ArrayList<WorkReport>());
+	}
+
+	private AggregateIterable<WorkReport> interateReport(BasicDBObject condition, List<Bson> pipeline) {
 		if (pipeline == null)
 			pipeline = new ArrayList<Bson>();
 
@@ -42,7 +48,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		return c(WorkReport.class).aggregate(pipeline).into(new ArrayList<WorkReport>());
+		AggregateIterable<WorkReport> iter = c(WorkReport.class).aggregate(pipeline);
+		return iter;
 	}
 
 	@Override
@@ -237,10 +244,9 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		}
 		ObjectId workReport_id = new ObjectId();
 
-		List<WorkReportItem> into = c("work", WorkReportItem.class)
-				.aggregate(new JQ("查询-报告项-项目").set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
-						.set("report_id", workReport_id).set("reportorId", workReport.getReporter())
-						.set("chargerid", workReport.getReporter()).array())
+		List<WorkReportItem> into = c("work", WorkReportItem.class).aggregate(new JQ("查询-报告项-项目")
+				.set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod()).set("report_id", workReport_id)
+				.set("reportorId", workReport.getReporter()).set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
 		if (into.size() == 0) {
 			throw new ServiceException("没有需要填写报告的工作。");
@@ -447,11 +453,20 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	public List<WorkReport> createWorkReportDataSet(BasicDBObject condition, String userid) {
 		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
-		return query(condition,
-				(List<Bson>) new JQ("查询-报告")
-						.set("match",
-								new Document("status", WorkReport.STATUS_SUBMIT).append("project_id", new BasicDBObject("$in", projectIds)))
-						.array());
+		List<Bson> pipeline = new JQ("查询-报告")
+				.set("match", new Document("status", WorkReport.STATUS_SUBMIT).append("project_id", new BasicDBObject("$in", projectIds)))
+				.array();
+		return query(condition, pipeline);
+	}
+
+	@Override
+	public List<Document> listWorkReportToConfirm(BasicDBObject condition, String userid) {
+		List<ObjectId> projectIds = c("project").distinct("_id", new Document("pmId", userid), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		List<Bson> pipeline = new JQ("查询-报告")
+				.set("match", new Document("status", WorkReport.STATUS_SUBMIT).append("project_id", new BasicDBObject("$in", projectIds)))
+				.array();
+		return interateReport(condition, pipeline).map(ReportRenderer::render).into(new ArrayList<>());
 	}
 
 	@Override
