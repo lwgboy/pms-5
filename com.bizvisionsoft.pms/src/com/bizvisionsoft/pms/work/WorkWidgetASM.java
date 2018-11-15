@@ -24,7 +24,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 /**
- * 将要使用WorkCardRender取代
+ * 使用WorkCardRender取代
  * 
  * @author hua
  *

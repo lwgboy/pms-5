@@ -1440,6 +1440,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
+	@Deprecated
 	public List<Project> listAdministratedProjects(BasicDBObject condition, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1449,6 +1450,23 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
 		return list(condition);
+	}
+	@Override
+	public List<Document> listAdministratedProjectsCard(BasicDBObject condition, String managerId) {
+		List<ObjectId> projectIds = getAdministratedProjects(managerId);
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("_id", new BasicDBObject("$in", projectIds));
+		
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		
+		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
+		return c(Project.class).aggregate(pipeline).map(ProjectRenderer::render).into(new ArrayList<>());
 	}
 
 	@Override

@@ -427,9 +427,19 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我管理的项目清单/list")
+	@Deprecated
 	public List<Project> listAdministratedProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
 
+	@POST
+	@Path("/managedby/{managerId}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我管理的项目看板（未关闭）/list")
+	public List<Document> listAdministratedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
+
+	
 	@POST
 	@Path("/managedby/{managerId}/count")
 	@Consumes("application/json; charset=UTF-8")

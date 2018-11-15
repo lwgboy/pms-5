@@ -61,8 +61,9 @@ public class WorkRenderer {
 		sb.append(renderProjectLine());
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		String label = "计划";
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		sb.append(RenderTools.getIconTextLine(label, text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 显示工作包和指派工作
 		sb.append(renderButtons("指派", "assignWork/" + work.get_id()));
@@ -87,9 +88,9 @@ public class WorkRenderer {
 		sb.append(renderProjectLine());
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
 				+ RenderTools.shortDate(work.getActualFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -119,9 +120,9 @@ public class WorkRenderer {
 		sb.append(renderProjectLine());
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
 				+ RenderTools.shortDate(work.getActualStart());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -160,8 +161,8 @@ public class WorkRenderer {
 		sb.append(renderProjectLine());
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -187,14 +188,14 @@ public class WorkRenderer {
 	private String renderProjectLine() {
 		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_PROJECT
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
-				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
+				+ theme.emphasizeText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
 	}
 
 	private String renderCharger() {
 		return renderUser("负责", work.warpperChargerInfo(), theme.emphasizeText);
 	}
 
-	private String renderUser( String title, String text, String color) {
+	private String renderUser(String title, String text, String color) {
 		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_USER
 				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
 				+ ";margin-left:8px;width:100%;display:flex;'>" + title + "：<span style='cursor:pointer;'>" + text + "</span></div></div>";
@@ -244,7 +245,7 @@ public class WorkRenderer {
 		return renderButtons(true, label, href);
 	}
 
-	private String renderButtons( boolean showActionButton, String label, String href) {
+	private String renderButtons(boolean showActionButton, String label, String href) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		List<String[]> btns = new ArrayList<>();
 		if (Check.isNotAssigned(wps)) {

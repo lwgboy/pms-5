@@ -29,6 +29,7 @@ public class CardTheme {
 	public static final String BLUE = "blue";
 	public static final String[] CONTRAST_BLUE = {"e1f5fe","0091ea"}; 
 	
+	public static final String[] TEXT_LINE = {"616161","9e9e9e"};
 	
 
 	String headBgColor;
