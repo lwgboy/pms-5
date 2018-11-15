@@ -29,6 +29,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
+@Deprecated
 public class AdministeredProjectProgressWidgetASM {
 
 	@Inject

@@ -1370,6 +1370,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	@Deprecated
 	public List<DateMark> listMyWorksDateMark(String userid) {
 		List<? extends Bson> ls = new JQ("查询-时间标记-待处理工作").set("userId", userid).array();
 		return c("work").aggregate(ls, DateMark.class).into(new ArrayList<>());

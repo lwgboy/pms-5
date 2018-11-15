@@ -30,6 +30,22 @@ public class WorkRenderer {
 		return new WorkRenderer(work).renderingPlannedWorkCard(true, false);
 	}
 
+	public static Document renderingProjectUnAssignmentWorkCard(Work work) {
+		return new WorkRenderer(work).renderingUnAssignmentWorkCard(false, false);
+	}
+
+	public static Document renderingProjectFinishedWorkCard(Work work) {
+		return new WorkRenderer(work).setTheme(new CardTheme("deepGrey")).renderingFinishedWorkCard(false);
+	}
+
+	public static Document renderingProjectExecutingWorkCard(Work work) {
+		return new WorkRenderer(work).renderingExecutingWorkCard(false, false);
+	}
+
+	public static Document renderingProjectPlannedWorkCard(Work work) {
+		return new WorkRenderer(work).renderingPlannedWorkCard(false, false);
+	}
+
 	private Work work;
 
 	private CardTheme theme;
@@ -61,12 +77,12 @@ public class WorkRenderer {
 			sb.append(renderProjectLine());
 		else
 			Check.isAssigned(work.getStageName(),
-					s -> sb.append(RenderTools.getIconTextLine(s, RenderTools.IMG_URL_TASK, theme.emphasizeText)));
+					s -> sb.append(RenderTools.getIconTextLine("阶段", s, RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE)));
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，完成于"
 				+ RenderTools.shortDate(work.getActualFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -90,11 +106,12 @@ public class WorkRenderer {
 			sb.append(renderProjectLine());
 		else
 			Check.isAssigned(work.getStageName(),
-					s -> sb.append(RenderTools.getIconTextLine(s, RenderTools.IMG_URL_TASK, theme.emphasizeText)));
+					s -> sb.append(RenderTools.getIconTextLine("阶段", s, RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE)));
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
+				+ RenderTools.shortDate(work.getActualStart());
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 显示工作包和指派工作
 		sb.append(renderButtons(showActionButton, "指派", "assignWork/" + work.get_id()));
@@ -126,12 +143,16 @@ public class WorkRenderer {
 		sb.append(renderTitle(work.getPlanFinish()));
 
 		// 显示第一行信息
-		sb.append(renderProjectLine());
+		if (showProject)
+			sb.append(renderProjectLine());
+		else
+			Check.isAssigned(work.getStageName(),
+					s -> sb.append(RenderTools.getIconTextLine("阶段", s, RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE)));
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish()) + "，开始于"
 				+ RenderTools.shortDate(work.getActualStart());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
@@ -140,7 +161,7 @@ public class WorkRenderer {
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
 
 		// 显示工作包和完成工作
-		sb.append(renderButtons("完成", "finishWork/" + work.get_id()));
+		sb.append(renderButtons(showActionButton, "完成", "finishWork/" + work.get_id()));
 
 		// 标签
 		sb.append(renderNoticeBudgets());
@@ -170,17 +191,21 @@ public class WorkRenderer {
 		sb.append(renderTitle(work.getPlanStart()));
 
 		// 显示第一行信息
-		sb.append(renderProjectLine());
+		if (showProject)
+			sb.append(renderProjectLine());
+		else
+			Check.isAssigned(work.getStageName(),
+					s -> sb.append(RenderTools.getIconTextLine("阶段", s, RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE)));
 
 		// 显示计划开始和计划完成
-		String text = "计划：" + RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.emphasizeText));
+		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		sb.append(RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 
 		// 工作负责人
 		sb.append(renderCharger());
 
 		// 显示工作包和开始工作
-		sb.append(renderButtons("开始", "startWork/" + work.get_id()));
+		sb.append(renderButtons(showActionButton, "开始", "startWork/" + work.get_id()));
 
 		// 标签
 		sb.append(renderNoticeBudgets());
@@ -200,7 +225,7 @@ public class WorkRenderer {
 	private String renderProjectLine() {
 		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_PROJECT
 				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
-				+ theme.lightText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
+				+ theme.emphasizeText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
 	}
 
 	private String renderCharger() {

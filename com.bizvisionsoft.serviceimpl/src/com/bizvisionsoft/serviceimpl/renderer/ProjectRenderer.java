@@ -2,7 +2,6 @@ package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.Document;
 
@@ -12,7 +11,6 @@ import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class ProjectRenderer {
@@ -32,17 +30,7 @@ public class ProjectRenderer {
 	public ProjectRenderer(Project pj) {
 		this.pj = pj;
 		theme = new CardTheme(pj);
-
-		if (ProjectStatus.Created.equals(pj.getStatus())) {
-			rowHeight = 174;
-		} else if (ProjectStatus.Processing.equals(pj.getStatus())) {
-			rowHeight = 174;
-		} else if (ProjectStatus.Closing.equals(pj.getStatus())) {
-			rowHeight = 142;
-		} else {
-			rowHeight = 142;
-		}
-
+		rowHeight = 3 * margin;
 	}
 
 	private Document render() {
@@ -63,22 +51,36 @@ public class ProjectRenderer {
 	}
 
 	private void renderClosedProject(StringBuffer sb) {
-		//TODO
 		sb.append(renderTitle());
+
 		sb.append(renderPM());
+
+		sb.append(renderOrg());
+
+		sb.append(renderPlanSchedule());
+		
+		sb.append(renderActualSchedule());
+
+		if (pj.isStageEnable()) {
+			sb.append(renderProjectStage());
+		}
+
 	}
 
 	private void renderClosingProject(StringBuffer sb) {
-		//TODO 检查收尾项目的应该显示哪些
 		sb.append(renderTitle());
+
 		sb.append(renderPM());
-		String text = "计划：" + Formatter.getString(pj.getPlanStart()) + "~" + RenderTools.shortDate(pj.getPlanFinish())
-				+ Optional.ofNullable(pj.getActualStart()).map(d -> " 开始于" + RenderTools.shortDate(d)).orElse(" 尚未开始");
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.lightText));
+
 		sb.append(renderOrg());
 
+		sb.append(renderPlanSchedule());
+		
+		if(pj.getActualStart()!=null) {
+			sb.append(renderActualSchedule());
+		}
+
 		if (pj.isStageEnable()) {
-			rowHeight += 40;
 			sb.append(renderProjectStage());
 		}
 
@@ -91,14 +93,18 @@ public class ProjectRenderer {
 
 	private void renderProcessingProject(StringBuffer sb) {
 		sb.append(renderTitle());
+
 		sb.append(renderPM());
-		String text = "计划：" + Formatter.getString(pj.getPlanStart()) + "~" + RenderTools.shortDate(pj.getPlanFinish())
-				+ Optional.ofNullable(pj.getActualStart()).map(d -> " 开始于" + RenderTools.shortDate(d)).orElse(" 尚未开始");
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.lightText));
+
 		sb.append(renderOrg());
 
+		sb.append(renderPlanSchedule());
+
+		if(pj.getActualStart()!=null) {
+			sb.append(renderActualSchedule());
+		}
+		
 		if (pj.isStageEnable()) {
-			rowHeight += 40;
 			sb.append(renderProjectStage());
 		}
 
@@ -112,26 +118,46 @@ public class ProjectRenderer {
 
 	private void renderCreateProject(StringBuffer sb) {
 		sb.append(renderTitle());
+
 		sb.append(renderPM());
 
-		String text = "计划：" + RenderTools.shortDate(pj.getPlanStart()) + "~" + RenderTools.shortDate(pj.getPlanFinish())
-				+ "&nbsp;&nbsp;&nbsp;工期：" + pj.getPlanDuration() + "天";
-		sb.append(RenderTools.getIconTextLine(text, RenderTools.IMG_URL_CALENDAR, theme.lightText));
-
 		sb.append(renderOrg());
+
+		sb.append(renderPlanSchedule());
+
 	}
 
+	private String renderPlanSchedule() {
+		rowHeight += 20 + 8;
+		String text = RenderTools.shortDate(pj.getPlanStart()) + " ~ " + RenderTools.shortDate(pj.getPlanFinish()) + " <span style='color:#"
+				+ CardTheme.TEXT_LINE[0] + "'>工期：</span>" + pj.getPlanDuration() + "天";
+		return RenderTools.getIconTextLine("计划进度", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE);
+	}
+
+	private String renderActualSchedule() {
+		rowHeight += 20 + 8;
+		Date actualStart = pj.getActualStart();
+		Date actualFinish = pj.getActualFinish();
+		String text = RenderTools.shortDate(actualStart) + " ~ " + RenderTools.shortDate(actualFinish) + " <span style='color:#"
+				+ CardTheme.TEXT_LINE[0] + "'>工期：</span>" + pj.getActualDuration() + "天";
+		return RenderTools.getTextLine("实际进度", text, CardTheme.TEXT_LINE);
+	}
+
+	
 	private String renderOrg() {
-		return RenderTools.getTextLine("承担单位：" + pj.getImpUnitOrgFullName(), theme.emphasizeText);
+		rowHeight += 20 + 8;
+		return RenderTools.getTextLine("承担单位", pj.getImpUnitOrgFullName(), CardTheme.TEXT_LINE);
 	}
 
 	private String renderPM() {
-		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_USER
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + theme.emphasizeText
-				+ ";margin-left:8px;width:100%;display:flex;'>项目经理：" + pj.warpperPMInfo() + "</div></div>";
+		rowHeight += 20 + 8;
+
+		return RenderTools.getIconTextLine("项目经理", pj.warpperPMInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
+
 	}
 
 	private String renderTitle() {
+		rowHeight += 64;
 		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
 				+ "<div class='label_title'>" + pj.getName() + "</div>"//
@@ -143,6 +169,8 @@ public class ProjectRenderer {
 	}
 
 	private String renderProjectStage() {
+		rowHeight += 38;
+
 		StringBuffer text = new StringBuffer();
 		text.append("<div class='layui-btn-group' "
 				+ "style='padding:8px 8px 0px 8px;width: 100%;display:inline-flex;justify-content:space-between;'>");
@@ -212,8 +240,8 @@ public class ProjectRenderer {
 
 		if (text != null) {
 			String html = MetaInfoWarpper.warpper(text, msg);
-			rowHeight += 24;
-			return "<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>" + html
+			rowHeight += 35;
+			return "<div style='margin-top:8px;padding:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>" + html
 					+ "</div>";
 
 		}
@@ -223,36 +251,46 @@ public class ProjectRenderer {
 	private String renderIndicators() {
 		StringBuffer sb = new StringBuffer();
 
+		String label;
 		Double ind = pj.getWAR();
-		String label = "工作量完成率<br>项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。";
 		if (ind != null) {
-			appendIndicator(sb, ind, label, CardTheme.CONTRAST_TEAL);
-			rowHeight += 80;
+			label = "项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。";
+			appendIndicator(sb, ind, "工作量完成率", label, CardTheme.CONTRAST_TEAL);
 		}
 
 		ind = pj.getDAR();
-		label = "工期完成率<br>项目实际工期与计划工期的比值，反映项目截至目前耗时状况。";
 		if (ind != null) {
-			appendIndicator(sb, ind, label, CardTheme.CONTRAST_TEAL);
-			rowHeight += 80;
+			label = "项目实际工期与计划工期的比值，反映项目截至目前耗时状况。";
+			appendIndicator(sb, ind, "工期完成率", label, CardTheme.CONTRAST_CYAN);
 		}
 
 		ind = pj.getCAR();
-		label = "预算使用率<br>项目累计的实际成本与计划成本（预算）的比值，反映项目截至目前消耗的资金状况。";
 		if (ind != null) {
-			appendIndicator(sb, ind, label, CardTheme.CONTRAST_TEAL);
-			rowHeight += 80;
+			label = "项目累计的实际成本与计划成本（预算）的比值，反映项目截至目前消耗的资金状况。";
+			appendIndicator(sb, ind, "预算使用率", label, CardTheme.CONTRAST_INDIGO);
+		}
+
+		ind = pj.getDurationProbability();
+		if (ind != null) {
+			label = "根据风险模拟后，计算按计划完成项目的概率。";
+			appendIndicator(sb, ind, "按期完工概率", label,
+					ind > 0.75 ? CardTheme.CONTRAST_TEAL : (ind > 0.5 ? CardTheme.CONTRAST_BLUE : CardTheme.CONTRAST_ORANGE));
 		}
 
 		return sb.toString();
 	}
 
-	private void appendIndicator(StringBuffer sb, Double ind, String label, String[] indColor) {
+	private void appendIndicator(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
+		rowHeight += 80;
+
 		sb.append("<div style='padding:8px 16px 0px 16px;display:flex;width:100%;align-items:center;'>");
 		sb.append("<img style='flex-shrink:0;' src='/bvs/svg?type=progress&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor="
 				+ indColor[1] + "' width=72px height=72px/>");
-		sb.append("<div class='brui_card_text3 label_caption' style='color:#" + theme.lightText
-				+ ";margin-left:8px;padding-left:8px;border-left:solid 2px #" + theme.lightText + ";'>" + label + "</div>");
+		sb.append("<div class='brui_card_text3 label_caption' style='margin-left:8px;padding-left:8px;border-left:solid 2px #"
+				+ theme.lightText + ";'>" + //
+				"<div style='color:#" + CardTheme.TEXT_LINE[0] + "'>" + label + "</div>" + "<div style='color:#" + CardTheme.TEXT_LINE[1]
+				+ "'>" + text + "</div>"//
+				+ "</div>");//
 		sb.append("</div>");
 	}
 

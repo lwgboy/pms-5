@@ -169,13 +169,14 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的待处理工作日历选择器/list")
+	@Deprecated
 	public List<DateMark> listMyWorksDateMark(@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/userid/{userid}/processing/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的待处理工作（工作抽屉）/list" })
+	@DataSet({ "我的待处理工作（工作抽屉）/list" }) // 我的待处理工作（工作抽屉）已过期
 	public List<Work> listMyProcessingWork(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -183,7 +184,7 @@ public interface WorkService {
 	@Path("/userid/{userid}/processing/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的待处理工作（工作抽屉）/count" })
+	@DataSet({ "我的待处理工作（工作抽屉）/count" }) // 我的待处理工作（工作抽屉）已过期
 	public long countMyProcessingWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
