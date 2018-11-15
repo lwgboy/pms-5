@@ -33,12 +33,14 @@ public class ReportRenderer {
 
 		String remark = report.getWorkRemark();
 		if (Check.isAssigned(remark)) {
-			sb.append(renderMultiline("重要活动",remark));
+			rowHeight += 72;
+			sb.append(RenderTools.getTextMultiLine("重要活动",remark,CardTheme.TEXT_LINE));
 		}
 
 		remark = report.getOtherRemark();
 		if (Check.isAssigned(remark)) {
-			sb.append(renderMultiline("其他问题",remark));
+			rowHeight += 72;
+			sb.append(RenderTools.getTextMultiLine("其他问题",remark,CardTheme.TEXT_LINE));
 		}
 		
 		sb.append(renderRightButton());
@@ -51,15 +53,6 @@ public class ReportRenderer {
 		return "<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='confirm' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>"
 				+ "</div>";
-	}
-
-	private String renderMultiline(String label,String text) {
-		rowHeight += 72;
-		return
-				"<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 36px;'>" + //
-				"<div style='color:#" + CardTheme.TEXT_LINE[0] + "'>" + label + "</div>" + "<div style='color:#" + CardTheme.TEXT_LINE[1]
-				+ "'>" + text + "</div>"//
-				+ "</div>";//
 	}
 
 	private String renderReporter() {
