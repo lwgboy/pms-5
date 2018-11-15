@@ -60,6 +60,8 @@ public class WorkCardACT {
 			List<Result> result = Services.get(WorkService.class).startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
+				((List<Work>) viewer.getInput()).forEach((Work w) -> {
+				});
 				viewer.remove(work);
 			}
 		}

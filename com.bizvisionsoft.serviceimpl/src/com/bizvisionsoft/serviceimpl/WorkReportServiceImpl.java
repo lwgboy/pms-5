@@ -235,65 +235,18 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 				.append("type", workReport.getType()).append("reporter", workReport.getReporter())) > 0) {
 			throw new ServiceException("已经创建报告。");
 		}
-		Date period = workReport.getPeriod();
-
-		Document query = new Document();
-		query.append("summary", false);
-		query.append("project_id", workReport.getProject_id());
-		query.append("actualStart", new Document("$ne", null));
-		if (WorkReport.TYPE_DAILY.equals(workReport.getType())) {
-			query.append("$and",
-					Arrays.asList(
-							new Document("$or",
-									Arrays.asList(new Document("chargerId", workReport.getReporter()),
-											new Document("assignerId", workReport.getReporter()))),
-							new Document("$or", Arrays.asList(new Document("actualFinish", null), new Document("actualFinish", period)))));
-		} else if (WorkReport.TYPE_WEEKLY.equals(workReport.getType())) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
-			cal.add(Calendar.DAY_OF_MONTH, 8);
-			Date end = cal.getTime();
-			query.append(
-					"$and", Arrays
-							.asList(new Document("$or", Arrays.asList(new Document("chargerId", workReport.getReporter()),
-									new Document("assignerId", workReport.getReporter()))),
-
-									new Document("$or",
-											Arrays.asList(new Document("actualFinish", null), new Document("$and", Arrays.asList(
-
-													new Document("actualFinish", new Document("$gte", period)),
-													new Document("actualFinish", new Document("$lt", end))))))
-
-					));
-		} else if (WorkReport.TYPE_MONTHLY.equals(workReport.getType())) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
-			cal.add(Calendar.MONTH, 1);
-			Date end = cal.getTime();
-			query.append("$and",
-					Arrays.asList(
-							new Document("$or",
-									Arrays.asList(new Document("chargerId", workReport.getReporter()),
-											new Document("assignerId", workReport.getReporter()))),
-							new Document("$or", Arrays.asList(new Document("actualFinish", null), new Document("$and", Arrays.asList(
-
-									new Document("actualFinish", new Document("$gte", period)),
-									new Document("actualFinish", new Document("$lt", end))))))
-
-					));
-		}
-
-		WorkReport newWorkReport = super.insert(workReport);
+		ObjectId workReport_id = new ObjectId();
 
 		List<WorkReportItem> into = c("work", WorkReportItem.class)
 				.aggregate(new JQ("查询-报告项-项目").set("project_id", workReport.getProject_id()).set("actualFinish", workReport.getPeriod())
-						.set("report_id", newWorkReport.get_id()).set("reportorId", workReport.getReporter())
+						.set("report_id", workReport_id).set("reportorId", workReport.getReporter())
 						.set("chargerid", workReport.getReporter()).array())
 				.into(new ArrayList<WorkReportItem>());
 		if (into.size() == 0) {
-			delete(newWorkReport.get_id(), WorkReport.class);
 			throw new ServiceException("没有需要填写报告的工作。");
 		}
+		workReport.set_id(workReport_id);
+		WorkReport newWorkReport = super.insert(workReport);
 		c(WorkReportItem.class).insertMany(into);
 		return getWorkReport(newWorkReport.get_id());
 	}
