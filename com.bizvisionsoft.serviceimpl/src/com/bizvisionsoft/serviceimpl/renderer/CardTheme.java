@@ -9,28 +9,27 @@ public class CardTheme {
 	public static final String DEEP_GREY = "deepGrey";
 
 	public static final String LIGHT_GREY = "lightGrey";
-	public static final String[] CONTRAST_LIGHT_GREY = {"f5f5f5","616161"}; 
+	public static final String[] CONTRAST_LIGHT_GREY = { "f5f5f5", "616161" };
 
 	public static final String RED = "red";
-	public static final String[] CONTRAST_RED = {"fde0dc","e00032"}; 
+	public static final String[] CONTRAST_RED = { "fde0dc", "e00032" };
 
 	public static final String CYAN = "cyan";
-	public static final String[] CONTRAST_CYAN = {"e0f7fa","00b8d4"}; 
+	public static final String[] CONTRAST_CYAN = { "e0f7fa", "00b8d4" };
 
 	public static final String ORANGE = "orange";
-	public static final String[] CONTRAST_ORANGE = {"fff3e0","ff6d00"}; 
+	public static final String[] CONTRAST_ORANGE = { "fff3e0", "ff6d00" };
 
 	public static final String TEAL = "teal";
-	public static final String[] CONTRAST_TEAL = {"e0f2f1","00bfa5"}; 
+	public static final String[] CONTRAST_TEAL = { "e0f2f1", "00bfa5" };
 
 	public static final String INDIGO = "indigo";
-	public static final String[] CONTRAST_INDIGO = {"e8eaf6","304ffe"}; 
+	public static final String[] CONTRAST_INDIGO = { "e8eaf6", "304ffe" };
 
 	public static final String BLUE = "blue";
-	public static final String[] CONTRAST_BLUE = {"e1f5fe","0091ea"}; 
-	
-	public static final String[] TEXT_LINE = {"616161","9e9e9e"};
-	
+	public static final String[] CONTRAST_BLUE = { "e1f5fe", "0091ea" };
+
+	public static final String[] TEXT_LINE = { "616161", "9e9e9e" };
 
 	String headBgColor;
 	String headFgColor;
@@ -53,21 +52,24 @@ public class CardTheme {
 	}
 
 	public CardTheme(Work work) {
-		switch (work.getWarningLevel()) {
-		case Work.warningLevelDelayed:
-			apply(RED);
-			break;
-		case Work.warningLevelEstDelay:
-		case Work.warningLevelLag:
-			apply(ORANGE);
-			break;
-		case Work.warningLevelLead:
-			apply(TEAL);
-			break;
-		default:
-			apply(INDIGO);
-			break;
-		}
+		if (work.getActualFinish() != null)
+			apply(DEEP_GREY);
+		else
+			switch (work.getWarningLevel()) {
+			case Work.warningLevelDelayed:
+				apply(RED);
+				break;
+			case Work.warningLevelEstDelay:
+			case Work.warningLevelLag:
+				apply(ORANGE);
+				break;
+			case Work.warningLevelLead:
+				apply(TEAL);
+				break;
+			default:
+				apply(INDIGO);
+				break;
+			}
 	}
 
 	public CardTheme(String color) {
