@@ -46,17 +46,9 @@ public class MessageRenderer {
 						+ "</div>" //
 						+ img + "</div>");//
 
-		sb.append("<div style='padding:8px;height:67px;" // 2行文字高度
-				+ "white-space:normal; word-break:break-all;" //
-				+ "text-overflow: ellipsis;"//
-				+ "text-overflow:-o-ellipsis-lastline;"//
-				+ "overflow: hidden;"//
-				+ "display: -webkit-box;"//
-				+ "-webkit-box-orient:vertical;"//
-				+ "-webkit-line-clamp:3;"// 谷歌上行显示省略号
-				+ "'>" + msg.getContent() + "</div>");
+		sb.append("<div class='brui_card_text3 label_caption' style='color:#9e9e9e;margin:8px;'>" + msg.getContent() + "</div>");
 		
-		sb.append("<div class='layui-btn layui-btn-xs layui-btn-normal' style='margin-right:4px;float:right;'>"
+		sb.append("<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='read' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>"
 				+ "</div>");
 

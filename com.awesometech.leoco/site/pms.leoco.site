@@ -42371,8 +42371,7 @@
             "text": "打开日报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -42381,7 +42380,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -43860,8 +43859,7 @@
             "text": "打开周报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -43870,7 +43868,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -44170,8 +44168,7 @@
             "text": "打开月报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -44180,7 +44177,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -44390,8 +44387,7 @@
             "text": "打开日报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -44400,7 +44396,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -44610,8 +44606,7 @@
             "text": "打开周报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "propagate": false,
             "forceText": false,
@@ -44620,7 +44615,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -44830,7 +44825,7 @@
             "text": "打开月报",
             "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "propagate": false,
@@ -44840,7 +44835,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
@@ -58907,11 +58902,10 @@
             "id": "163f2dc8560",
             "name": "打开日报",
             "text": "打开日报",
-            "image": "/img/right.svg",
+            "image": "",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.workreport.OpenDailyACT",
-            "switchContentToAssemblyId": "163f33b563e",
-            "openContent": true,
+            "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+            "openContent": false,
             "propagate": false,
             "forceText": false,
             "style": "",
@@ -58919,7 +58913,7 @@
             "editorAssemblyEditable": true,
             "objectBehavier": false,
             "actionBehavier": false,
-            "type": "switch",
+            "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
           }
