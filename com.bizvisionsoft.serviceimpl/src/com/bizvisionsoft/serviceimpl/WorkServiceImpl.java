@@ -45,7 +45,6 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.bizvisionsoft.serviceimpl.renderer.ProjectWorkRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.WorkRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
@@ -2250,7 +2249,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Document> listProjectPlannedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		ArrayList<Document> into = iterateMyPlannedWork(condition,
 				new BasicDBObject("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work work) -> ProjectWorkRenderer.renderingPlannedWorkCard(work, userid)).into(new ArrayList<>());
+						.map(WorkRenderer::renderingPlannedWorkCard).into(new ArrayList<>());
 		return into;
 	}
 
@@ -2303,7 +2302,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public List<Document> listProjectExecutingWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		return iterateExecutingWork(condition,
 				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work work) -> ProjectWorkRenderer.renderingExecutingWorkCard(work, userid)).into(new ArrayList<>());
+						.map(WorkRenderer::renderingExecutingWorkCard).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2352,8 +2351,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> listProjectFinishedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
-		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id))
-				.map(ProjectWorkRenderer::renderingFinishedWorkCard).into(new ArrayList<>());
+		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id)).map(WorkRenderer::renderingFinishedWorkCard)
+				.into(new ArrayList<>());
 	}
 
 	@Override
@@ -2411,7 +2410,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
-				.map((Work work) -> ProjectWorkRenderer.renderingUnAssignmentWorkCard(work, userid)).into(new ArrayList<>());
+				.map(WorkRenderer::renderingUnAssignmentWorkCard).into(new ArrayList<>());
 	}
 
 	@Override

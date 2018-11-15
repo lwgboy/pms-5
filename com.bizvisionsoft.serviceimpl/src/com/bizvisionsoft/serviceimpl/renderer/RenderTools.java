@@ -9,8 +9,10 @@ public class RenderTools {
 	public static final String IMG_URL_CALENDAR = "rwt-resources/extres/img/calendar_c.svg";
 
 	public static final String IMG_URL_USER = "rwt-resources/extres/img/user_c.svg";
-	
+
 	public static final String IMG_URL_PROJECT = "rwt-resources/extres/img/project_c.svg";
+
+	public static final String IMG_URL_TASK = "rwt-resources/extres/img/task_c.svg";
 
 	public static String getIconTextLine(String text, String iconURL, String color) {
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'><img src='" + iconURL
