@@ -48,6 +48,10 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
+		appendUserInfo(pipeline, "reporter", "reporterInfo");
+
+		appendUserInfo(pipeline, "verifier", "verifierInfo");
+
 		AggregateIterable<WorkReport> iter = c(WorkReport.class).aggregate(pipeline);
 		return iter;
 	}
