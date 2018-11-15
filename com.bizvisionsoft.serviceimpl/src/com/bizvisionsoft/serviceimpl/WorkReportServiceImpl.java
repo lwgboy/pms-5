@@ -51,6 +51,8 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 		appendUserInfo(pipeline, "reporter", "reporterInfo");
 
 		appendUserInfo(pipeline, "verifier", "verifierInfo");
+		
+		appendUserInfo(pipeline, "pmId", "pmInfo");
 
 		AggregateIterable<WorkReport> iter = c(WorkReport.class).aggregate(pipeline);
 		return iter;

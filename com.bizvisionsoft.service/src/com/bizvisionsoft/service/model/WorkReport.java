@@ -208,10 +208,26 @@ public class WorkReport {
 	@SetValue
 	private String pmId;
 
-	// TODO
 	@ReadValue
 	@SetValue
 	private String pmInfo;
+
+	@ReadValue
+	@SetValue
+	private UserMeta pmInfo_meta;
+	
+
+	@ReadValue("pmInfoHtml")
+	public String getPMInfoHtml() {
+		if (pmInfo == null) {
+			return "";
+		}
+		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperPMInfo() + "</div>";
+	}
+
+	public String warpperPMInfo() {
+		return MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo);
+	}
 
 	@ReadValue
 	@WriteValue
@@ -229,17 +245,7 @@ public class WorkReport {
 
 	@Label
 	public String getLabel() {
-		if (TYPE_DAILY.equals(type)) {
-			return projectName + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
-		} else if (TYPE_WEEKLY.equals(type)) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
-			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return projectName + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "周";
-		} else if (TYPE_MONTHLY.equals(type)) {
-			return projectName + "/" + new SimpleDateFormat("yyyy-MM").format(period);
-		}
-		return "";
+		return projectName + "/" + getCycleText();
 	}
 
 	@Override
@@ -272,21 +278,15 @@ public class WorkReport {
 	}
 
 	public Date getPeriodTo() {
-		// TODO 缺少其它类型的返回
 		Calendar cal = Calendar.getInstance();
-		if (TYPE_DAILY.equals(type)) {
-			return period;
-		} else if (TYPE_WEEKLY.equals(type)) {
-			cal.setTime(period);
+		cal.setTime(period);
+		if (TYPE_WEEKLY.equals(type)) {
 			cal.add(Calendar.DAY_OF_MONTH, 6);
-			return cal.getTime();
 		} else if (TYPE_MONTHLY.equals(type)) {
-			cal.setTime(period);
 			cal.add(Calendar.MONTH, 1);
 			cal.add(Calendar.DAY_OF_MONTH, -1);
-			return cal.getTime();
 		}
-		return null;
+		return cal.getTime();
 	}
 
 	@Behavior({ "删除报告", "编辑报告", "提交报告" })
