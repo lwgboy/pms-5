@@ -148,7 +148,7 @@ public class WorkReport {
 		if (reporterInfo == null) {
 			return "";
 		}
-		return "<div class='brui_cell_text'>>" + warpperReporterInfo() + "</div>";
+		return "<div class='brui_ly_hline'>>" + warpperReporterInfo() + "</div>";
 	}
 
 	public String warpperReporterInfo() {
@@ -184,7 +184,7 @@ public class WorkReport {
 		if (verifierInfo == null) {
 			return "";
 		}
-		return "<div class='brui_cell_text'>>" + warpperVerifierInfo() + "</div>";
+		return "<div class='brui_ly_hline'>>" + warpperVerifierInfo() + "</div>";
 	}
 
 	public String warpperVerifierInfo() {
@@ -222,7 +222,7 @@ public class WorkReport {
 		if (pmInfo == null) {
 			return "";
 		}
-		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>" + warpperPMInfo() + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperPMInfo() + "</div>";
 	}
 
 	public String warpperPMInfo() {

@@ -97,7 +97,7 @@ public class Program {
 		if (pgmId == null) {
 			return "";
 		}
-		return "<div class='brui_cell_text'>" + MetaInfoWarpper.userInfo(pgmInfo_meta, pgmInfo) + "</div>";
+		return "<div class='brui_ly_hline'>" + MetaInfoWarpper.userInfo(pgmInfo_meta, pgmInfo) + "</div>";
 	}
 
 	@WriteValue("pgm")

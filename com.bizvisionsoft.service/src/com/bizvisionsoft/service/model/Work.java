@@ -207,8 +207,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue({ "进度计划和监控（查看）/name", "进度计划和监控/name" })
 	private String readWorkNameHTML() {
 		if (stage) {
-			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
-					+ text + "</div>";
+			String html = "<div class='brui_ly_hline' style='padding-right:8px;'><div style='font-weight:bold;'>" + text + "</div>";
 			if (ProjectStatus.Created.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
 						+ "start/" + "' target='_rwt'>" + "启动" + "</a>";
@@ -651,7 +650,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerId == null) {
 			return "";
 		}
-		return "<div class='brui_cell_text'>>" + warpperChargerInfo() + getDistributedIcon() + "</div>";
+		return "<div class='brui_ly_hline'>>" + warpperChargerInfo() + getDistributedIcon() + "</div>";
 	}
 
 	@ReadValue("chargerInfoHtml")
@@ -659,7 +658,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerInfo == null) {
 			return "";
 		}
-		return "<div class='brui_cell_text'>" + warpperChargerInfo() + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperChargerInfo() + "</div>";
 	}
 
 	public String warpperChargerInfo() {

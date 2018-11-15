@@ -48,7 +48,7 @@ public class RiskEffect {
 	@ReadValue({ "项目风险登记簿/desc", "项目风险登记簿（查看）/desc" })
 	private String readReault() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'>");
+		sb.append("<div class='brui_ly_hline' style='padding-right:8px;'>");
 		sb.append("<div>");
 		if(work.getActualFinish()!=null) {
 			sb.append("<i class='layui-icon layui-icon-ok' style='color:blue'></i>&nbsp;");

@@ -43,7 +43,7 @@ public class ProjectRenderer {
 			renderClosedProject(sb);
 		}
 		RenderTools.renderCardBoard(sb, rowHeight);
-		
+
 		return new Document("_id", pj.get_id()).append("html", sb.toString()).append("height", rowHeight);
 	}
 
@@ -55,7 +55,7 @@ public class ProjectRenderer {
 		sb.append(renderOrg());
 
 		sb.append(renderPlanSchedule());
-		
+
 		sb.append(renderActualSchedule());
 
 		if (pj.isStageEnable()) {
@@ -72,8 +72,8 @@ public class ProjectRenderer {
 		sb.append(renderOrg());
 
 		sb.append(renderPlanSchedule());
-		
-		if(pj.getActualStart()!=null) {
+
+		if (pj.getActualStart() != null) {
 			sb.append(renderActualSchedule());
 		}
 
@@ -97,10 +97,10 @@ public class ProjectRenderer {
 
 		sb.append(renderPlanSchedule());
 
-		if(pj.getActualStart()!=null) {
+		if (pj.getActualStart() != null) {
 			sb.append(renderActualSchedule());
 		}
-		
+
 		if (pj.isStageEnable()) {
 			sb.append(renderProjectStage());
 		}
@@ -140,7 +140,6 @@ public class ProjectRenderer {
 		return RenderTools.getTextLine("实际进度", text, CardTheme.TEXT_LINE);
 	}
 
-	
 	private String renderOrg() {
 		rowHeight += 20 + 8;
 		return RenderTools.getTextLine("承担单位", pj.getImpUnitOrgFullName(), CardTheme.TEXT_LINE);
@@ -167,8 +166,7 @@ public class ProjectRenderer {
 		rowHeight += 38;
 
 		StringBuffer text = new StringBuffer();
-		text.append("<div class='layui-btn-group' "
-				+ "style='padding:8px 8px 0px 8px;width: 100%;display:inline-flex;justify-content:space-between;'>");
+		text.append("<div class='layui-btn-group brui_ly_hline' " + "style='padding:8px 8px 0px 8px'>");
 		ServicesLoader.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
