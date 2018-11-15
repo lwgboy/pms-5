@@ -28,6 +28,8 @@ import com.bizvisionsoft.math.scheduling.Task;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
@@ -621,14 +623,35 @@ public class BasicServiceImpl {
 	}
 
 	/**
-	 * TODO 获得userId 管理的项目
+	 * 获得userId 管理的项目
 	 * 
 	 * @param condition
 	 * @param userId
 	 * @return
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId) {
-		return c("project").distinct("_id", new Document("status", "进行中"), ObjectId.class).into(new ArrayList<>());
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$match", new Document("status", ProjectStatus.Processing)));
+
+		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
+		if (!checkUserRoles(userId, Role.SYS_ROLE_PD_ID)) {
+			appendQueryUserInProjectPMO(pipeline, userId, "$_id");
+		}
+		List<ObjectId> result = new ArrayList<ObjectId>();
+		c("project").aggregate(pipeline).forEach((Document doc) -> result.add(doc.getObjectId("_id")));
+		return result;
+		// return c("project").distinct("_id", new Document("status", "进行中"),
+		// ObjectId.class).into(new ArrayList<>());
+	}
+
+	/**
+	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
+	 * 
+	 * @param pipeline
+	 * @param userid
+	 */
+	protected void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid, String scopeIdName) {
+		pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
 	}
 
 	/**

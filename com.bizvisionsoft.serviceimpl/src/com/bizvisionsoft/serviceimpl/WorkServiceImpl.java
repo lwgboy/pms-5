@@ -1083,7 +1083,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				&& checkUserRoles(userid, Arrays.asList(Role.SYS_ROLE_MM_ID, Role.SYS_ROLE_PD_ID)))
 				|| (TrackView.CATAGORY_PURCHASE.equals(catagory)
 						&& checkUserRoles(userid, Arrays.asList(Role.SYS_ROLE_SCM_ID, Role.SYS_ROLE_PD_ID)))))
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 
 		appendProject(pipeline);
 
@@ -1147,7 +1147,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			// 构造默认类型查询
 			pipeline.add(Aggregates.match(new BasicDBObject("workPackageSetting.catagory", catagory)));
 
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$project_id").set("userId", userid).array());
+			appendQueryUserInProjectPMO(pipeline, userid, "$project_id");
 			return c("work").aggregate(pipeline).into(new ArrayList<>()).size();
 		}
 	}
@@ -2261,8 +2261,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid))
-				.map(WorkRenderer::render).into(new ArrayList<>());
+		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2313,8 +2312,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
-		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid))
-				.map(WorkRenderer::render).into(new ArrayList<>());
+		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateExecutingWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2369,8 +2367,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return iterateFinishedWork(condition,
 				new BasicDBObject("$or",
 						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }))
-								.map(WorkRenderer::render)
-								.into(new ArrayList<>());
+								.map(WorkRenderer::render).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateFinishedWork(BasicDBObject condition, BasicDBObject basicCondition) {

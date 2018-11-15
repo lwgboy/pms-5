@@ -404,7 +404,8 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	private List<ObjectId> getUserInPMOCBSId(String userid) {
 		List<ObjectId> result = new ArrayList<ObjectId>();
 		// 获取用户在項目PMO团队中的项目id
-		List<Bson> pipeline = new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userid).array();
+		List<Bson> pipeline = new ArrayList<Bson>();
+		appendQueryUserInProjectPMO(pipeline, userid, "$_id");
 		pipeline.add(Aggregates.project(new BasicDBObject("cbs_id", true)));
 		c("project").aggregate(pipeline).forEach((Document doc) -> {
 			result.add(doc.getObjectId("cbs_id"));
@@ -702,7 +703,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			});
 		} else {
 			List<Bson> pipeline = new ArrayList<>();
-			pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userId).array());
+			appendQueryUserInProjectPMO(pipeline, userId, "$_id");
 			pipeline.addAll(new JQ("追加-CBSScope-CBS叶子节点ID").array());
 			pipeline.add(Aggregates.project(new BasicDBObject("cbsChild_id", true)));
 			c("project").aggregate(pipeline).forEach((Document doc) -> {
