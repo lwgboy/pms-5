@@ -19,8 +19,6 @@ public class ProjectRenderer {
 		return new ProjectRenderer(pj).render();
 	}
 
-	private static final int margin = 8;
-
 	private CardTheme theme;
 
 	private Project pj;
@@ -30,7 +28,7 @@ public class ProjectRenderer {
 	public ProjectRenderer(Project pj) {
 		this.pj = pj;
 		theme = new CardTheme(pj);
-		rowHeight = 3 * margin;
+		rowHeight = 3 * RenderTools.margin;
 	}
 
 	private Document render() {
@@ -44,9 +42,8 @@ public class ProjectRenderer {
 		} else {
 			renderClosedProject(sb);
 		}
-
-		sb.insert(0, "<div class='brui_card' style='cursor:pointer;height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-		sb.append("</div>");
+		RenderTools.renderCardBoard(sb, rowHeight);
+		
 		return new Document("_id", pj.get_id()).append("html", sb.toString()).append("height", rowHeight);
 	}
 
@@ -151,9 +148,7 @@ public class ProjectRenderer {
 
 	private String renderPM() {
 		rowHeight += 20 + 8;
-
 		return RenderTools.getIconTextLine("项目经理", pj.warpperPMInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
-
 	}
 
 	private String renderTitle() {

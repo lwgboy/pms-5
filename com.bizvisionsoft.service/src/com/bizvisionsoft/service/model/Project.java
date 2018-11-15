@@ -369,7 +369,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 		if (pmId == null) {
 			return "";
 		}
-		return "<div style='display:inline-flex;width: 100%;justify-content: space-between;'>"
+		return "<div class='brui_cell_text'>"
 				+ MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
 	}
 

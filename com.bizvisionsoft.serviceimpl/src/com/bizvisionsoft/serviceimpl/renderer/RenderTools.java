@@ -5,6 +5,8 @@ import java.util.Date;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class RenderTools {
+	
+	public static final int margin = 8;
 
 	public static final String IMG_URL_CALENDAR = "rwt-resources/extres/img/calendar_c.svg";
 
@@ -36,6 +38,11 @@ public class RenderTools {
 
 	public static String shortDate(Date date) {
 		return Formatter.getString(date, "yyyy/MM/dd");
+	}
+	
+	public static void renderCardBoard(StringBuffer sb,int rowHeight) {
+		sb.insert(0, "<div class='brui_card' style='cursor:pointer;height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
+		sb.append("</div>");
 	}
 
 }

@@ -32,8 +32,9 @@ public class WorkRenderer {
 		} else if (work.getActualStart() != null && work.getActualFinish() != null) {
 			renderingFinishedWorkCard(sb);
 		}
-		sb.insert(0, "<div class='brui_card' style='cursor:pointer;height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-		sb.append("</div>");
+		
+		RenderTools.renderCardBoard(sb,rowHeight);
+		
 		return new Document("_id", work.get_id()).append("html", sb.toString()).append("height", rowHeight);
 	}
 
@@ -47,14 +48,12 @@ public class WorkRenderer {
 
 	private int rowHeight;
 
-	private static final int margin = 8;
-
 	private WorkRenderer(Work work) {
 		this.work = work;
 		theme = new CardTheme(work);
 		canAction = true;
 		showProject = true;
-		rowHeight = margin * 3;
+		rowHeight = RenderTools.margin * 3;
 	}
 
 	private WorkRenderer setCanAction(boolean canAction) {
@@ -209,25 +208,17 @@ public class WorkRenderer {
 
 	private String renderProjectLine() {
 		rowHeight += 20 + 8;
-		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_PROJECT
-				+ "' width='20' height='20'><a href='openProject/' target='_rwt' class='label_caption brui_text_line' style='color:#"
-				+ theme.emphasizeText + ";margin-left:8px;width:100%'>项目：" + work.getProjectName() + "</a></div>";
+		return RenderTools.getIconTextLine("项目", work.getProjectName(), RenderTools.IMG_URL_PROJECT, CardTheme.TEXT_LINE);
 	}
 
 	private String renderCharger() {
 		rowHeight += 20 + 8;
-		return renderUser("负责", work.warpperChargerInfo(), theme.emphasizeText);
+		return RenderTools.getIconTextLine("负责", work.warpperChargerInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
 	}
 
 	private String renderAssigner() {
 		rowHeight += 20 + 8;
-		return renderUser("指派", work.warpperAssignerInfo(), theme.emphasizeText);
-	}
-
-	private String renderUser(String title, String text, String color) {
-		return "<div style='padding-left:8px;padding-top:8px;display:flex;align-items:center;'><img src='" + RenderTools.IMG_URL_USER
-				+ "' width='20' height='20'><div class='label_caption brui_text_line' style='color:#" + color
-				+ ";margin-left:8px;width:100%;display:flex;'>" + title + "：<span style='cursor:pointer;'>" + text + "</span></div></div>";
+		return RenderTools.getIconTextLine("指派", work.warpperAssignerInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
 	}
 
 	private String renderNoticeBudgets() {
