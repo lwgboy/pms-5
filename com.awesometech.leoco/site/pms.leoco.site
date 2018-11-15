@@ -54572,11 +54572,11 @@
         "gridHideIndentionImage": false,
         "gridAutoHeight": false,
         "gridFix": 0,
-        "gridPageControl": true,
+        "gridPageControl": false,
         "gridRenderBundleId": "com.bizvisionsoft.pms",
         "gridRenderClassName": "com.bizvisionsoft.pms.workreport.WeeklyProjectReportSummaryRender",
         "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
-        "gridPageCount": 10,
+        "gridPageCount": 12,
         "columns": [
           {
             "id": "1645e48dfb0",
@@ -54685,7 +54685,7 @@
         "disableCustomized": false,
         "disableStdQuery": false,
         "inlineEdit": false,
-        "scrollLoadData": false,
+        "scrollLoadData": true,
         "compactTitleBar": false
       },
       {
@@ -58901,9 +58901,9 @@
         "rowActions": [
           {
             "id": "163f2dc8560",
-            "name": "打开日报",
-            "text": "打开日报",
-            "image": "",
+            "name": "打开",
+            "text": "",
+            "image": "/img/right.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": false,

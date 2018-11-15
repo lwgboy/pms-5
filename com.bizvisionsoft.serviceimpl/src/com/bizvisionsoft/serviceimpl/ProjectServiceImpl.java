@@ -1474,7 +1474,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAdministratedProjects(BasicDBObject filter, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
 		if (filter == null) {
-			filter = new BasicDBObject();
+//			filter = new BasicDBObject();
+			return projectIds.size();
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
 		return count(filter);

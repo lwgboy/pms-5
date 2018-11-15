@@ -148,7 +148,7 @@ public class WorkReport {
 		if (reporterInfo == null) {
 			return "";
 		}
-		return "<div class='brui_ly_hline'>>" + warpperReporterInfo() + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperReporterInfo() + "</div>";
 	}
 
 	public String warpperReporterInfo() {
@@ -184,7 +184,7 @@ public class WorkReport {
 		if (verifierInfo == null) {
 			return "";
 		}
-		return "<div class='brui_ly_hline'>>" + warpperVerifierInfo() + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperVerifierInfo() + "</div>";
 	}
 
 	public String warpperVerifierInfo() {
@@ -306,6 +306,22 @@ public class WorkReport {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+	
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+	
+	public String getWorkRemark() {
+		return workRemark;
+	}
+	
+	public String getOtherRemark() {
+		return otherRemark;
 	}
 
 }

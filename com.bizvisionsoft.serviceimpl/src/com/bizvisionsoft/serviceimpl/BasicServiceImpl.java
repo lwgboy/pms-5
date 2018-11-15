@@ -631,15 +631,15 @@ public class BasicServiceImpl {
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(new Document("$match", new Document("status", ProjectStatus.Processing)));
+		pipeline.add(new Document("$match",
+				new Document("status", new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
 
 		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userId, Role.SYS_ROLE_PD_ID)) {
 			appendQueryUserInProjectPMO(pipeline, userId, "$_id");
 		}
-		List<ObjectId> result = new ArrayList<ObjectId>();
-		c("project").aggregate(pipeline).forEach((Document doc) -> result.add(doc.getObjectId("_id")));
-		return result;
+
+		return c("project").aggregate(pipeline).map(d->d.getObjectId("_id")).into(new ArrayList<>());
 		// return c("project").distinct("_id", new Document("status", "进行中"),
 		// ObjectId.class).into(new ArrayList<>());
 	}

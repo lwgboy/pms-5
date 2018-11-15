@@ -166,7 +166,7 @@ public class ProjectRenderer {
 		rowHeight += 38;
 
 		StringBuffer text = new StringBuffer();
-		text.append("<div class='layui-btn-group brui_ly_hline' " + "style='padding:8px 8px 0px 8px'>");
+		text.append("<div class='brui_ly_hline layui-btn-group' " + "style='display:inline-flex;padding:8px 8px 0px 8px;'>");
 		ServicesLoader.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
