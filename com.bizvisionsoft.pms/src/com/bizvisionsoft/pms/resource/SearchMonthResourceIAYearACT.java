@@ -18,8 +18,8 @@ public class SearchMonthResourceIAYearACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		// 打开查询销售利润期间编辑器
-		DateTimeInputDialog dt = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置资源查询期间", null,
+		// 打开查询部门资源用量对比期间编辑器
+		DateTimeInputDialog dt = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置部门资源用量对比分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());
 		if (dt.open() == DateTimeInputDialog.OK) {
 			// 获取查询的成本期间

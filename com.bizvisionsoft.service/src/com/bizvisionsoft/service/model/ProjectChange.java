@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 @PersistenceCollection("projectChange")
 public class ProjectChange {
@@ -64,6 +65,10 @@ public class ProjectChange {
 	@ReadValue
 	@SetValue
 	private String projectNumber;
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
 
 	public ProjectChange setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
@@ -114,6 +119,22 @@ public class ProjectChange {
 		return applicantInfo;
 	}
 
+	@ReadValue
+	@SetValue
+	private UserMeta applicantInfo_meta;
+
+	@ReadValue("applicantInfoHtml")
+	public String getApplicantInfoHtml() {
+		if (applicantInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperApplicantInfo() + "</div>";
+	}
+
+	public String warpperApplicantInfo() {
+		return MetaInfoWarpper.userInfo(applicantInfo_meta, applicantInfo);
+	}
+
 	/**
 	 * 申请单位
 	 */
@@ -141,6 +162,10 @@ public class ProjectChange {
 		return this;
 	}
 
+	public Date getApplicantDate() {
+		return applicantDate;
+	}
+
 	/**
 	 * 项目现状
 	 */
@@ -154,6 +179,10 @@ public class ProjectChange {
 	@WriteValue
 	@ReadValue
 	private String reason;
+
+	public String getReason() {
+		return reason;
+	}
 
 	/**
 	 * 任务内容及工作安排、进度要求
