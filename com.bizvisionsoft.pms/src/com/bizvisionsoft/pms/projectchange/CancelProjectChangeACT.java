@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.projectchange;
 
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.InputDialog;
@@ -22,19 +21,14 @@ public class CancelProjectChangeACT {
 	private IBruiService brui;
 
 	@Execute
-	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input) {
+	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input,
+			@MethodParam(Execute.CURRENT_USER_ID) String userid) {
 		InputDialog id = new InputDialog(brui.getCurrentShell(), "否决", "请填写否决意见", null, t -> {
 			return t.trim().isEmpty() ? "请填写否决意见" : null;
 		}).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
-			ProjectChangeTask task = new ProjectChangeTask();
-			task.user = brui.getCurrentUserId();
-			task.projectChange_id = input.get_id();
-			task.date = new Date();
-			task.choice = ProjectChange.CHOICE_CANCEL;
-			task.name = input.getConfimName(task.user);
-			task.comment = id.getValue();
-			List<Result> result = ServicesLoader.get(ProjectService.class).cancelProjectChange(task);
+			List<Result> result = ServicesLoader.get(ProjectService.class).cancelProjectChange(
+					ProjectChangeTask.getCancelInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()));
 			if (result.isEmpty()) {
 				Layer.message("变更申请已否决");
 				brui.closeCurrentContent();

@@ -44,9 +44,11 @@ public class ProjectChangeRenderer {
 	private String renderRightButton() {
 		rowHeight += 40;
 		return "<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:58px;bottom:16px;'>"//
-				+ "<a href='confirm' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>" //
+				// 通过
+				+ "<a href='pass' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>" //
 				+ "</div>"//
 				+ "<div class='layui-btn layui-btn-xs layui-btn-danger' style='position:absolute;right:16px;bottom:16px;'>"//
+				// TODO 缺少拒绝图标
 				+ "<a href='cancel' target='_rwt' class='layui-icon layui-icon-ok-circle' style='color:#fff;'></a>" //
 				+ "</div>";
 	}
