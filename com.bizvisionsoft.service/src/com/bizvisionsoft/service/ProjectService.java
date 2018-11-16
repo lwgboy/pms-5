@@ -177,12 +177,12 @@ public interface ProjectService {
 	@DataSet({ "我参与的项目看板（未关闭）/list" })
 	public List<Document> listParticipatedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-	
+
 	@POST
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count","我参与的项目看板（未关闭）/count" })
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count", "我参与的项目看板（未关闭）/count" })
 	public long countParticipatedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -342,8 +342,16 @@ public interface ProjectService {
 	@Path("/projectchange/reviewer/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "待审批的项目变更/" + DataSet.COUNT, "审批项目变更/budget" })
+	@DataSet({ "待审批的项目变更/" + DataSet.COUNT, "待审批的项目变更（看板）/" + DataSet.COUNT, "审批项目变更/budget" })
 	public long countReviewerProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/projectchange/reviewer/{userId}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待审批的项目变更（看板）/" + DataSet.LIST })
+	public List<Document> listReviewerProjectChangeCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
@@ -439,7 +447,6 @@ public interface ProjectService {
 	public List<Document> listAdministratedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
 
-	
 	@POST
 	@Path("/managedby/{managerId}/count")
 	@Consumes("application/json; charset=UTF-8")

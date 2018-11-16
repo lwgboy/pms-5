@@ -41,6 +41,7 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.ProjectChangeRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoBulkWriteException;
@@ -1412,6 +1413,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<ProjectChange> listReviewerProjectChange(BasicDBObject condition, String userId) {
+		return listReviewerPC(condition, userId).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public List<Document> listReviewerProjectChangeCard(BasicDBObject condition, String userId) {
+		return listReviewerPC(condition, userId).map(ProjectChangeRenderer::render).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<ProjectChange> listReviewerPC(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1435,8 +1445,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
-		return into;
+		AggregateIterable<ProjectChange> aggregate = c(ProjectChange.class).aggregate(pipeline);
+		return aggregate;
 	}
 
 	@Override
@@ -1474,7 +1484,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public long countAdministratedProjects(BasicDBObject filter, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
 		if (filter == null) {
-//			filter = new BasicDBObject();
+			// filter = new BasicDBObject();
 			return projectIds.size();
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
@@ -1517,7 +1527,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数
 		List<Bson> pipeline = new ArrayList<Bson>();
-		appendQueryUserInProjectPMO(pipeline, userid,"$_id");
+		appendQueryUserInProjectPMO(pipeline, userid, "$_id");
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 

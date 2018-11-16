@@ -34,15 +34,15 @@ public class ReportRenderer {
 		String remark = report.getWorkRemark();
 		if (Check.isAssigned(remark)) {
 			rowHeight += 72;
-			sb.append(RenderTools.getTextMultiLine("重要活动",remark,CardTheme.TEXT_LINE));
+			sb.append(RenderTools.getTextMultiLine("重要活动", remark, CardTheme.TEXT_LINE));
 		}
 
 		remark = report.getOtherRemark();
 		if (Check.isAssigned(remark)) {
 			rowHeight += 72;
-			sb.append(RenderTools.getTextMultiLine("其他问题",remark,CardTheme.TEXT_LINE));
+			sb.append(RenderTools.getTextMultiLine("其他问题", remark, CardTheme.TEXT_LINE));
 		}
-		
+
 		sb.append(renderRightButton());
 
 		RenderTools.renderCardBoard(sb, rowHeight);
@@ -51,13 +51,12 @@ public class ReportRenderer {
 
 	private Object renderRightButton() {
 		return "<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='confirm' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>"
-				+ "</div>";
+				+ "<a href='confirm' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>" + "</div>";
 	}
 
 	private String renderReporter() {
 		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("报告人:", report.warpperReporterInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
+		return RenderTools.getIconTextLine("报告人", report.warpperReporterInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
 	}
 
 	private String renderTitle() {
