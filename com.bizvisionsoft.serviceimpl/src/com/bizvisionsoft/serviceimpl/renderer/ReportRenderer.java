@@ -21,7 +21,7 @@ public class ReportRenderer {
 	public ReportRenderer(WorkReport report) {
 		this.report = report;
 		rowHeight = RenderTools.margin * 3;
-		theme = new CardTheme(CardTheme.CYAN);
+		theme = new CardTheme(CardTheme.LIGHT_GREY);
 	}
 
 	private Document render() {

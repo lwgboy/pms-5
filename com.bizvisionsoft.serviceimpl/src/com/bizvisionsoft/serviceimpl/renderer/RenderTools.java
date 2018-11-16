@@ -51,4 +51,10 @@ public class RenderTools {
 				+ "</div>";//
 	}
 
+	public static String getTextMultiLine(String text, String color) {
+		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
+				"<div style='color:#" + color + "'>" + text + "</div>"//
+				+ "</div>";//
+	}
+
 }

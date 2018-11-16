@@ -608,6 +608,11 @@
             ],
             "name": "资源用量综合分析",
             "id": "1642c53c8ae"
+          },
+          {
+            "children": [],
+            "name": "资源数据分析",
+            "id": "1671a65fff6"
           }
         ],
         "name": "资源管理",
@@ -1386,6 +1391,20 @@
                 "horizontalSpan": 0,
                 "verticalSpan": 0,
                 "passParametersToAssembly": "{\"type\":\"dept\"}"
+              },
+              {
+                "id": "1671af7df71",
+                "name": "资源图表",
+                "switchContentToAssemblyId": "1671a6642b9",
+                "openContent": false,
+                "propagate": false,
+                "forceText": false,
+                "editorAssemblyEditable": false,
+                "objectBehavier": false,
+                "actionBehavier": false,
+                "type": "switch",
+                "horizontalSpan": 0,
+                "verticalSpan": 0
               }
             ],
             "editorAssemblyEditable": false,
@@ -38990,7 +39009,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163dacfe401",
@@ -48938,7 +48958,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "1642c5505c7",
@@ -76187,6 +76208,57 @@
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
+        "candidates": []
+      },
+      {
+        "id": "1671a6642b9",
+        "name": "资源图表",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.resource.ResourceChartASM",
+        "layout": [],
+        "folderId": "1671a65fff6",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "gridAutoColumnWidth": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false,
         "candidates": []
       }
     ]

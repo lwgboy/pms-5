@@ -12,7 +12,7 @@ public class MessageRenderer {
 
 	public static Document render(Message msg) {
 		Document doc = new Document();
-
+		CardTheme theme = new CardTheme(CardTheme.LIGHT_GREY);
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = 172;
 
@@ -37,20 +37,17 @@ public class MessageRenderer {
 			}
 		}
 
-		sb.append(
-				"<div class='brui_card_head' style='background:#f9f9f9;color:#4d4d4d;padding:8px;'>"
-						+ "<div>"//
-						+ "<div class='label_title'>" + msg.getSubject() + "</div>"//
-						+ "<div>" + senderName + "&nbsp;&nbsp;&nbsp;" + Formatter.getString(msg.getSendDate(), "yyyy-MM-dd HH:mm:ss")
-						+ "</div>"//
-						+ "</div>" //
-						+ img + "</div>");//
+		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
+				+ "<div>"//
+				+ "<div class='label_title'>" + msg.getSubject() + "</div>"//
+				+ "<div>" + senderName + "&nbsp;&nbsp;&nbsp;" + Formatter.getString(msg.getSendDate(), "yyyy-MM-dd HH:mm:ss") + "</div>"//
+				+ "</div>" //
+				+ img + "</div>");//
 
-		sb.append("<div class='brui_card_text3 label_caption' style='color:#9e9e9e;margin:8px;'>" + msg.getContent() + "</div>");
-		
+		sb.append(RenderTools.getTextMultiLine(msg.getContent(), CardTheme.TEXT_LINE[1]));
+
 		sb.append("<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='read' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>"
-				+ "</div>");
+				+ "<a href='read' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>" + "</div>");
 
 		doc.put("height", rowHeight);
 		doc.put("html", sb.toString());
