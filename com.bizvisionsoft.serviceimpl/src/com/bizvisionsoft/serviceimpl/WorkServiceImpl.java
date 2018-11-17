@@ -1770,10 +1770,14 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			planAmountMap.put(key, 0d);
 			start.add(Calendar.MONTH, 1);
 		}
-
+		List<ObjectId> orgids = new ArrayList<ObjectId>();
+		List<String> deptName = new ArrayList<String>();
 		Document match = new Document("year", year);
-		List<ObjectId> orgids = c("user").distinct("org_id", new Document(), ObjectId.class).into(new ArrayList<ObjectId>());
-		orgids = getDesentItems(orgids, "organization", "parent_id");
+		c("organization").find(new Document("managerId", userid)).forEach((Document doc) -> {
+			orgids.add(doc.getObjectId("_id"));
+			deptName.add(doc.getString("name"));
+		});
+		orgids.addAll(getDesentItems(orgids, "organization", "parent_id"));
 		c("resourcePlan").aggregate(new JQ("查询-资源-计划用量-部门").set("match", match).set("org_ids", new Document("$in", orgids)).array())
 				.forEach((Document doc) -> {
 					String id = doc.getString("_id");
@@ -1818,8 +1822,8 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 					}
 				});
 
-		Document option = createResourceAllAnalysis(start, end, year + "年 资源用量综合分析", actualWorksMap, actualAmountMap, planWorksMap,
-				planAmountMap, xAxisDate);
+		Document option = createResourceAllAnalysis(start, end, year + "年  " + Formatter.getString(deptName) + " 资源用量综合分析", actualWorksMap,
+				actualAmountMap, planWorksMap, planAmountMap, xAxisDate);
 		return option;
 
 	}

@@ -30,8 +30,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				Map<String, String> params = new HashMap<String, String>();
 				if (parameter != null)
-					parameter.entrySet().iterator()
-							.forEachRemaining(e -> params.put(e.getKey(), e.getValue().toString()));
+					parameter.entrySet().iterator().forEachRemaining(e -> params.put(e.getKey(), e.getValue().toString()));
 
 				rc.createReport(params, type, template, os);
 				String contentType = "application/octet-stream";
@@ -95,7 +94,13 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
 		try {
 			FileInputStream is = new FileInputStream(filePath);
-			return generateReport(is,new Document("pipeline", jq.doc().toJson()), outputType, fileName);
+			StringBuffer sb = new StringBuffer();
+			jq.list().forEach((Document doc) -> {
+				if (sb.length() > 0)
+					sb.append(",");
+				sb.append(doc.toJson());
+			});
+			return generateReport(is, new Document("pipeline", sb.toString()), outputType, fileName);
 		} catch (FileNotFoundException e) {
 			String msg = "没有报表模板文件" + filePath;
 			logger.error(msg);
@@ -114,8 +119,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	private ResponseBuilder responseBuilder() {
-		return Response.ok().header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Credentials", "true")
+		return Response.ok().header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Credentials", "true")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
 	}
