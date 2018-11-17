@@ -15,6 +15,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
+@Deprecated
 public abstract class AbstractChartASM {
 
 	@Inject

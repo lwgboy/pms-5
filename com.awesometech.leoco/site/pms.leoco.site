@@ -4781,6 +4781,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -4831,6 +4832,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -5159,6 +5161,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -5464,6 +5467,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -5666,6 +5670,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -5968,6 +5973,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -6134,6 +6140,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162841d7d70",
@@ -6331,6 +6338,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -6777,6 +6785,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -6846,6 +6855,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -7023,6 +7033,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163620bdec1",
@@ -7324,6 +7335,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -7448,6 +7460,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -7518,6 +7531,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -7695,6 +7709,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -7828,6 +7843,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d04fa5a9",
@@ -8073,6 +8089,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162b3cd81c4",
@@ -8362,6 +8379,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -8536,6 +8554,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -8764,6 +8783,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162b95296ab",
@@ -8849,6 +8869,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -9055,6 +9076,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "queryBuilderBundle": "com.bizvisionsoft.pms",
@@ -9376,6 +9398,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -9726,6 +9749,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "162bc86d504",
@@ -10152,6 +10176,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -10238,6 +10263,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -10343,6 +10369,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -10474,6 +10501,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162bd220157",
@@ -10607,6 +10635,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -10710,6 +10739,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -10824,6 +10854,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c12e2b1d",
@@ -11016,6 +11047,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -11249,6 +11281,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c45d4e60",
@@ -11496,6 +11529,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -11664,6 +11698,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c73e4687",
@@ -11838,6 +11873,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -11886,6 +11922,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -11999,6 +12036,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -12145,6 +12183,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "16631871b8f",
@@ -12265,6 +12304,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -12525,6 +12565,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -12640,6 +12681,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -12900,6 +12942,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -13053,6 +13096,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c73e4687",
@@ -13319,6 +13363,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -13618,6 +13663,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -13667,6 +13713,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -14563,6 +14610,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -14767,6 +14815,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -14909,6 +14958,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -15043,6 +15093,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162bd220157",
@@ -15226,6 +15277,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -15434,6 +15486,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162b95296ab",
@@ -15576,6 +15629,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -15804,6 +15858,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -15855,6 +15910,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d971ccb3",
@@ -16131,6 +16187,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c73e4687",
@@ -16307,6 +16364,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -16392,6 +16450,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -16480,6 +16539,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -16531,6 +16591,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -16635,6 +16696,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1667dccac1e",
@@ -16812,6 +16874,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -17128,6 +17191,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -17342,6 +17406,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -17571,6 +17636,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -17769,6 +17835,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163075214d6",
@@ -17843,6 +17910,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -17939,6 +18007,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1638be1d4db",
@@ -18043,6 +18112,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -18156,6 +18226,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -18386,6 +18457,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632b9071aa",
@@ -18631,6 +18703,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -20068,6 +20141,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -20208,6 +20282,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f7c3b20a",
@@ -20306,6 +20381,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -20503,6 +20579,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16675f1e68c",
@@ -20892,6 +20969,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -20949,6 +21027,7 @@
         "gridPageCount": 0,
         "columns": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16362f9b990",
@@ -21022,6 +21101,7 @@
         "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.MySchedule",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -21177,6 +21257,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162bd220157",
@@ -21374,6 +21455,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -21808,6 +21890,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -22286,6 +22369,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -22338,6 +22422,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -22409,6 +22494,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -22503,6 +22589,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162bd220157",
@@ -22641,6 +22728,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "16598a756e6",
@@ -22795,6 +22883,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -23073,6 +23162,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "165985bf549",
@@ -23266,6 +23356,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -23400,6 +23491,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "164741fa045",
@@ -23491,6 +23583,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "166859cc14f",
@@ -23561,6 +23654,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.OBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -23758,6 +23852,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163620bdec1",
@@ -24008,6 +24103,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -24093,6 +24189,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -24144,6 +24241,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -24283,6 +24381,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -24459,6 +24558,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -24633,6 +24733,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -24807,6 +24908,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -24992,6 +25094,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "queryBuilderBundle": "com.bizvisionsoft.pms",
@@ -25108,6 +25211,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1637e5a818e",
@@ -25263,6 +25367,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -25643,6 +25748,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16380c0f28f",
@@ -26053,6 +26159,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -26167,6 +26274,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16380de1360",
@@ -26326,6 +26434,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -26605,6 +26714,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -26810,6 +26920,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -26964,6 +27075,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16380de1360",
@@ -27159,6 +27271,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -27478,6 +27591,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -27683,6 +27797,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -27817,6 +27932,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16380de1360",
@@ -27994,6 +28110,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -28232,6 +28349,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "165b20273d4",
@@ -28443,6 +28561,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -28557,6 +28676,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16380de1360",
@@ -28716,6 +28836,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -28888,6 +29009,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -29000,6 +29122,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "16386921932",
@@ -29138,6 +29261,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -29230,6 +29354,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "16386c34c71",
@@ -29367,6 +29492,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -29830,6 +29956,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -30315,6 +30442,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -30800,6 +30928,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -31285,6 +31414,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -31914,6 +32044,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -32543,6 +32674,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -32657,6 +32789,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "16386c34c71",
@@ -32796,6 +32929,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -33004,6 +33138,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -33655,6 +33790,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163fe9538ed",
@@ -33979,6 +34115,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -34319,6 +34456,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -34395,6 +34533,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1639be9e19d",
@@ -34593,6 +34732,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -34643,6 +34783,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -34691,6 +34832,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -34844,6 +34986,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -34972,6 +35115,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1639bebf1df",
@@ -35040,6 +35184,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -35176,6 +35321,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1647c9bbaa0",
@@ -35521,6 +35667,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -35662,6 +35809,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163c99b00f2",
@@ -35802,6 +35950,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -35938,6 +36087,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163c99b00f2",
@@ -36025,6 +36175,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -36209,6 +36360,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "166757737ac",
@@ -36407,6 +36559,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -36548,6 +36701,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -36765,6 +36919,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -36889,6 +37044,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -36981,6 +37137,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -37032,6 +37189,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -37146,6 +37304,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -37298,6 +37457,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -37391,6 +37551,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -37869,6 +38030,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163c99b00f2",
@@ -38448,6 +38610,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163c99b00f2",
@@ -38537,6 +38700,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -38712,6 +38876,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -38781,6 +38946,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -38866,6 +39032,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -38934,6 +39101,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -38984,6 +39152,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39057,6 +39226,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39303,6 +39473,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -39528,6 +39699,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -39602,6 +39774,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39677,6 +39850,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39727,6 +39901,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39777,6 +39952,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -39862,6 +40038,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -39966,6 +40143,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -40161,6 +40339,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "15ce2e07749",
@@ -40282,6 +40461,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -40354,6 +40534,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -40410,6 +40591,7 @@
         "gridPageCount": 0,
         "columns": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1667fbd5620",
@@ -41015,6 +41197,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163ea817bf9",
@@ -41209,6 +41392,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -41259,6 +41443,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -41344,6 +41529,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -41411,6 +41597,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -41461,6 +41648,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -41546,6 +41734,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -41648,6 +41837,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -41767,6 +41957,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d9659547",
@@ -41851,6 +42042,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -41955,6 +42147,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -42007,6 +42200,7 @@
         "gridDataSetClassName": "",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f1da53a4",
@@ -42093,6 +42287,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -42349,6 +42544,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f2b267da",
@@ -42665,6 +42861,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -42714,6 +42911,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -42993,6 +43191,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f4a3b24c",
@@ -43141,6 +43340,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -43228,6 +43428,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -43331,6 +43532,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -43498,6 +43700,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632f054ced",
@@ -43583,6 +43786,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -43838,6 +44042,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f2b267da",
@@ -44147,6 +44352,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163f2b267da",
@@ -44400,6 +44606,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -44619,6 +44826,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -44838,6 +45046,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -44910,6 +45119,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45180,6 +45390,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1640e55c415",
@@ -45284,6 +45495,7 @@
         "columns": [],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45335,6 +45547,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45386,6 +45599,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45469,6 +45683,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45520,6 +45735,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -45736,6 +45952,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": true,
@@ -45993,6 +46210,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -46168,6 +46386,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -46290,6 +46509,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -46591,6 +46811,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163fe9538ed",
@@ -46678,6 +46899,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -47164,6 +47386,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -47466,6 +47689,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163fe9538ed",
@@ -47674,6 +47898,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632f054ced",
@@ -47878,6 +48103,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632f054ced",
@@ -47961,6 +48187,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -48130,6 +48357,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632f054ced",
@@ -48213,6 +48441,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -48294,6 +48523,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48379,6 +48609,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -48428,6 +48659,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48514,6 +48746,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -48563,6 +48796,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48649,6 +48883,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -48698,6 +48933,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48749,6 +48985,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48831,6 +49068,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -48856,7 +49094,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "1642c55012a",
@@ -48916,6 +49155,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1642c5e6cab",
@@ -48984,6 +49224,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -49009,7 +49250,8 @@
         "disableStdQuery": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "1642fce9783",
@@ -49139,6 +49381,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "1642feab208",
@@ -49419,6 +49662,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -49796,6 +50040,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -49932,6 +50177,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -49987,6 +50233,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1643a23ba8e",
@@ -50055,6 +50302,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -50416,6 +50664,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -50613,6 +50862,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -50663,6 +50913,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -50713,6 +50964,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -50869,6 +51121,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "164741f3e82",
@@ -51027,6 +51280,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1643f9b02ff",
@@ -51201,6 +51455,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -51455,6 +51710,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1644501a54d",
@@ -51604,6 +51860,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -51895,6 +52152,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "164455bf4a8",
@@ -52119,6 +52377,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -52211,6 +52470,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16446c34ceb",
@@ -52348,6 +52608,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -52483,6 +52744,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "163620bdec1",
@@ -52582,6 +52844,7 @@
         "gridPageCount": 0,
         "columns": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "16362f9b990",
@@ -52761,6 +53024,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -52811,6 +53075,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -52860,6 +53125,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -52944,6 +53210,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -52993,6 +53260,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -53337,6 +53605,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -53988,6 +54257,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -54060,6 +54330,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -54165,6 +54436,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -54282,6 +54554,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54334,6 +54607,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": true,
@@ -54383,6 +54657,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54544,6 +54819,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54682,6 +54958,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54733,6 +55010,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54807,6 +55085,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -54856,6 +55135,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -54925,6 +55205,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -55058,6 +55339,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d04fa5a9",
@@ -55187,6 +55469,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -55238,6 +55521,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -55599,6 +55883,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -55714,6 +55999,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "164496cb4b2",
@@ -56008,6 +56294,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -56121,6 +56408,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -56412,6 +56700,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -56568,6 +56857,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -56771,6 +57061,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -58503,6 +58794,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -58918,6 +59210,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -59301,6 +59594,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -59426,6 +59720,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -59672,6 +59967,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -59754,6 +60050,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -59894,6 +60191,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -60034,6 +60332,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -60082,6 +60381,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -60205,6 +60505,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -60347,6 +60648,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -60461,6 +60763,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d04fa5a9",
@@ -60653,6 +60956,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -60701,6 +61005,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -60749,6 +61054,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -60955,6 +61261,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "queryBuilderBundle": "com.bizvisionsoft.pms",
@@ -61172,6 +61479,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -61690,6 +61998,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -61785,6 +62094,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -61942,6 +62252,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -62256,6 +62567,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -62339,6 +62651,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1667dcf8066",
@@ -62408,6 +62721,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -62512,6 +62826,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -62563,6 +62878,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.CBSService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -62638,6 +62954,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -62687,6 +63004,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -62771,6 +63089,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -63015,6 +63334,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1654baa2f2c",
@@ -63229,6 +63549,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -63350,6 +63671,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -63685,6 +64007,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1632f054ced",
@@ -63856,6 +64179,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -63929,6 +64253,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -64083,6 +64408,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162c73e4687",
@@ -64206,6 +64532,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -64310,6 +64637,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1655aa6ac7e",
@@ -64433,6 +64761,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -64536,6 +64865,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -64584,6 +64914,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -64688,6 +65019,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "165625484ff",
@@ -64811,6 +65143,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -65075,6 +65408,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -65771,6 +66105,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -66387,6 +66722,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -67451,6 +67787,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -67589,6 +67926,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -67787,6 +68125,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -68003,6 +68342,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -68056,6 +68396,7 @@
         "gridDataSetClassName": "com.awesometech.leoco.ds.WFDataset",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -68250,6 +68591,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "165add315ac",
@@ -68369,6 +68711,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -68620,6 +68963,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -68775,6 +69119,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -68824,6 +69169,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -68944,6 +69290,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -69173,6 +69520,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "15ce2e07749",
@@ -69353,6 +69701,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -69487,6 +69836,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "165c6370d29",
@@ -69731,6 +70081,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -69919,6 +70270,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -70404,6 +70756,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -70819,6 +71172,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -70978,6 +71332,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -71126,6 +71481,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d04fa5a9",
@@ -71318,6 +71674,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -71368,6 +71725,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -71615,6 +71973,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "163d04fa5a9",
@@ -71736,6 +72095,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -71945,6 +72305,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [
           {
             "id": "162b95296ab",
@@ -72072,6 +72433,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -72326,6 +72688,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -72603,6 +72966,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -72880,6 +73244,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [
           {
@@ -73025,6 +73390,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -73093,6 +73459,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -73208,6 +73575,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73347,6 +73715,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73477,6 +73846,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73607,6 +73977,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73737,6 +74108,7 @@
           }
         ],
         "gridAutoColumnWidth": true,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73836,6 +74208,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -73929,6 +74302,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "borderTop": false,
         "borderRight": false,
         "borderBottom": false,
@@ -73977,6 +74351,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -74074,6 +74449,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -74125,6 +74501,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -74177,6 +74554,7 @@
         "gridDataSetService": "com.bizvisionsoft.service.RiskService",
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "borderTop": false,
         "borderRight": false,
@@ -74315,6 +74693,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -74507,6 +74886,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -74699,6 +75079,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -74891,6 +75272,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -75034,6 +75416,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -75424,6 +75807,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "167153c2173",
@@ -75812,6 +76196,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "167153c2173",
@@ -75982,6 +76367,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -76132,6 +76518,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -76235,6 +76622,7 @@
         "gridPageControl": false,
         "gridPageCount": 0,
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [],
         "rowActions": [],
         "borderTop": false,
@@ -76358,6 +76746,7 @@
           }
         ],
         "gridAutoColumnWidth": false,
+        "checkOn": false,
         "actions": [
           {
             "id": "1670bd63854",
@@ -76437,6 +76826,186 @@
         "scrollLoadData": false,
         "compactTitleBar": true,
         "candidates": []
+      },
+      {
+        "id": "1671b904bfb",
+        "name": "资源目录",
+        "layout": [],
+        "type": "grid",
+        "folderId": "1671a65fff6",
+        "gridAutoExpandLevel": 2,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": true,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.CatalogService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "1671b909fd7",
+            "name": "label",
+            "text": "",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "sort": 0,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "checkOn": true,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
+      },
+      {
+        "id": "16720f63db1",
+        "name": "资源图表选项",
+        "layout": [],
+        "type": "editor",
+        "folderId": "1671a65fff6",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": false,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": false,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": false,
+        "gridHasVScroll": false,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridPageCount": 0,
+        "fields": [
+          {
+            "id": "16720fa8dad",
+            "name": "dateRange",
+            "text": "选择时间范围",
+            "type": "日期时间范围选择",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "dateType": "date",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16720fe16fb",
+            "name": "dateType",
+            "text": "时间类型",
+            "type": "单选框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "optionText": "年#月#日",
+            "radioStyle": "横向分段（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16720fb163f",
+            "name": "seriesType",
+            "text": "数据显示方式",
+            "type": "单选框",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "optionText": "并列#叠加#汇总",
+            "radioStyle": "横向分段（默认）",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ],
+        "gridAutoColumnWidth": false,
+        "checkOn": false,
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": false,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "removeBorder": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false
       }
     ]
   },
