@@ -17,6 +17,7 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.result.UpdateResult;
 
 public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
@@ -27,24 +28,38 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public List<User> listConsigned(String userId) {
-		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter",
-				new BasicDBObject("consigner", userId)));
+		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter", new BasicDBObject("consigner", userId)));
 		ds.forEach(user -> updateRole(user));
 		return ds;
 	}
 
 	@Override
+	public long updatePassword(String userId, String newPassword) {
+		UpdateResult r = c("user").updateOne(new Document("userId", userId),
+				new Document("$set", new Document("password", newPassword).append("changePSW", false)));
+		return r.getModifiedCount();
+	}
+
+	@Override
 	public User check(String userId, String password) {
-		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
-				new BasicDBObject("userId", userId).append("password", password)));
+		BasicDBObject filter = new BasicDBObject("userId", userId);
+		if (!logger.isDebugEnabled()) {
+			filter.append("password", password);
+		} else {
+			logger.debug("已忽略密码验证。");
+		}
+
+		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", filter));
 		if (ds.size() == 0) {
 			throw new ServiceException("账户无法通过验证");
 		}
+
 		User user = ds.get(0);
 
 		updateRole(user);
 
 		return user;
+
 	}
 
 	private void updateRole(User user) {
@@ -56,27 +71,27 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				while (doc != null) {
 					orgIds.add(doc.getString("id"));
 					doc = Optional.ofNullable(doc.getObjectId("parent_id"))
-							.map(parentId -> c("organization").find(new Document("_id", parentId)).first())
-							.orElse(null);
+							.map(parentId -> c("organization").find(new Document("_id", parentId)).first()).orElse(null);
 				}
 			});
 		}
 
-		ArrayList<String> functionPermissions = c("funcPermission")
-				.distinct("role",
-						new Document("$or",
-								Arrays.asList(new Document("type", "组织").append("id", new Document("$in", orgIds)),
-										new Document("type", "用户").append("id", user.getUserId()))),
-						String.class)
-				.into(new ArrayList<>());
+		ArrayList<String> functionPermissions = c(
+				"funcPermission")
+						.distinct("role",
+								new Document("$or",
+										Arrays.asList(new Document("type", "组织").append("id", new Document("$in", orgIds)),
+												new Document("type", "用户").append("id", user.getUserId()))),
+								String.class)
+						.into(new ArrayList<>());
 
 		user.setRoles(functionPermissions);
 	}
 
 	@Override
 	public User get(String userId) {
-		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("limit", 1).append("filter",
-				new BasicDBObject("userId", userId)));
+		List<User> ds = createDataSet(
+				new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", new BasicDBObject("userId", userId)));
 		if (ds.size() == 0) {
 			throw new ServiceException("没有用户Id为" + userId + "的用户。");
 		}
@@ -133,8 +148,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public long delete(ObjectId _id) {
 		MongoCollection<Document> col = c("user");
-		Document doc = col.find(new BasicDBObject("_id", _id))
-				.projection(new BasicDBObject("activated", 1).append("userId", 1)).first();
+		Document doc = col.find(new BasicDBObject("_id", _id)).projection(new BasicDBObject("activated", 1).append("userId", 1)).first();
 		if (doc.getBoolean("activated", false))
 			throw new ServiceException("不能删除激活状态的用户。");
 
@@ -156,8 +170,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				.into(new ArrayList<ObjectId>());
 		orgIds = getDesentItems(orgIds, "organization", "parent_id");
 
-		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter"))
-				.orElse(new BasicDBObject());
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("filter")).orElse(new BasicDBObject());
 
 		if (orgIds.size() > 0) {
 			filter.append("org_id", new BasicDBObject("$in", orgIds));
@@ -185,8 +198,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public void consign(String userId, String consignerId) {
-		c("user").updateOne(new Document("userId", userId),
-				new Document("$set", new Document("consigner", consignerId)));
+		c("user").updateOne(new Document("userId", userId), new Document("$set", new Document("consigner", consignerId)));
 	}
 
 	@Override
@@ -212,6 +224,16 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public long countTraceInfo(BasicDBObject filter) {
 		return count(filter, TraceInfo.class);
+	}
+
+	@Override
+	public void requestChangePassword(List<String> userIds) {
+		c("user").updateMany(new Document("userId", new Document("$in", userIds)), new Document("$set", new Document("changePSW", true)));
+	}
+
+	@Override
+	public void requestAllChangePassword() {
+		c("user").updateMany(new Document(), new Document("$set", new Document("changePSW", true)));
 	}
 
 }

@@ -30,6 +30,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class MyWorkRender extends GridPartDefaultRender {
 
 	@Inject

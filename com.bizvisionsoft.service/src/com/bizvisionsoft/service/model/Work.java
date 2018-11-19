@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -206,8 +207,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue({ "进度计划和监控（查看）/name", "进度计划和监控/name" })
 	private String readWorkNameHTML() {
 		if (stage) {
-			String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;padding-right:8px;'><div style='font-weight:bold;'>"
-					+ text + "</div>";
+			String html = "<div class='brui_ly_hline' style='padding-right:8px;'><div style='font-weight:bold;'>" + text + "</div>";
 			if (ProjectStatus.Created.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
 						+ "start/" + "' target='_rwt'>" + "启动" + "</a>";
@@ -280,11 +280,6 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return planStart;
 	}
 
-	@ReadValue({ "项目甘特图/start_date", "项目甘特图（资源计划分配）/start_date", "我的工作（日历牌）/start_date", "部门工作日程表/start_date" })
-	public Date getPlanStartDate() {
-		return planStart;
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue("terminateOn")
@@ -334,19 +329,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return false;
 	}
 
-	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date",
-			"项目基线甘特图/end_date", "部门工作日程表/end_date" })
+	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date", "项目基线甘特图/end_date",
+			"部门工作日程表/end_date" })
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
 		} else if (actualStart != null) {
 			return new Date(planFinish.getTime() - planStart.getTime() + actualStart.getTime());
 		}
-		return planFinish;
-	}
-
-	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date", "我的工作（日历牌）/end_date" })
-	public Date getPlanEndDate() {
 		return planFinish;
 	}
 
@@ -460,8 +450,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			}
 		} else {
 			if (estimatedFinish != null && planStart != null) {
-				d = 1d * getActualDuration()
-						/ ((int) ((estimatedFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24)));
+				d = 1d * getActualDuration() / ((int) ((estimatedFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24)));
 			} else {
 				if (getPlanDuration() != 0) {
 					d = 1d * getActualDuration() / getPlanDuration();
@@ -485,8 +474,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("sar")
 	public Double getSAR() {
 		if (stage && actualStart != null && actualFinish != null && !milestone) {
-			double d = 1d * (planFinish.getTime() - planStart.getTime())
-					/ (actualFinish.getTime() - actualStart.getTime());
+			double d = 1d * (planFinish.getTime() - planStart.getTime()) / (actualFinish.getTime() - actualStart.getTime());
 			return d > 1d ? 1d : d;
 		}
 		return null;
@@ -517,6 +505,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	@SetValue
 	private String stageName;
+
+	public String getStageName() {
+		return stageName;
+	}
 
 	@Persistence
 	private boolean distributed;
@@ -652,14 +644,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
 	}
 
-	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon",
-			"进度计划/chargerInfoWithDistributeIcon", "进度计划（查看）/chargerInfoWithDistributeIcon" })
+	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon", "进度计划/chargerInfoWithDistributeIcon",
+			"进度计划（查看）/chargerInfoWithDistributeIcon" })
 	private String getChargerInfoWithIcon() {
 		if (chargerId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
-				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + getDistributedIcon() + "</div>";
+		return "<div class='brui_ly_hline'>>" + warpperChargerInfo() + getDistributedIcon() + "</div>";
 	}
 
 	@ReadValue("chargerInfoHtml")
@@ -667,8 +658,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerInfo == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
-				+ MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo) + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperChargerInfo() + "</div>";
+	}
+
+	public String warpperChargerInfo() {
+		return MetaInfoWarpper.userInfo(chargerInfo_meta, chargerInfo);
 	}
 
 	public String getAssignerInfo() {
@@ -692,6 +686,9 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	private String assignerInfo;
 
+	@SetValue
+	private UserMeta assignerInfo_meta;
+
 	@WriteValue("assigner")
 	private void setAssigner(User assigner) {
 		this.assignerId = Optional.ofNullable(assigner).map(o -> o.getUserId()).orElse(null);
@@ -700,6 +697,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("assigner")
 	private User getAssigner() {
 		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	}
+
+	public String warpperAssignerInfo() {
+		return MetaInfoWarpper.userInfo(assignerInfo_meta, assignerInfo);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -860,8 +861,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public Project getProject() {
-		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id)).orElse(null);
 	}
 
 	@Override
@@ -908,8 +908,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-				.set(new BasicDBObject("obs_id", obs_id)).bson());
+		ServicesLoader.get(WorkService.class)
+				.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson());
 		this.obs_id = obs_id;
 	}
 
@@ -952,9 +952,41 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
 	}
 
+	@Exclude
+	public static final int warningLevelDelayed = 1;
+	@Exclude
+	public static final int warningLevelEstDelay = 2;
+	@Exclude
+	public static final int warningLevelLag = 3;
+	@Exclude
+	public static final int warningLevelLead = 4;
+
+	public int getWarningLevel() {
+		// 如果超期，显示红底超期信息
+		if (overdue) {
+			return warningLevelDelayed;
+		}
+
+		if (actualFinish == null) {
+			if (getEstimateFinish() != null && getEstimateFinish().after(getPlanFinish())) {
+				return warningLevelEstDelay;
+			}
+			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
+			Double dar = getDAR();
+			if (dar != null) {
+				// 工作未完成时，判断工期完成率大于工作量完成率，则提示橙底滞后；小于时则提示蓝底提前。
+				if (getWAR() < dar) {
+					return warningLevelLag;
+				} else if (getWAR() > dar) {
+					return warningLevelLead;
+				}
+			}
+		}
+		return 0;
+	}
+
 	@ReadValue("warningIcon")
 	public String getWarningIcon() {
-
 		// 如果超期，显示红底超期信息
 		if (getOverdue()) {
 			String label = "<span class='layui-badge' style='cursor:pointer;'>超期</span>";
@@ -962,7 +994,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				Double tf = getTF();
 				if (tf != null && tf == 0) {
 					String message = "本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
-					return MetaInfoWarpper.warpper(label, message, 5000);
+					return MetaInfoWarpper.warpper(label, message, 3000);
 				}
 			}
 			return label;
@@ -976,7 +1008,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				if (tf != null && tf == 0) {
 					message += "<br>本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
 				}
-				return MetaInfoWarpper.warpper(label, message, 5000);
+				return MetaInfoWarpper.warpper(label, message, 3000);
 			}
 			// 判断DAR是否为空，为空时，表示工作没有计划工期，这时不显示进度状态
 			Double dar = getDAR();
@@ -988,13 +1020,11 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 					if (tf != null && tf == 0) {
 						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
 					}
-					return MetaInfoWarpper.warpper(
-							"<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
-							5000);
+					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
+							3000);
 				} else if (getWAR() > dar) {
-					return MetaInfoWarpper.warpper(
-							"<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
-							"工作量完成率超过工期完成率<br>表示工作进度可能滞后。", 5000);
+					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
+							"工作量完成率超过工期完成率<br>表示工作进度可能滞后。", 3000);
 				}
 			}
 		}
@@ -1009,10 +1039,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@SetValue
 	private Integer warningDay;
 
+	@ReadValue({ "项目甘特图/end_date", "项目甘特图（资源计划分配）/end_date", "我的工作（日历牌）/end_date" })
 	public Date getPlanFinish() {
 		return planFinish;
 	}
 
+	@ReadValue({ "项目甘特图/start_date", "项目甘特图（资源计划分配）/start_date", "我的工作（日历牌）/start_date", "部门工作日程表/start_date" })
 	public Date getPlanStart() {
 		return planStart;
 	}
@@ -1098,13 +1130,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("TF")
 	@SetValue
-	private Double getTF() {
+	public Double getTF() {
 		return summary || scheduleEst == null ? null : scheduleEst.tf;
 	}
 
 	@ReadValue("FF")
 	@SetValue
-	private Double getFF() {
+	public Double getFF() {
 		return summary || scheduleEst == null ? null : scheduleEst.ff;
 	}
 
@@ -1122,16 +1154,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		List<TrackView> wps = getWorkPackageSetting();
 		sb.append("<div style='display: inline-flex;" + "    justify-content: space-between;" + "    width: 100%;'>");
 		if (Check.isNotAssigned(wps)) {
-			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/default"
+					+ "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
-			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-					+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/0"
+					+ "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
-				sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
-						+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+				sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/" + i
+						+ "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
 		sb.append("</div>");

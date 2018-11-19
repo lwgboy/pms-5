@@ -15,7 +15,13 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 
-@Deprecated
+/**
+ * 预算编辑科目预算时使用，不应该废除
+ * 
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
 public class EditCBSSubjectBudget {
 
 	@Inject

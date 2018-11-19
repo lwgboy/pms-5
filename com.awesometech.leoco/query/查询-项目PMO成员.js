@@ -45,12 +45,37 @@
 						] ]
 					}, [ {
 						"$ifNull" : [ "$managerId", null ]
-					} ], {
+					} ], [ {
 						"$ifNull" : [ "$member", [
 
 						] ]
-					} ]
+					} ] ]
 				}
+			}
+		}, {
+			"$group" : {
+				"_id" : null,
+				"userId" : {
+					"$addToSet" : "$userId"
+				}
+			}
+		}, {
+			"$project" : {
+				"userId" : {
+					"$reduce" : {
+						"input" : "$userId",
+						"initialValue" : [],
+						"in" : {
+							"$concatArrays" : [ "$$value", "$$this" ]
+						}
+					}
+				}
+			}
+		}, {
+			"$unwind" : "$userId"
+		}, {
+			"$project" : {
+				"_id" : false
 			}
 		}, {
 			"$group" : {

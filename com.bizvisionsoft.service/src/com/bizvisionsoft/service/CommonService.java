@@ -49,6 +49,12 @@ public interface CommonService {
 	public List<Message> listMessage(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
+	@GET
+	@Path("/msg/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Message getMessage(@PathParam("_id") ObjectId _id);
+	
 	@POST
 	@Path("/msg/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -63,6 +69,23 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.UPDATE)
 	public long updateMessage(BasicDBObject filterAndUpdate);
+	
+	
+	@POST
+	@Path("/unread/msg/userId/{userId}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("未读消息/" + DataSet.LIST)
+	public List<Document> listUnreadMessage(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/unread/msg/userId/{userId}/card/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("未读消息/" + DataSet.COUNT)
+	public long countUnreadMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
 	@Path("/cert/ds")
@@ -517,5 +540,6 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting);
+
 
 }

@@ -359,13 +359,17 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@SetValue
 	private UserMeta pmInfo_meta;
+	
+	public String warpperPMInfo() {
+		return MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo);
+	}
 
 	@ReadValue("pmInfoHtml")
 	private String readPMInfoHtml() {
 		if (pmId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
+		return "<div class='brui_ly_hline'>"
 				+ MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
 	}
 
@@ -391,6 +395,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
 	private String impUnitOrgFullName;
+	
+	public String getImpUnitOrgFullName() {
+		return impUnitOrgFullName;
+	}
 
 	public ObjectId getImpUnit_id() {
 		return impUnit_id;
@@ -403,8 +411,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@ReadValue("impUnit") // 编辑器用
 	public Organization getOrganization() {
-		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -430,9 +437,9 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@Structure("我的项目（首页小组件）/list")
 	private List<ProjectBoardInfo> listProjectBoardInfo() {
 		// 只展开进行中的项目
-		if (ProjectStatus.Processing.equals(status)||ProjectStatus.Closing.equals(status)) {
+		if (ProjectStatus.Processing.equals(status) || ProjectStatus.Closing.equals(status)) {
 			return Arrays.asList(new ProjectBoardInfo().setProject(this));
-		}else {
+		} else {
 			return new ArrayList<>();
 		}
 	}
@@ -444,6 +451,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@Persistence
 	private OperationInfo creationInfo;
+	
+	public OperationInfo getCreationInfo() {
+		return creationInfo;
+	}
 
 	@ReadValue("createOn")
 	private Date readCreateOn() {
@@ -687,8 +698,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(ProjectService.class).update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-				.set(new BasicDBObject("obs_id", obs_id)).bson());
+		ServicesLoader.get(ProjectService.class)
+				.update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson());
 		this.obs_id = obs_id;
 	}
 
@@ -771,8 +782,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 进度完成率 百分比
-	@SetValue
-	private List<ObjectId> stage_ids;
 
 	@SetValue("sar")
 	private Double sar;
@@ -792,7 +801,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@ReadValue("cost")
 	public double getCost() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectCost).orElse(0d);
 	}
@@ -800,7 +809,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@ReadValue("budget")
 	public double getBudget() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).getCBSItemCost(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectBudget).orElse(0d);
 	}

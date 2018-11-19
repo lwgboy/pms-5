@@ -15,6 +15,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 @PersistenceCollection("workReport")
 public class WorkReport {
@@ -102,7 +103,11 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
-	private String projectInfo;
+	private String projectName;
+
+	@ReadValue
+	@SetValue
+	private String projectNumber;
 
 	@ReadValue
 	@Persistence
@@ -115,7 +120,7 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
-	private String stageInfo;
+	private String stageName;
 
 	@WriteValue
 	@Persistence
@@ -125,6 +130,10 @@ public class WorkReport {
 	@SetValue
 	private String reporterInfo;
 
+	@ReadValue
+	@SetValue
+	private UserMeta reporterInfo_meta;
+
 	public WorkReport setReporter(String reporter) {
 		this.reporter = reporter;
 		return this;
@@ -132,6 +141,18 @@ public class WorkReport {
 
 	public String getReporter() {
 		return reporter;
+	}
+
+	@ReadValue("reporterInfoHtml")
+	public String getReporterInfoHtml() {
+		if (reporterInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperReporterInfo() + "</div>";
+	}
+
+	public String warpperReporterInfo() {
+		return MetaInfoWarpper.userInfo(reporterInfo_meta, reporterInfo);
 	}
 
 	@ReadValue
@@ -156,6 +177,22 @@ public class WorkReport {
 
 	@ReadValue
 	@SetValue
+	private UserMeta verifierInfo_meta;
+
+	@ReadValue("verifierInfoHtml")
+	public String getVerifierInfoHtml() {
+		if (verifierInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperVerifierInfo() + "</div>";
+	}
+
+	public String warpperVerifierInfo() {
+		return MetaInfoWarpper.userInfo(verifierInfo_meta, verifierInfo);
+	}
+
+	@ReadValue
+	@SetValue
 	private Date verifyDate;
 
 	@ReadValue
@@ -170,6 +207,27 @@ public class WorkReport {
 
 	@SetValue
 	private String pmId;
+
+	@ReadValue
+	@SetValue
+	private String pmInfo;
+
+	@ReadValue
+	@SetValue
+	private UserMeta pmInfo_meta;
+	
+
+	@ReadValue("pmInfoHtml")
+	public String getPMInfoHtml() {
+		if (pmInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperPMInfo() + "</div>";
+	}
+
+	public String warpperPMInfo() {
+		return MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo);
+	}
 
 	@ReadValue
 	@WriteValue
@@ -187,17 +245,7 @@ public class WorkReport {
 
 	@Label
 	public String getLabel() {
-		if (TYPE_DAILY.equals(type)) {
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM-dd").format(period);
-		} else if (TYPE_WEEKLY.equals(type)) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
-			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period) + " " + weekOfMonth + "周";
-		} else if (TYPE_MONTHLY.equals(type)) {
-			return projectInfo + "/" + new SimpleDateFormat("yyyy-MM").format(period);
-		}
-		return "";
+		return projectName + "/" + getCycleText();
 	}
 
 	@Override
@@ -230,21 +278,15 @@ public class WorkReport {
 	}
 
 	public Date getPeriodTo() {
-		// TODO 缺少其它类型的返回
 		Calendar cal = Calendar.getInstance();
-		if (TYPE_DAILY.equals(type)) {
-			return period;
-		} else if (TYPE_WEEKLY.equals(type)) {
-			cal.setTime(period);
+		cal.setTime(period);
+		if (TYPE_WEEKLY.equals(type)) {
 			cal.add(Calendar.DAY_OF_MONTH, 6);
-			return cal.getTime();
 		} else if (TYPE_MONTHLY.equals(type)) {
-			cal.setTime(period);
 			cal.add(Calendar.MONTH, 1);
 			cal.add(Calendar.DAY_OF_MONTH, -1);
-			return cal.getTime();
 		}
-		return null;
+		return cal.getTime();
 	}
 
 	@Behavior({ "删除报告", "编辑报告", "提交报告" })
@@ -264,6 +306,22 @@ public class WorkReport {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+	
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+	
+	public String getWorkRemark() {
+		return workRemark;
+	}
+	
+	public String getOtherRemark() {
+		return otherRemark;
 	}
 
 }

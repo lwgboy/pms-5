@@ -13,7 +13,12 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
-
+/**
+ * 取消了CBS可分解功能，该操作无效
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
 @Deprecated
 public class AddCBSItemByStage {
 

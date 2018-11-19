@@ -41,11 +41,13 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.ProjectChangeRenderer;
+import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoBulkWriteException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.UnwindOptions;
 import com.mongodb.client.result.UpdateResult;
 
 /**
@@ -107,7 +109,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			insert(cbsRoot, CBSItem.class);
 
 		} else {
-			// TODO 根据模板创建
 			try {
 				project = insert(input, Project.class);
 			} catch (Exception e) {
@@ -148,8 +149,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
-	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
-			List<Bson> pipeline) {
+	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, List<Bson> pipeline) {
 		// 1. 承担组织
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
@@ -169,7 +169,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (sort != null)
 			pipeline.add(Aggregates.sort(sort));
 		else
-			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1)));
+			// yangjun 2018/10/31
+			pipeline.add(Aggregates.sort(new BasicDBObject("planFinish", 1).append("_id", -1)));
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -177,99 +178,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		appendWorkTime(pipeline);
+		// yangjun 2018/11/1
+		pipeline.addAll(new JQ("追加-项目-工期与工时").array());
 
 		pipeline.addAll(new JQ("追加-项目-SAR").array());
 
 		return pipeline;
-	}
-
-	private void appendWorkTime(List<Bson> pipeline) {
-		pipeline.addAll(Arrays.asList(
-				new Document("$lookup", new Document()
-						.append("from", "work").append("let", new Document("project_id", "$_id")).append("pipeline",
-								Arrays.asList(
-										new Document("$match",
-												new Document("$expr",
-														new Document("$and",
-																Arrays.asList(
-																		new Document("$eq",
-																				Arrays.asList("$project_id",
-																						"$$project_id")),
-																		new Document("$eq",
-																				Arrays.asList("$summary", false)))))),
-										new Document("$group",
-												new Document("_id", null)
-														.append("actualWorks", new Document("$sum", "$actualWorks"))
-														.append("planWorks", new Document("$sum", "$planWorks")))))
-						.append("as", "worktime")),
-				new Document("$unwind", new Document("path", "$worktime").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields", new Document("summaryActualWorks", "$worktime.actualWorks")
-						.append("summaryPlanWorks", "$worktime.planWorks")),
-				new Document("$project", new Document("worktime", false))));
-
-		pipeline.addAll(Arrays.asList(
-				new Document("$lookup",
-						new Document("from", "work")
-								.append("let",
-										new Document("project_id", "$_id"))
-								.append("pipeline",
-										Arrays.asList(
-												new Document("$match",
-														new Document("$expr",
-																new Document("$and",
-																		Arrays.asList(
-																				new Document("$eq",
-																						Arrays.asList("$project_id",
-																								"$$project_id")),
-																				new Document("$eq",
-																						Arrays.asList("$summary",
-																								false)))))),
-												new Document().append("$addFields",
-														new Document()
-																.append("planDuration",
-																		new Document("$divide", Arrays.asList(
-																				new Document(
-																						"$subtract",
-																						Arrays.asList(
-																								"$planFinish",
-																								"$planStart")),
-																				86400000)))
-																.append("actualDuration", new Document("$divide", Arrays
-																		.asList(new Document("$subtract", Arrays.asList(
-																				new Document(
-																						"$ifNull",
-																						Arrays.asList("$actualFinish",
-																								new Date())),
-																				new Document("$ifNull",
-																						Arrays.asList("$actualStart",
-																								new Date())))),
-																				86400000)))),
-												new Document("$group",
-														new Document("_id", null)
-																.append("planDuration",
-																		new Document("$sum", "$planDuration"))
-																.append("actualDuration",
-																		new Document("$sum", "$actualDuration")))))
-								.append("as", "workDuration")),
-				new Document("$unwind",
-						new Document("path", "$workDuration").append("preserveNullAndEmptyArrays", true)),
-				new Document("$addFields",
-						new Document("summaryPlanDuration", "$workDuration.planDuration")
-								.append("summaryActualDuration", "$workDuration.actualDuration")),
-				new Document("$project", new Document("workDuration", false))));
-
-		pipeline.addAll(Arrays.asList(
-				new Document().append("$lookup", new Document().append("from", "work")
-						.append("let", new Document().append("project_id", "$_id"))
-						.append("pipeline", Arrays.asList(new Document().append("$match",
-								new Document().append("$expr", new Document().append("$and",
-										Arrays.asList(new Document().append("$eq", Arrays.asList("$stage", true)),
-												new Document().append("$eq",
-														Arrays.asList("$project_id", "$$project_id"))))))))
-						.append("as", "stageWork")),
-				new Document().append("$addFields", new Document().append("stage_ids", "$stageWork._id")),
-				new Document().append("$project", new Document().append("stageWork", false))));
 	}
 
 	@Override
@@ -292,7 +206,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return 0;
 	}
 
+	/**
+	 * 使用update来修改项目
+	 */
 	@Override
+	@Deprecated
 	public void updateProjectId(ObjectId _id, String id) {
 		Document cond = new Document("_id", _id);
 		Project project = c(Project.class).find(cond).first();
@@ -322,8 +240,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			throw new ServiceException("已批准的项目无需再次批准");
 		}
 
-		c("project").updateOne(cond,
-				new Document("$set", new Document("startApproved", true).append("approveInfo", com.info())));
+		c("project").updateOne(cond, new Document("$set", new Document("startApproved", true).append("approveInfo", com.info())));
 	}
 
 	@Override
@@ -340,21 +257,44 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Processing).append("startInfo", com.info())));
 
+		List<ObjectId> ids;
+
+		boolean stageEnabled = getValue("project", "stageEnable", com._id, Boolean.class);
+
+		if (stageEnabled) {
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 下达阶段计划
+			ids = c("work").distinct("_id", new Document("project_id", com._id)// 本项目中的所有阶段
+					.append("stage", true), ObjectId.class).into(new ArrayList<ObjectId>());
+		} else {
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 下达非阶段管理的项目的工作计划
+			ids = c("work").distinct("_id", new Document("project_id", com._id)// 本项目中的所有工作
+					, ObjectId.class).into(new ArrayList<ObjectId>());
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 更新下达计划的工作和项目，记录下达信息
+		if (!ids.isEmpty()) {
+			Document distributeInfo = com.info();
+			c("work").updateMany(new Document("_id", new Document("$in", ids)), //
+					new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+			c("project").updateOne(new Document("_id", com._id), //
+					new Document("$set", new Document("distributed", true).append("distributeInfo", distributeInfo)));
+		}
+
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。",
-				com.userId, memberIds, null);
+		sendMessage("项目启动通知", "项目：" + getName("project", com._id) + " 已于 " + Message.format(com.date) + " 启动。", com.userId, memberIds,
+				null);
 		return new ArrayList<>();
 	}
 
 	private List<String> getProjectMembers(ObjectId _id) {
-		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> parentIds = c("obs").distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class).into(new ArrayList<>());
 		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id");
-		ArrayList<String> memberIds = c("obs")
-				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
-						new BasicDBObject("$ne", null)), String.class)
+		ArrayList<String> memberIds = c("obs").distinct("managerId",
+				new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)), String.class)
 				.into(new ArrayList<>());
 		return memberIds;
 	}
@@ -422,7 +362,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return result;
 	}
 
-	@Override
 	public List<Result> distributeProjectPlan(Command com) {
 		final List<Message> msg = new ArrayList<>();
 		final Set<ObjectId> ids = new HashSet<>();
@@ -437,7 +376,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			c("work").find(//
 					new Document("project_id", com._id)// 本项目中
 							.append("chargerId", new Document("$ne", null))// 负责人不为空
-							.append("distributed", new Document("$ne", true))// 没有下达的
+							// .append("distributed", new Document("$ne", true))// 没有下达的
 							.append("status", ProjectStatus.Created) // 已创建的阶段
 							.append("stage", true))// 阶段
 					.forEach((Document w) -> {
@@ -446,20 +385,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					});
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
-			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).array()).forEach((Document w) -> {
-				ids.add(w.getObjectId("_id"));
-				Check.isAssigned(w.getString("chargerId"),
-						c -> msg.add(Message.distributeWorkMsg(projectName, w, true, com.userId, c)));
-				Check.isAssigned(w.getString("assignerId"),
-						c -> msg.add(Message.distributeWorkMsg(projectName, w, false, com.userId, c)));
-			});
+			c("work").aggregate(new JQ("查询-工作-阶段需下达的工作计划").set("project_id", com._id).set("match", new Document()).array())
+					.forEach((Document w) -> {
+						ids.add(w.getObjectId("_id"));
+						Check.isAssigned(w.getString("chargerId"),
+								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, true, com.userId, c)));
+						Check.isAssigned(w.getString("assignerId"),
+								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, false, com.userId, c)));
+					});
 		} else {
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达非阶段管理的项目的工作计划
 			c("work").find(//
 					new Document("project_id", com._id)// 本项目中
 							.append("chargerId", new Document("$ne", null))// 负责人不为空
-							.append("distributed", new Document("$ne", true))// 没有下达的
+			// .append("distributed", new Document("$ne", true))// 没有下达的
 			).forEach((Document w) -> {
 				ids.add(w.getObjectId("_id"));
 				msg.add(Message.distributeStageMsg(projectName, w, com.userId, w.getString("chargerId")));
@@ -486,9 +426,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Work> listStage(ObjectId _id) {
-		// TODO 排序
 		return new WorkServiceImpl().query(null, null, new BasicDBObject("project_id", _id).append("stage", true),
-				Work.class);
+				new BasicDBObject("wbsCode", 1), Work.class);
 	}
 
 	@Override
@@ -498,16 +437,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Work> listMyStage(String userId) {
-		return new WorkServiceImpl().createTaskDataSet(new BasicDBObject("$or",
-				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
-						.append("stage", true).append("status", new BasicDBObject("$in", Arrays
-								.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Closing))));
+		return new WorkServiceImpl().createTaskDataSet(
+				new BasicDBObject("$or", Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
+						.append("stage", true).append("status", new BasicDBObject("$in",
+								Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Closing))));
 	}
 
 	@Override
 	public long countMyStage(String userId) {
-		return count(new BasicDBObject("$or",
-				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
+		return count(
+				new BasicDBObject("$or", Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
 						.append("stage", true),
 				"work");
 	}
@@ -544,17 +483,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		// 杨骏 2018/10/30
 		if (filter == null) {
 			filter = new BasicDBObject();
-			condition.put("filter", filter);
+			// condition.put("filter", filter);
 		}
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort == null) {
-			sort = new BasicDBObject();
-			condition.put("sort", sort);
-		}
+		// if (sort == null) {
+		// sort = new BasicDBObject();
+		// condition.put("sort", sort);
+		// }
 
-		sort.put("pmId", userid);
+		filter.put("pmId", userid);
 		return query(skip, limit, filter, sort);
 	}
 
@@ -569,60 +509,35 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Project> listParticipatedProjects(BasicDBObject condition, String userId) {
+		return iterateParticipatedProject(condition, userId).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> listParticipatedProjectsCard(BasicDBObject condition, String userId) {
+		return iterateParticipatedProject(condition, userId).map(ProjectRenderer::render).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<Project> iterateParticipatedProject(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
 		List<Bson> pipeline = new ArrayList<Bson>();
-
-		appendParticipatedProjectQuery(userId, pipeline);
+		// 杨骏 2018/11/1
+		pipeline.addAll(new JQ("查询-项目-参与者").set("userId", userId).array());
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
-		return c("obs").aggregate(pipeline, Project.class).into(new ArrayList<Project>());
-	}
-
-	private void appendParticipatedProjectQuery(String userId, List<Bson> pipeline) {
-		pipeline.add(new Document("$match",
-				new Document("$or", Arrays.asList(new Document("member", userId), new Document("managerId", userId)))));
-
-		pipeline.add(new Document("$lookup", new Document("from", "work").append("localField", "scope_id")
-				.append("foreignField", "_id").append("as", "work")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "scope_id")
-				.append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "work.project_id")
-				.append("foreignField", "_id").append("as", "project2")));
-
-		pipeline.add(
-				new Document("$unwind", new Document("path", "$project").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(
-				new Document("$unwind", new Document("path", "$project2").append("preserveNullAndEmptyArrays", true)));
-
-		pipeline.add(
-				new Document("$addFields", new Document("project_id", new Document("$cond", Arrays.asList("$project",
-						"$project._id", new Document("$cond", Arrays.asList("$project2", "$project2._id", null)))))));
-
-		pipeline.add(new Document("$group", new Document("_id", "$project_id")));
-
-		pipeline.add(new Document("$lookup", new Document("from", "project").append("localField", "_id")
-				.append("foreignField", "_id").append("as", "project")));
-
-		pipeline.add(new Document("$replaceRoot",
-				new Document("newRoot", new Document("$arrayElemAt", Arrays.asList("$project", 0)))));
-
-		pipeline.add(new Document("$match", new Document("status", new Document("$ne", ProjectStatus.Closed))));
+		AggregateIterable<Project> iterable = c("obs").aggregate(pipeline, Project.class);
+		return iterable;
 	}
 
 	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-
-		appendParticipatedProjectQuery(userId, pipeline);
-
+		// 杨骏 2018/11/1
+		pipeline.addAll(new JQ("查询-项目-参与者").set("userId", userId).array());
 		if (filter != null)
 			pipeline.add(new Document("$match", filter));
 
@@ -705,15 +620,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						new Document("summary", false)
 								.append("actualStart",
 										new Document("$ne", null))
-								.append("$and",
-										Arrays.asList(
-												new Document("$or",
-														Arrays.asList(new Document("actualFinish", null),
-																new Document("actualFinish",
-																		new Document("$gte", startWorkFinish)))),
-												new Document("$or",
-														Arrays.asList(new Document("chargerId", userId),
-																new Document("assignerId", userId))))),
+								.append("$and", Arrays.asList(
+										new Document("$or",
+												Arrays.asList(new Document("actualFinish", null),
+														new Document("actualFinish", new Document("$gte", startWorkFinish)))),
+										new Document("$or",
+												Arrays.asList(new Document("chargerId", userId), new Document("assignerId", userId))))),
 						ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
@@ -745,15 +657,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						new Document("summary", false)
 								.append("actualStart",
 										new Document("$ne", null))
-								.append("$and",
-										Arrays.asList(
-												new Document("$or",
-														Arrays.asList(new Document("actualFinish", null),
-																new Document("actualFinish",
-																		new Document("$gte", startWorkFinish)))),
-												new Document("$or",
-														Arrays.asList(new Document("chargerId", userId),
-																new Document("assignerId", userId))))),
+								.append("$and", Arrays.asList(
+										new Document("$or",
+												Arrays.asList(new Document("actualFinish", null),
+														new Document("actualFinish", new Document("$gte", startWorkFinish)))),
+										new Document("$or",
+												Arrays.asList(new Document("chargerId", userId), new Document("assignerId", userId))))),
 						ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
@@ -766,14 +675,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long delete(ObjectId _id) {
-		// TODO 删除检查
 		Project project = get(_id);
 		if (!ProjectStatus.Created.equals(project.getStatus())) {
 			throw new ServiceException("当前项目不允许删除，只能删除已创建状态的项目。");
 		}
 		// 获得所有的work
-		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", _id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", _id), ObjectId.class).into(new ArrayList<>());
 		// 清除关联的resourcePlan
 		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", workIds)));
 		// 清除关联的resourceActual
@@ -791,16 +698,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("worklinksspace").deleteMany(new Document("project_id", _id));
 
 		// 清除obs
-		c("obs").deleteMany(new Document("$or",
-				Arrays.asList(new Document("scope_id", new Document("$in", workIds)), new Document("scope_id", _id))));
+		c("obs").deleteMany(
+				new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)), new Document("scope_id", _id))));
 
 		// 清除cbs
 		List<ObjectId> cbsIds = c("cbs")
-				.distinct("_id",
-						new Document("$or",
-								Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
-										new Document("scopeRoot", false).append("scope_id", _id))),
-						ObjectId.class)
+				.distinct("_id", new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+						new Document("scopeRoot", false).append("scope_id", _id))), ObjectId.class)
 				.into(new ArrayList<>());
 		c("cbs").deleteMany(new Document("_id", new Document("$in", cbsIds)));
 		c("cbsPeriod").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
@@ -818,8 +722,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("projectChange").deleteMany(new Document("project_id", _id));
 
 		// 清除rbs
-		List<ObjectId> rbsIds = c("rbsItem").distinct("_id", new Document("project_id", _id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> rbsIds = c("rbsItem").distinct("_id", new Document("project_id", _id), ObjectId.class).into(new ArrayList<>());
 		c("rbsItem").deleteMany(new Document("project_id", _id));
 		c("riskEffect").deleteMany(new Document("project_id", _id));
 		c("riskResponse").deleteMany(new Document("rbsItem_id", new Document("$in", rbsIds)));
@@ -856,8 +759,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Project.equals(com.name)) {
-			long count = c("work")
-					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			long count = c("work").countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
 			if (count > 0) {
 				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作。"));
 			}
@@ -865,21 +767,20 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 获得时间
-		Document latest = c("work").find(new Document("parent_id", com._id))
-				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1)).first();
+		// yangjun 2018/10/31
+		Document latest = c("work").find(new Document("parent_id", com._id)).projection(new Document("actualFinish", true))
+				.sort(new Document("actualFinish", -1).append("_id", -1)).first();
 		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
-		c("project").updateOne(new Document("_id", com._id),
-				new Document("$set", new Document("status", ProjectStatus.Closing).append("progress", 1d)
-						.append("finishInfo", com.info()).append("actualFinish", actualFinish)));
+		c("project").updateOne(new Document("_id", com._id), new Document("$set", new Document("status", ProjectStatus.Closing)
+				.append("progress", 1d).append("finishInfo", com.info()).append("actualFinish", actualFinish)));
 
 		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目收尾通知",
-				"项目：" + project.getString("name") + " 已于 "
-						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 进入收尾。",
+				"项目：" + project.getString("name") + " 已于 " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 进入收尾。",
 				com.userId, memberIds, null);
 
 		return new ArrayList<>();
@@ -896,8 +797,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Project.equals(com.name)) {
-			long count = c("work")
-					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			long count = c("work").countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
 			if (count > 0) {
 				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作，这些工作也将同时关闭。"));
 			}
@@ -918,12 +818,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
 		sendMessage("项目关闭通知",
-				"项目：" + project.getString("name") + " 已于 "
-						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
+				"项目：" + project.getString("name") + " 已于 " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
 				com.userId, memberIds, null);
 		return new ArrayList<>();
 	}
 
+	/**
+	 * TODO 迁移到前台进行
+	 * 
+	 * @param _id
+	 * @return
+	 */
 	private String generateWorkOrder(ObjectId _id) {
 		/**
 		 * TODO 需要根据九洲定制
@@ -962,16 +867,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		workOrder += orgNo;
 
 		if (parentproject_id != null) {
-			String parentWorkOrder = c("project")
-					.distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
+			String parentWorkOrder = c("project").distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder);
 			workOrder += "-" + String.format("%02d", index);
 
 		} else if (program_id != null) {
-			String programWorkOrder = c("program").distinct("workOrder", new Document("_id", program_id), String.class)
-					.first();
+			String programWorkOrder = c("program").distinct("workOrder", new Document("_id", program_id), String.class).first();
 			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder);
@@ -989,8 +892,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<News> getRecentNews(ObjectId _id, int count) {
 		ArrayList<News> result = new ArrayList<News>();
-		List<Bson> pipeline = new JQ("查询-时间线").set("match",
-				new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
+		List<Bson> pipeline = new JQ("查询-时间线")
+				.set("match", new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
 				.set("limit", count).array();
 		c("work").aggregate(pipeline).forEach((Document doc) -> {
 			Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
@@ -1057,27 +960,26 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 获取要存储到基线的工作
 		Map<ObjectId, ObjectId> workIds = new HashMap<ObjectId, ObjectId>();
 		List<Document> workDocs = new ArrayList<Document>();
-		c("work").find(new Document("project_id", project_id)).sort(new Document("parent_id", 1))
-				.forEach((Document doc) -> {
-					ObjectId work_id = doc.getObjectId("_id");
-					ObjectId newWork_id = new ObjectId();
-					workIds.put(work_id, newWork_id);
-					doc.append("old_id", work_id);
-					doc.append("_id", newWork_id);
+		c("work").find(new Document("project_id", project_id)).sort(new Document("parent_id", 1)).forEach((Document doc) -> {
+			ObjectId work_id = doc.getObjectId("_id");
+			ObjectId newWork_id = new ObjectId();
+			workIds.put(work_id, newWork_id);
+			doc.append("old_id", work_id);
+			doc.append("_id", newWork_id);
 
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					if (parent_id != null) {
-						ObjectId newParent_id = workIds.get(parent_id);
-						doc.append("parent_id", newParent_id);
-					}
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id != null) {
+				ObjectId newParent_id = workIds.get(parent_id);
+				doc.append("parent_id", newParent_id);
+			}
 
-					doc.append("baseline_id", newBaseline_id);
+			doc.append("baseline_id", newBaseline_id);
 
-					doc.remove("checkoutBy");
-					doc.remove("space_id");
+			doc.remove("checkoutBy");
+			doc.remove("space_id");
 
-					workDocs.add(doc);
-				});
+			workDocs.add(doc);
+		});
 
 		// 获取要存储到基线的工作关联关系
 		List<Document> worklinkDocs = new ArrayList<Document>();
@@ -1122,13 +1024,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<BaselineComparable> getBaselineComparable(List<ObjectId> projectIds) {
+		// TODO JQ
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("project_id", new Document("$in", projectIds))));
 		pipeline.add(Aggregates.sort(new Document("project_id", 1).append("index", 1)));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
@@ -1139,8 +1042,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		pipeline.add(Aggregates.sort(new Document("baseline_id", 1).append("index", 1)));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		appendUserInfo(pipeline, "chargerId", "chargerInfo");
 		appendUserInfo(pipeline, "assignerId", "assignerInfo");
@@ -1235,9 +1138,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendProject(pipeline);
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-
-		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
-		return into;
+		// yangjun 2018/10/31
+		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
 
 	@Override
@@ -1258,7 +1160,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		for (ChangeProcess changeProcess : changeProcesss) {
 			if (changeProcess.getProjectOBSId() != null) {
 				for (OBSItem obsItem : obsItems) {
-					if (obsItem.getRoleId() != null && obsItem.getRoleId().equals(changeProcess.getProjectOBSId())) {
+					// yangjun 2018/10/31
+					if (Check.equals(obsItem.getRoleId(), changeProcess.getProjectOBSId())) {
 						ProjectChangeTask pct = new ProjectChangeTask();
 						pct.user = obsItem.getManagerId();
 						pct.name = changeProcess.getTaskName();
@@ -1304,20 +1207,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<ProjectChange> listProjectChangeInfo(ObjectId _id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(Aggregates.match(new Document("_id", _id)));
 
-		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
-		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"), new Field<String>("projectPMId", "$project.pmId"))));
+		pipeline.addAll(new JQ("查询-项目变更").set("match", new Document("_id", _id)).array());
 
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
-		pipeline.add(Aggregates.lookup("organization", "applicantUnitId", "_id", "organization"));
-		pipeline.add(Aggregates.unwind("$organization", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("applicantUnit", "$organization.fullName"),
-				new Field<String>("managerId", "$applicantUnitId.managerId"))));
-		pipeline.add(Aggregates.project(new Document("organization", false)));
 
 		return c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
 	}
@@ -1330,8 +1224,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
-				new Document("$set",
-						new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
+				new Document("$set", new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足提交条件的变更申请。"));
 			return result;
@@ -1350,14 +1243,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			projectChange.getReviewer().forEach((ProjectChangeTask receiver) -> {
 				receivers.add(receiver.user);
 			});
-			sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName()
-					+ " 的变更申请，请您进行审核。", projectChange.getApplicantId(), receivers, null);
+			sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，请您进行审核。",
+					projectChange.getApplicantId(), receivers, null);
 
-			String pmId = c("project")
-					.distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
+			String pmId = c("project").distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
 			if (!receivers.contains(pmId))
-				sendMessage("项目变更申请",
-						"" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，",
+				sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，",
 						projectChange.getApplicantId(), receivers, null);
 
 		});
@@ -1367,8 +1258,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds) {
 		List<Result> result = new ArrayList<Result>();
-		long count = c(ProjectChange.class).countDocuments(
-				new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
+		long count = c(ProjectChange.class)
+				.countDocuments(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
 		if (count > 0) {
 			result.add(Result.submitProjectChangeError("缺少审核人员"));
 		}
@@ -1381,8 +1272,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (!result.isEmpty()) {
 			return result;
 		}
-
-		ProjectChange pc = get(projectChangeTask.projectChange_id, ProjectChange.class);
+		// yangjun 2018/10/31
+		ProjectChange pc = getProjectChange(projectChangeTask.projectChange_id);
 		List<ProjectChangeTask> reviewers = pc.getReviewer();
 		List<BasicDBObject> reviewer = new ArrayList<BasicDBObject>();
 		String status = ProjectChange.STATUS_PASS;
@@ -1406,8 +1297,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 发送变更批准通知
-		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，",
-				projectChangeTask.user, pc.getApplicantId(), null);
+		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
+				pc.getApplicantId(), null);
 		if (ProjectChange.STATUS_PASS.equals(status)) {
 			String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
 			sendMessage("项目变更申请已通过", "项目：" + pc.getProjectName() + " 的变更申请已审核通过，", pc.getApplicantId(), pmId, null);
@@ -1427,9 +1318,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
-				new Document("$set", new Document("verifyDate", new Date()).append("verify", userId).append("status",
-						ProjectChange.STATUS_CONFIRM)));
+		UpdateResult ur = c(ProjectChange.class).updateMany(new Document("_id", new Document("$in", projectChangeIds)), new Document("$set",
+				new Document("verifyDate", new Date()).append("verify", userId).append("status", ProjectChange.STATUS_CONFIRM)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
@@ -1471,15 +1361,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
-				new BasicDBObject("$set",
-						new BasicDBObject("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
+				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足取消条件的变更申请。"));
 			return result;
 		}
 		String pmId = c("project").distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，",
-				projectChangeTask.user, Arrays.asList(pmId, pc.getApplicantId()), null);
+		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
+				Arrays.asList(pmId, pc.getApplicantId()), null);
 
 		return result;
 	}
@@ -1514,8 +1403,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long countReviewerProjectChange(BasicDBObject filter, String userId) {
-		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId)
-				.set("status", ProjectChange.STATUS_SUBMIT).array();
+		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId).set("status", ProjectChange.STATUS_SUBMIT).array();
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -1525,6 +1413,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<ProjectChange> listReviewerProjectChange(BasicDBObject condition, String userId) {
+		return listReviewerPC(condition, userId).into(new ArrayList<ProjectChange>());
+	}
+
+	@Override
+	public List<Document> listReviewerProjectChangeCard(BasicDBObject condition, String userId) {
+		return listReviewerPC(condition, userId).map(ProjectChangeRenderer::render).into(new ArrayList<>());
+	}
+
+	private AggregateIterable<ProjectChange> listReviewerPC(BasicDBObject condition, String userId) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1532,8 +1429,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			filter = new BasicDBObject();
 		}
 
-		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId)
-				.set("status", ProjectChange.STATUS_SUBMIT).array();
+		List<Bson> pipeline = (List<Bson>) new JQ("查询-项目变更-待审批").set("userId", userId).set("status", ProjectChange.STATUS_SUBMIT).array();
 
 		appendProject(pipeline);
 		appendUserInfo(pipeline, "applicant", "applicantInfo");
@@ -1549,11 +1445,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		ArrayList<ProjectChange> into = c(ProjectChange.class).aggregate(pipeline).into(new ArrayList<ProjectChange>());
-		return into;
+		AggregateIterable<ProjectChange> aggregate = c(ProjectChange.class).aggregate(pipeline);
+		return aggregate;
 	}
 
 	@Override
+	@Deprecated
 	public List<Project> listAdministratedProjects(BasicDBObject condition, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -1566,10 +1463,29 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
+	public List<Document> listAdministratedProjectsCard(BasicDBObject condition, String managerId) {
+		List<ObjectId> projectIds = getAdministratedProjects(managerId);
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("_id", new BasicDBObject("$in", projectIds));
+
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
+		return c(Project.class).aggregate(pipeline).map(ProjectRenderer::render).into(new ArrayList<>());
+	}
+
+	@Override
 	public long countAdministratedProjects(BasicDBObject filter, String managerId) {
 		List<ObjectId> projectIds = getAdministratedProjects(managerId);
 		if (filter == null) {
-			filter = new BasicDBObject();
+			// filter = new BasicDBObject();
+			return projectIds.size();
 		}
 		filter.append("_id", new BasicDBObject("$in", projectIds));
 		return count(filter);
@@ -1585,13 +1501,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort == null) {
-			sort = new BasicDBObject("creationInfo.date", -1);
+			// yangjun 2018/10/31
+			sort = new BasicDBObject("creationInfo.date", -1).append("_id", -1);
 		}
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userid, Role.SYS_ROLE_PD_ID)) {
-			appendQueryUserInProjectPMO(pipeline, userid);
+			appendQueryUserInProjectPMO(pipeline, userid, "$_id");
 		}
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
@@ -1610,23 +1527,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 		// 不显示全部时，只返回用户在项目PMO团队中的项目数
 		List<Bson> pipeline = new ArrayList<Bson>();
-		appendQueryUserInProjectPMO(pipeline, userid);
+		appendQueryUserInProjectPMO(pipeline, userid, "$_id");
 		return c(Project.class).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
-	}
-
-	/**
-	 * 添加获取项目时，只获取当前用户在项目PMO团队中的项目的查询
-	 * 
-	 * @param pipeline
-	 * @param userid
-	 */
-	private void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid) {
-		pipeline.addAll(new JQ("查询-项目PMO成员").set("scopeIdName", "$_id").set("userId", userid).array());
 	}
 
 }

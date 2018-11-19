@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -113,12 +114,6 @@ public interface ProjectService {
 	public void approveProject(Command command);
 
 	@POST
-	@Path("/command/distribute/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> distributeProjectPlan(Command command);
-
-	@POST
 	@Path("/_id/{_id}/stockholder/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -176,10 +171,18 @@ public interface ProjectService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
+	@Path("/member/{userid}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我参与的项目看板（未关闭）/list" })
+	public List<Document> listParticipatedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
 	@Path("/member/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count" })
+	@DataSet({ "我的项目/count", "我的项目（首页小组件）/count", "我的项目选择列表/count", "我参与的项目看板（未关闭）/count" })
 	public long countParticipatedProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -339,8 +342,16 @@ public interface ProjectService {
 	@Path("/projectchange/reviewer/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "待审批的项目变更/" + DataSet.COUNT, "审批项目变更/budget" })
+	@DataSet({ "待审批的项目变更/" + DataSet.COUNT, "待审批的项目变更（看板）/" + DataSet.COUNT, "审批项目变更/budget" })
 	public long countReviewerProjectChange(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/projectchange/reviewer/{userId}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待审批的项目变更（看板）/" + DataSet.LIST })
+	public List<Document> listReviewerProjectChangeCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
@@ -381,8 +392,7 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "变更详情信息面板/list", "变更审核信息面板/list", "变更详情信息面板（查看）/list", "变更审核信息面板（查看）/list" })
-	public List<ProjectChange> listProjectChangeInfo(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
+	public List<ProjectChange> listProjectChangeInfo(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/submitprojectchange")
@@ -425,7 +435,16 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我管理的项目清单/list")
+	@Deprecated
 	public List<Project> listAdministratedProjects(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
+
+	@POST
+	@Path("/managedby/{managerId}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我管理的项目看板（未关闭）/list")
+	public List<Document> listAdministratedProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("managerId") @MethodParam(MethodParam.CURRENT_USER_ID) String managerId);
 
 	@POST

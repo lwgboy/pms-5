@@ -1,45 +1,34 @@
 [ {
-	"$addFields" : {
-		"stageCode" : {
-			"$arrayElemAt" : [ {
-				"$split" : [ "$wbsCode", "." ]
-			}, 0.0 ]
-		}
+	"$graphLookup" : {
+		"from" : "work",
+		"startWith" : "$parent_id",
+		"connectFromField" : "parent_id",
+		"connectToField" : "_id",
+		"as" : "parent"
 	}
 }, {
-	"$lookup" : {
-		"from" : "work",
-		"let" : {
-			"f_project_id" : "$project_id",
-			"f_wbsCode" : "$stageCode"
-		},
-		"pipeline" : [ {
-			"$match" : {
-				"$expr" : {
-					"$and" : [ {
-						"$eq" : [ "$$f_project_id", "$project_id" ]
-					}, {
-						"$eq" : [ "$$f_wbsCode", "$wbsCode" ]
-					} ]
+	"$addFields" : {
+		"parent" : {
+			"$filter" : {
+				"input" : "$parent",
+				"as" : "patentStage",
+				"cond" : {
+					"$eq" : [ "$$patentStage.stage", true ]
 				}
 			}
-		}, {
-			"$project" : {
-				"name" : true,
-				"_id" : false
-			}
-		} ],
-		"as" : "stageInfo"
+		}
+	}
+}, {
+	"$unwind" : {
+		"path" : "$parent",
+		"preserveNullAndEmptyArrays" : true
 	}
 }, {
 	"$addFields" : {
-		"stageName" : {
-			"$arrayElemAt" : [ "$stageInfo.name", 0.0 ]
-		}
+		"stageName" : "$parent.name"
 	}
 }, {
 	"$project" : {
-		"stageCode" : false,
-		"stageInfo" : false
+		"parent" : false
 	}
 } ]

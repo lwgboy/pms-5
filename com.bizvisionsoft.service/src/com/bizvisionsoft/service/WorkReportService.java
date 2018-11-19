@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -77,8 +78,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目日报/" + DataSet.LIST })
-	public List<WorkReport> createWorkReportProjectDailyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportProjectDailyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
@@ -96,8 +96,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目周报/" + DataSet.LIST })
-	public List<WorkReport> createWorkReportProjectWeeklyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportProjectWeeklyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
@@ -115,8 +114,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目月报/" + DataSet.LIST })
-	public List<WorkReport> createWorkReportProjectMonthlyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportProjectMonthlyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
@@ -135,8 +133,7 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "阶段日报/" + DataSet.LIST })
 	@Deprecated
-	public List<WorkReport> createWorkReportStageDailyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportStageDailyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
 
@@ -156,8 +153,7 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "阶段周报/" + DataSet.LIST })
 	@Deprecated
-	public List<WorkReport> createWorkReportStageWeeklyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportStageWeeklyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
 
@@ -177,8 +173,7 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "阶段月报/" + DataSet.LIST })
 	@Deprecated
-	public List<WorkReport> createWorkReportStageMonthlyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createWorkReportStageMonthlyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("stage_id") ObjectId stage_id);
 
@@ -196,16 +191,16 @@ public interface WorkReportService {
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.INSERT, "周报/" + DataSet.INSERT, "月报/" + DataSet.INSERT, "项目日报/" + DataSet.INSERT,
-			"项目周报/" + DataSet.INSERT, "项目月报/" + DataSet.INSERT })
+	@DataSet({ "日报/" + DataSet.INSERT, "周报/" + DataSet.INSERT, "月报/" + DataSet.INSERT, "项目日报/" + DataSet.INSERT, "项目周报/" + DataSet.INSERT,
+			"项目月报/" + DataSet.INSERT })
 	public WorkReport insert(WorkReport workReport);
 
 	@DELETE
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.DELETE, "周报/" + DataSet.DELETE, "月报/" + DataSet.DELETE, "项目日报/" + DataSet.DELETE,
-			"项目周报/" + DataSet.DELETE, "项目月报/" + DataSet.DELETE })
+	@DataSet({ "日报/" + DataSet.DELETE, "周报/" + DataSet.DELETE, "月报/" + DataSet.DELETE, "项目日报/" + DataSet.DELETE, "项目周报/" + DataSet.DELETE,
+			"项目月报/" + DataSet.DELETE })
 	public long delete(@MethodParam(MethodParam._ID) @PathParam("_id") ObjectId _id);
 
 	@GET
@@ -225,8 +220,8 @@ public interface WorkReportService {
 	@Path("/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "日报/" + DataSet.UPDATE, "周报/" + DataSet.UPDATE, "月报/" + DataSet.UPDATE, "项目日报/" + DataSet.UPDATE,
-			"项目周报/" + DataSet.UPDATE, "项目月报/" + DataSet.UPDATE })
+	@DataSet({ "日报/" + DataSet.UPDATE, "周报/" + DataSet.UPDATE, "月报/" + DataSet.UPDATE, "项目日报/" + DataSet.UPDATE, "项目周报/" + DataSet.UPDATE,
+			"项目月报/" + DataSet.UPDATE })
 	public long update(BasicDBObject filterAndUpdate);
 
 	@POST
@@ -234,16 +229,14 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "报告-工作/" + DataSet.LIST })
-	public List<WorkReportItem> listReportItem(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
+	public List<WorkReportItem> listReportItem(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
 	@POST
 	@Path("/_id/{_id}/item/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "报告-工作/" + DataSet.COUNT })
-	public long countReportItem(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
+	public long countReportItem(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId workReport_id);
 
 	@PUT
 	@Path("/item/")
@@ -268,8 +261,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "我管理的项目本周报告摘要/" + DataSet.LIST })
-	public List<WorkReportSummary> listWeeklyAdministeredProjectReportSummary(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReportSummary> listWeeklyAdministeredProjectReportSummary(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("managerId") String managerId);
 
 	@POST
@@ -289,10 +281,18 @@ public interface WorkReportService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
+	@Path("/userid/{userid}/card/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待确认的项目报告/" + DataSet.LIST })
+	public List<Document> listWorkReportToConfirm(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
 	@Path("/userid/{userid}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "待确认的报告/" + DataSet.COUNT, "确认报告/budget" })
+	@DataSet({ "待确认的报告/" + DataSet.COUNT, "确认报告/budget", "待确认的项目报告/" + DataSet.COUNT })
 	public long countWorkReportDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
@@ -317,8 +317,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "周报管理/" + DataSet.LIST })
-	public List<WorkReport> createAllWorkReportWeeklyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createAllWorkReportWeeklyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
@@ -334,8 +333,7 @@ public interface WorkReportService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "月报管理/" + DataSet.LIST })
-	public List<WorkReport> createAllWorkReportMonthlyDataSet(
-			@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<WorkReport> createAllWorkReportMonthlyDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST

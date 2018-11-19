@@ -97,8 +97,7 @@ public class Program {
 		if (pgmId == null) {
 			return "";
 		}
-		return "<div style='cursor:pointer;display:inline-flex;width: 100%;justify-content: space-between;'>"
-				+ MetaInfoWarpper.userInfo(pgmInfo_meta, pgmInfo) + "</div>";
+		return "<div class='brui_ly_hline'>" + MetaInfoWarpper.userInfo(pgmInfo_meta, pgmInfo) + "</div>";
 	}
 
 	@WriteValue("pgm")
@@ -148,11 +147,9 @@ public class Program {
 	public List<Object> getSubProgramsAndProjects() {
 		ArrayList<Object> children = new ArrayList<Object>();
 
-		children.addAll(ServicesLoader.get(ProgramService.class)
-				.list(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
+		children.addAll(ServicesLoader.get(ProgramService.class).list(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
 
-		children.addAll(ServicesLoader.get(ProjectService.class)
-				.list(new Query().filter(new BasicDBObject("program_id", _id)).bson()));
+		children.addAll(ServicesLoader.get(ProjectService.class).list(new Query().filter(new BasicDBObject("program_id", _id)).bson()));
 		return children;
 	}
 
@@ -182,9 +179,9 @@ public class Program {
 	private boolean isRemovable() {
 		return countSubProgramsAndProjects() == 0;
 	}
-	
+
 	@Exclude
-	@Behavior({"项目集操作","打开项目集"})
+	@Behavior({ "项目集操作", "打开项目集" })
 	private boolean editableBehavior = true;
 
 }

@@ -32,6 +32,13 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+/**
+ * 使用轮播布局可替代本类
+ * 
+ * @author hua
+ *
+ */
+@Deprecated
 public class ProjectProgressWidgetASM {
 
 	@Inject

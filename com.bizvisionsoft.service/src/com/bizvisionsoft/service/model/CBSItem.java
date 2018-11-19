@@ -24,11 +24,12 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.sn.CBSItemGenerator;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("cbs")
-public class CBSItem implements ICBSAmount{
+public class CBSItem implements ICBSAmount {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -159,8 +160,8 @@ public class CBSItem implements ICBSAmount{
 
 	@SetValue("children")
 	private void setChildren(List<ObjectId> childrenId) {
-		children = ServicesLoader.get(CBSService.class)
-				.createDataSet(new BasicDBObject("_id", new BasicDBObject("$in", childrenId)));
+		children = ServicesLoader.get(CBSService.class).createDataSet(
+				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
 	}
 
 	@Exclude

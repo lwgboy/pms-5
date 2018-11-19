@@ -78,7 +78,7 @@
     }
   ],
   "title": {
-    "text": "2018年 资金预算和使用状况（万元）",
+    "text": "<title>",
     "textStyle": {
       "color": "#757575",
       "fontFamily": "Microsoft YaHei",

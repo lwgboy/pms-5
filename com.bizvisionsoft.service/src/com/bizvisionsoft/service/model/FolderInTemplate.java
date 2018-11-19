@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("folderInTemplate")
-public class FolderInTemplate implements IFolder{
+public class FolderInTemplate implements IFolder {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -56,15 +56,14 @@ public class FolderInTemplate implements IFolder{
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" + "<img src="
-				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
-				+ name + "</div>"
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
+				+ "<div style='flex:auto;'>" + name + "</div>"
 				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a>"
 				+ "</div>";
 		return html;
 	}
 
-	@ReadValue("项目模板文件夹选择列表/folderName" )
+	@ReadValue("项目模板文件夹选择列表/folderName")
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -74,12 +73,10 @@ public class FolderInTemplate implements IFolder{
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div style='display:inline-flex;justify-content:space-between;width:100%;'>" + "<img src="
-				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
-				+ name + "</div>" + "</div>";
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl
+				+ " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>" + name + "</div>" + "</div>";
 		return html;
 	}
-	
 
 	@Structure(DataSet.LIST)
 	private List<FolderInTemplate> listChildren() {
@@ -90,7 +87,7 @@ public class FolderInTemplate implements IFolder{
 	private long countChildren() {
 		return ServicesLoader.get(DocumentService.class).countChildrenFolderTemplate(_id);
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ObjectId get_id() {

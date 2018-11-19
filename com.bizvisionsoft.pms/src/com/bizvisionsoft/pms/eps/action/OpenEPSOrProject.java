@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.project.SwitchProjectPage;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -32,15 +33,7 @@ public class OpenEPSOrProject {
 
 	private void open(Object em) {
 		if (em instanceof Project) {
-			if (ProjectStatus.Created.equals(((Project) em).getStatus())) {
-				bruiService.switchPage("项目首页（启动）", ((Project) em).get_id().toHexString());
-			} else if (ProjectStatus.Processing.equals(((Project) em).getStatus())) {
-				bruiService.switchPage("项目首页（执行）", ((Project) em).get_id().toHexString());
-			} else if (ProjectStatus.Closing.equals(((Project) em).getStatus())) {
-				bruiService.switchPage("项目首页（收尾）", ((Project) em).get_id().toHexString());
-			} else if (ProjectStatus.Closed.equals(((Project) em).getStatus())) {
-				bruiService.switchPage("项目首页（关闭）", ((Project) em).get_id().toHexString());
-			}
+			SwitchProjectPage.loadAndOpenProject(bruiService, (Project) em);
 		} else if (em instanceof EPSInfo) {
 			if (((EPSInfo) em).getType().equals(EPSInfo.TYPE_PROJECT)) {
 				if (ProjectStatus.Created.equals(((EPSInfo) em).getStatus())) {

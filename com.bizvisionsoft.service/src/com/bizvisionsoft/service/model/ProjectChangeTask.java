@@ -42,4 +42,26 @@ public class ProjectChangeTask {
 	@Exclude
 	public ObjectId projectChange_id;
 
+	public static ProjectChangeTask getCancelInstance(String userid, ObjectId projectChange_id, String name, String comment) {
+		ProjectChangeTask task = new ProjectChangeTask();
+		task.user = userid;
+		task.projectChange_id = projectChange_id;
+		task.date = new Date();
+		task.choice = ProjectChange.CHOICE_CANCEL;
+		task.name = name;
+		task.comment = comment;
+		return task;
+	}
+
+	public static ProjectChangeTask getPassInstance(String userid, ObjectId projectChange_id, String name, String comment) {
+		ProjectChangeTask task = new ProjectChangeTask();
+		task.user = userid;
+		task.projectChange_id = projectChange_id;
+		task.date = new Date();
+		task.choice = ProjectChange.CHOICE_CONFIRM;
+		task.name = name;
+		task.comment = comment;
+		return task;
+	}
+
 }

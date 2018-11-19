@@ -13,7 +13,13 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
-
+/**
+ * 取消了CBS分解功能，该操作无效
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
+@Deprecated
 public class DistributeCBSBudget {
 
 	@Inject

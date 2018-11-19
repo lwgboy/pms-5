@@ -16,7 +16,12 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.WorkTime;
 import com.bizvisionsoft.serviceconsumer.Services;
-
+/**
+ * 
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
 public class DeleteElement {
 
 	@Inject

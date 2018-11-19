@@ -10,7 +10,13 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.pms.cbs.assembly.BudgetCBS;
 import com.bizvisionsoft.service.model.CBSItem;
-
+/**
+ * 取消了CBS可分解功能，该操作无效
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
+@Deprecated
 public class DeleteCBSItem {
 
 	@Inject

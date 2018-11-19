@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +31,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				Map<String, String> params = new HashMap<String, String>();
 				if (parameter != null)
-					parameter.entrySet().iterator()
-							.forEachRemaining(e -> params.put(e.getKey(), e.getValue().toString()));
+					parameter.entrySet().iterator().forEachRemaining(e -> params.put(e.getKey(), e.getValue().toString()));
 
 				rc.createReport(params, type, template, os);
 				String contentType = "application/octet-stream";
@@ -74,28 +74,25 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 
 	@Override
 	public Response commandReport(String commandParam) {
-		Document command = Document.parse(commandParam);
-		String outputType = command.getString("outputType");
-		String template = command.getString("template");
-		String fileName = command.getString("fileName");
-		String input_obj_id = command.getString("input_obj_id");
-		String selected_id = command.getString("selected_id");
-		String page_input_id = command.getString("page_input_id");
-		String root_input_id = command.getString("root_input_id");
-		JQ jq = new JQ(command.getString("jq"));
-		if (Check.isAssigned(input_obj_id))
-			jq.set("input_obj_id", new ObjectId(input_obj_id));
-		if (Check.isAssigned(selected_id))
-			jq.set("selected_id", new ObjectId(selected_id));
-		if (Check.isAssigned(page_input_id))
-			jq.set("page_input_id", new ObjectId(page_input_id));
-		if (Check.isAssigned(root_input_id))
-			jq.set("root_input_id", new ObjectId(root_input_id));
+		Document cmd = Document.parse(commandParam);
+		String outputType = cmd.getString("outputType");
+		String template = cmd.getString("template");
+		String fileName = cmd.getString("fileName");
+
+		JQ jq = new JQ(cmd.getString("jq"));
+		Arrays.asList("input_obj_id", "selected_id", "page_input_id", "root_input_id")
+				.forEach(s -> Check.isAssigned(cmd.getString(s), i -> jq.set(s, new ObjectId(i))));
 
 		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
 		try {
 			FileInputStream is = new FileInputStream(filePath);
-			return generateReport(is,new Document("pipeline", jq.doc().toJson()), outputType, fileName);
+			StringBuffer sb = new StringBuffer();
+			jq.list().forEach((Document doc) -> {
+				if (sb.length() > 0)
+					sb.append(",");
+				sb.append(doc.toJson());
+			});
+			return generateReport(is, new Document("pipeline", sb.toString()), outputType, fileName);
 		} catch (FileNotFoundException e) {
 			String msg = "没有报表模板文件" + filePath;
 			logger.error(msg);
@@ -114,8 +111,7 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	private ResponseBuilder responseBuilder() {
-		return Response.ok().header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Credentials", "true")
+		return Response.ok().header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Credentials", "true")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
 	}

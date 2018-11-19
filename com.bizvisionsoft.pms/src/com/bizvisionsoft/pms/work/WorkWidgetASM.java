@@ -23,6 +23,13 @@ import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
+/**
+ * 使用WorkCardRender取代
+ * 
+ * @author hua
+ *
+ */
+@Deprecated
 public class WorkWidgetASM {
 
 	@Inject

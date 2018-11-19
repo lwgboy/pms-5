@@ -268,13 +268,15 @@ public interface RiskService {
 	@Path("/prox/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getRiskProximityChart(@PathParam("project_id") ObjectId project_id);
+	@DataSet({ "临近、监测和影响分析（小组件）/list", "临近、监测和影响分析/list" })
+	public Document getRiskProximityChart(
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 
 	@POST
 	@Path("/prox2/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("临近、监测和影响分析（大图表）/list")
+	@DataSet({ "临近、监测和影响分析（大图表）/list" })
 	public Document getRiskProximityChart2(
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
 

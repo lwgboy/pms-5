@@ -16,7 +16,13 @@ import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSPeriod;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.service.tools.Check;
-
+/**
+ * 未找到其调用
+ * @author gdiyang
+ * @date 2018/10/27
+ *
+ */
+@Deprecated
 public class EditCBSBudget {
 
 	@Inject
