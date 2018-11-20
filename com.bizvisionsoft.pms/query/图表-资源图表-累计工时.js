@@ -1,5 +1,5 @@
 {
-    "name": "累计工时",
+    "name": "<name>",
     "type": "line",
     "itemStyle": {
         "color": "#c2c2c2"

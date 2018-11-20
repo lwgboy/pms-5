@@ -2,9 +2,6 @@
     "name": "<name>",
     "type": "bar",
     "stack": "<stack>",
-    "itemStyle": {
-        "color": "<color>"
-    },
     "data": "<data>",
     "label": {
         "normal": {

@@ -50,25 +50,33 @@
 		},
 		"basicQty" : {
 			"$sum" : [ {
-				"$multiply" : [ "<$basicQty>", {
+				"$multiply" : [ {
+					"$ifNull" : [ "<$basicQty>", 0.0 ]
+				}, {
 					"$ifNull" : [ "$qty", 1.0 ]
 				} ]
 			} ]
 		},
 		"overTimeQty" : {
 			"$sum" : [ {
-				"$multiply" : [ "<$overTimeQty>", {
+				"$multiply" : [ {
+					"$ifNull" : [ "<$overTimeQty>", 0.0 ]
+				}, {
 					"$ifNull" : [ "$qty", 1.0 ]
 				} ]
 			} ]
 		},
 		"totalQty" : {
 			"$sum" : [ {
-				"$multiply" : [ "<$basicQty>", {
+				"$multiply" : [ {
+					"$ifNull" : [ "<$basicQty>", 0.0 ]
+				}, {
 					"$ifNull" : [ "$qty", 1.0 ]
 				} ]
 			}, {
-				"$multiply" : [ "<$overTimeQty>", {
+				"$multiply" : [ {
+					"$ifNull" : [ "<$overTimeQty>", 0.0 ]
+				}, {
 					"$ifNull" : [ "$qty", 1.0 ]
 				} ]
 			} ]
@@ -77,7 +85,9 @@
 			"$sum" : [ {
 				"$multiply" : [ {
 					"$sum" : {
-						"$multiply" : [ "<$basicQty>", {
+						"$multiply" : [ {
+							"$ifNull" : [ "<$basicQty>", 0.0 ]
+						}, {
 							"$ifNull" : [ "$qty", 1.0 ]
 						} ]
 					}
@@ -88,7 +98,9 @@
 			"$sum" : [ {
 				"$multiply" : [ {
 					"$sum" : {
-						"$multiply" : [ "<$overTimeQty>", {
+						"$multiply" : [ {
+							"$ifNull" : [ "<$overTimeQty>", 0.0 ]
+						}, {
 							"$ifNull" : [ "$qty", 1.0 ]
 						} ]
 					}
@@ -99,7 +111,9 @@
 			"$sum" : [ {
 				"$multiply" : [ {
 					"$sum" : {
-						"$multiply" : [ "<$basicQty>", {
+						"$multiply" : [ {
+							"$ifNull" : [ "<$basicQty>", 0.0 ]
+						}, {
 							"$ifNull" : [ "$qty", 1.0 ]
 						} ]
 					}
@@ -107,7 +121,9 @@
 			}, {
 				"$multiply" : [ {
 					"$sum" : {
-						"$multiply" : [ "<$overTimeQty>", {
+						"$multiply" : [ {
+							"$ifNull" : [ "<$overTimeQty>", 0.0 ]
+						}, {
 							"$ifNull" : [ "$qty", 1.0 ]
 						} ]
 					}

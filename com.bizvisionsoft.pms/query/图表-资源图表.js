@@ -3,16 +3,11 @@
         "text": "<title>",
         "x": "center"
     },
+    "tooltip": {
+        "trigger": "axis"
+    },
     "legend": {
-        "data": [
-            "累计工时",
-            "计划金额",
-            "加班工时",
-            "计划工时",
-            "实际工时",
-            "计划金额",
-            "实际金额"
-        ],
+        "data": "<legendData>",
         "y": "30",
         "x": "right"
     },
