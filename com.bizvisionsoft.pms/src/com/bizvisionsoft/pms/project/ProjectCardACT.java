@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.project;
 
 import org.bson.Document;
+import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -13,8 +14,9 @@ public class ProjectCardACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		SwitchProjectPage.openProject(br, element.getObjectId("_id"));
+	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, @MethodParam(Execute.EVENT) Event e) {
+		if (e != null && "openItem/".equals(e.text))
+			SwitchProjectPage.openProject(br, element.getObjectId("_id"));
 	}
 
 }
