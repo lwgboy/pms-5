@@ -152,14 +152,14 @@ public class ProjectRenderer {
 
 	private String renderTitle() {
 		rowHeight += 64;
-		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
+		String content = "<a href='openItem/' target='_rwt' class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
 				+ "<div class='label_title'>" + pj.getName() + "</div>"//
 				+ "<div>" + Check.isAssignedThen(pj.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: ´ý¶¨") + "</div>"//
 				+ "</div>" //
 				+ "<div class='label_title'>" + pj.getStatus() + "</div>"//
-				+ "</div>";
-
+				+ "</a>";
+		return content;
 	}
 
 	private String renderProjectStage() {
