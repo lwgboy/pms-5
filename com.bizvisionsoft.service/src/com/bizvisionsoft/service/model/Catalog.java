@@ -33,5 +33,5 @@ public class Catalog {
 	public Document getDocument() {
 		return new Document("_id", _id).append("label", label).append("type", type).append("meta", meta);
 	}
-
+	
 }
