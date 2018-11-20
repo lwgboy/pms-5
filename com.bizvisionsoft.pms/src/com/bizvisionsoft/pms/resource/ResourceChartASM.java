@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.resource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,23 +80,25 @@ public class ResourceChartASM {
 		cal.add(Calendar.YEAR, 1);
 		cal.add(Calendar.MINUTE, -1);
 		Date end = cal.getTime();
-		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总");
+		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
+				// TODO dataType直接使用Arrays.asList("计划", "实际")，在选择时报错
+				.append("dataType", new ArrayList<String>(Arrays.asList("计划", "实际"))).append("isAggregate", false);
 	}
 
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		//创建顶栏
+		// 创建顶栏
 		Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT, 48)
-				//在顶栏下方增加面板
+				// 在顶栏下方增加面板
 				.add(() -> Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
 
-		//在面板中创建容器（左）
+		// 在面板中创建容器（左）
 		Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT, 0.25f).formLayout().put(this::leftPane)
-		//在容器右边画一根分割线
+				// 在容器右边画一根分割线
 				.addRight(() -> Controls.label(content, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP | SWT.BOTTOM, 1))
-				//在线的右边做图表容器（右）
+				// 在线的右边做图表容器（右）
 				.addRight(() -> Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).formLayout().put(this::rightPane));
 
 	}
@@ -151,6 +154,12 @@ public class ResourceChartASM {
 			Layer.error("请选择要查询的数据");
 			return;
 		}
+		// TODO 查询日期禁止为空
+		List<?> dateRange = (List<?>) option.get("dateRange");
+		if (dateRange.get(0) == null || dateRange.get(1) == null) {
+			Layer.error("请选择要查询的时间范围");
+			return;
+		}
 		Document chartData = Services.get(CatalogService.class)
 				.createResourcePlanAndUserageChart(new Document("input", input).append("option", option));
 		JsonObject chartOption = JsonObject.readFrom(((Document) chartData).toJson());
@@ -158,6 +167,7 @@ public class ResourceChartASM {
 	}
 
 	private StickerTitlebar createBar(Composite parent) {
+		// TODO 查询错误
 		Action a = new Action();
 		a.setName("创建项目根文件夹");
 		a.setImage("/img/add_16_w.svg");
