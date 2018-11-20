@@ -1685,12 +1685,6 @@
             "role": "项目总监#项目管理员",
             "image": "/img/todo_w.svg",
             "text": "工作看板"
-          },
-          {
-            "typeName": "组件链接",
-            "behavior": true,
-            "id": "1645e38b730",
-            "defaultAssembly": false
           }
         ]
       },
@@ -4805,6 +4799,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -4856,6 +4851,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -5206,6 +5202,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -5490,6 +5487,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -5694,6 +5692,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -5910,7 +5909,7 @@
               {
                 "id": "163f73b6204",
                 "name": "info",
-                "text": "启用阶段管理时，项目WBS的第一层将作为项目的阶段，进行分阶段管理。\n各阶段均可对阶段进行WBS分解，编制进度计划，建立团队，编制预算。\n\u003cbr/\u003e注意：项目创建后，本选项将不可更改。\n",
+                "text": "启用阶段管理时，项目WBS的第一层将作为项目的阶段，进行分阶段管理。\n各阶段均可对阶段进行WBS分解，编制进度计划，建立团队，编制预算。\n注意：项目创建后，本选项将不可更改。\n",
                 "type": "横幅",
                 "formFields": [],
                 "hasInfoLabel": false,
@@ -5996,6 +5995,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -6241,6 +6241,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -6361,6 +6362,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -6827,6 +6829,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -6879,6 +6882,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7141,6 +7145,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7359,6 +7364,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7483,6 +7489,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7554,6 +7561,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7732,6 +7740,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -7938,6 +7947,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -8210,6 +8220,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -8402,6 +8413,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -8577,6 +8589,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -8843,6 +8856,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -8892,6 +8906,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -9102,6 +9117,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -9422,6 +9438,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -9914,6 +9931,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10200,6 +10218,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10286,6 +10305,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10392,6 +10412,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10584,6 +10605,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10659,6 +10681,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10762,6 +10785,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -10950,6 +10974,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11070,6 +11095,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11376,6 +11402,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11552,6 +11579,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11775,6 +11803,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11896,6 +11925,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -11945,6 +11975,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12090,6 +12121,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12275,6 +12307,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12328,6 +12361,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12588,6 +12622,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12705,6 +12740,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -12965,6 +13001,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -13194,6 +13231,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -13386,6 +13424,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -13686,6 +13725,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -13866,6 +13906,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -14633,6 +14674,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -14839,6 +14881,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -14982,6 +15025,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -15176,6 +15220,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -15300,6 +15345,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -15546,6 +15592,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -15652,6 +15699,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -15882,6 +15930,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16096,6 +16145,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16284,6 +16334,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16387,6 +16438,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16473,6 +16525,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16562,6 +16615,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16634,6 +16688,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16737,6 +16792,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -16897,6 +16953,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -17214,6 +17271,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -17429,6 +17487,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -17660,6 +17719,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -17882,6 +17942,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -17934,6 +17995,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -18086,6 +18148,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -18135,6 +18198,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -18250,6 +18314,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -18538,6 +18603,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -18725,6 +18791,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -20184,10 +20251,131 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
-        "sortFields": []
+        "sortFields": [
+          {
+            "id": "16731703ab2",
+            "name": "id",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731707c37",
+            "name": "name",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731709be4",
+            "name": "classfication",
+            "text": "项目等级",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673170f838",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673170f8f0",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673170f9a3",
+            "name": "actualStart",
+            "text": "实际开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673170fa3b",
+            "name": "overdueIndex",
+            "text": "预警级别",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "16338ca0777",
@@ -20323,6 +20511,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -20407,6 +20596,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -20944,6 +21134,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -20996,6 +21187,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -21075,6 +21267,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -21128,6 +21321,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -21342,6 +21536,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -21480,6 +21675,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -21953,6 +22149,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22395,6 +22592,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": true,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22448,6 +22646,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22520,6 +22719,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22636,6 +22836,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22821,6 +23022,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -22907,6 +23109,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -23241,6 +23444,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -23380,6 +23584,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -23556,6 +23761,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -23627,6 +23833,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "",
         "inlineEdit": false,
         "scrollLoadData": false,
@@ -23700,6 +23907,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -23919,6 +24127,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24129,6 +24338,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24214,6 +24424,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24267,6 +24478,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24407,6 +24619,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24582,6 +24795,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24757,6 +24971,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -24932,6 +25147,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -25122,6 +25338,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -25289,6 +25506,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -25391,6 +25609,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -25899,6 +26118,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -26183,6 +26403,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -26354,6 +26575,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -26458,6 +26680,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -26805,6 +27028,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -26944,6 +27168,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -27155,6 +27380,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -27295,6 +27521,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -27682,6 +27909,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -27821,6 +28049,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28012,6 +28241,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28134,6 +28364,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28461,6 +28692,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28585,6 +28817,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28756,6 +28989,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -28860,6 +29094,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -29033,6 +29268,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -29199,6 +29435,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -29285,6 +29522,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -29431,6 +29669,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -29516,6 +29755,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -30002,6 +30242,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -30488,6 +30729,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -30974,6 +31216,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -31460,6 +31703,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -32090,6 +32334,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -32720,6 +32965,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -32866,6 +33112,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -32953,6 +33200,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -33164,6 +33412,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -33910,6 +34159,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -34141,6 +34391,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -34482,6 +34733,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -34576,6 +34828,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -34758,6 +35011,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -34808,6 +35062,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -34857,6 +35112,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35012,6 +35268,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35158,6 +35415,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35210,6 +35468,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35548,6 +35807,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35693,6 +35953,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35871,6 +36132,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -35974,6 +36236,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36150,6 +36413,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36334,6 +36598,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36477,6 +36742,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36584,6 +36850,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36727,6 +36994,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -36981,6 +37249,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37069,6 +37338,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37163,6 +37433,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37215,6 +37486,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37346,6 +37618,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37487,6 +37760,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -37576,6 +37850,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -38093,6 +38368,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -38656,6 +38932,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -38724,6 +39001,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -38921,6 +39199,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -38972,6 +39251,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39077,6 +39357,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39126,6 +39407,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39178,6 +39460,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -39252,6 +39535,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39533,6 +39817,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39724,6 +40009,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39800,6 +40086,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39876,6 +40163,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39927,6 +40215,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -39978,6 +40267,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40083,6 +40373,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40188,6 +40479,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40437,6 +40729,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40486,6 +40779,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40560,6 +40854,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -40659,6 +40954,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41259,6 +41555,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41418,6 +41715,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41469,6 +41767,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41572,6 +41871,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41623,6 +41923,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41674,6 +41975,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41777,6 +42079,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -41897,6 +42200,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42017,6 +42321,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42068,6 +42373,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42173,6 +42479,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42260,6 +42567,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -42314,6 +42622,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42624,6 +42933,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42887,6 +43197,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": true,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -42936,6 +43247,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -43269,6 +43581,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -43366,6 +43679,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -43452,6 +43766,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -43556,6 +43871,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -43760,6 +44076,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -43812,6 +44129,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -44122,6 +44440,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -44432,6 +44751,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -44652,6 +44972,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -44872,6 +45193,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45093,6 +45415,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45145,6 +45468,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -45469,6 +45793,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45521,6 +45846,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45573,6 +45899,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45625,6 +45952,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45709,6 +46037,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45761,6 +46090,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -45978,6 +46308,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -46288,6 +46619,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -46411,6 +46743,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -46534,6 +46867,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -46875,6 +47209,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -46924,6 +47259,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -47412,6 +47748,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -47753,6 +48090,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -47958,6 +48296,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48163,6 +48502,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48212,6 +48552,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48417,6 +48758,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48466,6 +48808,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48549,6 +48892,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48634,6 +48978,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48685,6 +49030,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "{\"type\":\"plan\"}",
         "inlineEdit": false,
         "scrollLoadData": false,
@@ -48771,6 +49117,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48822,6 +49169,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "{\"type\":\"actual\"}",
         "inlineEdit": false,
         "scrollLoadData": false,
@@ -48908,6 +49256,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -48959,6 +49308,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -49011,6 +49361,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -49094,6 +49445,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -49198,6 +49550,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -49250,6 +49603,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -49458,6 +49812,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -49686,6 +50041,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50066,6 +50422,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50207,6 +50564,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50276,6 +50634,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50327,6 +50686,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50746,6 +51106,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50887,6 +51248,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50939,6 +51301,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -50989,6 +51352,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -51190,6 +51554,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -51395,6 +51760,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -51479,6 +51845,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -51791,6 +52158,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -51886,6 +52254,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52263,6 +52632,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52401,6 +52771,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52548,6 +52919,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52632,6 +53004,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52813,6 +53186,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -52892,6 +53266,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53050,6 +53425,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53100,6 +53476,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53150,6 +53527,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53236,6 +53614,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53285,6 +53664,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -53651,9 +54031,11 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "1644f7c77d6",
@@ -54304,6 +54686,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54355,6 +54738,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54462,6 +54846,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54580,6 +54965,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -54632,6 +55018,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54683,6 +55070,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54847,6 +55235,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -54984,6 +55373,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": true,
         "compactTitleBar": false
@@ -55036,6 +55426,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -55111,6 +55502,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55160,6 +55552,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55230,6 +55623,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55420,6 +55814,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55495,6 +55890,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55546,6 +55942,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -55909,6 +56306,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -56063,6 +56461,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -56339,6 +56738,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -56434,6 +56834,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -56725,6 +57126,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -56883,6 +57285,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -57087,6 +57490,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -58926,6 +59330,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -59187,6 +59592,7 @@
             "readOnly": false,
             "required": false,
             "textLimit": 0,
+            "optionText": "日报#周报#月报",
             "maxFileSize": 0,
             "timeLimit": 0,
             "height": 0,
@@ -59195,7 +59601,7 @@
           },
           {
             "id": "16474fbd93c",
-            "name": "reporterInfoHtml",
+            "name": "reporterInfo",
             "text": "报告人",
             "type": "文本输入框（查询）",
             "formFields": [],
@@ -59256,9 +59662,11 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "1646adb4e03",
@@ -59639,6 +60047,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -59746,6 +60155,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60026,6 +60436,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60075,6 +60486,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60216,6 +60628,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60357,6 +60770,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60406,6 +60820,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60531,6 +60946,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60674,6 +61090,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60860,6 +61277,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -60981,6 +61399,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -61030,6 +61449,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -61079,6 +61499,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -61289,6 +61710,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -61505,6 +61927,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62024,6 +62447,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62174,6 +62598,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62276,6 +62701,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62591,6 +63017,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62694,6 +63121,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62766,6 +63194,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62851,6 +63280,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62904,6 +63334,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -62980,6 +63411,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -63029,6 +63461,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -63113,6 +63546,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -63501,6 +63935,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -63575,6 +64010,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -63695,6 +64131,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64155,6 +64592,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64204,6 +64642,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64279,6 +64718,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64507,6 +64947,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64577,6 +65018,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64697,6 +65139,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64785,6 +65228,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64889,6 +65333,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -64959,6 +65404,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -65062,6 +65508,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -65167,6 +65614,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -65433,6 +65881,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -66130,6 +66579,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -66747,6 +67197,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -67812,6 +68263,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -67951,6 +68403,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68168,6 +68621,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68368,6 +68822,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68421,6 +68876,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68686,6 +69142,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68736,6 +69193,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -68989,6 +69447,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69145,6 +69604,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69194,6 +69654,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69315,6 +69776,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69602,6 +70064,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69725,6 +70188,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -69914,6 +70378,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -70105,6 +70570,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -70294,6 +70760,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -70780,6 +71247,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -71196,6 +71664,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -71357,6 +71826,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -71578,6 +72048,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -71699,6 +72170,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -71862,6 +72334,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -72070,6 +72543,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -72120,6 +72594,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -72367,6 +72842,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -72457,6 +72933,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -72735,6 +73212,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -73013,6 +73491,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -73291,6 +73770,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -73415,6 +73895,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -73483,6 +73964,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -73601,6 +74083,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -73741,6 +74224,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "",
         "inlineEdit": false,
         "scrollLoadData": true,
@@ -73872,6 +74356,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "",
         "inlineEdit": false,
         "scrollLoadData": true,
@@ -74003,6 +74488,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "",
         "inlineEdit": false,
         "scrollLoadData": true,
@@ -74134,6 +74620,7 @@
         "disableStandardExport": true,
         "disableCustomized": true,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "parameters": "",
         "inlineEdit": false,
         "scrollLoadData": true,
@@ -74234,6 +74721,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -74326,6 +74814,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -74377,6 +74866,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -74475,6 +74965,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -74527,6 +75018,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -74579,6 +75071,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -74609,9 +75102,9 @@
         "columns": [],
         "fields": [
           {
-            "id": "1670bd50992",
-            "name": "fullName",
-            "text": "工作名称",
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -74643,9 +75136,9 @@
             "grabVertical": false
           },
           {
-            "id": "1670bd50d18",
-            "name": "projectNumber",
-            "text": "项目编号",
+            "id": "1670bd50992",
+            "name": "fullName",
+            "text": "工作名称",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -74771,10 +75264,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "1673159bd35",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673159bdde",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673159bc5f",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673159be97",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673159bf4c",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1670ccb40d8",
@@ -74802,9 +75383,9 @@
         "columns": [],
         "fields": [
           {
-            "id": "1670bd50992",
-            "name": "fullName",
-            "text": "工作名称",
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -74836,9 +75417,9 @@
             "grabVertical": false
           },
           {
-            "id": "1670bd50d18",
-            "name": "projectNumber",
-            "text": "项目编号",
+            "id": "1670bd50992",
+            "name": "fullName",
+            "text": "工作名称",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -74964,10 +75545,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "167315a8b47",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a8bec",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a8943",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a89f9",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a8ab0",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1670cd61827",
@@ -74995,9 +75664,9 @@
         "columns": [],
         "fields": [
           {
-            "id": "1670bd50992",
-            "name": "fullName",
-            "text": "工作名称",
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75029,9 +75698,9 @@
             "grabVertical": false
           },
           {
-            "id": "1670bd50d18",
-            "name": "projectNumber",
-            "text": "项目编号",
+            "id": "1670bd50992",
+            "name": "fullName",
+            "text": "工作名称",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75047,8 +75716,8 @@
           },
           {
             "id": "1670bd50dbc",
-            "name": "planStart",
-            "text": "计划开始",
+            "name": "actualStart",
+            "text": "实际开始",
             "type": "日期时间（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75064,8 +75733,8 @@
           },
           {
             "id": "1670bd50e52",
-            "name": "planFinish",
-            "text": "计划完成",
+            "name": "actualFinish",
+            "text": "实际完成",
             "type": "日期时间（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75157,10 +75826,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "167315a93ab",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9452",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a90f1",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a91a8",
+            "name": "actualStart",
+            "text": "实际开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9281",
+            "name": "actualFinish",
+            "text": "实际完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1670ce1a50a",
@@ -75188,9 +75945,9 @@
         "columns": [],
         "fields": [
           {
-            "id": "1670bd50992",
-            "name": "fullName",
-            "text": "工作名称",
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75222,9 +75979,9 @@
             "grabVertical": false
           },
           {
-            "id": "1670bd50d18",
-            "name": "projectNumber",
-            "text": "项目编号",
+            "id": "1670bd50992",
+            "name": "fullName",
+            "text": "工作名称",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -75350,10 +76107,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "167315a9c42",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9e57",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9a0d",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9ac2",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315a9b69",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1670df35b2a",
@@ -75496,6 +76341,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
@@ -75885,10 +76731,132 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "16731593ba0",
+            "name": "id",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731556357",
+            "name": "name",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731556413",
+            "name": "classfication",
+            "text": "项目等级",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315564c8",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731556592",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673156fb7a",
+            "name": "actualStart",
+            "text": "实际开始",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167315566ed",
+            "name": "overdueIndex",
+            "text": "预警级别",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "16715783971",
@@ -76274,15 +77242,33 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
         "candidates": [],
         "sortFields": [
           {
+            "id": "16731597065",
+            "name": "id",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
             "id": "1672fb9e9a4",
             "name": "name",
-            "text": "名称",
+            "text": "项目名称",
             "type": "排序字段",
             "formFields": [],
             "hasInfoLabel": false,
@@ -76334,6 +77320,23 @@
             "id": "1672fba6fd8",
             "name": "planFinish",
             "text": "计划完成",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673157360e",
+            "name": "actualStart",
+            "text": "实际开始",
             "type": "排序字段",
             "formFields": [],
             "hasInfoLabel": false,
@@ -76480,6 +77483,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -76521,9 +77525,9 @@
         "columns": [],
         "fields": [
           {
-            "id": "1670bd50992",
-            "name": "fullName",
-            "text": "工作名称",
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
             "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
@@ -76555,27 +77559,10 @@
             "grabVertical": false
           },
           {
-            "id": "1670bd50d18",
-            "name": "projectNumber",
-            "text": "项目编号",
-            "type": "文本输入框（查询）",
-            "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": false,
-            "textLimit": 0,
-            "maxFileSize": 0,
-            "timeLimit": 0,
-            "height": 0,
-            "staticContent": false,
-            "grabVertical": false
-          },
-          {
             "id": "1670bd50dbc",
-            "name": "planStart",
-            "text": "计划开始",
-            "type": "日期时间（查询）",
+            "name": "period",
+            "text": "周期",
+            "type": "日期时间范围（查询）",
             "formFields": [],
             "hasInfoLabel": false,
             "textPasswordStyle": false,
@@ -76590,9 +77577,27 @@
           },
           {
             "id": "1670bd50e52",
-            "name": "planFinish",
-            "text": "计划完成",
-            "type": "日期时间（查询）",
+            "name": "type",
+            "text": "类型",
+            "type": "下拉选择框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "optionText": "日报#周报#月报",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673165d69c",
+            "name": "reporterInfo",
+            "text": "报告人",
+            "type": "文本输入框（查询）",
             "formFields": [],
             "hasInfoLabel": false,
             "textPasswordStyle": false,
@@ -76683,10 +77688,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "1673166181c",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731661778",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167316618d5",
+            "name": "period",
+            "text": "周期",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673166197d",
+            "name": "type",
+            "text": "类型",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "16731661a45",
+            "name": "reporterInfo",
+            "text": "报告人",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1671a6642b9",
@@ -76735,6 +77828,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false,
@@ -76765,6 +77859,22 @@
         "gridPageCount": 8,
         "columns": [],
         "fields": [
+          {
+            "id": "167316dc983",
+            "name": "projectNumber",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
           {
             "id": "16719fd7f91",
             "name": "projectName",
@@ -76911,10 +78021,98 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "167316cecbe",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167316ced65",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167316cee2b",
+            "name": "applicantInfo",
+            "text": "申请人",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167316cef7b",
+            "name": "applicantDate",
+            "text": "申请时间",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "167316ea5c1",
+            "name": "applicantUnit",
+            "text": "申请单位",
+            "type": "排序字段",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          }
+        ]
       },
       {
         "id": "1671b904bfb",
@@ -76986,6 +78184,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
@@ -77092,6 +78291,7 @@
         "disableStandardExport": false,
         "disableCustomized": false,
         "disableStdQuery": false,
+        "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
