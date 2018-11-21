@@ -81,7 +81,8 @@ public class ResourceChartASM {
 		cal.add(Calendar.MINUTE, -1);
 		Date end = cal.getTime();
 		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
-				.append("dataType", new ArrayList<String>(Arrays.asList("计划", "实际"))).append("isAggregate", false);
+				.append("dataType", new ArrayList<String>(Arrays.asList("计划", "实际"))).append("showData", "叠加")
+				.append("aggregateType", "不累计");
 	}
 
 	@CreateUI

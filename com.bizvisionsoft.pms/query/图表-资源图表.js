@@ -1,28 +1,24 @@
 {
-    "title": {
-        "text": "<title>",
-        "x": "center"
-    },
     "tooltip": {
         "trigger": "axis"
     },
     "legend": {
         "data": "<legendData>",
-        "y": "30",
-        "x": "right"
+        "type": "scroll",
+        "bottom": 20,
     },
     "grid": [
         {
-            "left": 10,
-            "right": 10,
-            "bottom": "50%",
+            "left": 30,
+            "right": 30,
+            "bottom": "55%",
             "containLabel": true
         },
         {
-            "left": 10,
-            "right": 10,
-            "bottom": 40,
-            "top": "55%",
+            "left": 20,
+            "right": 30,
+            "bottom": "10%",
+            "top": "50%",
             "containLabel": true
         }
     ],
@@ -34,7 +30,8 @@
                 1
             ],
             "start": 50,
-            "end": 100
+            "end": 100,
+            "top": "90%",
         }
     ],
     "xAxis": [
@@ -51,16 +48,16 @@
     "yAxis": [
         {
             "type": "value",
-            "name": "工时",
+            "name": "工时（小时）",
             "axisLabel": {
-                "formatter": "{value} 小时"
+                "formatter": "{value}"
             }
         },
         {
             "type": "value",
-            "name": "金额",
+            "name": "金额（万元）",
             "axisLabel": {
-                "formatter": "{value} 万元"
+                "formatter": "{value}"
             },
             "gridIndex": 1
         }

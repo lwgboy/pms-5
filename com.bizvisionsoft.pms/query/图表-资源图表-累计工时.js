@@ -31,7 +31,7 @@
     },
     "label": {
         "normal": {
-            "show": true,
+            "show": false,
             "position": "inside"
         }
     },

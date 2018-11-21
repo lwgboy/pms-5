@@ -5,7 +5,7 @@
     "xAxisIndex": 1,
     "label": {
         "normal": {
-            "show": true,
+            "show": false,
             "position": "top"
         }
     },
