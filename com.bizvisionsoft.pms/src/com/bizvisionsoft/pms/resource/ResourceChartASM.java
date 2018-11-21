@@ -7,24 +7,22 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
+import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.chart.ECharts;
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
-import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.BruiAssemblyEngine;
 import com.bizvisionsoft.bruiengine.assembly.EditorPart;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
-import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.assembly.ToolItemDescriptor;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.BruiEditorContext;
@@ -89,10 +87,11 @@ public class ResourceChartASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		// 创建顶栏
-		Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT, 48)
-				// 在顶栏下方增加面板
-				.add(() -> Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
+		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.white).get();
+//		// 创建顶栏
+//		Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT, 48)
+//				// 在顶栏下方增加面板
+//				.add(() -> Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
 
 		// 在面板中创建容器（左）
 		Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT, 0.25f).formLayout().put(this::leftPane)
@@ -101,14 +100,15 @@ public class ResourceChartASM {
 				// 在线的右边做图表容器（右）
 				.addRight(() -> Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).formLayout().put(this::rightPane));
 
+		query();
 	}
 
 	private void leftPane(Composite parent) {
 
-		Composite title = Controls.comp(parent).html(
-				"<div class='label_title' style='height: 48px;width:100%;line-height:48px;padding-left:16px;border-bottom:solid 1px rgb(230,230,230);background-color: #fafafa;'>"
-						+ "选择组织或资源</div>")
-				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
+//		Composite title = Controls.comp(parent).html(
+//				"<div class='label_title' style='height:48px;width:100%;line-height:48px;padding-left:16px;border-bottom:solid 1px rgb(230,230,230);background-color: #fafafa;'>"
+//						+ "选择组织或资源</div>")
+//				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
 
 		Composite resSelector = createResourceSelector(parent);
 
@@ -116,7 +116,7 @@ public class ResourceChartASM {
 
 		Controls.handle(optionPane).bottom().left().right();
 
-		Controls.handle(resSelector).bottom(optionPane).top(title).left().right();
+		Controls.handle(resSelector).bottom(optionPane).top().left().right();
 
 	}
 
@@ -124,18 +124,21 @@ public class ResourceChartASM {
 		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("资源目录")).setServices(brui).create();
 		part = (GridPart) ac.getContext().getContent();
 		// 控制树的选择
-		part.getViewer().getGrid().addListener(SWT.Selection, e -> {
+		Grid grid = part.getViewer().getGrid();
+		grid.addListener(SWT.Selection, e -> {
 			GridItem item = (GridItem) e.item;
 			if (item.getChecked()) {
 				GridItem parentItem = item.getParentItem();
-				while(parentItem!=null) {
+				while (parentItem != null) {
 					parentItem.setChecked(false);
 					parentItem = parentItem.getParentItem();
 				}
 				unselectChildren(item);
 			}
 		});
-
+		if (grid.getItemCount() > 0) {
+			grid.getItem(0).setChecked(true);
+		}
 		Composite resSelector = ac.getContainer();
 		return resSelector;
 	}
@@ -164,7 +167,7 @@ public class ResourceChartASM {
 		optionContext.setInput(option);
 		engine.init(new IServiceWithId[] { brui, optionContext });
 		final EditorPart editor = (EditorPart) engine.getTarget();
-		editor.addToolItem(new ToolItemDescriptor("查询", BruiToolkit.CSS_INFO, this::query));
+		editor.addToolItem(new ToolItemDescriptor("查询", BruiToolkit.CSS_INFO, e -> query()));
 		engine.createUI(optionPane);
 		return pane;
 	}
@@ -174,7 +177,7 @@ public class ResourceChartASM {
 		chart.setOption(new JsonObject());// 设置空对象避免EChart无法完全释放
 	}
 
-	private void query(Event e) {
+	private void query() {
 		List<Document> input = part.getCheckedItems(i -> ((Catalog) i).getDocument());
 		if (input.isEmpty()) {
 			Layer.error("请选择要查询的数据");
@@ -192,32 +195,32 @@ public class ResourceChartASM {
 		chart.setOption(chartOption);
 	}
 
-	private StickerTitlebar createBar(Composite parent) {
-		// TODO 查询错误
-		Action a = new Action();
-		a.setName("创建项目根文件夹");
-		a.setImage("/img/add_16_w.svg");
-		a.setTooltips("创建项目根文件夹");
-		a.setStyle("normal");
-
-		Action b = new Action();
-		b.setName("查询");
-		b.setImage("/img/search_w.svg");
-		b.setTooltips("查询项目文档");
-		b.setStyle("info");
-
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b)).setActions(context.getAssembly().getActions())
-				.setText(context.getAssembly().getTitle());
-		bar.addListener(SWT.Selection, l -> {
-			// if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
-			// if (createFolder(null)) {
-			// folderPane.setViewerInput(getInput());
-			// }
-			// } else if ("查询".equals(((Action) l.data).getName())) {
-			// filePane.openQueryEditor();
-			// }
-		});
-		return bar;
-	}
+//	private StickerTitlebar createBar(Composite parent) {
+//		// TODO 查询错误
+//		Action a = new Action();
+//		a.setName("创建项目根文件夹");
+//		a.setImage("/img/add_16_w.svg");
+//		a.setTooltips("创建项目根文件夹");
+//		a.setStyle("normal");
+//
+//		Action b = new Action();
+//		b.setName("查询");
+//		b.setImage("/img/search_w.svg");
+//		b.setTooltips("查询项目文档");
+//		b.setStyle("info");
+//
+//		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b)).setActions(context.getAssembly().getActions())
+//				.setText(context.getAssembly().getTitle());
+//		bar.addListener(SWT.Selection, l -> {
+//			// if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
+//			// if (createFolder(null)) {
+//			// folderPane.setViewerInput(getInput());
+//			// }
+//			// } else if ("查询".equals(((Action) l.data).getName())) {
+//			// filePane.openQueryEditor();
+//			// }
+//		});
+//		return bar;
+//	}
 
 }
