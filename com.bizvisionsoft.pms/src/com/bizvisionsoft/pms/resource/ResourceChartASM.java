@@ -81,7 +81,6 @@ public class ResourceChartASM {
 		cal.add(Calendar.MINUTE, -1);
 		Date end = cal.getTime();
 		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
-				// TODO dataType直接使用Arrays.asList("计划", "实际")，在选择时报错
 				.append("dataType", new ArrayList<String>(Arrays.asList("计划", "实际"))).append("isAggregate", false);
 	}
 
@@ -146,6 +145,7 @@ public class ResourceChartASM {
 
 	private void rightPane(Composite parent) {
 		chart = Controls.handle(new ECharts(parent, SWT.NONE)).loc().get();
+		chart.setOption(new JsonObject());
 	}
 
 	private void query(Event e) {
