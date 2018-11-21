@@ -77784,6 +77784,7 @@
       {
         "id": "1671a6642b9",
         "name": "资源图表",
+        "title": "资源计划和用量图表",
         "bundleId": "com.bizvisionsoft.pms",
         "className": "com.bizvisionsoft.pms.resource.ResourceChartASM",
         "layout": [],

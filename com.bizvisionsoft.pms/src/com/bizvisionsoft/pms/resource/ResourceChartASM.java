@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
+import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
@@ -109,9 +110,7 @@ public class ResourceChartASM {
 						+ "选择组织或资源</div>")
 				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
 
-		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("资源目录")).setServices(brui).create();
-		part = (GridPart) ac.getContext().getContent();
-		Composite resSelector = ac.getContainer();
+		Composite resSelector = createResourceSelector(parent);
 
 		Composite optionPane = createOptionPane(parent);
 
@@ -119,6 +118,33 @@ public class ResourceChartASM {
 
 		Controls.handle(resSelector).bottom(optionPane).top(title).left().right();
 
+	}
+
+	private Composite createResourceSelector(Composite parent) {
+		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("资源目录")).setServices(brui).create();
+		part = (GridPart) ac.getContext().getContent();
+		// 控制树的选择
+		part.getViewer().getGrid().addListener(SWT.Selection, e -> {
+			GridItem item = (GridItem) e.item;
+			if (item.getChecked()) {
+				GridItem parentItem = item.getParentItem();
+				while(parentItem!=null) {
+					parentItem.setChecked(false);
+					parentItem = parentItem.getParentItem();
+				}
+				unselectChildren(item);
+			}
+		});
+
+		Composite resSelector = ac.getContainer();
+		return resSelector;
+	}
+
+	private void unselectChildren(GridItem item) {
+		Arrays.asList(item.getItems()).stream().forEach(i -> {
+			i.setChecked(false);
+			unselectChildren(i);
+		});
 	}
 
 	private Composite createOptionPane(Composite parent) {
@@ -145,7 +171,7 @@ public class ResourceChartASM {
 
 	private void rightPane(Composite parent) {
 		chart = Controls.handle(new ECharts(parent, SWT.NONE)).loc().get();
-		chart.setOption(new JsonObject());
+		chart.setOption(new JsonObject());// 设置空对象避免EChart无法完全释放
 	}
 
 	private void query(Event e) {
