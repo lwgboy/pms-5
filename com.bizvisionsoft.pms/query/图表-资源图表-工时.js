@@ -9,7 +9,5 @@
             "position": "inside"
         }
     },
-    "markLine": {
-        "data": "<markLineData>"
-    }
+    "markLine": "<markLineData>"
 }

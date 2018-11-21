@@ -180,6 +180,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(start);
 
+		Document markLineData = new Document();
+
 		SimpleDateFormat sdf;
 		if ("日".equals(dateType)) {
 			group_id.append("$dateToString", new Document("format", "%Y-%m-%d").append("date", "$id"));
@@ -188,6 +190,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				xAxisData.add(sdf.format(cal.getTime()));
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
+			// TODO 需要根据所选资源的资源日历进行设置
+			markLineData.append("data", Arrays.asList(new Document("yAxis", 8).append("name", "aaaa")));
 		} else if ("月".equals(dateType)) {
 			group_id.append("$dateToString", new Document("format", "%Y-%m").append("date", "$id"));
 			sdf = new SimpleDateFormat("yyyy-MM");
@@ -203,35 +207,67 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				cal.add(Calendar.YEAR, 1);
 			}
 		}
+		List<Double> totalAggWorkTimeData = new ArrayList<Double>();
+		List<Double> totalAggAmountData = new ArrayList<Double>();
+		List<Double> basicAggWorkTimeData = new ArrayList<Double>();
+		List<Double> basicAggAmountData = new ArrayList<Double>();
+		List<Double> overTimeAggWorkTimeData = new ArrayList<Double>();
+		List<Double> overTimeAggAmountData = new ArrayList<Double>();
 
 		List<String> legendData = new ArrayList<String>();
-
 		// 根据数据类型构建所需JQ
 		if ("并列".equals(seriesType)) {
 			((List<Document>) condition.get("input")).forEach((Document doc) -> {
 				match.append("resource_id", new Document("$in", addChildResource(doc)));
 				if ("标准".equals(showData)) {
-
-					appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount",
-							doc.getString("label") + "计划标准", doc.getString("label") + "实际标准", doc.getString("label") + "计划",
-							doc.getString("label") + "实际");
+					Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty",
+							"basicAmount", doc.getString("label") + "计划标准", doc.getString("label") + "实际标准", doc.getString("label") + "计划",
+							doc.getString("label") + "实际", markLineData);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData,
+								basicAggAmountData, resourceData);
+					}
 				} else if ("加班".equals(showData)) {
-					appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount",
-							doc.getString("label") + "计划加班", doc.getString("label") + "实际加班", doc.getString("label") + "计划",
-							doc.getString("label") + "实际");
+					Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty",
+							"overTimeAmount", doc.getString("label") + "计划加班", doc.getString("label") + "实际加班",
+							doc.getString("label") + "计划", doc.getString("label") + "实际", markLineData);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+								overTimeAggAmountData, resourceData);
+					}
 				} else if ("汇总".equals(showData)) {
 					appendSeries(series, match, group_id, xAxisData, legendData, dataType, "totalQty", "totalAmount",
 							doc.getString("label") + "计划", doc.getString("label") + "实际", doc.getString("label") + "计划",
-							doc.getString("label") + "实际");
-					// TODO 需要设置markLineData
+							doc.getString("label") + "实际", markLineData);
+					if (dataType.contains("实际")) {
+						Object[] resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", "basicQty",
+								"basicAmount", xAxisData, match, group_id);
+						if (resourceData != null) {
+							appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData,
+									basicAggAmountData, resourceData);
+						}
+						resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", "overTimeQty",
+								"overTimeAmount", xAxisData, match, group_id);
+						if (resourceData != null) {
+							appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+									overTimeAggAmountData, resourceData);
+						}
+					}
 				} else {
-					appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount",
-							doc.getString("label") + "计划标准", doc.getString("label") + "实际标准", doc.getString("label") + "计划",
-							doc.getString("label") + "实际");
-					// TODO 需要设置markLineData
-					appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount",
+					Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty",
+							"basicAmount", doc.getString("label") + "计划标准", doc.getString("label") + "实际标准", doc.getString("label") + "计划",
+							doc.getString("label") + "实际", markLineData);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData,
+								basicAggAmountData, resourceData);
+					}
+					resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount",
 							doc.getString("label") + "计划加班", doc.getString("label") + "实际加班", doc.getString("label") + "计划",
-							doc.getString("label") + "实际");
+							doc.getString("label") + "实际", markLineData);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+								overTimeAggAmountData, resourceData);
+					}
 				}
 			});
 		} else {
@@ -239,29 +275,117 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			((List<Document>) condition.get("input")).forEach((Document doc) -> resourceIds.addAll(addChildResource(doc)));
 			match.append("resource_id", new Document("$in", resourceIds));
 			if ("标准".equals(showData)) {
-				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount", "计划标准", "实际标准", "计划",
-						"实际");
+				Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount",
+						"计划标准", "实际标准", "计划", "实际", markLineData);
+				if (resourceData != null) {
+					appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
+							resourceData);
+				}
 			} else if ("加班".equals(showData)) {
-				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount", "计划加班", "实际加班",
-						"计划", "实际");
+				Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty",
+						"overTimeAmount", "计划加班", "实际加班", "计划", "实际", markLineData);
+				if (resourceData != null) {
+					appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+							overTimeAggAmountData, resourceData);
+				}
 			} else if ("汇总".equals(showData)) {
-				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "totalQty", "totalAmount", "计划", "实际", "计划", "实际");
+				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "totalQty", "totalAmount", "计划", "实际", "计划", "实际",
+						markLineData);
+				if (dataType.contains("实际")) {
+					Object[] resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", "basicQty",
+							"basicAmount", xAxisData, match, group_id);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData,
+								basicAggAmountData, resourceData);
+					}
+					resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", "overTimeQty",
+							"overTimeAmount", xAxisData, match, group_id);
+					if (resourceData != null) {
+						appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+								overTimeAggAmountData, resourceData);
+					}
+				}
 			} else {
-				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount", "计划标准", "实际标准", "计划",
-						"实际");
-				appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount", "计划加班", "实际加班",
-						"计划", "实际");
+				Object[] resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "basicQty", "basicAmount",
+						"计划标准", "实际标准", "计划", "实际", markLineData);
+				if (resourceData != null) {
+					appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
+							resourceData);
+				}
+				resourceData = appendSeries(series, match, group_id, xAxisData, legendData, dataType, "overTimeQty", "overTimeAmount",
+						"计划加班", "实际加班", "计划", "实际", markLineData);
+				if (resourceData != null) {
+					appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData,
+							overTimeAggAmountData, resourceData);
+				}
 			}
 
 		}
+		if ("总计".equals(aggregateType)) {
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计工时").set("data", totalAggWorkTimeData).doc());
+			legendData.add("累计工时");
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计金额").set("data", totalAggAmountData).doc());
+			legendData.add("累计金额");
+		} else if ("标准加班".equals(aggregateType)) {
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计标准工时").set("data", basicAggWorkTimeData).doc());
+			legendData.add("累计标准工时");
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计标准金额").set("data", basicAggAmountData).doc());
+			legendData.add("累计标准金额");
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计加班工时").set("data", overTimeAggWorkTimeData).doc());
+			legendData.add("累计加班工时");
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计加班金额").set("data", overTimeAggAmountData).doc());
+			legendData.add("累计加班金额");
+		}
+
 		// 生成资源图表
 		// TODO legendData和series的顺序需要调整
 		JQ jq = new JQ("图表-资源图表").set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("series", series);
+		System.out.println(jq.doc().toJson());
 		return jq.doc();
 	}
 
+	private void appendAggregateData(String aggregateType, List<Double> totalAggWorkTimeData, List<Double> totalAggAmountData,
+			List<Double> aggWorkTimeData, List<Double> aggAmountData, Object[] resourceData) {
+		if ("总计".equals(aggregateType)) {
+			addAggData(totalAggWorkTimeData, totalAggAmountData, resourceData);
+		} else if ("标准加班".equals(aggregateType)) {
+			addAggData(aggWorkTimeData, aggAmountData, resourceData);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addAggData(List<Double> aggWorkTimeData, List<Double> aggAmountData, Object[] resourceData) {
+		Double wd = 0d;
+		Double ad = 0d;
+		if (aggWorkTimeData.size() > 0) {
+			for (int i = 0; i < aggWorkTimeData.size(); i++) {
+				Double d = ((List<Double>) resourceData[0]).get(i);
+				if (d != null)
+					wd += d;
+
+				aggWorkTimeData.set(i, wd + aggWorkTimeData.get(i));
+
+				d = ((List<Double>) resourceData[1]).get(i);
+				if (d != null)
+					ad += d;
+				aggAmountData.set(i, ad + aggAmountData.get(i));
+			}
+		} else {
+			for (Double d : ((List<Double>) resourceData[0])) {
+				if (d != null)
+					wd += d;
+				aggWorkTimeData.add(wd);
+			}
+			for (Double d : ((List<Double>) resourceData[1])) {
+				if (d != null)
+					ad += d;
+				aggAmountData.add(ad);
+			}
+		}
+	}
+
 	/**
-	 * 添加图表的 series
+	 * 添加图表的 series,并返回实际工时数据和实际金额数据
 	 * 
 	 * @param series
 	 * @param match
@@ -275,57 +399,55 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * @param actualName
 	 * @param planStack
 	 * @param actualStack
+	 * @return 实际工时数据和实际金额数据
 	 */
-	private void appendSeries(List<Document> series, Document match, Document group_id, List<String> xAxisData, List<String> legendData,
+	private Object[] appendSeries(List<Document> series, Document match, Document group_id, List<String> xAxisData, List<String> legendData,
 			List<String> dataType, String qtyName, String amountName, String planName, String actualName, String planStack,
-			String actualStack) {
+			String actualStack, Document markLineData) {
 		if (dataType.contains("计划")) {
 			// 添加计划图表数据
-			Map<String, Double> qty = new HashMap<String, Double>();
-			Map<String, Double> amount = new HashMap<String, Double>();
-			// 查询获取计划数据
-			c("resourcePlan").aggregate(new JQ("查询-资源图表").set("$basicQty", "$planBasicQty").set("$overTimeQty", "$planOverTimeQty")
-					.set("match", match).set("group_id", group_id).array()).forEach((Document doc) -> {
-						qty.put(doc.getString("_id"), doc.getDouble(qtyName));
-						amount.put(doc.getString("_id"), doc.getDouble(amountName) / 10000);
-					});
-			List<Double> workTimeData = new ArrayList<Double>();
-			List<Double> amountData = new ArrayList<Double>();
-			for (String xAxis : xAxisData) {
-				workTimeData.add(qty.get(xAxis));
-				amountData.add(amount.get(xAxis) == null ? 0d : amount.get(xAxis));
-			}
+			Object[] resourceData = getResourceData("resourcePlan", "$planBasicQty", "$planOverTimeQty", qtyName, amountName, xAxisData,
+					match, group_id);
 			// 构建工时和金额图表
-			series.add(new JQ("图表-资源图表-工时").set("name", planName + "工时").set("stack", planStack).set("data", workTimeData)
+			series.add(new JQ("图表-资源图表-工时").set("name", planName + "工时").set("stack", planStack).set("data", resourceData[0])
 					.set("markLineData", new Document()).doc());
 			legendData.add(planName + "工时");
-			series.add(new JQ("图表-资源图表-金额").set("name", planName + "金额").set("data", amountData).doc());
+			series.add(new JQ("图表-资源图表-金额").set("name", planName + "金额").set("data", resourceData[1]).doc());
 			legendData.add(planName + "金额");
 		}
 		if (dataType.contains("实际")) {
 			// 添加实际图表数据
-			Map<String, Double> qty = new HashMap<String, Double>();
-			Map<String, Double> amount = new HashMap<String, Double>();
-			// 查询获取实际数据
-			c("resourceActual").aggregate(new JQ("查询-资源图表").set("$basicQty", "$actualBasicQty").set("$overTimeQty", "$actualOverTimeQty")
-					.set("match", match).set("group_id", group_id).array()).forEach((Document doc) -> {
-						qty.put(doc.getString("_id"), doc.getDouble(qtyName));
-						amount.put(doc.getString("_id"), doc.getDouble(amountName) / 10000);
-					});
-			List<Double> workTimeData = new ArrayList<Double>();
-			List<Double> amountData = new ArrayList<Double>();
-			for (String xAxis : xAxisData) {
-				workTimeData.add(qty.get(xAxis));
-				amountData.add(amount.get(xAxis) == null ? 0d : amount.get(xAxis));
-			}
+			Object[] resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", qtyName, amountName,
+					xAxisData, match, group_id);
 
 			// 构建工时和金额图表
-			series.add(new JQ("图表-资源图表-工时").set("name", actualName + "工时").set("stack", actualStack).set("data", workTimeData)
-					.set("markLineData", new Document()).doc());
+			series.add(new JQ("图表-资源图表-工时").set("name", actualName + "工时").set("stack", actualStack).set("data", resourceData[0])
+					.set("markLineData", markLineData).doc());
 			legendData.add(actualName + "工时");
-			series.add(new JQ("图表-资源图表-金额").set("name", actualName + "金额").set("data", amountData).doc());
+			series.add(new JQ("图表-资源图表-金额").set("name", actualName + "金额").set("data", resourceData[1]).doc());
 			legendData.add(actualName + "金额");
+			return resourceData;
 		}
+		return null;
+	}
+
+	private Object[] getResourceData(String collectionName, String basicQty, String overTimeQty, String qtyName, String amountName,
+			List<String> xAxisData, Document match, Document group_id) {
+		Map<String, Double> qty = new HashMap<String, Double>();
+		Map<String, Double> amount = new HashMap<String, Double>();
+		List<Double> workTimeData = new ArrayList<Double>();
+		List<Double> amountData = new ArrayList<Double>();
+		// 查询获取数据
+		c(collectionName).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQty).set("$overTimeQty", overTimeQty).set("match", match)
+				.set("group_id", group_id).array()).forEach((Document doc) -> {
+					qty.put(doc.getString("_id"), doc.getDouble(qtyName));
+					amount.put(doc.getString("_id"), doc.getDouble(amountName) / 10000);
+				});
+		for (String xAxis : xAxisData) {
+			workTimeData.add(qty.get(xAxis));
+			amountData.add(amount.get(xAxis) == null ? 0d : amount.get(xAxis));
+		}
+		return new Object[] { workTimeData, amountData };
 	}
 
 	/**
