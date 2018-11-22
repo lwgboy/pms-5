@@ -9,6 +9,15 @@
 	"$unwind" : "$resourceType"
 }, {
 	"$lookup" : {
+		"from" : "calendar",
+		"localField" : "resourceType.cal_id",
+		"foreignField" : "_id",
+		"as" : "calendar"
+	}
+}, {
+	"$unwind" : "$calendar"
+}, {
+	"$lookup" : {
 		"from" : "user",
 		"localField" : "usedHumanResId",
 		"foreignField" : "userId",
@@ -153,6 +162,9 @@
 		},
 		"totalAmount" : {
 			"$sum" : "$totalAmount"
+		},
+		"basicWorks" : {
+			"$avg" : "$calendar.basicWorks"
 		}
 	}
 }, {

@@ -76894,7 +76894,7 @@
           {
             "id": "16720fb163f",
             "name": "seriesType",
-            "text": "系列显示方式",
+            "text": "显示系列",
             "type": "单选框",
             "formFields": [],
             "hasInfoLabel": false,
@@ -76951,7 +76951,7 @@
           {
             "id": "1672a36dc1a",
             "name": "aggregateType",
-            "text": "累计值显示方式",
+            "text": "显示累计值",
             "type": "单选框",
             "formFields": [],
             "hasInfoLabel": false,
