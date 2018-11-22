@@ -55,8 +55,13 @@ public class ResourceChartASM {
 
 	private ECharts chart;
 
+	private CatalogService service;
+
 	@Init
 	private void init() {
+		
+		service = Services.get(CatalogService.class);
+
 		input = context.getRootInput();
 		// option = new Document("");dateRange dateType seriesType
 		option = createDefaultOption();
@@ -89,10 +94,12 @@ public class ResourceChartASM {
 		parent.setLayout(new FormLayout());
 
 		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.white).get();
-//		// 创建顶栏
-//		Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT, 48)
-//				// 在顶栏下方增加面板
-//				.add(() -> Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
+		// // 创建顶栏
+		// Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP
+		// | SWT.RIGHT, 48)
+		// // 在顶栏下方增加面板
+		// .add(() ->
+		// Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
 
 		// 在面板中创建容器（左）
 		Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT, 0.25f).formLayout().put(this::leftPane)
@@ -106,10 +113,12 @@ public class ResourceChartASM {
 
 	private void leftPane(Composite parent) {
 
-//		Composite title = Controls.comp(parent).html(
-//				"<div class='label_title' style='height:48px;width:100%;line-height:48px;padding-left:16px;border-bottom:solid 1px rgb(230,230,230);background-color: #fafafa;'>"
-//						+ "选择组织或资源</div>")
-//				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
+		// Composite title = Controls.comp(parent).html(
+		// "<div class='label_title'
+		// style='height:48px;width:100%;line-height:48px;padding-left:16px;border-bottom:solid
+		// 1px rgb(230,230,230);background-color: #fafafa;'>"
+		// + "选择组织或资源</div>")
+		// .loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
 
 		Composite resSelector = createResourceSelector(parent);
 
@@ -190,38 +199,9 @@ public class ResourceChartASM {
 			Layer.error("请选择要查询的时间范围");
 			return;
 		}
-		Document chartData = Services.get(CatalogService.class)
-				.createResourcePlanAndUserageChart(new Document("input", input).append("option", option));
+		Document chartData = service.createResourcePlanAndUserageChart(new Document("input", input).append("option", option));
 		JsonObject chartOption = JsonObject.readFrom(((Document) chartData).toJson());
 		chart.setOption(chartOption);
 	}
-
-//	private StickerTitlebar createBar(Composite parent) {
-//		// TODO 查询错误
-//		Action a = new Action();
-//		a.setName("创建项目根文件夹");
-//		a.setImage("/img/add_16_w.svg");
-//		a.setTooltips("创建项目根文件夹");
-//		a.setStyle("normal");
-//
-//		Action b = new Action();
-//		b.setName("查询");
-//		b.setImage("/img/search_w.svg");
-//		b.setTooltips("查询项目文档");
-//		b.setStyle("info");
-//
-//		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b)).setActions(context.getAssembly().getActions())
-//				.setText(context.getAssembly().getTitle());
-//		bar.addListener(SWT.Selection, l -> {
-//			// if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
-//			// if (createFolder(null)) {
-//			// folderPane.setViewerInput(getInput());
-//			// }
-//			// } else if ("查询".equals(((Action) l.data).getName())) {
-//			// filePane.openQueryEditor();
-//			// }
-//		});
-//		return bar;
-//	}
 
 }

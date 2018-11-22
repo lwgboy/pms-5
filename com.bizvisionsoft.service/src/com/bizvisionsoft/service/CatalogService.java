@@ -28,21 +28,21 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "资源目录/" + DataSet.LIST })
-	public List<Catalog> listOrganizationCatalog(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+	public List<Catalog> listRootCatalog(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
 	@Path("/res/suborg/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "资源目录/" + DataSet.STRUCTURE_LIST })
-	public List<Catalog> listOrganizationSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
+	public List<Catalog> listSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/res/suborg/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "资源目录/" + DataSet.STRUCTURE_COUNT })
-	public long countOrganizationSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
+	public long countSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/chart/res/planAndUsage/")

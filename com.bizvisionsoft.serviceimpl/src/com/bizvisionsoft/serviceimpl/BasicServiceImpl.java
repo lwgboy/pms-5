@@ -39,6 +39,7 @@ import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -320,6 +321,15 @@ public class BasicServiceImpl {
 		return Service.col(name);
 	}
 
+	/**
+	 * 使用lookupDesentItems替代
+	 * 
+	 * @param inputIds
+	 * @param cName
+	 * @param key
+	 * @return
+	 */
+	@Deprecated
 	protected List<ObjectId> getDesentItems(List<ObjectId> inputIds, String cName, String key) {
 		List<ObjectId> result = new ArrayList<ObjectId>();
 		if (inputIds != null && !inputIds.isEmpty()) {
@@ -330,6 +340,16 @@ public class BasicServiceImpl {
 			result.addAll(getDesentItems(childrenIds, cName, key));
 		}
 		return result;
+	}
+
+	protected AggregateIterable<Document> lookupDesentItems(List<ObjectId> inputIds, String cName, String key,
+			boolean includeCurrentLevel) {
+		String jq = includeCurrentLevel ? "查询-通用-下级迭代取出-含本级" : "查询-通用-下级迭代取出";
+		ArrayList<Bson> pipe = new ArrayList<>();
+		pipe.add(new Document("$match", new Document("_id", new Document("$in", inputIds))));
+		pipe.addAll(
+				new JQ(jq).set("from", cName).set("startWith", "$_id").set("connectFromField", "_id").set("connectToField", key).array());
+		return c(cName).aggregate(pipe);
 	}
 
 	protected int generateCode(String name, String key) {
@@ -639,7 +659,7 @@ public class BasicServiceImpl {
 			appendQueryUserInProjectPMO(pipeline, userId, "$_id");
 		}
 
-		return c("project").aggregate(pipeline).map(d->d.getObjectId("_id")).into(new ArrayList<>());
+		return c("project").aggregate(pipeline).map(d -> d.getObjectId("_id")).into(new ArrayList<>());
 		// return c("project").distinct("_id", new Document("status", "进行中"),
 		// ObjectId.class).into(new ArrayList<>());
 	}

@@ -20,9 +20,8 @@ import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.mongodb.BasicDBObject;
+import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
 
 public class CatalogServiceImpl extends BasicServiceImpl implements CatalogService {
@@ -31,14 +30,14 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * 该人员所属的组织
 	 */
 	@Override
-	public List<Catalog> listOrganizationCatalog(String userId) {
+	public List<Catalog> listRootCatalog(String userId) {
 		List<Bson> pipeline = Arrays.asList(Aggregates.match(new Document("userId", userId)),
 				Aggregates.lookup("organization", "org_id", "_id", "org"), Aggregates.unwind("$org"));
 		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(this::org2Catalog).into(new ArrayList<>());
 	}
 
 	@Override
-	public List<Catalog> listOrganizationSubCatalog(Catalog parent) {
+	public List<Catalog> listSubCatalog(Catalog parent) {
 		List<Catalog> result = new ArrayList<Catalog>();
 		if (typeEquals(parent, Organization.class)) {
 			listSubOrg(parent._id, result);
@@ -47,14 +46,14 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		} else if (typeEquals(parent, ResourceType.class)) {
 			ObjectId resourceType_id = parent._id;
 			Object org_id = parent.meta.get("org_id");
-			listHRResource(org_id, resourceType_id, result);
-			listEQResource(org_id, resourceType_id, result);
+			listHRResource(org_id, resourceType_id, this::user2Catalog, result);
+			listEQResource(org_id, resourceType_id, this::equipment2Catalog, result);
 		}
 		return result;
 	}
 
 	@Override
-	public long countOrganizationSubCatalog(Catalog parent) {
+	public long countSubCatalog(Catalog parent) {
 		// 如果parent是组织，获取下级组织和资源类型
 		long count = 0;
 		if (typeEquals(parent, Organization.class)) {
@@ -92,13 +91,12 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		return c("organization").find(new Document("parent_id", org_id)).map(this::org2Catalog).into(into);
 	}
 
-	private List<Catalog> listHRResource(Object org_id, ObjectId resourceType_id, List<Catalog> into) {
-		return c("user").find(new Document("org_id", org_id).append("resourceType_id", resourceType_id)).map(this::user2Catalog).into(into);
+	private <T> List<T> listHRResource(Object org_id, ObjectId resourceType_id, Function<Document, T> map, List<T> into) {
+		return c("user").find(new Document("org_id", org_id).append("resourceType_id", resourceType_id)).map(map).into(into);
 	}
 
-	private List<Catalog> listEQResource(Object org_id, ObjectId resourceType_id, List<Catalog> into) {
-		return c("equipment").find(new Document("org_id", org_id).append("resourceType_id", resourceType_id)).map(this::equipment2Catalog)
-				.into(into);
+	private <T> List<T> listEQResource(Object org_id, ObjectId resourceType_id, Function<Document, T> map, List<T> into) {
+		return c("equipment").find(new Document("org_id", org_id).append("resourceType_id", resourceType_id)).map(map).into(into);
 	}
 
 	private long countResource(Object org_id, ObjectId resourceType_id, String collection) {
@@ -458,46 +456,25 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 */
 	private List<ObjectId> addChildResource(Document doc) {
 		List<ObjectId> result = new ArrayList<>();
-		if (Check.equals(ResourceType.class.getName(), doc.getString("type"))) {
-			result = getResourceId(doc.getObjectId("_id"), ((Document) doc.get("meta")).getObjectId("org_id"));
-		} else if (Check.equals(Organization.class.getName(), doc.getString("type"))) {
-			result = getResourceId(doc.getObjectId("_id"));
-		} else {
-			result = Arrays.asList(doc.getObjectId("_id"));
+		String type = doc.getString("type");
+		if (ResourceType.class.getName().equals(type)) {
+			ObjectId resType_id = doc.getObjectId("_id");
+			Object org_id = ((Document) doc.get("meta")).getObjectId("org_id");
+			listEQResource(org_id, resType_id, d -> d.getObjectId("_id"), result);
+			listHRResource(org_id, resType_id, d -> d.getObjectId("_id"), result);
+		} else if (Organization.class.getName().equals(type)) {
+			List<Bson> pipe = new ArrayList<>();
+			pipe.add(Aggregates.match(new Document("_id",doc.get("_id"))));
+			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").array());
+			pipe.addAll(new JQ("追加-组织下资源").array());
+			c("organization").aggregate(pipe).map(d->d.getObjectId("_id")).into(result);
+		} else if(User.class.getName().equals(type) || Equipment.class.getName().equals(type)){
+			result.add(doc.getObjectId("_id"));
 		}
 		doc.put("childResourceIds", result);
 		return result;
 	}
 
-	/**
-	 * 获取组织及其下级组织的所有资源
-	 * 
-	 * @param org_id
-	 * @return
-	 */
-	private List<ObjectId> getResourceId(ObjectId org_id) {
-		return getResourceId(
-				new Document("org_id", new Document("$in", getDesentItems(Arrays.asList(org_id), "organization", "parent_id"))));
-	}
 
-	/**
-	 * 获取资源类型在组织下的所有资源
-	 * 
-	 * @param resourceType_id
-	 * @param org_id
-	 * @return
-	 */
-	private List<ObjectId> getResourceId(ObjectId resourceType_id, ObjectId org_id) {
-		return getResourceId(new Document("org_id", new Document("$in", getDesentItems(Arrays.asList(org_id), "organization", "parent_id")))
-				.append("resourceType_id", resourceType_id));
-	}
-
-	private List<ObjectId> getResourceId(Document filter) {
-		List<ObjectId> result = new ArrayList<>();
-		result.addAll(c("equipment").distinct("_id", filter, ObjectId.class).into(new ArrayList<>()));
-		result.addAll(c("user").distinct("_id", filter.append("resourceType_id", new BasicDBObject("$ne", null)), ObjectId.class)
-				.into(new ArrayList<>()));
-		return result;
-	}
 
 }
