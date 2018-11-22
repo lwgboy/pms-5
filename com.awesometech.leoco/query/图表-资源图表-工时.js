@@ -5,11 +5,9 @@
     "data": "<data>",
     "label": {
         "normal": {
-            "show": true,
+            "show": false,
             "position": "inside"
         }
     },
-    "markLine": {
-        "data": "<markLineData>"
-    }
+    "markLine": "<markLineData>"
 }
