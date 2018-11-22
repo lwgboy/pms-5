@@ -1,6 +1,6 @@
 {
     "name": "<name>",
-    "type": "line",
+    "type": "bar",
     "yAxisIndex": 1,
     "xAxisIndex": 1,
     "label": {
