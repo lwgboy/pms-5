@@ -457,20 +457,23 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * @return
 	 */
 	private List<ObjectId> addChildResource(Document doc) {
-		List<ObjectId> result = new ArrayList<>();
+		final List<ObjectId> result = new ArrayList<>();
 		if (Check.equals(ResourceType.class.getName(), doc.getString("type"))) {
-			result = getResourceId(doc.getObjectId("_id"), ((Document) doc.get("meta")).getObjectId("org_id"));
+			List<Catalog> catalogs = new ArrayList<>();
+			listHRResource(((Document) doc.get("meta")).getObjectId("org_id"), doc.getObjectId("_id"), catalogs);
+			listEQResource(((Document) doc.get("meta")).getObjectId("org_id"), doc.getObjectId("_id"), catalogs);
+			catalogs.stream().map(c -> result.add(c._id));
 		} else if (Check.equals(Organization.class.getName(), doc.getString("type"))) {
-			result = getResourceId(doc.getObjectId("_id"));
+			result.addAll(getResourceId(doc.getObjectId("_id")));
 		} else {
-			result = Arrays.asList(doc.getObjectId("_id"));
+			result.add(doc.getObjectId("_id"));
 		}
 		doc.put("childResourceIds", result);
 		return result;
 	}
 
 	/**
-	 * 获取组织及其下级组织的所有资源
+	 * 获取组织及其下级组织的所有资源id
 	 * 
 	 * @param org_id
 	 * @return
@@ -478,18 +481,6 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	private List<ObjectId> getResourceId(ObjectId org_id) {
 		return getResourceId(
 				new Document("org_id", new Document("$in", getDesentItems(Arrays.asList(org_id), "organization", "parent_id"))));
-	}
-
-	/**
-	 * 获取资源类型在组织下的所有资源
-	 * 
-	 * @param resourceType_id
-	 * @param org_id
-	 * @return
-	 */
-	private List<ObjectId> getResourceId(ObjectId resourceType_id, ObjectId org_id) {
-		return getResourceId(new Document("org_id", new Document("$in", getDesentItems(Arrays.asList(org_id), "organization", "parent_id")))
-				.append("resourceType_id", resourceType_id));
 	}
 
 	private List<ObjectId> getResourceId(Document filter) {
