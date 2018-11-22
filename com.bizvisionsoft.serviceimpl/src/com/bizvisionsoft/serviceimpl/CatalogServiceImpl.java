@@ -464,17 +464,20 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			listHRResource(org_id, resType_id, d -> d.getObjectId("_id"), result);
 		} else if (Organization.class.getName().equals(type)) {
 			List<Bson> pipe = new ArrayList<>();
-			pipe.add(Aggregates.match(new Document("_id",doc.get("_id"))));
-			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").array());
+			pipe.add(Aggregates.match(new Document("_id", doc.get("_id"))));
+			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "organization").set("startWith", "$_id").set("connectFromField", "_id")
+					.set("connectToField", "parent_id").array());
 			pipe.addAll(new JQ("追加-组织下资源").array());
-			c("organization").aggregate(pipe).map(d->d.getObjectId("_id")).into(result);
-		} else if(User.class.getName().equals(type) || Equipment.class.getName().equals(type)){
+
+			debugPipeline(pipe);
+			c("organization").aggregate(pipe).map(d -> {
+				return d.getObjectId("_id");
+			}).into(result);
+		} else if (User.class.getName().equals(type) || Equipment.class.getName().equals(type)) {
 			result.add(doc.getObjectId("_id"));
 		}
 		doc.put("childResourceIds", result);
 		return result;
 	}
-
-
 
 }
