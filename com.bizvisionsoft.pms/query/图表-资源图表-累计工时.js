@@ -1,7 +1,7 @@
 {
     "name": "<name>",
     "type": "line",
-    "stack": "总量",
+    "stack": "工时总量",
     "areaStyle": {
     },
     "label": {
