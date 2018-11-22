@@ -204,45 +204,54 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				cal.add(Calendar.YEAR, 1);
 			}
 		}
-		List<Double> totalAggWorkTimeData = new ArrayList<Double>();
-		List<Double> totalAggAmountData = new ArrayList<Double>();
-		List<Double> basicAggWorkTimeData = new ArrayList<Double>();
-		List<Double> basicAggAmountData = new ArrayList<Double>();
-		List<Double> overTimeAggWorkTimeData = new ArrayList<Double>();
-		List<Double> overTimeAggAmountData = new ArrayList<Double>();
+		List<Double> totalPlanAggWorkTimeData = new ArrayList<Double>();
+		List<Double> totalPlanAggAmountData = new ArrayList<Double>();
+		List<Double> basicPlanAggWorkTimeData = new ArrayList<Double>();
+		List<Double> basicPlanAggAmountData = new ArrayList<Double>();
+		List<Double> overTimePlanAggWorkTimeData = new ArrayList<Double>();
+		List<Double> overTimePlanAggAmountData = new ArrayList<Double>();
+
+		List<Double> totalActualAggWorkTimeData = new ArrayList<Double>();
+		List<Double> totalActualAggAmountData = new ArrayList<Double>();
+		List<Double> basicActualAggWorkTimeData = new ArrayList<Double>();
+		List<Double> basicActualAggAmountData = new ArrayList<Double>();
+		List<Double> overTimeActualAggWorkTimeData = new ArrayList<Double>();
+		List<Double> overTimeActualAggAmountData = new ArrayList<Double>();
 
 		List<String> legendData = new ArrayList<String>();
 		// 根据系列类型构建series
 		if ("并列".equals(seriesType)) {
 			((List<Document>) condition.get("input")).forEach((Document doc) -> {
 				match.append("resource_id", new Document("$in", addChildResource(doc)));
-				appendSeries(series, dataType, showData, aggregateType, match, group_id, xAxisData, markLineData, totalAggWorkTimeData,
-						totalAggAmountData, basicAggWorkTimeData, basicAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
-						legendData, doc.getString("label"));
+				appendSeries(series, dataType, showData, aggregateType, match, group_id, xAxisData, markLineData,
+						totalPlanAggWorkTimeData, totalPlanAggAmountData, basicPlanAggWorkTimeData, basicPlanAggAmountData,
+						overTimePlanAggWorkTimeData, overTimePlanAggAmountData, ,
+						totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData, basicActualAggAmountData,
+						overTimeActualAggWorkTimeData, overTimeActualAggAmountData, legendData, doc.getString("label"));
 			});
 		} else {
 			List<ObjectId> resourceIds = new ArrayList<>();
 			((List<Document>) condition.get("input")).forEach((Document doc) -> resourceIds.addAll(addChildResource(doc)));
 			match.append("resource_id", new Document("$in", resourceIds));
-			appendSeries(series, dataType, showData, aggregateType, match, group_id, xAxisData, markLineData, totalAggWorkTimeData,
-					totalAggAmountData, basicAggWorkTimeData, basicAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
-					legendData, "");
+			appendSeries(series, dataType, showData, aggregateType, match, group_id, xAxisData, markLineData, totalActualAggWorkTimeData,
+					totalActualAggAmountData, basicActualAggWorkTimeData, basicActualAggAmountData, overTimeActualAggWorkTimeData,
+					overTimeActualAggAmountData, legendData, "");
 
 		}
 		// 根据累计值类型构建series
 		if ("总计".equals(aggregateType)) {
-			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计工时").set("data", totalAggWorkTimeData).doc());
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计工时").set("data", totalActualAggWorkTimeData).doc());
 			legendData.add("累计工时");
-			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计金额").set("data", totalAggAmountData).doc());
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计金额").set("data", totalActualAggAmountData).doc());
 			legendData.add("累计金额");
 		} else if ("标准加班".equals(aggregateType)) {
-			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计标准工时").set("data", basicAggWorkTimeData).doc());
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计标准工时").set("data", basicActualAggWorkTimeData).doc());
 			legendData.add("累计标准工时");
-			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计标准金额").set("data", basicAggAmountData).doc());
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计标准金额").set("data", basicActualAggAmountData).doc());
 			legendData.add("累计标准金额");
-			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计加班工时").set("data", overTimeAggWorkTimeData).doc());
+			series.add(new JQ("图表-资源图表-累计工时").set("name", "累计加班工时").set("data", overTimeActualAggWorkTimeData).doc());
 			legendData.add("累计加班工时");
-			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计加班金额").set("data", overTimeAggAmountData).doc());
+			series.add(new JQ("图表-资源图表-累计金额").set("name", "累计加班金额").set("data", overTimeActualAggAmountData).doc());
 			legendData.add("累计加班金额");
 		}
 
@@ -263,20 +272,28 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * @param group_id
 	 * @param xAxisData
 	 * @param markLineData
-	 * @param totalAggWorkTimeData
-	 * @param totalAggAmountData
-	 * @param basicAggWorkTimeData
-	 * @param basicAggAmountData
-	 * @param overTimeAggWorkTimeData
-	 * @param overTimeAggAmountData
+	 * @param totalPlanAggWorkTimeData
+	 * @param totalPlanAggAmountData
+	 * @param basicPlanAggWorkTimeData
+	 * @param basicPlanAggAmountData
+	 * @param overTimePlanAggWorkTimeData
+	 * @param overTimePlanAggAmountData
+	 * @param overTimeActualAggAmountData2
+	 * @param overTimeActualAggWorkTimeData2
+	 * @param basicActualAggAmountData2
+	 * @param basicActualAggWorkTimeData2
+	 * @param totalActualAggAmountData2
+	 * @param totalActualAggWorkTimeData2
 	 * @param legendData
 	 * @param label
 	 */
 	@SuppressWarnings("unchecked")
 	private void appendSeries(List<Document> series, List<String> dataType, String showData, String aggregateType, Document match,
-			Document group_id, List<String> xAxisData, Document markLineData, List<Double> totalAggWorkTimeData,
-			List<Double> totalAggAmountData, List<Double> basicAggWorkTimeData, List<Double> basicAggAmountData,
-			List<Double> overTimeAggWorkTimeData, List<Double> overTimeAggAmountData, List<String> legendData, String label) {
+			Document group_id, List<String> xAxisData, Document markLineData, List<Double> totalPlanAggWorkTimeData,
+			List<Double> totalPlanAggAmountData, List<Double> basicPlanAggWorkTimeData, List<Double> basicPlanAggAmountData,
+			List<Double> overTimePlanAggWorkTimeData, List<Double> overTimePlanAggAmountData, List<Double> totalActualAggWorkTimeData2,
+			List<Double> totalActualAggAmountData2, List<Double> basicActualAggWorkTimeData2, List<Double> basicActualAggAmountData2,
+			List<Double> overTimeActualAggWorkTimeData2, List<Double> overTimeActualAggAmountData2, List<String> legendData, String label) {
 		if (dataType.contains("计划")) {
 			// 获取计划资源数据
 			Object[] resourceData = getResourceData("resourcePlan", "$planBasicQty", "$planOverTimeQty", match, group_id, xAxisData);
@@ -329,8 +346,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				legendData.add(label + "实际标准" + "金额");
 
 				// 计算累计值
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
-						(List<Double>) resourceData[0], (List<Double>) resourceData[3]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData,
+						basicActualAggAmountData, (List<Double>) resourceData[0], (List<Double>) resourceData[3]);
 			} else if ("加班".equals(showData)) {
 				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际工时").set("data", resourceData[1])
 						.set("markLineData", markLineData).doc());
@@ -340,8 +357,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				legendData.add(label + "实际加班" + "金额");
 
 				// 计算累计值
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
-						(List<Double>) resourceData[1], (List<Double>) resourceData[4]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData,
+						overTimeActualAggAmountData, (List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			} else if ("汇总".equals(showData)) {
 				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际" + "工时").set("stack", label + "实际工时").set("data", resourceData[2])
 						.set("markLineData", new Document()).doc());
@@ -351,11 +368,11 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				legendData.add(label + "实际" + "金额");
 
 				// 计算累计值
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
-						(List<Double>) resourceData[0], (List<Double>) resourceData[3]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData,
+						basicActualAggAmountData, (List<Double>) resourceData[0], (List<Double>) resourceData[3]);
 
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
-						(List<Double>) resourceData[1], (List<Double>) resourceData[4]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData,
+						overTimeActualAggAmountData, (List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			} else {
 				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际工时").set("data", resourceData[0])
 						.set("markLineData", new Document()).doc());
@@ -371,10 +388,10 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 						.doc());
 				legendData.add(label + "实际加班" + "金额");
 				// 计算累计值
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
-						(List<Double>) resourceData[0], (List<Double>) resourceData[3]);
-				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
-						(List<Double>) resourceData[1], (List<Double>) resourceData[4]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData,
+						basicActualAggAmountData, (List<Double>) resourceData[0], (List<Double>) resourceData[3]);
+				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData,
+						overTimeActualAggAmountData, (List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			}
 
 		}
@@ -449,7 +466,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * @param match
 	 * @param group_id
 	 * @param xAxisData
-	 * @return 元素1：标准数量，元素2：加班数量，元素3：数量合计，元素4：标准金额，元素5：加班金额，元素6：金额合计.
+	 * @return 元素1：标准数量，元素2：加班数量，元素3：数量合计，元素4：标准金额，元素5：加班金额，元素6：金额合计，元素7：标准工时.
 	 */
 	private Object[] getResourceData(String collectionName, String basicQtyName, String overTimeQtyName, Document match, Document group_id,
 			List<String> xAxisData) {
@@ -460,15 +477,16 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		HashMap<String, Double> overTimeAmount = new HashMap<String, Double>();
 		HashMap<String, Double> totalAmount = new HashMap<String, Double>();
 		// 查询获取数据
-		c(collectionName).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName)
-				.set("match", match).set("group_id", group_id).array()).forEach((Document doc) -> {
+		Document first = c(collectionName).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName)
+				.set("match", match).set("group_id", group_id).array()).map((Document doc) -> {
 					basicQty.put(doc.getString("_id"), doc.getDouble("basicQty"));
 					overTimeQty.put(doc.getString("_id"), doc.getDouble("overTimeQty"));
 					totalQty.put(doc.getString("_id"), doc.getDouble("totalQty"));
 					basicAmount.put(doc.getString("_id"), doc.getDouble("basicAmount"));
 					overTimeAmount.put(doc.getString("_id"), doc.getDouble("overTimeAmount"));
 					totalAmount.put(doc.getString("_id"), doc.getDouble("totalAmount"));
-				});
+					return doc;
+				}).first();
 		List<Double> basicQtys = new ArrayList<Double>();
 		List<Double> overTimeQtys = new ArrayList<Double>();
 		List<Double> totalQtys = new ArrayList<Double>();
@@ -487,7 +505,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			totalAmounts.add(totalAmount.get(xAxis) == null ? 0d : (totalAmount.get(xAxis) / 10000));
 		}
 
-		return new Object[] { basicQtys, overTimeQtys, totalQtys, basicAmounts, overTimeAmounts, totalAmounts };
+		return new Object[] { basicQtys, overTimeQtys, totalQtys, basicAmounts, overTimeAmounts, totalAmounts,
+				first.getDouble("basicWorks") };
 	}
 
 	/**
