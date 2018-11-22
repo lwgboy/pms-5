@@ -249,7 +249,6 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		// 生成资源图表
 		// TODO legendData和series的顺序需要调整
 		JQ jq = new JQ("图表-资源图表").set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("series", series);
-		System.out.println(jq.doc().toJson());
 		return jq.doc();
 	}
 
@@ -282,34 +281,39 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			// 获取计划资源数据
 			Object[] resourceData = getResourceData("resourcePlan", "$planBasicQty", "$planOverTimeQty", match, group_id, xAxisData);
 			if ("标准".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划标准" + "工时").set("stack", label + "计划").set("data", resourceData[0])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划标准" + "工时").set("stack", label + "计划工时").set("data", resourceData[0])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "计划标准" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划标准" + "金额").set("data", resourceData[3]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划标准" + "金额").set("stack", label + "计划金额").set("data", resourceData[3])
+						.doc());
 				legendData.add(label + "计划标准" + "金额");
 			} else if ("加班".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划加班" + "工时").set("stack", label + "计划").set("data", resourceData[1])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划加班" + "工时").set("stack", label + "计划工时").set("data", resourceData[1])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "计划加班" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划加班" + "金额").set("data", resourceData[4]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划加班" + "金额").set("stack", label + "计划金额").set("data", resourceData[4])
+						.doc());
 				legendData.add(label + "计划加班" + "金额");
 			} else if ("汇总".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划" + "工时").set("stack", label + "计划").set("data", resourceData[2])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划" + "工时").set("stack", label + "计划工时").set("data", resourceData[2])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "计划" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划" + "金额").set("data", resourceData[5]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划" + "金额").set("stack", label + "计划金额").set("data", resourceData[5])
+						.doc());
 				legendData.add(label + "计划" + "金额");
 			} else {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划标准" + "工时").set("stack", label + "计划").set("data", resourceData[0])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划标准" + "工时").set("stack", label + "计划工时").set("data", resourceData[0])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "计划标准" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划标准" + "金额").set("data", resourceData[3]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划标准" + "金额").set("stack", label + "计划金额").set("data", resourceData[3])
+						.doc());
 				legendData.add(label + "计划标准" + "金额");
 
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划加班" + "工时").set("stack", label + "计划").set("data", resourceData[1])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "计划加班" + "工时").set("stack", label + "计划工时").set("data", resourceData[1])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "计划加班" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划加班" + "金额").set("data", resourceData[4]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "计划加班" + "金额").set("stack", label + "计划金额").set("data", resourceData[4])
+						.doc());
 				legendData.add(label + "计划加班" + "金额");
 			}
 		}
@@ -317,30 +321,33 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			// 获取实际资源数据
 			Object[] resourceData = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", match, group_id, xAxisData);
 			if ("标准".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际").set("data", resourceData[0])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际工时").set("data", resourceData[0])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "实际标准" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际标准" + "金额").set("data", resourceData[3]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际标准" + "金额").set("stack", label + "实际金额").set("data", resourceData[3])
+						.doc());
 				legendData.add(label + "实际标准" + "金额");
 
 				// 计算累计值
 				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
 						(List<Double>) resourceData[0], (List<Double>) resourceData[3]);
 			} else if ("加班".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际").set("data", resourceData[1])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际工时").set("data", resourceData[1])
 						.set("markLineData", markLineData).doc());
 				legendData.add(label + "实际加班" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际加班" + "金额").set("data", resourceData[4]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际加班" + "金额").set("stack", label + "实际金额").set("data", resourceData[4])
+						.doc());
 				legendData.add(label + "实际加班" + "金额");
 
 				// 计算累计值
 				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
 						(List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			} else if ("汇总".equals(showData)) {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际" + "工时").set("stack", label + "实际").set("data", resourceData[2])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际" + "工时").set("stack", label + "实际工时").set("data", resourceData[2])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "实际" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际" + "金额").set("data", resourceData[5]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际" + "金额").set("stack", label + "实际金额").set("data", resourceData[5])
+						.doc());
 				legendData.add(label + "实际" + "金额");
 
 				// 计算累计值
@@ -350,16 +357,18 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, overTimeAggWorkTimeData, overTimeAggAmountData,
 						(List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			} else {
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际").set("data", resourceData[0])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际工时").set("data", resourceData[0])
 						.set("markLineData", new Document()).doc());
 				legendData.add(label + "实际标准" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际标准" + "金额").set("data", resourceData[3]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际标准" + "金额").set("stack", label + "实际金额").set("data", resourceData[3])
+						.doc());
 				legendData.add(label + "实际标准" + "金额");
 
-				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际").set("data", resourceData[1])
+				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际工时").set("data", resourceData[1])
 						.set("markLineData", markLineData).doc());
 				legendData.add(label + "实际加班" + "工时");
-				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际加班" + "金额").set("data", resourceData[4]).doc());
+				series.add(new JQ("图表-资源图表-金额").set("name", label + "实际加班" + "金额").set("stack", label + "实际金额").set("data", resourceData[4])
+						.doc());
 				legendData.add(label + "实际加班" + "金额");
 				// 计算累计值
 				appendAggregateData(aggregateType, totalAggWorkTimeData, totalAggAmountData, basicAggWorkTimeData, basicAggAmountData,
