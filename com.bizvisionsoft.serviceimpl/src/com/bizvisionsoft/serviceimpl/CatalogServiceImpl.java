@@ -470,9 +470,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			pipe.addAll(new JQ("追加-组织下资源").array());
 
 			debugPipeline(pipe);
-			c("organization").aggregate(pipe).map(d -> {
-				return d.getObjectId("_id");
-			}).into(result);
+			c("organization").aggregate(pipe).map(d -> d.getObjectId("_id")).into(result);
 		} else if (User.class.getName().equals(type) || Equipment.class.getName().equals(type)) {
 			result.add(doc.getObjectId("_id"));
 		}
