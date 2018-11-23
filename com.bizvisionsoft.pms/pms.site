@@ -39929,7 +39929,7 @@
           },
           {
             "id": "163d9dc45be",
-            "name": "scopeCharger",
+            "name": "scopeChargerInfoHtml",
             "text": "项目经理",
             "alignment": 16384,
             "width": 100,
@@ -40292,6 +40292,59 @@
             "grabVertical": false
           },
           {
+            "id": "1673e327dea",
+            "name": "eps_id",
+            "text": "所属领域",
+            "type": "对象选择（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "selectorAssemblyId": "1654ad4f765",
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false,
+            "valueFieldName": "_id"
+          },
+          {
+            "id": "1673e328399",
+            "name": "impUnitOrgFullName",
+            "text": "承担单位",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
+            "id": "1673e3158a6",
+            "name": "scopeChargerInfo",
+            "text": "项目经理",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "hasInfoLabel": false,
+            "textPasswordStyle": false,
+            "readOnly": false,
+            "required": false,
+            "textLimit": 0,
+            "maxFileSize": 0,
+            "timeLimit": 0,
+            "height": 0,
+            "staticContent": false,
+            "grabVertical": false
+          },
+          {
             "id": "163da7b8c5e",
             "name": "scopeStatus",
             "text": "状态",
@@ -40375,7 +40428,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "163d3ef7ce7",
@@ -40939,7 +40993,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "163d44c5c88",
@@ -41258,7 +41313,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163d9548883",
@@ -41323,14 +41379,14 @@
           {
             "id": "163d9659547",
             "name": "查询期间",
-            "text": "查询期间",
+            "text": "期间",
             "tooltips": "查询期间",
-            "image": "/img/search_w.svg",
+            "image": "",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cost.SearchCostAnalysisYearACT",
             "openContent": false,
             "propagate": false,
-            "forceText": false,
+            "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
@@ -41364,7 +41420,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163d46b7ca2",
@@ -42272,7 +42329,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163df6b1035",
@@ -42337,14 +42395,14 @@
           {
             "id": "163d9659547",
             "name": "查询期间",
-            "text": "查询期间",
+            "text": "期间",
             "tooltips": "查询期间",
             "image": "/img/search_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cost.SearchPeriodCostAnalysisMonthACT",
             "openContent": false,
             "propagate": false,
-            "forceText": false,
+            "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
@@ -42378,7 +42436,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163df88737f",
@@ -42443,14 +42502,14 @@
           {
             "id": "163d9659547",
             "name": "查询期间",
-            "text": "查询期间",
+            "text": "期间",
             "tooltips": "/img/search_w.svg",
             "image": "/img/search_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.cost.SearchMonthCostAnalysisYearACT",
             "openContent": false,
             "propagate": false,
-            "forceText": false,
+            "forceText": true,
             "style": "info",
             "editorAssemblyEditable": false,
             "objectBehavier": false,
@@ -42484,7 +42543,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "15ce2dafe9d",
@@ -44767,7 +44827,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "163f1d2326e",
@@ -62736,7 +62797,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "1646acf088f",
