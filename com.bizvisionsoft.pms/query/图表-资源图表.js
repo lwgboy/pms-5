@@ -55,7 +55,7 @@
         },
         {
             "type": "value",
-            "name": "金额（万元）",
+            "name": "金额（元）",
             "axisLabel": {
                 "formatter": "{value}"
             },
