@@ -20,24 +20,39 @@ import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
 
 public class CatalogServiceImpl extends BasicServiceImpl implements CatalogService {
 
+	@Override
+	public Document createDefaultOption() {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		cal.set(year, 0, 1, 0, 0);
+		Date start = cal.getTime();
+		cal.add(Calendar.YEAR, 1);
+		cal.add(Calendar.MINUTE, -1);
+		Date end = cal.getTime();
+		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
+				.append("dataType", new ArrayList<String>(Arrays.asList("计划", "实际"))).append("showData", "叠加")
+				.append("aggregateType", "不累计");
+	}
+
 	/**
 	 * 该人员所属的组织
 	 */
 	@Override
-	public List<Catalog> listRootCatalog(String userId) {
+	public List<Catalog> listResRoot(String userId) {
 		List<Bson> pipeline = Arrays.asList(Aggregates.match(new Document("userId", userId)),
 				Aggregates.lookup("organization", "org_id", "_id", "org"), Aggregates.unwind("$org"));
 		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(this::org2Catalog).into(new ArrayList<>());
 	}
 
 	@Override
-	public List<Catalog> listSubCatalog(Catalog parent) {
+	public List<Catalog> listResStructure(Catalog parent) {
 		List<Catalog> result = new ArrayList<Catalog>();
 		if (typeEquals(parent, Organization.class)) {
 			listSubOrg(parent._id, result);
@@ -53,7 +68,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	}
 
 	@Override
-	public long countSubCatalog(Catalog parent) {
+	public long countResStructure(Catalog parent) {
 		// 如果parent是组织，获取下级组织和资源类型
 		long count = 0;
 		if (typeEquals(parent, Organization.class)) {
@@ -154,7 +169,9 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Document createResourcePlanAndUserageChart(Document condition) {
+	public Document createResChart(Document condition) {
+
+		checkResChartOption(condition);
 
 		List<Document> series = new ArrayList<Document>();
 
@@ -305,6 +322,33 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		// TODO legendData和series的顺序需要调整
 		JQ jq = new JQ("图表-资源图表").set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("series", series);
 		return jq.doc();
+	}
+
+	/**
+	 * 检查图表条件，抛出错误
+	 * 
+	 * @param condition
+	 */
+	private void checkResChartOption(Document condition) {
+		Object option = condition.get("option");
+		if (option instanceof Document) {
+			Object dateRange = ((Document) option).get("dateRange");
+			if (dateRange instanceof List<?>) {
+				if (((List<?>) dateRange).size() == 2) {
+					Object d0 = ((List<?>) dateRange).get(0);
+					Object d1 = ((List<?>) dateRange).get(1);
+					if (!(d0 instanceof Date) || !(d1 instanceof Date) || !((Date) d0).before((Date) d1)) {
+						throw new ServiceException("日期范围数据不合法");
+					}
+				} else {
+					throw new ServiceException("日期范围数据不合法");
+				}
+			} else {
+				throw new ServiceException("日期范围类型错误");
+			}
+		} else {
+			throw new ServiceException("选项类型错误");
+		}
 	}
 
 	/**

@@ -24,30 +24,38 @@ public interface CatalogService {
 	 * @return
 	 */
 	@POST
-	@Path("/res/org/{userId}/ds")
+	@Path("/res/selector/root/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资源目录/" + DataSet.LIST })
-	public List<Catalog> listRootCatalog(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+	@DataSet({ "资源图表/" + DataSet.LIST })
+	public List<Catalog> listResRoot(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
-	@Path("/res/suborg/ds")
+	@Path("/res/selector/structure/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资源目录/" + DataSet.STRUCTURE_LIST })
-	public List<Catalog> listSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
+	@DataSet({ "资源图表/" + DataSet.STRUCTURE_LIST })
+	public List<Catalog> listResStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
-	@Path("/res/suborg/count")
+	@Path("/res/selector/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资源目录/" + DataSet.STRUCTURE_COUNT })
-	public long countSubCatalog(@MethodParam(MethodParam.OBJECT) Catalog parent);
+	@DataSet({ "资源图表/" + DataSet.STRUCTURE_COUNT })
+	public long countResStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
-	@Path("/chart/res/planAndUsage/")
+	@Path("/res/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document createResourcePlanAndUserageChart(Document condition);
+	@DataSet({ "资源图表/" + DataSet.CHART })
+	public Document createResChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	@POST
+	@Path("/res/option/default")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "资源图表/" + DataSet.DEFAULT })
+	public Document createDefaultOption();
 
 }
