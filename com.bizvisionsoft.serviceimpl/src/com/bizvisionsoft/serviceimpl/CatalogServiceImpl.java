@@ -69,6 +69,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			listSubEPS(parent._id, result);
 			listProject(parent._id, result);
 		} else if (typeEquals(parent, Project.class)) {
+			// TODO 列出阶段
 			// TODO 列出资源类别
 		}
 		return result;
