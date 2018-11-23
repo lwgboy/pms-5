@@ -40,6 +40,9 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ResourceChartASM {
+	
+	@Inject
+	private String type;
 
 	@Inject
 	private IBruiService brui;
@@ -199,7 +202,7 @@ public class ResourceChartASM {
 			Layer.error("请选择要查询的时间范围");
 			return;
 		}
-		Document chartData = service.createResourcePlanAndUserageChart(new Document("input", input).append("option", option));
+		Document chartData = service.createResChart(new Document("input", input).append("option", option));
 		JsonObject chartOption = JsonObject.readFrom(((Document) chartData).toJson());
 		chart.setOption(chartOption);
 	}

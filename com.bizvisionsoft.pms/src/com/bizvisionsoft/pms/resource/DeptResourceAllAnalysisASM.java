@@ -15,6 +15,7 @@ import com.bizvisionsoft.pms.chart.AbstractChartASM;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 
 	@Inject

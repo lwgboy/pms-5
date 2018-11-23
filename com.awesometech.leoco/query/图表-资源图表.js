@@ -9,13 +9,13 @@
     },
     "grid": [
         {
-            "left": 30,
+            "left": "3%",
             "right": 30,
             "bottom": "55%",
             "containLabel": true
         },
         {
-            "left": 20,
+            "left": "3%",
             "right": 30,
             "bottom": "10%",
             "top": "50%",
