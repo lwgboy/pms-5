@@ -22,11 +22,9 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.CatalogRenderer;
-import com.mongodb.Function;
 import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Aggregates;
 
@@ -240,10 +238,13 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 
 		checkResChartOption(condition);
 
+		// 构建Catalog的渲染器
 		CatalogRenderer cr = new CatalogRenderer((Document) condition.get("option"));
 
+		// 根据设置获取所选数据的资源数据
 		List<Document> input;
 		if ("并列".equals(cr.getSeriesType())) {
+			// 系列类型为并列时，需要单独为每个传入的数据加载其资源
 			input = ((List<Document>) condition.get("input")).stream().map((Document doc) -> {
 				addChildResource(doc);
 				if (cr.getDataType().contains("计划")) {
@@ -257,6 +258,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				return doc;
 			}).collect(Collectors.toList());
 		} else {
+			// 系列类型为合并时，将所选数据的所有资源进行合并处理。
 			List<ObjectId> resourceIds = new ArrayList<>();
 			((List<Document>) condition.get("input")).forEach((Document doc) -> resourceIds.addAll(addChildResource(doc)));
 			Document doc = new Document("childResourceIds", resourceIds).append("label", "");
@@ -270,12 +272,39 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			}
 			input = Arrays.asList(doc);
 		}
+		// 生成echart的option
 		return cr.render(input);
 	}
 
-	private Document getResourceData(String key, CatalogRenderer cr, Document doc) {
+	/**
+	 * 根据传入的key获取资源数据
+	 * 
+	 * @param keyName
+	 *            包括两种类型“plan”和“actual”：“plan”时，获取资源计划，；“actual”时，获取资源用量
+	 * @param cr
+	 *            Catalog渲染器，需要从中获取配置中的起止时间及日期显示方式。
+	 * @param doc
+	 *            doc中必须包含childResourceIds字段,类型为（{@code List<ObjectId>}
+	 *            ），该字段中包含从属doc的资源id集合
+	 * @return 传入的 doc ,doc中将会添加key = keyName，value = Document的数据。value中包括7个参数，分别是：
+	 *         <p>
+	 *         basicQty：标准数量；
+	 *         <p>
+	 *         overTimeQty：加班数量；
+	 *         <p>
+	 *         totalQty：总数；
+	 *         <p>
+	 *         basicAmount：标准金额；
+	 *         <p>
+	 *         overTimeAmount：加班金额；
+	 *         <p>
+	 *         totalAmount：总金额；
+	 *         <p>
+	 *         works:每日标准工时
+	 */
+	private Document getResourceData(String keyName, CatalogRenderer cr, Document doc) {
 		String collectionName, basicQtyName, overTimeQtyName;
-		if ("plan".equals(key)) {
+		if ("plan".equals(keyName)) {
 			collectionName = "resourcePlan";
 			basicQtyName = "$planBasicQty";
 			overTimeQtyName = "$planOverTimeQty";
@@ -326,7 +355,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			totalAmounts.add(totalAmount.get(xAxis));
 		}
 
-		doc.append(key,
+		doc.append(keyName,
 				new Document("basicQty", basicQtys).append("overTimeQty", overTimeQtys).append("totalQty", totalQtys)
 						.append("basicAmount", basicAmounts).append("overTimeAmount", overTimeAmounts).append("totalAmount", totalAmounts)
 						.append("works", works.isEmpty() ? null : works.get(0)));
