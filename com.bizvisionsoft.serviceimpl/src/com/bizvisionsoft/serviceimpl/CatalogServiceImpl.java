@@ -19,6 +19,7 @@ import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
@@ -415,7 +416,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData,
 						basicActualAggAmountData, (List<Double>) resourceData[0], (List<Double>) resourceData[3]);
 			} else if ("加班".equals(showData)) {
-				if (markLineData.get("data") != null)
+				if (markLineData.get("data") != null && resourceData[6] != null)
 					markLineData.put("data", Arrays.asList(new Document("yAxis", resourceData[6]).append("name", label + "标记线")));
 
 				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际加班" + "工时").set("stack", label + "实际工时").set("data", resourceData[1])
@@ -443,7 +444,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				appendAggregateData(aggregateType, totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData,
 						overTimeActualAggAmountData, (List<Double>) resourceData[1], (List<Double>) resourceData[4]);
 			} else {
-				if (markLineData.get("data") != null)
+				if (markLineData.get("data") != null && resourceData[6] != null)
 					markLineData.put("data", Arrays.asList(new Document("yAxis", resourceData[6]).append("name", label + "标记线")));
 
 				series.add(new JQ("图表-资源图表-工时").set("name", label + "实际标准" + "工时").set("stack", label + "实际工时").set("data", resourceData[0])
@@ -599,7 +600,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			totalAmounts.add(totalAmount.get(xAxis) == null ? null : (totalAmount.get(xAxis) / 10000));
 		}
 
-		return new Object[] { basicQtys, overTimeQtys, totalQtys, basicAmounts, overTimeAmounts, totalAmounts, works.get(0) };
+		return new Object[] { basicQtys, overTimeQtys, totalQtys, basicAmounts, overTimeAmounts, totalAmounts,
+				Check.isAssigned(works) ? works.get(0) : null };
 	}
 
 	/**
