@@ -30,13 +30,13 @@ import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Role;
+import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
@@ -857,7 +857,7 @@ public class BasicServiceImpl {
 
 	protected void debugPipeline(List<? extends Bson> pipeline) {
 		if (logger.isDebugEnabled()) {
-			String json = new GsonBuilder().setPrettyPrinting().create().toJson(pipeline);
+			String json = new BsonProvider<>().getGson().toJson(pipeline);
 			logger.debug("Aggregation Pipeline: \n" + json);
 		}
 	}

@@ -9,6 +9,7 @@ import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 
 public class CatalogMapper {
@@ -33,6 +34,16 @@ public class CatalogMapper {
 		c._id = doc.getObjectId("_id");
 		c.label = doc.getString("name");
 		setType(c, ResourceType.class);
+		c.icon = "img/resource_c.svg";
+		c.meta = doc;
+		return c;
+	}
+	
+	public static Catalog typedResource(Document doc) {
+		Catalog c = new Catalog();
+		c._id = doc.getObjectId("_id");
+		c.label = doc.getString("name");
+		c.type = ResourceType.class.getName()+".TypedResource";
 		c.icon = "img/resource_c.svg";
 		c.meta = doc;
 		return c;
@@ -79,5 +90,14 @@ public class CatalogMapper {
 		return c;
 	}
 
+	public static Catalog work(Document doc) {
+		Catalog c = new Catalog();
+		c._id = doc.getObjectId("_id");
+		c.label = doc.getString("fullName");
+		setType(c, Work.class);
+		c.icon = "img/task_c.svg";
+		c.meta = doc;
+		return c;
+	}
 
 }
