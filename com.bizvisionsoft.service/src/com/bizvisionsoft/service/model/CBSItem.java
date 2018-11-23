@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.sn.CBSItemGenerator;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("cbs")
@@ -81,6 +82,25 @@ public class CBSItem implements ICBSAmount {
 	@ReadValue
 	@SetValue
 	public String scopeCharger;
+
+	@SetValue
+	@ReadValue
+	private String scopeChargerInfo;
+
+	@SetValue
+	private UserMeta scopeChargerInfo_meta;
+
+	@ReadValue("scopeChargerInfoHtml")
+	public String getScopeChargerInfoHtml() {
+		if (scopeChargerInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperScopeChargerInfo() + "</div>";
+	}
+
+	public String warpperScopeChargerInfo() {
+		return MetaInfoWarpper.userInfo(scopeChargerInfo_meta, scopeChargerInfo);
+	}
 
 	@ReadValue
 	@SetValue
@@ -160,8 +180,8 @@ public class CBSItem implements ICBSAmount {
 
 	@SetValue("children")
 	private void setChildren(List<ObjectId> childrenId) {
-		children = ServicesLoader.get(CBSService.class).createDataSet(
-				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
+		children = ServicesLoader.get(CBSService.class)
+				.createDataSet(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
 	}
 
 	@Exclude
@@ -375,8 +395,7 @@ public class CBSItem implements ICBSAmount {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
-							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
 					}
 				}
@@ -384,8 +403,7 @@ public class CBSItem implements ICBSAmount {
 				List<CBSPeriod> cbsPeriods = listCBSPeriods();
 				if (cbsPeriods.size() > 0) {
 					for (CBSPeriod cbsPeriod : cbsPeriods) {
-						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0
-								&& endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
 							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
 						}
 					}
@@ -503,8 +521,7 @@ public class CBSItem implements ICBSAmount {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
-							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
 					}
 				}

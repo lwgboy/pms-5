@@ -443,6 +443,10 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 								new Field<String>("scopeStatus", "$project.status")));
 
 		pipeline.add(Aggregates.project(new BasicDBObject("_children", false)));
+		
+		appendUserInfo(pipeline, "pmId", "scopeChargerInfo");
+		
+		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
