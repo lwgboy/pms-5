@@ -45,14 +45,14 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	 * 该人员所属的组织
 	 */
 	@Override
-	public List<Catalog> listResRoot(String userId) {
+	public List<Catalog> listResOrgRoot(String userId) {
 		List<Bson> pipeline = Arrays.asList(Aggregates.match(new Document("userId", userId)),
 				Aggregates.lookup("organization", "org_id", "_id", "org"), Aggregates.unwind("$org"));
 		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(this::org2Catalog).into(new ArrayList<>());
 	}
 
 	@Override
-	public List<Catalog> listResStructure(Catalog parent) {
+	public List<Catalog> listResOrgStructure(Catalog parent) {
 		List<Catalog> result = new ArrayList<Catalog>();
 		if (typeEquals(parent, Organization.class)) {
 			listSubOrg(parent._id, result);
@@ -68,7 +68,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	}
 
 	@Override
-	public long countResStructure(Catalog parent) {
+	public long countResOrgStructure(Catalog parent) {
 		// 如果parent是组织，获取下级组织和资源类型
 		long count = 0;
 		if (typeEquals(parent, Organization.class)) {
@@ -676,6 +676,24 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		}
 		doc.put("childResourceIds", result);
 		return result;
+	}
+
+	@Override
+	public List<Catalog> listResEPSRoot() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Catalog> listResEPSStructure(Catalog parent, String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countResEPSStructure(Catalog parent) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
