@@ -15,8 +15,10 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CatalogService;
 import com.bizvisionsoft.service.model.Catalog;
+import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.Check;
@@ -48,7 +50,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	public List<Catalog> listResOrgRoot(String userId) {
 		List<Bson> pipeline = Arrays.asList(Aggregates.match(new Document("userId", userId)),
 				Aggregates.lookup("organization", "org_id", "_id", "org"), Aggregates.unwind("$org"));
-		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(this::org2Catalog).into(new ArrayList<>());
+		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(CatalogMapper::org).into(new ArrayList<>());
 	}
 
 	@Override
@@ -61,8 +63,13 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		} else if (typeEquals(parent, ResourceType.class)) {
 			ObjectId resourceType_id = parent._id;
 			Object org_id = parent.meta.get("org_id");
-			listHRResource(org_id, resourceType_id, this::user2Catalog, result);
-			listEQResource(org_id, resourceType_id, this::equipment2Catalog, result);
+			listHRResource(org_id, resourceType_id, CatalogMapper::user, result);
+			listEQResource(org_id, resourceType_id, CatalogMapper::equipment, result);
+		} else if (typeEquals(parent, EPS.class)) {
+			listSubEPS(parent._id, result);
+			listProject(parent._id, result);
+		} else if (typeEquals(parent, Project.class)) {
+			// TODO 列出资源类别
 		}
 		return result;
 	}
@@ -80,6 +87,11 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			Object org_id = parent.meta.get("org_id");
 			count += countResource(org_id, resourceType_id, "user");
 			count += countResource(org_id, resourceType_id, "equipment");
+		} else if (typeEquals(parent, EPS.class)) {
+			count += countSubEPS(parent._id);
+			count += countProject(parent._id);
+		} else if (typeEquals(parent, Project.class)) {
+			// TODO 列出资源类别
 		}
 		return count;
 	}
@@ -95,15 +107,31 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		List<Bson> p = new JQ("查询-组织-资源类型").set("org_id", org_id).array();
 		return c(collection).aggregate(p)
 				.map(d -> ((Document) d.get("resourceType")).append("org_id", ((Document) d.get("_id")).get("org_id")))
-				.map(this::resourceType2Catalog).into(into);
+				.map(CatalogMapper::resourceType).into(into);
 	}
 
 	private long countSubOrg(ObjectId org_id) {
 		return c("organization").countDocuments(new Document("parent_id", org_id));
 	}
 
+	private long countSubEPS(ObjectId eps_id) {
+		return c("eps").countDocuments(new Document("parent_id", eps_id));
+	}
+
+	private long countProject(ObjectId eps_id) {
+		return c("project").countDocuments(new Document("eps_id", eps_id));
+	}
+
 	private List<Catalog> listSubOrg(ObjectId org_id, List<Catalog> into) {
-		return c("organization").find(new Document("parent_id", org_id)).map(this::org2Catalog).into(into);
+		return c("organization").find(new Document("parent_id", org_id)).map(CatalogMapper::org).into(into);
+	}
+
+	private List<Catalog> listSubEPS(ObjectId parent_id, List<Catalog> into) {
+		return c("eps").find(new Document("parent_id", parent_id)).map(CatalogMapper::eps).into(into);
+	}
+
+	private List<Catalog> listProject(ObjectId eps_id, List<Catalog> into) {
+		return c("project").find(new Document("eps_id", eps_id)).map(CatalogMapper::project).into(into);
 	}
 
 	private <T> List<T> listHRResource(Object org_id, ObjectId resourceType_id, Function<Document, T> map, List<T> into) {
@@ -118,53 +146,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		return c(collection).countDocuments(new Document("org_id", org_id).append("resourceType_id", resourceType_id));
 	}
 
-	private Catalog setType(Catalog c, Class<?> clas) {
-		c.type = clas.getName();
-		return c;
-	}
-
 	private boolean typeEquals(Catalog c, Class<?> clas) {
 		return clas.getName().equals(c.type);
-	}
-
-	private Catalog org2Catalog(Document doc) {
-		Catalog c = new Catalog();
-		c._id = doc.getObjectId("_id");
-		c.label = doc.getString("fullName");
-		setType(c, Organization.class);
-		c.icon = "img/org_c.svg";
-		c.meta = doc;
-		return c;
-	}
-
-	private Catalog resourceType2Catalog(Document doc) {
-		Catalog c = new Catalog();
-		c._id = doc.getObjectId("_id");
-		c.label = doc.getString("name");
-		setType(c, ResourceType.class);
-		c.icon = "img/resource_c.svg";
-		c.meta = doc;
-		return c;
-	}
-
-	private Catalog user2Catalog(Document doc) {
-		Catalog c = new Catalog();
-		c._id = doc.getObjectId("_id");
-		c.label = doc.getString("name");
-		setType(c, User.class);
-		c.icon = "img/user_c.svg";
-		c.meta = doc;
-		return c;
-	}
-
-	private Catalog equipment2Catalog(Document doc) {
-		Catalog c = new Catalog();
-		c._id = doc.getObjectId("_id");
-		c.label = doc.getString("name");
-		setType(c, Equipment.class);
-		c.icon = "img/equipment_c.svg";
-		c.meta = doc;
-		return c;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -680,20 +663,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 
 	@Override
 	public List<Catalog> listResEPSRoot() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Catalog> listResEPSStructure(Catalog parent, String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long countResEPSStructure(Catalog parent) {
-		// TODO Auto-generated method stub
-		return 0;
+		return c("eps").find(new Document("parent_id", null)).map(CatalogMapper::eps).into(new ArrayList<>());
 	}
 
 }

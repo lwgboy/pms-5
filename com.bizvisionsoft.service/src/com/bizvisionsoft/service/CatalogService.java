@@ -28,50 +28,35 @@ public interface CatalogService {
 	@Path("/res/selector/org/structure/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_LIST })
+	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_LIST, "EPS资源图表/" + DataSet.STRUCTURE_LIST })
 	public List<Catalog> listResOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/res/selector/org/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT })
+	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT, "EPS资源图表/" + DataSet.STRUCTURE_COUNT })
 	public long countResOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
-	@Path("/res/selector/eps/root/{userId}/")
+	@Path("/res/selector/eps/root/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS资源图表/" + DataSet.LIST })
 	public List<Catalog> listResEPSRoot();
 
 	@POST
-	@Path("/res/selector/eps/structure/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS资源图表/" + DataSet.STRUCTURE_LIST })
-	public List<Catalog> listResEPSStructure(@MethodParam(MethodParam.OBJECT) Catalog parent,
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
-
-	@POST
-	@Path("/res/selector/eps/count/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS资源图表/" + DataSet.STRUCTURE_COUNT })
-	public long countResEPSStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-
-	@POST
 	@Path("/res/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.CHART })
+	@DataSet({ "组织资源图表/" + DataSet.CHART, "EPS资源图表/" + DataSet.CHART })
 	public Document createResChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
 	@POST
 	@Path("/res/option/default")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.DEFAULT })
+	@DataSet({ "组织资源图表/" + DataSet.DEFAULT, "EPS资源图表/" + DataSet.DEFAULT })
 	public Document createDefaultOption();
 
 }

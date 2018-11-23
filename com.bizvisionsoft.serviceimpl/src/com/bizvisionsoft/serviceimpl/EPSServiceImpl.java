@@ -86,11 +86,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 	@Override
 	public List<EPSInfo> listRootEPSInfo() {
-		List<EPSInfo> result = new ArrayList<EPSInfo>();
-		c("eps", EPSInfo.class).find(new Document("parent_id", null)).forEach((EPSInfo epsInfo) -> {
-			result.add(epsInfo.setType(EPSInfo.TYPE_EPS));
-		});
-		return result;
+		return c("eps", EPSInfo.class).find(new Document("parent_id", null)).map(e -> e.setType(EPSInfo.TYPE_EPS)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -104,13 +100,11 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		c("eps", EPSInfo.class).find(new Document("parent_id", _id)).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_EPS));
 		});
-		List<? extends Bson> pipeline = new JQ("查询-销售和成本-项目")
-				.set("match", new Document("eps_id", _id)).array();
+		List<? extends Bson> pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("eps_id", _id)).array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
-		pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("program_id", _id))
-				.array();
+		pipeline = new JQ("查询-销售和成本-项目").set("match", new Document("program_id", _id)).array();
 		c("project", EPSInfo.class).aggregate(pipeline).forEach((EPSInfo epsInfo) -> {
 			result.add(epsInfo.setType(EPSInfo.TYPE_PROJECT));
 		});
@@ -153,8 +147,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		Document option = new Document();
 		option.append("title", new Document("text", title).append("x", "center"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
+		option.append("grid", new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
 
 		if (legend != null && legend.size() > 0)
 			option.append("legend", new Document("data", legend).append("bottom", 10).append("left", "center"));
@@ -175,8 +168,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 
 		Document option = new Document();
 		option.append("title", new Document("text", title).append("x", "center"));
-		option.append("grid",
-				new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
+		option.append("grid", new Document("left", "3%").append("right", "5%").append("bottom", "6%").append("containLabel", true));
 
 		if (legend != null && legend.size() > 0)
 			option.append("legend", new Document("data", legend).append("bottom", 10).append("left", "center"));
@@ -214,8 +206,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		return xAxis;
 	}
 
-	private void createCostSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
-			Date endDate) {
+	private void createCostSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate, Date endDate) {
 		Map<String, Double> mapKeys = new TreeMap<String, Double>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
 		mapKeys.put(sdf.format(startDate), 0d);
@@ -230,20 +221,18 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			epsIAs.forEach(epsIA -> {
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
-					aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目")
-							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
+					aggregate = c("project").aggregate(
+							new JQ("查询-销售和成本-项目").set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
 					createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", epsIA.name);
 				}
 			});
 		} else {
-			AggregateIterable<Document> aggregate = c("project")
-					.aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
+			AggregateIterable<Document> aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
 			createSeriesData(series, mapKeys, aggregate, "cbsSubjects", "id", "cost", "资金投入");
 		}
 	}
 
-	private void createProfitSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate,
-			Date endDate) {
+	private void createProfitSeries(List<Document> series, List<EPSInvestmentAnalysis> epsIAs, Date startDate, Date endDate) {
 		Map<String, Double> mapKeys = new TreeMap<String, Double>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
 		mapKeys.put(sdf.format(startDate), 0d);
@@ -258,22 +247,20 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 			epsIAs.forEach(epsIA -> {
 				AggregateIterable<Document> aggregate;
 				if (epsIA.project_ids != null) {
-					aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目")
-							.set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
+					aggregate = c("project").aggregate(
+							new JQ("查询-销售和成本-项目").set("match", new Document("_id", new Document("$in", epsIA.project_ids))).array());
 					createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", epsIA.name);
 				}
 			});
 		} else {
-			AggregateIterable<Document> aggregate = c("project")
-					.aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
+			AggregateIterable<Document> aggregate = c("project").aggregate(new JQ("查询-销售和成本-项目").set("match", new Document()).array());
 			createSeriesData(series, mapKeys, aggregate, "salesItems", "period", "profit", "销售利润");
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void createSeriesData(List<Document> series, Map<String, Double> mapKeys,
-			AggregateIterable<Document> aggregate, String fieldName, String childFieldName, String valueName,
-			String docName) {
+	private void createSeriesData(List<Document> series, Map<String, Double> mapKeys, AggregateIterable<Document> aggregate,
+			String fieldName, String childFieldName, String valueName, String docName) {
 		Map<String, Double> map = new TreeMap<String, Double>(mapKeys);
 		aggregate.forEach((Document doc) -> {
 			Object obj = doc.get(fieldName);
@@ -317,18 +304,15 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 	public List<ObjectId> getSubProjectId(ObjectId _id) {
 		List<ObjectId> epsIds = getDesentItems(Arrays.asList(_id), "eps", "parent_id");
 
-		List<ObjectId> projectIds = c("project")
-				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
+		List<ObjectId> projectIds = c("project").distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 
-		List<ObjectId> programIds = c("program")
-				.distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
+		List<ObjectId> programIds = c("program").distinct("_id", new Document("eps_id", new Document("$in", epsIds)), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		if (programIds.size() > 0) {
 			programIds = getDesentItems(programIds, "program", "parent_id");
 
-			projectIds.addAll(c("project")
-					.distinct("_id", new Document("program_id", new Document("$in", programIds)), ObjectId.class)
+			projectIds.addAll(c("project").distinct("_id", new Document("program_id", new Document("$in", programIds)), ObjectId.class)
 					.into(new ArrayList<ObjectId>()));
 		}
 		projectIds = getDesentItems(projectIds, "project", "parentProject_id");
