@@ -39,6 +39,7 @@ import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class ResourceChartASM {
 	
 	@Inject
