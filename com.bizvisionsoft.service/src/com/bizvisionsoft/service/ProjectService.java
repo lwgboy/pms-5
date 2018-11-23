@@ -24,6 +24,7 @@ import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectChange;
 import com.bizvisionsoft.service.model.ProjectChangeTask;
+import com.bizvisionsoft.service.model.ProjectScheduleInfo;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
@@ -470,5 +471,35 @@ public interface ProjectService {
 	@DataSet({ "所有项目/count", "项目选择列表/count" })
 	public long countAllProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectschedule/managed/userid/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目/" + DataSet.LIST })
+	public List<ProjectScheduleInfo> listManagedProjectSchedules(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectschedule/managed/userid/{userid}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目/" + DataSet.COUNT })
+	public long countManagedProjectSchedules(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/projectschedule/managed//sub/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目/" + DataSet.STRUCTURE_LIST })
+	public List<ProjectScheduleInfo> listSubManagedProjectSchedules(@MethodParam(MethodParam.OBJECT) ProjectScheduleInfo parent);
+
+	@POST
+	@Path("/projectschedule/managed//sub/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "我管理的项目/" + DataSet.STRUCTURE_COUNT })
+	public long countSubManagedProjectSchedules(@MethodParam(MethodParam.OBJECT) ProjectScheduleInfo parent);
 
 }

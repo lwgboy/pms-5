@@ -359,18 +359,17 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@SetValue
 	private UserMeta pmInfo_meta;
-	
+
 	public String warpperPMInfo() {
 		return MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo);
 	}
 
 	@ReadValue("pmInfoHtml")
-	private String readPMInfoHtml() {
+	public String readPMInfoHtml() {
 		if (pmId == null) {
 			return "";
 		}
-		return "<div class='brui_ly_hline'>"
-				+ MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
+		return "<div class='brui_ly_hline'>" + MetaInfoWarpper.userInfo(pmInfo_meta, pmInfo) + "</div>";
 	}
 
 	@WriteValue("pm")
@@ -395,7 +394,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
 	private String impUnitOrgFullName;
-	
+
 	public String getImpUnitOrgFullName() {
 		return impUnitOrgFullName;
 	}
@@ -430,6 +429,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 	@ImageURL("name")
 	private String icon = "/img/project_c.svg";
 
+	public String getIcon() {
+		return icon;
+	}
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "项目";
@@ -451,7 +454,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
 
 	@Persistence
 	private OperationInfo creationInfo;
-	
+
 	public OperationInfo getCreationInfo() {
 		return creationInfo;
 	}

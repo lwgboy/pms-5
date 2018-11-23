@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -30,6 +31,7 @@ import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectChange;
 import com.bizvisionsoft.service.model.ProjectChangeTask;
+import com.bizvisionsoft.service.model.ProjectScheduleInfo;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
@@ -1534,6 +1536,45 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public Integer schedule(ObjectId _id) {
 		return super.schedule(_id);
+	}
+
+	@Override
+	public List<ProjectScheduleInfo> listManagedProjectSchedules(BasicDBObject condition, String userid) {
+		return listAllProjects(condition, userid).stream().map(project -> new ProjectScheduleInfo().setProject(project))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public long countManagedProjectSchedules(BasicDBObject filter, String userid) {
+		return countAllProjects(filter, userid);
+	}
+
+	@Override
+	public List<ProjectScheduleInfo> listSubManagedProjectSchedules(ProjectScheduleInfo parent) {
+		WorkServiceImpl workService = new WorkServiceImpl();
+		if (parent.typeEquals(Project.class)) {
+			return workService.listProjectRootTask(parent.get_id()).stream().map(work -> new ProjectScheduleInfo().setWork(work))
+					.collect(Collectors.toList());
+		} else if (parent.typeEquals(Work.class)) {
+			return workService.listChildren(parent.get_id()).stream().map(work -> new ProjectScheduleInfo().setWork(work))
+					.collect(Collectors.toList());
+		} else {
+			// TODO 其他类型
+			return new ArrayList<ProjectScheduleInfo>();
+		}
+	}
+
+	@Override
+	public long countSubManagedProjectSchedules(ProjectScheduleInfo parent) {
+		WorkServiceImpl workService = new WorkServiceImpl();
+		if (parent.typeEquals(Project.class)) {
+			return workService.countProjectRootTask(parent.get_id());
+		} else if (parent.typeEquals(Work.class)) {
+			return workService.countChildren(parent.get_id());
+		} else {
+			// TODO 其他类型
+			return 0l;
+		}
 	}
 
 }

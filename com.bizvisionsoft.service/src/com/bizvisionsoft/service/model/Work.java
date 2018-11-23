@@ -489,7 +489,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private boolean milestone;
 
 	@ImageURL("milestoneIcon")
-	private String getMilestoneIcon() {
+	public String getMilestoneIcon() {
 		if (milestone)
 			return "/img/milestone_c.svg";
 		return null;
@@ -572,7 +572,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue("manageLevelHtml")
-	private String getManageLevelHtml() {
+	public String getManageLevelHtml() {
 		if ("level1_task".equals(barstyle)) {
 			return "<span class='layui-badge layui-bg-cyan'>1</span>";
 		} else if ("level2_task".equals(barstyle)) {
@@ -650,7 +650,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		if (chargerId == null) {
 			return "";
 		}
-		return "<div class='brui_ly_hline'>>" + warpperChargerInfo() + getDistributedIcon() + "</div>";
+		return "<div class='brui_ly_hline'>" + warpperChargerInfo() + getDistributedIcon() + "</div>";
 	}
 
 	@ReadValue("chargerInfoHtml")
@@ -697,6 +697,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("assigner")
 	private User getAssigner() {
 		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+	}
+
+	@ReadValue("assignerInfoHtml")
+	public String getAssignerInfoHtml() {
+		if (assignerInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperAssignerInfo() + "</div>";
 	}
 
 	public String warpperAssignerInfo() {
@@ -1065,7 +1073,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@Behavior({ "打开工作包" })
-	private boolean behaviourOpenWorkPackage() {
+	public boolean behaviourOpenWorkPackage() {
 		return !summary && !stage && !milestone;
 	}
 
@@ -1109,12 +1117,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	private Estimate scheduleEst;
 
 	@ReadValue("estOverdual")
-	private Integer getEstimateOverdue() {
+	public Integer getEstimateOverdue() {
 		return scheduleEst == null ? null : scheduleEst.overdue;
 	}
 
 	@ReadValue("estFinish")
-	private Date getEstimateFinish() {
+	public Date getEstimateFinish() {
 		return scheduleEst == null ? null : scheduleEst.finish;
 	}
 
@@ -1124,7 +1132,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	@ReadValue("estDuration")
-	private Integer getEstimateDuration() {
+	public Integer getEstimateDuration() {
 		return scheduleEst == null ? null : scheduleEst.duration;
 	}
 
