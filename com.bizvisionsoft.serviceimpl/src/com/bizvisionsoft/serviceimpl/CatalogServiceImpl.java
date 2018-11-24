@@ -328,7 +328,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 								Arrays.asList(new Document("id", new Document("$gte", cr.getStart())),
 										new Document("id", new Document("$lte", cr.getEnd())))).append("resource_id",
 												new Document("$in", doc.get("childResourceIds"))))
-				.set("group_id", cr.getGroup_id()).array()).forEach((Document d) -> {
+				.set("group_id", new Document().append("$dateToString", new Document("format", cr.getDBDateFormat()).append("date", "$id")))
+				.array()).forEach((Document d) -> {
 					basicQty.put(d.getString("_id"), d.getDouble("basicQty"));
 					overTimeQty.put(d.getString("_id"), d.getDouble("overTimeQty"));
 					totalQty.put(d.getString("_id"), d.getDouble("totalQty"));
