@@ -190,7 +190,7 @@ public class ProjectRenderer {
 			sb.append("<div style='padding:8px 16px 0px 16px;'>");
 			for (int i = 0; i < news.size(); i++) {
 				sb.append("<div class='label_caption' style='height:20px;display:flex;color:#" + theme.lightText
-						+ ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
+						+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
 						+ "<i class='layui-icon layui-icon-circle' style='margin-right:4px;'></i>" + news.get(i).getSummary() + "</div>");
 
 				rowHeight += 20;
