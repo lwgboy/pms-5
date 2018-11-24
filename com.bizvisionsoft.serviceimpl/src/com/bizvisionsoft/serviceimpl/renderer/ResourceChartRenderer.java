@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -385,51 +386,27 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 */
 	private void summary(List<Double> aggWorkTimeDatas, List<Double> aggAmountDatas, List<Double> resourceWorkTimeData,
 			List<Double> resourceAmountData) {
-		Double wd = null;
-		Double ad = null;
+		double wd = 0d;
+		double ad = 0d;
 		if (aggWorkTimeDatas.size() > 0) {
 			for (int i = 0; i < aggWorkTimeDatas.size(); i++) {
-				Double d = resourceWorkTimeData.get(i);
-				if (d != null && wd != null)
-					wd += d;
-				else if (d != null && wd == null)
-					wd = d;
-
-				Double aggWorkTimeData = aggWorkTimeDatas.get(i);
-				if (aggWorkTimeData != null && wd != null)
-					aggWorkTimeData += wd;
-				else if (aggWorkTimeData == null && wd != null)
-					aggWorkTimeData = wd;
-
+				wd += Optional.ofNullable(resourceWorkTimeData.get(i)).orElse(0d);
+				double aggWorkTimeData = wd + Optional.ofNullable(aggWorkTimeDatas.get(i)).orElse(0d);
 				aggWorkTimeDatas.set(i, aggWorkTimeData);
 
-				d = resourceAmountData.get(i);
-				if (d != null && ad != null)
-					ad += d;
-				else if (d != null && ad == null)
-					ad = d;
-
-				Double aggAmountData = aggAmountDatas.get(i);
-				if (aggAmountData != null && ad != null)
-					aggAmountData += ad;
-				else if (aggAmountData == null && ad != null)
-					aggAmountData = ad;
-
+				ad += Optional.ofNullable(resourceAmountData.get(i)).orElse(0d);
+				double aggAmountData = ad + Optional.ofNullable(aggAmountDatas.get(i)).orElse(0d);
 				aggAmountDatas.set(i, aggAmountData);
 			}
 		} else {
 			for (Double d : resourceWorkTimeData) {
-				if (d != null && wd != null)
+				if (d != null)
 					wd += d;
-				else if (d != null && wd == null)
-					wd = d;
 				aggWorkTimeDatas.add(wd);
 			}
 			for (Double d : resourceAmountData) {
-				if (d != null && ad != null)
+				if (d != null)
 					ad += d;
-				else if (d != null && ad == null)
-					ad = d;
 				aggAmountDatas.add(ad);
 			}
 		}
