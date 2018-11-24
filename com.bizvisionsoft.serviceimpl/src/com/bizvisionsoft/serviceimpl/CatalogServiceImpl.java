@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -235,7 +236,6 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	@SuppressWarnings("unchecked")
 	@Override
 	public Document createResChart(Document condition) {
-
 		checkResChartOption(condition);
 
 		// 构建Catalog的渲染器
@@ -314,12 +314,12 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			overTimeQtyName = "$actualOverTimeQty";
 		}
 
-		HashMap<String, Double> basicQty = new HashMap<String, Double>();
-		HashMap<String, Double> overTimeQty = new HashMap<String, Double>();
-		HashMap<String, Double> totalQty = new HashMap<String, Double>();
-		HashMap<String, Double> basicAmount = new HashMap<String, Double>();
-		HashMap<String, Double> overTimeAmount = new HashMap<String, Double>();
-		HashMap<String, Double> totalAmount = new HashMap<String, Double>();
+		Map<String, Double> basicQty = new HashMap<String, Double>();
+		Map<String, Double> overTimeQty = new HashMap<String, Double>();
+		Map<String, Double> totalQty = new HashMap<String, Double>();
+		Map<String, Double> basicAmount = new HashMap<String, Double>();
+		Map<String, Double> overTimeAmount = new HashMap<String, Double>();
+		Map<String, Double> totalAmount = new HashMap<String, Double>();
 		List<Double> works = new ArrayList<Double>();
 		// 查询获取数据
 		c(collectionName).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName)
