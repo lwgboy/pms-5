@@ -123,7 +123,6 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	private ArrayList<Double> basicActualAggAmount;
 	private ArrayList<Double> extraActualAggTime;
 	private ArrayList<Double> extraActualAggAmount;
-	private Document match;
 
 	@SuppressWarnings("unchecked")
 	public ResourceChartRenderer(Document condition) {
@@ -152,12 +151,9 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 
 		// 根据系列类型构建series
 		if ("并列".equals(seriesType)) {
-			input.forEach(d -> {
-				appendSeries(d.getString("label"));
-			});
+			input.forEach(d -> appendSeries(d.getString("label"), forEachMatch(d)));
 		} else {
-			appendSeries("");
-
+			appendSeries("", combinatedMatch());
 		}
 		// 根据累计值类型构建series
 		if ("总计".equals(aggregateType)) {
@@ -300,12 +296,12 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		legendData.add(name);
 	}
 
-	private void appendSeries(String label) {
+	private void appendSeries(String label, Document match) {
 		String timeChart = "图表-资源图表-工时";
 		String amountChart = "图表-资源图表-金额";
 		if (dataType.contains("计划")) {
 			// 获取计划资源数据
-			ResourceData r = query("resourcePlan", "$planBasicQty", "$planOverTimeQty");
+			ResourceData r = query("resourcePlan", "$planBasicQty", "$planOverTimeQty", match);
 			if ("标准".equals(showData)) {
 				appendCatalog(timeChart, label + "计划标准工时", label + "计划工时", r.basicTime());
 				appendCatalog(amountChart, label + "计划标准金额", label + "计划金额", r.basicAmounts());
@@ -339,7 +335,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		}
 		if (dataType.contains("实际")) {
 			// 获取实际资源数据
-			ResourceData r = query("resourceActual", "$actualBasicQty", "$actualOverTimeQty");
+			ResourceData r = query("resourceActual", "$actualBasicQty", "$actualOverTimeQty", match);
 			if ("标准".equals(showData)) {
 				appendCatalog(timeChart, label + "实际标准工时", label + "实际工时", r.basicTime());
 				appendCatalog(amountChart, label + "实际标准金额", label + "实际金额", r.basicAmounts());
@@ -445,79 +441,104 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		}
 	}
 
-	private ResourceData query(String col, String basicQtyName, String overTimeQtyName) {
+	private ResourceData query(String col, String basicQtyName, String overTimeQtyName, Document match) {
 		ResourceData resData = new ResourceData(xAxisData.size());
 		// 查询获取数据
-		buildMatchCondition();
 		c(col).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName).set("match", match)
 				.set("group_id", group_id).array()).forEach((Document d) -> resData.build(d));
 		return resData;
 	}
 
-	private void buildMatchCondition() {
+	private Document combinatedMatch() {
 		// 并根据时间构建查询语句
-		match = new Document("id", new Document("$gte", start).append("$lte", end));
+		Document match = new Document("id", new Document("$gte", start).append("$lte", end));
 		List<ObjectId> resourceIds = new ArrayList<>();
 		List<ObjectId> workIds = new ArrayList<>();
 
 		input.forEach(doc -> {
-			String type = doc.getString("type");
-			if (ResourceType.class.getName().equals(type)) {
-				Document meta = ((Document) doc.get("meta"));
-				Object resTypeId = doc.get("_id");
-				Object _id = meta.get("org_id");
-				if (_id != null) {// 选取的组织下级的类型
-					Document condition = new Document("org_id", _id).append("resourceType_id", resTypeId);
-					c("user").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
-					c("equipment").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
-				} else {
-					List<Bson> pipe = filterWork(meta);
-					pipe.add(Aggregates.match(new Document("resTypeId", resTypeId)));
-					c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
-				}
-			} else if (Organization.class.getName().equals(type)) {
-				List<Bson> pipe = new ArrayList<>();
-				pipe.add(Aggregates.match(new Document("_id", doc.get("_id"))));
-				pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "organization").set("startWith", "$_id").set("connectFromField", "_id")
-						.set("connectToField", "parent_id").array());
-				pipe.addAll(new JQ("追加-组织下资源").array());
-				debugPipeline(pipe);
-				c("organization").aggregate(pipe).map(d -> d.getObjectId("_id")).into(resourceIds);
-			} else if (User.class.getName().equals(type)//
-					|| Equipment.class.getName().equals(type)//
-					|| (ResourceType.class.getName() + ".TypedResource").equals(type)) {
-				Document meta = (Document) doc.get("meta");
-				List<Bson> pipe = filterWork(meta);
-				if (!pipe.isEmpty())
-					c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
-				resourceIds.add(doc.getObjectId("_id"));
-			} else if (EPS.class.getName().equals(type)) {
-
-			} else if (Project.class.getName().equals(type)) {
-
-			}
+			writeCondition(resourceIds, workIds, doc);
 		});
 		if (!workIds.isEmpty())
 			match.append("work_id", new Document("$in", workIds));
 		if (!resourceIds.isEmpty())
 			match.append("resource_id", new Document("$in", resourceIds));
+
+		return match;
 	}
 
-	private List<Bson> filterWork(Document meta) {
-		Object _id;
-		List<Bson> pipe = new ArrayList<>();
-		_id = meta.get("project_id");
-		if (_id != null) {// 选取的是项目下级的类型
-			pipe.add(Aggregates.match(new Document("project_id", _id)));
-			pipe.addAll(new JQ("查询-工作-资源").array());
-		} else {
-			_id = meta.get("stage_id");
-			if (_id != null) {// 选取的是阶段下级的类型
-				pipe.add(Aggregates.match(new Document("_id", _id)));
-				pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "work").set("startWith", "$_id").set("connectFromField", "_id")
-						.set("connectToField", "parent_id").array());
-				pipe.addAll(new JQ("查询-工作-资源").array());
+	private void writeCondition(List<ObjectId> resourceIds, List<ObjectId> workIds, Document doc) {
+		String type = doc.getString("type");
+		if (ResourceType.class.getName().equals(type)) {
+			Document meta = ((Document) doc.get("meta"));
+			Object resTypeId = doc.get("_id");
+			Object _id = meta.get("org_id");
+			if (_id != null) {// 选取的组织下级的类型
+				Document condition = new Document("org_id", _id).append("resourceType_id", resTypeId);
+				c("user").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
+				c("equipment").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
+			} else {
+				List<Bson> pipe = filterWork(meta.getObjectId("project_id"), meta.getObjectId("stage_id"));
+				pipe.add(Aggregates.match(new Document("resTypeId", resTypeId)));
+				c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
 			}
+		} else if (Organization.class.getName().equals(type)) {
+			List<Bson> pipe = new ArrayList<>();
+			pipe.add(Aggregates.match(new Document("_id", doc.get("_id"))));
+			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "organization").set("startWith", "$_id").set("connectFromField", "_id")
+					.set("connectToField", "parent_id").array());
+			pipe.addAll(new JQ("追加-组织下资源").array());
+			debugPipeline(pipe);
+			c("organization").aggregate(pipe).map(d -> d.getObjectId("_id")).into(resourceIds);
+		} else if (User.class.getName().equals(type)//
+				|| Equipment.class.getName().equals(type)//
+				|| (ResourceType.class.getName() + ".TypedResource").equals(type)) {
+			Document meta = (Document) doc.get("meta");
+			List<Bson> pipe = filterWork(meta.getObjectId("project_id"), meta.getObjectId("stage_id"));
+			if (!pipe.isEmpty())
+				c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
+			resourceIds.add(doc.getObjectId("_id"));
+		} else if (EPS.class.getName().equals(type)) {
+			List<Bson> pipe = new ArrayList<>();
+			pipe.add(Aggregates.match(new Document("_id", doc.getObjectId("_id"))));// eps_id
+			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "eps").set("startWith", "$_id").set("connectFromField", "_id")
+					.set("connectToField", "parent_id").array());
+			pipe.add(Aggregates.lookup("project", "_id", "eps_id", "project"));
+			pipe.add(Aggregates.unwind("$project"));
+			pipe.add(Aggregates.project(new Document("_id", "$project._id")));
+			List<ObjectId> projectIds = c("eps").aggregate(pipe).map(d -> d.getObjectId("_id")).into(new ArrayList<>());
+			pipe = filterWork(new Document("$in", projectIds), null);
+			c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
+		} else if (Project.class.getName().equals(type)) {
+			List<Bson> pipe = filterWork(doc.getObjectId("_id"), null);
+			c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
+		}
+	}
+
+	private Document forEachMatch(Document doc) {
+		// 并根据时间构建查询语句
+		Document match = new Document("id", new Document("$gte", start).append("$lte", end));
+		List<ObjectId> resourceIds = new ArrayList<>();
+		List<ObjectId> workIds = new ArrayList<>();
+
+		writeCondition(resourceIds, workIds, doc);
+		if (!workIds.isEmpty())
+			match.append("work_id", new Document("$in", workIds));
+		if (!resourceIds.isEmpty())
+			match.append("resource_id", new Document("$in", resourceIds));
+
+		return match;
+	}
+
+	private List<Bson> filterWork(Object project_id, Object stage_id) {
+		List<Bson> pipe = new ArrayList<>();
+		if (project_id != null) {// 选取的是项目下级的类型
+			pipe.add(Aggregates.match(new Document("project_id", project_id)));
+			pipe.addAll(new JQ("查询-工作-资源").array());
+		} else if (stage_id != null) {// 选取的是阶段下级的类型
+			pipe.add(Aggregates.match(new Document("_id", stage_id)));
+			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "work").set("startWith", "$_id").set("connectFromField", "_id")
+					.set("connectToField", "parent_id").array());
+			pipe.addAll(new JQ("查询-工作-资源").array());
 		}
 		return pipe;
 	}
