@@ -9,14 +9,14 @@
     },
     "grid": [
         {
-            "left": "3%",
-            "right": 30,
+            "left": "4%",
+            "right": "3%",
             "bottom": "55%",
             "containLabel": true
         },
         {
-            "left": "3%",
-            "right": 30,
+            "left": "0%",
+            "right": "0%",
             "bottom": "10%",
             "top": "50%",
             "containLabel": true
@@ -45,22 +45,6 @@
             "gridIndex": 1
         }
     ],
-    "yAxis": [
-        {
-            "type": "value",
-            "name": "工时（小时）",
-            "axisLabel": {
-                "formatter": "{value}"
-            }
-        },
-        {
-            "type": "value",
-            "name": "金额（万元）",
-            "axisLabel": {
-                "formatter": "{value}"
-            },
-            "gridIndex": 1
-        }
-    ],
+    "yAxis": "<yAxis>",
     "series": "<series>"
 }
