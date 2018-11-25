@@ -861,6 +861,13 @@ public class BasicServiceImpl {
 			logger.debug("Aggregation Pipeline: \n" + json);
 		}
 	}
+	
+	protected void debugDocument(Document doc) {
+		if (logger.isDebugEnabled()) {
+			String json = new BsonProvider<>().getGson().toJson(doc);
+			logger.debug("Document: \n" + json);
+		}
+	}
 
 	/**
 	 * 检查当前用户是否具有某些角色

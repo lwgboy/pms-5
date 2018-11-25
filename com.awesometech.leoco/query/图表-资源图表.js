@@ -48,14 +48,14 @@
     "yAxis": [
         {
             "type": "value",
-            "name": "工时（小时）",
+            "name": "工时（时）",
             "axisLabel": {
                 "formatter": "{value}"
             }
         },
         {
             "type": "value",
-            "name": "金额（万元）",
+            "name": "金额（元）",
             "axisLabel": {
                 "formatter": "{value}"
             },

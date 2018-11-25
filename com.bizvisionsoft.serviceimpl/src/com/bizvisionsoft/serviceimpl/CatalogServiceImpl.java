@@ -132,7 +132,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			if (doc != null) {
 				return CatalogMapper.equipment(doc);
 			}
-			doc = (Document) d.get("ty");
+			doc = (Document) d.get("tp");
 			if (doc != null) {
 				return CatalogMapper.typedResource(doc);
 			}

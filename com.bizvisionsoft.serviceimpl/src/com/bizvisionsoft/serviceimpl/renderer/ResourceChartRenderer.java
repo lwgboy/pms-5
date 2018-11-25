@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
+import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.User;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -25,6 +26,77 @@ import com.bizvisionsoft.serviceimpl.renderer.ColorTheme.BruiColor;
 import com.mongodb.client.model.Aggregates;
 
 public class ResourceChartRenderer extends BasicServiceImpl {
+
+	private class ResourceData {
+
+		private Double[] basicTime;
+
+		List<Double> basicTime() {
+			return list(basicTime);
+		}
+
+		private Double[] extraTime;
+
+		List<Double> extraTime() {
+			return list(extraTime);
+		}
+
+		private Double[] totalTime;
+
+		List<Double> totalTime() {
+			return list(totalTime);
+		}
+
+		private Double[] basicAmounts;
+
+		List<Double> basicAmounts() {
+			return list(basicAmounts);
+		}
+
+		private Double[] extraAmounts;
+
+		List<Double> extraAmounts() {
+			return list(extraAmounts);
+		}
+
+		private Double[] totalAmounts;
+
+		List<Double> totalAmounts() {
+			return list(totalAmounts);
+		}
+
+		// private Double basicWorks;
+
+		private List<Double> list(Double[] arr) {
+			return Arrays.asList(arr).stream().map(d -> d == null ? 0d : d).collect(Collectors.toList());
+		}
+
+		ResourceData(int xAxisCount) {
+			basicTime = new Double[xAxisCount];
+			extraTime = new Double[xAxisCount];
+			totalTime = new Double[xAxisCount];
+			basicAmounts = new Double[xAxisCount];
+			extraAmounts = new Double[xAxisCount];
+			totalAmounts = new Double[xAxisCount];
+		}
+
+		void build(Document doc) {
+			int idx = xAxisData.indexOf(doc.getString("_id"));
+			if (idx != -1) {
+				basicTime[idx] = doc.getDouble("basicQty");
+				extraTime[idx] = doc.getDouble("overTimeQty");
+				totalTime[idx] = doc.getDouble("totalQty");
+				basicAmounts[idx] = doc.getDouble("basicAmount");
+				extraAmounts[idx] = doc.getDouble("overTimeAmount");
+				totalAmounts[idx] = doc.getDouble("totalAmount");
+			}
+			// Double bw = doc.getDouble("basicWorks");
+			// if (bw != null) {
+			// basicWorks = bw.doubleValue();
+			// }
+		}
+
+	}
 
 	private Date start;
 	private Date end;
@@ -37,20 +109,20 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	private ArrayList<Document> series;
 	private ArrayList<String> legendData;
 	private ArrayList<String> xAxisData;
-	private Document markLineData;
+	// private Document markLineData;
 	private Document group_id;
-	private ArrayList<Double> totalPlanAggWorkTimeData;
-	private ArrayList<Double> totalPlanAggAmountData;
-	private ArrayList<Double> basicPlanAggWorkTimeData;
-	private ArrayList<Double> basicPlanAggAmountData;
-	private ArrayList<Double> overTimePlanAggWorkTimeData;
-	private ArrayList<Double> overTimePlanAggAmountData;
-	private ArrayList<Double> totalActualAggWorkTimeData;
-	private ArrayList<Double> totalActualAggAmountData;
-	private ArrayList<Double> basicActualAggWorkTimeData;
-	private ArrayList<Double> basicActualAggAmountData;
-	private ArrayList<Double> overTimeActualAggWorkTimeData;
-	private ArrayList<Double> overTimeActualAggAmountData;
+	private ArrayList<Double> totalPlanAggTime;
+	private ArrayList<Double> totalPlanAggAmount;
+	private ArrayList<Double> basicPlanAggTime;
+	private ArrayList<Double> basicPlanAggAmount;
+	private ArrayList<Double> extraPlanAggTime;
+	private ArrayList<Double> extraPlanAggAmount;
+	private ArrayList<Double> totalActualAggTime;
+	private ArrayList<Double> totalActualAggAmount;
+	private ArrayList<Double> basicActualAggTime;
+	private ArrayList<Double> basicActualAggAmount;
+	private ArrayList<Double> extraActualAggTime;
+	private ArrayList<Double> extraActualAggAmount;
 	private Document match;
 
 	@SuppressWarnings("unchecked")
@@ -73,10 +145,6 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		series = new ArrayList<Document>();
 		legendData = new ArrayList<String>();
 
-		// 并根据时间构建查询语句
-		match = new Document("$and",
-				Arrays.asList(new Document("id", new Document("$gte", start)), new Document("id", new Document("$lte", end))));
-
 		// 根据时间类型和起止时间，构建group的_id和xAxis数据
 		initializeXAxis();
 
@@ -85,40 +153,36 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		// 根据系列类型构建series
 		if ("并列".equals(seriesType)) {
 			input.forEach(d -> {
-				match.append("resource_id", new Document("$in", listResource(d)));
 				appendSeries(d.getString("label"));
 			});
 		} else {
-			List<ObjectId> resourceIds = new ArrayList<>();
-			input.forEach(d -> resourceIds.addAll(listResource(d)));
-			match.append("resource_id", new Document("$in", resourceIds));
 			appendSeries("");
 
 		}
 		// 根据累计值类型构建series
 		if ("总计".equals(aggregateType)) {
 			if (dataType.contains("计划")) {
-				appendSummarySeries("图表-资源图表-累计工时", "累计计划工时", "累计计划工时", totalPlanAggWorkTimeData, BruiColor.Light_Blue);
-				appendSummarySeries("图表-资源图表-累计金额", "累计计划金额", "累计计划金额", totalPlanAggAmountData, BruiColor.Light_Blue);
+				appendSummary("图表-资源图表-累计工时", "累计计划工时", "累计计划工时", totalPlanAggTime, BruiColor.Light_Blue);
+				appendSummary("图表-资源图表-累计金额", "累计计划金额", "累计计划金额", totalPlanAggAmount, BruiColor.Light_Blue);
 			}
 			if (dataType.contains("实际")) {
-				appendSummarySeries("图表-资源图表-累计工时", "累计实际工时", "累计实际工时", totalActualAggWorkTimeData, BruiColor.Teal);
-				appendSummarySeries("图表-资源图表-累计金额", "累计实际金额", "累计实际金额", totalActualAggAmountData, BruiColor.Teal);
+				appendSummary("图表-资源图表-累计工时", "累计实际工时", "累计实际工时", totalActualAggTime, BruiColor.Teal);
+				appendSummary("图表-资源图表-累计金额", "累计实际金额", "累计实际金额", totalActualAggAmount, BruiColor.Teal);
 			}
 		} else if ("标准加班".equals(aggregateType)) {
 			if (dataType.contains("计划")) {
-				appendSummarySeries("图表-资源图表-累计工时", "累计计划标准工时", "累计计划工时", basicPlanAggWorkTimeData, BruiColor.Light_Blue);
-				appendSummarySeries("图表-资源图表-累计金额", "累计计划标准金额", "累计计划金额", basicPlanAggAmountData, BruiColor.Light_Blue);
+				appendSummary("图表-资源图表-累计工时", "累计计划标准工时", "累计计划工时", basicPlanAggTime, BruiColor.Light_Blue);
+				appendSummary("图表-资源图表-累计金额", "累计计划标准金额", "累计计划金额", basicPlanAggAmount, BruiColor.Light_Blue);
 
-				appendSummarySeries("图表-资源图表-累计工时", "累计计划加班工时", "累计计划工时", overTimePlanAggWorkTimeData, BruiColor.Orange);
-				appendSummarySeries("图表-资源图表-累计金额", "累计计划加班金额", "累计计划金额", overTimePlanAggAmountData, BruiColor.Orange);
+				appendSummary("图表-资源图表-累计工时", "累计计划加班工时", "累计计划工时", extraPlanAggTime, BruiColor.Orange);
+				appendSummary("图表-资源图表-累计金额", "累计计划加班金额", "累计计划金额", extraPlanAggAmount, BruiColor.Orange);
 			}
 			if (dataType.contains("实际")) {
-				appendSummarySeries("图表-资源图表-累计工时", "累计实际标准工时", "累计实际工时", basicActualAggWorkTimeData, BruiColor.Teal);
-				appendSummarySeries("图表-资源图表-累计金额", "累计实际标准金额", "累计实际金额", basicActualAggAmountData, BruiColor.Teal);
+				appendSummary("图表-资源图表-累计工时", "累计实际标准工时", "累计实际工时", basicActualAggTime, BruiColor.Teal);
+				appendSummary("图表-资源图表-累计金额", "累计实际标准金额", "累计实际金额", basicActualAggAmount, BruiColor.Teal);
 
-				appendSummarySeries("图表-资源图表-累计工时", "累计实际加班工时", "累计实际工时", overTimeActualAggWorkTimeData, BruiColor.Red);
-				appendSummarySeries("图表-资源图表-累计金额", "累计实际加班金额", "累计实际金额", overTimeActualAggAmountData, BruiColor.Red);
+				appendSummary("图表-资源图表-累计工时", "累计实际加班工时", "累计实际工时", extraActualAggTime, BruiColor.Red);
+				appendSummary("图表-资源图表-累计金额", "累计实际加班金额", "累计实际金额", extraActualAggAmount, BruiColor.Red);
 			}
 		}
 
@@ -128,24 +192,24 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	}
 
 	private void initializeData() {
-		totalPlanAggWorkTimeData = new ArrayList<Double>();
-		totalPlanAggAmountData = new ArrayList<Double>();
-		basicPlanAggWorkTimeData = new ArrayList<Double>();
-		basicPlanAggAmountData = new ArrayList<Double>();
-		overTimePlanAggWorkTimeData = new ArrayList<Double>();
-		overTimePlanAggAmountData = new ArrayList<Double>();
+		totalPlanAggTime = new ArrayList<Double>();
+		totalPlanAggAmount = new ArrayList<Double>();
+		basicPlanAggTime = new ArrayList<Double>();
+		basicPlanAggAmount = new ArrayList<Double>();
+		extraPlanAggTime = new ArrayList<Double>();
+		extraPlanAggAmount = new ArrayList<Double>();
 
-		totalActualAggWorkTimeData = new ArrayList<Double>();
-		totalActualAggAmountData = new ArrayList<Double>();
-		basicActualAggWorkTimeData = new ArrayList<Double>();
-		basicActualAggAmountData = new ArrayList<Double>();
-		overTimeActualAggWorkTimeData = new ArrayList<Double>();
-		overTimeActualAggAmountData = new ArrayList<Double>();
+		totalActualAggTime = new ArrayList<Double>();
+		totalActualAggAmount = new ArrayList<Double>();
+		basicActualAggTime = new ArrayList<Double>();
+		basicActualAggAmount = new ArrayList<Double>();
+		extraActualAggTime = new ArrayList<Double>();
+		extraActualAggAmount = new ArrayList<Double>();
 	}
 
 	private void initializeXAxis() {
 		xAxisData = new ArrayList<String>();
-		markLineData = new Document();
+		// markLineData = new Document();
 		group_id = new Document();
 
 		Calendar cal = Calendar.getInstance();
@@ -160,7 +224,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
 			// TODO 需要根据所选资源的资源日历进行设置
-			markLineData.append("data", "");
+			// markLineData.append("data", "");
 		} else if ("月".equals(dateType)) {
 			group_id.append("$dateToString", new Document("format", "%Y-%m").append("date", "$id"));
 			sdf = new SimpleDateFormat("yyyy-MM");
@@ -214,7 +278,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 * @param data
 	 * @param color
 	 */
-	private void appendSummarySeries(String seriesJQ, String name, String stack, ArrayList<Double> data, BruiColor color) {
+	private void appendSummary(String seriesJQ, String name, String stack, List<Double> data, BruiColor color) {
 		Document doc = new JQ(seriesJQ).set("name", name).set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff)))
 				.set("color2", ColorTheme.getHtmlColor(color.getRgba(0x66))).set("color3", ColorTheme.getHtmlColor(color.getRgba(0)))
 				.set("stack", stack).set("data", data).doc();
@@ -231,125 +295,94 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 * @param markLineData
 	 * @param data
 	 */
-	private void appendCatalogSeries(String timeChart, String name, String stack, Object markLineData, Object data) {
-		series.add(new JQ(timeChart).set("name", name).set("stack", stack).set("data", data).set("markLineData", markLineData).doc());
+	private void appendCatalog(String timeChart, String name, String stack, List<Double> data) {
+		series.add(new JQ(timeChart).set("name", name).set("stack", stack).set("data", data).doc());
 		legendData.add(name);
 	}
 
-	/**
-	 * 构建series
-	 * 
-	 * @param series
-	 * @param dataType
-	 * @param showData
-	 * @param aggregateType
-	 * @param match
-	 * @param group_id
-	 * @param xAxisData
-	 * @param markLineData
-	 * @param totalPlanAggWorkTimeData
-	 * @param totalPlanAggAmountData
-	 * @param basicPlanAggWorkTimeData
-	 * @param basicPlanAggAmountData
-	 * @param overTimePlanAggWorkTimeData
-	 * @param overTimePlanAggAmountData
-	 * @param totalActualAggWorkTimeData
-	 * @param totalActualAggAmountData
-	 * @param basicActualAggWorkTimeData
-	 * @param basicActualAggAmountData
-	 * @param overTimeActualAggWorkTimeData
-	 * @param overTimeActualAggAmountData
-	 * @param legendData
-	 * @param label
-	 */
-	@SuppressWarnings("unchecked")
 	private void appendSeries(String label) {
 		String timeChart = "图表-资源图表-工时";
 		String amountChart = "图表-资源图表-金额";
 		if (dataType.contains("计划")) {
 			// 获取计划资源数据
-			Object[] res = getResourceData("resourcePlan", "$planBasicQty", "$planOverTimeQty", match, group_id, xAxisData);
+			ResourceData r = query("resourcePlan", "$planBasicQty", "$planOverTimeQty");
 			if ("标准".equals(showData)) {
-				appendCatalogSeries(timeChart, label + "计划标准工时", label + "计划工时", new Document(), res[0]);
-				appendCatalogSeries(amountChart, label + "计划标准金额", label + "计划金额", new Document(), res[3]);
+				appendCatalog(timeChart, label + "计划标准工时", label + "计划工时", r.basicTime());
+				appendCatalog(amountChart, label + "计划标准金额", label + "计划金额", r.basicAmounts());
 
 				// 计算累计值
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, basicPlanAggWorkTimeData, basicPlanAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
+				summary(totalPlanAggTime, totalPlanAggAmount, basicPlanAggTime, basicPlanAggAmount, r.basicTime(), r.basicAmounts());
 			} else if ("加班".equals(showData)) {
-				appendCatalogSeries(timeChart, label + "计划加班工时", label + "计划工时", new Document(), res[1]);
-				appendCatalogSeries(amountChart, label + "计划加班金额", label + "计划金额", new Document(), res[4]);
+				appendCatalog(timeChart, label + "计划加班工时", label + "计划工时", r.extraTime());
+				appendCatalog(amountChart, label + "计划加班金额", label + "计划金额", r.extraAmounts());
 
 				// 计算累计值
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, overTimePlanAggWorkTimeData, overTimePlanAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalPlanAggTime, totalPlanAggAmount, extraPlanAggTime, extraPlanAggAmount, r.extraTime(), r.extraAmounts());
 			} else if ("汇总".equals(showData)) {
-				appendCatalogSeries(timeChart, label + "计划工时", label + "计划工时", new Document(), res[2]);
-				appendCatalogSeries(amountChart, label + "计划金额", label + "计划金额", new Document(), res[5]);
+				appendCatalog(timeChart, label + "计划工时", label + "计划工时", r.list(r.totalTime));
+				appendCatalog(amountChart, label + "计划金额", label + "计划金额", r.list(r.totalAmounts));
 
 				// 计算累计值
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, basicPlanAggWorkTimeData, basicPlanAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
+				summary(totalPlanAggTime, totalPlanAggAmount, basicPlanAggTime, basicPlanAggAmount, r.basicTime(), r.basicAmounts());
 
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, overTimePlanAggWorkTimeData, overTimePlanAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalPlanAggTime, totalPlanAggAmount, extraPlanAggTime, extraPlanAggAmount, r.extraTime(), r.extraAmounts());
 			} else {
-				appendCatalogSeries(timeChart, label + "计划标准工时", label + "计划工时", new Document(), res[0]);
-				appendCatalogSeries(amountChart, label + "计划标准金额", label + "计划金额", new Document(), res[3]);
-				appendCatalogSeries(timeChart, label + "计划加班工时", label + "计划工时", new Document(), res[1]);
-				appendCatalogSeries(amountChart, label + "计划加班金额", label + "计划金额", new Document(), res[4]);
+				appendCatalog(timeChart, label + "计划标准工时", label + "计划工时", r.basicTime());
+				appendCatalog(amountChart, label + "计划标准金额", label + "计划金额", r.basicAmounts());
+				appendCatalog(timeChart, label + "计划加班工时", label + "计划工时", r.extraTime());
+				appendCatalog(amountChart, label + "计划加班金额", label + "计划金额", r.extraAmounts());
 
 				// 计算累计值
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, basicPlanAggWorkTimeData, basicPlanAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
-				summary(totalPlanAggWorkTimeData, totalPlanAggAmountData, overTimePlanAggWorkTimeData, overTimePlanAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalPlanAggTime, totalPlanAggAmount, basicPlanAggTime, basicPlanAggAmount, r.basicTime(), r.basicAmounts());
+				summary(totalPlanAggTime, totalPlanAggAmount, extraPlanAggTime, extraPlanAggAmount, r.extraTime(), r.extraAmounts());
 			}
 		}
 		if (dataType.contains("实际")) {
 			// 获取实际资源数据
-			Object[] res = getResourceData("resourceActual", "$actualBasicQty", "$actualOverTimeQty", match, group_id, xAxisData);
+			ResourceData r = query("resourceActual", "$actualBasicQty", "$actualOverTimeQty");
 			if ("标准".equals(showData)) {
-				appendCatalogSeries(timeChart, label + "实际标准工时", label + "实际工时", new Document(), res[0]);
-				appendCatalogSeries(amountChart, label + "实际标准金额", label + "实际金额", new Document(), res[3]);
+				appendCatalog(timeChart, label + "实际标准工时", label + "实际工时", r.basicTime());
+				appendCatalog(amountChart, label + "实际标准金额", label + "实际金额", r.basicAmounts());
 
 				// 计算累计值
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData, basicActualAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
+				summary(totalActualAggTime, totalActualAggAmount, basicActualAggTime, basicActualAggAmount, r.basicTime(),
+						r.basicAmounts());
 			} else if ("加班".equals(showData)) {
-				if (markLineData.get("data") != null && res[6] != null)
-					markLineData.put("data", Arrays.asList(new Document("yAxis", res[6]).append("name", label + "标记线")));
+				// if (markLineData.get("data") != null && r.basicWorks != null)
+				// markLineData.put("data", Arrays.asList(new Document("yAxis",
+				// r.basicWorks).append("name", catalogLabel + "标记线")));
 
-				appendCatalogSeries(timeChart, label + "实际加班工时", label + "实际工时", markLineData, res[1]);
-				appendCatalogSeries(amountChart, label + "实际加班金额", label + "实际金额", new Document(), res[4]);
+				appendCatalog(timeChart, label + "实际加班工时", label + "实际工时", r.extraTime());
+				appendCatalog(amountChart, label + "实际加班金额", label + "实际金额", r.extraAmounts());
 
 				// 计算累计值
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData, overTimeActualAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalActualAggTime, totalActualAggAmount, extraActualAggTime, extraActualAggAmount, r.extraTime(),
+						r.extraAmounts());
 			} else if ("汇总".equals(showData)) {
-				appendCatalogSeries(timeChart, label + "实际工时", label + "实际工时", new Document(), res[2]);
-				appendCatalogSeries(amountChart, label + "实际金额", label + "实际金额", new Document(), res[5]);
+				appendCatalog(timeChart, label + "实际工时", label + "实际工时", r.totalTime());
+				appendCatalog(amountChart, label + "实际金额", label + "实际金额", r.totalAmounts());
 
 				// 计算累计值
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData, basicActualAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
+				summary(totalActualAggTime, totalActualAggAmount, basicActualAggTime, basicActualAggAmount, r.basicTime(),
+						r.basicAmounts());
 
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData, overTimeActualAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalActualAggTime, totalActualAggAmount, extraActualAggTime, extraActualAggAmount, r.extraTime(),
+						r.extraAmounts());
 			} else {
-				if (markLineData.get("data") != null && res[6] != null)
-					markLineData.put("data", Arrays.asList(new Document("yAxis", res[6]).append("name", label + "标记线")));
+				// if (markLineData.get("data") != null && r.basicWorks != null)
+				// markLineData.put("data", Arrays.asList(new Document("yAxis",
+				// r.basicWorks).append("name", catalogLabel + "标记线")));
 
-				appendCatalogSeries(timeChart, label + "实际标准工时", label + "实际工时", new Document(), res[0]);
-				appendCatalogSeries(amountChart, label + "实际标准金额", label + "实际金额", new Document(), res[3]);
-				appendCatalogSeries(timeChart, label + "实际加班工时", label + "实际工时", markLineData, res[1]);
-				appendCatalogSeries(amountChart, label + "实际加班金额", label + "实际金额", new Document(), res[4]);
+				appendCatalog(timeChart, label + "实际标准工时", label + "实际工时", r.basicTime());
+				appendCatalog(amountChart, label + "实际标准金额", label + "实际金额", r.basicAmounts());
+				appendCatalog(timeChart, label + "实际加班工时", label + "实际工时", r.extraTime());
+				appendCatalog(amountChart, label + "实际加班金额", label + "实际金额", r.extraAmounts());
 
 				// 计算累计值
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, basicActualAggWorkTimeData, basicActualAggAmountData,
-						(List<Double>) res[0], (List<Double>) res[3]);
-				summary(totalActualAggWorkTimeData, totalActualAggAmountData, overTimeActualAggWorkTimeData, overTimeActualAggAmountData,
-						(List<Double>) res[1], (List<Double>) res[4]);
+				summary(totalActualAggTime, totalActualAggAmount, basicActualAggTime, basicActualAggAmount, r.basicTime(),
+						r.basicAmounts());
+				summary(totalActualAggTime, totalActualAggAmount, extraActualAggTime, extraActualAggAmount, r.extraTime(),
+						r.extraAmounts());
 			}
 
 		}
@@ -412,86 +445,81 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		}
 	}
 
-	/**
-	 * 查询资源图表数据，并根据xAxisData构建返回值
-	 * 
-	 * @param collectionName
-	 * @param basicQtyName
-	 * @param overTimeQtyName
-	 * @param match
-	 * @param group_id
-	 * @param xAxisData
-	 * @return 元素1：标准数量，元素2：加班数量，元素3：数量合计，元素4：标准金额，元素5：加班金额，元素6：金额合计，元素7：标准工时.
-	 */
-	private Object[] getResourceData(String collectionName, String basicQtyName, String overTimeQtyName, Document match, Document group_id,
-			List<String> xAxisData) {
-		HashMap<String, Double> basicQty = new HashMap<String, Double>();
-		HashMap<String, Double> overTimeQty = new HashMap<String, Double>();
-		HashMap<String, Double> totalQty = new HashMap<String, Double>();
-		HashMap<String, Double> basicAmount = new HashMap<String, Double>();
-		HashMap<String, Double> overTimeAmount = new HashMap<String, Double>();
-		HashMap<String, Double> totalAmount = new HashMap<String, Double>();
-		List<Double> works = new ArrayList<Double>();
+	private ResourceData query(String col, String basicQtyName, String overTimeQtyName) {
+		ResourceData resData = new ResourceData(xAxisData.size());
 		// 查询获取数据
-		c(collectionName).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName)
-				.set("match", match).set("group_id", group_id).array()).forEach((Document doc) -> {
-					basicQty.put(doc.getString("_id"), doc.getDouble("basicQty"));
-					overTimeQty.put(doc.getString("_id"), doc.getDouble("overTimeQty"));
-					totalQty.put(doc.getString("_id"), doc.getDouble("totalQty"));
-					basicAmount.put(doc.getString("_id"), doc.getDouble("basicAmount"));
-					overTimeAmount.put(doc.getString("_id"), doc.getDouble("overTimeAmount"));
-					totalAmount.put(doc.getString("_id"), doc.getDouble("totalAmount"));
-					works.add(doc.getDouble("basicWorks"));
-				});
-		List<Double> basicQtys = new ArrayList<Double>();
-		List<Double> overTimeQtys = new ArrayList<Double>();
-		List<Double> totalQtys = new ArrayList<Double>();
-		List<Double> basicAmounts = new ArrayList<Double>();
-		List<Double> overTimeAmounts = new ArrayList<Double>();
-		List<Double> totalAmounts = new ArrayList<Double>();
-
-		// 根据xAxisData构建返回值
-		for (String xAxis : xAxisData) {
-			basicQtys.add(basicQty.get(xAxis));
-			overTimeQtys.add(overTimeQty.get(xAxis));
-			totalQtys.add(totalQty.get(xAxis));
-
-			basicAmounts.add(basicAmount.get(xAxis) == null ? null : (basicAmount.get(xAxis) / 10000));
-			overTimeAmounts.add(overTimeAmount.get(xAxis) == null ? null : (overTimeAmount.get(xAxis) / 10000));
-			totalAmounts.add(totalAmount.get(xAxis) == null ? null : (totalAmount.get(xAxis) / 10000));
-		}
-
-		return new Object[] { basicQtys, overTimeQtys, totalQtys, basicAmounts, overTimeAmounts, totalAmounts,
-				Check.isAssigned(works) ? works.get(0) : null };
+		buildMatchCondition();
+		c(col).aggregate(new JQ("查询-资源图表").set("$basicQty", basicQtyName).set("$overTimeQty", overTimeQtyName).set("match", match)
+				.set("group_id", group_id).array()).forEach((Document d) -> resData.build(d));
+		return resData;
 	}
 
-	/**
-	 * 根据传入的查询的数据，获取其从属其的资源id
-	 * 
-	 * @param doc
-	 * @return
-	 */
-	private List<ObjectId> listResource(Document doc) {
-		List<ObjectId> result = new ArrayList<>();
-		String type = doc.getString("type");
-		if (ResourceType.class.getName().equals(type)) {
-			Document condition = new Document("org_id", ((Document) doc.get("meta")).get("org_id")).append("resourceType_id",
-					doc.get("_id"));
-			c("user").find(condition).map(d -> d.getObjectId("_id")).into(result);
-			c("equipment").find(condition).map(d -> d.getObjectId("_id")).into(result);
-		} else if (Organization.class.getName().equals(type)) {
-			List<Bson> pipe = new ArrayList<>();
-			pipe.add(Aggregates.match(new Document("_id", doc.get("_id"))));
-			pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "organization").set("startWith", "$_id").set("connectFromField", "_id")
-					.set("connectToField", "parent_id").array());
-			pipe.addAll(new JQ("追加-组织下资源").array());
-			debugPipeline(pipe);
-			c("organization").aggregate(pipe).map(d -> d.getObjectId("_id")).into(result);
-		} else if (User.class.getName().equals(type) || Equipment.class.getName().equals(type)) {
-			result.add(doc.getObjectId("_id"));
+	private void buildMatchCondition() {
+		// 并根据时间构建查询语句
+		match = new Document("id", new Document("$gte", start).append("$lte", end));
+		List<ObjectId> resourceIds = new ArrayList<>();
+		List<ObjectId> workIds = new ArrayList<>();
+
+		input.forEach(doc -> {
+			String type = doc.getString("type");
+			if (ResourceType.class.getName().equals(type)) {
+				Document meta = ((Document) doc.get("meta"));
+				Object resTypeId = doc.get("_id");
+				Object _id = meta.get("org_id");
+				if (_id != null) {// 选取的组织下级的类型
+					Document condition = new Document("org_id", _id).append("resourceType_id", resTypeId);
+					c("user").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
+					c("equipment").find(condition).map(d -> d.getObjectId("_id")).into(resourceIds);
+				} else {
+					List<Bson> pipe = filterWork(meta);
+					pipe.add(Aggregates.match(new Document("resTypeId", resTypeId)));
+					c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
+				}
+			} else if (Organization.class.getName().equals(type)) {
+				List<Bson> pipe = new ArrayList<>();
+				pipe.add(Aggregates.match(new Document("_id", doc.get("_id"))));
+				pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "organization").set("startWith", "$_id").set("connectFromField", "_id")
+						.set("connectToField", "parent_id").array());
+				pipe.addAll(new JQ("追加-组织下资源").array());
+				debugPipeline(pipe);
+				c("organization").aggregate(pipe).map(d -> d.getObjectId("_id")).into(resourceIds);
+			} else if (User.class.getName().equals(type)//
+					|| Equipment.class.getName().equals(type)//
+					|| (ResourceType.class.getName() + ".TypedResource").equals(type)) {
+				Document meta = (Document) doc.get("meta");
+				List<Bson> pipe = filterWork(meta);
+				if (!pipe.isEmpty())
+					c("work").aggregate(pipe).map(d -> d.getObjectId("work_id")).into(workIds);
+				resourceIds.add(doc.getObjectId("_id"));
+			} else if (EPS.class.getName().equals(type)) {
+
+			} else if (Project.class.getName().equals(type)) {
+
+			}
+		});
+		if (!workIds.isEmpty())
+			match.append("work_id", new Document("$in", workIds));
+		if (!resourceIds.isEmpty())
+			match.append("resource_id", new Document("$in", resourceIds));
+	}
+
+	private List<Bson> filterWork(Document meta) {
+		Object _id;
+		List<Bson> pipe = new ArrayList<>();
+		_id = meta.get("project_id");
+		if (_id != null) {// 选取的是项目下级的类型
+			pipe.add(Aggregates.match(new Document("project_id", _id)));
+			pipe.addAll(new JQ("查询-工作-资源").array());
+		} else {
+			_id = meta.get("stage_id");
+			if (_id != null) {// 选取的是阶段下级的类型
+				pipe.add(Aggregates.match(new Document("_id", _id)));
+				pipe.addAll(new JQ("查询-通用-下级迭代取出-含本级").set("from", "work").set("startWith", "$_id").set("connectFromField", "_id")
+						.set("connectToField", "parent_id").array());
+				pipe.addAll(new JQ("查询-工作-资源").array());
+			}
 		}
-		// doc.put("childResourceIds", result);
-		return result;
+		return pipe;
 	}
 
 }
