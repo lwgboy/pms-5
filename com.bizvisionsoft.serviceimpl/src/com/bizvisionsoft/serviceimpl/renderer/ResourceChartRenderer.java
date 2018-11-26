@@ -463,7 +463,6 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	// 查询获取数据
 	private Map<String, ResourceData> query() {
 		Map<String, ResourceData> resDataMap = new HashMap<String, ResourceData>();
-
 		if ("并列".equals(seriesType)) {
 			input.forEach(d -> {
 				Document inputMatch = new Document(match);

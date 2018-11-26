@@ -244,8 +244,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 
 	@Override
 	public List<Catalog> listResProjectRoot(ObjectId _id) {
-		// TODO Auto-generated method stub
-		return null;
+		return c("project").find(new Document("_id", _id)).map(CatalogMapper::project).into(new ArrayList<>());
 	}
 
 }
