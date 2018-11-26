@@ -12,10 +12,18 @@
 					"resTypeId" : "$resTypeId"
 				},
 				"actualOverTimeQty" : {
-					"$sum" : "$actualOverTimeQty"
+					"$sum" : {
+						"$multiply" : [ "$actualOverTimeQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						} ]
+					}
 				},
 				"actualBasicQty" : {
-					"$sum" : "$actualBasicQty"
+					"$sum" : {
+						"$multiply" : [ "$actualBasicQty", {
+							"$ifNull" : [ "$qty", 1 ]
+						} ]
+					}
 				}
 			}
 		},

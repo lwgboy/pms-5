@@ -9,17 +9,17 @@
     },
     "grid": [
         {
-            "left": "3%",
+            "left": 72,
             "right": 30,
             "bottom": "55%",
-            "containLabel": true
+            "containLabel": false
         },
         {
-            "left": "3%",
+            "left": 72,
             "right": 30,
             "bottom": "10%",
             "top": "50%",
-            "containLabel": true
+            "containLabel": false
         }
     ],
     "dataZoom": [

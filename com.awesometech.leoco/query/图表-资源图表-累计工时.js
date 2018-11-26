@@ -30,6 +30,8 @@
             "color": "<color1>"
         }
     },
+    "yAxisIndex": 2,
+    "xAxisIndex": 0,
     "label": {
         "normal": {
             "show": false,
