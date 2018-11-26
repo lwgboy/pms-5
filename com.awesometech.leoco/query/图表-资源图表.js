@@ -10,13 +10,13 @@
     "grid": [
         {
             "left": 72,
-            "right": 24,
+            "right": 72,
             "bottom": "55%",
             "containLabel": false
         },
         {
             "left": 72,
-            "right": 24,
+            "right": 72,
             "bottom": "10%",
             "top": "50%",
             "containLabel": false
@@ -37,10 +37,12 @@
     "xAxis": [
         {
             "type": "category",
+            "boundaryGap": false,
             "data": "<xAxisData>"
         },
         {
             "type": "category",
+            "boundaryGap": false,
             "data": "<xAxisData>",
             "gridIndex": 1
         }
