@@ -172,7 +172,9 @@
 		"resType" : true,
 		"basicQty" : true,
 		"overtimeQty" : true,
-		"qty" : true,
+		"qty" : {
+			"$cond" : [ "$qty", "$qty", 1.0 ]
+		},
 		"type" : true,
 		"res" : true,
 		"work_id" : true,
