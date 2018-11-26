@@ -89,12 +89,12 @@ public class ResourceASM {
 		rt.setCanDelete(Boolean.TRUE.equals(editable));
 		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
-		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
 		rt.setShowFooter(true);
 
 		if ("plan".equals(this.type)) {
 			rt.setType(ResourceTransfer.TYPE_PLAN);
+			rt.setShowResPlan(true);
 			rt.setShowConflict(true);
 		} else {
 			rt.setType(ResourceTransfer.TYPE_ACTUAL);
@@ -236,7 +236,6 @@ public class ResourceASM {
 		rt.setCanDelete(Boolean.TRUE.equals(editable));
 		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
-		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
 		rt.setShowFooter(true);
 		if ("plan".equals(this.type)) {
@@ -245,6 +244,7 @@ public class ResourceASM {
 			rt.setFrom(work.getPlanStart());
 			rt.setTo(work.getPlanFinish());
 			rt.setCanAdd(false);
+			rt.setShowResPlan(true);
 			rt.setShowConflict(true);
 			rt.setTitle(work.getFullName() + "工作资源计划用量");
 		} else {
