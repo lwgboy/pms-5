@@ -472,7 +472,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	// 查询获取数据
 	private Map<String, ResourceData> query() {
 		Map<String, ResourceData> resDataMap = new HashMap<String, ResourceData>();
-		List<Bson> pipeline = new JQ("视图-资源j计划和实际用量").array();
+		List<Bson> pipeline = new JQ("视图-资源计划和实际用量").array();
 		pipeline.add(new Document("$match", match));
 		pipeline.add(new Document("$group", group));
 		pipeline.add(new Document("$sort", new Document("_id.resName", 1).append("_id.id", 1).append("_id.type", 1)));
