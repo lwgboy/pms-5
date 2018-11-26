@@ -301,12 +301,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 * 构建查询
 	 */
 	private void initializeMatch() {
-		match = new Document();
-		List<Object> list = new ArrayList<Object>();
-		input.forEach(doc -> {
-			list.add(doc.get("match"));
-		});
-		match.append("$or", list);
+		match = new Document("id", new Document("$gte", start).append("$lte", end));
 		List<String> typeData = new ArrayList<>();
 		if (dataType.contains("计划")) {
 			typeData.add("plan");
@@ -328,10 +323,6 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 			groupId.append("id", new Document("$dateToString", new Document("format", "%Y-%m").append("date", "$id")));
 		} else {
 			groupId.append("id", new Document("$dateToString", new Document("format", "%Y").append("date", "$id")));
-		}
-
-		if ("并列".equals(seriesType)) {
-			groupId.append("resName", "$res.name");
 		}
 		groupId.append("type", "$type");
 
@@ -472,23 +463,34 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	// 查询获取数据
 	private Map<String, ResourceData> query() {
 		Map<String, ResourceData> resDataMap = new HashMap<String, ResourceData>();
+
+		if ("并列".equals(seriesType)) {
+			input.forEach(d -> {
+				Document inputMatch = new Document(match);
+				inputMatch.putAll((Document) d.get("match"));
+				resDataMap.put(d.getString("label"), query(inputMatch));
+			});
+		} else {
+			List<Object> list = new ArrayList<Object>();
+			input.forEach(d -> {
+				list.add(d.get("match"));
+			});
+			match.append("$or", list);
+			resDataMap.put("", query(match));
+		}
+		return resDataMap;
+	}
+
+	private ResourceData query(Document match) {
+		ResourceData resData = new ResourceData(xAxisData.size());
 		List<Bson> pipeline = new JQ("视图-资源计划和实际用量").array();
 		pipeline.add(new Document("$match", match));
 		pipeline.add(new Document("$group", group));
 		pipeline.add(new Document("$sort", new Document("_id.resName", 1).append("_id.id", 1).append("_id.type", 1)));
 		c("resourceType").aggregate(pipeline).forEach((Document d) -> {
-			String resName = ((Document) d.get("_id")).getString("resName");
-			if (resName == null) {
-				resName = "";
-			}
-			ResourceData resData = resDataMap.get(resName);
-			if (resData == null) {
-				resData = new ResourceData(xAxisData.size());
-				resDataMap.put(resName, resData);
-			}
 			resData.build(d);
 		});
-		return resDataMap;
+		return resData;
 	}
 
 	private List<Double> list(Double[] arr) {

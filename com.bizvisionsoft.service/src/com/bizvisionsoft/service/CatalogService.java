@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -28,14 +29,14 @@ public interface CatalogService {
 	@Path("/res/selector/org/structure/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_LIST, "EPS资源图表/" + DataSet.STRUCTURE_LIST })
+	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_LIST, "EPS资源图表/" + DataSet.STRUCTURE_LIST, "项目资源图表/" + DataSet.STRUCTURE_LIST })
 	public List<Catalog> listResOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/res/selector/org/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT, "EPS资源图表/" + DataSet.STRUCTURE_COUNT })
+	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT, "EPS资源图表/" + DataSet.STRUCTURE_COUNT, "项目资源图表/" + DataSet.STRUCTURE_LIST })
 	public long countResOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -49,14 +50,21 @@ public interface CatalogService {
 	@Path("/res/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.CHART, "EPS资源图表/" + DataSet.CHART })
+	@DataSet({ "组织资源图表/" + DataSet.CHART, "EPS资源图表/" + DataSet.CHART, "项目资源图表/" + DataSet.CHART })
 	public Document createResChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
 	@POST
 	@Path("/res/option/default")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.DEFAULT, "EPS资源图表/" + DataSet.DEFAULT })
+	@DataSet({ "组织资源图表/" + DataSet.DEFAULT, "EPS资源图表/" + DataSet.DEFAULT, "项目资源图表/" + DataSet.DEFAULT })
 	public Document createDefaultOption();
+
+	@POST
+	@Path("/res/selector/project/root/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "项目资源图表/" + DataSet.LIST })
+	public List<Catalog> listResProjectRoot(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 }

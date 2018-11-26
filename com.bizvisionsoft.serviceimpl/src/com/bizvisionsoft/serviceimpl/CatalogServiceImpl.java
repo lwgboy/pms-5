@@ -242,4 +242,10 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		return c("eps").find(new Document("parent_id", null)).map(CatalogMapper::eps).into(new ArrayList<>());
 	}
 
+	@Override
+	public List<Catalog> listResProjectRoot(ObjectId _id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
