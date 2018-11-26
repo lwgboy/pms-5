@@ -376,7 +376,7 @@ public interface WorkService {
 	@Path("/resourceplan/add/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas);
+	public void addResourcePlan(List<ResourceAssignment> resas);
 
 	@POST
 	@Path("/resourceplan/insert/")
@@ -425,12 +425,6 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteTypedResourcePlan(@PathParam("_id") ObjectId work_id, @PathParam("resId") String tyResId);
-
-	@POST
-	@Path("/_id/{_id}/resourceplan/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<ResourcePlan> listResourcePlan(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/packageprogress/")
@@ -505,19 +499,13 @@ public interface WorkService {
 	@Path("/resourceactual/add/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas);
+	public void addResourceActual(List<ResourceAssignment> resas);
 
 	@POST
 	@Path("/resourceactual/insert/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public ResourceActual insertResourceActual(ResourceActual ra);
-
-	@POST
-	@Path("/_id/{_id}/resourceactual/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<ResourceActual> listResourceActual(@PathParam("_id") ObjectId _id);
 
 	@PUT
 	@Path("/resourceactual/")

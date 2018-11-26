@@ -219,7 +219,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		// 删除风险
 		c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 		// 删除资源计划
-		c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
+		c("resourcePlan").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 
 		return c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", workIds))).getDeletedCount();
 	}
@@ -824,7 +824,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long updateResourcePlan(BasicDBObject filterAndUpdate) {
 		Bson bson = (Bson) filterAndUpdate.get("filter");
 		ObjectId work_id = c("resourcePlan").distinct("work_id", bson, ObjectId.class).first();
-		long update = update(filterAndUpdate, ResourcePlan.class);
+		long update = update(filterAndUpdate, "resourcePlan");
 		updateWorkPlanWorks(work_id);
 		return update;
 	}
@@ -891,11 +891,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 	}
 
-	@Override
-	public List<ResourcePlan> listResourcePlan(ObjectId _id) {
-		return c(ResourcePlan.class).aggregate(new JQ("查询-资源-计划用量").set("match", new Document("work_id", _id)).array())
-				.into(new ArrayList<ResourcePlan>());
-	}
 
 	@Override
 	public WorkPackageProgress insertWorkPackageProgress(WorkPackageProgress wpp) {
@@ -1107,7 +1102,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas) {
+	public void addResourcePlan(List<ResourceAssignment> resas) {
 		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
 		resas.forEach(resa -> {
@@ -1139,11 +1134,10 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			c(ResourcePlan.class).insertMany(documents);
 
 		workIds.forEach(this::updateWorkPlanWorks);
-		return documents;
 	}
 
 	@Override
-	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas) {
+	public void addResourceActual(List<ResourceAssignment> resas) {
 		Set<ObjectId> workIds = new HashSet<ObjectId>();
 
 		List<ResourceActual> documents = new ArrayList<ResourceActual>();
@@ -1176,7 +1170,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			c(ResourceActual.class).insertMany(documents);
 
 		workIds.forEach(this::updateWorkActualWorks);
-		return documents;
 	}
 
 	private boolean hasResource(String col, Date time, ObjectId work_id, String usedHumanResId, String usedEquipResId,
@@ -1194,7 +1187,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	public long updateResourceActual(BasicDBObject filterAndUpdate) {
 		Bson bson = (Bson) filterAndUpdate.get("filter");
 		ObjectId work_id = c("resourceActual").distinct("work_id", bson, ObjectId.class).first();
-		long update = update(filterAndUpdate, ResourceActual.class);
+		long update = update(filterAndUpdate, "resourceActual");
 		updateWorkActualWorks(work_id);
 		return update;
 	}
@@ -1212,12 +1205,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 			c(Work.class).updateOne(new Document("_id", work_id), new Document("$set", new Document("actualWorks", works)));
 		}
-	}
-
-	@Override
-	public List<ResourceActual> listResourceActual(ObjectId _id) {
-		return c(ResourceActual.class).aggregate(new JQ("查询-资源-实际用量").set("match", new Document("work_id", _id)).array())
-				.into(new ArrayList<>());
 	}
 
 	public List<WorkResourcePlanDetail> listConflictWorks(ResourcePlan resp) {
