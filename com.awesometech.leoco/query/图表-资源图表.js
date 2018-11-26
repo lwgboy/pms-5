@@ -9,17 +9,17 @@
     },
     "grid": [
         {
-            "left": 72,
-            "right": 30,
+            "left": "4%",
+            "right": "3%",
             "bottom": "55%",
-            "containLabel": false
+            "containLabel": true
         },
         {
-            "left": 72,
-            "right": 30,
+            "left": "0%",
+            "right": "0%",
             "bottom": "10%",
             "top": "50%",
-            "containLabel": false
+            "containLabel": true
         }
     ],
     "dataZoom": [
@@ -45,22 +45,6 @@
             "gridIndex": 1
         }
     ],
-    "yAxis": [
-        {
-            "type": "value",
-            "name": "工时（时）",
-            "axisLabel": {
-                "formatter": "{value}"
-            }
-        },
-        {
-            "type": "value",
-            "name": "金额（元）",
-            "axisLabel": {
-                "formatter": "{value}"
-            },
-            "gridIndex": 1
-        }
-    ],
+    "yAxis": "<yAxis>",
     "series": "<series>"
 }
