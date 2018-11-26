@@ -26,6 +26,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.CatalogRenderer;
+import com.bizvisionsoft.serviceimpl.renderer.ResourceChartRenderer;
 import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Aggregates;
 
@@ -237,43 +238,46 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	@Override
 	public Document createResChart(Document condition) {
 		checkResChartOption(condition);
-
-		// 构建Catalog的渲染器
-		CatalogRenderer cr = new CatalogRenderer((Document) condition.get("option"));
-
-		// 根据设置获取所选数据的资源数据
-		List<Document> input;
-		if ("并列".equals(cr.getSeriesType())) {
-			// 系列类型为并列时，需要单独为每个传入的数据加载其资源
-			input = ((List<Document>) condition.get("input")).stream().map((Document doc) -> {
-				addChildResource(doc);
-				if (cr.getDataType().contains("计划")) {
-					// 获取计划资源数据
-					getResourceData("plan", cr, doc);
-				}
-				if (cr.getDataType().contains("实际")) {
-					// 获取实际资源数据
-					getResourceData("actual", cr, doc);
-				}
-				return doc;
-			}).collect(Collectors.toList());
-		} else {
-			// 系列类型为合并时，将所选数据的所有资源进行合并处理。
-			List<ObjectId> resourceIds = new ArrayList<>();
-			((List<Document>) condition.get("input")).forEach((Document doc) -> resourceIds.addAll(addChildResource(doc)));
-			Document doc = new Document("childResourceIds", resourceIds).append("label", "");
-			if (cr.getDataType().contains("计划")) {
-				// 获取计划资源数据
-				getResourceData("plan", cr, doc);
-			}
-			if (cr.getDataType().contains("实际")) {
-				// 获取实际资源数据
-				getResourceData("actual", cr, doc);
-			}
-			input = Arrays.asList(doc);
-		}
-		// 生成echart的option
-		return cr.render(input);
+		
+		ResourceChartRenderer rcRenderer = new ResourceChartRenderer(condition);
+		return rcRenderer.render();
+//
+//		// 构建Catalog的渲染器
+//		CatalogRenderer cr = new CatalogRenderer((Document) condition.get("option"));
+//
+//		// 根据设置获取所选数据的资源数据
+//		List<Document> input;
+//		if ("并列".equals(cr.getSeriesType())) {
+//			// 系列类型为并列时，需要单独为每个传入的数据加载其资源
+//			input = ((List<Document>) condition.get("input")).stream().map((Document doc) -> {
+//				addChildResource(doc);
+//				if (cr.getDataType().contains("计划")) {
+//					// 获取计划资源数据
+//					getResourceData("plan", cr, doc);
+//				}
+//				if (cr.getDataType().contains("实际")) {
+//					// 获取实际资源数据
+//					getResourceData("actual", cr, doc);
+//				}
+//				return doc;
+//			}).collect(Collectors.toList());
+//		} else {
+//			// 系列类型为合并时，将所选数据的所有资源进行合并处理。
+//			List<ObjectId> resourceIds = new ArrayList<>();
+//			((List<Document>) condition.get("input")).forEach((Document doc) -> resourceIds.addAll(addChildResource(doc)));
+//			Document doc = new Document("childResourceIds", resourceIds).append("label", "");
+//			if (cr.getDataType().contains("计划")) {
+//				// 获取计划资源数据
+//				getResourceData("plan", cr, doc);
+//			}
+//			if (cr.getDataType().contains("实际")) {
+//				// 获取实际资源数据
+//				getResourceData("actual", cr, doc);
+//			}
+//			input = Arrays.asList(doc);
+//		}
+//		// 生成echart的option
+//		return cr.render(input);
 	}
 
 	/**
