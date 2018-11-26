@@ -215,7 +215,7 @@ public class EditResourceASM extends GridPart {
 			ctl.loc();
 		}
 		content = ctl.layout(new FillLayout(SWT.VERTICAL)).get();
-		
+
 		start = Calendar.getInstance();
 		if (rt.getFrom() != null) {
 			start.setTime(rt.getFrom());
@@ -335,8 +335,7 @@ public class EditResourceASM extends GridPart {
 			List<ResourceAssignment> resas = new ArrayList<ResourceAssignment>();
 			if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
 				l.forEach(o -> {
-					rt.getWorkIds().forEach(
-							work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
+					rt.getWorkIds().forEach(work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
 				});
 				workService.addResourcePlan(resas);
 			} else if (ResourceTransfer.TYPE_ACTUAL == rt.getType()) {
@@ -434,11 +433,15 @@ public class EditResourceASM extends GridPart {
 		if (data == null)
 			return;
 		Document doc = (Document) data;
-		Integer qty = doc.getInteger("qty");
+		Integer qty;
+		if (ResourceTransfer.TYPE_PLAN == rt.getType())
+			qty = doc.getDouble("planQty").intValue();
+		else
+			qty = doc.getDouble("actualQty").intValue();
 		String name = doc.getString("name");
 		String usedTypedResId = doc.getString("usedTypedResId");
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量",
-				"请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量", qty.toString(), t -> {
+		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量",
+				qty.toString(), t -> {
 					if (t.trim().isEmpty())
 						return "请输入资源使用数量";
 					try {
@@ -450,12 +453,14 @@ public class EditResourceASM extends GridPart {
 				});
 		if (InputDialog.OK == id.open()) {
 			int userQty = Integer.parseInt(id.getValue());
-
-			workService
-					.updateResourcePlan(new FilterAndUpdate()
-							.filter(new BasicDBObject("work_id", doc.get("work_id"))
-									.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
-							.set(new BasicDBObject("qty", userQty)).bson());
+			if (ResourceTransfer.TYPE_PLAN == rt.getType())
+				workService.updateResourcePlan(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
+						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
+						.set(new BasicDBObject("qty", userQty)).bson());
+			else
+				workService.updateResourceActual(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
+						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
+						.set(new BasicDBObject("qty", userQty)).bson());
 		}
 		doRefresh();
 	}
@@ -559,15 +564,15 @@ public class EditResourceASM extends GridPart {
 					key += "OverTimeQty";
 				}
 				if (_id != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
-					workService.updateResourcePlan(new FilterAndUpdate().filter(new Document("_id", _id))
-							.set(new Document("plan" + key, userQty)).bson());
+					workService.updateResourcePlan(
+							new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("plan" + key, userQty)).bson());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 					if (rt.isReport())
-						workService.updateWorkReportResourceActual(new FilterAndUpdate()
-								.filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
+						workService.updateWorkReportResourceActual(
+								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
 					else
-						workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
-								.set(new Document("actual" + key, userQty)).bson());
+						workService.updateResourceActual(
+								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
 				}
 
 			}
@@ -605,8 +610,7 @@ public class EditResourceASM extends GridPart {
 
 	private void createColumn() {
 		Column c;
-		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
-				|| showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE || showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
 			c = new Column();
 			c.setName("workName");
 			c.setText("工作名称");
@@ -646,8 +650,7 @@ public class EditResourceASM extends GridPart {
 			createTitleColumn(c);
 		}
 
-		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
-				|| showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE || showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
 			c = new Column();
 			c.setName("resId");
 			c.setText("资源编号");
@@ -728,7 +731,7 @@ public class EditResourceASM extends GridPart {
 
 			GridColumn col = new GridColumn(grp, SWT.CENTER);
 			col.setText("数量");
-			col.setData("name", "qty");
+			col.setData("name", "planQty");
 			col.setWidth(50);
 			col.setMoveable(false);
 			col.setResizeable(false);
@@ -738,7 +741,7 @@ public class EditResourceASM extends GridPart {
 			col.setSummary(true);
 
 			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
-			vcol.setLabelProvider(getTitleLabelProvider("qty"));
+			vcol.setLabelProvider(getTitleLabelProvider("planQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
 			col.setText("标准用量");
@@ -813,10 +816,10 @@ public class EditResourceASM extends GridPart {
 			grp.setData("name", "actual");
 			grp.setText("实际");
 			grp.setExpanded(true);
-			
+
 			GridColumn col = new GridColumn(grp, SWT.CENTER);
 			col.setText("数量");
-			col.setData("name", "qty");
+			col.setData("name", "actualQty");
 			col.setWidth(50);
 			col.setMoveable(false);
 			col.setResizeable(false);
@@ -824,6 +827,9 @@ public class EditResourceASM extends GridPart {
 			col.setResizeable(true);
 			col.setDetail(true);
 			col.setSummary(true);
+
+			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol.setLabelProvider(getTitleLabelProvider("actualQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
 			col.setText("标准用量");
@@ -839,7 +845,7 @@ public class EditResourceASM extends GridPart {
 			if (showFooter)
 				footerCols.add(col);
 
-			GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+			vcol = new GridViewerColumn(viewer, col);
 			vcol.setLabelProvider(getTitleLabelProvider("actualBasicQty"));
 
 			col = new GridColumn(grp, SWT.CENTER);
@@ -1046,11 +1052,9 @@ public class EditResourceASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Formatter.getString(value, null, locale);
-							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
-									&& now.before((Date) eFinish)
+							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)) && now.before((Date) eFinish)
 									&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
-								return "<a href='" + key + doc.get("_id").toString()
-										+ "' target='_rwt' style='width: 100%;'>"
+								return "<a href='" + key + doc.get("_id").toString() + "' target='_rwt' style='width: 100%;'>"
 										+ ("0.0".equals(text) || "".equals(text)
 												? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 														+ "<i class='layui-icon  layui-icon-edit'></i></button>")
@@ -1063,8 +1067,7 @@ public class EditResourceASM extends GridPart {
 
 				}
 
-				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
-						&& now.before((Date) eFinish)
+				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)) && now.before((Date) eFinish)
 						&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
 					return "<a href='" + key + "-" + id
 							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
@@ -1158,13 +1161,9 @@ public class EditResourceASM extends GridPart {
 						}
 					}
 					if (key.startsWith("Basic")) {
-						return workTime > ((Document) element).getDouble("basicWorks")
-								? BruiColors.getColor(BruiColor.Red_400)
-								: null;
+						return workTime > ((Document) element).getDouble("basicWorks") ? BruiColors.getColor(BruiColor.Red_400) : null;
 					} else if (key.startsWith("OverTime")) {
-						return workTime > ((Document) element).getDouble("overTimeWorks")
-								? BruiColors.getColor(BruiColor.Red_400)
-								: null;
+						return workTime > ((Document) element).getDouble("overTimeWorks") ? BruiColors.getColor(BruiColor.Red_400) : null;
 					}
 
 					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
@@ -1214,19 +1213,26 @@ public class EditResourceASM extends GridPart {
 					format = "#,###.0";
 					value = ((Document) element).get(name);
 				} else if ("conflict".equals(name)) {
-					if (Boolean.TRUE.equals(((Document) element).get("conflict"))
-							&& !"资源类型".equals(((Document) element).get("type")))
+					if (Boolean.TRUE.equals(((Document) element).get("conflict")) && !"资源类型".equals(((Document) element).get("type")))
 						if (canEditDateValue)
 							value = "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>冲突</a>";
 						else
 							value = "<span class='layui-badge layui-bg-red' >冲突</span>";
 					else
 						value = "";
-				} else if ("qty".equals(name)) {
+				} else if ("planQty".equals(name)) {
 					// TODO资源用量时，计划数量错误。
 					// 增加资源计划数量填写功能，只有类型为资源类型时，才能填写数量
-					value = ((Document) element).get("qty");
+					value = ((Document) element).get("planQty");
 					if (ResourceTransfer.TYPE_PLAN == rt.getType() && "资源类型".equals(((Document) element).get("type"))) {
+						value = Formatter.getString(value, format, locale);
+						return "<a href='qty' target='_rwt' style='width: 100%;'>" + value + "</a>";
+					}
+				} else if ("actualQty".equals(name)) {
+					// TODO资源用量时，计划数量错误。
+					// 增加资源计划数量填写功能，只有类型为资源类型时，才能填写数量
+					value = ((Document) element).get("actualQty");
+					if (ResourceTransfer.TYPE_ACTUAL == rt.getType() && "资源类型".equals(((Document) element).get("type"))) {
 						value = Formatter.getString(value, format, locale);
 						return "<a href='qty' target='_rwt' style='width: 100%;'>" + value + "</a>";
 					}
@@ -1250,8 +1256,7 @@ public class EditResourceASM extends GridPart {
 	@Override
 	public void export() {
 		// 修改没有数据时的导出文件名称
-		exportExcel(
-				rt.getTitle() != null ? rt.getTitle() : (ResourceTransfer.TYPE_PLAN == rt.getType() ? "资源计划" : "资源用量"),
-				viewer, viewer.getInput());
+		exportExcel(rt.getTitle() != null ? rt.getTitle() : (ResourceTransfer.TYPE_PLAN == rt.getType() ? "资源计划" : "资源用量"), viewer,
+				viewer.getInput());
 	}
 }

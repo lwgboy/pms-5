@@ -178,22 +178,17 @@ public class ResourceASM {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
 			l.forEach(o -> {
 				ResourceAssignment ra = new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id());
+				if (o instanceof ResourceType) {
+					ra.qty = inputQty();
+				} else {
+					ra.qty = 1;
+				}
 				// 资源计划
 				if ("plan".equals(this.type)) {
-					if (o instanceof ResourceType) {
-						ra.qty = inputQty();
-					} else {
-						ra.qty = 1;
-					}
 					ra.from = work.getPlanStart();
 					ra.to = work.getPlanFinish();
 				} else {
 					// 资源用量
-					if (o instanceof ResourceType) {
-						ra.qty = inputQty();
-					} else {
-						ra.qty = 1;
-					}
 					ra.from = work.getStart_date();
 					ra.to = work.getEnd_date();
 				}

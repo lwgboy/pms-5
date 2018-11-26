@@ -15,6 +15,16 @@
 				"format" : "%Y",
 				"date" : "$id"
 			}
+		},
+		"actualBasicQty" : {
+			"$multiply" : [ "$actualBasicQty", {
+				"$ifNull" : [ "$qty", 1 ]
+			} ]
+		},
+		"actualOverTimeQty" : {
+			"$multiply" : [ "$actualOverTimeQty", {
+				"$ifNull" : [ "$qty", 1 ]
+			} ]
 		}
 	}
 }, {

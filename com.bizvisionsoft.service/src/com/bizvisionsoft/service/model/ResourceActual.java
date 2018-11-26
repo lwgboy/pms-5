@@ -62,10 +62,6 @@ public class ResourceActual {
 	@ReadValue
 	private double actualBasicQty;
 
-	@ReadValue
-	@SetValue
-	private double planBasicQty;
-
 	public void setActualBasicQty(double actualBasicQty) {
 		this.actualBasicQty = actualBasicQty;
 	}
@@ -81,16 +77,12 @@ public class ResourceActual {
 	@ReadValue
 	private double actualOverTimeQty;
 
-	@ReadValue
-	@SetValue
-	private double planOverTimeQty;
-
 	@Persistence
 	private ObjectId resTypeId;
 
 	@Persistence
 	private Date id;
-	
+
 	@Persistence
 	private int qty;
 
@@ -100,16 +92,6 @@ public class ResourceActual {
 
 	public int getQty() {
 		return qty;
-	}
-
-	@ReadValue("actualAmount")
-	private Double getActualAmount() {
-		return getBasicRate() * actualBasicQty + getOvertimeRate() * actualOverTimeQty;
-	}
-
-	@ReadValue("planAmount")
-	private Double getPlanAmount() {
-		return getBasicRate() * planBasicQty + getOvertimeRate() * planOverTimeQty;
 	}
 
 	@Override

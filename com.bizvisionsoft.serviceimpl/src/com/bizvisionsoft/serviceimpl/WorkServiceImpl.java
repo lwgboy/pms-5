@@ -1153,7 +1153,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			Calendar from = Calendar.getInstance();
 			from.setTime(Formatter.getStartOfDay(resa.from));
 			Calendar to = Calendar.getInstance();
-			to.setTime(Formatter.getEndOfDay(resa.to));
+			to.setTime(Formatter.getStartOfDay(resa.to));
 
 			while (from.before(to)) {
 				Date id = from.getTime();
