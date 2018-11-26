@@ -872,52 +872,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas) {
-		Set<ObjectId> workIds = new HashSet<ObjectId>();
-		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
-		resas.forEach(resa -> {
-			double works = getWorkingHoursPerDay(resa.resTypeId);
-			Document doc = c("work").find(new Document("_id", resa.work_id))
-					.projection(new Document("planStart", 1).append("planFinish", 1)).first();
-			Date planStart = doc.getDate("planStart");
-			Date planFinish = doc.getDate("planFinish");
-			Calendar planStartCal = Calendar.getInstance();
-			planStartCal.setTime(planStart);
-
-			Calendar planFinishCal = Calendar.getInstance();
-			planFinishCal.setTime(planFinish);
-			// planFinishCal.add(Calendar.DAY_OF_MONTH, 1);//与甘特图保持一致，不计算尾部日期
-
-			while (planStartCal.getTime().before(planFinishCal.getTime())) {
-				Date time = planStartCal.getTime();
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourcePlan", time, resa.work_id,
-						resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
-
-					ResourcePlan res = resa.getResourcePlan();
-					res.setId(time);
-					// 取消工时增加数量的计算
-					res.setPlanBasicQty(works);
-					res.setQty(resa.qty);
-
-					documents.add(res);
-				}
-				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
-			}
-			workIds.add(resa.work_id);
-		});
-		if (documents.size() > 0)
-			c(ResourcePlan.class).insertMany(documents);
-		workIds.forEach(work_id -> {
-			updateWorkPlanWorks(work_id);
-		});
-
-		// ResourcePlan r = insert(res, ResourcePlan.class);
-		// queryResourceUsage(new Document("_id", r.get_id())).get(0);
-
-		return documents;
-	}
-
-	@Override
 	public ResourcePlan insertResourcePlan(ResourcePlan rp) {
 		return insert(rp, ResourcePlan.class);
 	}
@@ -1153,51 +1107,75 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
+	public List<ResourcePlan> addResourcePlan(List<ResourceAssignment> resas) {
+		Set<ObjectId> workIds = new HashSet<ObjectId>();
+		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
+		resas.forEach(resa -> {
+			double works = getWorkingHoursPerDay(resa.resTypeId);//取出默认的每天工作时间
+
+			Calendar from = Calendar.getInstance();
+			from.setTime(resa.from);
+			Calendar to = Calendar.getInstance();
+			to.setTime(resa.to);
+
+			while (from.before(to)) {
+				Date id = from.getTime();
+				if (checkDayIsWorkingDay(from, resa.resTypeId) && hasResource("resourcePlan", id, resa.work_id, resa.usedHumanResId,
+						resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
+
+					ResourcePlan res = resa.getResourcePlan();
+					res.setId(id);
+					res.setPlanBasicQty(works);//设置默认的每天工作时间
+					res.setQty(resa.qty);
+
+					documents.add(res);
+				}
+				from.add(Calendar.DAY_OF_MONTH, 1);
+			}
+			workIds.add(resa.work_id);
+		});
+
+		if (documents.size() > 0)
+			c(ResourcePlan.class).insertMany(documents);
+
+		workIds.forEach(this::updateWorkPlanWorks);
+		return documents;
+	}
+
+	@Override
 	public List<ResourceActual> addResourceActual(List<ResourceAssignment> resas) {
+		Set<ObjectId> workIds = new HashSet<ObjectId>();
+
 		List<ResourceActual> documents = new ArrayList<ResourceActual>();
 		resas.forEach(resa -> {
-			Date planStart = resa.from;
-			Date planFinish = resa.to;
-			Calendar planStartCal = Calendar.getInstance();
-			planStartCal.setTime(planStart);
-			planStartCal.set(Calendar.HOUR_OF_DAY, 0);
-			planStartCal.set(Calendar.MINUTE, 0);
-			planStartCal.set(Calendar.SECOND, 0);
-			planStartCal.set(Calendar.MILLISECOND, 0);
+			double works = getWorkingHoursPerDay(resa.resTypeId);//取出默认的每天工作时间
 
-			Calendar planFinishCal = Calendar.getInstance();
-			planFinishCal.setTime(planFinish);
-			planFinishCal.add(Calendar.DAY_OF_MONTH, 1);
-			planFinishCal.set(Calendar.HOUR_OF_DAY, 0);
-			planFinishCal.set(Calendar.MINUTE, 0);
-			planFinishCal.set(Calendar.SECOND, 0);
-			planFinishCal.set(Calendar.MILLISECOND, 0);
+			Calendar from = Calendar.getInstance();
+			from.setTime(Formatter.getStartOfDay(resa.from));
+			Calendar to = Calendar.getInstance();
+			to.setTime(Formatter.getEndOfDay(resa.to));
 
-			while (planStartCal.getTime().before(planFinishCal.getTime())) {
-				Date time = planStartCal.getTime();
-				if (checkDayIsWorkingDay(planStartCal, resa.resTypeId) && hasResource("resourceActual", time, resa.work_id,
-						resa.usedHumanResId, resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
+			while (from.before(to)) {
+				Date id = from.getTime();
+				if (checkDayIsWorkingDay(from, resa.resTypeId) && hasResource("resourceActual", id, resa.work_id, resa.usedHumanResId,
+						resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
+					
 					ResourceActual res = resa.getResourceActual();
-					res.setId(time);
+					res.setId(id);
+					res.setQty(resa.qty);
+					res.setActualBasicQty(works);//设置默认的每天工作时间
 					documents.add(res);
-
 				}
-				planStartCal.add(Calendar.DAY_OF_MONTH, 1);
+				from.add(Calendar.DAY_OF_MONTH, 1);
 			}
-
-			double actualBasicQty = resa.actualBasicQty / documents.size();
-
-			double actualOverTimeQty = resa.actualOverTimeQty / documents.size();
-			for (ResourceActual resourceActual : documents) {
-				resourceActual.setActualBasicQty(actualBasicQty);
-				resourceActual.setActualOverTimeQty(actualOverTimeQty);
-			}
+			workIds.add(resa.work_id);
 		});
 
 		// 增加判断，如果是重复添加，会造成documents没有插入数据
 		if (documents.size() > 0)
 			c(ResourceActual.class).insertMany(documents);
 
+		workIds.forEach(this::updateWorkActualWorks);
 		return documents;
 	}
 

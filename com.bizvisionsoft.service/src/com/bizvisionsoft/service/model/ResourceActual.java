@@ -90,6 +90,17 @@ public class ResourceActual {
 
 	@Persistence
 	private Date id;
+	
+	@Persistence
+	private int qty;
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public int getQty() {
+		return qty;
+	}
 
 	@ReadValue("actualAmount")
 	private Double getActualAmount() {

@@ -813,8 +813,19 @@ public class EditResourceASM extends GridPart {
 			grp.setData("name", "actual");
 			grp.setText("实际");
 			grp.setExpanded(true);
-
+			
 			GridColumn col = new GridColumn(grp, SWT.CENTER);
+			col.setText("数量");
+			col.setData("name", "qty");
+			col.setWidth(50);
+			col.setMoveable(false);
+			col.setResizeable(false);
+			col.setAlignment(SWT.RIGHT);
+			col.setResizeable(true);
+			col.setDetail(true);
+			col.setSummary(true);
+
+			col = new GridColumn(grp, SWT.CENTER);
 			col.setText("标准用量");
 			col.setData("name", "actualBasicQty");
 			col.setWidth(80);
