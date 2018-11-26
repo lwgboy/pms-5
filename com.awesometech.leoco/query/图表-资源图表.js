@@ -9,14 +9,14 @@
     },
     "grid": [
         {
-            "left": "6%",
-            "right": "6%",
+            "left": 96,
+            "right": 96,
             "bottom": "55%",
             "containLabel": false
         },
         {
-            "left": "6%",
-            "right": "6%",
+            "left": 96,
+            "right": 96,
             "bottom": "10%",
             "top": "50%",
             "containLabel": false
