@@ -66,10 +66,14 @@
 		{
 			"$addFields" : {
 				"basicQty" : {
-					"$ifNull" : [ "$planBasicQty", "$actualBasicQty" ]
+					"$ifNull" : [ "$planBasicQty", {
+						"$ifNull" : [ "$actualBasicQty", 0 ]
+					} ]
 				},
 				"overtimeQty" : {
-					"$ifNull" : [ "$planOverTimeQty", "$actualOverTimeQty" ]
+					"$ifNull" : [ "$planOverTimeQty", {
+						"$ifNull" : [ "$actualOverTimeQty", 0 ]
+					} ]
 				},
 				"usedQty" : {
 					"$cond" : [ "$qty", "$qty", 1.0 ]
@@ -187,10 +191,10 @@
 				"connectFromField" : "parent_id",
 				"connectToField" : "_id",
 				"as" : "org"
-	}
-},
-{
-	"$project" : {
+			}
+		},
+		{
+			"$project" : {
 				"id" : true,
 				"basicTime" : {
 					"$multiply" : [ "$usedQty", "$basicQty" ]
@@ -228,6 +232,8 @@
 				"res" : true,
 				"resType" : true,
 				"eps_id" : "$eps._id",
+				"res_id" : "$res._id",
+				"resType_id" : "$resType._id",
 				"project_id" : "$project._id",
 				"stage_id" : "$stage._id",
 				"org_id" : "$org._id"

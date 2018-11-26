@@ -82,6 +82,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				pipe.addAll(new JQ("查询-工作-资源类别").array());
 				c("work").aggregate(pipe).map(CatalogMapper::resourceType).map(c -> {
 					c.meta.append("project_id", parent._id);// 补充项目Id
+					c.match.append("project_id", parent._id);// 补充项目Id
 					return c;
 				}).into(result);
 			}
@@ -93,6 +94,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			pipe.addAll(new JQ("查询-工作-资源类别").array());
 			c("work").aggregate(pipe).map(CatalogMapper::resourceType).map(c -> {
 				c.meta.append("stage_id", parent._id);// 补充阶段Id
+				c.match.append("stage_id", parent._id);// 补充阶段Id
 				return c;
 			}).into(result);
 		}
@@ -106,6 +108,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				.set("connectToField", "parent_id").array());
 		MongoIterable<Catalog> iter = iterateWorkResource(stage_id, type_id, pipe).map(d -> {
 			d.meta.append("stage_id", stage_id);
+			d.match.append("stage_id", stage_id);
 			return d;
 		});
 		debugPipeline(pipe);
@@ -117,6 +120,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		pipe.add(Aggregates.match(new Document("project_id", project_id)));
 		iterateWorkResource(project_id, type_id, pipe).map(d -> {
 			d.meta.append("project_id", project_id);
+			d.match.append("project_id", project_id);
 			return d;
 		}).into(result);
 	}
@@ -232,7 +236,6 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	public Document createResChart(Document condition) {
 		return new ResourceChartRenderer(condition).render();
 	}
-
 
 	@Override
 	public List<Catalog> listResEPSRoot() {

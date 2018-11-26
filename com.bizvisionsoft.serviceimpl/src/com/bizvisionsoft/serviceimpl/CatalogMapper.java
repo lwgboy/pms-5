@@ -26,6 +26,7 @@ public class CatalogMapper {
 		setType(c, Organization.class);
 		c.icon = "img/org_c.svg";
 		c.meta = doc;
+		c.match = new Document("org_id", c._id);
 		return c;
 	}
 
@@ -36,16 +37,18 @@ public class CatalogMapper {
 		setType(c, ResourceType.class);
 		c.icon = "img/resource_c.svg";
 		c.meta = doc;
+		c.match = new Document("resType_id", c._id);
 		return c;
 	}
-	
+
 	public static Catalog typedResource(Document doc) {
 		Catalog c = new Catalog();
 		c._id = doc.getObjectId("_id");
 		c.label = doc.getString("name");
-		c.type = ResourceType.class.getName()+".TypedResource";
+		c.type = ResourceType.class.getName() + ".TypedResource";
 		c.icon = "img/resource_c.svg";
 		c.meta = doc;
+		c.match = new Document("resType_id", c._id);
 		return c;
 	}
 
@@ -56,6 +59,7 @@ public class CatalogMapper {
 		setType(c, User.class);
 		c.icon = "img/user_c.svg";
 		c.meta = doc;
+		c.match = new Document("res_id", c._id);
 		return c;
 	}
 
@@ -66,27 +70,30 @@ public class CatalogMapper {
 		setType(c, Equipment.class);
 		c.icon = "img/equipment_c.svg";
 		c.meta = doc;
+		c.match = new Document("res_id", c._id);
 		return c;
 	}
 
 	public static Catalog eps(Document doc) {
 		Catalog c = new Catalog();
 		c._id = doc.getObjectId("_id");
-		c.label = doc.getString("name")+" ["+doc.get("id")+"]";
+		c.label = doc.getString("name") + " [" + doc.get("id") + "]";
 		setType(c, EPS.class);
 		c.icon = "img/eps_c.svg";
 		c.meta = doc;
+		c.match = new Document("eps_id", c._id);
 		return c;
 	}
-	
+
 	public static Catalog project(Document doc) {
 		Catalog c = new Catalog();
 		c._id = doc.getObjectId("_id");
 		c.label = doc.getString("name");
-		Check.isAssigned(doc.getString("id"),i->c.label+= " ["+i+"]");
+		Check.isAssigned(doc.getString("id"), i -> c.label += " [" + i + "]");
 		setType(c, Project.class);
 		c.icon = "img/project_c.svg";
 		c.meta = doc;
+		c.match = new Document("project_id", c._id);
 		return c;
 	}
 
@@ -97,6 +104,7 @@ public class CatalogMapper {
 		setType(c, Work.class);
 		c.icon = "img/task_c.svg";
 		c.meta = doc;
+		c.match = new Document("stage_id", c._id);
 		return c;
 	}
 
