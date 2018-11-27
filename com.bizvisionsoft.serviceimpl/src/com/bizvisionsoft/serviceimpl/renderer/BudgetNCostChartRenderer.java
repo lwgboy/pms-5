@@ -162,18 +162,20 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 			}
 		}
 		// 如果需要加载预算，则将预算放到左侧pie中
-		if (pie1 != null) {
-			appendPie(Pie2Chart, "预算", pie1);
-			title2 = "预算";
-		}
-		// 如果需要加载成本，则根据是否加载预算来加载成本pie
-		if (pie2 != null && pie1 != null) {
-			appendPie(Pie1Chart, "成本", pie2);
-			title1 = "成本";
+		if (input.size() > 1) {
+			if (pie1.size() > 0) {
+				appendPie(Pie2Chart, "预算", pie1);
+				title2 = "预算";
+			}
+			// 如果需要加载成本，则根据是否加载预算来加载成本pie
+			if (pie2.size() > 0 && pie1.size() > 0) {
+				appendPie(Pie1Chart, "成本", pie2);
+				title1 = "成本";
 
-		} else if (pie2 != null && pie1 == null) {
-			appendPie(Pie2Chart, "成本", pie2);
-			title2 = "成本";
+			} else if (pie2.size() > 0 && pie1.size() == 0) {
+				appendPie(Pie2Chart, "成本", pie2);
+				title2 = "成本";
+			}
 		}
 		// 加载汇总值
 		if (aggregate) {
