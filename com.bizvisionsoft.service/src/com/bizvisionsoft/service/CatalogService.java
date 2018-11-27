@@ -36,7 +36,7 @@ public interface CatalogService {
 	@Path("/res/selector/org/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT, "EPS资源图表/" + DataSet.STRUCTURE_COUNT, "项目资源图表/" + DataSet.STRUCTURE_LIST })
+	@DataSet({ "组织资源图表/" + DataSet.STRUCTURE_COUNT, "EPS资源图表/" + DataSet.STRUCTURE_COUNT, "项目资源图表/" + DataSet.STRUCTURE_COUNT })
 	public long countResOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST

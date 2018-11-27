@@ -11,7 +11,7 @@
         {
             "left": 96,
             "right": 96,
-            "bottom": "55%",
+            "bottom": "57%",
             "containLabel": false
         },
         {

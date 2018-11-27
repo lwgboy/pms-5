@@ -67,12 +67,12 @@
 			"$addFields" : {
 				"basicQty" : {
 					"$ifNull" : [ "$planBasicQty", {
-						"$ifNull" : [ "$actualBasicQty", 0 ]
+						"$ifNull" : [ "$actualBasicQty", 0.0 ]
 					} ]
 				},
 				"overtimeQty" : {
 					"$ifNull" : [ "$planOverTimeQty", {
-						"$ifNull" : [ "$actualOverTimeQty", 0 ]
+						"$ifNull" : [ "$actualOverTimeQty", 0.0 ]
 					} ]
 				},
 				"usedQty" : {
