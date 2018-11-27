@@ -275,10 +275,16 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 			c("project").find(new Document("eps_id", parent._id)).map(CatalogMapper::project).into(result);
 		} else if (typeEquals(parent, Project.class)) {
 			c("accountItem").find(new Document("parentId", null)).sort(new Document("id", 1)).map(d -> d.append("project_id", parent._id))
-					.map(CatalogMapper::accountItem).into(result);
+					.map(CatalogMapper::accountItem).map(c -> {
+						c.match.append("project_id", parent._id);// 补充项目Id
+						return c;
+					}).into(result);
 		} else if (typeEquals(parent, AccountItem.class)) {
 			c("accountItem").find(new Document("parentId", parent.meta.get("id"))).sort(new Document("id", 1))
-					.map(d -> d.append("project_id", parent.meta.get("project_id"))).map(CatalogMapper::accountItem).into(result);
+					.map(d -> d.append("project_id", parent.meta.get("project_id"))).map(CatalogMapper::accountItem).map(c -> {
+						c.match.append("project_id", parent.meta.get("project_id"));// 补充项目Id
+						return c;
+					}).into(result);
 		}
 		return result;
 	}
