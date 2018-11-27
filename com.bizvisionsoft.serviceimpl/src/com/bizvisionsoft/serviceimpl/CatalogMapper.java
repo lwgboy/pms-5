@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Equipment;
@@ -103,6 +104,17 @@ public class CatalogMapper {
 		c.label = doc.getString("fullName");
 		setType(c, Work.class);
 		c.icon = "img/task_c.svg";
+		c.meta = doc;
+		c.match = new Document("stage_id", c._id);
+		return c;
+	}
+	
+	public static Catalog accountItem(Document doc) {
+		Catalog c = new Catalog();
+		c._id = doc.getObjectId("_id");
+		c.label = doc.getString("name") +" ["+doc.getString("id")+"]";
+		setType(c, AccountItem.class);
+		c.icon = "img/item_c.svg";
 		c.meta = doc;
 		c.match = new Document("stage_id", c._id);
 		return c;

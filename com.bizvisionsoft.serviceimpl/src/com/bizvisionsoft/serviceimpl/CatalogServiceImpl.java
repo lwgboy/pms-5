@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CatalogService;
+import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Organization;
@@ -19,6 +20,7 @@ import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.BudgetNCostChartRenderer;
 //github.com/sgewuhan/pms.git
 import com.bizvisionsoft.serviceimpl.renderer.ResourceChartRenderer;
 import com.mongodb.client.MongoIterable;
@@ -27,7 +29,7 @@ import com.mongodb.client.model.Aggregates;
 public class CatalogServiceImpl extends BasicServiceImpl implements CatalogService {
 
 	@Override
-	public Document createDefaultOption() {
+	public Document createDefaultResOption() {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		cal.set(year, 0, 1, 0, 0);
@@ -40,18 +42,31 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 				.append("aggregateType", "不累计");
 	}
 
+	@Override
+	public Document createDefaultBudgetNCostOption() {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		cal.set(year, 0, 1, 0, 0);
+		Date start = cal.getTime();
+		cal.add(Calendar.YEAR, 1);
+		cal.add(Calendar.MINUTE, -1);
+		Date end = cal.getTime();
+		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
+				.append("dataType", new ArrayList<String>(Arrays.asList("预算", "成本"))).append("aggregate", false);
+	}
+
 	/**
 	 * 该人员所属的组织
 	 */
 	@Override
-	public List<Catalog> listResOrgRoot(String userId) {
+	public List<Catalog> listOrgRoot(String userId) {
 		List<Bson> pipeline = Arrays.asList(Aggregates.match(new Document("userId", userId)),
 				Aggregates.lookup("organization", "org_id", "_id", "org"), Aggregates.unwind("$org"));
 		return c("user").aggregate(pipeline).map(d -> (Document) d.get("org")).map(CatalogMapper::org).into(new ArrayList<>());
 	}
 
 	@Override
-	public List<Catalog> listResOrgStructure(Catalog parent) {
+	public List<Catalog> listResStructure(Catalog parent) {
 		List<Catalog> result = new ArrayList<Catalog>();
 		if (typeEquals(parent, Organization.class)) {
 			c("organization").find(new Document("parent_id", parent._id)).map(CatalogMapper::org).into(result);
@@ -152,7 +167,7 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	}
 
 	@Override
-	public long countResOrgStructure(Catalog parent) {
+	public long countResStructure(Catalog parent) {
 		// 如果parent是组织，获取下级组织和资源类型
 		long count = 0;
 		if (typeEquals(parent, Organization.class)) {
@@ -238,13 +253,48 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 	}
 
 	@Override
-	public List<Catalog> listResEPSRoot() {
+	public Document createBudgetNCostChart(Document condition) {
+		return new BudgetNCostChartRenderer(condition).render();
+	}
+
+	@Override
+	public List<Catalog> listEPSRoot() {
 		return c("eps").find(new Document("parent_id", null)).map(CatalogMapper::eps).into(new ArrayList<>());
 	}
 
 	@Override
 	public List<Catalog> listResProjectRoot(ObjectId _id) {
 		return c("project").find(new Document("_id", _id)).map(CatalogMapper::project).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Catalog> listBudgetNCostStructure(Catalog parent) {
+		List<Catalog> result = new ArrayList<Catalog>();
+		if (typeEquals(parent, EPS.class)) {
+			c("eps").find(new Document("parent_id", parent._id)).map(CatalogMapper::eps).into(result);
+			c("project").find(new Document("eps_id", parent._id)).map(CatalogMapper::project).into(result);
+		} else if (typeEquals(parent, Project.class)) {
+			c("accountItem").find(new Document("parentId", null)).sort(new Document("id", 1)).map(d -> d.append("project_id", parent._id))
+					.map(CatalogMapper::accountItem).into(result);
+		} else if (typeEquals(parent, AccountItem.class)) {
+			c("accountItem").find(new Document("parentId", parent.meta.get("id"))).sort(new Document("id", 1))
+					.map(d -> d.append("project_id", parent.meta.get("project_id"))).map(CatalogMapper::accountItem).into(result);
+		}
+		return result;
+	}
+
+	@Override
+	public long countBudgetNCostStructure(Catalog parent) {
+		long count = 0;
+		if (typeEquals(parent, EPS.class)) {
+			count += c("eps").countDocuments(new Document("parent_id", parent._id));
+			count += c("project").countDocuments(new Document("eps_id", parent._id));
+		} else if (typeEquals(parent, Project.class)) {
+			count += c("accountItem").countDocuments(new Document("parentId", null));
+		} else if (typeEquals(parent, AccountItem.class)) {
+			count += c("accountItem").countDocuments(new Document("parentId", parent.meta.get("id")));
+		}
+		return count;
 	}
 
 }

@@ -2,17 +2,17 @@ package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -20,130 +20,111 @@ import com.bizvisionsoft.serviceimpl.renderer.ColorTheme.BruiColor;
 
 public class ResourceChartRenderer extends BasicServiceImpl {
 
+	private static final String Chart = "图表-资源图表";
+
+	private static final String TimeChart = "图表-资源图表-工时";
+
+	private static final String AmountChart = "图表-资源图表-金额";
+
+	private static final String TimeSummaryChart = "图表-资源图表-累计工时";
+
+	private static final String AmountSummaryChart = "图表-资源图表-累计金额";
+
+	private static final String PlanTime = "计划工时";
+
+	private static final String PlanAmount = "计划金额";
+
+	private static final String ActualTime = "实际工时";
+
+	private static final String ActualAmount = "实际金额";
+
+	private static final String Basic = "（标准）";
+	private static final String Extra = "（加班）";
+	private static final String Prefix_Sum = "累计";
+
 	private class ResourceData {
 
-		private Double[] basicPlanTime;
+		private double[] basicPlanTime;
 
-		private Double[] extraPlanTime;
+		private double[] extraPlanTime;
 
-		private Double[] totalPlanTime;
+		private double[] totalPlanTime;
 
-		private Double[] basicPlanAmounts;
+		private double[] basicPlanAmount;
 
-		private Double[] extraPlanAmounts;
+		private double[] extraPlanAmount;
 
-		private Double[] totalPlanAmounts;
+		private double[] totalPlanAmount;
 
-		List<Double> basicPlanTime() {
-			return list(basicPlanTime);
-		}
+		private double[] basicActualTime;
 
-		List<Double> extraPlanTime() {
-			return list(extraPlanTime);
-		}
+		private double[] extraActualTime;
 
-		List<Double> totalPlanTime() {
-			return list(totalPlanTime);
-		}
+		private double[] totalActualTime;
 
-		List<Double> basicPlanAmounts() {
-			return list(basicPlanAmounts);
-		}
+		private double[] basicActualAmount;
 
-		List<Double> extraPlanAmounts() {
-			return list(extraPlanAmounts);
-		}
+		private double[] extraActualAmount;
 
-		List<Double> totalPlanAmounts() {
-			return list(totalPlanAmounts);
-		}
-
-		private Double[] basicActualTime;
-
-		private Double[] extraActualTime;
-
-		private Double[] totalActualTime;
-
-		private Double[] basicActualAmounts;
-
-		private Double[] extraActualAmounts;
-
-		private Double[] totalActualAmounts;
-
-		List<Double> basicActualTime() {
-			return list(basicActualTime);
-		}
-
-		List<Double> extraActualTime() {
-			return list(extraActualTime);
-		}
-
-		List<Double> totalActualTime() {
-			return list(totalActualTime);
-		}
-
-		List<Double> basicActualAmounts() {
-			return list(basicActualAmounts);
-		}
-
-		List<Double> extraActualAmounts() {
-			return list(extraActualAmounts);
-		}
-
-		List<Double> totalActualAmounts() {
-			return list(totalActualAmounts);
-		}
+		private double[] totalActualAmount;
 
 		ResourceData(int xAxisCount) {
-			basicPlanTime = new Double[xAxisCount];
-			extraPlanTime = new Double[xAxisCount];
-			totalPlanTime = new Double[xAxisCount];
-			basicPlanAmounts = new Double[xAxisCount];
-			extraPlanAmounts = new Double[xAxisCount];
-			totalPlanAmounts = new Double[xAxisCount];
-			basicActualTime = new Double[xAxisCount];
-			extraActualTime = new Double[xAxisCount];
-			totalActualTime = new Double[xAxisCount];
-			basicActualAmounts = new Double[xAxisCount];
-			extraActualAmounts = new Double[xAxisCount];
-			totalActualAmounts = new Double[xAxisCount];
+			basicPlanTime = new double[xAxisCount];
+			extraPlanTime = new double[xAxisCount];
+			totalPlanTime = new double[xAxisCount];
+			basicPlanAmount = new double[xAxisCount];
+			extraPlanAmount = new double[xAxisCount];
+			totalPlanAmount = new double[xAxisCount];
+			basicActualTime = new double[xAxisCount];
+			extraActualTime = new double[xAxisCount];
+			totalActualTime = new double[xAxisCount];
+			basicActualAmount = new double[xAxisCount];
+			extraActualAmount = new double[xAxisCount];
+			totalActualAmount = new double[xAxisCount];
 		}
 
 		void build(Document doc) {
 			int idx = xAxisData.indexOf(((Document) doc.get("_id")).getString("id"));
 			if (idx != -1) {
+				double basicTime = Optional.ofNullable(doc.getDouble("basicTime")).orElse(0d);
+				double extraTime = Optional.ofNullable(doc.getDouble("extraTime")).orElse(0d);
+				double sumTime = Optional.ofNullable(doc.getDouble("sumTime")).orElse(0d);
+				double basicAmount = Optional.ofNullable(doc.getDouble("basicAmount")).orElse(0d);
+				double extraAmount = Optional.ofNullable(doc.getDouble("extraAmount")).orElse(0d);
+				double sumAmount = Optional.ofNullable(doc.getDouble("sumAmount")).orElse(0d);
+
 				if ("plan".equals(((Document) doc.get("_id")).getString("type"))) {
 					// 加载计划数据
-					basicPlanTime[idx] = doc.getDouble("basicTime");
-					extraPlanTime[idx] = doc.getDouble("extraTime");
-					totalPlanTime[idx] = doc.getDouble("sumTime");
-					basicPlanAmounts[idx] = doc.getDouble("basicAmount");
-					extraPlanAmounts[idx] = doc.getDouble("extraAmount");
-					totalPlanAmounts[idx] = doc.getDouble("sumAmount");
+					basicPlanTime[idx] = basicTime;
+					extraPlanTime[idx] = extraTime;
+					totalPlanTime[idx] = sumTime;
+					basicPlanAmount[idx] = basicAmount;
+					extraPlanAmount[idx] = extraAmount;
+					totalPlanAmount[idx] = sumAmount;
 
 					// 计算计划汇总值
-					summary(idx, xAxisData.size(), basicPlanAggTime, doc.getDouble("basicTime"));
-					summary(idx, xAxisData.size(), extraPlanAggTime, doc.getDouble("extraTime"));
-					summary(idx, xAxisData.size(), totalPlanAggTime, doc.getDouble("sumTime"));
-					summary(idx, xAxisData.size(), basicPlanAggAmount, doc.getDouble("basicAmount"));
-					summary(idx, xAxisData.size(), extraPlanAggAmount, doc.getDouble("extraAmount"));
-					summary(idx, xAxisData.size(), totalPlanAggAmount, doc.getDouble("sumAmount"));
+					summary(idx, xAxisData.size(), basicPlanAggTime, basicTime);
+					summary(idx, xAxisData.size(), extraPlanAggTime, extraTime);
+					summary(idx, xAxisData.size(), totalPlanAggTime, sumTime);
+					summary(idx, xAxisData.size(), basicPlanAggAmount, basicAmount);
+					summary(idx, xAxisData.size(), extraPlanAggAmount, extraAmount);
+					summary(idx, xAxisData.size(), totalPlanAggAmount, sumAmount);
 				} else {
 					// 加载实际数据
-					basicActualTime[idx] = doc.getDouble("basicTime");
-					extraActualTime[idx] = doc.getDouble("extraTime");
-					totalActualTime[idx] = doc.getDouble("sumTime");
-					basicActualAmounts[idx] = doc.getDouble("basicAmount");
-					extraActualAmounts[idx] = doc.getDouble("extraAmount");
-					totalActualAmounts[idx] = doc.getDouble("sumAmount");
+					basicActualTime[idx] = basicTime;
+					extraActualTime[idx] = extraTime;
+					totalActualTime[idx] = sumTime;
+					basicActualAmount[idx] = basicAmount;
+					extraActualAmount[idx] = extraAmount;
+					totalActualAmount[idx] = sumAmount;
 
 					// 计算实际汇总值
-					summary(idx, xAxisData.size(), basicActualAggTime, doc.getDouble("basicTime"));
-					summary(idx, xAxisData.size(), extraActualAggTime, doc.getDouble("extraTime"));
-					summary(idx, xAxisData.size(), totalActualAggTime, doc.getDouble("sumTime"));
-					summary(idx, xAxisData.size(), basicActualAggAmount, doc.getDouble("basicAmount"));
-					summary(idx, xAxisData.size(), extraActualAggAmount, doc.getDouble("extraAmount"));
-					summary(idx, xAxisData.size(), totalActualAggAmount, doc.getDouble("sumAmount"));
+					summary(idx, xAxisData.size(), basicActualAggTime, basicTime);
+					summary(idx, xAxisData.size(), extraActualAggTime, extraTime);
+					summary(idx, xAxisData.size(), totalActualAggTime, sumTime);
+					summary(idx, xAxisData.size(), basicActualAggAmount, basicAmount);
+					summary(idx, xAxisData.size(), extraActualAggAmount, extraAmount);
+					summary(idx, xAxisData.size(), totalActualAggAmount, sumAmount);
 				}
 			}
 			// Double bw = doc.getDouble("basicWorks");
@@ -168,18 +149,18 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	// private Document markLineData;
 	private Document group;
 	private Document match;
-	private Double[] totalPlanAggTime;
-	private Double[] totalPlanAggAmount;
-	private Double[] basicPlanAggTime;
-	private Double[] basicPlanAggAmount;
-	private Double[] extraPlanAggTime;
-	private Double[] extraPlanAggAmount;
-	private Double[] totalActualAggTime;
-	private Double[] totalActualAggAmount;
-	private Double[] basicActualAggTime;
-	private Double[] basicActualAggAmount;
-	private Double[] extraActualAggTime;
-	private Double[] extraActualAggAmount;
+	private double[] totalPlanAggTime;
+	private double[] totalPlanAggAmount;
+	private double[] basicPlanAggTime;
+	private double[] basicPlanAggAmount;
+	private double[] extraPlanAggTime;
+	private double[] extraPlanAggAmount;
+	private double[] totalActualAggTime;
+	private double[] totalActualAggAmount;
+	private double[] basicActualAggTime;
+	private double[] basicActualAggAmount;
+	private double[] extraActualAggTime;
+	private double[] extraActualAggAmount;
 
 	@SuppressWarnings("unchecked")
 	public ResourceChartRenderer(Document condition) {
@@ -213,8 +194,8 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		appendSeries();
 
 		// 生成资源图表
-		JQ jq = new JQ("图表-资源图表").set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("yAxis", yAxis)
-				.set("series", series);
+		JQ jq = new JQ(Chart).set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("yAxis", yAxis).set("series",
+				series);
 		return jq.doc();
 	}
 
@@ -224,75 +205,73 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 * @param resData
 	 */
 	private void appendSeries() {
+
 		Map<String, ResourceData> resData = query();
 		for (String key : resData.keySet()) {
-			String timeChart = "图表-资源图表-工时";
-			String amountChart = "图表-资源图表-金额";
+
 			ResourceData r = resData.get(key);
 			if (dataType.contains("计划")) {
 				// 获取计划资源数据
 				if ("标准".equals(showData)) {
-					appendCatalog(timeChart, key + "计划标准工时", key + "计划工时", r.basicPlanTime());
-					appendCatalog(amountChart, key + "计划标准金额", key + "计划金额", r.basicPlanAmounts());
+					appendCatalog(TimeChart, key, Basic, PlanTime, r.basicPlanTime);
+					appendCatalog(AmountChart, key, Basic, PlanAmount, r.basicPlanAmount);
 				} else if ("加班".equals(showData)) {
-					appendCatalog(timeChart, key + "计划加班工时", key + "计划工时", r.extraPlanTime());
-					appendCatalog(amountChart, key + "计划加班金额", key + "计划金额", r.extraPlanAmounts());
+					appendCatalog(TimeChart, key, Extra, PlanTime, r.extraPlanTime);
+					appendCatalog(AmountChart, key, Extra, PlanAmount, r.extraPlanAmount);
 				} else if ("汇总".equals(showData)) {
-					appendCatalog(timeChart, key + "计划工时", key + "计划工时", r.totalPlanTime());
-					appendCatalog(amountChart, key + "计划金额", key + "计划金额", r.totalPlanAmounts());
-				} else {
-					appendCatalog(timeChart, key + "计划标准工时", key + "计划工时", r.basicPlanTime());
-					appendCatalog(amountChart, key + "计划标准金额", key + "计划金额", r.basicPlanAmounts());
-					appendCatalog(timeChart, key + "计划加班工时", key + "计划工时", r.extraPlanTime());
-					appendCatalog(amountChart, key + "计划加班金额", key + "计划金额", r.extraPlanAmounts());
+					appendCatalog(TimeChart, key, "", PlanTime, r.totalPlanTime);
+					appendCatalog(AmountChart, key, "", PlanAmount, r.totalPlanAmount);
+				} else if ("叠加".equals(showData)) {
+					appendCatalog(TimeChart, key, Basic, PlanTime, r.basicPlanTime);
+					appendCatalog(AmountChart, key, Basic, PlanAmount, r.basicPlanAmount);
+					appendCatalog(TimeChart, key, Extra, PlanTime, r.extraPlanTime);
+					appendCatalog(AmountChart, key, Extra, PlanAmount, r.extraPlanAmount);
 				}
 			}
 			if (dataType.contains("实际")) {
 				// 获取实际资源数据
 				if ("标准".equals(showData)) {
-					appendCatalog(timeChart, key + "实际标准工时", key + "实际工时", r.basicActualTime());
-					appendCatalog(amountChart, key + "实际标准金额", key + "实际金额", r.basicActualAmounts());
+					appendCatalog(TimeChart, key, Basic, ActualTime, r.basicActualTime);
+					appendCatalog(AmountChart, key, Basic, ActualAmount, r.basicActualAmount);
 				} else if ("加班".equals(showData)) {
-					appendCatalog(timeChart, key + "实际加班工时", key + "实际工时", r.extraActualTime());
-					appendCatalog(amountChart, key + "实际加班金额", key + "实际金额", r.extraActualAmounts());
+					appendCatalog(TimeChart, key, Extra, ActualTime, r.extraActualTime);
+					appendCatalog(AmountChart, key, Extra, ActualAmount, r.extraActualAmount);
 				} else if ("汇总".equals(showData)) {
-					appendCatalog(timeChart, key + "实际工时", key + "实际工时", r.totalActualTime());
-					appendCatalog(amountChart, key + "实际金额", key + "实际金额", r.totalActualAmounts());
-				} else {
-					appendCatalog(timeChart, key + "实际标准工时", key + "实际工时", r.basicActualTime());
-					appendCatalog(amountChart, key + "实际标准金额", key + "实际金额", r.basicActualAmounts());
-					appendCatalog(timeChart, key + "实际加班工时", key + "实际工时", r.extraActualTime());
-					appendCatalog(amountChart, key + "实际加班金额", key + "实际金额", r.extraActualAmounts());
-
+					appendCatalog(TimeChart, key, "", ActualTime, r.totalActualTime);
+					appendCatalog(AmountChart, key, "", ActualAmount, r.totalActualAmount);
+				} else if ("叠加".equals(showData)) {
+					appendCatalog(TimeChart, key, Basic, ActualTime, r.basicActualTime);
+					appendCatalog(AmountChart, key, Basic, ActualAmount, r.basicActualAmount);
+					appendCatalog(TimeChart, key, Extra, ActualTime, r.extraActualTime);
+					appendCatalog(AmountChart, key, Extra, ActualAmount, r.extraActualAmount);
 				}
-
 			}
 		}
 
 		// 根据累计值类型构建series
 		if ("总计".equals(aggregateType)) {
 			if (dataType.contains("计划")) {
-				appendSummary("图表-资源图表-累计工时", "累计计划工时", "累计计划工时", list(totalPlanAggTime), BruiColor.Light_Blue);
-				appendSummary("图表-资源图表-累计金额", "累计计划金额", "累计计划金额", list(totalPlanAggAmount), BruiColor.Light_Blue);
+				appendSummary(TimeSummaryChart, "", PlanTime, totalPlanAggTime, BruiColor.Light_Blue);
+				appendSummary(AmountSummaryChart, "", PlanAmount, totalPlanAggAmount, BruiColor.Light_Blue);
 			}
 			if (dataType.contains("实际")) {
-				appendSummary("图表-资源图表-累计工时", "累计实际工时", "累计实际工时", list(totalActualAggTime), BruiColor.Teal);
-				appendSummary("图表-资源图表-累计金额", "累计实际金额", "累计实际金额", list(totalActualAggAmount), BruiColor.Teal);
+				appendSummary(TimeSummaryChart, "", ActualTime, totalActualAggTime, BruiColor.Teal);
+				appendSummary(AmountSummaryChart, "", ActualAmount, totalActualAggAmount, BruiColor.Teal);
 			}
 		} else if ("标准加班".equals(aggregateType)) {
 			if (dataType.contains("计划")) {
-				appendSummary("图表-资源图表-累计工时", "累计计划标准工时", "累计计划工时", list(basicPlanAggTime), BruiColor.Light_Blue);
-				appendSummary("图表-资源图表-累计金额", "累计计划标准金额", "累计计划金额", list(basicPlanAggAmount), BruiColor.Light_Blue);
+				appendSummary(TimeSummaryChart, Basic, PlanTime, basicPlanAggTime, BruiColor.Light_Blue);
+				appendSummary(AmountSummaryChart, Basic, PlanAmount, basicPlanAggAmount, BruiColor.Light_Blue);
 
-				appendSummary("图表-资源图表-累计工时", "累计计划加班工时", "累计计划工时", list(extraPlanAggTime), BruiColor.Orange);
-				appendSummary("图表-资源图表-累计金额", "累计计划加班金额", "累计计划金额", list(extraPlanAggAmount), BruiColor.Orange);
+				appendSummary(TimeSummaryChart, Extra, PlanTime, extraPlanAggTime, BruiColor.Orange);
+				appendSummary(AmountSummaryChart, Extra, PlanAmount, extraPlanAggAmount, BruiColor.Orange);
 			}
 			if (dataType.contains("实际")) {
-				appendSummary("图表-资源图表-累计工时", "累计实际标准工时", "累计实际工时", list(basicActualAggTime), BruiColor.Teal);
-				appendSummary("图表-资源图表-累计金额", "累计实际标准金额", "累计实际金额", list(basicActualAggAmount), BruiColor.Teal);
+				appendSummary(TimeSummaryChart, Basic, ActualTime, basicActualAggTime, BruiColor.Teal);
+				appendSummary(AmountSummaryChart, Basic, ActualAmount, basicActualAggAmount, BruiColor.Teal);
 
-				appendSummary("图表-资源图表-累计工时", "累计实际加班工时", "累计实际工时", list(extraActualAggTime), BruiColor.Red);
-				appendSummary("图表-资源图表-累计金额", "累计实际加班金额", "累计实际金额", list(extraActualAggAmount), BruiColor.Red);
+				appendSummary(TimeSummaryChart, Extra, ActualTime, extraActualAggTime, BruiColor.Red);
+				appendSummary(AmountSummaryChart, Extra, ActualAmount, extraActualAggAmount, BruiColor.Red);
 			}
 		}
 	}
@@ -367,19 +346,19 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 				cal.add(Calendar.YEAR, 1);
 			}
 		}
-		totalPlanAggTime = agg.toArray(new Double[0]);
-		totalPlanAggAmount = agg.toArray(new Double[0]);
-		basicPlanAggTime = agg.toArray(new Double[0]);
-		basicPlanAggAmount = agg.toArray(new Double[0]);
-		extraPlanAggTime = agg.toArray(new Double[0]);
-		extraPlanAggAmount = agg.toArray(new Double[0]);
+		totalPlanAggTime = Formatter.toArray(agg);
+		totalPlanAggAmount = Formatter.toArray(agg);
+		basicPlanAggTime = Formatter.toArray(agg);
+		basicPlanAggAmount = Formatter.toArray(agg);
+		extraPlanAggTime = Formatter.toArray(agg);
+		extraPlanAggAmount = Formatter.toArray(agg);
 
-		totalActualAggTime = agg.toArray(new Double[0]);
-		totalActualAggAmount = agg.toArray(new Double[0]);
-		basicActualAggTime = agg.toArray(new Double[0]);
-		basicActualAggAmount = agg.toArray(new Double[0]);
-		extraActualAggTime = agg.toArray(new Double[0]);
-		extraActualAggAmount = agg.toArray(new Double[0]);
+		totalActualAggTime = Formatter.toArray(agg);
+		totalActualAggAmount = Formatter.toArray(agg);
+		basicActualAggTime = Formatter.toArray(agg);
+		basicActualAggAmount = Formatter.toArray(agg);
+		extraActualAggTime = Formatter.toArray(agg);
+		extraActualAggAmount = Formatter.toArray(agg);
 	}
 
 	/**
@@ -429,35 +408,28 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		}
 	}
 
-	/**
-	 * 添加累计系列
-	 * 
-	 * @param seriesJQ
-	 * @param name
-	 * @param stack
-	 * @param data
-	 * @param color
-	 */
-	private void appendSummary(String seriesJQ, String name, String stack, List<Double> data, BruiColor color) {
-		Document doc = new JQ(seriesJQ).set("name", name).set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff)))
-				.set("color2", ColorTheme.getHtmlColor(color.getRgba(0x66))).set("color3", ColorTheme.getHtmlColor(color.getRgba(0)))
-				.set("stack", stack).set("data", data).doc();
+	private void appendSummary(String seriesJQ, String postfix, String stack, double[] ds, BruiColor color) {
+		List<Double> data = Formatter.toList(ds);
+		Document doc = new JQ(seriesJQ).set("name", Prefix_Sum + stack + postfix)
+				.set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff))).set("color2", ColorTheme.getHtmlColor(color.getRgba(0x66)))
+				.set("color3", ColorTheme.getHtmlColor(color.getRgba(0))).set("stack", Prefix_Sum + stack).set("data", data).doc();
 		series.add(doc);
-		legendData.add(name);
+		legendData.add(Prefix_Sum + stack + postfix);
 	}
 
 	/**
 	 * 添加节点系列
 	 * 
-	 * @param timeChart
+	 * @param TimeChart
 	 * @param name
 	 * @param stack
 	 * @param markLineData
 	 * @param data
 	 */
-	private void appendCatalog(String timeChart, String name, String stack, List<Double> data) {
-		series.add(new JQ(timeChart).set("name", name).set("stack", stack).set("data", data).doc());
-		legendData.add(name);
+	private void appendCatalog(String timeChart, String seriesName, String postfix, String stack, double[] ds) {
+		List<Double> data = Formatter.toList(ds);
+		series.add(new JQ(timeChart).set("name", seriesName + stack + postfix).set("stack", seriesName + stack).set("data", data).doc());
+		legendData.add(stack + postfix);
 	}
 
 	// 查询获取数据
@@ -492,11 +464,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		return resData;
 	}
 
-	private List<Double> list(Double[] arr) {
-		return Arrays.asList(arr).stream().map(d -> d == null ? 0d : d).collect(Collectors.toList());
-	}
-
-	private void summary(int idx, int xAxisCount, Double[] Agg, Double value) {
+	private void summary(int idx, int xAxisCount, double[] Agg, double value) {
 		for (int i = idx; i < xAxisCount; i++) {
 			Agg[i] += value;
 		}

@@ -399,5 +399,21 @@ public class Formatter {
 		c.add(Calendar.MILLISECOND, -1);
 		return c.getTime();
 	}
-	
+
+	public static List<Double> toList(double... ds) {
+		List<Double> result = new ArrayList<>();
+		for (int i = 0; i < ds.length; i++) {
+			result.add(ds[i]);
+		}
+		return result;
+	}
+
+	public static double[] toArray(List<Double> list) {
+		double[] result = new double[list.size()];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = Optional.ofNullable(list.get(i)).orElse(0d);
+		}
+		return result;
+	}
+
 }
