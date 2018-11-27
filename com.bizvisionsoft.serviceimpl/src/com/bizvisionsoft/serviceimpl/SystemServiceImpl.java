@@ -35,8 +35,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		String dbName = Service.db().getName();
 		String dumpPath = Service.dumpFolder.getPath();
 		String path = Service.mongoDbBinPath;
-		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port)
-				.dbName(dbName).archive(dumpPath + "\\").build().dump();
+		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
+				.archive(dumpPath + "\\").build().dump();
 		try {
 			FileTools.writeFile(note, result + "/notes.txt", "utf-8");
 		} catch (IOException e) {
@@ -106,15 +106,14 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			return false;
 		}
 
-		new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
-				.archive(archive).build().restore();
+		new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName).archive(archive).build()
+				.restore();
 		return true;
 	}
 
 	@Override
 	public String getClientSetting(String userId, String clientId, String name) {
-		Document doc = c("clientSetting")
-				.find(new Document("userId", userId).append("clientId", clientId).append("name", name)).first();
+		Document doc = c("clientSetting").find(new Document("userId", userId).append("clientId", clientId).append("name", name)).first();
 		if (doc != null) {
 			return doc.getString("value");
 		} else {
@@ -196,8 +195,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("cbsSubject", new Document("id", 1), "id");
 		createIndex("cbsSubject", new Document("subjectNumber", 1), "subject");
 		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type");
-		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1),
-				"id_item_subject");
+		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1), "id_item_subject");
 
 		createIndex("docu", new Document("folder_id", 1), "folder");
 		createIndex("docu", new Document("tag", 1), "tag");
@@ -213,8 +211,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 		createIndex("folder", new Document("project_id", 1), "project");
 		createIndex("folder", new Document("parent_id", 1), "parent");
-		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1),
-				"name_project");
+		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1), "name_project");
 
 		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type");
 
@@ -266,23 +263,16 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("rbsItem", new Document("parent_id", 1), "parent");
 		createIndex("rbsItem", new Document("index", 1), "index");
 
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
-				"equip");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
-				"type");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
-				"hr");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
 		createIndex("resourceActual", new Document("id", 1), "id");
-		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1)
-				.append("usedHumanResId", 1).append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1),
-				"resource");
+		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
 
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1),
-				"equip");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1),
-				"type");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1),
-				"hr");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
 		createIndex("resourcePlan", new Document("id", 1), "id");
 		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
 				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
@@ -297,7 +287,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 		createIndex("stockholder", new Document("project_id", 1), "project");
 
-		createIndex("user", new Document("userId", 1), "user");
+		createUniqueIndex("user", new Document("userId", 1), "user");
 		createIndex("user", new Document("org_id", 1), "org");
 		createIndex("user", new Document("resourceType_id", 1), "resource");
 
@@ -330,18 +320,15 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("workReportItem", new Document("report_id", 1), "report");
 		createIndex("workReportItem", new Document("project_id", 1), "project");
 
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedEquipResId", 1), "equip");
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedTypedResId", 1), "type");
-		createIndex("workReportResourceActual", new Document("workReportItem_id", 1).append("work_id", 1)
-				.append("resTypeId", 1).append("usedHumanResId", 1), "hr");
+		createIndex("workReportResourceActual",
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+		createIndex("workReportResourceActual",
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
+		createIndex("workReportResourceActual",
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
 		createIndex("workReportResourceActual", new Document("id", 1), "id");
-		createUniqueIndex("workReportResourceActual",
-				new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1)
-						.append("id", 1),
-				"resource");
+		createUniqueIndex("workReportResourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1).append("id", 1), "resource");
 
 		// createUniqueIndex("resourcePlanInTemplate", new Document("work_id",
 		// 1).append("resTypeId", 1)
@@ -359,8 +346,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 		createIndex("traceInfo", new Document("date", -1), "date");
 
-		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1),
-				"name_template");
+		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1), "name_template");
 
 		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type");
 
@@ -374,8 +360,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createUniqueIndex("obsModule", new Document("id", 1), "id");
 		// yangjun 2018/10/26
 		createIndex("setting", new Document("name", 1), "name");
-		createIndex("clientSetting", new Document("userId", 1).append("clientId", 1).append("name", 1),
-				"userClientName");
+		createIndex("clientSetting", new Document("userId", 1).append("clientId", 1).append("name", 1), "userClientName");
 
 	}
 

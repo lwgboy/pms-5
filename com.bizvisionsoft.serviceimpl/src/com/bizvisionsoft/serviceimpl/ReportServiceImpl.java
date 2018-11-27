@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,14 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.dps.ReportCreator;
+import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
+import com.bizvisionsoft.service.provider.DateAdapter;
+import com.bizvisionsoft.service.provider.DocumentAdapter;
+import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
 
 public class ReportServiceImpl extends BasicServiceImpl implements ReportService {
 
@@ -86,13 +93,17 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
 		try {
 			FileInputStream is = new FileInputStream(filePath);
-			StringBuffer sb = new StringBuffer();
-			jq.list().forEach((Document doc) -> {
-				if (sb.length() > 0)
-					sb.append(",");
-				sb.append(doc.toJson());
-			});
-			return generateReport(is, new Document("pipeline", sb.toString()), outputType, fileName);
+			// TODO
+			// 使用GsonBuilder存在转换存在问题。1.ObjectId转换错误。2."from":"organization"会转换成{"value":
+			// "organization"}；从而造成无法生成PDF。
+			String json = new GsonBuilder()//
+					.serializeNulls().registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
+					.registerTypeAdapter(Date.class, new DateAdapter())//
+					.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
+					.registerTypeAdapter(Document.class, new DocumentAdapter())//
+					.create().toJson(jq.list());
+
+			return generateReport(is, new Document("pipeline", json), outputType, fileName);
 		} catch (FileNotFoundException e) {
 			String msg = "没有报表模板文件" + filePath;
 			logger.error(msg);

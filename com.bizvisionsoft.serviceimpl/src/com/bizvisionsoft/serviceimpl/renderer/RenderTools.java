@@ -15,7 +15,7 @@ public class RenderTools {
 	public static final String IMG_URL_PROJECT = "rwt-resources/extres/img/project_c.svg";
 
 	public static final String IMG_URL_TASK = "rwt-resources/extres/img/task_c.svg";
-	
+
 	public static String getIconTextLine(String label, String text, String iconURL, String[] color) {
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 				+ "<img src='" + iconURL + "' width='20' height='20'>"//
@@ -41,7 +41,7 @@ public class RenderTools {
 	}
 
 	public static void renderCardBoard(StringBuffer sb, int rowHeight) {
-		sb.insert(0, "<div class='brui_card' style='cursor:pointer;height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
+		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
 		sb.append("</div>");
 	}
 

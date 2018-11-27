@@ -152,14 +152,14 @@ public class ProjectRenderer {
 
 	private String renderTitle() {
 		rowHeight += 64;
-		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
+		String content = "<a href='openItem/' target='_rwt' class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
 				+ "<div class='label_title'>" + pj.getName() + "</div>"//
 				+ "<div>" + Check.isAssignedThen(pj.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: ´ý¶¨") + "</div>"//
 				+ "</div>" //
 				+ "<div class='label_title'>" + pj.getStatus() + "</div>"//
-				+ "</div>";
-
+				+ "</a>";
+		return content;
 	}
 
 	private String renderProjectStage() {
@@ -190,7 +190,7 @@ public class ProjectRenderer {
 			sb.append("<div style='padding:8px 16px 0px 16px;'>");
 			for (int i = 0; i < news.size(); i++) {
 				sb.append("<div class='label_caption' style='height:20px;display:flex;color:#" + theme.lightText
-						+ ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
+						+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
 						+ "<i class='layui-icon layui-icon-circle' style='margin-right:4px;'></i>" + news.get(i).getSummary() + "</div>");
 
 				rowHeight += 20;

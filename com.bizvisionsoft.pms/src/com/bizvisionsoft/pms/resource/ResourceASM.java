@@ -72,14 +72,14 @@ public class ResourceASM {
 		}
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right()
-				.get().setText(stickerTitleText).setActions(context.getAssembly().getActions());
+		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right().get()
+				.setText(stickerTitleText).setActions(context.getAssembly().getActions());
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly(ganttAssemblyName))
-				.setServices(brui).create().getContext().getContent();
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly(ganttAssemblyName)).setServices(brui)
+				.create().getContext().getContent();
 
 		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
@@ -89,12 +89,12 @@ public class ResourceASM {
 		rt.setCanDelete(Boolean.TRUE.equals(editable));
 		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
-		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
 		rt.setShowFooter(true);
 
 		if ("plan".equals(this.type)) {
 			rt.setType(ResourceTransfer.TYPE_PLAN);
+			rt.setShowResPlan(true);
 			rt.setShowConflict(true);
 		} else {
 			rt.setType(ResourceTransfer.TYPE_ACTUAL);
@@ -103,8 +103,8 @@ public class ResourceASM {
 		}
 
 		// 修改控件title，以便在导出按钮进行显示
-		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况"))
-				.setInput(rt).setServices(brui).create().getContext().getContent();
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt)
+				.setServices(brui).create().getContext().getContent();
 		grid.setExportActionText(gridExportActionText);
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
@@ -178,26 +178,15 @@ public class ResourceASM {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
 			l.forEach(o -> {
 				ResourceAssignment ra = new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id());
+				if (o instanceof ResourceType) {
+					ra.qty = inputQty();
+				} else {
+					ra.qty = 1;
+				}
 				// 资源计划
 				if ("plan".equals(this.type)) {
-					if (o instanceof ResourceType) {
-						InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量",
-								"请输入资源 " + o.toString() + " 数量", null, t -> {
-									if (t.trim().isEmpty())
-										return "请输入资源数量";
-									try {
-										Integer.parseInt(t);
-									} catch (Exception e) {
-										return "输入的类型错误";
-									}
-									return null;
-								});
-						if (InputDialog.OK == id.open()) {
-							ra.qty = Integer.parseInt(id.getValue());
-						}
-					} else {
-						ra.qty = 1;
-					}
+					ra.from = work.getPlanStart();
+					ra.to = work.getPlanFinish();
 				} else {
 					// 资源用量
 					ra.from = work.getStart_date();
@@ -217,6 +206,24 @@ public class ResourceASM {
 
 	}
 
+	private int inputQty() {
+		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源数量", "1", t -> {
+			if (t.trim().isEmpty())
+				return "请输入资源数量";
+			try {
+				Integer.parseInt(t);
+			} catch (Exception e) {
+				return "输入的类型错误";
+			}
+			return null;
+		});
+		if (InputDialog.OK == id.open()) {
+			return Integer.parseInt(id.getValue());
+		} else {
+			return 1;
+		}
+	}
+
 	private void select(Work work) {
 		if (this.work != null && this.work.get_id().equals(work.get_id()))
 			return;
@@ -229,7 +236,6 @@ public class ResourceASM {
 		rt.setCanDelete(Boolean.TRUE.equals(editable));
 		rt.setCanEditDateValue(Boolean.TRUE.equals(editable));
 		rt.setCanClose(false);
-		rt.setShowResPlan(true);
 		rt.setShowResTypeInfo(true);
 		rt.setShowFooter(true);
 		if ("plan".equals(this.type)) {
@@ -238,6 +244,7 @@ public class ResourceASM {
 			rt.setFrom(work.getPlanStart());
 			rt.setTo(work.getPlanFinish());
 			rt.setCanAdd(false);
+			rt.setShowResPlan(true);
 			rt.setShowConflict(true);
 			rt.setTitle(work.getFullName() + "工作资源计划用量");
 		} else {

@@ -161,6 +161,10 @@ public class JQ {
 	private static void load(File file) {
 		try {
 			String text = FileTools.readFile(file.getPath(), "utf-8");
+			//È¥µô¿é×¢ÊÍ
+			text = text.replaceAll("/\\*{1,2}[\\s\\S]*?\\*/", "");
+			//È¥µôÐÐ×¢ÊÍ
+			text = text.replaceAll("//[\\s\\S]*?\\n", "");
 			String name = file.getName();
 			query.put(name.substring(0, name.indexOf(".")), text);
 		} catch (IOException e1) {

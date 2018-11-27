@@ -21,8 +21,7 @@
 					"usedTypedResId" : "$usedTypedResId",
 					"usedHumanResId" : "$usedHumanResId",
 					"usedEquipResId" : "$usedEquipResId",
-					"workReportItemId" : "$workReportItemId",
-					"qty" : "$qty"
+					"workReportItemId" : "$workReportItemId"
 				}
 			}
 		},
@@ -36,10 +35,7 @@
 				"usedTypedResId" : "$_id.usedTypedResId",
 				"usedHumanResId" : "$_id.usedHumanResId",
 				"usedEquipResId" : "$_id.usedEquipResId",
-				"workReportItemId" : "$_id.workReportItemId",
-				"qty" : {
-					"$ifNull" : [ "$_id.qty", 1 ]
-				}
+				"workReportItemId" : "$_id.workReportItemId"
 			}
 		},
 		{
@@ -134,6 +130,9 @@
 										"$ifNull" : [ "$qty", 1 ]
 									} ]
 								},
+								"qty" : {
+									"$ifNull" : [ "$qty", 1 ]
+								}
 							}
 						} ],
 				"as" : "resourcePlan"
@@ -149,31 +148,50 @@
 					"usedHumanResId" : "$usedHumanResId",
 					"usedEquipResId" : "$usedEquipResId"
 				},
-				"pipeline" : [ {
-					"$match" : {
-						"$expr" : {
-							"$and" : [
-									{
-										"$eq" : [ "$work_id", "$$work_id" ]
-									},
-									{
-										"$eq" : [ "$resTypeId", "$$resTypeId" ]
-									},
-									{
-										"$eq" : [ "$usedTypedResId",
-												"$$usedTypedResId" ]
-									},
-									{
-										"$eq" : [ "$usedHumanResId",
-												"$$usedHumanResId" ]
-									},
-									{
-										"$eq" : [ "$usedEquipResId",
-												"$$usedEquipResId" ]
+				"pipeline" : [
+						{
+							"$match" : {
+								"$expr" : {
+									"$and" : [
+											{
+												"$eq" : [ "$work_id",
+														"$$work_id" ]
+											},
+											{
+												"$eq" : [ "$resTypeId",
+														"$$resTypeId" ]
+											},
+											{
+												"$eq" : [ "$usedTypedResId",
+														"$$usedTypedResId" ]
+											},
+											{
+												"$eq" : [ "$usedHumanResId",
+														"$$usedHumanResId" ]
+											},
+											{
+												"$eq" : [ "$usedEquipResId",
+														"$$usedEquipResId" ]
+											} ]
+								}
+							}
+						}, {
+							"$addFields" : {
+								"actualBasicQty" : {
+									"$multiply" : [ "$actualBasicQty", {
+										"$ifNull" : [ "$qty", 1 ]
 									} ]
-						}
-					}
-				} ],
+								},
+								"actualOverTimeQty" : {
+									"$multiply" : [ "$actualOverTimeQty", {
+										"$ifNull" : [ "$qty", 1 ]
+									} ]
+								},
+								"qty" : {
+									"$ifNull" : [ "$qty", 1 ]
+								}
+							}
+						} ],
 				"as" : "resourceActual"
 			}
 		},
@@ -427,6 +445,9 @@
 					} ]
 
 				},
+				"planQty" : {
+					"$avg" : "$resourcePlan.qty"
+				},
 				"actualBasicQty" : {
 					"$sum" : "$resourceActual.actualBasicQty"
 				},
@@ -439,6 +460,9 @@
 					}, {
 						"$sum" : "$resourceActual.actualOverTimeQty"
 					} ]
+				},
+				"actualQty" : {
+					"$avg" : "$resourceActual.qty"
 				},
 				"overtimeRate" : "$resType.overtimeRate",
 				"basicRate" : "$resType.basicRate",

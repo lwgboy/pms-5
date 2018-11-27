@@ -43,13 +43,16 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 	}
 
 	public Gson getGson() {
-		return new GsonBuilder()//
+		GsonBuilder gb = new GsonBuilder()//
 				.serializeNulls().registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
 				.registerTypeAdapter(Date.class, new DateAdapter())//
 				.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
-				.registerTypeAdapter(Document.class, new DocumentAdapter())//
-				// .registerTypeAdapter(RemoteFile.class, new RemoteFileAdapter())//不需要
-				.create();
+				.registerTypeAdapter(Document.class, new DocumentAdapter());//
+		// .registerTypeAdapter(RemoteFile.class, new RemoteFileAdapter())//不需要
+		if (logger.isDebugEnabled()) {
+			gb.setPrettyPrinting();
+		}
+		return gb.create();
 	}
 
 	@Override
@@ -64,8 +67,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 
 	@Override
 	public void writeTo(T object, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, java.lang.Object> httpHeaders, OutputStream entityStream)
-			throws IOException, WebApplicationException {
+			MultivaluedMap<String, java.lang.Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
 		String json;
 		if (type.equals(genericType)) {
 			json = getGson().toJson(object, type);
@@ -85,8 +87,7 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 
 	@Override
 	public T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
-			throws IOException, WebApplicationException {
+			MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
 		try (InputStreamReader reader = new InputStreamReader(entityStream, "UTF-8")) {
 			if (type.equals(UniversalResult.class)) {
 				return readFromResult(reader);
@@ -104,8 +105,8 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 	private T readFromResult(InputStreamReader reader) {
 		UniversalResult ur = getGson().fromJson(reader, UniversalResult.class);
 		String className = ur.getTargetClassName();
-		if(className==null) {
-			ur.setValue( Document.parse(ur.getResult()));
+		if (className == null) {
+			ur.setValue(Document.parse(ur.getResult()));
 			return (T) ur;
 		}
 		try {

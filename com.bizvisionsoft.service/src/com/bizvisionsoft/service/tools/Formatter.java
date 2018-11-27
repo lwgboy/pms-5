@@ -399,5 +399,5 @@ public class Formatter {
 		c.add(Calendar.MILLISECOND, -1);
 		return c.getTime();
 	}
-
+	
 }

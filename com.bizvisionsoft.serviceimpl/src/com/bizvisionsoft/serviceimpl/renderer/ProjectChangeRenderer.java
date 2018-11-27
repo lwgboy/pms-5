@@ -49,7 +49,7 @@ public class ProjectChangeRenderer {
 				+ "</div>"//
 				+ "<div class='layui-btn layui-btn-xs layui-btn-danger' style='position:absolute;right:16px;bottom:16px;'>"//
 				// TODO È±ÉÙ¾Ü¾øÍ¼±ê
-				+ "<a href='cancel' target='_rwt' class='layui-icon layui-icon-ok-circle' style='color:#fff;'></a>" //
+				+ "<a href='cancel' target='_rwt' class='layui-icon layui-icon-close' style='color:#fff;'></a>" //
 				+ "</div>";
 	}
 

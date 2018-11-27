@@ -30,8 +30,10 @@ public class Catalog {
 
 	public Document meta;
 
+	public Document match;
+
 	public Document getDocument() {
-		return new Document("_id", _id).append("label", label).append("type", type).append("meta", meta);
+		return new Document("_id", _id).append("label", label).append("type", type).append("meta", meta).append("match", match);
 	}
 
 }
