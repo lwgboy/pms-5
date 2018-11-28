@@ -13,6 +13,7 @@ import com.bizvisionsoft.annotations.md.service.Export;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.pms.exporter.MPPExporter;
@@ -52,8 +53,8 @@ public class EditableGantt {
 
 	@DataSet("data")
 	public List<WorkInfo> dataInSpace() {
-		return workSpaceService.createTaskDataSet(new BasicDBObject("space_id", workspace.getSpace_id()).append("_id",
-				new BasicDBObject("$ne", workspace.getWork_id())));
+		return workSpaceService.createTaskDataSet(
+				new BasicDBObject("space_id", workspace.getSpace_id()).append("_id", new BasicDBObject("$ne", workspace.getWork_id())));
 	}
 
 	@DataSet("links")
@@ -145,11 +146,17 @@ public class EditableGantt {
 
 	@Export(Export.DEFAULT)
 	public void export() {
+		GanttPart ganttPart = (GanttPart) context.getContent();
+		if (ganttPart.isDirty()) {
+			ganttPart.save((t, l) -> export());
+			return;
+		}
+
 		ObjectId pj_id = workspace.getProject_id();
 		String name = Services.get(ProjectService.class).get(pj_id).getProjectName();
 		try {
-			new MPPExporter<WorkInfo, WorkLinkInfo>().setTasks(dataInSpace()).setLinks(linksInSpace())
-					.setProjectName(name).setTaskConvertor((w, t, m) -> {
+			new MPPExporter<WorkInfo, WorkLinkInfo>().setTasks(dataInSpace()).setLinks(linksInSpace()).setProjectName(name)
+					.setTaskConvertor((w, t, m) -> {
 						m.put(w.get_id(), t);
 						t.setName(w.getText());
 						t.setNotes(w.getFullName());
