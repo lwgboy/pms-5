@@ -1,23 +1,43 @@
 {
 	"title": [{
-			"text": "<title1>",
+			"text": "<leftTitle>",
 			"y": "1%",
 			"x": "25%",
-			"textAlign": "center"
+			"textAlign": "center",
+			"textStyle": {
+				"fontFamily": ["Microsoft YaHei", "Segoe UI", "Tahoma", "Lucida Sans Unicode", "sans-serif"],
+				"fontSize": 14,
+				"fontWeight": "normal"
+				
+			}
 		},
 		{
-			"text": "<title2>",
+			"text": "<rightTitle>",
 			"x": "75%",
 			"y": "1%",
-			"textAlign": "center"
+			"textAlign": "center",
+			"textStyle": {
+				"fontFamily": ["Microsoft YaHei", "Segoe UI", "Tahoma", "Lucida Sans Unicode", "sans-serif"],
+				"fontSize": 14,
+				"fontWeight": "normal"
+				
+			}
 		}
 	],
+    "dataZoom": [
+        {
+            "type": "slider",
+            "start": 50,
+            "end": 100,
+            "top": "90%",
+        }
+    ],
 	"tooltip": {},
 	"grid": {
 		"left": "3%",
 		"right": "4%",
-		"bottom": "6%",
-		"top": "30%",
+		"bottom": "10%",
+		"top": "<gridTop>"
 		"containLabel": true,
 		"tooltip": {
 			"trigger": "axis"
