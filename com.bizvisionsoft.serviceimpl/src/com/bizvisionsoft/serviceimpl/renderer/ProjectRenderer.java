@@ -42,6 +42,7 @@ public class ProjectRenderer {
 		} else {
 			renderClosedProject(sb);
 		}
+		
 		RenderTools.renderCardBoard(sb, rowHeight);
 
 		return new Document("_id", pj.get_id()).append("html", sb.toString()).append("height", rowHeight);
@@ -61,7 +62,7 @@ public class ProjectRenderer {
 		if (pj.isStageEnable()) {
 			sb.append(renderProjectStage());
 		}
-
+		
 	}
 
 	private void renderClosingProject(StringBuffer sb) {
@@ -84,7 +85,7 @@ public class ProjectRenderer {
 		sb.append(renderTimeline());
 
 		sb.append(renderIndicators());
-
+		
 		sb.append(renderWarningNotice());
 	}
 
@@ -108,7 +109,7 @@ public class ProjectRenderer {
 		sb.append(renderTimeline());
 
 		sb.append(renderIndicators());
-
+		
 		sb.append(renderWarningNotice());
 
 	}
@@ -121,7 +122,7 @@ public class ProjectRenderer {
 		sb.append(renderOrg());
 
 		sb.append(renderPlanSchedule());
-
+		
 	}
 
 	private String renderPlanSchedule() {
@@ -152,13 +153,13 @@ public class ProjectRenderer {
 
 	private String renderTitle() {
 		rowHeight += 64;
-		String content = "<a href='openItem/' target='_rwt' class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
+		String content = "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
-				+ "<div class='label_title'>" + pj.getName() + "</div>"//
+				+ "<a class='label_title' href='openItem/' target='_rwt' style='color:#"+theme.headFgColor +"';>" + pj.getName() + "</a>"// 
 				+ "<div>" + Check.isAssignedThen(pj.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: ´ý¶¨") + "</div>"//
 				+ "</div>" //
 				+ "<div class='label_title'>" + pj.getStatus() + "</div>"//
-				+ "</a>";
+				+ "</div>";
 		return content;
 	}
 
@@ -286,5 +287,5 @@ public class ProjectRenderer {
 				+ "</div>");//
 		sb.append("</div>");
 	}
-
+	
 }

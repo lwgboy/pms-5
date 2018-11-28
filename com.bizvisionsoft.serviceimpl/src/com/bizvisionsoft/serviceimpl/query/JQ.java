@@ -15,19 +15,20 @@ import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.Service;
 
 public class JQ {
 
 	private static Map<String, String> query = new ConcurrentHashMap<String, String>();
-
-	public static boolean forceReloadJSQuery;
+	
+	private static Map<String, Long> lastModify = new ConcurrentHashMap<String, Long>();
 
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
 	private String queryName;
-	
+
 	public JQ(String queryName) {
 		this.queryName = queryName;
 	}
@@ -42,13 +43,13 @@ public class JQ {
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters(ba);
 	}
-	
+
 	public List<Document> list() {
 		String js = readJS(queryName);
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters2(ba);
 	}
-	
+
 	private List<Document> inputDocumentArrayParameters2(BsonArray ba) {
 		List<Document> result = new ArrayList<Document>();
 		for (int i = 0; i < ba.size(); i++) {
@@ -69,15 +70,15 @@ public class JQ {
 		for (int i = 0; i < keys.length; i++) {
 			BsonValue bv = doc.get(keys[i]);
 			Object v = inputValueParameters(bv);
-			
+
 			String parameter = getParameter(keys[i]);
 			String k;
 			if (parameter != null && parameters.containsKey(parameter)) {
-				k = (String)parameters.get(parameter);
-			}else {
+				k = (String) parameters.get(parameter);
+			} else {
 				k = keys[i];
 			}
-			
+
 			document.put(k, v);
 		}
 		return document;
@@ -123,25 +124,27 @@ public class JQ {
 	}
 
 	private String readJS(String queryName) {
-		if (queryName == null || queryName.isEmpty()) {
+		if (Check.isNotAssigned(queryName)) {
 			throw new RuntimeException("查询文件名不可为空。");
 		}
-		String js = query.get(queryName);
-		if (forceReloadJSQuery || js == null) {
-			String queryFileName = queryName.toLowerCase() + ".js";
-			File[] files = Service.queryFolder.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.toLowerCase().equals(queryFileName);
-				}
-			});
-			if (files == null || files.length == 0) {
-				throw new RuntimeException("无法获得请求的文件。" + queryFileName);
+
+		String queryFileName = queryName.toLowerCase() + ".js";
+
+		File[] files = Service.queryFolder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().equals(queryFileName);
 			}
+		});
+		if (files == null || files.length == 0) {
+			throw new RuntimeException("无法获得请求的文件。" + queryFileName);
+		}
+
+		Long lm = lastModify.get(queryName);
+		if (lm == null || files[0].lastModified() != lm.longValue()) {// 没有文件或者文件已经更改
 			load(files[0]);
 		}
-		js = query.get(queryName);
-		return js;
+		return query.get(queryName);
 	}
 
 	public static void reloadJS() {
@@ -161,12 +164,14 @@ public class JQ {
 	private static void load(File file) {
 		try {
 			String text = FileTools.readFile(file.getPath(), "utf-8");
-			//去掉块注释
+			// 去掉块注释
 			text = text.replaceAll("/\\*{1,2}[\\s\\S]*?\\*/", "");
-			//去掉行注释
+			// 去掉行注释
 			text = text.replaceAll("//[\\s\\S]*?\\n", "");
 			String name = file.getName();
-			query.put(name.substring(0, name.indexOf(".")), text);
+			String key = name.substring(0, name.indexOf("."));
+			query.put(key, text);
+			lastModify.put(key, file.lastModified());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

@@ -289,5 +289,9 @@ public class User implements IResourceAssignment {
 	public boolean isChangePSW() {
 		return changePSW;
 	}
+	
+	public void setChangePSW(boolean changePSW) {
+		this.changePSW = changePSW;
+	}
 
 }
