@@ -3484,7 +3484,7 @@
               {
                 "id": "9628decdec9",
                 "name": "项目基线",
-                "switchContentToAssemblyId": "164695b3e05",
+                "switchContentToAssemblyId": "1643f851f42",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -4103,7 +4103,7 @@
               {
                 "id": "164695bd073",
                 "name": "项目基线",
-                "switchContentToAssemblyId": "164695b3e05",
+                "switchContentToAssemblyId": "1643f851f42",
                 "openContent": false,
                 "propagate": false,
                 "forceText": false,
@@ -54860,7 +54860,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "1643fa838fe",
@@ -59550,7 +59551,7 @@
             "expanded": false,
             "columns": [],
             "markupEnabled": false,
-            "format": "yyyy-MM-dd",
+            "format": "yyyy-MM-dd hh:mm:dd",
             "enableColumnSort": false,
             "forceDisplayZero": false,
             "hide": false,
@@ -59625,7 +59626,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "164695cb283",
