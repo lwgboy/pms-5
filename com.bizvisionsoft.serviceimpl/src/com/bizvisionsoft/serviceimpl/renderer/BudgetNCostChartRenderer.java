@@ -25,9 +25,9 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 	private static final String AmountChart = "图表-预算成本-金额";
 
-	private static final String Pie1Chart = "图表-预算成本-pie1";
+	private static final String PieLeftChart = "图表-预算成本-LeftPie";
 
-	private static final String Pie2Chart = "图表-预算成本-pie2";
+	private static final String PieRightChart = "图表-预算成本-RightPie";
 
 	private static final String SummaryChart = "图表-预算成本-累计金额";
 
@@ -40,15 +40,13 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 		private double[] costs;
 
-		private Double totalBudget;
+		private double totalBudget;
 
-		private Double totalCost;
+		private double totalCost;
 
 		public BudgetNCostData(int xAxisCount) {
 			budgets = new double[xAxisCount];
 			costs = new double[xAxisCount];
-			totalBudget = 0d;
-			totalCost = 0d;
 		}
 
 		public void build(Document doc) {
@@ -64,10 +62,8 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 				budgets[idx] = budget;
 				costs[idx] = cost;
 
-				// 计算预算汇总值
-				summary(idx, xAxisData.size(), totalAggBudget, budget);
-				// 计算成本汇总值
-				summary(idx, xAxisData.size(), totalAggCost, cost);
+				// 计算汇总值
+				summary(idx, budget, cost);
 			}
 		}
 
@@ -80,6 +76,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 	private List<String> dataType;
 	private String seriesType;
 	private boolean aggregate;
+	private boolean showPercentage;
 
 	private double[] totalAggBudget;
 	private double[] totalAggCost;
@@ -91,8 +88,9 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 	private Document group;
 	private Document match;
 	private ArrayList<String> xAxisData;
-	private String title1;
-	private String title2;
+	private String rightTitle;
+	private String leftTitle;
+	private String gridTop;
 	private List<Document> yAxis;
 
 	@SuppressWarnings("unchecked")
@@ -106,6 +104,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 		dataType = (List<String>) option.get("dataType");
 		seriesType = option.getString("seriesType");
 		aggregate = option.getBoolean("aggregate", false);
+		showPercentage = option.getBoolean("showPercentage", false);
 		input = ((List<Document>) condition.get("input"));
 	}
 
@@ -125,8 +124,8 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 		// 根据系列类型构建series
 		appendSeries();
 
-		JQ jq = new JQ(Chart).set("xAxisData", xAxisData).set("title1", title1).set("title2", title2).set("legendData", legendData)
-				.set("series", series).set("yAxis", yAxis);
+		JQ jq = new JQ(Chart).set("xAxisData", xAxisData).set("rightTitle", rightTitle).set("leftTitle", leftTitle)
+				.set("legendData", legendData).set("series", series).set("yAxis", yAxis).set("gridTop", gridTop);
 		System.out.println(jq.doc().toJson());
 		return jq.doc();
 	}
@@ -135,6 +134,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 	 * 加载Series
 	 */
 	private void appendSeries() {
+		gridTop = "60";
 		Map<String, BudgetNCostData> budgetNCostData = query();
 		for (String key : budgetNCostData.keySet()) {
 			// 根据数据类型加载bar
@@ -161,21 +161,20 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 				appendPie(pie2, key, b.totalCost);
 			}
 		}
-		// 如果需要加载预算，则将预算放到左侧pie中
-		if (input.size() > 1) {
+		// 如果显示占比并且存在多个系列时
+		if (showPercentage && input.size() > 1) {
+			gridTop = "45%";
 			if (pie1.size() > 0) {
-				appendPie(Pie2Chart, "预算", pie1);
-				title2 = "预算";
+				appendPie(PieLeftChart, "预算", pie1);
+				leftTitle = "预算";
 			}
-			// 如果需要加载成本，则根据是否加载预算来加载成本pie
-			if (pie2.size() > 0 && pie1.size() > 0) {
-				appendPie(Pie1Chart, "成本", pie2);
-				title1 = "成本";
 
-			} else if (pie2.size() > 0 && pie1.size() == 0) {
-				appendPie(Pie2Chart, "成本", pie2);
-				title2 = "成本";
+			// 如果需要加载成本，则根据是否加载预算来加载成本pie
+			if (pie2.size() > 0) {
+				appendPie(PieRightChart, "成本", pie2);
+				rightTitle = "成本";
 			}
+
 		}
 		// 加载汇总值
 		if (aggregate) {
@@ -277,7 +276,9 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 		match = new Document();
 		xAxisData = new ArrayList<String>();
 		List<Double> agg = new ArrayList<Double>();
+		// 日期查询范围
 		List<String> ml = new ArrayList<String>();
+
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(start);
 		SimpleDateFormat sdf;
@@ -296,6 +297,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.YEAR, 1);
 			}
+
 			sdf = new SimpleDateFormat("yyyyMM");
 			cal.setTime(start);
 			while (!cal.getTime().after(end)) {
@@ -351,9 +353,20 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 		}
 	}
 
-	private void summary(int idx, int xAxisCount, double[] Agg, double value) {
-		for (int i = idx; i < xAxisCount; i++) {
-			Agg[i] += value;
+	/**
+	 * 计算汇总值
+	 * 
+	 * @param idx
+	 *            当前值在汇总数组中的index
+	 * @param budget
+	 *            需要添加到汇总值中的预算
+	 * @param cost
+	 *            需要添加到汇总值中的成本
+	 */
+	private void summary(int idx, double budget, double cost) {
+		for (int i = idx; i < xAxisData.size(); i++) {
+			totalAggBudget[i] += budget;
+			totalAggCost[i] += cost;
 		}
 	}
 

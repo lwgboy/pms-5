@@ -2,7 +2,7 @@
     "name": "<name>",
     "type": "pie",
     "center": [ "25%", "20%" ],
-    "radius": "30%",
+    "radius": "25%",
     "z": 100,
     "label": {
         "normal": {

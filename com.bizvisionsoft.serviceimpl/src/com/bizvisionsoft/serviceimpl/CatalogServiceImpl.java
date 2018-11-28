@@ -52,7 +52,8 @@ public class CatalogServiceImpl extends BasicServiceImpl implements CatalogServi
 		cal.add(Calendar.MINUTE, -1);
 		Date end = cal.getTime();
 		return new Document("dateRange", Arrays.asList(start, end)).append("dateType", "月").append("seriesType", "汇总")
-				.append("dataType", new ArrayList<String>(Arrays.asList("预算", "成本"))).append("aggregate", false);
+				.append("dataType", new ArrayList<String>(Arrays.asList("预算", "成本"))).append("aggregate", false)
+				.append("showPercentage", false);
 	}
 
 	/**
