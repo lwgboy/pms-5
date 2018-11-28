@@ -126,7 +126,6 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 		JQ jq = new JQ(Chart).set("xAxisData", xAxisData).set("rightTitle", rightTitle).set("leftTitle", leftTitle)
 				.set("legendData", legendData).set("series", series).set("yAxis", yAxis).set("gridTop", gridTop);
-		debugDocument(jq.doc());
 		return jq.doc();
 	}
 
