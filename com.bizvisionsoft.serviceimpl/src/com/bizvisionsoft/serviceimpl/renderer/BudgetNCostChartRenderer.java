@@ -176,7 +176,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 			}
 
 		}
-		// 加载汇总值
+		// 生成汇总值
 		if (aggregate) {
 			if (dataType.contains(StackBudget)) {
 				appendSummary(SummaryChart, "预算", totalAggBudget, BruiColor.Light_Blue);
