@@ -238,7 +238,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		// createUniqueIndex("obsInTemplate", new Document("roleId",
 		// 1).append("scope_id", 1), "role_scope");
 
-		createIndex("organization", new Document("id", 1), "id");
+		createUniqueIndex("organization", new Document("id", 1), "id");
 		createIndex("organization", new Document("managerId", 1), "manager");
 		createIndex("organization", new Document("parent_id", 1), "parent");
 
