@@ -46,8 +46,6 @@ public class Service implements BundleActivator {
 
 	private static MongoClient mongo;
 
-	private boolean loadJSQueryAtInit;
-
 	private static ExecutorService threadPoolService;
 
 	public static String mongoDbBinPath;
@@ -151,13 +149,7 @@ public class Service implements BundleActivator {
 	private void loadQuery(String filePath) {
 		try {
 			queryFolder = new File(new File(filePath).getParent() + "/query");
-			loadJSQueryAtInit = "init".equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
-			if (loadJSQueryAtInit) {
-				JQ.reloadJS();
-			}
-
-			JQ.forceReloadJSQuery = "force"
-					.equalsIgnoreCase(context.getProperty("com.bizvisionsoft.service.LoadJSQuery"));
+			JQ.reloadJS();
 			logger.info("JSQuery加载完成，目录：" + queryFolder);
 		} catch (Exception e) {
 			logger.error("JSQuery加载错误：", e);
@@ -282,7 +274,7 @@ public class Service implements BundleActivator {
 			return null;
 		}
 	}
-	
+
 	public static void run(Runnable command) {
 		threadPoolService.execute(command);
 	}
