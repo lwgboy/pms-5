@@ -4340,21 +4340,6 @@
             "type": "customized",
             "horizontalSpan": 0,
             "verticalSpan": 0
-          },
-          {
-            "id": "1641a87cc06",
-            "name": "开发环境",
-            "image": "/img/rnd_w.svg",
-            "openContent": false,
-            "propagate": false,
-            "forceText": false,
-            "editorAssemblyEditable": false,
-            "objectBehavier": false,
-            "actionBehavier": false,
-            "type": "openpage",
-            "openPageName": "开发环境",
-            "horizontalSpan": 0,
-            "verticalSpan": 0
           }
         ]
       },
