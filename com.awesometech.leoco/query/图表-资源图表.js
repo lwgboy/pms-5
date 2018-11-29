@@ -37,12 +37,10 @@
     "xAxis": [
         {
             "type": "category",
-            "boundaryGap": false,
             "data": "<xAxisData>"
         },
         {
             "type": "category",
-            "boundaryGap": false,
             "data": "<xAxisData>",
             "gridIndex": 1
         }

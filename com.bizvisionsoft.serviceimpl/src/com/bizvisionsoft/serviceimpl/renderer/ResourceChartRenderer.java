@@ -187,7 +187,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		initializeXAxis();
 		// 根据累计类型，构建Y轴
 		initializeYAxis();
-		// 初始化汇总字段，并构建match
+		// 构建match
 		initializeMatch();
 
 		// 根据系列类型构建series

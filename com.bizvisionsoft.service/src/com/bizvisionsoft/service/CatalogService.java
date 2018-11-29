@@ -31,7 +31,7 @@ public interface CatalogService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS资源图表/list", "EPS预算成本图表/list" })
 	public List<Catalog> listEPSRoot();
-	
+
 	@POST
 	@Path("/res/selector/structure/")
 	@Consumes("application/json; charset=UTF-8")
@@ -46,42 +46,41 @@ public interface CatalogService {
 	@DataSet({ "组织资源图表/scount", "EPS资源图表/scount", "项目资源图表/scount" })
 	public long countResStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
-
 	@POST
 	@Path("/res/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/chart", "EPS资源图表/chart", "项目资源图表/chart" })
 	public Document createResChart(@MethodParam(MethodParam.CONDITION) Document condition);
-	
+
 	@POST
 	@Path("/budgetNCost/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS预算成本图表/chart" })
+	@DataSet({ "EPS预算成本图表/chart", "项目预算成本图表/chart" })
 	public Document createBudgetNCostChart(@MethodParam(MethodParam.CONDITION) Document condition);
-	
+
 	@POST
 	@Path("/budgetNCost/selector/structure/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS预算成本图表/slist" })
+	@DataSet({ "EPS预算成本图表/slist", "项目预算成本图表/slist" })
 	public List<Catalog> listBudgetNCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/budgetNCost/selector/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS预算成本图表/scount" })
+	@DataSet({ "EPS预算成本图表/scount", "项目预算成本图表/scount" })
 	public long countBudgetNCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-	
+
 	@POST
 	@Path("/budgetcost/option/default")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS预算成本图表/default" })
+	@DataSet({ "EPS预算成本图表/default", "项目预算成本图表/default" })
 	public Document createDefaultBudgetNCostOption();
-	
+
 	@POST
 	@Path("/res/option/default")
 	@Consumes("application/json; charset=UTF-8")
@@ -93,7 +92,7 @@ public interface CatalogService {
 	@Path("/res/selector/project/root/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "项目资源图表/list" })
+	@DataSet({ "项目资源图表/list", "项目预算成本图表/list" })
 	public List<Catalog> listResProjectRoot(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 }
