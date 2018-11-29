@@ -18,6 +18,7 @@ import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.serviceconsumer.Services;
 
+@Deprecated
 public class MonthCostCompositionAnalysisASM extends AbstractChartASM {
 
 	@Inject
