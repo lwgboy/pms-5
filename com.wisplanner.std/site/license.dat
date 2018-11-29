@@ -1,0 +1,24 @@
+[
+  {
+    "prodId": "9070",
+    "prodName": "BizVision 项目管理系统",
+    "version": "5.0",
+    "qty": 1,
+    "usage": "leoco",
+    "contractNo": "JZCG3-2017-113",
+    "ownerName": "leoco",
+    "remark": "PMS",
+    "unit": "套"
+  },
+  {
+    "prodId": "9071",
+    "prodName": "BizVision 项目管理系统维护服务",
+    "expiredDate": "Dec 31, 2019 12:00:00 AM",
+    "qty": 365,
+    "usage": "leoco",
+    "contractNo": "JZCG3-2017-113",
+    "ownerName": "leoco",
+    "remark": "PMS",
+    "unit": "天"
+  }
+]
