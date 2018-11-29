@@ -1,7 +1,7 @@
 {
   "typeName": "站点",
   "id": "1618092b217",
-  "name": "WisPlanner5.2M1",
+  "name": "WisPlanner5.2M2",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -1081,7 +1081,7 @@
       "typeName": "页面",
       "id": "16182ccd795",
       "name": "首页",
-      "title": "BV-PMS",
+      "title": "WisPlanner5",
       "behavior": true,
       "headbar": {
         "behavior": true,
@@ -78652,8 +78652,8 @@
     ]
   },
   "password": "admin",
-  "footLeftText": "东莞龙杰电子有限公司",
-  "headLogo": "/cust/logo.png",
+  "footLeftText": "",
+  "headLogo": "",
   "pageBackgroundImage": "",
   "pageBackgroundImageCSS": "brui_blur",
   "welcome": "登录WisPlanner 5",
