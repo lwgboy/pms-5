@@ -11,9 +11,10 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class WorkTime {
+public class WorkTime implements JsonExternalizable{
 
 	@Behavior({ "工作日历/删除", "工作日历/编辑" })
 	private boolean behavior = true;
@@ -38,6 +39,10 @@ public class WorkTime {
 	@ReadValue
 	@WriteValue
 	public Date date;
+	
+	@ReadValue
+	@WriteValue
+	public List<Date> dates;
 
 	@ReadValue
 	@WriteValue
@@ -66,6 +71,11 @@ public class WorkTime {
 	@ReadValue
 	@WriteValue
 	public Date to3;
+	
+	
+	@ReadValue
+	@WriteValue
+	public Double overtimeRate;
 
 	@Override
 	@ReadValue("工作日历/id")
@@ -84,14 +94,14 @@ public class WorkTime {
 		// text += " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) +
 		// (workingDay ? "工作日" : "非工作日");
 		// }
-		return "工作日设置";
+		return "工作日";
 	}
 
 	@ReadValue("工作日历/description")
 	public String getDescription() {
 		String text = "";
 		if (date != null)
-			text += " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) + (workingDay ? "工作日" : "非工作日");
+			text += " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(date) ;
 
 		if (day != null && !day.isEmpty())
 			text += " 每周工作: " + day;
