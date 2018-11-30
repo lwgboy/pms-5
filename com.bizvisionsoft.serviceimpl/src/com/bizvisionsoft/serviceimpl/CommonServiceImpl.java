@@ -466,8 +466,13 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public List<TrackView> getTrackView() {
-		return c(TrackView.class).find().into(new ArrayList<TrackView>());
+	public List<TrackView> listTrackView(BasicDBObject condition) {
+		return createDataSet(condition, TrackView.class);
+	}
+	
+	@Override
+	public long countTrackView(BasicDBObject filter) {
+		return count(filter, TrackView.class);
 	}
 
 	@Override

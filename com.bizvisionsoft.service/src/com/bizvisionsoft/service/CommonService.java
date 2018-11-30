@@ -424,7 +424,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "视图和工作包列表/" + DataSet.LIST, "视图和工作包选择器/" + DataSet.LIST })
-	public List<TrackView> getTrackView();
+	public List<TrackView> listTrackView(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	
+	@POST
+	@Path("/track/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "视图和工作包列表/" + DataSet.COUNT, "视图和工作包选择器/" + DataSet.COUNT })
+	public long countTrackView(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/track/")
