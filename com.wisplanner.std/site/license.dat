@@ -1,13 +1,13 @@
 [
   {
     "prodId": "9070",
-    "prodName": "BizVision 项目管理系统",
+    "prodName": "WisPlanner 项目管理系统",
     "version": "5.0",
     "qty": 1,
-    "usage": "leoco",
-    "contractNo": "JZCG3-2017-113",
-    "ownerName": "leoco",
-    "remark": "PMS",
+    "usage": "仅供演示使用",
+    "contractNo": "DEMO-2018113001",
+    "ownerName": "优先商软",
+    "remark": "WisPlanner5",
     "unit": "套"
   },
   {
@@ -15,10 +15,10 @@
     "prodName": "BizVision 项目管理系统维护服务",
     "expiredDate": "Dec 31, 2019 12:00:00 AM",
     "qty": 365,
-    "usage": "leoco",
-    "contractNo": "JZCG3-2017-113",
-    "ownerName": "leoco",
-    "remark": "PMS",
+    "usage": "仅供演示使用",
+    "contractNo": "DEMO-2018113002",
+    "ownerName": "优先商软",
+    "remark": "WisPlanner5",
     "unit": "天"
   }
 ]
