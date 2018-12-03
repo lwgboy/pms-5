@@ -81,13 +81,13 @@ public class Calendar {
 		} catch (Exception e) {
 			throw new RuntimeException("输入类型错误。");
 		}
-		if (__overTimeWorks <= 0) {
-			throw new RuntimeException("每日加班工时需大于零。");
+		if (__overTimeWorks < 0) {
+			throw new RuntimeException("每日加班工时需大于等于零。");
 		}
 		overTimeWorks = __overTimeWorks;
 	}
 
-	@Behavior({ "工作日历/添加", "工作日历/删除", "工作日历/编辑" })
+	@Behavior({ "工作日历/添加","工作日历/添加区间", "工作日历/删除", "工作日历/编辑" })
 	@Exclude
 	private boolean behavior = true;
 

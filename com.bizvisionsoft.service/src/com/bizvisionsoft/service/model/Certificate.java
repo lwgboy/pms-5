@@ -20,7 +20,7 @@ public class Certificate {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "执业资格";
+	private String typeName = "资格";
 
 	
 	@ReadValue
@@ -30,5 +30,9 @@ public class Certificate {
 	@ReadValue
 	@WriteValue
 	private String scope;
+	
+	@ReadValue
+	@WriteValue
+	private String type;
 
 }
