@@ -69,7 +69,7 @@ public class Service implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext )
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
-		Service.context = bundleContext;
+		context = bundleContext;
 		String filePath = context.getProperty("com.bizvisionsoft.service.MongoDBConnector");
 		loadDatabase(filePath);
 		loadQuery(filePath);
