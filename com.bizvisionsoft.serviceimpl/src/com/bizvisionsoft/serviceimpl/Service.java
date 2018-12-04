@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -25,8 +26,11 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
+import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
+import com.bizvisionsoft.mongocodex.tools.IValueGenerateServiceFactory;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.valuegen.DocumentValueGeneratorFactory;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientSettings.Builder;
 import com.mongodb.MongoCredential;
@@ -75,6 +79,21 @@ public class Service implements BundleActivator {
 		loadQuery(filePath);
 		loadPath(filePath);
 		initThreadPool();
+		// 注册取值服务
+		context.registerService(IValueGenerateServiceFactory.class, new DocumentValueGeneratorFactory(), null);
+	}
+	
+	/**
+	 * 注册取值服务
+	 * @param className
+	 * @param fieldName
+	 * @param so
+	 */
+	public static void registerValueGenerateService(String className, String fieldName, IValueGenerateService so) {
+		Hashtable<String, String> properties = new Hashtable<>();
+		properties.put("value.class", className);
+		properties.put("value.field", fieldName);
+		context.registerService(IValueGenerateService.class, so, properties);
 	}
 
 	private void initThreadPool() {

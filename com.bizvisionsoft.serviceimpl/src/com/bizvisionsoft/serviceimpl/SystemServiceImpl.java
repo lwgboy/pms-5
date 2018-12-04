@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.SystemService;
+import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
@@ -16,6 +18,7 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
 import com.bizvisionsoft.serviceimpl.update.PMS0501_pmo;
 import com.bizvisionsoft.serviceimpl.update.PMS0502_accountitem;
+import com.mongodb.BasicDBObject;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.model.IndexOptions;
 
@@ -386,6 +389,31 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
 		}
+	}
+
+	@Override
+	public List<ValueRule> listValueRule(BasicDBObject condition) {
+		return createDataSet(condition, ValueRule.class);
+	}
+
+	@Override
+	public long countValueRule(BasicDBObject filter) {
+		return count(filter, ValueRule.class);
+	}
+
+	@Override
+	public ValueRule insertValueRule(ValueRule valueRule) {
+		return insert(valueRule);
+	}
+
+	@Override
+	public long deleteValueRule(ObjectId _id) {
+		return delete(_id, ValueRule.class);
+	}
+
+	@Override
+	public long updateValueRule(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ValueRule.class);
 	}
 
 }

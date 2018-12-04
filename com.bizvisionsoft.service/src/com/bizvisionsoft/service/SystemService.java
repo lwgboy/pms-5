@@ -13,10 +13,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
+import com.mongodb.BasicDBObject;
 
 @Path("/sysman")
 public interface SystemService {
@@ -102,5 +105,41 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void createIndex();
+	
+	@POST
+	@Path("/valueRule/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值生成规则/" + DataSet.LIST)
+	public List<ValueRule> listValueRule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/valueRule/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值生成规则/" + DataSet.COUNT)
+	public long countValueRule(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/valueRule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值生成规则/" + DataSet.INSERT)
+	public ValueRule insertValueRule(@MethodParam(MethodParam.OBJECT) ValueRule valueRule);
+
+	@DELETE
+	@Path("/valueRule/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值生成规则/" + DataSet.DELETE)
+	public long deleteValueRule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/valueRule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值生成规则/" + DataSet.UPDATE)
+	public long updateValueRule(BasicDBObject filterAndUpdate);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
