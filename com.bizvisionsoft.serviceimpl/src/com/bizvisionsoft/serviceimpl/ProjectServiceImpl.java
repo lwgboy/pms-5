@@ -781,9 +781,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id);
-		sendMessage("项目收尾通知",
-				"项目：" + project.getString("name") + " 已于 " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 进入收尾。",
-				com.userId, memberIds, null);
+		sendMessage("项目收尾通知", "项目：" + project.getString("name") + " 已于 " + Formatter.getString(com.date) + " 进入收尾。", com.userId, memberIds,
+				null);
 
 		return new ArrayList<>();
 	}
