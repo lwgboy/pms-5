@@ -32,6 +32,9 @@ public class JQ {
 	public JQ(String queryName) {
 		this.queryName = queryName;
 	}
+	
+	public JQ() {
+	}
 
 	public JQ set(String key, Object value) {
 		parameters.put(key, value);
@@ -40,12 +43,20 @@ public class JQ {
 
 	public List<Bson> array() {
 		String js = readJS(queryName);
+		return array(js);
+	}
+
+	public List<Bson> array(String js) {
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters(ba);
 	}
 
 	public List<Document> list() {
 		String js = readJS(queryName);
+		return list(js);
+	}
+
+	private List<Document> list(String js) {
 		BsonArray ba = BsonArray.parse(js);
 		return inputDocumentArrayParameters2(ba);
 	}
@@ -60,6 +71,10 @@ public class JQ {
 
 	public Document doc() {
 		String js = readJS(queryName);
+		return doc(js);
+	}
+
+	public Document doc(String js) {
 		BsonDocument doc = BsonDocument.parse(js);
 		return inputDocumentParameters(doc);
 	}

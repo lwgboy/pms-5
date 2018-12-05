@@ -10,12 +10,11 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("valueRuleSegment")
 public class ValueRuleSegment {
-	
 
 	@ReadValue
 	@WriteValue
 	public ObjectId _id;
-	
+
 	@ReadValue
 	@WriteValue
 	public ObjectId rule_id;
@@ -77,6 +76,13 @@ public class ValueRuleSegment {
 	@ReadValue
 	@WriteValue
 	public String query;
+	
+	/**
+	 * 类型为查询时对应的pipeline
+	 */
+	@ReadValue
+	@WriteValue
+	public String pipelineJson;
 
 	/**
 	 * 类型为查询时，返回结果的字段名称，可以为null,为null时返回结果的Document类型
@@ -134,6 +140,13 @@ public class ValueRuleSegment {
 	@ReadValue
 	@WriteValue
 	public int index;
+
+	/**
+	 * 禁止输出
+	 */
+	@ReadValue
+	@WriteValue
+	public boolean disableOutput;
 
 	/**
 	 * 流水号Id，使用index，用减号分割，例如：1-2-4表示取码段1,2,4作为前缀，index为负的表示用空字符串，index码段越界时，抛出错误
