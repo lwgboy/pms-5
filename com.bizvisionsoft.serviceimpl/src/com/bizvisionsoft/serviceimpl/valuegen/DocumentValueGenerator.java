@@ -23,17 +23,18 @@ import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
+import com.bizvisionsoft.serviceimpl.SystemServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.mongodb.BasicDBObject;
 
-public class DocumentValueGenerator extends BasicServiceImpl implements IValueGenerateService {
+public class DocumentValueGenerator extends SystemServiceImpl implements IValueGenerateService {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	private List<ValueRuleSegment> segments;
 
 	public DocumentValueGenerator(ValueRule rule) {
-		segments = rule.segments;
+		segments = listValueRuleSegment(new BasicDBObject(), rule._id);
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public class DocumentValueGenerator extends BasicServiceImpl implements IValueGe
 			if (Check.isAssigned(seg.query, seg.collection)) {
 				JQ jq = new JQ(seg.query);
 				if (seg.params != null) {
-					seg.params.forEach(d -> {
+					Arrays.asList(seg.params.split(";")).forEach(d -> {
 						String[] _v = d.split("=");
 						String[] _n = _v[1].split("/");
 						String pName = _v[0].trim();

@@ -97,15 +97,15 @@ public interface SystemService {
 	@Path("/updateSystem/{versionNumber}/{packageCode}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateSystem(@PathParam("versionNumber") String versionNumber,
-			@PathParam("packageCode") String packageCode);
+	public void updateSystem(@PathParam("versionNumber") String versionNumber, @PathParam("packageCode") String packageCode);
 
 	@POST
 	@Path("/createindex/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void createIndex();
-	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@POST
 	@Path("/valueRule/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -141,5 +141,47 @@ public interface SystemService {
 	@DataSet("值生成规则/" + DataSet.UPDATE)
 	public long updateValueRule(BasicDBObject filterAndUpdate);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@POST
+	@Path("/valueRule/{_id}/segment/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值规则段/" + DataSet.LIST)
+	public List<ValueRuleSegment> listValueRuleSegment(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id);
+
+	@POST
+	@Path("/valueRule/{_id}/segment/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值规则段/" + DataSet.COUNT)
+	public long countValueRuleSegment(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id);
+
+	@POST
+	@Path("/valueRuleSegment/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs);
+	
+	@DELETE
+	@Path("/valueRuleSegment/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值规则段/" + DataSet.DELETE)
+	public long deleteValueRuleSegment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/valueRuleSegment/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("值规则段/" + DataSet.UPDATE)
+	public long updateValueRuleSegment(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/valueRuleSegment/maxIndex/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getMaxSegmentIndex(ObjectId rule_id);
 
 }

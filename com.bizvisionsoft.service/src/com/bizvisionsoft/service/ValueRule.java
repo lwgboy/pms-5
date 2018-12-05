@@ -1,7 +1,5 @@
 package com.bizvisionsoft.service;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
@@ -28,10 +26,6 @@ public class ValueRule {
 	@ReadValue
 	@WriteValue
 	public String fieldName;
-
-	@ReadValue
-	@WriteValue
-	public List<ValueRuleSegment> segments;
 
 	@Label
 	public String label() {

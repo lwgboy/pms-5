@@ -1,13 +1,24 @@
 package com.bizvisionsoft.service;
 
-import java.util.List;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
+@PersistenceCollection("valueRuleSegment")
 public class ValueRuleSegment {
+	
+
+	@ReadValue
+	@WriteValue
+	public ObjectId _id;
+	
+	@ReadValue
+	@WriteValue
+	public ObjectId rule_id;
 
 	/**
 	 * 类型：只能是以下几种 常量，当前日期时间，当前时间戳，字段，JavaScript，查询，流水号
@@ -25,7 +36,7 @@ public class ValueRuleSegment {
 	public String value;
 
 	/**
-	 * 类型为字段时的字段名
+	 * 类型为字段时的字段名,cName/fName
 	 */
 	@ReadValue
 	@WriteValue
@@ -51,7 +62,7 @@ public class ValueRuleSegment {
 	 */
 	@ReadValue
 	@WriteValue
-	public List<String> params;
+	public String params;
 
 	/**
 	 * JavaScript脚本
