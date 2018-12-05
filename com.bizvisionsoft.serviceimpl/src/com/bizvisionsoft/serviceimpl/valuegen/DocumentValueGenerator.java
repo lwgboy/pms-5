@@ -1,7 +1,12 @@
 package com.bizvisionsoft.serviceimpl.valuegen;
 
+import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -33,12 +38,14 @@ public class DocumentValueGenerator extends BasicServiceImpl implements IValueGe
 
 	@Override
 	public String getValue(Object input) {
-		StringBuffer sb = new StringBuffer();
-		segments.forEach(s -> sb.append(getSegmentValue(input, s)));
-		return sb.toString();
+		Map<ValueRuleSegment, String> stage = new HashMap<ValueRuleSegment, String>();
+		return segments.stream().sorted((s1, s2) -> s1.executeSequance - s2.executeSequance)// 按执行顺序排序
+				.map(s -> this.getSegmentValue(input, s, stage))// 计算值
+				.sorted((s1, s2) -> s1.getKey().index - s2.getKey().index)// 按段号排序
+				.reduce("", (s, e) -> s + e.getValue(), (s1, s2) -> s1);
 	}
 
-	private String getSegmentValue(Object input, ValueRuleSegment seg) {
+	private Entry<ValueRuleSegment, String> getSegmentValue(Object input, ValueRuleSegment seg, Map<ValueRuleSegment, String> stage) {
 		Object value = null;
 		// 类型1.常量字符串
 		if ("常量".equals(seg.type)) {
@@ -115,11 +122,30 @@ public class DocumentValueGenerator extends BasicServiceImpl implements IValueGe
 			} else {
 				logger.warn("查询类型缺少查询和集合名的定义，取值被忽略。");
 			}
-		}else if("流水号".equals(seg.type)) {
-			//TODO
+		} else if ("流水号".equals(seg.type)) {
+			// 取流水号Id
+			if (Check.isAssigned(seg.snId)) {
+				StringBuffer sb = new StringBuffer();
+				Arrays.asList(seg.snId.split("-")).stream().mapToInt(Integer::parseInt).forEach(i -> {
+					if (i < 0) {
+						sb.append(".undefine");
+					} else {
+						stage.keySet().stream().filter(t -> t.index == i).findFirst().ifPresent(vrs -> sb.append("." + stage.get(vrs)));
+					}
+				});
+				String key = sb.toString();
+				if (!key.isEmpty()) {
+					value = generateCode("globalCodeGen", key);
+				}
+			}
 		}
-		
-		
+
+		String text = format(seg, value);
+		stage.put(seg, text);
+		return new AbstractMap.SimpleEntry<ValueRuleSegment, String>(seg, text);
+	}
+
+	private String format(ValueRuleSegment seg, Object value) {
 		// 格式化
 		if (Check.isAssigned(seg.format) && value != null) {
 			value = Formatter.getString(value, seg.format);
