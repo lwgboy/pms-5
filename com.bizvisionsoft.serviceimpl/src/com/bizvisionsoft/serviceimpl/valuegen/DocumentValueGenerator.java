@@ -17,11 +17,13 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
+import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.serviceimpl.SystemServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 
 public class DocumentValueGenerator extends SystemServiceImpl implements IValueGenerateService {
@@ -97,7 +99,8 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 
 	private Object getJSValue(Object input, ValueRuleSegment seg) {
 		if (Check.isAssigned(seg.script)) {
-			return JSTools.invoke(seg.script, seg.function, input);
+			String jsInput = new GsonBuilder().create().toJson(input);
+			return JSTools.invoke(seg.script, seg.function, input,jsInput);
 		} else {
 			logger.warn("脚本类型缺少脚本的定义，取值被忽略。");
 			return null;

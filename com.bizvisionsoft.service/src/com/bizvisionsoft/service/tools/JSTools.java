@@ -13,28 +13,24 @@ public class JSTools {
 		for (int i = 0; i < paramemterNames.length; i++) {
 			simpleBindings.put(paramemterNames[i], parameterValues[i]);
 		}
-		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		ScriptEngine se = scriptEngineManager.getEngineByName("nashorn");
+		ScriptEngine se = new ScriptEngineManager(null).getEngineByName("nashorn");
 		try {
 			Object value = se.eval(script, simpleBindings);
 			if (value != null) {
 				return value.toString();
 			}
-		} catch (ScriptException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static Object invoke(String script, String function, Object input) {
-		SimpleBindings simpleBindings = new SimpleBindings();
-		simpleBindings.put("input", input);
-		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		ScriptEngine se = scriptEngineManager.getEngineByName("nashorn");
+	public static Object invoke(String script, String function, Object... input) {
+		ScriptEngine se = new ScriptEngineManager(null).getEngineByName("nashorn");
 		try {
-			Object value = se.eval(script, simpleBindings);
+			Object value = se.eval(script);
 			if (function != null && !function.isEmpty()) {
-				value = ((Invocable) se).invokeFunction(function, input);
+				value = ((Invocable) se).invokeFunction(function.trim(), input);
 			}
 			return value;
 		} catch (Exception e) {
