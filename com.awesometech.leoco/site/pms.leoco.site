@@ -73047,7 +73047,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "candidates": []
       },
       {
         "id": "1670b245db8",
