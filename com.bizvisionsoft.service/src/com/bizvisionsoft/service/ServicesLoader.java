@@ -17,7 +17,7 @@ public class ServicesLoader implements BundleActivator {
 
 	@Override
 	public void start(BundleContext bc) throws Exception {
-		ServicesLoader.bundleContext = bc;
+		bundleContext = bc;
 		url = (String) bc.getProperty("com.bizvisionsoft.service.url");
 	}
 
@@ -36,6 +36,5 @@ public class ServicesLoader implements BundleActivator {
 	public static BundleContext getBundleContext() {
 		return bundleContext;
 	}
-
 
 }

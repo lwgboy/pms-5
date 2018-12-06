@@ -3,12 +3,17 @@ package com.bizvisionsoft.serviceimpl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.SystemService;
+import com.bizvisionsoft.service.ValueRule;
+import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
@@ -16,7 +21,9 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
 import com.bizvisionsoft.serviceimpl.update.PMS0501_pmo;
 import com.bizvisionsoft.serviceimpl.update.PMS0502_accountitem;
+import com.mongodb.BasicDBObject;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.IndexOptions;
 
 public class SystemServiceImpl extends BasicServiceImpl implements SystemService {
@@ -386,6 +393,80 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
 		}
+	}
+
+	@Override
+	public List<ValueRule> listValueRule(BasicDBObject condition) {
+		return createDataSet(condition, ValueRule.class);
+	}
+
+	@Override
+	public long countValueRule(BasicDBObject filter) {
+		return count(filter, ValueRule.class);
+	}
+
+	@Override
+	public ValueRule insertValueRule(ValueRule valueRule) {
+		return insert(valueRule);
+	}
+
+	@Override
+	public long deleteValueRule(ObjectId _id) {
+		return delete(_id, ValueRule.class);
+	}
+
+	@Override
+	public long updateValueRule(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ValueRule.class);
+	}
+
+	@Override
+	public List<ValueRuleSegment> listValueRuleSegment(BasicDBObject cond, ObjectId rule_id) {
+		BasicDBObject filter = (BasicDBObject) cond.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			cond.put("filter", filter);
+		}
+		filter.put("rule_id", rule_id);
+
+		BasicDBObject sort = (BasicDBObject) cond.get("sort");
+		if (sort == null || sort.isEmpty()) {
+			sort = new BasicDBObject("index", 1);
+		}
+
+		return createDataSet(cond, ValueRuleSegment.class);
+	}
+
+	@Override
+	public long countValueRuleSegment(BasicDBObject filter, ObjectId rule_id) {
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.put("rule_id", rule_id);
+
+		return count(filter, ValueRuleSegment.class);
+	}
+
+	@Override
+	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs) {
+		return insert(vrs);
+	}
+
+	@Override
+	public Document getMaxSegmentIndex(ObjectId rule_id) {
+		List<Bson> pipe = Arrays.asList(Aggregates.match(new Document("rule_id", rule_id)), new Document("$group", new Document("_id", null)
+				.append("index", new Document("$max", "$index")).append("executeSequance", new Document("$max", "$executeSequance"))));
+		return c("valueRuleSegment").aggregate(pipe).first();
+	}
+
+	@Override
+	public long deleteValueRuleSegment(ObjectId _id) {
+		return delete(_id, ValueRuleSegment.class);
+	}
+
+	@Override
+	public long updateValueRuleSegment(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, ValueRuleSegment.class);
 	}
 
 }
