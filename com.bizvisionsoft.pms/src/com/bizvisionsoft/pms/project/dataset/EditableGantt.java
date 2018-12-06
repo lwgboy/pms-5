@@ -134,13 +134,19 @@ public class EditableGantt {
 
 		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(space_id).setWorks(tasks).setLinks(links)
 				.setWork_id(workspace.getWork_id()).setProject_id(workspace.getProject_id());
-		Result result = workSpaceService.updateGanttData(ganttData);
-		// TODO 错误处理
-		if (result.type != Result.TYPE_ERROR) {
-			Layer.message("计划数据已保存");
-			e.gantt.setDirty(false);
-		} else {
-			Layer.message(result.message, Layer.ICON_CANCEL);
+		try {
+			Result result = workSpaceService.updateGanttData(ganttData);
+			// TODO 错误处理
+			if (result.type != Result.TYPE_ERROR) {
+				Layer.message("计划数据已保存");
+				e.gantt.setDirty(false);
+			} else {
+				e.doit = false;// 设置为false,禁止保存完后的callback,例如，关闭页面等
+				Layer.message(result.message, Layer.ICON_CANCEL);
+			}
+		} catch (Exception ex) {
+			e.doit = false;// 设置为false,禁止保存完后的callback,例如，关闭页面等
+			Layer.message(ex.getMessage(), Layer.ICON_CANCEL);
 		}
 	}
 
