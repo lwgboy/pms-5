@@ -312,7 +312,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
 		List<Result> result = new ArrayList<Result>();
-
+		
+		Object checkPlanSetting = getSystemSetting("项目启动检查", "plan");
+		//TODO 按照启动检查来处理
 		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
 		if (l == 0)
 			result.add(Result.warning("项目尚未创建进度计划"));
@@ -830,6 +832,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	 * @param _id
 	 * @return
 	 */
+	@Deprecated
 	private String generateWorkOrder(ObjectId _id) {
 		/**
 		 * TODO 需要根据九洲定制
