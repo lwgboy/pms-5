@@ -136,17 +136,18 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 	@Override
 	public int nextOBSSeq(BasicDBObject condition) {
-		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1))
-				.projection(new BasicDBObject("seq", 1)).first();
+		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1)).projection(new BasicDBObject("seq", 1)).first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("seq", 0)).orElse(0) + 1;
 	}
 
 	@Override
 	public List<String> getScopeRoleofUser(ObjectId scope_id, String userId) {
-		ArrayList<String> result = c("obs").distinct("roleId",
-				new Document("scope_id", scope_id).append("$or",
-						Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
-				String.class).into(new ArrayList<>());
+		ArrayList<String> result = c("obs")
+				.distinct("roleId",
+						new Document("scope_id", scope_id).append("$or",
+								Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
+						String.class)
+				.into(new ArrayList<>());
 		if (c("obs").countDocuments(new Document("scope_id", scope_id).append("member", userId)) != 0) {
 			result.add("member");
 		}
@@ -155,20 +156,10 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 	@Override
 	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, ObjectId scope_id) {
-		List<ObjectId> obsIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
-				.into(new ArrayList<ObjectId>());
-		obsIds = getDesentOBSItem(obsIds);
-		JQ jq = new JQ("查询-成员-OBS").set("match", new Document("_id", new Document("$in", obsIds)));
-
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter != null)
-			jq.set("filter", filter);
-		else
-			jq.set("filter", new Document());
-
-		List<Bson> pipeline = jq.array();
+		List<Bson> pipeline = getOBSItemWarpperPipeline(scope_id, filter);
 
 		if (skip != null)
 			pipeline.add(Aggregates.skip(skip));
@@ -179,10 +170,30 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		return c("obs", OBSItemWarpper.class).aggregate(pipeline).into(new ArrayList<OBSItemWarpper>());
 	}
 
+	private List<Bson> getOBSItemWarpperPipeline(ObjectId scope_id, BasicDBObject filter) {
+		List<ObjectId> obsIds = c("obs").distinct("_id", new Document("scope_id", scope_id), ObjectId.class)
+				.into(new ArrayList<ObjectId>());
+		obsIds = getDesentOBSItem(obsIds);
+		JQ jq = new JQ("查询-成员-OBS").set("match", new Document("_id", new Document("$in", obsIds)));
+
+		if (filter != null)
+			jq.set("filter", filter);
+		else
+			jq.set("filter", new Document());
+
+		return jq.array();
+	}
+
+	@Override
+	public long countOBSItemWarpper(BasicDBObject filter, ObjectId scope_id) {
+		List<Bson> pipeline = getOBSItemWarpperPipeline(scope_id, filter);
+		return c("obs").aggregate(pipeline).into(new ArrayList<>()).size();
+	}
+
 	@Override
 	public boolean checkScopeRole(ScopeRoleParameter param) {
-		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes))
-				.append("managerId", param.userId).append("roleId", new Document("$in", param.roles))) > 0;
+		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes)).append("managerId", param.userId)
+				.append("roleId", new Document("$in", param.roles))) > 0;
 	}
 
 	@Override
@@ -199,32 +210,31 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		List<String> repeatRole = getRepeatRole(module_id, scope_id);
 
 		// 创建组织结构
-		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1))
-				.forEach((Document doc) -> {
-					// 建立项目团队上下级关系
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					if (parent_id == null) {
-						idMap.put(doc.getObjectId("_id"), obsParent_id);
-					} else {
-						ObjectId newParent_id = idMap.get(parent_id);
-						if (newParent_id != null) {
-							ObjectId _id = new ObjectId();
-							idMap.put(doc.getObjectId("_id"), _id);
-							doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
-							String roleId = doc.getString("roleId");
-							if (!cover && repeatRole.contains(roleId)) {
-								return;
-							}
-							tobeInsert.add(doc);
-						}
+		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
+			// 建立项目团队上下级关系
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id == null) {
+				idMap.put(doc.getObjectId("_id"), obsParent_id);
+			} else {
+				ObjectId newParent_id = idMap.get(parent_id);
+				if (newParent_id != null) {
+					ObjectId _id = new ObjectId();
+					idMap.put(doc.getObjectId("_id"), _id);
+					doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
+					String roleId = doc.getString("roleId");
+					if (!cover && repeatRole.contains(roleId)) {
+						return;
 					}
+					tobeInsert.add(doc);
+				}
+			}
 
-				});
+		});
 		List<OBSItem> result = new ArrayList<OBSItem>();
 		// 插入项目团队
 		if (!tobeInsert.isEmpty()) {
 			c("obs").insertMany(tobeInsert);
-			//通过查询获取OBSItem
+			// 通过查询获取OBSItem
 			Collection<ObjectId> ids = idMap.values();
 			ids.remove(obsParent_id);
 			result = query(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
