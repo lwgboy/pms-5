@@ -25,7 +25,7 @@
 <stringAttribute key="org.eclipse.rap.launch.browserMode" value="EXTERNAL"/>
 <stringAttribute key="org.eclipse.rap.launch.contextpath" value="/"/>
 <stringAttribute key="org.eclipse.rap.launch.dataLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.rap.tools.launch/BrUI引擎客户端调用RS-std"/>
-<booleanAttribute key="org.eclipse.rap.launch.developmentMode" value="true"/>
+<booleanAttribute key="org.eclipse.rap.launch.developmentMode" value="false"/>
 <booleanAttribute key="org.eclipse.rap.launch.openBrowser" value="false"/>
 <intAttribute key="org.eclipse.rap.launch.port" value="80"/>
 <stringAttribute key="org.eclipse.rap.launch.servletPath" value="/"/>
