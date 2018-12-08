@@ -114,7 +114,7 @@ public interface OBSService {
 	
 
 	@POST
-	@Path("/obsitemwarpper/{_id}")
+	@Path("/obsitemwarpper/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long countOBSItemWarpper(BasicDBObject filter, @PathParam("_id") ObjectId scope_id);

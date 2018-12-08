@@ -17,7 +17,7 @@ public class CreatePlanACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		Object[] input = (Object[]) context.getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) input[0];

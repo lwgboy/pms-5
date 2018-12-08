@@ -13,6 +13,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CommonService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Calendar;
@@ -76,7 +77,17 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long deleteResourceType(ObjectId _id) {
 		// TODO 考虑资源类型被使用的状况
-		return delete(_id, ResourceType.class);
+		if (count(new BasicDBObject("_id", _id), "equipment") > 0) {
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
+			return updateEquipment(fu);
+		} else if (count(new BasicDBObject("_id", _id), "equipment") > 0) {
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
+			return new UserServiceImpl().update(fu);
+		} else {
+			return delete(_id, ResourceType.class);
+		}
 	}
 
 	@Override
@@ -386,16 +397,16 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public Message getMessage(ObjectId _id) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		
-		pipeline.add(Aggregates.match(new Document("_id",_id)));
-		
+
+		pipeline.add(Aggregates.match(new Document("_id", _id)));
+
 		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
 
 		appendUserInfo(pipeline, "receiver", "receiverInfo");
-		
+
 		return c(Message.class).aggregate(pipeline).first();
 	}
-	
+
 	@Override
 	public List<Message> listMessage(BasicDBObject condition, String userId) {
 		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId);
@@ -441,7 +452,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<Document> listUnreadMessage(BasicDBObject condition, String userId) {
-		if(condition == null) {
+		if (condition == null) {
 			condition = new BasicDBObject();
 		}
 		condition.put("read", false);
@@ -469,7 +480,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public List<TrackView> listTrackView(BasicDBObject condition) {
 		return createDataSet(condition, TrackView.class);
 	}
-	
+
 	@Override
 	public long countTrackView(BasicDBObject filter) {
 		return count(filter, TrackView.class);
@@ -668,7 +679,5 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			c("setting").updateOne(new Document("name", name), new Document("$set", setting));
 		}
 	}
-
-
 
 }
