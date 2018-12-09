@@ -39,7 +39,8 @@ public class OpenDocuACT {
 		// 注意此处必须是使用传入doc, 不做编辑clone
 		// TODO 需要修改deepClone的方法解决该问题。
 		Editor.open(docu.getEditorName(), context, doc, true, (r, t) -> {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get("_id"))).set(r.remove("_id"))
+			r.remove("_id");
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get("_id"))).set(r)
 					.bson();
 			UniversalCommand updCmd = new UniversalCommand().setTargetClassName(Docu.class.getName())
 					.setTargetCollection("docu").addParameter(MethodParam.FILTER_N_UPDATE, fu);
