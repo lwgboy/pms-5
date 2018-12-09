@@ -23,8 +23,7 @@ public interface FileService {
 	@Path("/{namespace}/{id}/{name}")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response get(@PathParam("id") String id, @PathParam("name") String fileName,
-			@PathParam("namespace") String namespace);
+	public Response get(@PathParam("namespace") String namespace, @PathParam("id") String id, @PathParam("name") String fileName);
 
 	@POST
 	@Path("/upload")
@@ -38,6 +37,6 @@ public interface FileService {
 	@Path("/{namespace}/{id}")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public void delete(@PathParam("id") String id, @PathParam("namespace") String namespace);
+	public void delete(@PathParam("namespace") String namespace, @PathParam("id") String id);
 
 }

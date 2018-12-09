@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.tools;
 
-import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.model.UserMeta;
 
 public class MetaInfoWarpper {
@@ -10,7 +9,7 @@ public class MetaInfoWarpper {
 			return text;
 		}
 		if (!Check.isNotAssigned(meta.headPics)) {
-			String headPicHtml = "<img src=&#x27;" + meta.headPics.get(0).getURL(ServicesLoader.url)
+			String headPicHtml = "<img src=&#x27;" + meta.headPics.get(0).getClientSideURL("rwt")
 					+ "&#x27; style=&#x27;border-radius:28px;width:48px;height:48px;&#x27;/>";
 			String message = "<div style=&#x27;display:flex &#x27;>" + headPicHtml
 					+ "<div style=&#x27;margin-left:8px&#x27;>" + meta.name + " [" + meta.userId + "]<br>" + //

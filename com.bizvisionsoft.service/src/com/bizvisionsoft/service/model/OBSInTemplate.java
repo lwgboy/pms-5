@@ -259,7 +259,7 @@ public class OBSInTemplate {
 	@ReadValue({ "项目模板组织结构图/img", "OBS模板组织结构图/img" })
 	private String getDiagramImage() {
 		if (managerHeadPic != null) {
-			return managerHeadPic.getURL(ServicesLoader.url);
+			return managerHeadPic.getClientSideURL("rwt");
 		} else if (roleId != null) {
 			try {
 				return "/bvs/svg?text=" + URLEncoder.encode(roleId, "utf-8") + "&color=ffffff";

@@ -9,7 +9,6 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("message")
 public class Message {
@@ -43,7 +42,7 @@ public class Message {
 	@ReadValue("Í·Ïñ")
 	public String getSenderHeadImageURL() {
 		if (senderHeadPic != null) {
-			return senderHeadPic.getURL(ServicesLoader.url);
+			return senderHeadPic.getClientSideURL("rwt");
 		}
 		return null;
 	}
