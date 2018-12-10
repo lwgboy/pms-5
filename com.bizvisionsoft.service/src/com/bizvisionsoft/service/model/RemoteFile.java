@@ -22,12 +22,16 @@ public class RemoteFile implements JsonExternalizable{
 	@Persistence
 	public String contentType;
 
-	public String getURL(String baseURL) {
+	public String getServerSideURL(String baseURL) {
 		try {
 			return baseURL + "/fs/" + namepace + "/" + _id + "/" + URLEncoder.encode(name, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
 	}
-
+	
+	public String getClientSideURL(String sid) {
+		return "/bvs/fs?id=" + _id.toHexString() + "&namespace=" + namepace + "&name=" + name + "&sid="+sid;
+	}
+	
 }

@@ -16,42 +16,42 @@ public interface UniversalDataService {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/uds/ds")
+	@Path("/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.LIST)
 	public UniversalResult list(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/count")
+	@Path("/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.COUNT)
 	public UniversalResult count(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/get")
+	@Path("/get")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.GET)
 	public UniversalResult get(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/insert")
+	@Path("/insert")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INSERT)
 	public UniversalResult insert(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/delete")
+	@Path("/delete")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
 	public UniversalResult delete(@MethodParam(MethodParam.COMMAND) UniversalCommand command);
 
 	@POST
-	@Path("/uds/update")
+	@Path("/update")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.UPDATE)

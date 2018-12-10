@@ -18,7 +18,7 @@ import com.mongodb.client.model.Filters;
 
 public class FileServiceImpl implements FileService {
 
-	public Response get(String id, String fileName, String namespace) {
+	public Response get(String namespace, String id, String fileName) {
 		ObjectId _id = new ObjectId(id);
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		GridFSFile file = bucket.find(Filters.eq("_id", _id)).first();
@@ -37,14 +37,11 @@ public class FileServiceImpl implements FileService {
 			downloadableFileName = fileName;
 		}
 		return Response.ok().entity(bucket.openDownloadStream(_id))
-				.header("Content-Disposition", "attachment; filename=" + downloadableFileName)
-				.header("Content-Type", contentType)
-				.build();
+				.header("Content-Disposition", "attachment; filename=" + downloadableFileName).header("Content-Type", contentType).build();
 	}
 
 	@Override
-	public RemoteFile upload(InputStream fileInputStream, String fileName, String namespace, String contentType,
-			String uploadBy) {
+	public RemoteFile upload(InputStream fileInputStream, String fileName, String namespace, String contentType, String uploadBy) {
 		GridFSUploadOptions option = new GridFSUploadOptions();
 		option.metadata(new Document().append("contentType", contentType).append("uploadBy", uploadBy));
 		ObjectId id = GridFSBuckets.create(Service.db(), namespace).uploadFromStream(fileName, fileInputStream, option);
@@ -58,7 +55,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public void delete(String id, String namespace) {
+	public void delete(String namespace, String id) {
 		ObjectId _id = new ObjectId(id);
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		bucket.delete(_id);

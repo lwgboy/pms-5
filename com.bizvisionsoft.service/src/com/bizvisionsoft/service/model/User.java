@@ -47,7 +47,7 @@ public class User implements IResourceAssignment {
 	@ReadValue({ "name", "部门工作日程表/label" })
 	@WriteValue
 	private String name;
-	
+
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -107,7 +107,7 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	@ReadValue
 	private boolean buzAdmin;
-	
+
 	@Persistence
 	private boolean changePSW;
 
@@ -119,7 +119,7 @@ public class User implements IResourceAssignment {
 		if (isSU()) {
 			return "/bvs/svg?text=SU&color=ffffff";
 		} else if (headPics != null && headPics.size() > 0)
-			return headPics.get(0).getURL(ServicesLoader.url);
+			return headPics.get(0).getClientSideURL("rwt");
 		return null;
 	}
 
@@ -131,8 +131,7 @@ public class User implements IResourceAssignment {
 
 	@ReadValue("organization ")
 	public Organization getOrganization() {
-		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 
 	public ObjectId getOrganizationId() {
@@ -146,8 +145,7 @@ public class User implements IResourceAssignment {
 
 	@ReadValue("resourceType ")
 	public ResourceType getResourceType() {
-		return Optional.ofNullable(resourceType_id)
-				.map(_id -> ServicesLoader.get(CommonService.class).getResourceType(_id)).orElse(null);
+		return Optional.ofNullable(resourceType_id).map(_id -> ServicesLoader.get(CommonService.class).getResourceType(_id)).orElse(null);
 	}
 
 	@Override
@@ -269,7 +267,7 @@ public class User implements IResourceAssignment {
 		this.trace = trace;
 		return this;
 	}
-	
+
 	public String getConsigner() {
 		return consigner;
 	}
@@ -285,11 +283,11 @@ public class User implements IResourceAssignment {
 	public String getPosition() {
 		return position;
 	}
-	
+
 	public boolean isChangePSW() {
 		return changePSW;
 	}
-	
+
 	public void setChangePSW(boolean changePSW) {
 		this.changePSW = changePSW;
 	}
