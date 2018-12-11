@@ -53,6 +53,7 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -1182,8 +1183,8 @@ public class EditResourceASM extends GridPart {
 		GridColumn col = new GridColumn(viewer.getGrid(), SWT.NONE);
 		col.setText(c.getText());
 		col.setWidth(c.getWidth());
-		col.setMoveable(c.isMoveable());
-		col.setResizeable(c.isResizeable());
+		col.setMoveable(Check.isTrue(c.getMoveable()));
+		col.setResizeable(Check.isTrue(c.getResizeable()));
 
 		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
 		vcol.setLabelProvider(getTitleLabelProvider(c.getName()));

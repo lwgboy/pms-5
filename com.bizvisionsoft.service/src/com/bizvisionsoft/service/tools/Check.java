@@ -10,11 +10,13 @@ public class Check {
 	public static boolean isTrue(Object target) {
 		if (target == null)
 			return false;
+		if (target instanceof Boolean) {
+			return (Boolean) target;
+		}
 		if ("true".equalsIgnoreCase(target.toString()))
 			return true;
-		if (target instanceof Number) {
+		if (target instanceof Number)
 			return ((Number) target).doubleValue() != 0;
-		}
 		return Boolean.TRUE.equals(target);
 	}
 

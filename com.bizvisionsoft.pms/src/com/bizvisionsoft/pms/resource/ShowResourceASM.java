@@ -584,8 +584,8 @@ public class ShowResourceASM extends GridPart {
 		GridColumn col = new GridColumn(viewer.getGrid(), SWT.NONE);
 		col.setText(c.getText());
 		col.setWidth(c.getWidth());
-		col.setMoveable(c.isMoveable());
-		col.setResizeable(c.isResizeable());
+		col.setMoveable(Check.isTrue(c.getMoveable()));
+		col.setResizeable(Check.isTrue(c.getResizeable()));
 
 		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
 		vcol.setLabelProvider(getTitleLabelProvider(c.getName()));

@@ -35,6 +35,7 @@ import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -175,8 +176,8 @@ public class SingleResourceConflictSolutionASM {
 		GridColumn col = new GridColumn(viewer.getGrid(), SWT.NONE);
 		col.setText(c.getText());
 		col.setWidth(c.getWidth());
-		col.setMoveable(c.isMoveable());
-		col.setResizeable(c.isResizeable());
+		col.setMoveable(Check.isTrue(c.getMoveable()));
+		col.setResizeable(Check.isTrue(c.getResizeable()));
 
 		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
 		vcol.setLabelProvider(new ColumnLabelProvider() {
