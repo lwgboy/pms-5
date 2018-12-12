@@ -8,6 +8,7 @@ import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Workspace;
+import com.bizvisionsoft.service.tools.Check;
 
 public class OpenGantt {
 
@@ -25,7 +26,7 @@ public class OpenGantt {
 			config = br.getAssembly("ÏîÄ¿¸ÊÌØÍ¼");
 		}
 
-		if (action.isOpenContent()) {
+		if (Check.isTrue(action.getOpenContent())) {
 			br.openContent(config, null);
 		} else {
 			br.switchContent(config, null);
