@@ -279,7 +279,7 @@ public class Distribution {
 	}
 
 	public List<PLMObject> getERPProduction(Map<String, String> productions) throws Exception {
-		String msgid = "010100010000008";
+		String msgid = "010100010000011";
 		String ifService = null;
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.newDocument();

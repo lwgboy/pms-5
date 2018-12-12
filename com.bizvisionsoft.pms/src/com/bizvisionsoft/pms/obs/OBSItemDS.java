@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.model.IOBSScope;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.mongodb.BasicDBObject;
 
+//TODO ÐÞ¸ÄÎªService
 public class OBSItemDS {
 
 	@Inject
@@ -35,6 +36,12 @@ public class OBSItemDS {
 	@DataSet(DataSet.LIST)
 	public List<OBSItemWarpper> listOBSItem(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return ServicesLoader.get(OBSService.class).getOBSItemWarpper(condition, obsScope_id);
+	}
+	
+
+	@DataSet(DataSet.COUNT)
+	public long countOBSItem(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
+		return ServicesLoader.get(OBSService.class).countOBSItemWarpper(filter, obsScope_id);
 	}
 
 }

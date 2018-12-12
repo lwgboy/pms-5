@@ -33,7 +33,7 @@ public class ProjectDS {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
-		filter.put("projectType", Project.PROJECTTYPE_DEPT);
+		filter.put("projectType", "dept");
 		return Services.get(ProjectService.class).listParticipatedProjects(condition, userid);
 	}
 
@@ -43,7 +43,7 @@ public class ProjectDS {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
-		filter.put("projectType", Project.PROJECTTYPE_DEPT);
+		filter.put("projectType", "dept");
 
 		return Services.get(ProjectService.class).countParticipatedProjects(filter, userid);
 	}
@@ -56,8 +56,8 @@ public class ProjectDS {
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
-		filter.put("projectType", Project.PROJECTTYPE_EXTERNAL);
-		return Services.get(ProjectService.class).listAllProjects(condition);
+		filter.put("projectType", "external");
+		return Services.get(ProjectService.class).listAllProjects(condition, userid);
 	}
 
 	@DataSet("外协项目/" + DataSet.COUNT)
@@ -66,8 +66,8 @@ public class ProjectDS {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
-		filter.put("projectType", Project.PROJECTTYPE_EXTERNAL);
+		filter.put("projectType", "external");
 
-		return Services.get(ProjectService.class).countAllProjects(filter);
+		return Services.get(ProjectService.class).countAllProjects(filter, userid);
 	}
 }

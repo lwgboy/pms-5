@@ -24,10 +24,10 @@ public class CreateDeptProjectACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 		new Editor<Project>(bruiService.getAssembly("创建部门项目编辑器"), context).setInput(new Project()
-				.setStatus(ProjectStatus.Created).setStageEnable(true).setProjectType(Project.PROJECTTYPE_DEPT)
+				.setStatus(ProjectStatus.Created).setStageEnable(true).setProjectType("dept")
 				.setStartApproved(true).setCreationInfo(bruiService.operationInfo())).ok((r, proj) -> {
 					int index = ServicesLoader.get(CommonService.class).generateCode(Generator.DEFAULT_NAME,
 							"deptproject");

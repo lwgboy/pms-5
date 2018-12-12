@@ -25,8 +25,8 @@ public class OpenProjectInfoACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PARAM_EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
+			@MethodParam(Execute.EVENT) Event event) {
 
 		ObjectId project_id = context.getRootInput(Project.class, false).get_id();
 		Project project = Services.get(ProjectService.class).get(project_id);
@@ -34,9 +34,9 @@ public class OpenProjectInfoACT {
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
 		String assemblyName = "项目编辑器";
-		if (Project.PROJECTTYPE_DEPT.equals(project.getProjectType()))
+		if ("dept".equals(project.getProjectType()))
 			assemblyName = "部门项目编辑器";
-		else if (Project.PROJECTTYPE_EXTERNAL.equals(project.getProjectType()))
+		else if ("external".equals(project.getProjectType()))
 			assemblyName = "外协项目编辑器";
 
 		new Editor<Project>(bruiService.getAssembly(assemblyName), context).setInput(project).setTitle(title)

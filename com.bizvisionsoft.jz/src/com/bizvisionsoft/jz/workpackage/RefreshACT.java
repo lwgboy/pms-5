@@ -33,7 +33,7 @@ public class RefreshACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.PARAM_CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Object[] input = (Object[]) context.getInput();
 		IWorkPackageMaster work = (IWorkPackageMaster) input[0];
 		TrackView tv = (TrackView) input[1];
@@ -42,8 +42,7 @@ public class RefreshACT {
 			WorkPackagePlanASM wpp = (WorkPackagePlanASM) context.getContent();
 			Distribution distribution = new Distribution();
 			if ("采购".equals(catagory)) {
-				List<PLMObject> erpPurchases = distribution
-						.getERPPurchase(Arrays.asList((String) tv.getParameter("trackWorkOrder")));
+				List<PLMObject> erpPurchases = distribution.getERPPurchase(Arrays.asList((String) tv.getParameter("trackWorkOrder")));
 				List<WorkPackage> workPackages = new ArrayList<WorkPackage>();
 
 				erpPurchases.forEach(plmObject -> {
@@ -69,8 +68,7 @@ public class RefreshACT {
 
 			} else if ("生产".equals(catagory)) {
 				Map<String, String> productions = new HashMap<String, String>();
-				productions.put((String) tv.getParameter("trackWorkOrder"),
-						(String) tv.getParameter("trackMaterielId"));
+				productions.put((String) tv.getParameter("trackWorkOrder"), (String) tv.getParameter("trackMaterielId"));
 				List<PLMObject> erpProduction = distribution.getERPProduction(productions);
 
 				List<PLMObject> mes = distribution.getMES(productions);
@@ -102,8 +100,7 @@ public class RefreshACT {
 					workPackages.add(erp);
 
 					mes.forEach(mesObject -> {
-						if (workOrder.equals(mesObject.getValue("id"))
-								&& erp.matId.equals(mesObject.getValue("materialNo"))) {
+						if (workOrder.equals(mesObject.getValue("id")) && erp.matId.equals(mesObject.getValue("materialNo"))) {
 							erp.unit = (String) mesObject.getValue("unit");
 							WorkPackageProgress wp = new WorkPackageProgress();
 							wp.updateTime = new Date();
@@ -116,8 +113,9 @@ public class RefreshACT {
 				wpp.updateProduction(workPackages, workPackageProgresss);
 			} else if ("研发".equals(catagory)) {
 				List<WorkPackage> workPackages = Services.get(WorkService.class)
-						.listWorkPackage(new Query().filter(new BasicDBObject("work_id", work.get_id())
-								.append("catagory", catagory).append("name", tv.getName())).bson());
+						.listWorkPackage(new Query().filter(
+								new BasicDBObject("work_id", work.get_id()).append("catagory", catagory).append("name", tv.getName()))
+								.bson());
 				List<String> objectIds = new ArrayList<String>();
 				workPackages.forEach(wp -> {
 					objectIds.add(wp.id + "|" + wp.verNo);
@@ -130,8 +128,7 @@ public class RefreshACT {
 
 				plmObjectInfo.forEach(plmObject -> {
 					workPackages.forEach(wp -> {
-						if (wp.id.equals((String) plmObject.getValue("id"))
-								&& wp.verNo.equals((String) plmObject.getValue("majorVerNo"))) {
+						if (wp.id.equals((String) plmObject.getValue("id")) && wp.verNo.equals((String) plmObject.getValue("majorVerNo"))) {
 							wp.description = (String) plmObject.getValue("name");
 							wp.planStatus = true;
 							wp.documentType = (String) plmObject.getValue("type");
