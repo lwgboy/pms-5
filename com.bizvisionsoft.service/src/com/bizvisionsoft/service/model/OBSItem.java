@@ -116,8 +116,7 @@ public class OBSItem implements JsonExternalizable {
 	 * @return
 	 */
 	public OBSItem generateSeq() {
-		seq = ServicesLoader.get(OBSService.class)
-				.nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
+		seq = ServicesLoader.get(OBSService.class).nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
 		return this;
 	}
 
@@ -130,8 +129,7 @@ public class OBSItem implements JsonExternalizable {
 
 	@ReadValue("organization ")
 	public Organization getOrganization() {
-		return Optional.ofNullable(org_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(org_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 
 	@Persistence
@@ -214,13 +212,26 @@ public class OBSItem implements JsonExternalizable {
 
 	@Structure("项目团队/count")
 	public long countSubOBSItem() {
-		long l = ServicesLoader.get(OBSService.class).countMember((BasicDBObject) new Query().bson().get("filter"),
-				_id);
+		long l = ServicesLoader.get(OBSService.class).countMember((BasicDBObject) new Query().bson().get("filter"), _id);
 		l += ServicesLoader.get(OBSService.class).countSubOBSItem(_id);
 		User manager = getManager();
 		if (manager != null)
 			l += 1;
 		return l;
+	}
+
+	@WriteValue("role")
+	private void writeRole(Dictionary dictionary) {
+		this.selectedRole = dictionary.getId() + "#" + dictionary.getName();
+		if (this.selectedRole != null) {
+			roleId = selectedRole.split("#")[0];
+			roleName = selectedRole.split("#")[1];
+		}
+	}
+
+	@ReadValue("role")
+	private Dictionary readRole() {
+		return Optional.ofNullable(roleId).map(id -> ServicesLoader.get(CommonService.class).getProjectRole(id)).orElse(null);
 	}
 
 	@ReadOptions("selectedRole")

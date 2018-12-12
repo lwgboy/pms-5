@@ -174,12 +174,14 @@ public class EditableGantt {
 						t.setDuration(Duration.getInstance(w.getPlanDuration(), TimeUnit.DAYS));
 						t.setConstraintDate(planStart);
 						t.setConstraintType(ConstraintType.MUST_START_ON);
-						
+
 						ObjectId parent_id = w.getParent_id();
 						if (parent_id != null) {
+							// TODO Bug 使用addChildTask添加任务时会造成重复，使用parentTask。addTask()创建t就不会出现该问题
 							Task parentTask = m.get(parent_id);
 							parentTask.addChildTask(t);
 						}
+
 					}).setLinkConvertor((w, taskMap) -> {
 						String type = w.getType();
 						RelationType rt;

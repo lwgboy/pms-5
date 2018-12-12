@@ -36,6 +36,19 @@ public class WorkReportCardACT {
 		if (e.text.startsWith("confirm")) {
 			confirmWorkReport(workReport, userid, element, viewer);
 		}
+		if (e.text.startsWith("openItem")) {
+			open(workReport, userid, element, viewer);
+		}
+	}
+
+	private void open(WorkReport workReport, String userid, Document element, GridTreeViewer viewer) {
+		br.openContent(br.getAssembly("报告详情"), workReport, e -> {
+			if (workReport instanceof WorkReport) {
+				Layer.message("报告已确认");
+				((List<?>) viewer.getInput()).remove(workReport);
+				viewer.remove(workReport);
+			}
+		});
 	}
 
 	private void confirmWorkReport(WorkReport workReport, String userid, Document doc, GridTreeViewer viewer) {

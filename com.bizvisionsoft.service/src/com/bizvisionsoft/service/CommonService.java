@@ -54,7 +54,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Message getMessage(@PathParam("_id") ObjectId _id);
-	
+
 	@POST
 	@Path("/msg/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -69,8 +69,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.UPDATE)
 	public long updateMessage(BasicDBObject filterAndUpdate);
-	
-	
+
 	@POST
 	@Path("/unread/msg/userId/{userId}/card/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -311,6 +310,33 @@ public interface CommonService {
 	@DataSet("名称字典/" + DataSet.UPDATE)
 	public long updateDictionary(BasicDBObject filterAndUpdate);
 
+	@POST
+	@Path("/dict/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("名称字典/" + DataSet.COUNT)
+	public long countDictionary();
+
+	@POST
+	@Path("/projectrole/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目角色选择器/" + DataSet.LIST)
+	public List<Dictionary> getProjectRole();
+
+	@POST
+	@Path("/projectrole/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("项目角色选择器/" + DataSet.COUNT)
+	public long countProjectRole();
+
+	@POST
+	@Path("/projectrole/{id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Dictionary getProjectRole(@PathParam("id") String id);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -343,7 +369,7 @@ public interface CommonService {
 	@Path("/accountItem/parent/{id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> getAccoutItem(@PathParam("id")  String id);
+	public List<AccountItem> getAccoutItem(@PathParam("id") String id);
 
 	@POST
 	@Path("/accountItem/parent/{id}/count")
@@ -425,7 +451,7 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "视图和工作包列表/" + DataSet.LIST, "视图和工作包选择器/" + DataSet.LIST })
 	public List<TrackView> listTrackView(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
-	
+
 	@POST
 	@Path("/track/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -527,8 +553,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的工作/budget")
-	public boolean hasSomethingNewOfMyWork(
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+	public boolean hasSomethingNewOfMyWork(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
 	@Path("/tools/syncOrgFullName")
@@ -547,6 +572,5 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting);
-
 
 }

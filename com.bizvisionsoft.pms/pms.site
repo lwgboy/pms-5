@@ -2,6 +2,7 @@
   "typeName": "站点",
   "id": "1618092b217",
   "name": "BV-PMS Site",
+  "timestamp": "201812122105",
   "title": "BV-PMS 2018",
   "behavior": true,
   "path": "/",
@@ -5008,7 +5009,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -5060,7 +5060,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -5411,7 +5410,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -5696,7 +5694,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -5901,7 +5898,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -6547,7 +6543,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -6793,7 +6788,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -6914,7 +6908,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -7381,7 +7374,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -7434,7 +7426,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -7651,7 +7642,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -7870,7 +7860,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -7995,7 +7984,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -8067,7 +8055,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -8246,7 +8233,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -8453,7 +8439,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -8726,7 +8711,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -8919,7 +8903,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -9095,7 +9078,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -9362,7 +9344,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -9412,7 +9393,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -9623,7 +9603,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -9944,7 +9923,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -10403,7 +10381,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -10690,7 +10667,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -10777,7 +10753,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -10884,7 +10859,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11077,7 +11051,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11153,7 +11126,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11257,7 +11229,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11446,7 +11417,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11567,7 +11537,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -11874,7 +11843,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12051,7 +12019,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12275,7 +12242,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12397,7 +12363,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12447,7 +12412,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12610,7 +12574,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12780,7 +12743,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -12834,7 +12796,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -13095,7 +13056,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -13213,7 +13173,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -13474,7 +13433,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -13704,7 +13662,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -13897,7 +13854,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -14198,7 +14154,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -14397,7 +14352,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -15508,7 +15462,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -15715,7 +15668,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -15859,7 +15811,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16054,7 +16005,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16062,7 +16012,8 @@
         "disableStdSort": false,
         "inlineEdit": false,
         "scrollLoadData": false,
-        "compactTitleBar": false
+        "compactTitleBar": false,
+        "sortFields": []
       },
       {
         "id": "162dc40bd28",
@@ -16179,7 +16130,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16426,7 +16376,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16459,21 +16408,13 @@
         "gridPageCount": 0,
         "fields": [
           {
-            "id": "162dc2904f9",
-            "name": "selectedRole",
+            "id": "167a267f0a5",
+            "name": "role",
             "text": "选择角色",
-            "type": "下拉选择框",
+            "type": "对象选择框",
             "formFields": [],
-            "hasInfoLabel": false,
-            "textPasswordStyle": false,
-            "readOnly": false,
-            "required": true,
-            "textLimit": 0,
-            "maxFileSize": 0,
-            "timeLimit": 0,
-            "height": 0,
-            "staticContent": false,
-            "grabVertical": false
+            "selectorAssemblyId": "167a2686bb6",
+            "valueFieldName": ""
           },
           {
             "id": "162b7bcc83e",
@@ -16533,7 +16474,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16764,7 +16704,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -16979,7 +16918,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17168,7 +17106,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17272,7 +17209,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17416,7 +17352,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17520,7 +17455,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17607,7 +17541,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17697,7 +17630,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17770,7 +17702,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -17874,7 +17805,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -18035,7 +17965,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -18353,7 +18282,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -18569,7 +18497,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -18798,7 +18725,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19020,7 +18946,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19127,7 +19052,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19180,7 +19104,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19315,7 +19238,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19365,7 +19287,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19481,7 +19402,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19770,7 +19690,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -19958,7 +19877,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -21750,7 +21668,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -21800,7 +21717,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -21916,7 +21832,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22057,7 +21972,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22142,7 +22056,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22642,7 +22555,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22695,7 +22607,6 @@
         "tinyEditor": false,
         "schedulerType": "scheduler",
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22775,7 +22686,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -22829,7 +22739,6 @@
         "tinyEditor": false,
         "schedulerType": "timeline",
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -23044,7 +22953,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -23183,7 +23091,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -23269,7 +23176,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -23743,7 +23649,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24169,7 +24074,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24293,7 +24197,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24366,7 +24269,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24483,7 +24385,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24634,7 +24535,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -24721,7 +24621,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25069,7 +24968,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25209,7 +25107,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25386,7 +25283,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25458,7 +25354,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25568,7 +25463,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25641,7 +25535,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25839,7 +25732,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25925,7 +25817,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -25999,7 +25890,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26210,7 +26100,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26296,7 +26185,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26350,7 +26238,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26436,7 +26323,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26576,7 +26462,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26661,7 +26546,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26768,7 +26652,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -26944,7 +26827,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -27120,7 +27002,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -27296,7 +27177,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -27487,7 +27367,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -27655,7 +27534,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -27758,7 +27636,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -28267,7 +28144,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -28552,7 +28428,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -28724,7 +28599,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -28829,7 +28703,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -29177,7 +29050,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -29317,7 +29189,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -29529,7 +29400,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -29670,7 +29540,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30058,7 +29927,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30198,7 +30066,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30390,7 +30257,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30513,7 +30379,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30820,7 +30685,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -30945,7 +30809,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31117,7 +30980,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31222,7 +31084,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31396,7 +31257,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31563,7 +31423,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31650,7 +31509,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31797,7 +31655,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -31883,7 +31740,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -32370,7 +32226,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -32857,7 +32712,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -33344,7 +33198,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -33831,7 +33684,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -34462,7 +34314,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -35093,7 +34944,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -35240,7 +35090,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -35328,7 +35177,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -35540,7 +35388,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -36267,7 +36114,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -36500,7 +36346,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -36842,7 +36687,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -36937,7 +36781,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": true,
         "disableCustomized": true,
@@ -37120,7 +36963,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37171,7 +37013,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37221,7 +37062,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37377,7 +37217,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37524,7 +37363,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37577,7 +37415,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -37916,7 +37753,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38062,7 +37898,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38241,7 +38076,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38345,7 +38179,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38522,7 +38355,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38707,7 +38539,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38851,7 +38682,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -38959,7 +38789,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39103,7 +38932,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39358,7 +39186,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39447,7 +39274,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39542,7 +39368,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39595,7 +39420,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39727,7 +39551,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39869,7 +39692,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -39959,7 +39781,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -40531,7 +40352,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41096,7 +40916,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41166,7 +40985,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41364,7 +41182,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41416,7 +41233,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41523,7 +41339,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41574,7 +41389,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41627,7 +41441,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41701,7 +41514,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -41982,7 +41794,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42174,7 +41985,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42251,7 +42061,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42328,7 +42137,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42380,7 +42188,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42432,7 +42239,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42539,7 +42345,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42646,7 +42451,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42892,7 +42696,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -42942,7 +42745,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -43017,7 +42819,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -43097,7 +42898,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -43698,7 +43498,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -43858,7 +43657,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44036,7 +43834,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44166,7 +43963,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44218,7 +44014,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44322,7 +44117,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44374,7 +44168,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44426,7 +44219,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44530,7 +44322,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44651,7 +44442,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44772,7 +44562,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44824,7 +44613,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -44930,7 +44718,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -45019,7 +44806,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -45073,7 +44859,6 @@
         "tinyEditor": false,
         "schedulerType": "selector",
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -45385,7 +45170,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -45649,7 +45433,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": true,
         "disableCustomized": true,
@@ -45699,7 +45482,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46033,7 +45815,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46131,7 +45912,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46217,7 +45997,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46322,7 +46101,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46511,7 +46289,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46564,7 +46341,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -46876,7 +46652,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -47188,7 +46963,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -47410,7 +47184,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -47632,7 +47405,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -47854,7 +47626,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -47907,7 +47678,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -48149,7 +47919,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -48391,7 +48160,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -48633,7 +48401,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -48957,7 +48724,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49010,7 +48776,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49063,7 +48828,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49116,7 +48880,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49201,7 +48964,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49254,7 +49016,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49472,7 +49233,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49783,7 +49543,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -49907,7 +49666,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -50031,7 +49789,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -50355,7 +50112,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -50405,7 +50161,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -50912,7 +50667,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51237,7 +50991,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51427,7 +51180,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51617,7 +51369,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51667,7 +51418,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51857,7 +51607,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51907,7 +51656,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -51991,7 +51739,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52077,7 +51824,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52129,7 +51875,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52216,7 +51961,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52268,7 +52012,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52355,7 +52098,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52407,7 +52149,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52460,7 +52201,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52544,7 +52284,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52648,7 +52387,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52700,7 +52438,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -52908,7 +52645,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -53137,7 +52873,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -53518,7 +53253,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -53660,7 +53394,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -53730,7 +53463,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -53782,7 +53514,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54202,7 +53933,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54344,7 +54074,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54397,7 +54126,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54448,7 +54176,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54646,7 +54373,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54852,7 +54578,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -54938,7 +54663,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -55254,7 +54978,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -55350,7 +55073,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -55728,7 +55450,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -55867,7 +55588,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56015,7 +55735,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56100,7 +55819,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56278,7 +55996,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56358,7 +56075,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56517,7 +56233,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56568,7 +56283,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56619,7 +56333,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56706,7 +56419,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -56756,7 +56468,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -57124,7 +56835,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -57778,7 +57488,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -57830,7 +57539,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -57938,7 +57646,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58056,7 +57763,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58108,7 +57814,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58160,7 +57865,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58325,7 +58029,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58463,7 +58166,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58516,7 +58218,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58591,7 +58292,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58641,7 +58341,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58712,7 +58411,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -58903,7 +58601,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59047,7 +58744,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59099,7 +58795,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59463,7 +59158,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59618,7 +59312,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59896,7 +59589,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -59992,7 +59684,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -60284,7 +59975,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -60443,7 +60133,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -60517,7 +60206,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -60783,7 +60471,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -60988,7 +60675,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -62903,7 +62589,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -63236,7 +62921,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -63620,7 +63304,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -63728,7 +63411,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64009,7 +63691,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64059,7 +63740,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64201,7 +63881,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64343,7 +64022,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64393,7 +64071,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64519,7 +64196,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64663,7 +64339,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64850,7 +64525,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -64972,7 +64646,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -65022,7 +64695,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -65072,7 +64744,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -65283,7 +64954,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -65500,7 +65170,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66020,7 +65689,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66171,7 +65839,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66274,7 +65941,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66590,7 +66256,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66694,7 +66359,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66767,7 +66431,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66853,7 +66516,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66907,7 +66569,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -66984,7 +66645,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -67034,7 +66694,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -67119,7 +66778,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -67508,7 +67166,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -67583,7 +67240,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -67704,7 +67360,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68149,7 +67804,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68199,7 +67853,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68275,7 +67928,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68504,7 +68156,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68575,7 +68226,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68696,7 +68346,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68785,7 +68434,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68890,7 +68538,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -68961,7 +68608,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -69065,7 +68711,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -69171,7 +68816,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -69438,7 +69082,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -70136,7 +69779,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -70754,7 +70396,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -71820,7 +71461,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -71960,7 +71600,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72167,7 +71806,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72289,7 +71927,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72453,7 +72090,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72661,7 +72297,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72712,7 +72347,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -72991,7 +72625,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -73270,7 +72903,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -73549,7 +73181,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -73797,7 +73428,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -73922,7 +73552,6 @@
         "smallEditor": true,
         "tinyEditor": false,
         "addToParentContext": true,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74020,7 +73649,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74171,7 +73799,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74349,7 +73976,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74527,7 +74153,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74705,7 +74330,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -74883,7 +74507,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75027,7 +74650,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75171,7 +74793,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75315,7 +74936,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75459,7 +75079,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75579,7 +75198,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75782,7 +75400,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -75902,7 +75519,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -76302,7 +75918,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -76692,7 +76307,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -76869,7 +76483,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -77671,7 +77284,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -77819,7 +77431,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -77986,7 +77597,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -78153,7 +77763,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -78320,7 +77929,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -78487,7 +78095,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -78654,7 +78261,6 @@
         "smallEditor": false,
         "tinyEditor": false,
         "addToParentContext": false,
-
         "disableInitLoadData": false,
         "disableStandardExport": false,
         "disableCustomized": false,
@@ -78663,6 +78269,122 @@
         "inlineEdit": false,
         "scrollLoadData": false,
         "compactTitleBar": false
+      },
+      {
+        "id": "167a2686bb6",
+        "name": "项目角色选择器",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "名称字典",
+        "folderId": "162dc3e928e",
+        "gridAutoExpandLevel": 0,
+        "gridCustomItemHeight": 0,
+        "gridMarkupEnabled": false,
+        "gridLineVisiable": true,
+        "gridMultiSelection": false,
+        "gridHeaderVisiable": true,
+        "gridFooterVisiable": false,
+        "gridHasBorder": false,
+        "gridHasHScroll": true,
+        "gridHasVScroll": true,
+        "gridHideIndentionImage": false,
+        "gridAutoHeight": false,
+        "gridFix": 0,
+        "gridPageControl": false,
+        "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+        "gridPageCount": 0,
+        "columns": [
+          {
+            "id": "162bd1f7950",
+            "name": "id",
+            "text": "编号",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "enableColumnSort": false,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "162bd1ccbe0",
+            "name": "name",
+            "text": "名称",
+            "alignment": 16384,
+            "width": 80,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "enableColumnSort": false,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          },
+          {
+            "id": "162bd1ceee1",
+            "name": "description",
+            "text": "说明",
+            "alignment": 16384,
+            "width": 200,
+            "minimumWidth": 0,
+            "moveable": false,
+            "resizeable": true,
+            "detail": false,
+            "summary": false,
+            "expanded": false,
+            "columns": [],
+            "markupEnabled": false,
+            "enableColumnSort": false,
+            "forceDisplayZero": false,
+            "hide": false,
+            "element": false,
+            "noToggleGridColumnGroup": false
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "checkOn": false,
+        "actions": [],
+        "rowActions": [],
+        "borderTop": false,
+        "borderRight": false,
+        "borderBottom": false,
+        "borderLeft": false,
+        "readonly": false,
+        "enableGanttCompare": false,
+        "ganttGridWidthCalculate": false,
+        "ganttGridWidth": 0,
+        "hasTitlebar": true,
+        "displayInputLabelInTitlebar": false,
+        "displayRootInputLabelInTitlebar": false,
+        "selectorMultiSelection": false,
+        "actionPanelColumnCount": 0,
+        "smallEditor": false,
+        "tinyEditor": false,
+        "addToParentContext": false,
+        "disableInitLoadData": false,
+        "disableStandardExport": false,
+        "disableCustomized": false,
+        "disableStdQuery": false,
+        "disableStdSort": false,
+        "inlineEdit": false,
+        "scrollLoadData": false,
+        "compactTitleBar": false,
+        "sortFields": []
       }
     ]
   },
