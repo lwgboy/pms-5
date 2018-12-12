@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812111239",
+  "timestamp": "201812111432",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -4045,20 +4045,6 @@
             "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
             "style": "info",
             "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "163baaf52a6",
-            "name": "下达计划",
-            "text": "下达",
-            "tooltips": "下达计划",
-            "image": "/img/transmit_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "style": "normal",
-            "objectBehavier": true,
-            "type": "customized",
-            "role": "PM#PPM#WM",
             "verticalSpan": 0
           },
           {
@@ -8980,19 +8966,7 @@
         ],
         "fields": [],
         "gridAutoColumnWidth": true,
-        "actions": [
-          {
-            "id": "1638be1d4db",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "forceText": true,
-            "style": "normal",
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c11bccd",
@@ -16593,20 +16567,6 @@
         "fields": [],
         "actions": [
           {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达计划",
-            "tooltips": "下达计划",
-            "image": "/img/transmit_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "style": "normal",
-            "objectBehavier": true,
-            "type": "customized",
-            "role": "",
-            "verticalSpan": 0
-          },
-          {
             "id": "1642d637bdb",
             "name": "进度估算",
             "text": "进度估算",
@@ -22326,20 +22286,7 @@
           }
         ],
         "fields": [],
-        "actions": [
-          {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "forceText": true,
-            "style": "normal",
-            "objectBehavier": true,
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c0f97f9",
@@ -22758,20 +22705,7 @@
           }
         ],
         "fields": [],
-        "actions": [
-          {
-            "id": "163fe9538ed",
-            "name": "下达计划",
-            "text": "下达计划",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.DistributeProjectPlan",
-            "forceText": true,
-            "style": "normal",
-            "objectBehavier": true,
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
+        "actions": [],
         "rowActions": [
           {
             "id": "1638c0f97f9",
@@ -31198,14 +31132,14 @@
                 "optionValue": "24#34#44",
                 "optionText": "18·24岁#25岁~34岁#35岁以上",
                 "radioStyle": "横向分段（默认）",
-                "hideLabel": true
+                "hideLabel": false
               },
               {
                 "id": "1678e199ff7",
                 "name": "jgqj",
                 "text": "价格区间",
                 "type": "单选框",
-                "verticalLabel": true,
+                "verticalLabel": false,
                 "formFields": [],
                 "optionValue": "1#2#3#4",
                 "optionText": "少于20万#20到30万#30万到50万#50万以上",
@@ -31216,11 +31150,12 @@
                 "name": "chdept",
                 "text": "协同部门",
                 "type": "多个对象选择框",
+                "verticalLabel": true,
                 "formFields": [],
                 "selectorAssemblyId": "1621d403c8b",
                 "valueFieldName": "_id",
                 "reloadFields": "",
-                "hideLabel": true
+                "hideLabel": false
               }
             ]
           },

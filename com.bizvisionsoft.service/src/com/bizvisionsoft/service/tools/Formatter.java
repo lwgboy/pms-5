@@ -179,6 +179,7 @@ public class Formatter {
 		} else {
 			text = defaultValue;
 		}
+
 		return text;
 	}
 

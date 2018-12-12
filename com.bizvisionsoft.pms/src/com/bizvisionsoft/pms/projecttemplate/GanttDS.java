@@ -69,7 +69,7 @@ public class GanttDS {
 	@Listener({ "onAfterTaskUpdate", "onAfterTaskMove", "onAfterTaskResize", "onAfterTaskProgress" })
 	public void onAfterTaskUpdate(GanttEvent e) {
 		service.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(BsonTools.getBson((WorkInTemplate) e.task, "_id")).bson());
+				.set(BsonTools.getBasicDBObject((WorkInTemplate) e.task, "_id")).bson());
 	}
 
 	@Listener("onAfterTaskDelete")
@@ -87,7 +87,7 @@ public class GanttDS {
 	@Listener("onAfterLinkUpdate")
 	public void onAfterLinkUpdateInSpace(GanttEvent e) {
 		service.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(BsonTools.getBson((WorkLinkInTemplate) e.link, "_id")).bson());
+				.set(BsonTools.getBasicDBObject((WorkLinkInTemplate) e.link, "_id")).bson());
 	}
 
 	@Listener("onAfterLinkDelete")

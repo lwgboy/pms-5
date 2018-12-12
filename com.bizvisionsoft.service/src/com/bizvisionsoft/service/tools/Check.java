@@ -20,6 +20,16 @@ public class Check {
 		return Boolean.TRUE.equals(target);
 	}
 
+	public static boolean allTrue(Object... target) {
+		if (target == null || target.length == 0)
+			return false;
+		for (int i = 0; i < target.length; i++) {
+			if (!isTrue(target[i]))
+				return false;
+		}
+		return true;
+	}
+
 	/**
 	 * 检查两个参数是否相等，如果都为null, 返回true
 	 * 

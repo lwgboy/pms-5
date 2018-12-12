@@ -3,6 +3,7 @@ package com.bizvisionsoft.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -35,6 +36,10 @@ public class ServicesLoader implements BundleActivator {
 
 	public static BundleContext getBundleContext() {
 		return bundleContext;
+	}
+	
+	public static Bundle getBundle() {
+		return bundleContext.getBundle();
 	}
 
 }
