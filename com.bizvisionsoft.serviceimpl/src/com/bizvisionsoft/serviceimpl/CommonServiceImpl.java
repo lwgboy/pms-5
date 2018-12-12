@@ -419,6 +419,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			condition.put("filter", filter = new BasicDBObject());
 		}
 		filter.put("receiver", userId);
+		filter.put("read", false);
 
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
