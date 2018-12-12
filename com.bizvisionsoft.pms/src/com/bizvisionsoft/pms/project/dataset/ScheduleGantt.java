@@ -18,6 +18,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkLink;
 import com.bizvisionsoft.service.model.WorkScheduleInfo;
 
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
@@ -67,6 +68,8 @@ public class ScheduleGantt {
 						Date planFinish = w.getPlanFinish();
 						t.setFinish(planFinish);
 						t.setDuration(Duration.getInstance(w.getPlanDuration(), TimeUnit.DAYS));
+						t.setConstraintDate(planStart);
+						t.setConstraintType(ConstraintType.MUST_START_ON);
 						ObjectId parent_id = w.getParent_id();
 						if (parent_id != null) {
 							Task parentTask = m.get(parent_id);
