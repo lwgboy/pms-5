@@ -1,6 +1,9 @@
 package com.awesometech.leoco.ds;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
@@ -111,20 +114,32 @@ public class OADataset {
 
 	@DataSet("OA流程选择列表/" + DataSet.COUNT)
 	public long countOASelectList(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		
-		return 0L;
+		String sql = countSelectSql(filter);
+		long count = Long.valueOf((int) new SqlQuery("ecology").sql(sql).first().get(""));
+		return count;
 	}
 	
 	private String buildSelectSql( BasicDBObject condition) {
 		
 		StringBuffer sb = new StringBuffer();
+		sb.append("select * from (select *, ROW_NUMBER() OVER(Order by tb.create_date desc ) AS RowId from(");
 		sb.append("select  inst.id as inst_id,wf.type_name,wf.wf_name,inst.inst_name,inst.status,inst.create_date,inst.creater from  V_PMS_wf wf,V_PMS_wf_inst inst " );
 		sb.append(" where wf.id = inst.wf_id ");
 		if(null != condition && null != condition.get("filter")) {
 			BasicDBObject filter = (BasicDBObject)condition.get("filter");
 			sb.append(filterToSQL(filter));
 		}
-		sb.append(" and inst.create_date > '2018-00-00'");
+		sb.append(") as tb) as tb2  where RowId between " + (condition.getInt("skip")+1) + " and "  + (condition.getInt("skip") + condition.getInt("limit")));
+		return sb.toString();
+	}
+	
+	private String countSelectSql(BasicDBObject condition) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select count(*) from  V_PMS_wf wf,V_PMS_wf_inst inst " );
+		sb.append(" where wf.id = inst.wf_id ");
+		if(null != condition) {
+			sb.append(filterToSQL(condition));
+		}
 		return sb.toString();
 	}
 
@@ -149,19 +164,33 @@ public class OADataset {
 				}
 			}else if(d.getValue().getClass().getSimpleName().equals("BasicDBObject")) {
 				BasicDBObject dbo =  (BasicDBObject)d.getValue();
-				Entry<String, Object> entry = dbo.entrySet().iterator().next();
-				String type = (String) entry.getKey();
-				if(type.equals("$eq")) {
-					String value = (String) entry.getValue();
-					sb.append(" and " + fieldName + " = '" + value + "' ");
-				}else if(type.equals("$not")) {
-					//此处value对象为Pattern，考虑到实际使用情况可能很复杂也可能很简单，暂时使用not in
-					String value = entry.getValue().toString();
-					sb.append(" and " + fieldName + " not in ('" + value + "') ");
-				}else if(type.equals("$ne")) {
-					String value = (String) entry.getValue();
-					sb.append(" and " + fieldName + " <> '" + value + "' ");
+				Iterator<Entry<String, Object>> it = dbo.entrySet().iterator();
+				while(it.hasNext()) {
+					Entry<String, Object> entry = it.next();
+					String type = (String) entry.getKey();
+					if(type.equals("$eq")) {
+						String value = (String) entry.getValue();
+						sb.append(" and " + fieldName + " = '" + value + "' ");
+					}else if(type.equals("$not")) {
+						//此处value对象为Pattern，考虑到实际使用情况可能很复杂也可能很简单，暂时使用not in
+						String value = entry.getValue().toString();
+						sb.append(" and " + fieldName + " not in ('" + value + "') ");
+					}else if(type.equals("$ne")) {
+						String value = (String) entry.getValue();
+						sb.append(" and " + fieldName + " <> '" + value + "' ");
+					}
+					if(fieldName.equals("CREATE_DATE")) {
+						Date date = (Date) entry.getValue();
+						SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+						String dateStr = sf.format(date);
+						if(type.equals("$gte")) {
+							sb.append(" and " + fieldName + " >= '" + dateStr + "' ");
+						}else if(type.equals("$lte")) {
+							sb.append(" and " + fieldName + " <= '" + dateStr + "' ");
+						}
+					}
 				}
+				
 			}else {
 				String value = d.getValue().toString();
 				sb.append(" and " + fieldName + " = '" + value + "' ");
