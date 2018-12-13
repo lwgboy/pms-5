@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812131608",
+  "timestamp": "201812132321",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -619,11 +619,6 @@
         "children": [],
         "name": "报告管理",
         "id": "16685841b75"
-      },
-      {
-        "children": [],
-        "name": "待用组件",
-        "id": "1675dcc2ea3"
       }
     ],
     "name": "站点",
@@ -1401,13 +1396,6 @@
                 "verticalSpan": 0
               },
               {
-                "id": "163e48d2a67",
-                "name": "预算成本综合分析",
-                "switchContentToAssemblyId": "163ecf0554c",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
                 "id": "1675606e502",
                 "name": "项目预算成本图表",
                 "switchContentToAssemblyId": "167560056a8",
@@ -1961,13 +1949,6 @@
                 "verticalSpan": 0
               },
               {
-                "id": "163e4ea06d0",
-                "name": "预算成本综合分析",
-                "switchContentToAssemblyId": "163ecf0554c",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
                 "id": "16756069d6c",
                 "name": "项目预算成本图表",
                 "switchContentToAssemblyId": "167560056a8",
@@ -2335,13 +2316,6 @@
                 "id": "16390f86458",
                 "name": "预算成本对比分析表",
                 "switchContentToAssemblyId": "163d3ef7ce7",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "163e4eb0e9b",
-                "name": "预算成本综合分析",
-                "switchContentToAssemblyId": "163ecf0554c",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -18729,65 +18703,6 @@
         "sortFields": []
       },
       {
-        "id": "163d954322f",
-        "name": "成本组成分析组件",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.cost.CostCompositionAnalysisASM",
-        "layout": [],
-        "folderId": "163d33c2f06",
-        "actions": [],
-        "rowActions": [],
-        "disableInitLoadData": false
-      },
-      {
-        "id": "163d9548883",
-        "name": "成本组成分析",
-        "layout": [
-          {
-            "id": "163d955bad3",
-            "name": "默认",
-            "columnCount": 1,
-            "makeColumnsEqualWidth": true,
-            "assemblys": [
-              {
-                "id": "163d954322f",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1,
-                "layoutName": "成本组成分析组件"
-              }
-            ],
-            "carouselInterval": 0
-          }
-        ],
-        "type": "sticker",
-        "stickerTitle": "项目成本组成按年分析",
-        "folderId": "163d33c2f06",
-        "actions": [
-          {
-            "id": "163d9659547",
-            "name": "查询期间",
-            "text": "查询期间",
-            "tooltips": "查询期间",
-            "image": "/img/search_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.cost.SearchCostAnalysisYearACT",
-            "style": "info",
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
-        "borderRight": true,
-        "borderBottom": true,
-        "disableInitLoadData": false,
-        "candidates": []
-      },
-      {
         "id": "163d46b7ca2",
         "name": "项目模板选择器",
         "layout": [],
@@ -19093,124 +19008,6 @@
         "actions": [],
         "rowActions": [],
         "disableInitLoadData": false
-      },
-      {
-        "id": "163de6622de",
-        "name": "成本组成分析组件-期间",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.cost.PeriodCostCompositionAnalysisASM",
-        "layout": [],
-        "folderId": "163d33c2f06",
-        "actions": [],
-        "rowActions": [],
-        "disableInitLoadData": false
-      },
-      {
-        "id": "163de79fcdc",
-        "name": "预算成本按月分析组件",
-        "bundleId": "com.bizvisionsoft.pms",
-        "className": "com.bizvisionsoft.pms.cost.MonthCostCompositionAnalysisASM",
-        "layout": [],
-        "folderId": "1675dcc2ea3",
-        "actions": [],
-        "rowActions": [],
-        "disableInitLoadData": false,
-        "candidates": []
-      },
-      {
-        "id": "163df6b1035",
-        "name": "成本组成分析-期间",
-        "layout": [
-          {
-            "id": "163d955bad3",
-            "name": "默认",
-            "columnCount": 1,
-            "makeColumnsEqualWidth": true,
-            "assemblys": [
-              {
-                "id": "163de6622de",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1,
-                "layoutName": "成本组成分析组件-期间"
-              }
-            ],
-            "carouselInterval": 0
-          }
-        ],
-        "type": "sticker",
-        "stickerTitle": "项目成本组成按期间分析",
-        "folderId": "163d33c2f06",
-        "actions": [
-          {
-            "id": "163d9659547",
-            "name": "查询期间",
-            "text": "查询期间",
-            "tooltips": "查询期间",
-            "image": "/img/search_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.cost.SearchPeriodCostAnalysisMonthACT",
-            "style": "info",
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
-        "borderRight": true,
-        "borderBottom": true,
-        "disableInitLoadData": false
-      },
-      {
-        "id": "163df88737f",
-        "name": "预算成本按月分析",
-        "layout": [
-          {
-            "id": "163d955bad3",
-            "name": "默认",
-            "columnCount": 1,
-            "makeColumnsEqualWidth": true,
-            "assemblys": [
-              {
-                "id": "163de79fcdc",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1,
-                "layoutName": "预算成本按月分析组件"
-              }
-            ],
-            "carouselInterval": 0
-          }
-        ],
-        "type": "sticker",
-        "stickerTitle": "预算和成本按月对比分析",
-        "folderId": "1675dcc2ea3",
-        "actions": [
-          {
-            "id": "163d9659547",
-            "name": "查询期间",
-            "text": "查询期间",
-            "tooltips": "/img/search_w.svg",
-            "image": "/img/search_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.cost.SearchMonthCostAnalysisYearACT",
-            "style": "info",
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
-        "borderRight": true,
-        "borderBottom": true,
-        "disableInitLoadData": false,
-        "candidates": []
       },
       {
         "id": "15ce2dafe9d",
@@ -20057,58 +19854,6 @@
         "className": "com.bizvisionsoft.pms.investment.MonthCostIAASM",
         "layout": [],
         "folderId": "163eac3f1ac",
-        "actions": [],
-        "rowActions": [],
-        "disableInitLoadData": false
-      },
-      {
-        "id": "163ecf0554c",
-        "name": "成本和预算综合对比分析",
-        "layout": [
-          {
-            "id": "163ecf0ef31",
-            "name": "默认",
-            "columnCount": 2,
-            "makeColumnsEqualWidth": true,
-            "assemblys": [
-              {
-                "id": "163d9548883",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "163df6b1035",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "163df88737f",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 2,
-                "widthHint": -1,
-                "heightHint": -1
-              }
-            ],
-            "carouselInterval": 0
-          }
-        ],
-        "folderId": "163d33c2f06",
         "actions": [],
         "rowActions": [],
         "disableInitLoadData": false
