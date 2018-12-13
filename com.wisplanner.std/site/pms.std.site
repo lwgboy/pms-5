@@ -19656,8 +19656,7 @@
             "type": "customized",
             "verticalSpan": 0
           }
-        ],
-        "disableInitLoadData": false
+        ]
       },
       {
         "id": "163eac343d9",

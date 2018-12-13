@@ -19,6 +19,7 @@ import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.tools.Formatter;
 
+@Deprecated
 public class SetSearchCBSPeriodACT {
 
 	@Inject
