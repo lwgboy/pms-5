@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812121600",
+  "timestamp": "201812131608",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -31105,7 +31105,7 @@
             "id": "1676444106a",
             "name": "xmbj",
             "text": "项目背景",
-            "type": "标签页（文本编辑）",
+            "type": "标签页（HTML编辑）",
             "formFields": []
           },
           {
