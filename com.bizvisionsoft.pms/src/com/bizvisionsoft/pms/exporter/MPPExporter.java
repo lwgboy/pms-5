@@ -114,7 +114,7 @@ public class MPPExporter<W, L> {
 	}
 
 	private void convertTask(W w) {
-		taskConvertor.accept(w, projectFile.addTask(), taskMap);
+		taskConvertor.accept(w, projectFile, taskMap);
 	}
 
 	private ProjectCalendar createCalendar() {

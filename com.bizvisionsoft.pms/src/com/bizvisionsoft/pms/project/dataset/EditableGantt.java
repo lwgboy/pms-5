@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.project.dataset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -163,7 +164,12 @@ public class EditableGantt {
 		String name = Services.get(ProjectService.class).get(pj_id).getProjectName();
 		try {
 			new MPPExporter<WorkInfo, WorkLinkInfo>().setTasks(dataInSpace()).setLinks(linksInSpace()).setProjectName(name)
-					.setTaskConvertor((w, t, m) -> {
+					.setTaskConvertor((w, p, m) -> {
+						Task t = Optional.ofNullable(w.getParent_id()).map(_id -> {
+							Task parentTask = m.get(_id);
+							return parentTask.addTask();
+						}).orElseGet(() -> p.addTask());
+
 						m.put(w.get_id(), t);
 						t.setName(w.getText());
 						t.setNotes(w.getFullName());
@@ -174,13 +180,6 @@ public class EditableGantt {
 						t.setDuration(Duration.getInstance(w.getPlanDuration(), TimeUnit.DAYS));
 						t.setConstraintDate(planStart);
 						t.setConstraintType(ConstraintType.MUST_START_ON);
-
-						ObjectId parent_id = w.getParent_id();
-						if (parent_id != null) {
-							// TODO Bug 使用addChildTask添加任务时会造成重复，使用parentTask。addTask()创建t就不会出现该问题
-							Task parentTask = m.get(parent_id);
-							parentTask.addChildTask(t);
-						}
 
 					}).setLinkConvertor((w, taskMap) -> {
 						String type = w.getType();
