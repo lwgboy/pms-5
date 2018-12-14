@@ -215,6 +215,26 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public long countDictionary() {
+		return count(new BasicDBObject(), "dictionary");
+	}
+
+	@Override
+	public List<Dictionary> getProjectRole() {
+		return c(Dictionary.class).find(new BasicDBObject("type", "角色名称")).into(new ArrayList<Dictionary>());
+	}
+
+	@Override
+	public Dictionary getProjectRole(String id) {
+		return c(Dictionary.class).find(new BasicDBObject("type", "角色名称").append("id", id)).first();
+	}
+
+	@Override
+	public long countProjectRole() {
+		return c("dictionary").countDocuments(new BasicDBObject("type", "角色名称"));
+	}
+
+	@Override
 	public Map<String, String> getDictionary(String type) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterable<Document> itr = c("dictionary").find(new BasicDBObject("type", type));

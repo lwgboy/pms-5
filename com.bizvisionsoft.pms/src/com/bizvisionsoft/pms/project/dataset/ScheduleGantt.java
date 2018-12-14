@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.project.dataset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
@@ -53,13 +54,18 @@ public class ScheduleGantt {
 	public List<WorkLink> links() {
 		return workScope.createGanttLinkDataSet();
 	}
-	
+
 	@Export(Export.DEFAULT)
 	public void export() {
 		try {
-			new MPPExporter<WorkScheduleInfo, WorkLink>().setTasks(data()).setLinks(links())
-					.setProjectName(workScope.getProjectName()).setTaskConvertor((ws, t, m) -> {
+			new MPPExporter<WorkScheduleInfo, WorkLink>().setTasks(data()).setLinks(links()).setProjectName(workScope.getProjectName())
+					.setTaskConvertor((ws, p, m) -> {
 						Work w = ws.getWork();
+						Task t = Optional.ofNullable(w.getParent_id()).map(_id -> {
+							Task parentTask = m.get(_id);
+							return parentTask.addTask();
+						}).orElseGet(() -> p.addTask());
+
 						m.put(w.get_id(), t);
 						t.setName(w.getText());
 						t.setNotes(w.getFullName());
@@ -70,11 +76,6 @@ public class ScheduleGantt {
 						t.setDuration(Duration.getInstance(w.getPlanDuration(), TimeUnit.DAYS));
 						t.setConstraintDate(planStart);
 						t.setConstraintType(ConstraintType.MUST_START_ON);
-						ObjectId parent_id = w.getParent_id();
-						if (parent_id != null) {
-							Task parentTask = m.get(parent_id);
-							parentTask.addChildTask(t);
-						}
 					}).setLinkConvertor((w, taskMap) -> {
 						String type = w.getType();
 						RelationType rt;
