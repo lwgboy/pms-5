@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812132321",
+  "timestamp": "201812161543",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -368,6 +368,11 @@
             "children": [],
             "name": "项目设置",
             "id": "16782e72b28"
+          },
+          {
+            "children": [],
+            "name": "检查项",
+            "id": "167b5b0f900"
           }
         ],
         "name": "业务管理",
@@ -2942,6 +2947,12 @@
             ],
             "type": "customized",
             "verticalSpan": 0
+          },
+          {
+            "id": "167b5df1586",
+            "name": "检查项",
+            "switchContentToAssemblyId": "167b5c21003",
+            "type": "switch"
           },
           {
             "id": "1640e3fa0d1",
@@ -11115,13 +11126,27 @@
             "name": "workPackageSetting",
             "text": "工作包设置",
             "type": "多个对象选择框",
+            "verticalLabel": false,
             "formFields": [],
-            "selectorAssemblyId": "16368fa3a97"
+            "selectorAssemblyId": "16368fa3a97",
+            "height": 153,
+            "verticalAlignLabel": true
+          },
+          {
+            "id": "167b5aef33c",
+            "name": "checkListSetting",
+            "text": "完成检查项",
+            "type": "多个字符串选择框",
+            "formFields": [],
+            "selectorAssemblyId": "167b5c21003",
+            "height": 335,
+            "valueFieldName": "",
+            "verticalAlignLabel": true
           }
         ],
         "actions": [],
         "nullValueAllowedFields": "workPackageSetting",
-        "smallEditor": true,
+        "smallEditor": false,
         "disableInitLoadData": false
       },
       {
@@ -11173,7 +11198,8 @@
           }
         ],
         "rowActions": [],
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "1636bd8162a",
@@ -36491,6 +36517,108 @@
           }
         ],
         "disableInitLoadData": false
+      },
+      {
+        "id": "167b5c21003",
+        "name": "检查项",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "检查项",
+        "folderId": "167b5b0f900",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": true,
+        "gridHasVScroll": true,
+        "gridPageControl": true,
+        "gridDataSetService": "",
+        "columns": [
+          {
+            "id": "167b5cb338a",
+            "name": "name",
+            "text": "名称",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "167b5e18e6c",
+            "name": "description",
+            "text": "描述",
+            "alignment": 16384,
+            "width": 160,
+            "resizeable": true,
+            "columns": []
+          }
+        ],
+        "fields": [
+          {
+            "id": "167b5cb8a58",
+            "name": "name",
+            "text": "名称",
+            "type": "文本输入框（查询）",
+            "formFields": []
+          }
+        ],
+        "gridAutoColumnWidth": true,
+        "actions": [
+          {
+            "id": "167b5e24c4b",
+            "name": "创建",
+            "image": "/img/add_16_w.svg",
+            "style": "normal",
+            "editorAssemblyId": "167b5e3b25a",
+            "type": "insert",
+            "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+            "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.CheckItem"
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "167b5e2f6bb",
+            "name": "编辑",
+            "image": "/img/edit_w.svg",
+            "style": "normal",
+            "editorAssemblyId": "167b5e3b25a",
+            "editorAssemblyEditable": true,
+            "type": "edit"
+          },
+          {
+            "id": "167b5e2bb41",
+            "name": "删除",
+            "image": "/img/minus_16_w.svg",
+            "style": "warning",
+            "type": "delete"
+          }
+        ],
+        "hasTitlebar": true,
+        "modelClassName": "com.bizvisionsoft.service.model.CheckItem",
+        "sortFields": []
+      },
+      {
+        "id": "167b5e3b25a",
+        "name": "检查项编辑器",
+        "title": "检查项",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167b5b0f900",
+        "fields": [
+          {
+            "id": "167b5e3df4d",
+            "name": "name",
+            "text": "名称",
+            "type": "单行文本框",
+            "formFields": []
+          },
+          {
+            "id": "167b5e3fc9a",
+            "name": "description",
+            "text": "描述",
+            "type": "多行文本框",
+            "formFields": []
+          }
+        ],
+        "smallEditor": true,
+        "tinyEditor": true
       }
     ]
   },

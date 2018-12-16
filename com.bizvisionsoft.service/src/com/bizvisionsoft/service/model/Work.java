@@ -725,6 +725,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
 		this.workPackageSetting = workPackageSetting;
 	}
+	
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<CheckItem> checkListSetting;
 
 	@Persistence
 	@ReadValue
