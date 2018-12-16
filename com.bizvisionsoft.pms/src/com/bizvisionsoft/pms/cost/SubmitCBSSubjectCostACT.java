@@ -49,7 +49,7 @@ public class SubmitCBSSubjectCostACT {
 				Layer.message(
 						"禁止重复提交期间（" + cal.get(Calendar.YEAR) + "年"
 								+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）成本。",
-						Layer.ICON_CANCEL);
+						Layer.ICON_ERROR);
 				return;
 			}
 			// 提交当前期间成本
@@ -77,7 +77,7 @@ public class SubmitCBSSubjectCostACT {
 						if (Result.CODE_CBS_REPEATSUBMIT == r.code) {
 							Layer.message("禁止重复提交期间（" + cal.get(Calendar.YEAR) + "年"
 									+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）成本。",
-									Layer.ICON_CANCEL);
+									Layer.ICON_ERROR);
 							return;
 						}
 				}

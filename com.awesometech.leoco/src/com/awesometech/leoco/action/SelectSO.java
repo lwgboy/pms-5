@@ -57,7 +57,7 @@ public class SelectSO {
 						grid.setViewerInput();
 					}
 				} else {
-					Layer.message("无法获取编号" + so_num + "对应产品，请检查后重新输入。", Layer.ICON_CANCEL);
+					Layer.message("无法获取编号" + so_num + "对应产品，请检查后重新输入。", Layer.ICON_ERROR);
 				}
 			}
 		}

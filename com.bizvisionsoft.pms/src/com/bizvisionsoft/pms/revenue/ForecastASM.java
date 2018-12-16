@@ -329,7 +329,7 @@ public class ForecastASM extends GridPart {
 				try {
 					update((AccountIncome) element, index, Formatter.getDouble((String) value));
 				} catch (Exception e) {
-					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 				}
 			}
 

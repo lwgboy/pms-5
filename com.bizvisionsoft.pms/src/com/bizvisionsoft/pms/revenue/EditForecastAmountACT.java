@@ -29,7 +29,7 @@ public class EditForecastAmountACT {
 					Check.instanceThen(context.getContent(), ForecastASM.class,
 							a -> a.update(((AccountIncome) t), index, amount));
 				} catch (Exception e) {
-					Layer.message("更新失败。", Layer.ICON_CANCEL);
+					Layer.message("更新失败。", Layer.ICON_ERROR);
 				}
 
 			});

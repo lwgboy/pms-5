@@ -26,11 +26,11 @@ public class SearchMonthCostIAProjectACT {
 			@MethodParam(Execute.EVENT) Event event) {
 		Selector.open("EPS选择器", context, null, d -> {
 			if (d.size() == 0) {
-				Layer.message("请选择需要对比分析的范围", Layer.ICON_CANCEL);
+				Layer.message("请选择需要对比分析的范围", Layer.ICON_ERROR);
 				return;
 			}
 			if (d.size() > 5) {
-				Layer.message("最多选择5个范围进行对比分析", Layer.ICON_CANCEL);
+				Layer.message("最多选择5个范围进行对比分析", Layer.ICON_ERROR);
 				return;
 			}
 			List<EPSInvestmentAnalysis> epsIAs = new ArrayList<EPSInvestmentAnalysis>();

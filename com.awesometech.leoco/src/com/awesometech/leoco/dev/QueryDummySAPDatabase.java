@@ -32,7 +32,7 @@ public class QueryDummySAPDatabase {
 			new SqlQuery("ecology").sql("select * from V_PMS_SO_PR_PO_IN").forEach(d->logger.debug(d.toString()));
 			Layer.message("查询完成，请查看控制台");
 		} catch (Exception e) {
-			Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+			Layer.message(e.getMessage(), Layer.ICON_ERROR);
 		}
 	}
 

@@ -48,7 +48,7 @@ public class FinishStage {
 			if (!result.isEmpty()) {
 				for (Result r : result)
 					if (Result.TYPE_ERROR == r.type) {
-						Layer.message(r.message, Layer.ICON_CANCEL);
+						Layer.message(r.message, Layer.ICON_ERROR);
 						b = false;
 					} else {
 						message += r.message + "<br>";
