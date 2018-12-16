@@ -3,9 +3,8 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812170028",
+  "timestamp": "201812170134",
   "title": "WisPlanner 5",
-  "behavior": true,
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
   "pageOverflow": "scrollY",
@@ -635,12 +634,8 @@
       "id": "162c96f406c",
       "name": "开发环境",
       "title": "BrUI 在线开发环境",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "162c9948c11",
@@ -855,16 +850,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "162c98182da",
             "defaultAssembly": true
           }
@@ -878,13 +869,10 @@
       "id": "16182ccd795",
       "name": "首页",
       "title": "WisPlanner5",
-      "behavior": true,
       "headbar": {
-        "behavior": true,
         "height": 64
       },
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "16184129060",
@@ -1193,16 +1181,13 @@
         ]
       },
       "footbar": {
-        "behavior": true,
         "height": 64
       },
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "166be9f6f0d",
             "defaultAssembly": true,
             "excludeRole": "项目总监#项目管理员",
@@ -1211,7 +1196,6 @@
           },
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "16715ef5a4c",
             "role": "项目总监#项目管理员",
             "image": "/img/todo_w.svg",
@@ -1227,12 +1211,8 @@
       "id": "16183e364b9",
       "name": "项目首页（执行）",
       "title": "项目首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
@@ -1610,23 +1590,18 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "16305720b4b",
             "image": "/img/dashboard_w.svg",
             "text": "项目仪表台"
           },
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "166d1b632c6",
             "defaultAssembly": true,
             "image": "/img/todo_w.svg",
@@ -1641,12 +1616,8 @@
       "id": "162ff912b33",
       "name": "项目首页（启动）",
       "title": "项目首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
@@ -1797,16 +1768,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "163399430d8",
             "defaultAssembly": true
           }
@@ -1819,12 +1786,8 @@
       "id": "96183e364b9",
       "name": "项目首页（收尾）",
       "title": "项目首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
@@ -2159,16 +2122,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "16305720b4b",
             "defaultAssembly": true,
             "image": "/img/dashboard_w.svg",
@@ -2176,7 +2135,6 @@
           },
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "166d1b632c6",
             "image": "/img/todo_w.svg",
             "text": "项目工作看板"
@@ -2190,12 +2148,8 @@
       "id": "99183e364b9",
       "name": "项目首页（关闭）",
       "title": "项目首页",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
@@ -2454,16 +2408,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "163723be22d",
             "defaultAssembly": true
           }
@@ -2476,12 +2426,8 @@
       "id": "163c92214c7",
       "name": "项目模板",
       "title": "项目模板",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "1628e1d1914",
@@ -2541,16 +2487,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "163c925f0d5",
             "defaultAssembly": true
           }
@@ -2563,12 +2505,8 @@
       "id": "164067d4250",
       "name": "系统管理",
       "title": "系统管理",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "164067f2815",
@@ -2702,16 +2640,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "16406f27fa2",
             "defaultAssembly": true
           }
@@ -2723,12 +2657,8 @@
       "id": "16406d5c996",
       "name": "业务管理",
       "title": "业务管理",
-      "behavior": true,
-      "headbar": {
-        "behavior": true
-      },
+      "headbar": {},
       "sidebar": {
-        "behavior": true,
         "enabled": true,
         "width": 240,
         "header": "16406dbb812",
@@ -2965,16 +2895,12 @@
           }
         ]
       },
-      "footbar": {
-        "behavior": true
-      },
+      "footbar": {},
       "contentArea": {
         "typeName": "内容区",
-        "behavior": true,
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "behavior": true,
             "id": "16406f27fa2",
             "defaultAssembly": true
           }
