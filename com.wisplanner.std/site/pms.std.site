@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812161543",
+  "timestamp": "201812170028",
   "title": "WisPlanner 5",
   "behavior": true,
   "path": "/",
@@ -3249,33 +3249,40 @@
                 "formFields": [],
                 "required": true,
                 "textRestrict": "无限定"
+              },
+              {
+                "id": "1622353f017",
+                "name": "headPics",
+                "text": "头像",
+                "type": "文件选择框",
+                "formFields": [],
+                "fileNamespace": "headpics",
+                "fileFilerExts": ".png,.jpg"
               }
             ]
           },
           {
-            "id": "1621d2b257b",
-            "name": "organization",
-            "text": "所属组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "required": true,
-            "selectorAssemblyId": "1621d403c8b"
-          },
-          {
-            "id": "1653d177d78",
-            "name": "position",
-            "text": "职位",
-            "type": "单行文本框",
-            "formFields": []
-          },
-          {
-            "id": "1622353f017",
-            "name": "headPics",
-            "text": "头像",
-            "type": "文件选择框",
-            "formFields": [],
-            "fileNamespace": "headpics",
-            "fileFilerExts": ".png,.jpg"
+            "id": "167b7cf65fa",
+            "name": "新字段1",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "1621d2b257b",
+                "name": "organization",
+                "text": "所属组织",
+                "type": "对象选择框",
+                "formFields": [],
+                "required": true,
+                "selectorAssemblyId": "1621d403c8b"
+              },
+              {
+                "id": "1653d177d78",
+                "name": "position",
+                "text": "职位",
+                "type": "单行文本框",
+                "formFields": []
+              }
+            ]
           },
           {
             "id": "162bd59e131",
@@ -3283,7 +3290,9 @@
             "text": "执业资格",
             "type": "多个对象选择框",
             "formFields": [],
-            "selectorAssemblyId": "162bd6340f5"
+            "selectorAssemblyId": "162bd6340f5",
+            "enableCreateItem": false,
+            "enableInsertAndCreateItem": false
           },
           {
             "id": "162c6f4f800",
@@ -3291,7 +3300,9 @@
             "text": "资源类型",
             "type": "对象选择框",
             "formFields": [],
-            "selectorAssemblyId": "162c4579eee"
+            "selectorAssemblyId": "162c4579eee",
+            "enableCreateItem": false,
+            "enableInsertAndCreateItem": false
           }
         ],
         "actions": [],
@@ -8644,44 +8655,37 @@
             "marginWidth": 16,
             "css": "brui_bg_new_york",
             "itemCss": "brui_card",
+            "layoutType": "grid",
             "assemblys": [
               {
                 "id": "1643fd0eae0",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": 280
-              },
-              {
-                "id": "1644af95670",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 2,
-                "horizontalSpan": 2,
-                "widthHint": -1,
-                "heightHint": -1
+                "heightHint": 300
               },
               {
                 "id": "1670b245db8",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": 280,
+                "heightHint": -1,
                 "layoutName": ""
               },
               {
-                "id": "16445283c81",
+                "id": "164496357b8",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
@@ -8692,96 +8696,29 @@
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "164496357b8",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              }
-            ],
-            "carouselInterval": 0
-          },
-          {
-            "id": "164e0636640",
-            "name": "4X3",
-            "maximalDeviceWidth": 1600,
-            "columnCount": 3,
-            "horizontalSpacing": 16,
-            "verticalSpacing": 16,
-            "makeColumnsEqualWidth": true,
-            "marginHeight": 16,
-            "marginWidth": 16,
-            "css": "brui_bg_new_york",
-            "assemblys": [
-              {
-                "id": "1643fd0eae0",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": 250
+                "heightHint": 300
               },
               {
                 "id": "1644af95670",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
                 "verticalSpan": 2,
                 "horizontalSpan": 2,
                 "widthHint": -1,
                 "heightHint": -1
               },
               {
-                "id": "1670b245db8",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": 250
-              },
-              {
                 "id": "16445283c81",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "16449080b74",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "164496357b8",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
+                "grabExcessVerticalSpace": false,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
@@ -9993,7 +9930,8 @@
         "actions": [],
         "rowActions": [],
         "displayRootInputLabelInTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "candidates": []
       },
       {
         "id": "1633ee05a77",
@@ -11136,12 +11074,14 @@
             "id": "167b5aef33c",
             "name": "checkListSetting",
             "text": "完成检查项",
-            "type": "多个字符串选择框",
+            "type": "多个对象选择框",
             "formFields": [],
             "selectorAssemblyId": "167b5c21003",
             "height": 335,
             "valueFieldName": "",
-            "verticalAlignLabel": true
+            "verticalAlignLabel": true,
+            "enableCreateItem": true,
+            "enableInsertAndCreateItem": true
           }
         ],
         "actions": [],
@@ -12015,7 +11955,8 @@
         "actions": [],
         "rowActions": [],
         "displayRootInputLabelInTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "candidates": []
       },
       {
         "id": "1637ce87d72",
@@ -36613,12 +36554,13 @@
             "id": "167b5e3fc9a",
             "name": "description",
             "text": "描述",
-            "type": "多行文本框",
-            "formFields": []
+            "type": "HTML文本框",
+            "formFields": [],
+            "grabVertical": true
           }
         ],
-        "smallEditor": true,
-        "tinyEditor": true
+        "smallEditor": false,
+        "tinyEditor": false
       }
     ]
   },
