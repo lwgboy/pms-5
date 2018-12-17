@@ -33,6 +33,7 @@ import com.bizvisionsoft.service.model.ProjectChange;
 import com.bizvisionsoft.service.model.ProjectChangeTask;
 import com.bizvisionsoft.service.model.ProjectScheduleInfo;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.RBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.SalesItem;
@@ -42,7 +43,6 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
-import com.bizvisionsoft.serviceimpl.projectsetting.ProjectStartSetting;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectChangeRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
@@ -302,6 +302,52 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return memberIds;
 	}
 
+	public static String START_SETTING_NAME = "项目启动设置";
+	/**
+	 * 项目预算
+	 */
+	private static String START_SETTING_FIELD_BUDGET = "budget";
+	/**
+	 * 项目资源
+	 */
+	private static String START_SETTING_FIELD_RESOURCE = "resource";
+	/**
+	 * 项目团队
+	 */
+	private static String START_SETTING_FIELD_OBS = "obs";
+	/**
+	 * 项目风险
+	 */
+	private static String START_SETTING_FIELD_RBS = "rbs";
+	/**
+	 * 项目计划
+	 */
+	private static String START_SETTING_FIELD_PLAN = "plan";
+	/**
+	 * 一级管理节点
+	 */
+	private static String START_SETTING_FIELD_CHARGER_L1 = "asgnL1";
+	/**
+	 * 二级管理节点
+	 */
+	private static String START_SETTING_FIELD_CHARGER_L2 = "asgnL2";
+	/**
+	 * 三级管理节点
+	 */
+	private static String START_SETTING_FIELD_CHARGER_L3 = "asgnL3";
+	/**
+	 * 非管理节点
+	 */
+	private static String START_SETTING_FIELD_CHARGER_NoL = "asgnNoL";
+	/**
+	 * 启动批准
+	 */
+	private static String START_SETTING_FIELD_APPROVEONSTART = "appvOnStart";
+
+	private static String START_SETTING_VALUE_REQUIREMENT = "要求";
+	private static String START_SETTING_VALUE_WARNING = "警告";
+	private static String START_SETTING_VALUE_IGNORE = "忽略";
+
 	private List<Result> startProjectCheck(ObjectId _id, String executeBy) {
 		//////////////////////////////////////////////////////////////////////
 		// 须检查的信息
@@ -312,10 +358,163 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 5. 没有做预算，警告
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
-		
-		Document setting = getSystemSetting(ProjectStartSetting.SETTING_NAME);
+		ArrayList<Result> results = new ArrayList<Result>();
+
 		Project project = get(_id);
-		return ProjectStartSetting.setting(project, setting);
+		// 获取项目启动设置
+		Document systemSetting = getSystemSetting(START_SETTING_NAME);
+		// 从项目启动设置中获取项目预算配置
+		Object setting = systemSetting.get(START_SETTING_FIELD_BUDGET);
+		// 设置为忽略时，不进行检查，
+		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 根据项目的cbs_id获取当前项目的所有CBS节点Id。
+			List<ObjectId> cbsIds = new ArrayList<>();
+			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", "parent_id", true).forEach((Document d) -> {
+				cbsIds.add(d.getObjectId("_id"));
+			});
+			// 如果没有编制cbsItem的预算和科目预算，则进行提示
+			long l = c("cbsPeriod").countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+			if (l == 0) {
+				l = c("cbsSubject").countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
+				if (l == 0)
+					// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
+					if (START_SETTING_VALUE_WARNING.equals(setting))
+						results.add(Result.warning("项目尚未编制预算。"));
+					else if (START_SETTING_VALUE_REQUIREMENT.equals(setting))
+						results.add(Result.error("项目尚未编制预算。"));
+
+			}
+		}
+
+		// 获取项目团队设置
+		setting = systemSetting.get(START_SETTING_FIELD_OBS);
+		// 设置为忽略时，不进行检查，
+		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 获取项目团队中非根节点，并且该节点没有担任者和成员的记录数，记录数为0时，则添加返回信息。
+			long l = c("obs").countDocuments(
+					new Document("scope_id", _id).append("scopeRoot", false).append("managerId", null).append("member", null));
+			if (l > 0)
+				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
+				if (START_SETTING_VALUE_WARNING.equals(setting))
+					results.add(Result.warning("项目尚未组建项目团队，或者存在没有担任者和成员的角色和团队。"));
+				else if (START_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error("项目尚未组建项目团队，或者存在没有担任者和成员的角色和团队。"));
+		}
+
+		// 获取项目风险设置
+		setting = systemSetting.get(START_SETTING_FIELD_RBS);
+		// 设置为忽略时，不进行检查，
+		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 获取项目风险项中的记录数，记录数为0时，则添加返回信息。
+			long l = c("rbsItem").countDocuments(new Document("project_id", _id).append("parent_id", null));
+			if (l == 0)
+				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
+				if (START_SETTING_VALUE_WARNING.equals(setting))
+					results.add(Result.warning("项目尚未创建风险项。"));
+				else if (START_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error("项目尚未创建风险项。"));
+		}
+		// 获取项目资源设置
+		setting = systemSetting.get(START_SETTING_FIELD_RESOURCE);
+		// 设置为忽略时，不进行检查，
+		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 获得所有非里程碑的叶子节点的id
+			List<ObjectId> workIds = c("work")
+					.distinct("_id", new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
+					.into(new ArrayList<>());
+			// 如果没有进度计划，不进行资源检查
+			if (workIds.size() > 0) {
+				// 获取填写了资源计划的工作id
+				List<ObjectId> resourceWorkIds = c("resourcePlan")
+						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class).into(new ArrayList<>());
+				String message = "";
+				if (resourceWorkIds.size() == 0) {
+					message = "项目尚未编制资源计划";
+				} else {
+					workIds.removeAll(resourceWorkIds);
+					if (workIds.size() > 0) {
+						message = Formatter
+								.getString(c("work").distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
+										.into(new ArrayList<>()));
+						message="工作："+message +" 未编制资源计划";
+					}
+				}
+				if (!message.isEmpty() && START_SETTING_VALUE_WARNING.equals(setting))
+					results.add(Result.warning(message));
+				else if (!message.isEmpty() && START_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error(message));
+			}
+
+		}
+		// 获取项目计划设置
+		setting = systemSetting.get(START_SETTING_FIELD_PLAN);
+		// 设置为忽略时，不进行检查，
+		if (!START_SETTING_VALUE_IGNORE.equals(setting))
+
+		{
+			// 获取项目进度计划中的任务记录数，记录数为0时，则添加返回信息。
+			long l = c("work").countDocuments(new Document("project_id", _id).append("parent_id", null));
+			if (l == 0)
+				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
+				if (START_SETTING_VALUE_WARNING.equals(setting))
+					results.add(Result.warning("项目尚未创建进度计划。"));
+				else if (START_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error("项目尚未创建进度计划。"));
+
+			Map<String, String> manageLevels = new HashMap<String, String>();
+
+			// 获取一级监控节点设置
+			setting = systemSetting.get(START_SETTING_FIELD_CHARGER_L1);
+			if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+				manageLevels.put("1", setting.toString());
+			}
+
+			// 获取二级监控节点设置
+			setting = systemSetting.get(START_SETTING_FIELD_CHARGER_L2);
+			if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+				manageLevels.put("2", setting.toString());
+			}
+			// 获取三级监控节点设置
+			setting = systemSetting.get(START_SETTING_FIELD_CHARGER_L3);
+			if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+				manageLevels.put("3", setting.toString());
+
+			}
+			// 获取非监控节点设置
+			setting = systemSetting.get(START_SETTING_FIELD_CHARGER_NoL);
+			if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
+				manageLevels.put(null, setting.toString());
+			}
+
+			List<String> warning = new ArrayList<String>();
+			List<String> error = new ArrayList<String>();
+			// 获取未设置负责人和参与者的节点名称
+			c("work")
+					.find(new Document("project_id", _id).append("manageLevel", new Document("$in", manageLevels.keySet()))
+							.append("milestone", false).append("assignerId", null).append("chargerId", null).append("summary", false))
+					.forEach((Document d) -> {
+						// 根据类型获取节点设置，并将其添加到相应的集合中。
+						if (START_SETTING_VALUE_WARNING.equals(manageLevels.get(d.getString("manageLevel"))))
+							warning.add(d.getString("fullName"));
+						else if (START_SETTING_VALUE_REQUIREMENT.equals(manageLevels.get(d.getString("manageLevel"))))
+							error.add(d.getString("fullName"));
+
+					});
+			// 添加警告提示
+			if (warning.size() > 0)
+				results.add(Result.warning("工作：" + Formatter.getString(warning) + " 没有指定负责人和指派者."));
+			// 添加错误提示
+			if (error.size() > 0)
+				results.add(Result.error("工作：" + Formatter.getString(error) + " 没有指定负责人和指派者."));
+		}
+
+		// 获取启动批准设置
+		setting = systemSetting.get(START_SETTING_FIELD_APPROVEONSTART);
+		// 如果需要批准启动，并且项目没有批准启动，则返回错误
+		if (Boolean.TRUE.equals(setting) && !Boolean.TRUE.equals(project.getStartApproved())) {
+			results.add(Result.error("项目尚未获得启动批准。"));
+		}
+		return results;
 	}
 
 	public List<Result> distributeProjectPlan(Command com) {
