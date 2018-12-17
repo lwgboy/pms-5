@@ -25,8 +25,7 @@ public class OpenProjectInfoACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
 
 		ObjectId project_id = context.getRootInput(Project.class, false).get_id();
 		Project project = Services.get(ProjectService.class).get(project_id);
@@ -39,16 +38,16 @@ public class OpenProjectInfoACT {
 		else if ("external".equals(project.getProjectType()))
 			assemblyName = "外协项目编辑器";
 
-		new Editor<Project>(bruiService.getAssembly(assemblyName), context).setInput(project).setTitle(title)
-				.setEditable(false).ok((r, proj) -> {
+		new Editor<Project>(bruiService.getAssembly(assemblyName), context).setInput(project).setTitle(title).setEditable(false)
+				.ok((r, proj) -> {
 					try {
-						Services.get(ProjectService.class).update(
-								new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
+						Services.get(ProjectService.class)
+								.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
 						AUtil.simpleCopy(proj, project);
 					} catch (Exception e) {
 						String message = e.getMessage();
 						if (message.indexOf("index") >= 0) {
-							Layer.message("请勿录入相同的项目编号", Layer.ICON_CANCEL);
+							Layer.error("请勿录入相同的项目编号");
 						}
 					}
 				});

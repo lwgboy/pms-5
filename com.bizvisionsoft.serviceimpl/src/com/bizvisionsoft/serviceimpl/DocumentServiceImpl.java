@@ -14,8 +14,10 @@ import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
 
 public class DocumentServiceImpl extends BasicServiceImpl implements DocumentService {
@@ -32,14 +34,16 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Folder> listProjectRootFolder(ObjectId project_id) {
-		return c(Folder.class).find(new Document("project_id", project_id).append("parent_id", null))
-				.into(new ArrayList<>());
+		return c(Folder.class).find(new Document("project_id", project_id).append("parent_id", null)).into(new ArrayList<>());
 	}
 
 	@Override
 	public List<FolderInTemplate> listProjectTemplateRootFolder(ObjectId template_id) {
-		return c(FolderInTemplate.class).find(new Document("template_id", template_id).append("parent_id", null))
-				.into(new ArrayList<>());
+		return list(FolderInTemplate.class,
+				new BasicDBObject("filter", new BasicDBObject("template_id", template_id).append("parent_id", null)),
+				Aggregates.graphLookup("folderInTemplate", "$folderInTemplate_id", "parent_id", "_id", "parent"), //
+				Aggregates.addFields(new Field<String>("path", "$parent.name")), //
+				Aggregates.project(new Document("parent", false)));
 	}
 
 	@Override
@@ -55,8 +59,10 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<FolderInTemplate> listChildrenFolderTemplate(ObjectId parent_id) {
-		return c(FolderInTemplate.class).find(new Document("parent_id", parent_id))// .sort(new Document("name", 1))
-				.into(new ArrayList<>());
+		return list(FolderInTemplate.class, new BasicDBObject("filter", new BasicDBObject("parent_id", parent_id)),
+				Aggregates.graphLookup("folderInTemplate", "$folderInTemplate_id", "parent_id", "_id", "parent"), //
+				Aggregates.addFields(new Field<String>("path", "$parent.name")), //
+				Aggregates.project(new Document("parent", false)));
 	}
 
 	@Override
@@ -97,8 +103,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public boolean renameProjectTemplateFolder(ObjectId folder_id, String name) {
-		c("folderInTemplate").updateOne(new Document("_id", folder_id),
-				new Document("$set", new Document("name", name)));
+		c("folderInTemplate").updateOne(new Document("_id", folder_id), new Document("$set", new Document("name", name)));
 		return true;
 	}
 
@@ -156,8 +161,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			BasicDBObject filter = (BasicDBObject) condition.get("filter");
 			BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
-			List<ObjectId> folder_id = c(Folder.class)
-					.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+			List<ObjectId> folder_id = c(Folder.class).distinct("_id", new Document("project_id", project_id), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 
 			ArrayList<Bson> pipeline = new ArrayList<Bson>();
@@ -182,8 +186,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long countProjectDocument(BasicDBObject filter, ObjectId project_id) {
-		List<ObjectId> folder_id = c(Folder.class)
-				.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+		List<ObjectId> folder_id = c(Folder.class).distinct("_id", new Document("project_id", project_id), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		if (filter == null)
 			filter = new BasicDBObject();
@@ -200,7 +203,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Docu> listWorkPackageDocument(ObjectId wp_id) {
-		return listDocument(new BasicDBObject("filter",new BasicDBObject("workPackage_id",wp_id)));
+		return listDocument(new BasicDBObject("filter", new BasicDBObject("workPackage_id", wp_id)));
 	}
 
 	@Override
@@ -220,24 +223,20 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<DocuTemplate> listDocumentTemplates(BasicDBObject condition) {
-		return createDataSet(condition,DocuTemplate.class);
+		return createDataSet(condition, DocuTemplate.class);
 	}
-	
+
 	@Override
 	public DocuTemplate getDocumentTemplate(ObjectId _id) {
 		return get(_id, DocuTemplate.class);
 	}
 
-
 	@Override
 	public List<DocuSetting> listDocumentSetting(ObjectId wp_id) {
-		return list(DocuSetting.class, new BasicDBObject("filter",new BasicDBObject("workPackage_id",wp_id)), //
-				Aggregates.lookup("folderInTemplate", "folderInTemplate_id", "_id", "folderInTemplate"),//
-				Aggregates.unwind("$folderInTemplate", new UnwindOptions().preserveNullAndEmptyArrays(true)),//
-				Aggregates.lookup("docuTemplate", "docuTemplate_id", "_id", "docuTemplate"),//
-				Aggregates.unwind("$docuTemplate", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		return list(DocuSetting.class, new BasicDBObject("filter", new BasicDBObject("workPackage_id", wp_id)),
+				new JQ("追加-文档设置-文件夹和文档模板").array());
 	}
-	
+
 	@Override
 	public DocuSetting createDocumentSetting(DocuSetting doc) {
 		return insert(doc);
@@ -252,6 +251,5 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long deleteDocumentSetting(ObjectId _id) {
 		return delete(_id, DocuSetting.class);
 	}
-
 
 }

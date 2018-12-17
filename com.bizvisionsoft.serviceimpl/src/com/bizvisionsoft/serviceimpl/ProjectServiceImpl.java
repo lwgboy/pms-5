@@ -314,6 +314,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<Result> result = new ArrayList<Result>();
 		
 		Object checkPlanSetting = getSystemSetting("项目启动检查", "plan");
+		
 		//TODO 按照启动检查来处理
 		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
 		if (l == 0)
