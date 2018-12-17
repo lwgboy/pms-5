@@ -118,7 +118,7 @@ public class GanttDS {
 			Layer.message("计划数据已保存");
 			e.gantt.setDirty(false);
 		} else {
-			Layer.message(result.message, Layer.ICON_CANCEL);
+			Layer.message(result.message, Layer.ICON_ERROR);
 		}
 	}
 

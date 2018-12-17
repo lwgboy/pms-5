@@ -44,7 +44,7 @@ public class EditCBSBudget {
 					grid.updateCBSPeriodBudget(((CBSItem) item), o);
 
 				} catch (ParseException e) {
-					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 				}
 			});
 

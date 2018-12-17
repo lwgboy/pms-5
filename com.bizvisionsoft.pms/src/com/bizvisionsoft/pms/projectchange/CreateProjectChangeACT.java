@@ -25,7 +25,7 @@ public class CreateProjectChangeACT {
 		Project project = (Project) context.getRootInput();
 		long check = Services.get(ProjectService.class).checkCreateProjectChange(project.get_id());
 		if (check > 0) {
-			Layer.message("存在未完成的项目变更，无法创建新变更申请", Layer.ICON_CANCEL);
+			Layer.message("存在未完成的项目变更，无法创建新变更申请", Layer.ICON_ERROR);
 			return;
 		}
 		Editor.open("项目变更编辑器", context,

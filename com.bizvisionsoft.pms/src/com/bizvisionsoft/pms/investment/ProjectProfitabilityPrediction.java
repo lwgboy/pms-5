@@ -624,7 +624,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 						update((Document) element, name, value);
 						viewer.refresh();
 					} catch (Exception e) {
-						Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+						Layer.message(e.getMessage(), Layer.ICON_ERROR);
 					}
 				}
 

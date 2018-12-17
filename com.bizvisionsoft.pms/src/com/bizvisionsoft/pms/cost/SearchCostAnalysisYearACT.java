@@ -11,6 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 
+@Deprecated
 public class SearchCostAnalysisYearACT {
 
 	@Inject

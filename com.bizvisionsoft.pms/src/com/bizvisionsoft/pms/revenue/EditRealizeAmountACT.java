@@ -31,7 +31,7 @@ public class EditRealizeAmountACT {
 					Check.instanceThen(context.getContent(), RealizeASM.class,
 							a -> a.update(((AccountIncome) t), new SimpleDateFormat("yyyyMM").format(_index), amount));
 				} catch (Exception e) {
-					Layer.message("更新失败。", Layer.ICON_CANCEL);
+					Layer.message("更新失败。", Layer.ICON_ERROR);
 				}
 
 			});

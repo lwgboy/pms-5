@@ -42,7 +42,7 @@ public class OpenProjectInfo {
 					} catch (Exception e) {
 						String message = e.getMessage();
 						if (message.indexOf("index") >= 0) {
-							Layer.message("请勿录入相同的项目编号", Layer.ICON_CANCEL);
+							Layer.message("请勿录入相同的项目编号", Layer.ICON_ERROR);
 						}
 					}
 				});

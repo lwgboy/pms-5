@@ -93,7 +93,7 @@ public class BudgetCBS extends CBSGrid {
 		} catch (Exception e) {
 			String message = e.getMessage();
 			if (message.indexOf("index") >= 0) {
-				Layer.message("请勿在同一范围内重复添加相同编号的成本项", Layer.ICON_CANCEL);
+				Layer.message("请勿在同一范围内重复添加相同编号的成本项", Layer.ICON_ERROR);
 			}
 		}
 	}
@@ -164,7 +164,7 @@ public class BudgetCBS extends CBSGrid {
 //				try {
 //					updateCBSItemPeriodBudgetInput((CBSItem) element, name, value);
 //				} catch (Exception e) {
-//					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+//					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 //				}
 //			}
 //
@@ -332,7 +332,7 @@ public class BudgetCBS extends CBSGrid {
 //				try {
 //					updateQty((CBSItem) element, value);
 //				} catch (Exception e) {
-//					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+//					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 //				}
 //			}
 //
@@ -370,7 +370,7 @@ public class BudgetCBS extends CBSGrid {
 //				try {
 //					updatePrice((CBSItem) element, value);
 //				} catch (Exception e) {
-//					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+//					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 //				}
 //			}
 //

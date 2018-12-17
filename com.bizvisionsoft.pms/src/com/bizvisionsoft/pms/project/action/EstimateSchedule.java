@@ -34,11 +34,11 @@ public class EstimateSchedule {
 			// TODO 避免客户端狂点估算按钮，应考虑每天只运行一次
 			// TODO 后台自动刷新
 			if (result == 0) {
-				Layer.message("<span style='color:red'>I级预警</span><br/>项目进度预计超期", Layer.ICON_CANCEL);
+				Layer.message("<span style='color:red'>I级预警</span><br/>项目进度预计超期", Layer.ICON_ERROR);
 			} else if (result == 1) {
-				Layer.message("<span style='color:red'>II级预警</span>", Layer.ICON_CANCEL);
+				Layer.message("<span style='color:red'>II级预警</span>", Layer.ICON_ERROR);
 			} else if (result == 2) {
-				Layer.message("<span style='color:red'>III级预警</span>", Layer.ICON_CANCEL);
+				Layer.message("<span style='color:red'>III级预警</span>", Layer.ICON_ERROR);
 			} else {
 				Layer.message("进度估算完成<br/>没有预警信息");
 			}

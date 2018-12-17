@@ -1,7 +1,10 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.ws.rs.core.Response;
 
@@ -10,6 +13,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.FileService;
 import com.bizvisionsoft.service.model.RemoteFile;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -26,8 +30,14 @@ public class FileServiceImpl implements FileService {
 			return Response.status(404).build();
 		}
 
-		Object contentType = file.getMetadata().get("contentType");
-		if (contentType == null)
+		String contentType = ""+file.getMetadata().get("contentType");
+		if (Check.isNotAssigned(""+contentType)) {
+			try {
+				contentType = Files.probeContentType(Paths.get(fileName));
+			} catch (IOException e) {
+			} 
+		}
+		if(Check.isNotAssigned(""+contentType))
 			contentType = "application/octet-stream";
 
 		String downloadableFileName;

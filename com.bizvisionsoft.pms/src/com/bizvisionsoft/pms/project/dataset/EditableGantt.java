@@ -144,11 +144,11 @@ public class EditableGantt {
 				e.gantt.setDirty(false);
 			} else {
 				e.doit = false;// 设置为false,禁止保存完后的callback,例如，关闭页面等
-				Layer.message(result.message, Layer.ICON_CANCEL);
+				Layer.message(result.message, Layer.ICON_ERROR);
 			}
 		} catch (Exception ex) {
 			e.doit = false;// 设置为false,禁止保存完后的callback,例如，关闭页面等
-			Layer.message(ex.getMessage(), Layer.ICON_CANCEL);
+			Layer.message(ex.getMessage(), Layer.ICON_ERROR);
 		}
 	}
 

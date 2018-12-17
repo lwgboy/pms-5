@@ -25,7 +25,7 @@ public class CompareSchedule {
 	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart ganttPart,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope root) {
 		if (ganttPart.isDirty()) {
-			Layer.message("当前的项目计划还未保存", Layer.ICON_CANCEL);
+			Layer.message("当前的项目计划还未保存", Layer.ICON_ERROR);
 		} else {
 			Workspace ws = root.getWorkspace();
 			List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(ws.getSpace_id());

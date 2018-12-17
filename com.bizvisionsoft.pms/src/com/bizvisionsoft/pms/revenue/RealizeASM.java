@@ -192,7 +192,7 @@ public class RealizeASM extends GridPart {
 		String title = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1);
 		int columnPosition = getColumnPosition(cal);
 		if (columnPosition == -1) {
-			Layer.message("期间" + title + "已存在", Layer.ICON_CANCEL);
+			Layer.message("期间" + title + "已存在", Layer.ICON_ERROR);
 			return;
 		}
 		Grid grid = viewer.getGrid();
@@ -291,7 +291,7 @@ public class RealizeASM extends GridPart {
 				try {
 					update((AccountIncome) element, index, Formatter.getDouble((String) value));
 				} catch (Exception e) {
-					Layer.message(e.getMessage(), Layer.ICON_CANCEL);
+					Layer.message(e.getMessage(), Layer.ICON_ERROR);
 				}
 			}
 
