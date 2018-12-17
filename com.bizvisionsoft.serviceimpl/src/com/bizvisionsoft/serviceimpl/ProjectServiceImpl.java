@@ -42,6 +42,7 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
+import com.bizvisionsoft.serviceimpl.projectsetting.ProjectStartSetting;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectChangeRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
@@ -311,60 +312,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 5. 没有做预算，警告
 		// 6. 预算没做完，警告
 		// 7. 预算没有分配，警告
-		List<Result> result = new ArrayList<Result>();
 		
-		Object checkPlanSetting = getSystemSetting("项目启动检查", "plan");
-		
-		//TODO 按照启动检查来处理
-		long l = c(Work.class).countDocuments(new Document("project_id", _id).append("parent_id", null));
-		if (l == 0)
-			result.add(Result.warning("项目尚未创建进度计划"));
-
-		// l = c(Work.class).countDocuments(new Document("project_id",
-		// _id).append("manageLevel", "1").append("$or",
-		// Arrays.asList(new Document("assignerId", null), new Document("chargerId",
-		// null))));
-		// if (l == 0)
-		// result.add(Result.startProjectError("项目沒有创建进度计划.",
-		// Result.CODE_PROJECT_NOWORK));
-		//
-		// l = c(Work.class).countDocuments(new Document("project_id",
-		// _id).append("parent_id", null)
-		// .append("chargerId", null).append("assignerId", null));
-		// if (l == 0)
-		// result.add(Result.startProjectWarning("项目进度计划没有指定必要角色.",
-		// Result.CODE_PROJECT_NOWORKROLE));
-		//
-		// l = c(OBSItem.class).countDocuments(new Document("scope_id", _id));
-		// if (l > 1)
-		// result.add(Result.startProjectWarning("项目沒有创建组织结构.",
-		// Result.CODE_PROJECT_NOOBS));
-		//
-		// l = c(Stockholder.class).countDocuments(new Document("project_id", _id));
-		// if (l > 1)
-		// result.add(Result.startProjectWarning("项目沒有创建干系人.",
-		// Result.CODE_PROJECT_NOSTOCKHOLDER));
-
+		Document setting = getSystemSetting(ProjectStartSetting.SETTING_NAME);
 		Project project = get(_id);
-
-		// ObjectId cbs_id = project.getCBS_id();
-		// List<ObjectId> cbsIds = getDesentItems(Arrays.asList(cbs_id), "cbs",
-		// "parent_id");
-		// l = c(CBSPeriod.class).countDocuments(new Document("cbsItem_id", new
-		// Document("$in", cbsIds)));
-		// if (l == 0) {
-		// l = c(CBSSubject.class).countDocuments(new Document("cbsItem_id", new
-		// Document("$in", cbsIds)));
-		// if (l == 0)
-		// result.add(Result.startProjectWarning("项目尚未编制预算",
-		// Result.CODE_PROJECT_NOCBS));
-		// }
-
-		if (!Boolean.TRUE.equals(project.getStartApproved())) {
-			result.add(Result.error("项目尚未获得启动批准"));
-		}
-
-		return result;
+		return ProjectStartSetting.setting(project, setting);
 	}
 
 	public List<Result> distributeProjectPlan(Command com) {
