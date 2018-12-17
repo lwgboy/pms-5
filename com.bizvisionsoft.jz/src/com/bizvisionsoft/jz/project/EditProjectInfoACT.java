@@ -26,8 +26,7 @@ public class EditProjectInfoACT {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
 		Project project = context.search_sele_root(Project.class);
 
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
@@ -40,18 +39,18 @@ public class EditProjectInfoACT {
 		else if ("external".equals(project.getProjectType()))
 			assemblyName = "外协项目编辑器";
 
-		new Editor<Project>(bruiService.getAssembly(assemblyName), context).setInput(true, pjForEdit)
-				.setTitle("编辑 " + title).ok((r, proj) -> {
+		new Editor<Project>(bruiService.getAssembly(assemblyName), context).setInput(true, pjForEdit).setTitle("编辑 " + title)
+				.ok((r, proj) -> {
 					try {
-						Services.get(ProjectService.class).update(
-								new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
+						Services.get(ProjectService.class)
+								.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
 						AUtil.simpleCopy(proj, project);
-						
+
 						Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.update(project));
 					} catch (Exception e) {
 						String message = e.getMessage();
 						if (message.indexOf("index") >= 0) {
-							Layer.message("请勿录入相同的项目编号", Layer.ICON_CANCEL);
+							Layer.error("请勿录入相同的项目编号");
 						}
 					}
 				});
