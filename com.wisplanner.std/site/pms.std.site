@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812170134",
+  "timestamp": "201812172025",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -2858,19 +2858,19 @@
             "children": [
               {
                 "id": "16782e9aaa4",
-                "name": "项目启动检查",
+                "name": "项目启动设置",
                 "type": "system_setting",
                 "verticalSpan": 0
               },
               {
                 "id": "16782e9eb67",
-                "name": "项目计划提交检查",
+                "name": "项目计划提交设置",
                 "type": "system_setting",
                 "verticalSpan": 0
               },
               {
                 "id": "16782e9f1c4",
-                "name": "项目关闭检查",
+                "name": "项目关闭设置",
                 "type": "system_setting",
                 "verticalSpan": 0
               }
@@ -34774,153 +34774,6 @@
         "disableInitLoadData": false
       },
       {
-        "id": "1676ae03012",
-        "name": "项目启动检查",
-        "title": "项目启动检查",
-        "layout": [],
-        "type": "editor",
-        "folderId": "16782e72b28",
-        "fields": [
-          {
-            "id": "1678305303d",
-            "name": "info3",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n项目计划完整性检查\n\u003c/div\u003e\n检查计划的完整性，例如：项目组、预算、风险、相关方等要素。\n",
-            "type": "横幅",
-            "formFields": [],
-            "staticContent": true
-          },
-          {
-            "id": "1678305fcee",
-            "name": "新字段10",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "1678360df71",
-                "name": "plan",
-                "text": "进度计划",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              },
-              {
-                "id": "167830605f6",
-                "name": "budget",
-                "text": "项目预算",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              }
-            ]
-          },
-          {
-            "id": "16783060c9a",
-            "name": "新字段13",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "167830606e1",
-                "name": "obs",
-                "text": "项目组",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              },
-              {
-                "id": "1678306134e",
-                "name": "rbs",
-                "text": "风险",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              }
-            ]
-          },
-          {
-            "id": "16782ecb108",
-            "name": "info2",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n检查计划的人员安排\n\u003c/div\u003e\n设定项目启动前检查以下类型的WBS节点的负责人或指派者。\n选择“必须”，要求必须指定，选择“警告”，系统检查后予以提示\n",
-            "type": "横幅",
-            "formFields": [],
-            "height": 72,
-            "staticContent": true
-          },
-          {
-            "id": "16782ff55b8",
-            "name": "新字段7",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "1676ae360ad",
-                "name": "asgnL1",
-                "text": "1级管理节点",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）",
-                "checkStyle": "开关（默认）"
-              },
-              {
-                "id": "1676ae5f1bd",
-                "name": "asgnL2",
-                "text": "2级管理节点",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）",
-                "checkStyle": "开关（默认）"
-              }
-            ]
-          },
-          {
-            "id": "16782ff6dc8",
-            "name": "新字段8",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "16782fdef9a",
-                "name": "asgnL3",
-                "text": "3级管理节点",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              },
-              {
-                "id": "16782fe6f64",
-                "name": "asgnAll",
-                "text": "所有节点",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
-              }
-            ]
-          },
-          {
-            "id": "1676af7aa8a",
-            "name": "info1",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设置项目启动批准\n\u003c/div\u003e\n检查检查是否得到批准。\n如果开启本开关，项目创建后必须由项目管理人员批准后才能启动。",
-            "type": "横幅",
-            "formFields": [],
-            "height": 72,
-            "staticContent": true
-          },
-          {
-            "id": "1676ae0ada0",
-            "name": "appvOnStart",
-            "text": "要求批准",
-            "type": "复选框",
-            "formFields": [],
-            "checkStyle": "开关（默认）"
-          }
-        ],
-        "disableInitLoadData": false
-      },
-      {
         "id": "1677a197ea4",
         "name": "值生成规则",
         "layout": [],
@@ -36078,314 +35931,6 @@
         "disableInitLoadData": false
       },
       {
-        "id": "16782e80d99",
-        "name": "项目计划提交检查",
-        "title": "项目计划提交检查",
-        "layout": [],
-        "type": "editor",
-        "folderId": "16782e72b28",
-        "fields": [
-          {
-            "id": "16782b38b03",
-            "name": "项目启动检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676af7aa8a",
-                "name": "info",
-                "text": "项目启动检查\u003cbr\u003e检查是否得到批准，或者项目计划是否已经指定负责人，如果以下WBS节点不满足，禁止启动项目。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676afb74b0",
-                "name": "新字段15",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676ae0ada0",
-                    "name": "appvOnStart",
-                    "text": "要求批准",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676ae360ad",
-                    "name": "asgnL1OnStart",
-                    "text": "1级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676ae5f1bd",
-                    "name": "asgnL2OnStart",
-                    "text": "2级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "16782b3d445",
-            "name": "项目计划提交检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676aee1d07",
-                "name": "info2",
-                "text": "进度计划提交\u003cbr\u003e当新计划超出以下的原定计划完成时间的情形下，必须通过项目变更来执行更改。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676afba9c7",
-                "name": "新字段16",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676aed078d",
-                    "name": "changeOnProjectPlan",
-                    "text": "项目",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af157d9",
-                    "name": "changeOnL1Plan",
-                    "text": "1级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af314de",
-                    "name": "changeOnL2Plan",
-                    "text": "2级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af37fb7",
-                    "name": "changeOnMilestone",
-                    "text": "里程碑",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "16782b45bc8",
-            "name": "项目完工检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676b040199",
-                "name": "info3",
-                "text": "项目关闭\u003cbr\u003e设定项目关闭时的系统处理。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676b04cc42",
-                "name": "新字段18",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676b0beec4",
-                    "name": "unStartWorkOnClose",
-                    "text": "未开始的工作",
-                    "type": "单选框",
-                    "formFields": [],
-                    "optionText": "删除工作#禁止关闭项目",
-                    "radioStyle": "横向分段（默认）"
-                  },
-                  {
-                    "id": "1676b04d3f2",
-                    "name": "unFinishedWorkOnClose",
-                    "text": "未完成的工作",
-                    "type": "单选框",
-                    "formFields": [],
-                    "optionText": "完成工作#禁止关闭项目",
-                    "radioStyle": "横向分段（默认）"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "disableInitLoadData": false
-      },
-      {
-        "id": "16782e87b89",
-        "name": "项目关闭检查",
-        "title": "项目关闭检查",
-        "layout": [],
-        "type": "editor",
-        "folderId": "16782e72b28",
-        "fields": [
-          {
-            "id": "16782b38b03",
-            "name": "项目启动检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676af7aa8a",
-                "name": "info",
-                "text": "项目启动检查\u003cbr\u003e检查是否得到批准，或者项目计划是否已经指定负责人，如果以下WBS节点不满足，禁止启动项目。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676afb74b0",
-                "name": "新字段15",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676ae0ada0",
-                    "name": "appvOnStart",
-                    "text": "要求批准",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676ae360ad",
-                    "name": "asgnL1OnStart",
-                    "text": "1级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676ae5f1bd",
-                    "name": "asgnL2OnStart",
-                    "text": "2级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "16782b3d445",
-            "name": "项目计划提交检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676aee1d07",
-                "name": "info2",
-                "text": "进度计划提交\u003cbr\u003e当新计划超出以下的原定计划完成时间的情形下，必须通过项目变更来执行更改。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676afba9c7",
-                "name": "新字段16",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676aed078d",
-                    "name": "changeOnProjectPlan",
-                    "text": "项目",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af157d9",
-                    "name": "changeOnL1Plan",
-                    "text": "1级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af314de",
-                    "name": "changeOnL2Plan",
-                    "text": "2级WBS节点",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  },
-                  {
-                    "id": "1676af37fb7",
-                    "name": "changeOnMilestone",
-                    "text": "里程碑",
-                    "type": "复选框",
-                    "formFields": [],
-                    "checkStyle": "开关（默认）"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "16782b45bc8",
-            "name": "项目完工检查",
-            "type": "标签页",
-            "formFields": [
-              {
-                "id": "1676b040199",
-                "name": "info3",
-                "text": "项目关闭\u003cbr\u003e设定项目关闭时的系统处理。",
-                "type": "横幅",
-                "formFields": [],
-                "height": 72,
-                "staticContent": true
-              },
-              {
-                "id": "1676b04cc42",
-                "name": "新字段18",
-                "type": "行",
-                "formFields": [
-                  {
-                    "id": "1676b0beec4",
-                    "name": "unStartWorkOnClose",
-                    "text": "未开始的工作",
-                    "type": "单选框",
-                    "formFields": [],
-                    "optionText": "删除工作#禁止关闭项目",
-                    "radioStyle": "横向分段（默认）"
-                  },
-                  {
-                    "id": "1676b04d3f2",
-                    "name": "unFinishedWorkOnClose",
-                    "text": "未完成的工作",
-                    "type": "单选框",
-                    "formFields": [],
-                    "optionText": "完成工作#禁止关闭项目",
-                    "radioStyle": "横向分段（默认）"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "disableInitLoadData": false
-      },
-      {
         "id": "167b5c21003",
         "name": "检查项",
         "layout": [],
@@ -36487,6 +36032,509 @@
         ],
         "smallEditor": false,
         "tinyEditor": false
+      },
+      {
+        "id": "1676ae03012",
+        "name": "项目启动设置",
+        "title": "项目启动设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "16782e72b28",
+        "fields": [
+          {
+            "id": "1678305303d",
+            "name": "info3",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下项目要素的完整性。\n\u003c/div\u003e\n选择“要求”时，必须填写要素内容，否则不允许启动；\u003cbr/\u003e\n选择“警告”时，如未填写要素内容，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，启动时将忽略该要素。\n",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "1678305fcee",
+            "name": "新字段10",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167830605f6",
+                "name": "budget",
+                "text": "项目预算",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bad21b47",
+                "name": "resource",
+                "text": "计划资源",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "16783060c9a",
+            "name": "新字段13",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167830606e1",
+                "name": "obs",
+                "text": "项目组",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "1678306134e",
+                "name": "rbs",
+                "text": "风险",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "1678360df71",
+            "name": "plan",
+            "description": "",
+            "text": "进度计划",
+            "type": "单选框",
+            "verticalLabel": false,
+            "formFields": [],
+            "optionText": "要求#警告#忽略",
+            "radioStyle": "横向分段（默认）"
+          },
+          {
+            "id": "16782ecb108",
+            "name": "info2",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下类型的WBS节点的负责人或指派者。\n\u003c/div\u003e\n进度计划完整性设置为“忽略”时，不进行检查。\n",
+            "type": "横幅",
+            "formFields": [],
+            "height": 72,
+            "staticContent": true
+          },
+          {
+            "id": "16782ff55b8",
+            "name": "新字段7",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "1676ae360ad",
+                "name": "asgnL1",
+                "text": "1级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）",
+                "checkStyle": "开关（默认）"
+              },
+              {
+                "id": "1676ae5f1bd",
+                "name": "asgnL2",
+                "text": "2级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）",
+                "checkStyle": "开关（默认）"
+              }
+            ]
+          },
+          {
+            "id": "16782ff6dc8",
+            "name": "新字段8",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "16782fdef9a",
+                "name": "asgnL3",
+                "text": "3级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "16782fe6f64",
+                "name": "asgnNoL",
+                "text": "非管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "1676af7aa8a",
+            "name": "info1",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设置项目启动批准\n\u003c/div\u003e\n如果开启本开关，项目创建后必须由项目管理人员批准后才能启动。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 72,
+            "staticContent": true
+          },
+          {
+            "id": "1676ae0ada0",
+            "name": "appvOnStart",
+            "text": "要求批准",
+            "type": "复选框",
+            "formFields": [],
+            "checkStyle": "开关（默认）"
+          }
+        ],
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16782e80d99",
+        "name": "项目计划提交设置",
+        "title": "项目计划提交设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "16782e72b28",
+        "fields": [
+          {
+            "id": "167ac02e5ad",
+            "name": "info3",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定变更项目计划时检查以下类型的WBS节点的负责人或指派者。\n\u003c/div\u003e\n选择“要求”时，必须填写负责人和指派者，否则不允许变更；\u003cbr/\u003e\n选择“警告”时，如未填写负责人和指派者，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，变更时将忽略负责人和指派者的检查。\n",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167bad6b3dd",
+            "name": "新字段2",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bad6bb03",
+                "name": "asgnL1",
+                "text": "1级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bad6bc22",
+                "name": "asgnL2",
+                "text": "2级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bad889e3",
+            "name": "新字段5",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bad88f4c",
+                "name": "asgnL3",
+                "text": "3级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bad8904f",
+                "name": "asgnLNoL",
+                "text": "非管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#警告#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bad9c96a",
+            "name": "info2",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定变更项目计划时，以下类型的WBS节点的计划完成时间。\n\u003c/div\u003e\n选择“要求”时，如果未通过项目变更，计划完成时间不允许延后，否则不允许变更；\u003cbr/\u003e\n选择“询问”时，如果未通过项目变更，计划完成时间延后，由项目经理决定是否需要更改；\u003cbr/\u003e\n选择“忽略”时，变更时将忽略计划完成时间的检查。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167bada8074",
+            "name": "新字段9",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bada8786",
+                "name": "scheduleL1",
+                "text": "1级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bada8846",
+                "name": "scheduleL2",
+                "text": "2级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bada8fe8",
+            "name": "新字段12",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bada9548",
+                "name": "scheduleL3",
+                "text": "3级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bada9629",
+                "name": "milestone",
+                "text": "里程碑",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167badae325",
+            "name": "info1",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定变更项目计划时进度计划是否允许突破项目计划完成时间。\n\u003c/div\u003e\n选择“要求”时，如果未通过项目变更，进度计划不允许突破项目计划完成时间，否则不允许变更；\u003cbr/\u003e\n选择“询问”时，如果未通过项目变更，由项目经理决定进度计划是否突破项目计划完成时间，如突破，修改项目计划完成时间；\u003cbr/\u003e\n选择“忽略”时，启动时将忽略计划完成时间的检查。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167badc8bf1",
+            "name": "project",
+            "type": "单选框",
+            "formFields": [],
+            "optionText": "要求#询问#忽略",
+            "radioStyle": "横向分段（默认）",
+            "hideLabel": true
+          }
+        ],
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16782e87b89",
+        "name": "项目关闭设置",
+        "title": "项目关闭设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "16782e72b28",
+        "fields": [
+          {
+            "id": "167bae464e0",
+            "name": "info3",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未开始的WBS节点的处理方式。\n\u003c/div\u003e\n选择“要求”时，不允许存在未开始的节点；\u003cbr/\u003e\n选择“询问”时，由项目经理决定是否删除未开始的WBS节点；\u003cbr/\u003e\n选择“删除”时，未开始的WBS节点将自动删除。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167bae469ad",
+            "name": "新字段18",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae46e13",
+                "name": "startL1",
+                "text": "1级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#删除",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae46ece",
+                "name": "startL2",
+                "text": "2级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#删除",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae4743a",
+            "name": "新字段21",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae4ecec",
+                "name": "startL3",
+                "text": "3级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#删除",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae4ed9f",
+                "name": "startNoL",
+                "text": "非管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#删除",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae4f66c",
+            "name": "info2",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未完工的WBS节点的处理方式。\n\u003c/div\u003e\n选择“要求”时，不允许存在未完工的节点；\u003cbr/\u003e\n选择“询问”时，由项目经理决定是否完工未完工的WBS节点；\u003cbr/\u003e\n选择“完工”时，未完工的WBS节点将自动完工。\n",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167bae4fc44",
+            "name": "新字段25",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae50acc",
+                "name": "finishL1",
+                "text": "1级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#完工",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae50c10",
+                "name": "finishL2",
+                "text": "2级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#完工",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae5114d",
+            "name": "新字段28",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae516c2",
+                "name": "finishL3",
+                "text": "3级管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#完工",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae5177a",
+                "name": "finishNoL",
+                "text": "非管理节点",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#完工",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae51f99",
+            "name": "info1",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查以下项目要素的完整性。\n\u003cdiv\u003e\n选择“要求”时，必须填写要素内容，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如未填写要素内容，系统发出询问，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“关闭”时，将自动关闭该要素。\u003cbr/\u003e\n选择“忽略”时，将忽略该要素。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 140,
+            "staticContent": true
+          },
+          {
+            "id": "167bae5259a",
+            "name": "新字段32",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae52cdd",
+                "name": "change",
+                "text": "项目变更",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#关闭",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae52d93",
+                "name": "report",
+                "text": "项目报告",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#关闭",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae52f67",
+            "name": "新字段35",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167bae535b9",
+                "name": "cost",
+                "text": "项目成本",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167bae53686",
+                "name": "resource",
+                "text": "资源用量",
+                "type": "单选框",
+                "formFields": [],
+                "optionText": "要求#询问#忽略",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
+          },
+          {
+            "id": "167bae5383b",
+            "name": "material",
+            "text": "项目产出",
+            "type": "单选框",
+            "formFields": [],
+            "optionText": "要求#询问#忽略",
+            "radioStyle": "横向分段（默认）"
+          }
+        ],
+        "disableInitLoadData": false
       }
     ]
   },
