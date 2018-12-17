@@ -426,6 +426,12 @@ public class WorkInTemplate implements IWorkPackageMaster {
 			assignerRoleId = obsItem.getId();
 		}
 	}
+	
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<CheckItem> checkListSetting;
 
 	public ObjectId get_id() {
 		return _id;
