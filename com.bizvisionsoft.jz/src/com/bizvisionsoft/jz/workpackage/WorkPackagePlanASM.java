@@ -74,7 +74,7 @@ public class WorkPackagePlanASM {
 
 			if (list != null) {
 				list.forEach(action -> {
-					if (!action.isObjectBehavier()) {
+					if (!Boolean.TRUE.equals(action.getObjectBehavier())) {
 						actions.add(action);
 					} else {
 						if (work != null) {
@@ -144,11 +144,11 @@ public class WorkPackagePlanASM {
 		parent.setLayout(new FillLayout());
 		BruiAssemblyContext gridContext;
 		if (view == null) {
-			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本"))
-					.setServices(brui).create().getContext();
+			gridContext = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("工作包-基本")).setServices(brui).create()
+					.getContext();
 		} else {
-			gridContext = new AssemblyContainer(parent, context).setInput(view)
-					.setAssembly(brui.getAssembly(view.getPackageAssembly())).setServices(brui).create().getContext();
+			gridContext = new AssemblyContainer(parent, context).setInput(view).setAssembly(brui.getAssembly(view.getPackageAssembly()))
+					.setServices(brui).create().getContext();
 		}
 		grid = (GridPart) gridContext.getContent();
 	}
@@ -163,25 +163,22 @@ public class WorkPackagePlanASM {
 	}
 
 	public void updatePurchase(List<WorkPackage> workPackages) {
-		List<WorkPackage> wps = Services.get(WorkService.class)
-				.updatePurchaseWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
-						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
+		List<WorkPackage> wps = Services.get(WorkService.class).updatePurchaseWorkPackage(new UpdateWorkPackages()
+				.setWorkPackages(workPackages).setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
 		grid.setViewerInput(wps);
 	}
 
 	public void updateProduction(List<WorkPackage> workPackages, List<WorkPackageProgress> workPackageProgresss) {
-		List<WorkPackage> wps = Services.get(WorkService.class)
-				.updateProductionWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
-						.setWorkPackageProgress(workPackageProgresss).setWork_id(((Work) work).get_id())
-						.setCatagory(view.getCatagory()).setName(view.getName()));
+		List<WorkPackage> wps = Services.get(WorkService.class).updateProductionWorkPackage(
+				new UpdateWorkPackages().setWorkPackages(workPackages).setWorkPackageProgress(workPackageProgresss)
+						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
 		grid.setViewerInput(wps);
 	}
 
 	public void updatePLM(List<WorkPackage> workPackages, List<WorkPackageProgress> workPackageProgresss) {
-		List<WorkPackage> wps = Services.get(WorkService.class)
-				.updateDevelopmentWorkPackage(new UpdateWorkPackages().setWorkPackages(workPackages)
-						.setWorkPackageProgress(workPackageProgresss).setWork_id(((Work) work).get_id())
-						.setCatagory(view.getCatagory()).setName(view.getName()));
+		List<WorkPackage> wps = Services.get(WorkService.class).updateDevelopmentWorkPackage(
+				new UpdateWorkPackages().setWorkPackages(workPackages).setWorkPackageProgress(workPackageProgresss)
+						.setWork_id(((Work) work).get_id()).setCatagory(view.getCatagory()).setName(view.getName()));
 		grid.setViewerInput(wps);
 	}
 
