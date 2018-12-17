@@ -342,11 +342,25 @@ public class BasicServiceImpl {
 		return result;
 	}
 
-	protected AggregateIterable<Document> lookupDesentItems(List<ObjectId> inputIds, String cName, String key,
-			boolean includeCurrentLevel) {
+	/**
+	 * 
+	 * @param inputIds
+	 *            输入的_id列表
+	 * @param cName，集合名称
+	 * @param key，关键字
+	 * @param includeCurrentLevel，是否包含本级
+	 * @return
+	 */
+	protected Iterable<Document> lookupDesentItems(List<ObjectId> inputIds, String cName, String key, boolean includeCurrentLevel) {
 		String jq = includeCurrentLevel ? "查询-通用-下级迭代取出-含本级" : "查询-通用-下级迭代取出";
 		ArrayList<Bson> pipe = new ArrayList<>();
-		pipe.add(new Document("$match", new Document("_id", new Document("$in", inputIds))));
+		if (inputIds.size() > 1) {
+			pipe.add(Aggregates.match(new Document("_id", new Document("$in", inputIds))));
+		} else if (inputIds.size() == 1) {
+			pipe.add(Aggregates.match(new Document("_id", inputIds.get(0))));
+		} else {
+			return new ArrayList<>();
+		}
 		pipe.addAll(
 				new JQ(jq).set("from", cName).set("startWith", "$_id").set("connectFromField", "_id").set("connectToField", key).array());
 		return c(cName).aggregate(pipe);
@@ -416,9 +430,9 @@ public class BasicServiceImpl {
 
 		Document doc = c("calendar").aggregate(pipeline).first();
 		if (doc != null) {
-			Boolean workdate = doc.getBoolean("workdate");
-			Boolean workday = doc.getBoolean("workday");
-			Boolean workingDay = doc.getBoolean("workingDay");
+			boolean workdate = doc.getBoolean("workdate", false);
+			boolean workday = doc.getBoolean("workday", false);
+			boolean workingDay = doc.getBoolean("workingDay", false);
 			if (workdate) {
 				return workingDay;
 			} else {
@@ -519,8 +533,7 @@ public class BasicServiceImpl {
 			} else if ("SS".equals(_type)) {
 				type = Relation.STS;
 			}
-			Number lag = (Number) doc.get("lag");
-			float interval = Optional.ofNullable(lag).map(l -> l.floatValue()).orElse(0f);
+			float interval = Optional.ofNullable((Number) doc.get("lag")).map(l -> l.floatValue()).orElse(0f);
 			Relation rel = new Relation(type, interval);
 			Route route = new Route(end1, end2, rel);
 			routes.add(route);
@@ -617,11 +630,26 @@ public class BasicServiceImpl {
 		});
 	}
 
+	/**
+	 * 使用BsonTools替代
+	 * 
+	 * @param input
+	 * @return
+	 */
+	@Deprecated
 	protected static BasicDBObject getBson(Object input) {
 		return getBson(input, true);
 	}
 
+	/**
+	 * 使用BsonTools替代
+	 * 
+	 * @param input
+	 * @param ignoreNull
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Deprecated
 	private static BasicDBObject getBson(Object input, boolean ignoreNull) {
 		Codec codec = CodexProvider.getRegistry().get(input.getClass());
 		StringWriter sw = new StringWriter();
@@ -861,7 +889,7 @@ public class BasicServiceImpl {
 			logger.debug("Aggregation Pipeline: \n" + json);
 		}
 	}
-	
+
 	protected void debugDocument(Document doc) {
 		if (logger.isDebugEnabled()) {
 			String json = new BsonProvider<>().getGson().toJson(doc);

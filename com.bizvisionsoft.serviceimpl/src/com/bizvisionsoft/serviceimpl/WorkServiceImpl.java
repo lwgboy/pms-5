@@ -217,11 +217,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<ObjectId> workIds = getDesentItems(Arrays.asList(_id), "work", "parent_id");
 
 		// 删除风险
-		c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
+		c("riskEffect").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 		// 删除资源计划
 		c("resourcePlan").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 
-		return c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", workIds))).getDeletedCount();
+		return c("work").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", workIds))).getDeletedCount();
 	}
 
 	@Override
