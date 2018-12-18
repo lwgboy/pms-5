@@ -9,7 +9,9 @@ public class Result {
 	public static final int TYPE_WARNING = 1;
 
 	public static final int TYPE_INFO = 2;
-	
+
+	public static final int TYPE_QUESTION = 3;
+
 	public static final int CODE_NO_WORK_DISTRIBUTE = 10000;
 
 	public static final int CODE_WORK_SUCCESS = 600;
@@ -63,7 +65,7 @@ public class Result {
 		e.type = Result.TYPE_ERROR;
 		return e;
 	}
-	
+
 	public static Result notFoundError(String message) {
 		Result e = new Result();
 		e.code = 0x9002;
@@ -71,7 +73,7 @@ public class Result {
 		e.type = Result.TYPE_ERROR;
 		return e;
 	}
-	
+
 	public static Result notAllowedError(String message) {
 		Result e = new Result();
 		e.code = 0x9003;
@@ -188,5 +190,11 @@ public class Result {
 		return e;
 	}
 
+	public static Result question(String message) {
+		Result e = new Result();
+		e.message = message;
+		e.type = Result.TYPE_QUESTION;
+		return e;
+	}
 
 }

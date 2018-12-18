@@ -97,7 +97,7 @@ public interface WorkSpaceService {
 	@Path("/check/{checkManageItem}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,
+	public List<Result> schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,
 			@PathParam("checkManageItem") Boolean checkManageItem);
 
 	@PUT
