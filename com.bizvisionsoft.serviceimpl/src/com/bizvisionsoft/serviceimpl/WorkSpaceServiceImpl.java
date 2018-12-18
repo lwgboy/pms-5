@@ -296,6 +296,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		if (chargerError.size() > 0)
 			results.add(Result.error("工作：" + Formatter.getString(chargerError) + " 没有指定负责人和指派者."));
 
+		manageLevels.clear();
+		
 		// 获取一级监控节点设置
 		setting = systemSetting.get(START_SETTING_FIELD_SCHEDULE_L1);
 		if (!START_SETTING_VALUE_ALLOW.equals(setting)) {

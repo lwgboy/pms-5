@@ -9,10 +9,8 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.util.CommandHandler;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.Result;
@@ -41,33 +39,21 @@ public class CheckSchedule {
 					checkManageItem = false;
 
 				List<Result> result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
-
-				if (result.stream().anyMatch(r -> Result.TYPE_ERROR == r.type)) {// 错误的提示
-
-					return ;
-				} else if (result.stream().anyMatch(r -> Result.TYPE_QUESTION == r.type)) {// 询问的提示
-
-					return ;
-				}else if (result.stream().anyMatch(r -> Result.TYPE_WARNING == r.type)) {// 警告的提示
-
-					return ;
+				if (!result.isEmpty()) {
+					StringBuffer sb = new StringBuffer();
+					result.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> {
+						return "<span class='layui-badge'>错误</span> " + r.message + "<br>";
+					}).forEach(sb::append);
+					result.stream().filter(r -> r.type == Result.TYPE_WARNING).map(r -> {
+						return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
+					}).forEach(sb::append);
+					result.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
+						return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
+					}).forEach(sb::append);
+					MessageDialog.openInformation(brui.getCurrentShell(), "项目计划检查", sb.toString());
+				} else {
+					Layer.message("已通过检查。");
 				}
-
-				// if (Result.CODE_WORK_SUCCESS == result.code) {
-				// Layer.message(result.message);
-				// } else if (Result.CODE_UPDATEMANAGEITEM == result.code) {
-				// brui.error( "检查结果",
-				// "管理节点 <b style='color:red;'>" + result.data.getString("name") + "</b>
-				// 的完成时间超过限定。");
-				// } else if (Result.CODE_UPDATESTAGE == result.code) {
-				// brui.error( "检查结果",
-				// "工作 <b style='color:red;'>" + result.data.getString("name") + "</b>
-				// 的完成时间超过阶段限定。");
-				// } else if (Result.CODE_UPDATEPROJECT == result.code) {
-				// brui.error("检查结果",
-				// "工作 <b style='color:red;'>" + result.data.getString("name") + "</b>
-				// 的完成时间超过項目限定。");
-				// }
 			}
 		}
 	}
