@@ -1542,7 +1542,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			}
 			reviewer.add(getBson(re));
 		}
-
+		
 		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChange_id),
 				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer)));
 
@@ -1567,7 +1567,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<ProjectChange> listReviewerProjectChange(BasicDBObject condition, String userId) {
-		return listReviewerPC(condition, userId).into(new ArrayList<ProjectChange>());
+		return listReviewerPC(condition, userId).into(new ArrayList<>());
 	}
 
 	@Override
@@ -1599,8 +1599,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		AggregateIterable<ProjectChange> aggregate = c(ProjectChange.class).aggregate(pipeline);
-		return aggregate;
+		return c(ProjectChange.class).aggregate(pipeline);
 	}
 
 	@Override
@@ -1667,7 +1666,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendQueryPipeline(skip, limit, filter, sort, pipeline);
 
-		return c(Project.class).aggregate(pipeline).into(new ArrayList<Project>());
+		return c(Project.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
 	/**
