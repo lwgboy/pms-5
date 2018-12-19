@@ -730,12 +730,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private List<CheckItem> checkListSetting;
+	private List<CheckItem> checklist;
 	
-	public List<CheckItem> getCheckListSetting() {
-		return checkListSetting;
+	public List<CheckItem> getChecklist() {
+		return checklist;
 	}
-
+	
 	@Persistence
 	@ReadValue
 	@WriteValue

@@ -33,7 +33,6 @@ import com.bizvisionsoft.service.model.ResourceAssignment;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceTransfer;
 import com.bizvisionsoft.service.model.Result;
-import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.UpdateWorkPackages;
@@ -736,7 +735,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			return Arrays.asList(Result.notFoundError("id:" + com._id + "工作不存在"));
 		if (work.isSummary() || work.isStage() || work.isMilestone() || work.getActualFinish() != null)
 			return Arrays.asList(Result.notAllowedError(work + "，工作不允许执行完成操作"));
-		List<CheckItem> checklist = work.getCheckListSetting();
+		List<CheckItem> checklist = work.getChecklist();
 		if (checklist != null && checklist.stream().filter(c->!c.isChecked()).count()>0) 
 			return Arrays.asList(Result.notAllowedError(work + "，检查项尚未完全通过"));
 

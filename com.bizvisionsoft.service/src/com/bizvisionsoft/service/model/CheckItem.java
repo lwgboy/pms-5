@@ -66,6 +66,16 @@ public class CheckItem {
 		return checked;
 	}
 	
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getName() {
+		return name;
+	}
 
 }

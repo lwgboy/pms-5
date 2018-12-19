@@ -1,14 +1,12 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
 
 import com.bizvisionsoft.service.model.CheckItem;
-import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
@@ -142,7 +140,7 @@ public class WorkRenderer {
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
 
 		// 显示工作包和完成工作
-		List<CheckItem> checklist = work.getCheckListSetting();
+		List<CheckItem> checklist = work.getChecklist();
 		if (checklist != null && checklist.stream().filter(c -> !c.isChecked()).count() > 0) {
 			sb.append(renderButtons("检查", "checkWork/" + work.get_id()));
 		} else {
