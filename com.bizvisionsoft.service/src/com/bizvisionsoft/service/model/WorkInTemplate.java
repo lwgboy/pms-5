@@ -431,7 +431,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private List<CheckItem> checkListSetting;
+	private List<CheckItem> checklist;
 
 	public ObjectId get_id() {
 		return _id;

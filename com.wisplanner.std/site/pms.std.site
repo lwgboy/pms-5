@@ -10998,7 +10998,7 @@
           },
           {
             "id": "167b5aef33c",
-            "name": "checkListSetting",
+            "name": "checklist",
             "text": "完成检查项",
             "type": "多个对象选择框",
             "formFields": [],

@@ -22,6 +22,10 @@ public class CheckItem {
 	@ReadValue
 	@WriteValue
 	private String description;
+	
+	@ReadValue
+	@WriteValue
+	private boolean checked;
 
 	@Override
 	@Label
@@ -58,6 +62,20 @@ public class CheckItem {
 		return true;
 	}
 	
+	public boolean isChecked() {
+		return checked;
+	}
 	
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getName() {
+		return name;
+	}
 
 }
