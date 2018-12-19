@@ -12,6 +12,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
@@ -43,6 +44,8 @@ public class WorkCardACT {
 			startWork(work, element, viewer, context);
 		} else if (e.text.startsWith("finishWork/")) {
 			finishWork(work, element, viewer, context);
+		} else if (e.text.startsWith("checkWork/")) {
+			checkWork(work, element, viewer, context);
 		} else {
 			if (e.text.startsWith("openWorkPackage/")) {
 				String idx = e.text.split("/")[1];
@@ -53,6 +56,11 @@ public class WorkCardACT {
 				openProject(work, viewer, context);
 			}
 		}
+	}
+
+	private void checkWork(Work work, Document element, GridTreeViewer viewer, BruiAssemblyContext context) {
+		// TODO 打开检查表
+		
 	}
 
 	private void startWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
@@ -79,13 +87,18 @@ public class WorkCardACT {
 	}
 
 	private void finishWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (br.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
+		//TODO 改为commandHandler
+		if (br.confirm("完成工作", "请确认完成工作：" + work)) {
 			List<Result> result = Services.get(WorkService.class).finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				((List<?>) viewer.getInput()).remove(doc);
 				viewer.remove(doc);
 				br.updateSidebarActionBudget("处理工作");
+			} else {
+				String msg = result.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> r.message + "<br>").reduce("",
+						String::concat);
+				br.error("完成工作", msg);
 			}
 		}
 	}

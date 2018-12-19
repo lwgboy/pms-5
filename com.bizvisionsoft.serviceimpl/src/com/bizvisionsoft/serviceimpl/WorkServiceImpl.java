@@ -20,6 +20,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.model.CheckItem;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ICommand;
@@ -735,6 +736,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			return Arrays.asList(Result.notFoundError("id:" + com._id + "工作不存在"));
 		if (work.isSummary() || work.isStage() || work.isMilestone() || work.getActualFinish() != null)
 			return Arrays.asList(Result.notAllowedError(work + "，工作不允许执行完成操作"));
+		List<CheckItem> checklist = work.getCheckListSetting();
+		if (checklist != null && checklist.stream().filter(c->!c.isChecked()).count()>0) 
+			return Arrays.asList(Result.notAllowedError(work + "，检查项尚未完全通过"));
 
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		// 准备更新时间的工作
@@ -890,7 +894,6 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			c(Work.class).updateOne(new Document("_id", work_id), new Document("$set", new Document("planWorks", works)));
 		}
 	}
-
 
 	@Override
 	public WorkPackageProgress insertWorkPackageProgress(WorkPackageProgress wpp) {
@@ -1106,7 +1109,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		Set<ObjectId> workIds = new HashSet<ObjectId>();
 		List<ResourcePlan> documents = new ArrayList<ResourcePlan>();
 		resas.forEach(resa -> {
-			double works = getWorkingHoursPerDay(resa.resTypeId);//取出默认的每天工作时间
+			double works = getWorkingHoursPerDay(resa.resTypeId);// 取出默认的每天工作时间
 
 			Calendar from = Calendar.getInstance();
 			from.setTime(resa.from);
@@ -1120,7 +1123,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 					ResourcePlan res = resa.getResourcePlan();
 					res.setId(id);
-					res.setPlanBasicQty(works);//设置默认的每天工作时间
+					res.setPlanBasicQty(works);// 设置默认的每天工作时间
 					res.setQty(resa.qty);
 
 					documents.add(res);
@@ -1142,7 +1145,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 		List<ResourceActual> documents = new ArrayList<ResourceActual>();
 		resas.forEach(resa -> {
-			double works = getWorkingHoursPerDay(resa.resTypeId);//取出默认的每天工作时间
+			double works = getWorkingHoursPerDay(resa.resTypeId);// 取出默认的每天工作时间
 
 			Calendar from = Calendar.getInstance();
 			from.setTime(Formatter.getStartOfDay(resa.from));
@@ -1153,11 +1156,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				Date id = from.getTime();
 				if (checkDayIsWorkingDay(from, resa.resTypeId) && hasResource("resourceActual", id, resa.work_id, resa.usedHumanResId,
 						resa.usedEquipResId, resa.usedTypedResId, resa.resTypeId)) {
-					
+
 					ResourceActual res = resa.getResourceActual();
 					res.setId(id);
 					res.setQty(resa.qty);
-					res.setActualBasicQty(works);//设置默认的每天工作时间
+					res.setActualBasicQty(works);// 设置默认的每天工作时间
 					documents.add(res);
 				}
 				from.add(Calendar.DAY_OF_MONTH, 1);

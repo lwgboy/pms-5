@@ -1,11 +1,14 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.model.CheckItem;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
@@ -32,9 +35,9 @@ public class WorkRenderer {
 		} else if (work.getActualStart() != null && work.getActualFinish() != null) {
 			renderingFinishedWorkCard(sb);
 		}
-		
-		RenderTools.renderCardBoard(sb,rowHeight);
-		
+
+		RenderTools.renderCardBoard(sb, rowHeight);
+
 		return new Document("_id", work.get_id()).append("html", sb.toString()).append("height", rowHeight);
 	}
 
@@ -139,7 +142,12 @@ public class WorkRenderer {
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
 
 		// 显示工作包和完成工作
-		sb.append(renderButtons("完成", "finishWork/" + work.get_id()));
+		List<CheckItem> checklist = work.getCheckListSetting();
+		if (checklist != null && checklist.stream().filter(c -> !c.isChecked()).count() > 0) {
+			sb.append(renderButtons("检查", "checkWork/" + work.get_id()));
+		} else {
+			sb.append(renderButtons("完成", "finishWork/" + work.get_id()));
+		}
 
 		// 标签
 		sb.append(renderNoticeBudgets());
@@ -290,7 +298,7 @@ public class WorkRenderer {
 	}
 
 	private String renderIndicators(String label1, double ind1, String label2, double ind2) {
-		rowHeight += 120 + 8 ;
+		rowHeight += 120 + 8;
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
 

@@ -22,6 +22,10 @@ public class CheckItem {
 	@ReadValue
 	@WriteValue
 	private String description;
+	
+	@ReadValue
+	@WriteValue
+	private boolean checked;
 
 	@Override
 	@Label
@@ -56,6 +60,10 @@ public class CheckItem {
 		} else if (!_id.equals(other._id))
 			return false;
 		return true;
+	}
+	
+	public boolean isChecked() {
+		return checked;
 	}
 	
 	
