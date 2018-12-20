@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -18,7 +19,9 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.BannerFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.CheckFieldFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.LineFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
@@ -78,15 +81,15 @@ public class WorkCardACT {
 		Document input = new Document();
 
 		final Map<String, CheckItem> checklistMap = new LinkedHashMap<String, CheckItem>();
-		EditorFactory ef = new EditorFactory().title("工作检查表").labelAlignment(SWT.LEFT).labelWidth(840);
+		EditorFactory ef = new EditorFactory().title("工作检查表").labelAlignment(SWT.LEFT);
 
 		for (CheckItem ci : work.getChecklist()) {
-			FormField checkField = new CheckFieldFactory().text(ci.getDescription()).get();
-			String name = checkField.getName();
-			FormField remarkField = new TextFieldFactory().message("如不能通过检查，请说明").labelStyle(TextFieldFactory.LABEL_HIDE)
-					.name("remark-" + name).get();
-
-			ef.appendField(checkField).appendField(remarkField);
+			String name = UUID.randomUUID().toString();
+			FormField banner = new BannerFieldFactory().text(ci.getDescription()).get();
+			FormField checkField = new CheckFieldFactory().text("是否通过").name(name).get();
+			FormField remarkField = new TextFieldFactory().text("说明").name("remark-" + name).get();
+			FormField lineField = new LineFactory().setFields(checkField, remarkField).get();
+			ef.appendField(banner).appendField(lineField);
 
 			checklistMap.put(name, ci);
 			input.put(name, ci.isChecked());
