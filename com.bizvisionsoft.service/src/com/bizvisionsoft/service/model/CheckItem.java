@@ -26,6 +26,10 @@ public class CheckItem {
 	@ReadValue
 	@WriteValue
 	private boolean checked;
+	
+	@ReadValue
+	@WriteValue
+	private String remark;
 
 	@Override
 	@Label
@@ -76,6 +80,14 @@ public class CheckItem {
 	
 	public String getName() {
 		return name;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+	
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

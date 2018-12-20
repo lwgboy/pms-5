@@ -19,6 +19,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.CheckFieldFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -77,13 +78,19 @@ public class WorkCardACT {
 		Document input = new Document();
 
 		final Map<String, CheckItem> checklistMap = new LinkedHashMap<String, CheckItem>();
-		EditorFactory ef = new EditorFactory().title("检查表").labelAlignment(SWT.LEFT).labelWidth(800);
+		EditorFactory ef = new EditorFactory().title("工作检查表").labelAlignment(SWT.LEFT).labelWidth(840);
 
 		for (CheckItem ci : work.getChecklist()) {
-			FormField field = new CheckFieldFactory().text(ci.getDescription()).get();
-			ef.appendField(field);
-			checklistMap.put(field.getName(), ci);
-			input.put(field.getName(), ci.isChecked());
+			FormField checkField = new CheckFieldFactory().text(ci.getDescription()).get();
+			String name = checkField.getName();
+			FormField remarkField = new TextFieldFactory().message("如不能通过检查，请说明").labelStyle(TextFieldFactory.LABEL_HIDE)
+					.name("remark-" + name).get();
+
+			ef.appendField(checkField).appendField(remarkField);
+
+			checklistMap.put(name, ci);
+			input.put(name, ci.isChecked());
+			input.put("remark-" + name, ci.getRemark());
 		}
 
 		new Editor<Document>(ef.get(), context).setEditable(true).setInput(input).ok((d, t) -> {
@@ -93,9 +100,15 @@ public class WorkCardACT {
 			boolean finished = true;
 			while (iter.hasNext()) {
 				String key = iter.next();
-				boolean value = Boolean.TRUE.equals(t.get(key));
-				checklistMap.get(key).setChecked(value);
-				finished &= value;
+				if (key.startsWith("remark-")) {
+					String key1 = key.substring(7);
+					String remark = t.getString(key);
+					checklistMap.get(key1).setRemark(remark);
+				} else {
+					boolean value = Boolean.TRUE.equals(t.get(key));
+					checklistMap.get(key).setChecked(value);
+					finished &= value;
+				}
 			}
 			Object checkItems = BsonTools.encodeBsonValue(new ArrayList<>(checklistMap.values()));
 			FilterAndUpdate fu = new FilterAndUpdate().filter(filter).set(new BasicDBObject("checklist", checkItems));
