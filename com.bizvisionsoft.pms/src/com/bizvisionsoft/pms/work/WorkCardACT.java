@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -18,7 +19,10 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.BannerFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.CheckFieldFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.LineFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -34,6 +38,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -77,13 +82,21 @@ public class WorkCardACT {
 		Document input = new Document();
 
 		final Map<String, CheckItem> checklistMap = new LinkedHashMap<String, CheckItem>();
-		EditorFactory ef = new EditorFactory().title("检查表").labelAlignment(SWT.LEFT).labelWidth(800);
 
+		EditorFactory ef = new EditorFactory().title("工作检查表").labelWidth(64).labelAlignment(SWT.CENTER);
 		for (CheckItem ci : work.getChecklist()) {
-			FormField field = new CheckFieldFactory().text(ci.getDescription()).get();
-			ef.appendField(field);
-			checklistMap.put(field.getName(), ci);
-			input.put(field.getName(), ci.isChecked());
+			String name = UUID.randomUUID().toString();
+			String choiseFieldName = "choise-" + name;
+			String remarkFieldName = "remark-" + name;
+			FormField banner = new BannerFieldFactory().text(ci.getDescription()).get();
+			FormField checkField = new CheckFieldFactory().text("是否通过").pack(true).name(choiseFieldName).get();
+			FormField remarkField = new TextFieldFactory().text("说明").name(remarkFieldName).get();
+			FormField lineField = new LineFactory().setFields(checkField, remarkField).get();
+			ef.appendField(banner).appendField(lineField);
+
+			checklistMap.put(name, ci);
+			input.put(choiseFieldName, ci.isChecked());
+			input.put(remarkFieldName, ci.getRemark());
 		}
 
 		new Editor<Document>(ef.get(), context).setEditable(true).setInput(input).ok((d, t) -> {
@@ -93,9 +106,18 @@ public class WorkCardACT {
 			boolean finished = true;
 			while (iter.hasNext()) {
 				String key = iter.next();
-				boolean value = Boolean.TRUE.equals(t.get(key));
-				checklistMap.get(key).setChecked(value);
-				finished &= value;
+				if (key.startsWith("remark-")) {
+					String remark = t.getString(key);
+					CheckItem checkItem = checklistMap.get(key.substring(7));
+					checkItem.setRemark(remark);
+				} else if (key.startsWith("choise-")) {
+					boolean value = Boolean.TRUE.equals(t.get(key));
+					CheckItem checkItem = checklistMap.get(key.substring(7));
+					checkItem.setChecked(value);
+					String signInfo = br.getCurrentUserInfo().getName() + " " + Formatter.getString(new Date());
+					checkItem.setSignInfo(signInfo);
+					finished &= value;
+				}
 			}
 			Object checkItems = BsonTools.encodeBsonValue(new ArrayList<>(checklistMap.values()));
 			FilterAndUpdate fu = new FilterAndUpdate().filter(filter).set(new BasicDBObject("checklist", checkItems));

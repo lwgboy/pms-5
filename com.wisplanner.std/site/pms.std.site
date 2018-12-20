@@ -3428,7 +3428,7 @@
                 "text": "启用阶段管理时，项目WBS的第一层将作为项目的阶段，进行分阶段管理。\n各阶段均可对阶段进行WBS分解，编制进度计划，建立团队，编制预算。\n注意：项目创建后，本选项将不可更改。\n",
                 "type": "横幅",
                 "formFields": [],
-                "height": 80,
+                "height": 0,
                 "staticContent": true
               },
               {
@@ -3445,7 +3445,7 @@
             "id": "162d0ff0df2",
             "name": "description",
             "text": "项目背景",
-            "type": "标签页",
+            "type": "标签页（HTML编辑）",
             "formFields": []
           }
         ],
@@ -7138,7 +7138,7 @@
             "id": "162d0ff0df2",
             "name": "description",
             "text": "项目背景",
-            "type": "标签页",
+            "type": "标签页（HTML编辑）",
             "formFields": []
           },
           {
