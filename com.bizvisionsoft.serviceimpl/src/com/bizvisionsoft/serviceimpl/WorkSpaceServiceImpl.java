@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -205,10 +206,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	 */
 	private static String CHECKIN_SETTING_FIELD_CHARGER_L3 = "asgnL3";
 	/**
-	 * 非管理节点负责人 TODO 修改为所有工作
+	 * 所有工作
 	 */
-	@Deprecated
-	private static String CHECKIN_SETTING_FIELD_CHARGER_NoL = "asgnNoL";
+	private static String CHECKIN_SETTING_FIELD_CHARGER_ALL = "asgnAll";
 
 	/**
 	 * 一级管理节点计划完成时间
@@ -226,6 +226,10 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	 * 里程碑计划完成时间
 	 */
 	private static String CHECKIN_SETTING_FIELD_MILESTONE = "milestone";
+	/**
+	 * 所有工作计划完成时间
+	 */
+	private static String CHECKIN_SETTING_FIELD_SCHEDULE_ALL = "scheduleAll";
 	/**
 	 * 项目计划开始时间
 	 */
@@ -253,11 +257,11 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				.into(new ArrayList<ObjectId>());
 		if (milestones.size() > 0) {
 
-			List<ObjectId> sources = c("workspace").distinct("source",
+			List<ObjectId> sources = c("worklinksspace").distinct("source",
 					new Document("space_id", workspace.getSpace_id()).append("source", new Document("$in", milestones)), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 
-			List<ObjectId> targets = c("workspace").distinct("target",
+			List<ObjectId> targets = c("worklinksspace").distinct("target",
 					new Document("space_id", workspace.getSpace_id()).append("target", new Document("$in", milestones)), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 
@@ -271,117 +275,121 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 		}
 
+		Project project = new ProjectServiceImpl().get(workspace.getProject_id());
+		if (ProjectStatus.Created.equals(project.getStatus())) {
+			return results;
+		}
+
 		Document systemSetting = getSystemSetting(CHECKIN_SETTING_NAME);
 
-		Map<String, String> manageLevels = new HashMap<String, String>();
 		Object setting;
 		if (checkManageItem) {
-			// 获取一级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L1);
-			if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting)) {
-				manageLevels.put("1", setting.toString());
-			}
-
-			// 获取二级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L2);
-			if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting)) {
-				manageLevels.put("2", setting.toString());
-			}
-			// 获取三级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L3);
-			if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting)) {
-				manageLevels.put("3", setting.toString());
-
-			}
-			// TODO 获取非监控节点设置 ,修改为所有工作
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_NoL);
-			if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting)) {
-				manageLevels.put(null, setting.toString());
-			}
-
-			List<String> chargerWarning = new ArrayList<String>();
-			List<String> chargerError = new ArrayList<String>();
+			// 获取所有工作设置
+			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL);
 			// 获取未设置负责人和参与者的节点名称
-			c("workspace").find(
-					new Document("space_id", workspace.getSpace_id()).append("manageLevel", new Document("$in", manageLevels.keySet()))
-							.append("milestone", false).append("assignerId", null).append("chargerId", null).append("summary", false))
-					.forEach((Document d) -> {
-						// 根据类型获取节点设置，并将其添加到相应的集合中。
-						if (CHECKIN_SETTING_VALUE_WARNING.equals(manageLevels.get(d.getString("manageLevel"))))
-							chargerWarning.add(d.getString("fullName"));
-						else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(manageLevels.get(d.getString("manageLevel"))))
-							chargerError.add(d.getString("fullName"));
+			List<Document> work = c("workspace").find(new Document("space_id", workspace.getSpace_id()).append("milestone", false)
+					.append("assignerId", null).append("chargerId", null)).into(new ArrayList<>());
+			if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && work.size() > 0)// 添加警告提示
+				results.add(Result
+						.warning("工作：" + Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+								+ " 没有指定负责人和指派者."));
+			else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && work.size() > 0)// 添加错误提示
+				results.add(Result
+						.error("工作：" + Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+								+ " 没有指定负责人和指派者."));
+			else if (CHECKIN_SETTING_VALUE_IGNORE.equals(setting) && work.size() > 0) {// 忽略时，根据各级监控节点设置进行判断
+				Map<String, Object> manageLevels = new HashMap<String, Object>();
+				// 获取一级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L1);
+				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+					manageLevels.put("1", setting);
 
-					});
-			// 添加警告提示
-			if (chargerWarning.size() > 0)
-				results.add(Result.warning("工作：" + Formatter.getString(chargerWarning) + " 没有指定负责人和指派者."));
-			// 添加错误提示
-			if (chargerError.size() > 0)
-				results.add(Result.error("工作：" + Formatter.getString(chargerError) + " 没有指定负责人和指派者."));
+				// 获取二级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L2);
+				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+					manageLevels.put("2", setting);
 
-			manageLevels.clear();
-			// TODO 增加所有工作的判断
+				// 获取三级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L3);
+				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+					manageLevels.put("3", setting);
 
-			// 获取一级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1);
-			if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting)) {
-				manageLevels.put("1", setting.toString());
+				List<String> chargerWarning = new ArrayList<String>();
+				List<String> chargerError = new ArrayList<String>();
+				work.forEach((Document d) -> {
+					// 根据类型获取节点设置，并将其添加到相应的集合中。
+					if (CHECKIN_SETTING_VALUE_WARNING.equals(manageLevels.get(d.getString("manageLevel"))))
+						chargerWarning.add(d.getString("fullName"));
+					else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(manageLevels.get(d.getString("manageLevel"))))
+						chargerError.add(d.getString("fullName"));
+
+				});
+				// 添加警告提示
+				if (chargerWarning.size() > 0)
+					results.add(Result.warning("工作：" + Formatter.getString(chargerWarning) + " 没有指定负责人和指派者."));
+				// 添加错误提示
+				if (chargerError.size() > 0)
+					results.add(Result.error("工作：" + Formatter.getString(chargerError) + " 没有指定负责人和指派者."));
+
 			}
 
-			// 获取二级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2);
-			if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting)) {
-				manageLevels.put("2", setting.toString());
-			}
-			// 获取三级监控节点设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3);
-			if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting)) {
-				manageLevels.put("3", setting.toString());
-
-			}
-			List<String> scheduleQuestion = new ArrayList<String>();
-			List<String> scheduleError = new ArrayList<String>();
+			// 增加所有工作的判断
+			setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_ALL);
 			List<Bson> pipeline = new ArrayList<Bson>();
-			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id()).append("manageLevel",
-					new BasicDBObject("$nin", manageLevels.keySet()))));
+			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id())));
 			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
 			pipeline.add(Aggregates.unwind("$work"));
-			pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("wpf",
+			pipeline.add(Aggregates.project(new BasicDBObject("fullName", true).append("manageLevel", true).append("wpf",
 					new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))));
-			pipeline.add(Aggregates.match(new BasicDBObject("wpf", Boolean.TRUE)));
-			c("workspace").aggregate(pipeline).forEach((Document d) -> {
-				// 根据类型获取节点设置，并将其添加到相应的集合中。
-				if (CHECKIN_SETTING_VALUE_QUESTION.equals(manageLevels.get(d.getString("manageLevel"))))
-					scheduleQuestion.add(d.getString("fullName"));
-				else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(manageLevels.get(d.getString("manageLevel"))))
-					scheduleError.add(d.getString("fullName"));
-			});
+			pipeline.add(Aggregates.match(new BasicDBObject("wpf", true)));
+			work = c("workspace").aggregate(pipeline).into(new ArrayList<>());
+			if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && work.size() > 0)// 添加错误提示
+				results.add(Result
+						.error("工作：" + Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+								+ " 完成时间超过限定的计划完成日期."));
+			else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && work.size() > 0) {// 询问时，根据各级监控节点设置进行判断
+				Map<String, Object> manageLevels = new HashMap<String, Object>();
+				List<String> scheduleQuestion = new ArrayList<String>();
+				List<String> scheduleError = new ArrayList<String>();
+				// 获取一级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1);
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
+					manageLevels.put("1", setting);
 
-			Object milestoneSetting = systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE);
-			if (!CHECKIN_SETTING_VALUE_ALLOW.equals(milestoneSetting)) {
+				// 获取二级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2);
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
+					manageLevels.put("2", setting);
+				// 获取三级监控节点设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3);
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
+					manageLevels.put("3", setting);
+				// 获取里程碑设置
+				setting = systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE);
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
+					manageLevels.put("milestone", setting);
 
-				pipeline = new ArrayList<Bson>();
-				pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id()).append("milestone", true)));
-				pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
-				pipeline.add(Aggregates.unwind("$work"));
-				pipeline.add(Aggregates.project(new BasicDBObject("name", Boolean.TRUE).append("wpf",
-						new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))));
-				pipeline.add(Aggregates.match(new BasicDBObject("wpf", Boolean.TRUE)));
-				c("workspace").aggregate(pipeline).forEach((Document d) -> {
+				work.forEach((Document d) -> {
+					Object set;
+					if (d.getBoolean("milestone", false)) {
+						set = manageLevels.get("milestone");
+					} else {
+						set = manageLevels.get(d.getString("manageLevel"));
+					}
 					// 根据类型获取节点设置，并将其添加到相应的集合中。
-					if (CHECKIN_SETTING_VALUE_QUESTION.equals(milestoneSetting))
+					if (CHECKIN_SETTING_VALUE_QUESTION.equals(set))
 						scheduleQuestion.add(d.getString("fullName"));
-					else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(milestoneSetting))
+					else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(set))
 						scheduleError.add(d.getString("fullName"));
 				});
+
+				// 添加询问提示
+				if (scheduleQuestion.size() > 0)
+					results.add(Result.question("工作：" + Formatter.getString(scheduleQuestion) + " 完成时间超过限定的计划完成日期。"));
+				// 添加错误提示
+				if (scheduleError.size() > 0)
+					results.add(Result.error("工作：" + Formatter.getString(scheduleError) + " 完成时间超过限定的计划完成日期。"));
 			}
-			// 添加询问提示
-			if (scheduleQuestion.size() > 0)
-				results.add(Result.question("工作：" + Formatter.getString(scheduleQuestion) + " 完成时间超过限定的计划完成日期。"));
-			// 添加错误提示
-			if (scheduleError.size() > 0)
-				results.add(Result.error("工作：" + Formatter.getString(scheduleError) + " 完成时间超过限定的计划完成日期。"));
 		}
 
 		Document doc = c("workspace").aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
@@ -389,43 +397,42 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						new Document("$min", "$planStart")))))
 				.first();
 		Date planFinish;
-		Date planstart;
+		Date planStart;
 		if (workspace.getWork_id() != null) {
 			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
 			planFinish = work.getPlanFinish();
-			planstart = work.getPlanStart();
+			planStart = work.getPlanStart();
 		} else {
-			Project project = new ProjectServiceImpl().get(workspace.getProject_id());
 			planFinish = project.getPlanFinish();
-			planstart = project.getPlanStart();
+			planStart = project.getPlanStart();
 		}
 		setting = systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START);
-		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting)) {
+		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
-						new BasicDBObject("$set", new BasicDBObject("planStart", planstart)));
+						new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
 			} else {
 				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
-						new BasicDBObject("$set", new BasicDBObject("planStart", planstart)));
+						new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
 			}
-		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting)) {
+		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && planStart.after(doc.getDate("start"))) {
 			results.add(Result.error("工作最早计划开始时间早于项目计划开始时间。"));
-		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting)) {
+		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && planStart.after(doc.getDate("start"))) {
 			results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
 		}
 
 		setting = systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH);
-		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting)) {
+		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
-						new BasicDBObject("$set", new BasicDBObject("planFinish", planFinish)));
+						new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
 			} else {
 				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
-						new BasicDBObject("$set", new BasicDBObject("planFinish", planFinish)));
+						new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
 			}
-		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting)) {
+		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			results.add(Result.error("工作最完计划完成时间晚于项目计划完成时间。"));
-		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting)) {
+		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			results.add(Result.question("工作最完计划完成时间晚于项目计划完成时间。"));
 		}
 

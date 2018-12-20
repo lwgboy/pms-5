@@ -426,8 +426,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 			assignerRoleId = obsItem.getId();
 		}
 	}
-	
-	
+
 	@ReadValue
 	@WriteValue
 	@Persistence
@@ -457,16 +456,16 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	}
 
 	public static WorkInTemplate newInstance(ProjectTemplate template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WBSModule template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id());
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id)
-				.setParent_id(parentTask._id);
+		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id).setParent_id(parentTask._id)
+				.setManageLevel("3");
 	}
 
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {

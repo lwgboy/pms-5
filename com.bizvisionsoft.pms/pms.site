@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812191631",
+  "timestamp": "201812201539",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -1823,7 +1823,7 @@
                 "bundleId": "com.bizvisionsoft.pms",
                 "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
                 "switchContentToAssemblyId": "16371ebbf89",
-                "type": "switch",
+                "type": "customized",
                 "verticalSpan": 0
               },
               {
@@ -20538,6 +20538,7 @@
             "columnCount": 1,
             "makeColumnsEqualWidth": true,
             "css": "",
+            "layoutType": "grid",
             "assemblys": [
               {
                 "id": "163f32e91cc",
@@ -20555,7 +20556,6 @@
                 "horizontalAlignment": 4,
                 "verticalAlignment": 4,
                 "grabExcessHorizontalSpace": true,
-                "grabExcessVerticalSpace": true,
                 "verticalSpan": 1,
                 "horizontalSpan": 1,
                 "widthHint": -1,
@@ -27961,7 +27961,8 @@
           }
         ],
         "hasTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "164ef3a29bd",
@@ -35158,19 +35159,18 @@
             "type": "行",
             "formFields": [
               {
-                "id": "1676ae360ad",
-                "name": "asgnL1",
-                "text": "1级管理节点",
+                "id": "16782fe6f64",
+                "name": "asgnAll",
+                "text": "所有工作",
                 "type": "单选框",
                 "formFields": [],
                 "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）",
-                "checkStyle": "开关（默认）"
+                "radioStyle": "横向分段（默认）"
               },
               {
-                "id": "1676ae5f1bd",
-                "name": "asgnL2",
-                "text": "2级管理节点",
+                "id": "1676ae360ad",
+                "name": "asgnL1",
+                "text": "1级管理节点",
                 "type": "单选框",
                 "formFields": [],
                 "optionText": "要求#警告#忽略",
@@ -35185,18 +35185,19 @@
             "type": "行",
             "formFields": [
               {
-                "id": "16782fdef9a",
-                "name": "asgnL3",
-                "text": "3级管理节点",
+                "id": "1676ae5f1bd",
+                "name": "asgnL2",
+                "text": "2级管理节点",
                 "type": "单选框",
                 "formFields": [],
                 "optionText": "要求#警告#忽略",
-                "radioStyle": "横向分段（默认）"
+                "radioStyle": "横向分段（默认）",
+                "checkStyle": "开关（默认）"
               },
               {
-                "id": "16782fe6f64",
-                "name": "asgnNoL",
-                "text": "非管理节点",
+                "id": "16782fdef9a",
+                "name": "asgnL3",
+                "text": "3级管理节点",
                 "type": "单选框",
                 "formFields": [],
                 "optionText": "要求#警告#忽略",
@@ -36566,10 +36567,10 @@
           {
             "id": "167bae464e0",
             "name": "info3",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未开始的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，项目完工后不允许存在未开始的节点；\u003cbr/\u003e\n选择“删除”时，项目完工后不允许存在未开始的节点，未开始的WBS节点将自动删除；\u003cbr/\u003e\n选择“询问”时，项目完工后允许存在未开始的节点，由项目经理决定是否删除未开始的WBS节点；\u003cbr/\u003e\n选择“忽略”时，项目完工后允许存在未开始的节点，系统不进行任何操作。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未开始的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，存在未开始的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未开始的节点时，由项目经理决定是否删除未开始的WBS节点，选择是时，系统自动删除未开始的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“删除”时，存在未开始的节点时，未开始的WBS节点将自动删除。",
             "type": "横幅",
             "formFields": [],
-            "height": 140,
+            "height": 128,
             "staticContent": true
           },
           {
@@ -36625,10 +36626,10 @@
           {
             "id": "167bae4f66c",
             "name": "info2",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未完工的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，项目完工后不允许存在未完工的节点；\u003cbr/\u003e\n选择“完工”时，项目完工后不允许存在未完工的节点，未完工的WBS节点将在项目完工时自动完工；\u003cbr/\u003e\n选择“询问”时，项目完工后允许存在未完工的节点，由项目经理决定是否完工未完工的WBS节点；\u003cbr/\u003e\n选择“忽略”时，项目完工后允许存在未完工的节点，系统不进行任何操作。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未完工的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，存在未完工的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未完工的节点时，由项目经理决定是否完工未完工的WBS节点，选择是时，系统自动完工未完工的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“完工”时，存在未完工的节点时，未完工的WBS节点将自动完工。\n",
             "type": "横幅",
             "formFields": [],
-            "height": 140,
+            "height": 128,
             "staticContent": true
           },
           {
@@ -36693,36 +36694,48 @@
           {
             "id": "167bae51f99",
             "name": "info1",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查以下项目要素的完整性。\n\u003cdiv\u003e\n选择“要求”时，必须填写要素内容，否则不允许完工；\u003cbr/\u003e\n选择“关闭”时，将自动关闭未完成的要素。\u003cbr/\u003e\n选择“询问”时，如未填写要素内容，系统发出询问，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，将忽略该要素。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目报告是否全部确认。\n\u003cdiv\u003e\n选择“要求”时，必须确认所有项目报告，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未确认的项目报告，系统发出询问，由项目经理决定是否自动确认。如果不确认，则不允许完工\u003cbr/\u003e\n选择“确认”时，完工时自动确认未确认的项目报告。",
             "type": "横幅",
             "formFields": [],
-            "height": 140,
+            "height": 128,
             "staticContent": true
           },
           {
-            "id": "167bae5259a",
-            "name": "新字段32",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "167bae52cdd",
-                "name": "change",
-                "text": "项目变更",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#询问#关闭",
-                "radioStyle": "横向分段（默认）"
-              },
-              {
-                "id": "167bae52d93",
-                "name": "report",
-                "text": "项目报告",
-                "type": "单选框",
-                "formFields": [],
-                "optionText": "要求#询问#确认",
-                "radioStyle": "横向分段（默认）"
-              }
-            ]
+            "id": "167bae52d93",
+            "name": "report",
+            "text": "项目报告",
+            "type": "单选框",
+            "formFields": [],
+            "optionText": "要求#询问#确认",
+            "radioStyle": "横向分段（默认）"
+          },
+          {
+            "id": "167c940ed2b",
+            "name": "info4",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目变更是否全部关闭。\n\u003cdiv\u003e\n选择“要求”时，必须关闭所有项目变更，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未关闭的项目变更，系统发出询问，由项目经理决定是否自动关闭。如果不关闭，则不允许完工\u003cbr/\u003e\n选择“关闭”时，完工时自动关闭未关闭的项目变更。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
+          },
+          {
+            "id": "167bae52cdd",
+            "name": "change",
+            "text": "项目变更",
+            "type": "单选框",
+            "formFields": [],
+            "optionText": "要求#询问#关闭",
+            "radioStyle": "横向分段（默认）",
+            "hideLabel": true
+          },
+          {
+            "id": "167c940e980",
+            "name": "info5",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查以下项目要素的完整性。\n\u003cdiv\u003e\n选择“要求”时，必须填写要素内容，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如未填写要素内容，系统发出询问，由项目经理决定是否需要填写。\u003cbr/\u003e\n选择“忽略”时，完工时将忽略该要素。",
+            "type": "横幅",
+            "formFields": [],
+            "height": 128,
+            "staticContent": true
           },
           {
             "id": "167bae52f67",

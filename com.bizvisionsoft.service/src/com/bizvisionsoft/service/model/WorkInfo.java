@@ -30,19 +30,18 @@ import com.bizvisionsoft.service.tools.Formatter;
 public class WorkInfo {
 
 	public static WorkInfo newInstance(Project project) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id())
-				.setProjectName(project.getProjectName()).setProjectNumber(project.getProjectNumber());
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id()).setProjectName(project.getProjectName())
+				.setProjectNumber(project.getProjectNumber()).setManageLevel("3");
 	}
 
 	public static WorkInfo newInstance(Work work) {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
-				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber());
+				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber()).setManageLevel("3");
 	}
 
 	public static WorkInfo newInstance(WorkInfo workinfo) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id())
-				.setParent_id(workinfo.get_id()).setProjectName(workinfo.projectName)
-				.setProjectNumber(workinfo.projectNumber);
+		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id()).setParent_id(workinfo.get_id())
+				.setProjectName(workinfo.projectName).setProjectNumber(workinfo.projectNumber).setManageLevel("3");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +264,7 @@ public class WorkInfo {
 		caculateDuration();
 		return this;
 	}
-	
+
 	/**
 	 * 根据计划开始、完成，算工期
 	 */
@@ -287,7 +286,7 @@ public class WorkInfo {
 		_duration = duration;
 		caculateFinish();
 	}
-	
+
 	/**
 	 * 根据计划开始、工期，算完成
 	 */
@@ -436,8 +435,8 @@ public class WorkInfo {
 
 	@ReadValue("charger")
 	private OBSItemWarpper readCharger() {
-		return Optional.ofNullable(chargerId)
-				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
+		return Optional.ofNullable(chargerId).map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id)))
+				.orElse(null);
 	}
 
 	@ReadValue
@@ -465,8 +464,8 @@ public class WorkInfo {
 
 	@ReadValue("assigner")
 	private OBSItemWarpper readAssigner() {
-		return Optional.ofNullable(assignerId)
-				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id))).orElse(null);
+		return Optional.ofNullable(assignerId).map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id)))
+				.orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -564,8 +563,7 @@ public class WorkInfo {
 	}
 
 	public Project getProject() {
-		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id)).orElse(null);
 	}
 
 	@Persistence
