@@ -280,12 +280,12 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			return results;
 		}
 
-		Document systemSetting = getSystemSetting(CHECKIN_SETTING_NAME);
+		Document systemSetting = Optional.ofNullable(getSystemSetting(CHECKIN_SETTING_NAME)).orElse(new Document());
 
 		Object setting;
 		if (checkManageItem) {
 			// 获取所有工作设置
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL);
+			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 			// 获取未设置负责人和参与者的节点名称
 			List<Document> work = c("workspace").find(new Document("space_id", workspace.getSpace_id()).append("milestone", false)
 					.append("assignerId", null).append("chargerId", null)).into(new ArrayList<>());
@@ -300,17 +300,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			else if (CHECKIN_SETTING_VALUE_IGNORE.equals(setting) && work.size() > 0) {// 忽略时，根据各级监控节点设置进行判断
 				Map<String, Object> manageLevels = new HashMap<String, Object>();
 				// 获取一级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L1);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L1)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("1", setting);
 
 				// 获取二级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L2);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L2)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("2", setting);
 
 				// 获取三级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L3);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L3)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("3", setting);
 
@@ -334,7 +334,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 
 			// 增加所有工作的判断
-			setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_ALL);
+			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_ALL)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 			List<Bson> pipeline = new ArrayList<Bson>();
 			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id())));
 			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
@@ -352,20 +352,20 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				List<String> scheduleQuestion = new ArrayList<String>();
 				List<String> scheduleError = new ArrayList<String>();
 				// 获取一级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("1", setting);
 
 				// 获取二级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("2", setting);
 				// 获取三级监控节点设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("3", setting);
 				// 获取里程碑设置
-				setting = systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("milestone", setting);
 
@@ -406,7 +406,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			planFinish = project.getPlanFinish();
 			planStart = project.getPlanStart();
 		}
-		setting = systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START);
+		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
@@ -421,7 +421,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
 		}
 
-		setting = systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH);
+		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),

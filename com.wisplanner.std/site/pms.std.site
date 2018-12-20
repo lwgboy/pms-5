@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812201542",
+  "timestamp": "201812201628",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -36044,7 +36044,7 @@
           {
             "id": "1678305303d",
             "name": "info3",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下项目要素的完整性。\n\u003c/div\u003e\n选择“要求”时，必须填写要素内容，否则不允许启动；\u003cbr/\u003e\n选择“警告”时，如未填写要素内容，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，启动时将忽略该要素。\n",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下项目要素的完整性。默认为“警告”。\n\u003c/div\u003e\n选择“要求”时，必须填写要素内容，否则不允许启动；\u003cbr/\u003e\n选择“警告”时，如未填写要素内容，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，启动时将忽略该要素。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36114,10 +36114,10 @@
           {
             "id": "16782ecb108",
             "name": "info2",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下类型的WBS节点的负责人或指派者。\n\u003c/div\u003e\n进度计划完整性设置为“忽略”时，不进行检查。\n",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目启动前检查以下类型的WBS节点的负责人或指派者。默认为“警告”。\n\u003c/div\u003e\n选择“要求”时，工作必须设置负责人或指派者，否则不允许启动；\u003cbr/\u003e\n选择“警告”时，如工作未设置负责人或指派者，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，启动时将忽略负责人或指派者的检查。",
             "type": "横幅",
             "formFields": [],
-            "height": 72,
+            "height": 128,
             "staticContent": true
           },
           {
@@ -36175,7 +36175,7 @@
           {
             "id": "1676af7aa8a",
             "name": "info1",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设置项目启动批准\n\u003c/div\u003e\n如果开启本开关，项目创建后必须由项目管理人员批准后才能启动。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设置项目启动批准。\n\u003c/div\u003e\n如果开启本开关，项目创建后必须由项目管理人员批准后才能启动。\n默认不开启启动批准",
             "type": "横幅",
             "formFields": [],
             "height": 72,
@@ -36203,7 +36203,7 @@
           {
             "id": "167ac02e5ad",
             "name": "info3",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定提交项目计划时检查以下类型的WBS节点的负责人或指派者。\n\u003c/div\u003e\n选择“要求”时，必须填写负责人和指派者，否则不允许提交；\u003cbr/\u003e\n选择“警告”时，如未填写负责人和指派者，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，提交时将忽略负责人和指派者的检查。\n",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定提交项目计划时检查以下类型的WBS节点的负责人或指派者。默认为“警告”。\n\u003c/div\u003e\n选择“要求”时，必须填写负责人和指派者，否则不允许提交；\u003cbr/\u003e\n选择“警告”时，如未填写负责人和指派者，系统发出警告，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，提交时将忽略负责人和指派者的检查。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36262,7 +36262,7 @@
           {
             "id": "167bad9c96a",
             "name": "info2",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定提交项目计划时，以下类型的WBS节点的计划完成时间。\n\u003c/div\u003e\n选择“不允许”时，如果没有通过的项目变更，计划完成时间不允许延后；\u003cbr/\u003e\n选择“询问”时，如果没有通过的项目变更，计划完成时间延后，由编制进度计划人员决定是否需要更改；\u003cbr/\u003e\n选择“允许”时，计划完成时间允许延后。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定提交项目计划时，以下类型的WBS节点的计划完成时间。默认为“不允许”。\n\u003c/div\u003e\n选择“不允许”时，如果没有通过的项目变更，计划完成时间不允许延后；\u003cbr/\u003e\n选择“询问”时，如果没有通过的项目变更，计划完成时间延后，由编制进度计划人员决定是否需要更改；\u003cbr/\u003e\n选择“允许”时，计划完成时间允许延后。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36330,7 +36330,7 @@
           {
             "id": "167bc6765ec",
             "name": "info4",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n是否允许工作最早计划开始时间早于项目计划开始时间。\n\u003c/div\u003e\n选择“不允许”时，不允许早于项目计划开始时间，早于时，禁止提交项目进度计划；\u003cbr/\u003e\n选择“自动修改”时，工作最早计划开始时间不允许早于项目计划开始时间，\n早于时，自动修改项目计划开始时间为工作最早计划开始时间；\u003cbr/\u003e\n选择“询问”时，允许工作最早计划开始时间早于项目计划开始时间，由编制进度计划人员决定是否进行修改；\u003cbr/\u003e\n选择“忽略”时，允许工作最早计划开始时间早于项目计划开始时间。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n是否允许工作最早计划开始时间早于项目计划开始时间。默认为“不允许”。\n\u003c/div\u003e\n选择“不允许”时，不允许早于项目计划开始时间，早于时，禁止提交项目进度计划；\u003cbr/\u003e\n选择“自动修改”时，工作最早计划开始时间不允许早于项目计划开始时间，\n早于时，自动修改项目计划开始时间为工作最早计划开始时间；\u003cbr/\u003e\n选择“询问”时，允许工作最早计划开始时间早于项目计划开始时间，\n由编制进度计划人员决定是否进行修改；\u003cbr/\u003e\n选择“忽略”时，允许工作最早计划开始时间早于项目计划开始时间。",
             "type": "横幅",
             "formFields": [],
             "height": 140,
@@ -36348,7 +36348,7 @@
           {
             "id": "167badae325",
             "name": "info1",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n是否允许工作最晚计划完成时间超过项目计划完成时间。\n\u003c/div\u003e\n选择“不允许”时，不允许超过项目计划完成时间，超过时，禁止提交项目进度计划；\u003cbr/\u003e\n选择“自动修改”时，工作最晚计划完成时间不允许超过项目计划完成时间，\n超过时，自动修改项目计划完成时间为工作最晚计划完成时间；\u003cbr/\u003e\n选择“询问”时，允许工作最晚计划完成时间超过项目计划完成时间，由编制进度计划人员决定是否进行修改；\u003cbr/\u003e\n选择“忽略”时，允许工作最晚计划完成时间超过项目计划完成时间。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n是否允许工作最晚计划完成时间超过项目计划完成时间。默认为“不允许”。\n\u003c/div\u003e\n选择“不允许”时，不允许超过项目计划完成时间，超过时，禁止提交项目进度计划；\u003cbr/\u003e\n选择“自动修改”时，工作最晚计划完成时间不允许超过项目计划完成时间，\n超过时，自动修改项目计划完成时间为工作最晚计划完成时间；\u003cbr/\u003e\n选择“询问”时，允许工作最晚计划完成时间超过项目计划完成时间，\n由编制进度计划人员决定是否进行修改；\u003cbr/\u003e\n选择“忽略”时，允许工作最晚计划完成时间超过项目计划完成时间。",
             "type": "横幅",
             "formFields": [],
             "height": 140,
@@ -36377,7 +36377,7 @@
           {
             "id": "167bae464e0",
             "name": "info3",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未开始的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，存在未开始的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未开始的节点时，由项目经理决定是否删除未开始的WBS节点，选择是时，系统自动删除未开始的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“删除”时，存在未开始的节点时，未开始的WBS节点将自动删除。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未开始的WBS节点的处理方式。默认为“不允许”。\n\u003c/div\u003e\n选择“不允许”时，存在未开始的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未开始的节点时，由项目经理决定是否删除未开始的WBS节点，\n选择是时，系统自动删除未开始的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“删除”时，存在未开始的节点时，未开始的WBS节点将自动删除。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36436,7 +36436,7 @@
           {
             "id": "167bae4f66c",
             "name": "info2",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未完工的WBS节点的处理方式。\n\u003c/div\u003e\n选择“不允许”时，存在未完工的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未完工的节点时，由项目经理决定是否完工未完工的WBS节点，选择是时，系统自动完工未完工的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“完工”时，存在未完工的节点时，未完工的WBS节点将自动完工。\n",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前，以下类型未完工的WBS节点的处理方式。默认为“不允许”。\n\u003c/div\u003e\n选择“不允许”时，存在未完工的节点时，不允许项目完工；\u003cbr/\u003e\n选择“询问”时，存在未完工的节点时，由项目经理决定是否完工未完工的WBS节点，\n选择是时，系统自动完工未完工的节点，否则不允许项目完工；\u003cbr/\u003e\n选择“完工”时，存在未完工的节点时，未完工的WBS节点将自动完工。\n",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36504,7 +36504,7 @@
           {
             "id": "167bae51f99",
             "name": "info1",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目报告是否全部确认。\n\u003cdiv\u003e\n选择“要求”时，必须确认所有项目报告，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未确认的项目报告，系统发出询问，由项目经理决定是否自动确认。如果不确认，则不允许完工\u003cbr/\u003e\n选择“确认”时，完工时自动确认未确认的项目报告。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目报告是否全部确认。默认为“询问”。\n\u003cdiv\u003e\n选择“要求”时，必须确认所有项目报告，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未确认的项目报告，系统发出询问，由项目经理决定是否自动确认，\n如果不确认，则不允许完工；\u003cbr/\u003e\n选择“确认”时，完工时自动确认未确认的项目报告。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36522,7 +36522,7 @@
           {
             "id": "167c940ed2b",
             "name": "info4",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目变更是否全部关闭。\n\u003cdiv\u003e\n选择“要求”时，必须关闭所有项目变更，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未关闭的项目变更，系统发出询问，由项目经理决定是否自动关闭。如果不关闭，则不允许完工\u003cbr/\u003e\n选择“关闭”时，完工时自动关闭未关闭的项目变更。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查项目变更是否全部关闭。默认为“询问”。\n\u003cdiv\u003e\n选择“要求”时，必须关闭所有项目变更，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如存在未关闭的项目变更，系统发出询问，由项目经理决定是否自动关闭，\n如果不关闭，则不允许完工；\u003cbr/\u003e\n选择“关闭”时，完工时自动关闭未关闭的项目变更。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
@@ -36541,7 +36541,7 @@
           {
             "id": "167c940e980",
             "name": "info5",
-            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查以下项目要素的完整性。\n\u003cdiv\u003e\n选择“要求”时，必须填写要素内容，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如未填写要素内容，系统发出询问，由项目经理决定是否需要填写。\u003cbr/\u003e\n选择“忽略”时，完工时将忽略该要素。",
+            "text": "\u003cdiv class\u003d\u0027label_subhead\u0027\u003e\n设定项目完工前检查以下项目要素的完整性。默认为“询问”。\n\u003cdiv\u003e\n选择“要求”时，必须填写要素内容，否则不允许完工；\u003cbr/\u003e\n选择“询问”时，如未填写要素内容，系统发出询问，由项目经理决定是否需要填写；\u003cbr/\u003e\n选择“忽略”时，完工时将忽略该要素。",
             "type": "横幅",
             "formFields": [],
             "height": 128,
