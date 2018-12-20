@@ -991,7 +991,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				});
 		if (delete.size() > 0)
 			c("work").deleteMany(new Document("_id", new Document("$in", delete)));
-
+		// 完工为完工的工作
 		List<ObjectId> close = new ArrayList<ObjectId>();
 		c("work").find(new Document("project_id", com._id).append("actualFinish", null).append("actualStart", new Document("$ne", null)))
 				.sort(new Document("wbsCode", 1)).forEach((Document d) -> {
@@ -1015,11 +1015,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", false).append("stage", false),
 					new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)));
 		}
+		// 关闭项目变更
 		c("projectChange").updateMany(
 				new Document("project_id", com._id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
 				new Document("$set", new Document("skipFinish", true).append("verifyDate", com.date).append("verify", com.userId)
 						.append("status", ProjectChange.STATUS_CONFIRM)));
-
+		
+		// 确认项目报告
 		c("workReport").updateMany(new Document("project_id", com._id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
 				new Document("$set", new Document("skipFinish", true).append("verifyDate", com.date)
 						.append("status", WorkReport.STATUS_CONFIRM).append("verifier", com.userId)));
@@ -1120,20 +1122,23 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (CLOSE_SETTING_VALUE_NOTALLOW.equals(setting) && start.size() > 0) {// 设置成不允许时，添加错误提示
 			results.add(Result.error("工作:"
 					+ Formatter.getString(start.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())) + " 未开始，不允许完工项目"));
-		} else if (CLOSE_SETTING_VALUE_DELETE.equals(setting) && start.size() > 0) {// 设置成删除时，删除所有未开始的工作
-			List<ObjectId> delete = new ArrayList<ObjectId>();
-			start.forEach((Document d) -> {
-				// 如果工作不在需要删除的工作中，添加到删除集合中
-				if (!delete.contains(d.getObjectId("_id"))) {
-					List<ObjectId> workIds = new ArrayList<>();
-					lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id", true).forEach((Document doc) -> {
-						workIds.add(doc.getObjectId("_id"));
-					});
-					delete.addAll(workIds);
-				}
-			});
-			if (delete.size() > 0)
-				c("work").deleteMany(new Document("_id", new Document("$in", delete)));
+			// 检查时不进行处理
+			// } else if (CLOSE_SETTING_VALUE_DELETE.equals(setting) && start.size() > 0)
+			// {// 设置成删除时，删除所有未开始的工作
+			// List<ObjectId> delete = new ArrayList<ObjectId>();
+			// start.forEach((Document d) -> {
+			// // 如果工作不在需要删除的工作中，添加到删除集合中
+			// if (!delete.contains(d.getObjectId("_id"))) {
+			// List<ObjectId> workIds = new ArrayList<>();
+			// lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id",
+			// true).forEach((Document doc) -> {
+			// workIds.add(doc.getObjectId("_id"));
+			// });
+			// delete.addAll(workIds);
+			// }
+			// });
+			// if (delete.size() > 0)
+			// c("work").deleteMany(new Document("_id", new Document("$in", delete)));
 		} else if (start.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, String> manageLevels = new HashMap<String, String>();
 			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_START_L1)).orElse(CLOSE_SETTING_VALUE_NOTALLOW);
@@ -1166,8 +1171,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				results.add(Result.error("工作:" + Formatter.getString(notallow) + " 未开始，不允许完工项目"));
 			if (question.size() > 0)
 				results.add(Result.question("工作:" + Formatter.getString(question) + " 未开始。"));
-			if (delete.size() > 0)
-				c("work").deleteMany(new Document("_id", new Document("$in", delete)));
+			// 检查时不进行处理
+			// if (delete.size() > 0)
+			// c("work").deleteMany(new Document("_id", new Document("$in", delete)));
 
 		}
 
@@ -1182,29 +1188,38 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					+ Formatter
 							.getString(Formatter.getString(finish.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())))
 					+ " 未完工，不允许完工项目"));
-		} else if (CLOSE_SETTING_VALUE_FINISH.equals(setting) && finish.size() > 0) {// 设置成完工时，完工所有未完工的工作
-			List<ObjectId> close = new ArrayList<ObjectId>();
-			finish.forEach((Document d) -> {
-				// 如果工作不在未完成工作中，将其及其下级工作添加到关闭集合中
-				if (!close.contains(d.getObjectId("_id"))) {
-					List<ObjectId> workIds = new ArrayList<>();
-					lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id", true).forEach((Document doc) -> {
-						workIds.add(doc.getObjectId("_id"));
-					});
-					close.addAll(workIds);
-				}
-			});
-			if (close.size() > 0) {
-				// 更新里程碑
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", true),
-						new Document("$set", new Document("skipFinish", true).append("actualFinish", date).append("actualStart", date)));
-				// 更新阶段
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("stage", true), new Document("$set",
-						new Document("skipFinish", true).append("actualFinish", date).append("status", ProjectStatus.Closed)));
-				// 更新其它工作
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", false).append("stage", false),
-						new Document("$set", new Document("skipFinish", true).append("actualFinish", date)));
-			}
+			// 检查时，不进行处理
+			// } else if (CLOSE_SETTING_VALUE_FINISH.equals(setting) && finish.size() > 0)
+			// {// 设置成完工时，完工所有未完工的工作
+			// List<ObjectId> close = new ArrayList<ObjectId>();
+			// finish.forEach((Document d) -> {
+			// // 如果工作不在未完成工作中，将其及其下级工作添加到关闭集合中
+			// if (!close.contains(d.getObjectId("_id"))) {
+			// List<ObjectId> workIds = new ArrayList<>();
+			// lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id",
+			// true).forEach((Document doc) -> {
+			// workIds.add(doc.getObjectId("_id"));
+			// });
+			// close.addAll(workIds);
+			// }
+			// });
+			// if (close.size() > 0) {
+			// // 更新里程碑
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("milestone", true),
+			// new Document("$set", new Document("skipFinish", true).append("actualFinish",
+			// date).append("actualStart", date)));
+			// // 更新阶段
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("stage", true), new Document("$set",
+			// new Document("skipFinish", true).append("actualFinish",
+			// date).append("status", ProjectStatus.Closed)));
+			// // 更新其它工作
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("milestone", false).append("stage", false),
+			// new Document("$set", new Document("skipFinish", true).append("actualFinish",
+			// date)));
+			// }
 		} else if (finish.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, Object> manageLevels = new HashMap<String, Object>();
 			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L1)).orElse(CLOSE_SETTING_VALUE_NOTALLOW);
@@ -1247,17 +1262,24 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				results.add(Result.error("工作:" + Formatter.getString(notallow) + " 未完工，不允许完工项目"));
 			if (question.size() > 0)
 				results.add(Result.question("工作:" + Formatter.getString(question) + " 未完工。"));
-			if (close.size() > 0) {
-				// 更新里程碑
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", true),
-						new Document("$set", new Document("skipFinish", true).append("actualFinish", date).append("actualStart", date)));
-				// 更新阶段
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("stage", true), new Document("$set",
-						new Document("skipFinish", true).append("actualFinish", date).append("status", ProjectStatus.Closed)));
-				// 更新其它工作
-				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", false).append("stage", false),
-						new Document("$set", new Document("skipFinish", true).append("actualFinish", date)));
-			}
+			// 检查时，不进行处理
+			// if (close.size() > 0) {
+			// // 更新里程碑
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("milestone", true),
+			// new Document("$set", new Document("skipFinish", true).append("actualFinish",
+			// date).append("actualStart", date)));
+			// // 更新阶段
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("stage", true), new Document("$set",
+			// new Document("skipFinish", true).append("actualFinish",
+			// date).append("status", ProjectStatus.Closed)));
+			// // 更新其它工作
+			// c("work").updateMany(new Document("_id", new Document("$in",
+			// close)).append("milestone", false).append("stage", false),
+			// new Document("$set", new Document("skipFinish", true).append("actualFinish",
+			// date)));
+			// }
 		}
 
 		// 项目变更
@@ -1269,11 +1291,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			results.add(Result.error("存在未关闭的项目变更，不允许完工项目"));
 		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
 			results.add(Result.question("存在未关闭的项目变更，是否自动关闭项目变更后，完工项目"));
-		} else if (CLOSE_SETTING_VALUE_CLOSE.equals(setting) && l > 0) {// 设置成关闭时，自动关闭项目变更
-			c("projectChange").updateMany(
-					new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
-					new Document("$set", new Document("skipFinish", true).append("verifyDate", date).append("verify", userId)
-							.append("status", ProjectChange.STATUS_CONFIRM)));
+
+			// 检查时，不进行处理
+			// } else if (CLOSE_SETTING_VALUE_CLOSE.equals(setting) && l > 0) {//
+			// 设置成关闭时，自动关闭项目变更
+			// c("projectChange").updateMany(
+			// new Document("project_id", _id).append("status", new Document("$ne",
+			// ProjectChange.STATUS_CONFIRM)),
+			// new Document("$set", new Document("skipFinish", true).append("verifyDate",
+			// date).append("verify", userId)
+			// .append("status", ProjectChange.STATUS_CONFIRM)));
 		}
 
 		// 项目报告
@@ -1285,10 +1312,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			results.add(Result.error("存在未确认的项目报告，不允许完工项目"));
 		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
 			results.add(Result.question("存在未确认的项目报告更，是否自动确认后，完工项目"));
-		} else if (CLOSE_SETTING_VALUE_CONFIRM.equals(setting) && l > 0) {// 设置成确认时，自动确认项目报告
-			c("workReport").updateMany(new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
-					new Document("$set", new Document("skipFinish", true).append("verifyDate", date)
-							.append("status", WorkReport.STATUS_CONFIRM).append("verifier", userId)));
+
+			// 检查时，不进行处理
+			// } else if (CLOSE_SETTING_VALUE_CONFIRM.equals(setting) && l > 0) {//
+			// 设置成确认时，自动确认项目报告
+			// c("workReport").updateMany(new Document("project_id", _id).append("status",
+			// new Document("$ne", ProjectChange.STATUS_CONFIRM)),
+			// new Document("$set", new Document("skipFinish", true).append("verifyDate",
+			// date)
+			// .append("status", WorkReport.STATUS_CONFIRM).append("verifier", userId)));
 		}
 
 		// 项目成本
