@@ -30,6 +30,10 @@ public class CheckItem {
 	@ReadValue
 	@WriteValue
 	private String remark;
+	
+	@ReadValue
+	@WriteValue
+	private String signInfo;
 
 	@Override
 	@Label
@@ -88,6 +92,14 @@ public class CheckItem {
 	
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getSignInfo() {
+		return signInfo;
+	}
+	
+	public void setSignInfo(String signInfo) {
+		this.signInfo = signInfo;
 	}
 
 }

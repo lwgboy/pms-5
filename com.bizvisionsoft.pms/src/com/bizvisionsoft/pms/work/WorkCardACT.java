@@ -38,6 +38,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -81,19 +82,21 @@ public class WorkCardACT {
 		Document input = new Document();
 
 		final Map<String, CheckItem> checklistMap = new LinkedHashMap<String, CheckItem>();
-		EditorFactory ef = new EditorFactory().title("工作检查表").labelAlignment(SWT.LEFT);
 
+		EditorFactory ef = new EditorFactory().title("工作检查表").labelWidth(64).labelAlignment(SWT.CENTER);
 		for (CheckItem ci : work.getChecklist()) {
 			String name = UUID.randomUUID().toString();
+			String choiseFieldName = "choise-" + name;
+			String remarkFieldName = "remark-" + name;
 			FormField banner = new BannerFieldFactory().text(ci.getDescription()).get();
-			FormField checkField = new CheckFieldFactory().text("是否通过").name(name).get();
-			FormField remarkField = new TextFieldFactory().text("说明").name("remark-" + name).get();
+			FormField checkField = new CheckFieldFactory().text("是否通过").pack(true).name(choiseFieldName).get();
+			FormField remarkField = new TextFieldFactory().text("说明").name(remarkFieldName).get();
 			FormField lineField = new LineFactory().setFields(checkField, remarkField).get();
 			ef.appendField(banner).appendField(lineField);
 
 			checklistMap.put(name, ci);
-			input.put(name, ci.isChecked());
-			input.put("remark-" + name, ci.getRemark());
+			input.put(choiseFieldName, ci.isChecked());
+			input.put(remarkFieldName, ci.getRemark());
 		}
 
 		new Editor<Document>(ef.get(), context).setEditable(true).setInput(input).ok((d, t) -> {
@@ -104,12 +107,15 @@ public class WorkCardACT {
 			while (iter.hasNext()) {
 				String key = iter.next();
 				if (key.startsWith("remark-")) {
-					String key1 = key.substring(7);
 					String remark = t.getString(key);
-					checklistMap.get(key1).setRemark(remark);
-				} else {
+					CheckItem checkItem = checklistMap.get(key.substring(7));
+					checkItem.setRemark(remark);
+				} else if (key.startsWith("choise-")) {
 					boolean value = Boolean.TRUE.equals(t.get(key));
-					checklistMap.get(key).setChecked(value);
+					CheckItem checkItem = checklistMap.get(key.substring(7));
+					checkItem.setChecked(value);
+					String signInfo = br.getCurrentUserInfo().getName() + " " + Formatter.getString(new Date());
+					checkItem.setSignInfo(signInfo);
 					finished &= value;
 				}
 			}
