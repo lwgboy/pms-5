@@ -38,6 +38,7 @@ import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
 import com.bizvisionsoft.service.model.Work;
+import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -335,8 +336,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	 */
 	private static String START_SETTING_FIELD_CHARGER_L3 = "asgnL3";
 	/**
-	 * 非管理节点
+	 * 非管理节点 TODO 修改为所有工作
 	 */
+	@Deprecated
 	private static String START_SETTING_FIELD_CHARGER_NoL = "asgnNoL";
 	/**
 	 * 启动批准
@@ -435,7 +437,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						message = Formatter
 								.getString(c("work").distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
 										.into(new ArrayList<>()));
-						message="工作："+message +" 未编制资源计划";
+						message = "工作：" + message + " 未编制资源计划";
 					}
 				}
 				if (!message.isEmpty() && START_SETTING_VALUE_WARNING.equals(setting))
@@ -480,6 +482,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 			}
 			// 获取非监控节点设置
+			// TODO 修改为所有工作
 			setting = systemSetting.get(START_SETTING_FIELD_CHARGER_NoL);
 			if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 				manageLevels.put(null, setting.toString());
@@ -941,6 +944,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Result> closeProject(Command com) {
+
+		/////////////////////////////////////////////////////////////////////////////
+		// 检查项目完工
+		List<Result> result = closeProjectCheck(com._id, com.date, com.userId);
+		if (result.stream().anyMatch(r -> Result.TYPE_ERROR == r.type// 错误的必须返回
+				|| (Result.TYPE_WARNING == r.type && ICommand.Close_Project.equals(com.name)))) {// 不忽略警告的必须返回
+			return result;
+		}
+
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 状态检查
 		Document project = c("project").find(new Document("_id", com._id)).first();
@@ -959,14 +971,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 修改项目状态
 		c("project").updateOne(new Document("_id", com._id),
 				new Document("$set", new Document("status", ProjectStatus.Closed).append("closeInfo", com.info())));
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-		// 修改工作状态
-		// 未开始的工作，skipStart
-		c("work").updateMany(new Document("project_id", com._id).append("actualStart", null), //
-				new Document("$set", new Document("skipStart", true).append("actualStart", com.date)));
-		// 未完成的工作，skipFinish
-		c("work").updateMany(new Document("project_id", com._id).append("actualFinish", null), //
-				new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)));
+		// //////////////////////////////////////////////////////////////////////////////////////////////////
+		// // 修改工作状态
+		// // 未开始的工作，skipStart
+		// c("work").updateMany(new Document("project_id",
+		// com._id).append("actualStart", null), //
+		// new Document("$set", new Document("skipStart", true).append("actualStart",
+		// com.date)));
+		// // 未完成的工作，skipFinish
+		// c("work").updateMany(new Document("project_id",
+		// com._id).append("actualFinish", null), //
+		// new Document("$set", new Document("skipFinish", true).append("actualFinish",
+		// com.date)));
 
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id);
@@ -974,6 +990,293 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				"项目：" + project.getString("name") + " 已于 " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
 				com.userId, memberIds, null);
 		return new ArrayList<>();
+	}
+
+	public static String CLOSE_SETTING_NAME = "项目关闭设置";
+	/**
+	 * 项目成本
+	 */
+	private static String CLOSE_SETTING_FIELD_COST = "cost";
+	/**
+	 * 资源用量
+	 */
+	private static String CLOSE_SETTING_FIELD_RESOURCE = "resource";
+	/**
+	 * 项目变更
+	 */
+	private static String CLOSE_SETTING_FIELD_CHANGE = "change";
+	/**
+	 * 项目报告
+	 */
+	private static String CLOSE_SETTING_FIELD_REPORT = "report";
+	/**
+	 * 成品物料
+	 */
+	private static String CLOSE_SETTING_FIELD_MATERIAL = "material";
+	/**
+	 * 所有工作（未启动）
+	 */
+	private static String CLOSE_SETTING_FIELD_START_ALL = "startAll";
+	/**
+	 * 一级管理节点（未启动）
+	 */
+	private static String CLOSE_SETTING_FIELD_START_L1 = "startL1";
+	/**
+	 * 二级管理节点（未启动）
+	 */
+	private static String CLOSE_SETTING_FIELD_START_L2 = "startL2";
+	/**
+	 * 三级管理节点（未启动）
+	 */
+	private static String CLOSE_SETTING_FIELD_START_L3 = "startL3";
+	/**
+	 * 所有工作（未完工）
+	 */
+	private static String CLOSE_SETTING_FIELD_FINISH_ALL = "finishAll";
+	/**
+	 * 一级管理节点（未完工）
+	 */
+	private static String CLOSE_SETTING_FIELD_FINISH_L1 = "finishL1";
+	/**
+	 * 二级管理节点（未完工）
+	 */
+	private static String CLOSE_SETTING_FIELD_FINISH_L2 = "finishL2";
+	/**
+	 * 三级管理节点（未完工）
+	 */
+	private static String CLOSE_SETTING_FIELD_FINISH_L3 = "finishL3";
+	/**
+	 * 里程碑（未完工）
+	 */
+	private static String CLOSE_SETTING_FIELD_FINISH_MILESTONE = "finishMilestone";
+
+	private static String CLOSE_SETTING_VALUE_NOTALLOW = "不允许";
+	private static String CLOSE_SETTING_VALUE_QUESTION = "询问";
+
+	private static String CLOSE_SETTING_VALUE_DELETE = "删除";
+	private static String CLOSE_SETTING_VALUE_FINISH = "完工";
+
+	private static String CLOSE_SETTING_VALUE_REQUIREMENT = "要求";
+	private static String CLOSE_SETTING_VALUE_IGNORE = "忽略";
+
+	private static String CLOSE_SETTING_VALUE_CLOSE = "关闭";
+	private static String CLOSE_SETTING_VALUE_CONFIRM = "确认";
+
+	private List<Result> closeProjectCheck(ObjectId _id, Date date, String userId) {
+		List<Result> results = new ArrayList<Result>();
+
+		Project project = get(_id);
+
+		Document systemSetting = getSystemSetting(CLOSE_SETTING_NAME);
+		Object setting;
+
+		// 未开始工作判断及操作
+		// 获取所有工作的设置
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_START_ALL);
+		// 获取未开始工作数，排出里程碑
+
+		List<Document> start = c("work").find(new Document("project_id", _id).append("actualStart", null).append("milestone", false))
+				.sort(new Document("wbsCode", 1)).into(new ArrayList<>());
+		if (CLOSE_SETTING_VALUE_NOTALLOW.equals(setting) && start.size() > 0) {// 设置成不允许时，添加错误提示
+			results.add(Result.error("工作:"
+					+ Formatter.getString(start.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())) + " 未开始，不允许完工项目"));
+		} else if (CLOSE_SETTING_VALUE_DELETE.equals(setting) && start.size() > 0) {// 设置成删除时，删除所有未开始的工作
+			c("work").deleteMany(new Document("project_id", _id).append("actualStart", null));
+		} else if (start.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
+			Map<String, String> manageLevels = new HashMap<String, String>();
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_START_L1);
+			manageLevels.put("1", setting.toString());
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_START_L2);
+			manageLevels.put("2", setting.toString());
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_START_L3);
+			manageLevels.put("3", setting.toString());
+
+			List<ObjectId> delete = new ArrayList<ObjectId>();
+			List<String> notallow = new ArrayList<String>();
+			List<String> question = new ArrayList<String>();
+			// 获取所有未开始的节点，进行判断
+			start.forEach((Document d) -> {
+				// 如果工作不在需要删除的工作中，进行设置欧安段
+				if (!delete.contains(d.getObjectId("_id")))
+					if (CLOSE_SETTING_VALUE_NOTALLOW.equals(manageLevels.get(d.getString("manageLevel")))) // 设置成不允许时，添加错误提示
+						notallow.add(d.getString("fullName"));
+					else if (CLOSE_SETTING_VALUE_DELETE.equals(manageLevels.get(d.getString("manageLevel")))) {// 设置成删除时，将其及其下级工作添加到删除集合中
+						List<ObjectId> workIds = new ArrayList<>();
+						lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id", true).forEach((Document doc) -> {
+							workIds.add(doc.getObjectId("_id"));
+						});
+						delete.addAll(workIds);
+					} else if (CLOSE_SETTING_VALUE_QUESTION.equals(manageLevels.get(d.getString("manageLevel")))) // 设置成询问时，添加询问提示
+						question.add(d.getString("fullName"));
+
+			});
+			if (notallow.size() > 0)
+				results.add(Result.error("工作:" + Formatter.getString(notallow) + " 未开始，不允许完工项目"));
+			if (question.size() > 0)
+				results.add(Result.question("工作:" + Formatter.getString(notallow) + " 未开始，是否删除工作？"));
+			if (delete.size() > 0)
+				c("work").deleteMany(new Document("_id", new Document("$in", delete)));
+
+		}
+
+		// 未完工工作判断及操作
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_FINISH_ALL);
+		// 获取未完工工作数
+		List<Document> finish = c("work").find(new Document("project_id", _id).append("actualFinish", null))
+				.sort(new Document("wbsCode", 1)).into(new ArrayList<>());
+		if (CLOSE_SETTING_VALUE_NOTALLOW.equals(setting) && finish.size() > 0) {// 设置成不允许时，添加错误提示
+			results.add(Result.error("工作:"
+					+ Formatter
+							.getString(Formatter.getString(finish.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())))
+					+ " 未完工，不允许完工项目"));
+		} else if (CLOSE_SETTING_VALUE_FINISH.equals(setting) && finish.size() > 0) {// 设置成完工时，完工所有未完工的工作
+			// 更新未完工里程碑
+			c("work").updateMany(new Document("project_id", _id).append("actualFinish", null).append("milestone", true),
+					new Document("$set", new Document("actualStart", date).append("actualFinish", date)));
+			// 更新未完工工作
+			c("work").updateMany(new Document("project_id", _id).append("actualFinish", null).append("milestone", false),
+					new Document("$set", new Document("skipFinish", true).append("actualFinish", date)));
+		} else if (finish.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
+			Map<String, Object> manageLevels = new HashMap<String, Object>();
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L1);
+			manageLevels.put("1", setting);
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L2);
+			manageLevels.put("2", setting);
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L3);
+			manageLevels.put("3", setting);
+			setting = systemSetting.get(CLOSE_SETTING_FIELD_FINISH_MILESTONE);
+			manageLevels.put("milestone", setting);
+
+			List<ObjectId> close = new ArrayList<ObjectId>();
+			List<String> notallow = new ArrayList<String>();
+			List<String> question = new ArrayList<String>();
+
+			finish.forEach((Document d) -> {
+				// 如果工作不在完成工作中，进行设置判断
+				if (close.contains(d.getObjectId("_id"))) {
+					Object set;
+					// 如果工作是里程碑，根据里程碑设置判断
+					if (d.getBoolean("milestone", false)) {
+						set = manageLevels.get("milestone");
+					} else {
+						set = manageLevels.get(d.getString("manageLevel"));
+					}
+					if (CLOSE_SETTING_VALUE_NOTALLOW.equals(set)) // 设置成不允许时，添加错误提示
+						notallow.add(d.getString("fullName"));
+					else if (CLOSE_SETTING_VALUE_DELETE.equals(set)) {// 设置成完工时，将其及其下级工作添加到完工集合中
+						List<ObjectId> workIds = new ArrayList<>();
+						lookupDesentItems(Arrays.asList(d.getObjectId("_id")), "work", "parent_id", true).forEach((Document doc) -> {
+							workIds.add(doc.getObjectId("_id"));
+						});
+						close.addAll(workIds);
+					} else if (CLOSE_SETTING_VALUE_QUESTION.equals(set)) // 设置成询问时，添加询问提示
+						question.add(d.getString("fullName"));
+				}
+			});
+
+			if (notallow.size() > 0)
+				results.add(Result.error("工作:" + Formatter.getString(notallow) + " 未完工，不允许完工项目"));
+			if (question.size() > 0)
+				results.add(Result.question("工作:" + Formatter.getString(notallow) + " 未完工，是否完工工作？"));
+			if (close.size() > 0) {
+				// 更新里程碑
+				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", true),
+						new Document("$set", new Document("skipFinish", true).append("actualFinish", date).append("actualStart", date)));
+				// 更新其它工作
+				c("work").updateMany(new Document("_id", new Document("$in", close)).append("milestone", false),
+						new Document("$set", new Document("skipFinish", true).append("actualFinish", date)));
+			}
+		}
+
+		// 项目变更
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_CHANGE);
+		// 获取未关闭项目变更数
+		long l = c("projectChange")
+				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)));
+		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && l > 0) {// 设置成要求时，添加错误提示
+			results.add(Result.error("存在未关闭的项目变更，不允许完工项目"));
+		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
+			results.add(Result.question("存在未关闭的项目变更，是否自动关闭项目变更后，完工项目"));
+		} else if (CLOSE_SETTING_VALUE_CLOSE.equals(setting) && l > 0) {// 设置成关闭时，自动关闭项目变更
+			c("projectChange").updateMany(
+					new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
+					new Document("$set", new Document("skipFinish", true).append("verifyDate", date).append("verify", userId)
+							.append("status", ProjectChange.STATUS_CONFIRM)));
+		}
+
+		// 项目报告
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_REPORT);
+		// 获取未确认的项目报告数
+		l = c("workReport")
+				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", WorkReport.STATUS_CONFIRM)));
+		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && l > 0) {// 设置成要求时，添加错误提示
+			results.add(Result.error("存在未确认的项目报告，不允许完工项目"));
+		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
+			results.add(Result.question("存在未确认的项目报告更，是否自动确认后，完工项目"));
+		} else if (CLOSE_SETTING_VALUE_CONFIRM.equals(setting) && l > 0) {// 设置成确认时，自动确认项目报告
+			c("workReport").updateMany(new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
+					new Document("$set", new Document("skipFinish", true).append("verifyDate", date)
+							.append("status", WorkReport.STATUS_CONFIRM).append("verifier", userId)));
+		}
+
+		// 项目成本
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_COST);
+		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 获取成本项id
+			List<ObjectId> cbsIds = new ArrayList<>();
+			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", "parent_id", true).forEach((Document d) -> {
+				cbsIds.add(d.getObjectId("_id"));
+			});
+			// 如果没有cbsSubject没有成本，则进行提示
+			l = c("cbsSubject")
+					.countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)).append("cost", new Document("$ne", null)));
+			if (l == 0)
+				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
+				if (CLOSE_SETTING_VALUE_QUESTION.equals(setting))
+					results.add(Result.question("项目尚未维护成本。"));
+				else if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error("项目尚未维护成本。"));
+
+		}
+
+		// 资源用量
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_RESOURCE);
+		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
+			// 获得所有非里程碑的叶子节点的id
+			List<ObjectId> workIds = c("work")
+					.distinct("_id", new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
+					.into(new ArrayList<>());
+			// 如果没有进度计划，不进行资源检查
+			if (workIds.size() > 0) {
+				// 获取填写了资源计划的工作id
+				List<ObjectId> resourceWorkIds = c("resourceActual")
+						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class).into(new ArrayList<>());
+				String message = "";
+				if (resourceWorkIds.size() == 0) {
+					message = "项目尚未编制资源用量";
+				} else {
+					workIds.removeAll(resourceWorkIds);
+					if (workIds.size() > 0) {
+						message = Formatter
+								.getString(c("work").distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
+										.into(new ArrayList<>()));
+						message = "工作：" + message + " 未编制资源用量";
+					}
+				}
+				if (!message.isEmpty() && CLOSE_SETTING_VALUE_QUESTION.equals(setting))
+					results.add(Result.question(message));
+				else if (!message.isEmpty() && CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting))
+					results.add(Result.error(message));
+			}
+		}
+
+		// TODO 成品物料
+		setting = systemSetting.get(CLOSE_SETTING_FIELD_MATERIAL);
+		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
+
+		}
+
+		return results;
 	}
 
 	/**
@@ -1542,7 +1845,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			}
 			reviewer.add(getBson(re));
 		}
-		
+
 		UpdateResult ur = c(ProjectChange.class).updateOne(new BasicDBObject("_id", projectChange_id),
 				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer)));
 
