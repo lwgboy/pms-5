@@ -3,10 +3,10 @@ package com.bizvisionsoft.serviceimpl.renderer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 
-import com.bizvisionsoft.service.model.CheckItem;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
@@ -104,7 +104,7 @@ public class WorkRenderer {
 		sb.append(renderAssigner());
 
 		// 显示工作包和指派工作
-		sb.append(renderButtons("指派", "assignWork/" + work.get_id()));
+		sb.append(renderButtons("指派", null, "assignWork/" + work.get_id()));
 
 		// 标签
 		sb.append(renderNoticeBudgets());
@@ -140,11 +140,19 @@ public class WorkRenderer {
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
 
 		// 显示工作包和完成工作
-		List<CheckItem> checklist = work.getChecklist();
-		if (checklist != null && checklist.stream().filter(c -> !"通过".equals(c.getChoise())).count() > 0) {
-			sb.append(renderButtons("检查", "checkWork/" + work.get_id()));
+		long count = Optional.ofNullable(work.getChecklist()).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count())
+				.orElse(0l);
+		if (count > 0) {
+			long denyCount = Optional.ofNullable(work.getChecklist()).map(cl -> cl.stream().filter(c -> "否决".equals(c.getChoise())).count())
+					.orElse(0l);
+			String badge = null;
+			if (denyCount > 0) {
+				badge = "<span class='layui-badge layui-bg-orange' style='margin-left:8px;'>" + denyCount + "</span>";
+				badge = MetaInfoWarpper.warpper(badge, denyCount+"个检查项未能通过。", 3000);
+			}
+			sb.append(renderButtons("检查", badge, "checkWork/" + work.get_id()));
 		} else {
-			sb.append(renderButtons("完成", "finishWork/" + work.get_id()));
+			sb.append(renderButtons("完成", null, "finishWork/" + work.get_id()));
 		}
 
 		// 标签
@@ -178,7 +186,7 @@ public class WorkRenderer {
 		sb.append(renderCharger());
 
 		// 显示工作包和开始工作
-		sb.append(renderButtons("开始", "startWork/" + work.get_id()));
+		sb.append(renderButtons("开始", null, "startWork/" + work.get_id()));
 
 		// 标签
 		sb.append(renderNoticeBudgets());
@@ -268,7 +276,7 @@ public class WorkRenderer {
 		return sb.toString();
 	}
 
-	private String renderButtons(String label, String href) {
+	private String renderButtons(String label, String badge, String href) {
 		rowHeight += 24 + 4 + 16;
 
 		List<TrackView> wps = work.getWorkPackageSetting();
@@ -288,9 +296,15 @@ public class WorkRenderer {
 		btns.forEach(e -> {
 			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
-		if (canAction)
+		if (canAction) {
+			sb.append("<div style='display:inline-flex;align-items:center;'>");
 			sb.append(
 					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+			if (Check.isAssigned(badge)) {
+				sb.append(" "+badge);
+			}
+			sb.append("</div>");
+		}
 		sb.append("</div>");
 		return sb.toString();
 	}
