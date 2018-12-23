@@ -12,6 +12,7 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
+import com.bizvisionsoft.service.tools.NLS;
 
 public class WorkRenderer {
 
@@ -158,7 +159,7 @@ public class WorkRenderer {
 				badge = "<span class='layui-badge layui-bg-orange' style='margin-left:8px;'>" + denyCount + "</span>";
 				badge = MetaInfoWarpper.warpper(badge, denyCount + "个检查项未能通过。", 3000);
 			}
-			sb.append(renderButtons("检查", badge, "checkWork/" + work.get_id()));
+			sb.append(renderButtons(NLS.get(lang, "检查"), badge, "checkWork/" + work.get_id()));
 		} else {
 			sb.append(renderButtons("完成", null, "finishWork/" + work.get_id()));
 		}

@@ -177,12 +177,12 @@ public class Service implements BundleActivator {
 
 	private void loadDatabase(String filePath) {
 		try {
-			FileInputStream fis = new FileInputStream(filePath); // $NON-NLS-1$
+			FileInputStream fis = new FileInputStream(filePath); // $NON-Activator-1$
 			InputStream is = new BufferedInputStream(fis);
 			Properties props = new Properties();
 			props.load(is);
 			mongo = createMongoClient(props);
-			String dbname = props.getProperty("db.name"); //$NON-NLS-1$
+			String dbname = props.getProperty("db.name"); //$NON-Activator-1$
 			database = mongo.getDatabase(dbname).withCodecRegistry(getCodecRegistry());
 			logger.info("连接数据库：" + dbname);
 			fis.close();
@@ -195,7 +195,7 @@ public class Service implements BundleActivator {
 	private static MongoClient createMongoClient(Properties props) throws UnknownHostException {
 		Builder b2 = MongoClientSettings.builder();
 		final List<ServerAddress> serverList = new ArrayList<ServerAddress>();
-		String replicaSet = props.getProperty("db.hosts"); //$NON-NLS-1$
+		String replicaSet = props.getProperty("db.hosts"); //$NON-Activator-1$
 		if (replicaSet != null) {
 			String[] arr = replicaSet.split(" ");
 			for (int i = 0; i < arr.length; i++) {
@@ -207,9 +207,9 @@ public class Service implements BundleActivator {
 		b2.applyToClusterSettings(b -> b.hosts(serverList));
 		databaseHost = serverList.get(0);
 		//////////////////////////////////////////////////////////////////////////////////////
-		String database = props.getProperty("db.name"); //$NON-NLS-1$
-		String user = props.getProperty("db.user"); //$NON-NLS-1$
-		String password = props.getProperty("db.password"); //$NON-NLS-1$
+		String database = props.getProperty("db.name"); //$NON-Activator-1$
+		String user = props.getProperty("db.user"); //$NON-Activator-1$
+		String password = props.getProperty("db.password"); //$NON-Activator-1$
 
 		// 用户身份验证
 		if (Check.isAssigned(user, password))
@@ -222,24 +222,24 @@ public class Service implements BundleActivator {
 		return MongoClients.create(b2.build());
 
 		// Builder builder = MongoClientOptions.builder();
-		// // builder.autoConnectRetry("true".equalsIgnoreCase(props //$NON-NLS-1$
-		// // .getProperty("db.options.autoConnectRetry"))); //$NON-NLS-1$
+		// // builder.autoConnectRetry("true".equalsIgnoreCase(props //$NON-Activator-1$
+		// // .getProperty("db.options.autoConnectRetry"))); //$NON-Activator-1$
 		// // CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
 		// // CodecRegistries.fromCodecs(new
 		// // UuidCodec(UuidRepresentation.STANDARD)),
 		// // MongoClient.getDefaultCodecRegistry());
 		// // builder.codecRegistry(codecRegistry);
 		// builder.connectionsPerHost(Integer.parseInt(props.getProperty("db.options.connectionsPerHost")));
-		// //$NON-NLS-1$
+		// //$NON-Activator-1$
 		// builder.maxWaitTime(Integer.parseInt(props.getProperty("db.options.maxWaitTime")));
-		// //$NON-NLS-1$
+		// //$NON-Activator-1$
 		// builder.socketTimeout(Integer.parseInt(props.getProperty("db.options.socketTimeout")));
-		// //$NON-NLS-1$
+		// //$NON-Activator-1$
 		// builder.connectTimeout(Integer.parseInt(props.getProperty("db.options.connectTimeout")));
-		// //$NON-NLS-1$
+		// //$NON-Activator-1$
 		// builder.threadsAllowedToBlockForConnectionMultiplier(
 		// Integer.parseInt(props.getProperty("db.options.threadsAllowedToBlockForConnectionMultiplier")));
-		// //$NON-NLS-1$
+		// //$NON-Activator-1$
 		// ServerAddress address = new ServerAddress(host, port);
 		// if (serverList != null) {
 		// return new MongoClient(serverList, builder.build());

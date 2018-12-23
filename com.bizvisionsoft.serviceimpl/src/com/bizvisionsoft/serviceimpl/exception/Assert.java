@@ -6,7 +6,7 @@ public final class Assert {
 	}
 
 	public static boolean isLegal(boolean expression) {
-		return isLegal(expression, ""); //$NON-NLS-1$
+		return isLegal(expression, ""); //$NON-Activator-1$
 	}
 
 	public static boolean isLegal(boolean expression, String message) {
@@ -16,21 +16,21 @@ public final class Assert {
 	}
 
 	public static void isNotNull(Object object) {
-		isNotNull(object, ""); //$NON-NLS-1$
+		isNotNull(object, ""); //$NON-Activator-1$
 	}
 
 	public static void isNotNull(Object object, String message) {
 		if (object == null)
-			throw new ServiceException(message); // $NON-NLS-1$
+			throw new ServiceException(message); // $NON-Activator-1$
 	}
 
 	public static boolean isTrue(boolean expression) {
-		return isTrue(expression, ""); //$NON-NLS-1$
+		return isTrue(expression, ""); //$NON-Activator-1$
 	}
 
 	public static boolean isTrue(boolean expression, String message) {
 		if (!expression)
-			throw new ServiceException(message); // $NON-NLS-1$
+			throw new ServiceException(message); // $NON-Activator-1$
 		return expression;
 	}
 }
