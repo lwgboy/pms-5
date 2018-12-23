@@ -14,12 +14,15 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class WorkRenderer {
-	public static Document render(Work work) {
-		return new WorkRenderer(work).setCanAction(true).setShowProject(true).render();
+
+	private String lang;
+
+	public static Document render(Work work, String lang) {
+		return new WorkRenderer(work).setLanguage(lang).setCanAction(true).setShowProject(true).render();
 	}
 
-	public static Document render(Work work, boolean canAction, boolean showProject) {
-		return new WorkRenderer(work).setCanAction(canAction).setShowProject(showProject).render();
+	public static Document render(Work work, boolean canAction, boolean showProject, String lang) {
+		return new WorkRenderer(work).setLanguage(lang).setCanAction(canAction).setShowProject(showProject).render();
 	}
 
 	private Document render() {
@@ -64,6 +67,11 @@ public class WorkRenderer {
 
 	private WorkRenderer setShowProject(boolean showProject) {
 		this.showProject = showProject;
+		return this;
+	}
+	
+	private WorkRenderer setLanguage(String lang) {
+		this.lang = lang;
 		return this;
 	}
 
@@ -148,7 +156,7 @@ public class WorkRenderer {
 			String badge = null;
 			if (denyCount > 0) {
 				badge = "<span class='layui-badge layui-bg-orange' style='margin-left:8px;'>" + denyCount + "</span>";
-				badge = MetaInfoWarpper.warpper(badge, denyCount+"个检查项未能通过。", 3000);
+				badge = MetaInfoWarpper.warpper(badge, denyCount + "个检查项未能通过。", 3000);
 			}
 			sb.append(renderButtons("检查", badge, "checkWork/" + work.get_id()));
 		} else {
@@ -301,7 +309,7 @@ public class WorkRenderer {
 			sb.append(
 					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 			if (Check.isAssigned(badge)) {
-				sb.append(" "+badge);
+				sb.append(" " + badge);
 			}
 			sb.append("</div>");
 		}

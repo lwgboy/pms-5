@@ -197,12 +197,13 @@ public interface WorkService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/planned/card/ds")
+	@Path("/userid/{userid}/planned/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作看板（已计划）/list")
 	public List<Document> listMyPlannedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/userid/{userid}/planned/count")
@@ -221,12 +222,13 @@ public interface WorkService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/exec/card/ds")
+	@Path("/userid/{userid}/exec/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作看板（处理中）/list")
 	public List<Document> listMyExecutingWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/userid/{userid}/exec/count")
@@ -245,12 +247,13 @@ public interface WorkService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/finished/card/ds")
+	@Path("/userid/{userid}/finished/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "工作看板（已完成）/list" })
 	public List<Document> listMyFinishedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/userid/{userid}/finished/count")
@@ -285,12 +288,13 @@ public interface WorkService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/userid/{userid}/unassigner/processing/card/ds")
+	@Path("/userid/{userid}/unassigner/processing/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "工作看板（待指派）/list" })
 	public List<Document> listMyUnAssignmentWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/userid/{userid}/unassigner/processing/count")
@@ -743,39 +747,43 @@ public interface WorkService {
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id);
 
 	@POST
-	@Path("/projectid/{projectid}/{userid}/planned/card/ds")
+	@Path("/projectid/{projectid}/{userid}/planned/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目工作看板（已计划）/" + DataSet.LIST })
 	public List<Document> listProjectPlannedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/projectid/{projectid}/{userid}/exec/card/ds")
+	@Path("/projectid/{projectid}/{userid}/exec/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目工作看板（处理中）/" + DataSet.LIST })
 	public List<Document> listProjectExecutingWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/projectid/{projectid}/{userid}/finished/card/ds")
+	@Path("/projectid/{projectid}/{userid}/finished/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目工作看板（已完成）/" + DataSet.LIST })
 	public List<Document> listProjectFinishedWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/projectid/{projectid}/{userid}/unassigner/processing/card/ds")
+	@Path("/projectid/{projectid}/{userid}/unassigner/processing/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目工作看板（待指派）/" + DataSet.LIST })
 	public List<Document> listProjectUnAssignmentWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("projectid") ObjectId project_id,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 }

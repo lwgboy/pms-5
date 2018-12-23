@@ -2218,10 +2218,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listProjectPlannedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+	public List<Document> listProjectPlannedWorkCard(BasicDBObject condition, ObjectId project_id, String userid, String lang) {
 		ArrayList<Document> into = iterateMyPlannedWork(condition,
 				new BasicDBObject("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
+						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false, lang))
+						.into(new ArrayList<>());
 		return into;
 	}
 
@@ -2231,8 +2232,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid) {
-		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
+	public List<Document> listMyPlannedWorkCard(BasicDBObject condition, String userid, String lang) {
+		return iterateMyPlannedWork(condition, new BasicDBObject("chargerId", userid)).map(w -> WorkRenderer.render(w, lang))
+				.into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateMyPlannedWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2270,10 +2272,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listProjectExecutingWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+	public List<Document> listProjectExecutingWorkCard(BasicDBObject condition, ObjectId project_id, String userid, String lang) {
 		return iterateExecutingWork(condition,
 				new BasicDBObject().append("project_id", project_id).append("chargerId", new BasicDBObject("$ne", null)))
-						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
+						.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false, lang))
+						.into(new ArrayList<>());
 	}
 
 	@Override
@@ -2282,8 +2285,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid) {
-		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(WorkRenderer::render).into(new ArrayList<>());
+	public List<Document> listMyExecutingWorkCard(BasicDBObject condition, String userid, String lang) {
+		return iterateExecutingWork(condition, new BasicDBObject("chargerId", userid)).map(w -> WorkRenderer.render(w, lang))
+				.into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateExecutingWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2320,9 +2324,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listProjectFinishedWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+	public List<Document> listProjectFinishedWorkCard(BasicDBObject condition, ObjectId project_id, String userid, String lang) {
 		return iterateFinishedWork(condition, new BasicDBObject("project_id", project_id))
-				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false)).into(new ArrayList<>());
+				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getChargerId()), false, lang)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2334,11 +2338,11 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listMyFinishedWorkCard(BasicDBObject condition, String userid) {
+	public List<Document> listMyFinishedWorkCard(BasicDBObject condition, String userid, String lang) {
 		return iterateFinishedWork(condition,
 				new BasicDBObject("$or",
 						new BasicDBObject[] { new BasicDBObject("chargerId", userid), new BasicDBObject("assignerId", userid) }))
-								.map(WorkRenderer::render).into(new ArrayList<>());
+								.map(w -> WorkRenderer.render(w, lang)).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateFinishedWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2378,9 +2382,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid) {
+	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid,String lang) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
-				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getAssignerId()), false)).into(new ArrayList<>());
+				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getAssignerId()), false,lang)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2390,9 +2394,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid) {
+	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid,String lang) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("assignerId", userid))
-				.map(WorkRenderer::render).into(new ArrayList<>());
+				.map(w->WorkRenderer.render(w,lang)).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateUnassignmentWork(BasicDBObject condition, BasicDBObject basicCondition) {

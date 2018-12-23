@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
@@ -125,7 +126,7 @@ public class WorkCardACT {
 			FilterAndUpdate fu = new FilterAndUpdate().filter(filter).set(new BasicDBObject("checklist", checkItems));
 			service.updateWork(fu.bson());
 			if (finished) {
-				List<Document> list = service.listMyExecutingWorkCard(filter, br.getCurrentUserId());
+				List<Document> list = service.listMyExecutingWorkCard(filter, br.getCurrentUserId(), RWT.getLocale().getLanguage());
 				if (list.size() > 0) {
 					doc.put("html", list.get(0).get("html"));
 					viewer.update(doc, null);
