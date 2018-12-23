@@ -25,7 +25,7 @@ public class CheckItem {
 	
 	@ReadValue
 	@WriteValue
-	private boolean checked;
+	private String choise;
 	
 	@ReadValue
 	@WriteValue
@@ -70,12 +70,12 @@ public class CheckItem {
 		return true;
 	}
 	
-	public boolean isChecked() {
-		return checked;
+	public String getChoise() {
+		return choise;
 	}
 	
-	public void setChecked(boolean checked) {
-		this.checked = checked;
+	public void setChoise(String choise) {
+		this.choise = choise;
 	}
 	
 	public String getDescription() {

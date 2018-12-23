@@ -141,7 +141,7 @@ public class WorkRenderer {
 
 		// 显示工作包和完成工作
 		List<CheckItem> checklist = work.getChecklist();
-		if (checklist != null && checklist.stream().filter(c -> !c.isChecked()).count() > 0) {
+		if (checklist != null && checklist.stream().filter(c -> !"通过".equals(c.getChoise())).count() > 0) {
 			sb.append(renderButtons("检查", "checkWork/" + work.get_id()));
 		} else {
 			sb.append(renderButtons("完成", "finishWork/" + work.get_id()));

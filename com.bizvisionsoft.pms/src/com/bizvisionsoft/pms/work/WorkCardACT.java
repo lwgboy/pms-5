@@ -20,8 +20,8 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.BannerFieldFactory;
-import com.bizvisionsoft.bruicommons.factory.fields.CheckFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.LineFactory;
+import com.bizvisionsoft.bruicommons.factory.fields.RadioFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
@@ -89,13 +89,15 @@ public class WorkCardACT {
 			String choiseFieldName = "choise-" + name;
 			String remarkFieldName = "remark-" + name;
 			FormField banner = new BannerFieldFactory().text(ci.getDescription()).get();
-			FormField checkField = new CheckFieldFactory().text("是否通过").pack(true).name(choiseFieldName).get();
+
+			FormField checkField = new RadioFieldFactory().setOptionValue("通过#否决#待定").setOptionText("通过#否决#待定").pack(true).text("请选择")
+					.name(choiseFieldName).get();
 			FormField remarkField = new TextFieldFactory().text("说明").name(remarkFieldName).get();
 			FormField lineField = new LineFactory().setFields(checkField, remarkField).get();
 			ef.appendField(banner).appendField(lineField);
 
 			checklistMap.put(name, ci);
-			input.put(choiseFieldName, ci.isChecked());
+			input.put(choiseFieldName, ci.getChoise());
 			input.put(remarkFieldName, ci.getRemark());
 		}
 
@@ -111,12 +113,12 @@ public class WorkCardACT {
 					CheckItem checkItem = checklistMap.get(key.substring(7));
 					checkItem.setRemark(remark);
 				} else if (key.startsWith("choise-")) {
-					boolean value = Boolean.TRUE.equals(t.get(key));
+					String choise = t.getString(key);
 					CheckItem checkItem = checklistMap.get(key.substring(7));
-					checkItem.setChecked(value);
+					checkItem.setChoise(choise);
 					String signInfo = br.getCurrentUserInfo().getName() + " " + Formatter.getString(new Date());
 					checkItem.setSignInfo(signInfo);
-					finished &= value;
+					finished &= "通过".equals(choise);
 				}
 			}
 			Object checkItems = BsonTools.encodeBsonValue(new ArrayList<>(checklistMap.values()));

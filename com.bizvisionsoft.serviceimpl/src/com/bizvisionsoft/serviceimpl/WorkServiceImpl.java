@@ -736,7 +736,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		if (work.isSummary() || work.isStage() || work.isMilestone() || work.getActualFinish() != null)
 			return Arrays.asList(Result.notAllowedError(work + "，工作不允许执行完成操作"));
 		List<CheckItem> checklist = work.getChecklist();
-		if (checklist != null && checklist.stream().filter(c->!c.isChecked()).count()>0) 
+		if (checklist != null && checklist.stream().filter(c -> !"通过".equals(c.getChoise())).count() > 0)
 			return Arrays.asList(Result.notAllowedError(work + "，检查项尚未完全通过"));
 
 		////////////////////////////////////////////////////////////////////////////////////////////////
