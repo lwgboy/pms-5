@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812241027",
+  "timestamp": "201812242149",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -1580,15 +1580,6 @@
             "verticalSpan": 0
           },
           {
-            "id": "1628df3363b",
-            "name": "项目收尾",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.FinishProject",
-            "type": "customized",
-            "role": "PM#PA#PPM",
-            "verticalSpan": 0
-          },
-          {
             "id": "167de085b47",
             "name": "项目设置",
             "children": [
@@ -1610,6 +1601,15 @@
             ],
             "type": "customized",
             "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1628df3363b",
+            "name": "项目收尾",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.FinishProject",
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
           }
         ]
       },
@@ -1781,6 +1781,29 @@
             "type": "switch",
             "role": "",
             "verticalSpan": 0
+          },
+          {
+            "id": "167e075e3fa",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e075eddb",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e075f471",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e075fa08",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "16532b3c294",
@@ -2133,6 +2156,29 @@
             "switchContentToAssemblyId": "1632b6942a0",
             "type": "switch",
             "verticalSpan": 0
+          },
+          {
+            "id": "167e07625ba",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e0762d10",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0763366",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0763a14",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM"
           },
           {
             "id": "9628df3363b",
@@ -2507,6 +2553,29 @@
             "switchContentToAssemblyId": "163dac2719a",
             "type": "switch",
             "verticalSpan": 0
+          },
+          {
+            "id": "167e07663bf",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e0767dbb",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e076841a",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0768df0",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": ""
           }
         ]
       },
@@ -10658,6 +10727,16 @@
             "objectBehavier": true,
             "type": "customized",
             "verticalSpan": 0
+          },
+          {
+            "id": "167e079a6d7",
+            "name": "检查工作",
+            "text": "检查",
+            "image": "/img/check_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.CheckWork",
+            "style": "normal",
+            "type": "customized"
           },
           {
             "id": "163682f3a8b",
