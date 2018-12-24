@@ -240,13 +240,22 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 	 */
 	private static String CHECKIN_SETTING_FIELD_PROJECT_FINISH = "projectFinish";
 
-	private static String CHECKIN_SETTING_VALUE_REQUIREMENT = "要求";
-	private static String CHECKIN_SETTING_VALUE_WARNING = "警告";
-	private static String CHECKIN_SETTING_VALUE_IGNORE = "忽略";
-	private static String CHECKIN_SETTING_VALUE_NOTALLOW = "不允许";
-	private static String CHECKIN_SETTING_VALUE_QUESTION = "询问";
-	private static String CHECKIN_SETTING_VALUE_ALLOW = "允许";
-	private static String CHECKIN_SETTING_VALUE_AUTO = "自动修改";
+	/**
+	 * 要求、禁止
+	 */
+	private static String CHECKIN_SETTING_VALUE_REQUIREMENT = "1";
+	/**
+	 * 警告、询问
+	 */
+	private static String CHECKIN_SETTING_VALUE_WARNING = "2";
+	/**
+	 * 忽略、允许
+	 */
+	private static String CHECKIN_SETTING_VALUE_ALLOW = "3";
+	/**
+	 * 自动修改
+	 */
+	private static String CHECKIN_SETTING_VALUE_AUTO = "4";
 
 	@Override
 	public List<Result> schedulePlanCheck(Workspace workspace, Boolean checkManageItem) {
@@ -284,7 +293,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		Object setting;
 		if (checkManageItem) {
-			// 获取所有工作设置
+			// 获取所有工作设置，默认为：警告
 			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 			// 获取未设置负责人和参与者的节点名称
 			List<Document> work = c("workspace").find(new Document("space_id", workspace.getSpace_id()).append("milestone", false)
@@ -297,21 +306,21 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				results.add(Result
 						.error("工作：" + Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
 								+ " 没有指定负责人和指派者."));
-			else if (CHECKIN_SETTING_VALUE_IGNORE.equals(setting) && work.size() > 0) {// 忽略时，根据各级监控节点设置进行判断
+			else if (CHECKIN_SETTING_VALUE_ALLOW.equals(setting) && work.size() > 0) {// 忽略时，根据各级监控节点设置进行判断
 				Map<String, Object> manageLevels = new HashMap<String, Object>();
 				// 获取一级监控节点设置
 				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L1)).orElse(CHECKIN_SETTING_VALUE_WARNING);
-				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("1", setting);
 
 				// 获取二级监控节点设置
 				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L2)).orElse(CHECKIN_SETTING_VALUE_WARNING);
-				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("2", setting);
 
 				// 获取三级监控节点设置
 				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_L3)).orElse(CHECKIN_SETTING_VALUE_WARNING);
-				if (!CHECKIN_SETTING_VALUE_IGNORE.equals(setting))
+				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("3", setting);
 
 				List<String> chargerWarning = new ArrayList<String>();
@@ -333,8 +342,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 			}
 
-			// 增加所有工作的判断
-			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_ALL)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+			// 增加所有工作的判断，默认为允许
+			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_ALL)).orElse(CHECKIN_SETTING_VALUE_ALLOW);
 			List<Bson> pipeline = new ArrayList<Bson>();
 			pipeline.add(Aggregates.match(new BasicDBObject("space_id", workspace.getSpace_id())));
 			pipeline.add(Aggregates.lookup("work", "_id", "_id", "work"));
@@ -343,29 +352,29 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 					new BasicDBObject("$gt", new String[] { "$planFinish", "$work.planFinish" }))));
 			pipeline.add(Aggregates.match(new BasicDBObject("wpf", true)));
 			work = c("workspace").aggregate(pipeline).into(new ArrayList<>());
-			if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && work.size() > 0)// 添加错误提示
+			if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && work.size() > 0)// 添加错误提示
 				results.add(Result
 						.error("工作：" + Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
 								+ " 完成时间超过限定的计划完成日期."));
-			else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && work.size() > 0) {// 询问时，根据各级监控节点设置进行判断
+			else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && work.size() > 0) {// 询问时，根据各级监控节点设置进行判断
 				Map<String, Object> manageLevels = new HashMap<String, Object>();
 				List<String> scheduleQuestion = new ArrayList<String>();
 				List<String> scheduleError = new ArrayList<String>();
 				// 获取一级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L1)).orElse(CHECKIN_SETTING_VALUE_ALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("1", setting);
 
 				// 获取二级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L2)).orElse(CHECKIN_SETTING_VALUE_ALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("2", setting);
 				// 获取三级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_SCHEDULE_L3)).orElse(CHECKIN_SETTING_VALUE_ALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("3", setting);
 				// 获取里程碑设置
-				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+				setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_MILESTONE)).orElse(CHECKIN_SETTING_VALUE_ALLOW);
 				if (!CHECKIN_SETTING_VALUE_ALLOW.equals(setting))
 					manageLevels.put("milestone", setting);
 
@@ -377,9 +386,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						set = manageLevels.get(d.getString("manageLevel"));
 					}
 					// 根据类型获取节点设置，并将其添加到相应的集合中。
-					if (CHECKIN_SETTING_VALUE_QUESTION.equals(set))
+					if (CHECKIN_SETTING_VALUE_WARNING.equals(set))
 						scheduleQuestion.add(d.getString("fullName"));
-					else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(set))
+					else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(set))
 						scheduleError.add(d.getString("fullName"));
 				});
 
@@ -392,6 +401,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 		}
 
+		//获取工作最早计划开始时间和最晚计划完成时间
 		Document doc = c("workspace").aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
 				new Document("$group", new Document("_id", null).append("finish", new Document("$max", "$planFinish")).append("start",
 						new Document("$min", "$planStart")))))
@@ -406,7 +416,8 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			planFinish = project.getPlanFinish();
 			planStart = project.getPlanStart();
 		}
-		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+		//获取早于项目计划开始的设置，默认为禁止
+		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
@@ -415,13 +426,13 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
 						new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
 			}
-		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && planStart.after(doc.getDate("start"))) {
+		} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planStart.after(doc.getDate("start"))) {
 			results.add(Result.error("工作最早计划开始时间早于项目计划开始时间。"));
-		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && planStart.after(doc.getDate("start"))) {
+		} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planStart.after(doc.getDate("start"))) {
 			results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
 		}
-
-		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH)).orElse(CHECKIN_SETTING_VALUE_NOTALLOW);
+		//获取晚于项目计划完成的设置，默认为禁止
+		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			if (workspace.getWork_id() != null) {
 				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
@@ -430,9 +441,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
 						new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
 			}
-		} else if (CHECKIN_SETTING_VALUE_NOTALLOW.equals(setting) && planFinish.before(doc.getDate("finish"))) {
+		} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			results.add(Result.error("工作最完计划完成时间晚于项目计划完成时间。"));
-		} else if (CHECKIN_SETTING_VALUE_QUESTION.equals(setting) && planFinish.before(doc.getDate("finish"))) {
+		} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			results.add(Result.question("工作最完计划完成时间晚于项目计划完成时间。"));
 		}
 
