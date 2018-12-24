@@ -38,15 +38,16 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class WorkAction {
+public interface WorkAction {
 
-	Logger logger = LoggerFactory.getLogger(getClass());
-	private IBruiService brui;
-	private WorkService service;
+	public default Logger logger() {
+		return LoggerFactory.getLogger(getClass());
+	}
 
-	public WorkAction(IBruiService brui) {
-		this.brui = brui;
-		service = Services.get(WorkService.class);
+	public IBruiService brui();
+
+	public default WorkService service() {
+		return Services.get(WorkService.class);
 	}
 
 	/**
@@ -55,19 +56,19 @@ public class WorkAction {
 	 * @param work
 	 * @param callback
 	 */
-	public void startWork(Work work, Consumer<Work> callback) {
-		if (brui.confirm("启动工作", "请确认启动工作" + work + "。\n系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = service.startWork(brui.command(work.get_id(), getDate("选择工作开始时间", "请选择工作开始时间"), ICommand.Start_Work));
+	public default void startWork(Work work, Consumer<Work> callback) {
+		if (brui().confirm("启动工作", "请确认启动工作" + work + "。\n系统将记录现在时刻为工作的实际开始时间。")) {
+			List<Result> result = service().startWork(brui().command(work.get_id(), getDate(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				if (callback != null) {
-					Work w = service.getWork(work.get_id());
+					Work w = service().getWork(work.get_id());
 					callback.accept(w);
 				}
 			} else {
 				String msg = result.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> r.message + "<br>").reduce("",
 						String::concat);
-				brui.error("开始工作", msg);
+				brui().error("开始工作", msg);
 			}
 		}
 	}
@@ -78,7 +79,7 @@ public class WorkAction {
 	 * @param work
 	 * @param callback
 	 */
-	public void finishWork(Work work, Consumer<Work> callback) {
+	public default void finishWork(Work work, Consumer<Work> callback) {
 		if (brui.confirm("完成工作", "请确认完成工作：" + work + "。")) {
 			List<Result> result = service.finishWork(brui.command(work.get_id(), getDate("选择工作完成时间", "请选择工作完成时间"), ICommand.Finish_Work));
 			if (result.isEmpty()) {
@@ -172,10 +173,10 @@ public class WorkAction {
 		});
 	}
 
-	private Date getDate(String title, String message) {
+	public default Date getInputDate() {
 		Date date = new Date();
-		if (logger.isDebugEnabled()) {
-			DateTimeInputDialog dt = new DateTimeInputDialog(brui.getCurrentShell(), title, message, null);
+		if (logger().isDebugEnabled()) {
+			DateTimeInputDialog dt = new DateTimeInputDialog(brui().getCurrentShell(), "请选择时间", "", null);
 			if (dt.open() == DateTimeInputDialog.OK) {
 				date = dt.getValue();
 			}
