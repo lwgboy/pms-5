@@ -8,7 +8,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 
-public class StartWork {
+public class StartWork implements IWorkAction   {
 
 	@Inject
 	private IBruiService brui;
@@ -17,7 +17,7 @@ public class StartWork {
 	// TODO selected作为参数传入到方法中
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
-			new WorkAction(brui).startWork((Work) elem, work -> {
+			startWork((Work) elem, work -> {
 				GridPart grid = (GridPart) context.getContent();
 				grid.replaceItem(elem, work);
 			});
@@ -25,4 +25,8 @@ public class StartWork {
 		});
 	}
 
+	@Override
+	public IBruiService getBruiService() {
+		return brui;
+	}
 }

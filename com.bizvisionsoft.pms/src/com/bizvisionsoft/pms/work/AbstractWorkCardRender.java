@@ -9,38 +9,32 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 
-import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.pms.project.SwitchProjectPage;
-import com.bizvisionsoft.pms.work.action.WorkAction;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.ICommand;
-import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.pms.work.action.IWorkAction;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
-import com.bizvisionsoft.serviceconsumer.Services;
-import com.mongodb.BasicDBObject;
 
 @Deprecated
-public abstract class AbstractWorkCardRender {
+public abstract class AbstractWorkCardRender implements IWorkAction {
 
 	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
-	private BruiAssemblyContext context;
+	private IBruiContext context;
 
 	protected void init() {
 		br = getBruiService();
 		context = getContext();
 	}
+
+	public abstract IBruiContext getContext();
 
 	protected void uiCreated() {
 		viewer = getViewer();
@@ -72,12 +66,8 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	protected GridTreeViewer getViewer() {
-		return (GridTreeViewer) context.getContent("viewer");
+		return (GridTreeViewer) ((BruiAssemblyContext) context).getContent("viewer");
 	}
-
-	protected abstract BruiAssemblyContext getContext();
-
-	protected abstract IBruiService getBruiService();
 
 	private void openWorkPackage(Work work, String idx) {
 		if ("default".equals(idx)) {
@@ -89,21 +79,21 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	private void assignWork(Work work) {
-		new WorkAction(br).assignWork(work, context, w -> {
+		assignWork(work, context, w -> {
 			viewer.remove(work);
 			br.updateSidebarActionBudget("指派工作");
 		});
 	}
 
 	private void finishWork(Work work) {
-		new WorkAction(br).finishWork(work, w -> {
+		finishWork(work, w -> {
 			viewer.remove(work);
 			br.updateSidebarActionBudget("处理工作");
 		});
 	}
 
 	private void startWork(Work work) {
-		new WorkAction(br).startWork(work, w -> {
+		startWork(work, w -> {
 			viewer.remove(work);
 		});
 

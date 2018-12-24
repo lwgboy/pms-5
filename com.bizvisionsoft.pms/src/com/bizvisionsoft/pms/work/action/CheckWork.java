@@ -8,7 +8,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 
-public class FinishWork implements IWorkAction {
+public class CheckWork implements IWorkAction {
 
 	@Inject
 	private IBruiService brui;
@@ -16,10 +16,9 @@ public class FinishWork implements IWorkAction {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(e -> {
-			finishWork((Work) e, w -> {
+			checkWork((Work) e, context, w -> {
 				GridPart grid = (GridPart) context.getContent();
-				grid.remove(e);
-				brui.updateSidebarActionBudget("处理工作");
+				grid.replaceItem(e, w);
 			});
 		});
 	}

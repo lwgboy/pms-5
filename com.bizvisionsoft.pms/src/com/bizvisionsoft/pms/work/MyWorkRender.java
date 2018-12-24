@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.work;
 
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ViewerCell;
@@ -9,7 +8,6 @@ import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 
-import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -22,17 +20,13 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.pms.work.action.WorkAction;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ICommand;
-import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.pms.work.action.IWorkAction;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.serviceconsumer.Services;
 
 @Deprecated
-public class MyWorkRender extends GridPartDefaultRender {
+public class MyWorkRender extends GridPartDefaultRender implements IWorkAction {
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -77,19 +71,19 @@ public class MyWorkRender extends GridPartDefaultRender {
 	}
 
 	private void assignWork(Work work) {
-		new WorkAction(brui).assignWork(work, context, w -> {
+		assignWork(work, context, w -> {
 			viewer.update(AUtil.simpleCopy(w, work), null);
 		});
 	}
 
 	private void finishWork(Work work) {
-		new WorkAction(brui).finishWork(work, w -> {
+		finishWork(work, w -> {
 			viewer.remove(work);
 		});
 	}
 
 	private void startWork(Work work) {
-		new WorkAction(brui).startWork(work, w -> {
+		startWork(work, w -> {
 			viewer.update(AUtil.simpleCopy(w, work), null);
 		});
 	}
@@ -121,6 +115,11 @@ public class MyWorkRender extends GridPartDefaultRender {
 	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
+	}
+
+	@Override
+	public IBruiService getBruiService() {
+		return brui;
 	}
 
 }

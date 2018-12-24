@@ -164,12 +164,12 @@ public class WorkCardRender extends AbstractWorkCardRender {
 	}
 
 	@Override
-	protected BruiAssemblyContext getContext() {
+	public BruiAssemblyContext getContext() {
 		return context;
 	}
 
 	@Override
-	protected IBruiService getBruiService() {
+	public IBruiService getBruiService() {
 		return brui;
 	}
 

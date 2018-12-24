@@ -23,12 +23,12 @@ public class ProjectWorkCardRender extends WorkCardRender {
 	private String userId;
 
 	@Override
-	protected BruiAssemblyContext getContext() {
+	public BruiAssemblyContext getContext() {
 		return context;
 	}
 
 	@Override
-	protected IBruiService getBruiService() {
+	public IBruiService getBruiService() {
 		return brui;
 	}
 

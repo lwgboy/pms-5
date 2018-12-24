@@ -23,12 +23,12 @@ public class WorkAssignmentCardRender extends AbstractWorkCardRender {
 	private IBruiService brui;
 
 	@Override
-	protected BruiAssemblyContext getContext() {
+	public BruiAssemblyContext getContext() {
 		return context;
 	}
 
 	@Override
-	protected IBruiService getBruiService() {
+	public IBruiService getBruiService() {
 		return brui;
 	}
 

@@ -2,7 +2,6 @@ package com.bizvisionsoft.pms.work;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ViewerCell;
@@ -11,7 +10,6 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -19,23 +17,14 @@ import com.bizvisionsoft.annotations.ui.grid.GridRenderUICreated;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderUpdateCell;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.pms.work.action.WorkAction;
-import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.ICommand;
-import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.pms.work.action.IWorkAction;
 import com.bizvisionsoft.service.model.TrackView;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkBoardInfo;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.serviceconsumer.Services;
-import com.mongodb.BasicDBObject;
 
 /**
  * 将要使用WorkCardRender取代
@@ -44,7 +33,7 @@ import com.mongodb.BasicDBObject;
  *
  */
 @Deprecated
-public class WorkBoardRender {
+public class WorkBoardRender implements IWorkAction {
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -96,13 +85,13 @@ public class WorkBoardRender {
 
 	private void assignWork(WorkBoardInfo workInfo) {
 		Work work = workInfo.getWork();
-		new WorkAction(brui).assignWork(work, context, w -> {
+		assignWork(work, context,w -> {
 			viewer.update(work, null);
 		});
 	}
 
 	private void finishWork(Work work) {
-		new WorkAction(brui).assignWork(work, context, w -> {
+		finishWork(work, w -> {
 			viewer.update(work, null);
 			viewer.remove(work);
 			brui.updateSidebarActionBudget("处理工作");
@@ -110,7 +99,7 @@ public class WorkBoardRender {
 	}
 
 	private void startWork(Work work) {
-		new WorkAction(brui).startWork(work, w -> {
+		startWork(work, w -> {
 			viewer.update(AUtil.simpleCopy(w, work), null);
 		});
 	}
@@ -233,6 +222,11 @@ public class WorkBoardRender {
 		sb.append("</div>");
 
 		cell.setText(sb.toString());
+	}
+
+	@Override
+	public IBruiService getBruiService() {
+		return brui;
 	}
 
 }

@@ -23,12 +23,12 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	private String userId;
 
 	@Override
-	protected BruiAssemblyContext getContext() {
+	public BruiAssemblyContext getContext() {
 		return context;
 	}
 
 	@Override
-	protected IBruiService getBruiService() {
+	public IBruiService getBruiService() {
 		return brui;
 	}
 
@@ -64,7 +64,7 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	protected void showAssigner(CardTheme theme, StringBuffer sb, Work work) {
 		renderUser(sb, work, "÷∏≈…", work.warpperAssignerInfo(), theme.emphasizeText);
 	}
-	
+
 	@Override
 	protected int getRowHeight() {
 		return 247;

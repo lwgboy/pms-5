@@ -15,14 +15,14 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.pms.project.SwitchProjectPage;
-import com.bizvisionsoft.pms.work.action.WorkAction;
+import com.bizvisionsoft.pms.work.action.IWorkAction;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class WorkCardACT {
+public class WorkCardACT implements IWorkAction {
 
 	@Inject
 	private IBruiService br;
@@ -59,7 +59,7 @@ public class WorkCardACT {
 	}
 
 	private void checkWork(final Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		new WorkAction(br).checkWork(work, context, w -> {
+		checkWork(work, context, w -> {
 			List<Document> list = service.listMyExecutingWorkCard(new BasicDBObject("_id", work.get_id()), br.getCurrentUserId(),
 					RWT.getLocale().getLanguage());
 			if (list.size() > 0) {
@@ -70,14 +70,14 @@ public class WorkCardACT {
 	}
 
 	private void startWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		new WorkAction(br).startWork(work, w -> {
+		startWork(work, w -> {
 			((List<?>) viewer.getInput()).remove(doc);
 			viewer.remove(doc);
 		});
 	}
 
 	private void assignWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		new WorkAction(br).assignWork(work, context, w -> {
+		assignWork(work, context, w -> {
 			AUtil.simpleCopy(w, work);
 			((List<?>) viewer.getInput()).remove(doc);
 			viewer.remove(doc);
@@ -86,7 +86,7 @@ public class WorkCardACT {
 	}
 
 	private void finishWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		new WorkAction(br).finishWork(work, w -> {
+		finishWork(work, w -> {
 			((List<?>) viewer.getInput()).remove(doc);
 			viewer.remove(doc);
 			br.updateSidebarActionBudget("处理工作");
@@ -104,6 +104,11 @@ public class WorkCardACT {
 			List<TrackView> wps = work.getWorkPackageSetting();
 			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
 		}
+	}
+
+	@Override
+	public IBruiService getBruiService() {
+		return br;
 	}
 
 }
