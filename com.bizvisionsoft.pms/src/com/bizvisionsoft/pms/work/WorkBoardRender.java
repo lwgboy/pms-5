@@ -22,6 +22,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.pms.work.action.WorkAction;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -95,35 +96,23 @@ public class WorkBoardRender {
 
 	private void assignWork(WorkBoardInfo workInfo) {
 		Work work = workInfo.getWork();
-		Selector.open("指派用户选择器", context, work, l -> {
-			ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
-					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
-
-			work.setChargerId(((User) l.get(0)).getUserId());
+		new WorkAction(brui).assignWork(work, context, w -> {
 			viewer.update(work, null);
 		});
 	}
 
 	private void finishWork(Work work) {
-		if (brui.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已完成");
-				viewer.remove(work);
-				brui.updateSidebarActionBudget("处理工作");
-			}
-		}
+		new WorkAction(brui).assignWork(work, context, w -> {
+			viewer.update(work, null);
+			viewer.remove(work);
+			brui.updateSidebarActionBudget("处理工作");
+		});
 	}
 
 	private void startWork(Work work) {
-		if (brui.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已启动");
-				Work t = Services.get(WorkService.class).getWork(work.get_id());
-				viewer.update(AUtil.simpleCopy(t, work), null);
-			}
-		}
+		new WorkAction(brui).startWork(work, w -> {
+			viewer.update(AUtil.simpleCopy(w, work), null);
+		});
 	}
 
 	@GridRenderUpdateCell

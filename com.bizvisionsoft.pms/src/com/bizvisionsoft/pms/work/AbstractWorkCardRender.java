@@ -14,6 +14,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.pms.project.SwitchProjectPage;
+import com.bizvisionsoft.pms.work.action.WorkAction;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ICommand;
@@ -88,35 +89,24 @@ public abstract class AbstractWorkCardRender {
 	}
 
 	private void assignWork(Work work) {
-		Selector.open("指派用户选择器", context, work, l -> {
-			Services.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
-					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
-
-			work.setChargerId(((User) l.get(0)).getUserId());
+		new WorkAction(br).assignWork(work, context, w -> {
 			viewer.remove(work);
 			br.updateSidebarActionBudget("指派工作");
 		});
 	}
 
 	private void finishWork(Work work) {
-		if (br.confirm("完成工作", "请确认完成工作：" + work + "</span>。<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class).finishWork(br.command(work.get_id(), new Date(), ICommand.Finish_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已完成");
-				viewer.remove(work);
-				br.updateSidebarActionBudget("处理工作");
-			}
-		}
+		new WorkAction(br).finishWork(work, w -> {
+			viewer.remove(work);
+			br.updateSidebarActionBudget("处理工作");
+		});
 	}
 
 	private void startWork(Work work) {
-		if (br.confirm("启动工作", "请确认启动工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class).startWork(br.command(work.get_id(), new Date(), ICommand.Start_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已启动");
-				viewer.remove(work);
-			}
-		}
+		new WorkAction(br).startWork(work, w -> {
+			viewer.remove(work);
+		});
+
 	}
 
 	protected void renderNoticeBudgets(StringBuffer sb, Work work) {
@@ -205,9 +195,10 @@ public abstract class AbstractWorkCardRender {
 	protected void renderTitle(CardTheme theme, StringBuffer sb, Work work, Date date) {
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
-		sb.append("<div class='label_title brui_card_head' style='display:flex;justify-content:space-between;height:64px;background:#" + theme.headBgColor + ";color:#"
-				+ theme.headFgColor + ";padding:8px'>" + "<div style='word-break:break-word;white-space:pre-line;'>" + name
-				+ "</div><div style='font-size:36px;'>"+_date+"</div></div>");
+		sb.append("<div class='label_title brui_card_head' style='display:flex;justify-content:space-between;height:64px;background:#"
+				+ theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>"
+				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div><div style='font-size:36px;'>" + _date
+				+ "</div></div>");
 	}
 
 	protected void renderIconTextLine(StringBuffer sb, String text, String icon, String color) {

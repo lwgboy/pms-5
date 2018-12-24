@@ -39,7 +39,6 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -52,6 +51,14 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 
 public class BasicServiceImpl {
+
+	public static String CHECKIN_SETTING_NAME = "项目计划提交设置";
+
+	public static String START_SETTING_NAME = "项目启动设置";
+
+	public static String CLOSE_SETTING_NAME = "项目关闭设置";
+
+	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME, CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 

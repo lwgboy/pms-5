@@ -19,7 +19,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
  */
 @Strict
 @PersistenceCollection("projectTemplate")
-public class ProjectTemplate{
+public class ProjectTemplate implements IScope{
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ±Í ∂ Ù–‘
@@ -98,6 +98,11 @@ public class ProjectTemplate{
 	
 	public boolean isModule() {
 		return module;
+	}
+
+	@Override
+	public ObjectId getScope_id() {
+		return _id;
 	}
 
 }

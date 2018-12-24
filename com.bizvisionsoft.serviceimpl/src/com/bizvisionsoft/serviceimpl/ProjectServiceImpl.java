@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -120,6 +121,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				}
 			}
 		}
+
+		/////////////////////////////////////////////////////////////////////////////
+		// 项目设置
+		// 添加默认全局项目设置
+		ObjectId scope_id = project.getScope_id();
+		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
+			Document setting = getSystemSetting(name);
+			setting.put("name", name + "@" + scope_id.toString());
+			setting.remove("_id");
+			return setting;
+		}).collect(Collectors.toList());
+		c("setting").insertMany(list);
 
 		return get(project.get_id());
 	}
@@ -302,7 +315,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return memberIds;
 	}
 
-	public static String START_SETTING_NAME = "项目启动设置";
 	/**
 	 * 项目预算
 	 */
@@ -905,6 +917,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("workReportItem").deleteMany(new Document("work_id", new Document("$in", workIds)));
 		c("workReportResourceActual").deleteMany(new Document("work_id", new Document("$in", workIds)));
 
+		// 清除项目设置
+		c("setting").deleteMany(new Document("name", Pattern.compile("@" + _id.toString(), Pattern.CASE_INSENSITIVE)));
+
 		return delete(_id, Project.class);
 	}
 
@@ -1043,7 +1058,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return new ArrayList<>();
 	}
 
-	public static String CLOSE_SETTING_NAME = "项目关闭设置";
 	/**
 	 * 项目成本
 	 */

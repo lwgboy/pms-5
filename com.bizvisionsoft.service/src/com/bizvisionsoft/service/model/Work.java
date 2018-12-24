@@ -725,17 +725,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {
 		this.workPackageSetting = workPackageSetting;
 	}
-	
-	
+
 	@ReadValue
 	@WriteValue
 	@Persistence
 	private List<CheckItem> checklist;
-	
+
 	public List<CheckItem> getChecklist() {
 		return checklist;
 	}
-	
+
 	@Persistence
 	@ReadValue
 	@WriteValue
@@ -1079,7 +1078,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Behavior("完成工作")
 	private boolean behaviourFinish() {
-		return actualStart != null;
+		return actualStart != null
+				&& Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l) == 0;
+	}
+
+	@Behavior("检查工作")
+	public boolean behaviourCheck() {
+		return Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l) > 0;
 	}
 
 	@Behavior({ "打开工作包" })

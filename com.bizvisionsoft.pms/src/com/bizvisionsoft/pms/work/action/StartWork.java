@@ -1,18 +1,12 @@
 package com.bizvisionsoft.pms.work.action;
 
-import java.util.Date;
-
-import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.serviceconsumer.Services;
 
 public class StartWork {
 
@@ -20,18 +14,14 @@ public class StartWork {
 	private IBruiService brui;
 
 	@Execute
+	// TODO selected作为参数传入到方法中
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
+			new WorkAction(brui).startWork((Work) elem, work -> {
+				GridPart grid = (GridPart) context.getContent();
+				grid.replaceItem(elem, work);
+			});
 
-			if (brui.confirm("启动工作", "请确认启动工作" + elem + "。\n系统将记录现在时刻为工作的实际开始时间。")) {
-				if (Services.get(WorkService.class)
-						.startWork(brui.command(((Work) elem).get_id(), new Date(), ICommand.Start_Work)).isEmpty()) {
-					Layer.message("工作已启动");
-					Work t = Services.get(WorkService.class).getWork(((Work) elem).get_id());
-					GridPart grid = (GridPart) context.getContent();
-					grid.replaceItem(elem, t);
-				}
-			}
 		});
 	}
 

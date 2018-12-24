@@ -1,5 +1,8 @@
 package com.bizvisionsoft.pms.work.action;
 
+import java.util.List;
+
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -22,11 +25,7 @@ public class AssignerWorkACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(e -> {
-			Selector.open("指派用户选择器", context, (Work) e, l -> {
-				ServicesLoader.get(WorkService.class)
-						.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) e).get_id()))
-								.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
-
+			new WorkAction(brui).assignWork((Work) e, context, w -> {
 				GridPart view = (GridPart) context.getContent();
 				view.refreshAll();
 			});

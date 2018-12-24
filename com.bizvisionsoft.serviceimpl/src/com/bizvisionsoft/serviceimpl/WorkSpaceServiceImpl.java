@@ -192,7 +192,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		return Result.checkoutSuccess("检出成功。");
 	}
 
-	public static String CHECKIN_SETTING_NAME = "项目计划提交设置";
 	/**
 	 * 一级管理节点负责人
 	 */

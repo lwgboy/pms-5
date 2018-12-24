@@ -22,6 +22,7 @@ import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPartDefaultRender;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.pms.work.action.WorkAction;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Result;
@@ -59,8 +60,7 @@ public class MyWorkRender extends GridPartDefaultRender {
 					}
 				}
 			} else {
-				Check.instanceThen(((GridItem) e.item).getData(), Work.class,
-						el -> viewer.setExpandedElements(new Object[] { el }));
+				Check.instanceThen(((GridItem) e.item).getData(), Work.class, el -> viewer.setExpandedElements(new Object[] { el }));
 			}
 		});
 
@@ -77,38 +77,27 @@ public class MyWorkRender extends GridPartDefaultRender {
 	}
 
 	private void assignWork(Work work) {
-		// TODO Auto-generated method stub
-
+		new WorkAction(brui).assignWork(work, context, w -> {
+			viewer.update(AUtil.simpleCopy(w, work), null);
+		});
 	}
 
 	private void finishWork(Work work) {
-		if (brui.confirm("完成工作", "请确认完成工作：" + work + "<br>系统将记录现在时刻为工作的实际完成时间。")) {
-			List<Result> result = Services.get(WorkService.class)
-					.finishWork(brui.command(work.get_id(), new Date(), ICommand.Finish_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已完成");
-				viewer.remove(work);
-			}
-		}
+		new WorkAction(brui).finishWork(work, w -> {
+			viewer.remove(work);
+		});
 	}
 
 	private void startWork(Work work) {
-		if (brui.confirm("启动工作", "请确认启动工作：" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = Services.get(WorkService.class)
-					.startWork(brui.command(work.get_id(), new Date(), ICommand.Start_Work));
-			if (result.isEmpty()) {
-				Layer.message("工作已启动");
-				Work t = Services.get(WorkService.class).getWork(work.get_id());
-				viewer.update(AUtil.simpleCopy(t, work), null);
-			}
-		}
+		new WorkAction(brui).startWork(work, w -> {
+			viewer.update(AUtil.simpleCopy(w, work), null);
+		});
 	}
 
 	@Override
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
-			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
+			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column, @MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
 			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
 		super.renderCell(cell, column, value, image);
 	}
@@ -129,8 +118,7 @@ public class MyWorkRender extends GridPartDefaultRender {
 
 	@Override
 	@GridRenderCompare
-	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col,
-			@MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
+	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
 	}

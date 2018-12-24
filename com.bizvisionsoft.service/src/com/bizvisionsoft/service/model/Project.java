@@ -44,7 +44,7 @@ import com.mongodb.BasicDBObject;
  */
 @Strict
 @PersistenceCollection("project")
-public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope {
+public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, IScope {
 
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断

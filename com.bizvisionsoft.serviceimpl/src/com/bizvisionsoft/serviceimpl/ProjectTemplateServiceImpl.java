@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -38,7 +40,16 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public ProjectTemplate insertProjectTemplate(ProjectTemplate prjt) {
-		return insert(prjt);
+		ProjectTemplate pt = insert(prjt);
+		// 添加默认全局项目设置
+		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
+			Document setting = getSystemSetting(name);
+			setting.put("name", name + "@" + pt.getScope_id());
+			setting.remove("_id");
+			return setting;
+		}).collect(Collectors.toList());
+		c("setting").insertMany(list);
+		return pt;
 	}
 
 	@Override
@@ -92,14 +103,13 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWorks(ObjectId template_id) {
-		return c(WorkInTemplate.class).find(new BasicDBObject("template_id", template_id))
-				.sort(new BasicDBObject("index", 1)).into(new ArrayList<WorkInTemplate>());
+		return c(WorkInTemplate.class).find(new BasicDBObject("template_id", template_id)).sort(new BasicDBObject("index", 1))
+				.into(new ArrayList<WorkInTemplate>());
 	}
 
 	@Override
 	public List<WorkLinkInTemplate> listLinks(ObjectId template_id) {
-		return c(WorkLinkInTemplate.class).find(new BasicDBObject("template_id", template_id))
-				.into(new ArrayList<WorkLinkInTemplate>());
+		return c(WorkLinkInTemplate.class).find(new BasicDBObject("template_id", template_id)).into(new ArrayList<WorkLinkInTemplate>());
 	}
 
 	@Override
@@ -135,15 +145,15 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public int nextWBSIndex(BasicDBObject condition) {
-		Document doc = c("workInTemplate").find(condition).sort(new BasicDBObject("index", -1))
-				.projection(new BasicDBObject("index", 1)).first();
+		Document doc = c("workInTemplate").find(condition).sort(new BasicDBObject("index", -1)).projection(new BasicDBObject("index", 1))
+				.first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("index", 0)).orElse(0) + 1;
 	}
 
 	@Override
 	public int nextOBSSeq(BasicDBObject condition) {
-		Document doc = c("obsInTemplate").find(condition).sort(new BasicDBObject("seq", -1))
-				.projection(new BasicDBObject("seq", 1)).first();
+		Document doc = c("obsInTemplate").find(condition).sort(new BasicDBObject("seq", -1)).projection(new BasicDBObject("seq", 1))
+				.first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("seq", 0)).orElse(0) + 1;
 	}
 
@@ -190,8 +200,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<WorkInTemplate> listWBSRoot(ObjectId template_id) {
-		List<? extends Bson> pipeline = new JQ("查询-模板工作-WBS根").set("template_id", template_id).set("parent_id", null)
-				.array();
+		List<? extends Bson> pipeline = new JQ("查询-模板工作-WBS根").set("template_id", template_id).set("parent_id", null).array();
 		return c(WorkInTemplate.class).aggregate(pipeline).into(new ArrayList<WorkInTemplate>());
 	}
 
@@ -231,22 +240,19 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public long deleteHumanResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlanInTemplate")
-				.deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
+		DeleteResult dr = c("resourcePlanInTemplate").deleteMany(new Document("work_id", work_id).append("usedHumanResId", resId));
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteEquipmentResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlanInTemplate")
-				.deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
+		DeleteResult dr = c("resourcePlanInTemplate").deleteMany(new Document("work_id", work_id).append("usedEquipResId", resId));
 		return dr.getDeletedCount();
 	}
 
 	@Override
 	public long deleteTypedResourcePlan(ObjectId work_id, String resId) {
-		DeleteResult dr = c("resourcePlanInTemplate")
-				.deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
+		DeleteResult dr = c("resourcePlanInTemplate").deleteMany(new Document("work_id", work_id).append("usedTypedResId", resId));
 		return dr.getDeletedCount();
 	}
 
@@ -264,14 +270,15 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("worklinkInTemplate").deleteMany(new Document("template_id", _id));
 		c("workInTemplate").deleteMany(new Document("template_id", _id));
 		c("obsInTemplate").deleteMany(new Document("scope_id", _id));
+		// 删除设置
+		c("setting").deleteMany(new Document("name", Pattern.compile("@" + _id.toString(), Pattern.CASE_INSENSITIVE)));
 		DeleteResult rs = c("projectTemplate").deleteOne(new Document("_id", _id));
 		return rs.getDeletedCount();
 	}
 
 	@Override
 	public void setEnabled(ObjectId _id, boolean enabled) {
-		c("projectTemplate").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("enabled", enabled)));
+		c("projectTemplate").updateOne(new Document("_id", _id), new Document("$set", new Document("enabled", enabled)));
 	}
 
 	@Override
@@ -279,8 +286,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 清除当前的编辑数据
 		// 1. 获得所有的work
-		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", project_id), ObjectId.class)
-				.into(new ArrayList<>());
+		List<ObjectId> workIds = c("work").distinct("_id", new Document("project_id", project_id), ObjectId.class).into(new ArrayList<>());
 		// 2.清除关联的resourcePlan
 		c("resourcePlan").deleteMany(new Document("work_id", new Document("$in", workIds)));
 		// 3. 清除关联的workPackage
@@ -297,11 +303,13 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("obs").deleteMany(new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
 				new Document("scopeRoot", false).append("scope_id", project_id))));
 		// 10. 清除cbs
-		List<ObjectId> cbsIds = c("cbs").distinct("_id",
-				new Document("$or",
-						Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
-								new Document("scopeRoot", false).append("scope_id", project_id))),
-				ObjectId.class).into(new ArrayList<>());
+		List<ObjectId> cbsIds = c("cbs")
+				.distinct("_id",
+						new Document("$or",
+								Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+										new Document("scopeRoot", false).append("scope_id", project_id))),
+						ObjectId.class)
+				.into(new ArrayList<>());
 		c("cbs").deleteMany(new Document("_id", new Document("$in", cbsIds)));
 		c("cbsPeriod").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
 		c("cbsSubject").deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
@@ -309,6 +317,9 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("folder").deleteMany(new Document("project_id", project_id));
 		// 12. 清楚document
 		// TODO
+
+		// 13.清除项目设置
+		c("setting").deleteMany(new Document("name", Pattern.compile("@" + project_id.toString(), Pattern.CASE_INSENSITIVE)));
 
 		List<Document> tobeInsert = new ArrayList<>();// 保存准备插入数据库的记录
 
@@ -322,15 +333,14 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 创建项目文件夹
 		Map<ObjectId, ObjectId> folderIdMap = new HashMap<ObjectId, ObjectId>();// 准备模板文件夹和文件夹之间的id对应表
-		c("folderInTemplate").find(new Document("template_id", template_id)).sort(new Document("parent_id", 1))
-				.forEach((Document doc) -> {
-					ObjectId folder_id = new ObjectId();
-					folderIdMap.put(doc.getObjectId("_id"), folder_id);
-					doc.append("_id", folder_id).append("project_id", project_id).append("parent_id",
-							folderIdMap.get(doc.getObjectId("parent_id")));
-					doc.remove("template_id");
-					tobeInsert.add(doc);
-				});
+		c("folderInTemplate").find(new Document("template_id", template_id)).sort(new Document("parent_id", 1)).forEach((Document doc) -> {
+			ObjectId folder_id = new ObjectId();
+			folderIdMap.put(doc.getObjectId("_id"), folder_id);
+			doc.append("_id", folder_id).append("project_id", project_id).append("parent_id",
+					folderIdMap.get(doc.getObjectId("parent_id")));
+			doc.remove("template_id");
+			tobeInsert.add(doc);
+		});
 		if (!tobeInsert.isEmpty()) {
 			c("folder").insertMany(tobeInsert);
 			tobeInsert.clear();
@@ -345,8 +355,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		Date startOfProject = project.getDate("planStart");
 		Date startOfTemplate = c("workInTemplate")
 				.aggregate(Arrays.asList(new Document("$match", new Document("template_id", template_id)),
-						new Document("$group",
-								new Document("_id", null).append("planStart", new Document("$min", "$planStart")))))
+						new Document("$group", new Document("_id", null).append("planStart", new Document("$min", "$planStart")))))
 				.first().getDate("planStart");
 		long duration = startOfProject.getTime() - startOfTemplate.getTime();// 求出项目计划开始时间和模板时间之差，用于修改工作的计划开始和完成时间
 
@@ -355,41 +364,39 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 		Map<ObjectId, ObjectId> workIdMap = new HashMap<>();// 准备模板对象和新对象之间的id对应表
 
-		c("workInTemplate").find(new Document("template_id", template_id)).sort(new Document("wbsCode", 1))
-				.forEach((Document doc) -> {
-					ObjectId _id = new ObjectId();
-					workIdMap.put(doc.getObjectId("_id"), _id);// 保存 模板工作_id 对应的 新工作_id
+		c("workInTemplate").find(new Document("template_id", template_id)).sort(new Document("wbsCode", 1)).forEach((Document doc) -> {
+			ObjectId _id = new ObjectId();
+			workIdMap.put(doc.getObjectId("_id"), _id);// 保存 模板工作_id 对应的 新工作_id
 
-					int index = generateCode(Generator.DEFAULT_NAME, "work");
-					String code = String.format("%06d", index);// 生成序号
+			int index = generateCode(Generator.DEFAULT_NAME, "work");
+			String code = String.format("%06d", index);// 生成序号
 
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					doc.append("_id", _id).append("space_id", space_id)
-							.append("stage", parent_id == null && stageEnable).append("project_id", project_id)
-							.append("code", code);
-					if (parent_id != null) {
-						ObjectId newParentId = workIdMap.get(parent_id);
-						doc.put("parent_id", newParentId);
-					} else if (stageEnable) {
-						doc.put("status", ProjectStatus.Created);
-					}
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			doc.append("_id", _id).append("space_id", space_id).append("stage", parent_id == null && stageEnable)
+					.append("project_id", project_id).append("code", code);
+			if (parent_id != null) {
+				ObjectId newParentId = workIdMap.get(parent_id);
+				doc.put("parent_id", newParentId);
+			} else if (stageEnable) {
+				doc.put("status", ProjectStatus.Created);
+			}
 
-					// 更新计划开始、完成时间
-					Calendar planStartCal = Calendar.getInstance();
-					Date planStart = doc.getDate("planStart");
-					planStartCal.setTimeInMillis(planStart.getTime() + duration);
-					doc.append("planStart", planStartCal.getTime());
+			// 更新计划开始、完成时间
+			Calendar planStartCal = Calendar.getInstance();
+			Date planStart = doc.getDate("planStart");
+			planStartCal.setTimeInMillis(planStart.getTime() + duration);
+			doc.append("planStart", planStartCal.getTime());
 
-					Calendar planFinishCal = Calendar.getInstance();
-					Date planFinish = doc.getDate("planFinish");
-					planFinishCal.setTimeInMillis(planFinish.getTime() + duration);
-					doc.append("planFinish", planFinishCal.getTime());
+			Calendar planFinishCal = Calendar.getInstance();
+			Date planFinish = doc.getDate("planFinish");
+			planFinishCal.setTimeInMillis(planFinish.getTime() + duration);
+			doc.append("planFinish", planFinishCal.getTime());
 
-					workCalendars.put(_id, new Calendar[] { planStartCal, planFinishCal });
+			workCalendars.put(_id, new Calendar[] { planStartCal, planFinishCal });
 
-					doc.remove("template_id");
-					tobeInsert.add(doc);
-				});
+			doc.remove("template_id");
+			tobeInsert.add(doc);
+		});
 		if (!tobeInsert.isEmpty()) {
 			c("workspace").insertMany(tobeInsert);
 			tobeInsert.clear();
@@ -398,18 +405,17 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 创建工作对应的工作包
 		Map<ObjectId, ObjectId> workPackageMap = new HashMap<>();
-		c("workPackage").find(new Document("work_id", new Document("$in", workIdMap.keySet())))
-				.forEach((Document d) -> {
-					ObjectId newWorkId = workIdMap.get(d.get("work_id"));
-					ObjectId oldId = d.getObjectId("_id");
-					ObjectId newId = new ObjectId();
-					d.append("work_id", newWorkId)//
-							.append("workClass", "Work")//
-							.append("_id", newId)//
-							.remove("chargerId");
-					tobeInsert.add(d);
-					workPackageMap.put(oldId, newId);
-				});
+		c("workPackage").find(new Document("work_id", new Document("$in", workIdMap.keySet()))).forEach((Document d) -> {
+			ObjectId newWorkId = workIdMap.get(d.get("work_id"));
+			ObjectId oldId = d.getObjectId("_id");
+			ObjectId newId = new ObjectId();
+			d.append("work_id", newWorkId)//
+					.append("workClass", "Work")//
+					.append("_id", newId)//
+					.remove("chargerId");
+			tobeInsert.add(d);
+			workPackageMap.put(oldId, newId);
+		});
 		if (!tobeInsert.isEmpty()) {
 			c("workPackage").insertMany(tobeInsert);
 			tobeInsert.clear();
@@ -420,8 +426,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		// TODO
 		// workPackage_id
 		// folderInTemplate_id
-		c("docuSetting")
-				.find(new Document("workPackage_id", new Document("$in", new ArrayList<>(workPackageMap.keySet()))))
+		c("docuSetting").find(new Document("workPackage_id", new Document("$in", new ArrayList<>(workPackageMap.keySet()))))
 				.forEach((Document d) -> {
 					ObjectId oldWorkPackage_id = d.getObjectId("workPackage_id");
 					ObjectId newWorkPackage_id = workPackageMap.get(oldWorkPackage_id);
@@ -440,27 +445,26 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 创建工作的资源计划
-		c("resourcePlanInTemplate").find(new Document("work_id", new Document("$in", workIdMap.keySet())))
-				.forEach((Document d) -> {
-					ObjectId work_id = d.getObjectId("work_id");
-					ObjectId newWorkId = workIdMap.get(work_id);
-					ObjectId resTypeId = d.getObjectId("resTypeId");
-					d.append("work_id", newWorkId);
-					Calendar[] calendar = workCalendars.get(newWorkId);
+		c("resourcePlanInTemplate").find(new Document("work_id", new Document("$in", workIdMap.keySet()))).forEach((Document d) -> {
+			ObjectId work_id = d.getObjectId("work_id");
+			ObjectId newWorkId = workIdMap.get(work_id);
+			ObjectId resTypeId = d.getObjectId("resTypeId");
+			d.append("work_id", newWorkId);
+			Calendar[] calendar = workCalendars.get(newWorkId);
 
-					double works = getWorkingHoursPerDay(resTypeId);
+			double works = getWorkingHoursPerDay(resTypeId);
 
-					while (calendar[0].getTime().before(calendar[1].getTime())) {
-						if (checkDayIsWorkingDay(calendar[0], resTypeId)) {
-							tobeInsert.add(new Document(d)//
-									.append("id", calendar[0].getTime())//
-									.append("planBasicQty", works)//
-									.append("_id", new ObjectId()));
-						}
-						calendar[0].add(Calendar.DAY_OF_MONTH, 1);
-					}
+			while (calendar[0].getTime().before(calendar[1].getTime())) {
+				if (checkDayIsWorkingDay(calendar[0], resTypeId)) {
+					tobeInsert.add(new Document(d)//
+							.append("id", calendar[0].getTime())//
+							.append("planBasicQty", works)//
+							.append("_id", new ObjectId()));
+				}
+				calendar[0].add(Calendar.DAY_OF_MONTH, 1);
+			}
 
-				});
+		});
 		if (!tobeInsert.isEmpty()) {
 			c("resourcePlan").insertMany(tobeInsert);
 			tobeInsert.clear();
@@ -471,8 +475,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		c("worklinkInTemplate").find(new Document("template_id", template_id)).forEach((Document doc) -> {
 			ObjectId source = workIdMap.get(doc.get("source"));
 			ObjectId target = workIdMap.get(doc.get("target"));
-			doc.append("_id", new ObjectId()).append("project_id", project_id).append("space_id", space_id)
-					.append("source", source).append("target", target).remove("template_id");
+			doc.append("_id", new ObjectId()).append("project_id", project_id).append("space_id", space_id).append("source", source)
+					.append("target", target).remove("template_id");
 			tobeInsert.add(doc);
 		});
 		if (!tobeInsert.isEmpty()) {
@@ -485,25 +489,32 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		// 创建组织结构
 		Map<ObjectId, ObjectId> obsIdMap = new HashMap<>();
 
-		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1))
-				.forEach((Document doc) -> {
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					if (parent_id == null) {
-						obsIdMap.put(doc.getObjectId("_id"), obs_id);
-					} else {
-						ObjectId _id = new ObjectId();
-						obsIdMap.put(doc.getObjectId("_id"), _id);
-						doc.append("_id", _id).append("scope_id", project_id).append("parent_id",
-								obsIdMap.get(parent_id));
-						tobeInsert.add(doc);
-					}
+		c("obsInTemplate").find(new Document("scope_id", template_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id == null) {
+				obsIdMap.put(doc.getObjectId("_id"), obs_id);
+			} else {
+				ObjectId _id = new ObjectId();
+				obsIdMap.put(doc.getObjectId("_id"), _id);
+				doc.append("_id", _id).append("scope_id", project_id).append("parent_id", obsIdMap.get(parent_id));
+				tobeInsert.add(doc);
+			}
 
-				});
+		});
 		if (!tobeInsert.isEmpty()) {
 			c("obs").insertMany(tobeInsert);
 			tobeInsert.clear();
 		}
 		obsIdMap.clear();
+
+		// 添加项目设置
+		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
+			Document setting = getSystemSetting(name + "@" + template_id.toString());
+			setting.put("name", name + "@" + project_id.toString());
+			setting.remove("_id");
+			return setting;
+		}).collect(Collectors.toList());
+		c("setting").insertMany(list);
 	}
 
 	@Override
@@ -572,8 +583,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	public OBSModule insertOBSModule(OBSModule obsModule) {
 		obsModule = insert(obsModule);
 		// 使用组织模板名称和id构建OBSInTemplate的根节点
-		insert(OBSInTemplate.getInstanceTeam(obsModule.get_id(), null, obsModule.getName(), obsModule.getId(),
-				obsModule.getName(), true));// 插入根节点记录
+		insert(OBSInTemplate.getInstanceTeam(obsModule.get_id(), null, obsModule.getName(), obsModule.getId(), obsModule.getName(), true));// 插入根节点记录
 		return obsModule;
 	}
 
@@ -626,20 +636,19 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		ObjectId obs_id = c("project").distinct("obs_id", new Document("_id", project_id), ObjectId.class).first();
 
 		// 创建组织结构
-		c("obsInTemplate").find(new Document("scope_id", obsModule_id)).sort(new Document("_id", 1))
-				.forEach((Document doc) -> {
-					// 建立项目团队上下级关系
-					ObjectId parent_id = doc.getObjectId("parent_id");
-					if (parent_id == null) {
-						idMap.put(doc.getObjectId("_id"), obs_id);
-					} else {
-						ObjectId _id = new ObjectId();
-						idMap.put(doc.getObjectId("_id"), _id);
-						doc.append("_id", _id).append("scope_id", project_id).append("parent_id", idMap.get(parent_id));
-						tobeInsert.add(doc);
-					}
+		c("obsInTemplate").find(new Document("scope_id", obsModule_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
+			// 建立项目团队上下级关系
+			ObjectId parent_id = doc.getObjectId("parent_id");
+			if (parent_id == null) {
+				idMap.put(doc.getObjectId("_id"), obs_id);
+			} else {
+				ObjectId _id = new ObjectId();
+				idMap.put(doc.getObjectId("_id"), _id);
+				doc.append("_id", _id).append("scope_id", project_id).append("parent_id", idMap.get(parent_id));
+				tobeInsert.add(doc);
+			}
 
-				});
+		});
 		// 插入项目团队
 		if (!tobeInsert.isEmpty()) {
 			c("obs").insertMany(tobeInsert);

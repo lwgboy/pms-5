@@ -19,4 +19,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rap.nebula.widgets.grid,
  net.sf.mpxj,
  javax.servlet,
- com.bizvisionsoft.mongocodex
+ com.bizvisionsoft.mongocodex,
+ slf4j.api;bundle-version="1.7.25"
