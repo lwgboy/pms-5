@@ -89,7 +89,7 @@
 1. 去掉服务端配置-Dcom.bizvisionsoft.service.url=http://rs.wisplanner.com:9158/services 
 
 
-54 多语言的支持
+54 多语言的支持 底层支持---------------------------------------OK
 增加配置，客户端，服务端都要配，可以是相同的：-Dcom.bizvisionsoft.service.Lang=${project_loc:/com.wisplanner.std}/lang
 配置方式，JS文件。增加zh.js文件进行测试。
 54.1 支持对site中定义的内容多语言-----------------------------OK
