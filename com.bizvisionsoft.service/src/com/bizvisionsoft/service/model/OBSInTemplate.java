@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.ColorTheme.BruiColor;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obsInTemplate")
@@ -272,6 +273,25 @@ public class OBSInTemplate {
 	@ReadValue
 	@WriteValue
 	private String dir;
+	
+	@ReadValue({ "项目模板组织结构图/css", "OBS模板组织结构图/css" })
+	private String getOrgChartItemCSS() {
+		return "brui_org1";
+	}
+
+	@ReadValue({ "项目模板组织结构图/color", "OBS模板组织结构图/color" })
+	private String getOrgChartItemHeaderColor() {
+		// 如果是PM
+		// 如果是角色
+		// 如果是团队
+		if (roleId.equals("PM")) {
+			return BruiColor.Indigo.toString();
+		}
+		if (isRole)
+			return BruiColor.Cyan.toString();
+
+		return BruiColor.Amber.toString();
+	}
 
 	public OBSInTemplate setRoleId(String roleId) {
 		this.roleId = roleId;
