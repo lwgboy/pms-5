@@ -284,14 +284,12 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		}
 
 		Project project = new ProjectServiceImpl().get(workspace.getProject_id());
-		if (ProjectStatus.Created.equals(project.getStatus())) {
-			return results;
-		}
 
 		Document systemSetting = Optional.ofNullable(getSystemSetting(CHECKIN_SETTING_NAME)).orElse(new Document());
 
 		Object setting;
-		if (checkManageItem) {
+		//增加项目如果不批准，则可随意修改进度计划
+		if (checkManageItem && project.isStageEnable()) {
 			// 获取所有工作设置，默认为：警告
 			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 			// 获取未设置负责人和参与者的节点名称

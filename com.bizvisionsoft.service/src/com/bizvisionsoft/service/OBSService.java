@@ -17,6 +17,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
@@ -41,16 +42,14 @@ public interface OBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目团队/list")
-	public List<OBSItem> getScopeRootOBS(
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	public List<OBSItem> getScopeRootOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@POST
 	@Path("/scope/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织结构图/list", "组织结构图（查看）/list" })
-	public List<OBSItem> getScopeOBS(
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	public List<OBSItem> getScopeOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
 
 	@GET
 	@Path("/{_id}")
@@ -99,6 +98,12 @@ public interface OBSService {
 	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
 	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+	
+	@POST
+	@Path("/member/AllSubOBSItem/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<String> getAllSubOBSItemMember(@PathParam("_id") ObjectId parent_id);
 
 	@GET
 	@Path("/scope/id/{_id}/userId/{userId}")
@@ -106,12 +111,17 @@ public interface OBSService {
 	@Produces("application/json; charset=UTF-8")
 	public List<String> getScopeRoleofUser(@PathParam("_id") ObjectId scope_id, @PathParam("userId") String userId);
 
+	@GET
+	@Path("/scope/id/{_id}/{roleId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<OBSItem>  getScopeRoleofRoleId(@PathParam("_id") ObjectId scope_id, @PathParam("roleId") String roleId);
+
 	@POST
 	@Path("/obsitemwarpper/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, @PathParam("_id") ObjectId scope_id);
-	
 
 	@POST
 	@Path("/obsitemwarpper/{_id}/count")
@@ -135,13 +145,19 @@ public interface OBSService {
 	@Path("/addOBSModule/{module_id}/{parent_id}/{cover}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<OBSItem> addOBSModule(@PathParam("module_id") ObjectId module_id,
-			@PathParam("parent_id") ObjectId parent_id, @PathParam("cover") boolean cover);
+	public List<OBSItem> addOBSModule(@PathParam("module_id") ObjectId module_id, @PathParam("parent_id") ObjectId parent_id,
+			@PathParam("cover") boolean cover);
 
 	@GET
 	@Path("/isRoleNumberDuplicated /{module_id}/{scope_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean isRoleNumberDuplicated(@PathParam("module_id") ObjectId module_id,
-			@PathParam("scope_id") ObjectId scope_id);
+	public boolean isRoleNumberDuplicated(@PathParam("module_id") ObjectId module_id, @PathParam("scope_id") ObjectId scope_id);
+
+	@POST
+	@Path("/deleteProjectMemberCheck/{scope_id}/{obs_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> deleteProjectMemberCheck(List<String> userId, @PathParam("scope_id") ObjectId scope_id,
+			@PathParam("obs_id") ObjectId obs_id);
 }

@@ -786,4 +786,16 @@ public interface WorkService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
+	@POST
+	@Path("/removeUnStartWorkUser/{project_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void removeUnStartWorkUser(List<String> userId, @PathParam("project_id") ObjectId project_id);
+
+	@POST
+	@Path("/removeUnStartWorkUser/{work_id}/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Work assignUserToWorkChager(@PathParam("work_id") ObjectId work_id, @PathParam("userId") String userId);
+
 }

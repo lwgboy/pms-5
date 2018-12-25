@@ -1,7 +1,11 @@
 package com.bizvisionsoft.pms.work.gantt.action;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -12,6 +16,7 @@ import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
 import com.bizvisionsoft.service.model.Project;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -48,10 +53,32 @@ public class SubmitSchedule {
 			else
 				checkManageItem = true;
 
-			CommandHandler.run("提交项目计划", "请确认提交项目" + project + " 的进度计划。", "项目进度计划提交成功。", "项目进度计划提交失败。",
-					() -> Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem),
-					() -> Arrays.asList(Services.get(WorkSpaceService.class).checkin(workspace)),
-					code -> brui.switchContent("项目甘特图", null));
+			if (!MessageDialog.openConfirm(brui.getCurrentShell(), "提交项目计划", "请确认提交项目" + project + " 的进度计划。")) {
+				return;
+			}
+
+			List<Result> results = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, checkManageItem);
+			if (!results.isEmpty()) {
+				StringBuffer sb = new StringBuffer();
+				results.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> {
+					return "<span class='layui-badge'>错误</span> " + r.message + "<br>";
+				}).forEach(sb::append);
+				results.stream().filter(r -> r.type == Result.TYPE_WARNING).map(r -> {
+					return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
+				}).forEach(sb::append);
+				results.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
+					return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
+				}).forEach(sb::append);
+				MessageDialog.openInformation(brui.getCurrentShell(), "提交项目计划", sb.toString());
+			} else {
+				Result result = Services.get(WorkSpaceService.class).checkin(workspace);
+
+				if (Result.CODE_WORK_SUCCESS == result.code) {
+					Layer.message(result.message);
+					brui.switchContent("项目甘特图", null);
+				}
+			}
+
 		}
 	}
 }

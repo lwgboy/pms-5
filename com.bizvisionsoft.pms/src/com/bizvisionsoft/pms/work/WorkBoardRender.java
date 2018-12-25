@@ -86,7 +86,7 @@ public class WorkBoardRender implements IWorkAction {
 	private void assignWork(WorkBoardInfo workInfo) {
 		Work work = workInfo.getWork();
 		assignWork(work, context,w -> {
-			viewer.update(work, null);
+			viewer.update(AUtil.simpleCopy(w, work), null);
 		});
 	}
 

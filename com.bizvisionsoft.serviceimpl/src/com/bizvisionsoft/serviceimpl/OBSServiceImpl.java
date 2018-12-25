@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -15,8 +17,10 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -33,6 +37,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	 */
 	@Override
 	public List<OBSItem> getScopeRootOBS(ObjectId scope_id) {
+		// TODO 如果启用阶段团队，此处获取scopeRoot出现错误。
 		return query(new BasicDBObject("scope_id", scope_id).append("scopeRoot", true));
 	}
 
@@ -112,6 +117,22 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getAllSubOBSItemMember(ObjectId obs_id) {
+		Set<String> result = new HashSet<String>();
+		lookupDesentItems(Arrays.asList(obs_id), "obs", "parent_id", true).forEach((Document d) -> {
+			Object managerId = d.get("managerId");
+			if (managerId != null)
+				result.add((String) managerId);
+
+			Object member = d.get("member");
+			if (member instanceof List)
+				result.addAll((Collection<? extends String>) member);
+		});
+		return new ArrayList<>(result);
+	}
+
 	private ArrayList<String> getMemberUserId(ObjectId obs_id) {
 		ArrayList<String> result = new ArrayList<String>();
 		c("obs").distinct("member", new BasicDBObject("_id", obs_id), String.class).into(result);
@@ -152,6 +173,25 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			result.add("member");
 		}
 		return result;
+	}
+
+	/**
+	 * 根据角色ID获取范围内的角色（包括团队）
+	 */
+	@Override
+	public List<OBSItem> getScopeRoleofRoleId(ObjectId scope_id, String roleId) {
+		return query(new BasicDBObject("scope_id", scope_id).append("roleId", roleId));
+	}
+
+	/**
+	 * 根据角色ID获取范围内的团队
+	 * 
+	 * @param scope_id
+	 * @param roleId
+	 * @return
+	 */
+	public List<OBSItem> getScopeTeamofRoleId(ObjectId scope_id, String roleId) {
+		return query(new BasicDBObject("scope_id", scope_id).append("roleId", roleId).append("isRole", false));
 	}
 
 	@Override
@@ -267,6 +307,79 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 					result.add(doc.getString("roleId"));
 				});
 		return result;
+	}
+
+	/**
+	 * 从项目团队中移除人员检查
+	 */
+	@Override
+	public List<Result> deleteProjectMemberCheck(List<String> userId, ObjectId scope_id, ObjectId obs_id) {
+		List<Result> results = new ArrayList<Result>();
+		// 判断人员是否在都在项目团队中
+		c("obs").find(new Document("scope_id", scope_id).append("_id", new Document("$ne", obs_id)).append("$or", Arrays
+				.asList(new Document("managerId", new Document("$in", userId)), new Document("member", new Document("$in", userId)))));
+		if (userId.size() > 0) {
+			// TODO 没考虑可以建立EPS团队的情况
+			List<OBSItem> rootOBS = getScopeRootOBS(scope_id);
+			if (rootOBS.size() > 0) {
+				ObjectId project_id = rootOBS.get(0).getScope_id();
+				// 检查进行中的工作
+				c("work").find(
+						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
+								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userId)),
+										new Document("assignerId", new Document("$in", userId)))))
+						.forEach((Document d) -> {
+							String userid;
+							userid = d.getString("chargerId");
+							if (!userId.contains(userid))
+								userid = d.getString("assignerId");
+							results.add(Result
+									.error(getUserName(userid) + " 参与的工作：" + Formatter.getString(d.getString("fullName")) + " 需要移交。"));
+
+						});
+				// 检查工作区进行中的工作
+				c("workspace").find(
+						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
+								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userId)),
+										new Document("assignerId", new Document("$in", userId)))))
+						.forEach((Document d) -> {
+							String userid;
+							userid = d.getString("chargerId");
+							if (!userId.contains(userid))
+								userid = d.getString("assignerId");
+							results.add(Result
+									.error(getUserName(userid) + " 参与的工作：" + Formatter.getString(d.getString("fullName")) + " 需要移交。"));
+
+						});
+
+				// 检查未开始的工作
+				c("work").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
+						new Document("chargerId", new Document("$in", userId)), new Document("assignerId", new Document("$in", userId)))))
+						.forEach((Document d) -> {
+							String userid;
+							userid = d.getString("chargerId");
+							if (!userId.contains(userid))
+								userid = d.getString("assignerId");
+							results.add(Result.warning("从项目组中移除:" + getUserName(userid) + " ，将取消他作为工作："
+									+ Formatter.getString(d.getString("fullName")) + "参与者的任命。"));
+
+						});
+
+				// 检查工作区未开始的工作
+				c("workspace").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
+						new Document("chargerId", new Document("$in", userId)), new Document("assignerId", new Document("$in", userId)))))
+						.forEach((Document d) -> {
+							String userid;
+							userid = d.getString("chargerId");
+							if (!userId.contains(userid))
+								userid = d.getString("assignerId");
+							results.add(Result.warning("从项目组中移除:" + getUserName(userid) + " ，将取消工作区中他作为工作："
+									+ Formatter.getString(d.getString("fullName")) + "参与者的任命。"));
+
+						});
+			}
+		}
+		return results;
 	}
 
 }
