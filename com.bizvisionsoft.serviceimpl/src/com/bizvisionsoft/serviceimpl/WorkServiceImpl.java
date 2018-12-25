@@ -18,13 +18,16 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CheckItem;
 import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.DateMark;
 import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Period;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -2382,9 +2385,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid,String lang) {
+	public List<Document> listProjectUnAssignmentWorkCard(BasicDBObject condition, ObjectId project_id, String userid, String lang) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("project_id", project_id))
-				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getAssignerId()), false,lang)).into(new ArrayList<>());
+				.map((Work w) -> WorkRenderer.render(w, Check.equals(userid, w.getAssignerId()), false, lang)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -2394,9 +2397,9 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid,String lang) {
+	public List<Document> listMyUnAssignmentWorkCard(BasicDBObject condition, String userid, String lang) {
 		return iterateUnassignmentWork(condition, new BasicDBObject("chargerId", null).append("assignerId", userid))
-				.map(w->WorkRenderer.render(w,lang)).into(new ArrayList<>());
+				.map(w -> WorkRenderer.render(w, lang)).into(new ArrayList<>());
 	}
 
 	private AggregateIterable<Work> iterateUnassignmentWork(BasicDBObject condition, BasicDBObject basicCondition) {
@@ -2425,4 +2428,61 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		return count(filter, Work.class);
 	}
 
+	/**
+	 * 清除指定用户未开始工作的负责人和参与者
+	 */
+	@Override
+	public void removeUnStartWorkUser(List<String> userId, ObjectId project_id) {
+		// 清除工作负责人
+		c("work").updateMany(
+				new Document("project_id", project_id).append("actualStart", null).append("chargerId", new Document("$in", userId)),
+				new Document("$set", new Document("chargerId", null)));
+
+		// 清除工作指派者
+		c("work").updateMany(
+				new Document("project_id", project_id).append("actualStart", null).append("assignerId", new Document("$in", userId)),
+				new Document("$set", new Document("assignerId", null)));
+
+		// 清除工作区工作负责人
+		c("workspace").updateMany(
+				new Document("project_id", project_id).append("actualStart", null).append("chargerId", new Document("$in", userId)),
+				new Document("$set", new Document("chargerId", null)));
+
+		// 清除工作工作参与者
+		c("workspace").updateMany(
+				new Document("project_id", project_id).append("actualStart", null).append("assignerId", new Document("$in", userId)),
+				new Document("$set", new Document("assignerId", null)));
+	}
+
+	@Override
+	public Work assignUserToWorkChager(ObjectId work_id, String userId) {
+		// 获得当前指派人员的工作
+		Work work = getWork(work_id);
+		ObjectId project_id = work.getProject_id();
+		// 检查当前用户是否在项目团队中（即该用户是否在项目团队中具有角色）
+		OBSServiceImpl obsServiceImpl = new OBSServiceImpl();
+		List<String> scopeRoleofUser = obsServiceImpl.getScopeRoleofUser(project_id, userId);
+		// 如果当前用户不在项目团队中，将其添加到项目团队中
+		if (scopeRoleofUser.size() == 0) {
+			// 获取当前项目的项目参与者团队,如果没有就进行添加，存在就增加成员
+			List<OBSItem> roles = obsServiceImpl.getScopeTeamofRoleId(project_id, OBSItem.ID_PARTICIPATES);
+			if (roles.size() == 0) {
+				ObjectId parent_id = obsServiceImpl.getScopeRootOBS(project_id).get(0).get_id();
+				OBSItem obsItem = new OBSItem().setParent_id(parent_id).setScope_id(project_id).setIsRole(false).generateSeq()
+						.setRoleId(OBSItem.ID_PARTICIPATES)// .setRoleName(OBSItem.NAME_PARTICIPATES)
+						.setName("项目" + OBSItem.NAME_PARTICIPATES);
+				Document doc = obsItem.encodeDocument();
+				doc.put("member", Arrays.asList(userId));
+				doc.remove("_id");
+				c("obs").insertOne(doc);
+			} else {
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", roles.get(0).get_id()))
+						.update(new BasicDBObject("$addToSet", new BasicDBObject("member", userId))).bson();
+				update(fu, OBSItem.class);
+			}
+		}
+		// 修改工作负责人
+		updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work_id)).set(new BasicDBObject("chargerId", userId)).bson());
+		return getWork(work_id);
+	}
 }

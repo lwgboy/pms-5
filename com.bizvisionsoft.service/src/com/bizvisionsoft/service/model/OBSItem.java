@@ -45,6 +45,12 @@ public class OBSItem implements JsonExternalizable {
 	@Exclude
 	public static final String NAME_CHARGER = "负责人";
 
+	@Exclude
+	public static final String ID_PARTICIPATES = "PP";
+
+	@Exclude
+	public static final String NAME_PARTICIPATES = "参与者";
+
 	@Override
 	@Label
 	@ReadValue("项目团队/label")

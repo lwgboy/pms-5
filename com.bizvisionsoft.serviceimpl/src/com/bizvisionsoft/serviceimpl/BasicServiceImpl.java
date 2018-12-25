@@ -353,9 +353,12 @@ public class BasicServiceImpl {
 	 * 
 	 * @param inputIds
 	 *            输入的_id列表
-	 * @param cName，集合名称
-	 * @param key，关键字
-	 * @param includeCurrentLevel，是否包含本级
+	 * @param cName
+	 *            集合名称
+	 * @param key
+	 *            关键字
+	 * @param includeCurrentLevel
+	 *            是否包含本级
 	 * @return
 	 */
 	protected Iterable<Document> lookupDesentItems(List<ObjectId> inputIds, String cName, String key, boolean includeCurrentLevel) {
@@ -929,5 +932,15 @@ public class BasicServiceImpl {
 	 */
 	protected boolean checkUserRoles(String userid, String role) {
 		return checkUserRoles(userid, Arrays.asList(role));
+	}
+
+	/**
+	 * 获取用户名称
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	protected String getUserName(String userId) {
+		return c("user").distinct("name", new Document("userId", userId), String.class).first();
 	}
 }

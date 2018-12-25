@@ -104,11 +104,10 @@ public interface IWorkAction {
 	 */
 	public default void assignWork(Work work, IBruiContext context, Consumer<Work> callback) {
 		Selector.open("指派用户选择器", context, work, l -> {
-			getService().updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work.get_id()))
-					.set(new BasicDBObject("chargerId", ((User) l.get(0)).getUserId())).bson());
+			User user = (User) l.get(0);
+			Work w = getService().assignUserToWorkChager(work.get_id(), user.getUserId());
 			if (callback != null) {
-				work.setChargerId(((User) l.get(0)).getUserId());
-				callback.accept(work);
+				callback.accept(w);
 			}
 		});
 	}
