@@ -57,7 +57,7 @@ public interface IWorkAction {
 	 * @param callback
 	 */
 	public default void startWork(Work work, Consumer<Work> callback) {
-		if (getBruiService().confirm("启动工作", "请确认启动工作" + work + "。\n系统将记录现在时刻为工作的实际开始时间。")) {
+		if (getBruiService().confirm("开始工作", "请确认开始工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
 			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), getInputDate(), ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");

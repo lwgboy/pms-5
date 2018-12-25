@@ -12,11 +12,12 @@ import java.util.Optional;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.ColorTheme.BruiColor;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.bizvisionsoft.serviceimpl.renderer.ColorTheme.BruiColor;
 
 public class ResourceChartRenderer extends BasicServiceImpl {
 

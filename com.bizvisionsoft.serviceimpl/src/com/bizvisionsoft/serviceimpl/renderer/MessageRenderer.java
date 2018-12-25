@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.model.Message;
+import com.bizvisionsoft.service.tools.CardTheme;
+import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class MessageRenderer {
