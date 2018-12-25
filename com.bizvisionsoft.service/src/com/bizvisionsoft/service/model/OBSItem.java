@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.ColorTheme.BruiColor;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("obs")
@@ -336,6 +337,25 @@ public class OBSItem implements JsonExternalizable {
 			}
 		}
 		return "";
+	}
+
+	@ReadValue({ "组织结构图/css", "组织结构图（查看）/css" })
+	private String getOrgChartItemCSS() {
+		return "brui_org1";
+	}
+
+	@ReadValue({ "组织结构图/color", "组织结构图（查看）/color" })
+	private String getOrgChartItemHeaderColor() {
+		// 如果是PM
+		// 如果是角色
+		// 如果是团队
+		if (roleId.equals(ID_PM)) {
+			return BruiColor.Indigo.toString();
+		}
+		if (isRole)
+			return BruiColor.Cyan.toString();
+
+		return BruiColor.Amber.toString();
 	}
 
 	public OBSItem setRoleId(String roleId) {

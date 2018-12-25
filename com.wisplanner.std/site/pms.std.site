@@ -8687,7 +8687,7 @@
           {
             "id": "1630572e84f",
             "name": "д╛хо",
-            "minimalDeviceWidth": 1601,
+            "minimalDeviceWidth": 0,
             "columnCount": 3,
             "horizontalSpacing": 16,
             "verticalSpacing": 16,
@@ -25006,16 +25006,6 @@
             "css": "brui_bg_new_york",
             "itemCss": "brui_card",
             "assemblys": [
-              {
-                "id": "1645e3ca2fa",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 4,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": 280
-              },
               {
                 "id": "1645e3d1f82",
                 "horizontalAlignment": 4,

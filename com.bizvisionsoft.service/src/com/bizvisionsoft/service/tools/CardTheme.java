@@ -1,4 +1,4 @@
-package com.bizvisionsoft.serviceimpl.renderer;
+package com.bizvisionsoft.service.tools;
 
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -31,12 +31,12 @@ public class CardTheme {
 
 	public static final String[] TEXT_LINE = { "616161", "9e9e9e" };
 
-	String headBgColor;
-	String headFgColor;
-	String contrastBgColor;
-	String contrastFgColor;
-	String lightText = "9e9e9e";
-	String emphasizeText = "616161";
+	public String headBgColor;
+	public String headFgColor;
+	public String contrastBgColor;
+	public String contrastFgColor;
+	public String lightText = "9e9e9e";
+	public String emphasizeText = "616161";
 
 	public CardTheme(Project pj) {
 		String status = pj.getStatus();
