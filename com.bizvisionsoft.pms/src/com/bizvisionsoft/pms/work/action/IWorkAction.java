@@ -14,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.datetime.DateTimeSetting;
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.BannerFieldFactory;
@@ -58,7 +59,10 @@ public interface IWorkAction {
 	 */
 	public default void startWork(Work work, Consumer<Work> callback) {
 		if (getBruiService().confirm("开始工作", "请确认开始工作" + work + "。<br>系统将记录现在时刻为工作的实际开始时间。")) {
-			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), getInputDate(), ICommand.Start_Work));
+			Date date = getInputDate();
+			if (date == null)
+				return;
+			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), date, ICommand.Start_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				if (callback != null) {
@@ -81,7 +85,10 @@ public interface IWorkAction {
 	 */
 	public default void finishWork(Work work, Consumer<Boolean> callback) {
 		if (getBruiService().confirm("完成工作", "请确认完成工作：" + work + "。")) {
-			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), getInputDate(), ICommand.Finish_Work));
+			Date date = getInputDate();
+			if (date == null)
+				return;
+			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), date, ICommand.Finish_Work));
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				if (callback != null) {
@@ -174,10 +181,12 @@ public interface IWorkAction {
 	public default Date getInputDate() {
 		Date date = new Date();
 		if (logger().isDebugEnabled()) {
-			DateTimeInputDialog dt = new DateTimeInputDialog(getBruiService().getCurrentShell(), "请选择时间", "", null);
+			DateTimeInputDialog dt = new DateTimeInputDialog(getBruiService().getCurrentShell(), "请选择时间", "", null)
+					.setDateSetting(DateTimeSetting.dateTime());
 			if (dt.open() == DateTimeInputDialog.OK) {
 				date = dt.getValue();
-			}
+			} else
+				return null;
 		}
 		return date;
 	}
