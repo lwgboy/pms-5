@@ -51,7 +51,7 @@ public class SetWorkPackage {
 					if (work.getWorkPackageSetting() != null)
 						oldSetting.addAll(work.getWorkPackageSetting());
 					Editor.create(editor, context, work, true).setTitle(t.toString()).ok((r, wi) -> {
-						if (check(oldSetting, wi.getWorkPackageSetting(), work.get_id())) {
+						if (checkAndRemoveWorkPackage(oldSetting, wi.getWorkPackageSetting(), work.get_id())) {
 							Services.get(WorkService.class)
 									.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) t).get_id())).set(r).bson());
 
@@ -68,7 +68,7 @@ public class SetWorkPackage {
 
 	}
 
-	private boolean check(List<TrackView> oldSetting, List<TrackView> newSetting, ObjectId work_id) {
+	private boolean checkAndRemoveWorkPackage(List<TrackView> oldSetting, List<TrackView> newSetting, ObjectId work_id) {
 		String message = "";
 		WorkService service = Services.get(WorkService.class);
 		List<UpdateWorkPackages> uwps = new ArrayList<UpdateWorkPackages>();
