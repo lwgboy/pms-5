@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.RiskEffect;
@@ -288,7 +289,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		Document systemSetting = Optional.ofNullable(getSystemSetting(CHECKIN_SETTING_NAME)).orElse(new Document());
 
 		Object setting;
-		//增加项目如果不批准，则可随意修改进度计划
+		// 增加项目如果不批准，则可随意修改进度计划
 		if (checkManageItem && project.isStageEnable()) {
 			// 获取所有工作设置，默认为：警告
 			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL)).orElse(CHECKIN_SETTING_VALUE_WARNING);
@@ -398,7 +399,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 		}
 
-		//获取工作最早计划开始时间和最晚计划完成时间
+		// 获取工作最早计划开始时间和最晚计划完成时间
 		Document doc = c("workspace").aggregate(Arrays.asList(new Document("$match", new Document("space_id", workspace.getSpace_id())),
 				new Document("$group", new Document("_id", null).append("finish", new Document("$max", "$planFinish")).append("start",
 						new Document("$min", "$planStart")))))
@@ -413,7 +414,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			planFinish = project.getPlanFinish();
 			planStart = project.getPlanStart();
 		}
-		//获取早于项目计划开始的设置，默认为禁止
+		// 获取早于项目计划开始的设置，默认为禁止
 		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
 			if (workspace.getWork_id() != null) {
@@ -428,7 +429,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planStart.after(doc.getDate("start"))) {
 			results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
 		}
-		//获取晚于项目计划完成的设置，默认为禁止
+		// 获取晚于项目计划完成的设置，默认为禁止
 		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
 		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
 			if (workspace.getWork_id() != null) {
@@ -499,8 +500,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			}
 			// 删除风险
 			c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
-			// 删除资源计划
-			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", workIds)));
 			// 根据删除集合删除Work
 			c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
 			// 根据删除集合删除资源计划
@@ -509,9 +508,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		// 根据插入集合插入Work
 		if (!insertIds.isEmpty()) {
-			ArrayList<Document> insertDoc = c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", insertIds)))
-					.into(new ArrayList<Document>());
+			ArrayList<Document> insertDoc = new ArrayList<>();
+			ArrayList<ObjectId> parentIds = new ArrayList<>();
+			c("workspace").find(new BasicDBObject("_id", new BasicDBObject("$in", insertIds))).forEach((Document d) -> {
+				insertDoc.add(d);
+				parentIds.add(d.getObjectId("parent_id"));
+			});
 			c("work").insertMany(insertDoc);
+			// 删除关联新增work的parent的风险
+			c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			// 删除关联新增work的parent的资源计划
+			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
 		}
 
 		Project project = c(Project.class).find(new Document("_id", project_id)).first();
@@ -583,6 +590,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		List<ObjectId> deleteResourcePlanId = new ArrayList<ObjectId>();
 		Set<ObjectId> updateWorksId = new HashSet<ObjectId>();
 
+		// 删除计划时间外的资源计划
 		List<? extends Bson> pipeline = Arrays.asList(new Document("$match", new Document("work_id", new Document("$in", updateIds))),
 				new Document("$lookup",
 						new Document("from", "workspace")
@@ -623,7 +631,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		// TODO 进度计划提交的提示，更新。
 		if (Result.CODE_WORK_SUCCESS == cleanWorkspace(Arrays.asList(workspace.getSpace_id())).code) {
-
 			if (Arrays.asList(ProjectStatus.Closing, ProjectStatus.Processing).contains(projectStatus)) {
 				List<ObjectId> workids = new ArrayList<ObjectId>();
 				if (project.isStageEnable()) {

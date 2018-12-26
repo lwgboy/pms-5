@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -675,6 +676,12 @@ public interface WorkService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<WorkPackage> updateDevelopmentWorkPackage(UpdateWorkPackages updateWorkPackages);
+
+	@POST
+	@Path("removeWorkPackage")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void removeWorkPackage(List<UpdateWorkPackages> uwps);
 
 	@PUT
 	@Path("/packageinfo/")
