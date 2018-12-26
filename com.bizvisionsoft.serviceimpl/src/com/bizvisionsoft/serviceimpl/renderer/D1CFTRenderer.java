@@ -14,7 +14,6 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public class D1CFTRenderer {
 
-	private String lang;
 
 	public static Document render(Document doc, String lang) {
 		CardTheme theme = new CardTheme(CardTheme.CYAN);
@@ -59,6 +58,10 @@ public class D1CFTRenderer {
 		rowHeight += 20 + 8;
 		sb.append(RenderTools.getIconTextLine(null, email, RenderTools.IMG_URL_EMAIL, CardTheme.TEXT_LINE));
 		rowHeight += 20 + 8;
+		
+		sb.append("<div  style='position:absolute;right:16px;bottom:16px;'>"
+				+ "<a href='delete' target='_rwt' class='layui-icon layui-icon-close'></a>" + "</div>");
+		
 		RenderTools.renderCardBoard(sb, rowHeight);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
