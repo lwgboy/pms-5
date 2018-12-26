@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.tools;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -102,6 +103,14 @@ public class Check {
 		return !isNotAssigned(s);
 	}
 
+	public static boolean isNotAssigned(Map<?, ?> s) {
+		return s == null || s.isEmpty();
+	}
+
+	public static <T> boolean isAssigned(Map<?, ?> s) {
+		return !isNotAssigned(s);
+	}
+
 	public static <T> boolean isNotAssigned(T[] s) {
 		return s == null || s.length == 0;
 	}
@@ -134,7 +143,21 @@ public class Check {
 		}
 	}
 
+	public static boolean isAssigned(Map<?, ?> s, Consumer<Map<?, ?>> then) {
+		if (!isNotAssigned(s)) {
+			if (then != null)
+				then.accept(s);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static <T, E> Optional<T> isAssignedThen(List<E> s, Function<List<E>, T> then) {
+		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
+	}
+
+	public static <T> Optional<T> isAssignedThen(Map<?, ?> s, Function<Map<?, ?>, T> then) {
 		return Optional.ofNullable(!isNotAssigned(s) && then != null ? then.apply(s) : null);
 	}
 

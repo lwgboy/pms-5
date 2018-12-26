@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812261419",
+  "timestamp": "201812261546",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -36808,13 +36808,14 @@
       },
       {
         "id": "167e90abe38",
-        "name": "问题列表",
+        "name": "问题清单",
         "layout": [],
         "type": "grid",
         "stickerTitle": "问题清单",
         "folderId": "167e83f2862",
         "gridLineVisiable": true,
         "gridHeaderVisiable": true,
+        "gridHasHScroll": true,
         "gridHasVScroll": true,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
@@ -36824,9 +36825,10 @@
             "name": "id",
             "text": "问题编号",
             "alignment": 16384,
-            "width": 80,
+            "width": 100,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": true
           },
           {
             "id": "167e9230594",
@@ -36842,9 +36844,10 @@
             "name": "name",
             "text": "问题简述",
             "alignment": 16384,
-            "width": 120,
+            "width": 160,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": false
           },
           {
             "id": "167e916039f",
@@ -36853,7 +36856,8 @@
             "alignment": 16384,
             "width": 120,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": true
           },
           {
             "id": "167e912d899",
@@ -36862,32 +36866,35 @@
             "alignment": 16384,
             "width": 80,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": false
           },
           {
             "id": "167e912d950",
             "name": "custInfo",
             "text": "客户名称",
             "alignment": 16384,
-            "width": 120,
+            "width": 160,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": false
           },
           {
             "id": "167e912da06",
             "name": "matId",
             "text": "涉及物料",
             "alignment": 16384,
-            "width": 80,
+            "width": 160,
             "resizeable": true,
-            "columns": []
+            "columns": [],
+            "enableColumnSort": false
           },
           {
             "id": "167e9146303",
             "name": "matLot",
             "text": "批次",
             "alignment": 16384,
-            "width": 80,
+            "width": 160,
             "resizeable": true,
             "columns": []
           },
@@ -36896,7 +36903,7 @@
             "name": "procInfo",
             "text": "制程",
             "alignment": 16384,
-            "width": 80,
+            "width": 160,
             "resizeable": true,
             "columns": []
           },
@@ -36997,8 +37004,126 @@
             ]
           }
         ],
-        "fields": [],
-        "actions": [],
+        "fields": [
+          {
+            "id": "167e978a1ab",
+            "name": "新字段10",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e9737f03",
+                "name": "id",
+                "text": "问题编号",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              },
+              {
+                "id": "167e9737fa3",
+                "name": "name",
+                "text": "问题简述",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e978db86",
+            "name": "新字段12",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e973811c",
+                "name": "custId",
+                "text": "客户编号",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              },
+              {
+                "id": "167e973819c",
+                "name": "custInfo",
+                "text": "客户名称",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e978f7e7",
+            "name": "新字段13",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e9738246",
+                "name": "matId",
+                "text": "涉及物料",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              },
+              {
+                "id": "167e97382de",
+                "name": "matLot",
+                "text": "批次",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e978bcbe",
+            "name": "新字段11",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e9756b3f",
+                "name": "procInfo",
+                "text": "制程",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              },
+              {
+                "id": "167e9738062",
+                "name": "deptName",
+                "text": "责任部门",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e97934da",
+            "name": "新字段14",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e975fb5d",
+                "name": "creationInfo.date",
+                "text": "创建时间",
+                "type": "日期时间范围（查询）",
+                "formFields": [],
+                "dateType": "datetime"
+              },
+              {
+                "id": "167e9795766",
+                "name": "creationInfo.userName",
+                "text": "创建人",
+                "type": "文本输入框（查询）",
+                "formFields": []
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "id": "167e972967c",
+            "name": "创建问题",
+            "image": "/img/add_16_w.svg",
+            "style": "normal",
+            "editorAssemblyId": "167e83f4f56",
+            "type": "insert",
+            "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+            "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Problem"
+          }
+        ],
         "rowActions": [],
         "hasTitlebar": true,
         "sortFields": []
