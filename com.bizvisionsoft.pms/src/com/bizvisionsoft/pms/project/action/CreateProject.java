@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.project.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -21,10 +20,9 @@ public class CreateProject {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context).setInput(new Project()
-				.setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(bruiService.operationInfo()))
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
+				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(bruiService.operationInfo()))
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj);
 					if (pj != null) {

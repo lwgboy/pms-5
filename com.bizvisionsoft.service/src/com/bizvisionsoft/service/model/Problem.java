@@ -21,6 +21,18 @@ public class Problem {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "问题";
+	
+	@Exclude
+	public static final String StatusCreated = "已创建";
+
+	@Exclude
+	public static final String StatusAccepted = "已接收";
+
+	@Exclude
+	public static final String StatusSolving = "解决中";
+	
+	@Exclude
+	public static final String StatusClosed = "已关闭";
 
 	@ReadValue
 	@WriteValue
@@ -35,6 +47,11 @@ public class Problem {
 	private String id;
 
 	private OperationInfo creationInfo;
+	
+	public Problem setCreationInfo(OperationInfo creationInfo) {
+		this.creationInfo = creationInfo;
+		return this;
+	}
 
 	@ReadValue("createOn")
 	private Date readCreateOn() {
@@ -180,5 +197,16 @@ public class Problem {
 	public String toString() {
 		return name + " [" + id + "]";
 	}
+	
+	@ReadValue
+	@WriteValue	
+	private String status;
+
+	public Problem setStatus(String status) {
+		this.status = status;
+		return this;
+	}
+	
+	
 	
 }

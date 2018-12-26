@@ -369,6 +369,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("setting", new Document("name", 1), "name");
 		createIndex("clientSetting", new Document("userId", 1).append("clientId", 1).append("name", 1), "userClientName");
 
+		createIndex("problem",new Document("id",-1),"id");
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
