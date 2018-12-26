@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.OrganizationService;
@@ -15,6 +17,10 @@ import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("problem")
 public class Problem {
+	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	private String typeName = "Œ Ã‚";
 
 	@ReadValue
 	@WriteValue
@@ -27,10 +33,6 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private String id;
-
-	@ReadValue
-	@WriteValue
-	private String description;
 
 	private OperationInfo creationInfo;
 
@@ -122,7 +124,7 @@ public class Problem {
 	
 	@ReadValue
 	@WriteValue
-	private List<RemoteFile> primaryDocuments;
+	private List<RemoteFile> primaryDocs;
 	
 	@ReadValue
 	@WriteValue
@@ -130,20 +132,23 @@ public class Problem {
 	
 	@ReadValue
 	@WriteValue
-	private String customerId;
+	private String custId;
 
 	@ReadValue
 	@WriteValue
-	private String customerInfo;
+	private String custInfo;
 	
 	@ReadValue
 	@WriteValue
-	private String productId;
+	private String matId;
 
 	@ReadValue
 	@WriteValue
-	private String productInfo;
+	private String matLot;
 
+	@ReadValue
+	@WriteValue
+	private String procInfo;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
@@ -169,6 +174,11 @@ public class Problem {
 	@ReadValue
 	@WriteValue	
 	private String remark;
-
+	
+	@Override
+	@Label
+	public String toString() {
+		return name + " [" + id + "]";
+	}
 	
 }
