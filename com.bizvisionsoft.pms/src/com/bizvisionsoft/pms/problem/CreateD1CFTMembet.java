@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.problem;
 
 import org.bson.Document;
+import org.eclipse.rap.rwt.RWT;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -21,7 +22,7 @@ public class CreateD1CFTMembet {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D1-CTF³ÉÔ±", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			t = Services.get(ProblemService.class).insertD1(t);
+			t = Services.get(ProblemService.class).insertD1(t, RWT.getLocale().getLanguage());
 		});
 
 	}

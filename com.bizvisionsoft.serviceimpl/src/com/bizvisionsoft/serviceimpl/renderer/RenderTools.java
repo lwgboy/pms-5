@@ -16,21 +16,27 @@ public class RenderTools {
 
 	public static final String IMG_URL_TASK = "rwt-resources/extres/img/task_c.svg";
 
+	public static final String IMG_URL_TEL = "rwt-resources/extres/img/tel_c.svg";
+	
+	public static final String IMG_URL_EMAIL = "rwt-resources/extres/img/email_c.svg";
+
 	public static String getIconTextLine(String label, String text, String iconURL, String[] color) {
+		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 				+ "<img src='" + iconURL + "' width='20' height='20'>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color[0] + "'>" + label + "£º</span>" //
+				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
 				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
 				+ "</div>"//
 				+ "</div>";
 	}
 
 	public static String getTextLine(String label, String text, String[] color) {
+		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 				+ "<div style='width:20px;height:20px'></div>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color[0] + "'>" + label + "£º</span>" //
+				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
 				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
 				+ "</div>"//
 				+ "</div>";

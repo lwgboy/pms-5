@@ -11,6 +11,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.bizvisionsoft.serviceimpl.renderer.D1CFTRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -79,9 +80,34 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return update(filterAndUpdate, Problem.class);
 	}
 
+	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject f = new BasicDBObject();
+		Check.isAssigned(filter, s -> f.putAll(s));
+		f.append("problem_id", problem_id);
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+		List<Bson> pipeline = new ArrayList<>();
+		pipeline.add(Aggregates.match(f));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		return pipeline;
+	}
+
 	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id) {
-		return null;
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
+		List<Bson> pipeline = createDxPipeline(condition, problem_id);
+		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> D1CFTRenderer.render(d, lang)).into(new ArrayList<>());
+		return result;
 	}
 
 	@Override
@@ -90,7 +116,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD1(Document d1) {
+	public Document insertD1(Document d1, String lang) {
 		Document user = (Document) d1.get("userId_meta");
 
 		ObjectId org_id = user.getObjectId("org_id");
@@ -121,8 +147,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id) {
-		return listD1(condition, problem_id);
+	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang) {
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -132,9 +158,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -144,9 +170,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD4(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD4(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -156,9 +182,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD5(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD5(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -168,9 +194,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD6(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD6(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -180,9 +206,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
@@ -192,9 +218,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id) {
+	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id);
+		return listD1(condition, problem_id, lang);
 	}
 
 	@Override
