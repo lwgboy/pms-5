@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812252205",
+  "timestamp": "201812261120",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -623,6 +623,17 @@
         "children": [],
         "name": "报告管理",
         "id": "16685841b75"
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "name": "问题",
+            "id": "167e83f2862"
+          }
+        ],
+        "name": "问题管理",
+        "id": "167e66a6b99"
       }
     ],
     "name": "站点",
@@ -1138,6 +1149,41 @@
             "type": "customized",
             "role": "财务管理#项目总监",
             "verticalSpan": 0
+          },
+          {
+            "id": "167e69411e7",
+            "name": "问题管理",
+            "children": [
+              {
+                "id": "167e6948f17",
+                "name": "创建问题",
+                "editorAssemblyId": "167e83f4f56",
+                "type": "insert",
+                "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+                "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Problem"
+              },
+              {
+                "id": "167e69852ec",
+                "name": "已创建的问题",
+                "type": "customized"
+              },
+              {
+                "id": "167e697b2e2",
+                "name": "已接收的问题",
+                "type": "customized"
+              },
+              {
+                "id": "167e695543b",
+                "name": "解决中的问题",
+                "type": "customized"
+              },
+              {
+                "id": "167e69645f0",
+                "name": "已关闭的问题",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
           },
           {
             "id": "161989cbe38",
@@ -1773,27 +1819,6 @@
             "type": "customized",
             "role": "",
             "verticalSpan": 0
-          },
-          {
-            "id": "167e5ae4919",
-            "name": "项目变更管理",
-            "text": "项目变更管理",
-            "children": [
-              {
-                "id": "167e5ae4e9e",
-                "name": "项目基线",
-                "switchContentToAssemblyId": "1643f851f42",
-                "type": "switch",
-                "role": "PM#PA#PPM"
-              },
-              {
-                "id": "167e5ae52bd",
-                "name": "项目变更",
-                "switchContentToAssemblyId": "16441e4dd33",
-                "type": "switch"
-              }
-            ],
-            "type": "customized"
           },
           {
             "id": "162fffc1a86",
@@ -7853,7 +7878,7 @@
             "name": "移除成员",
             "image": "/img/minus_16_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.obs.action.RemoveOBSMember",
+            "className": "com.bizvisionsoft.pms.org.action.RemoveMember",
             "style": "warning",
             "type": "customized",
             "verticalSpan": 0
@@ -7861,8 +7886,7 @@
         ],
         "hasTitlebar": true,
         "displayInputLabelInTitlebar": true,
-        "disableInitLoadData": false,
-        "sortFields": []
+        "disableInitLoadData": false
       },
       {
         "id": "162dd6cb668",
@@ -8119,12 +8143,12 @@
             "name": "删除",
             "text": "删除",
             "image": "/img/minus_w.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.obs.action.DeleteOBSItem",
+            "bundleId": "",
+            "className": "",
             "forceText": true,
             "style": "warning",
             "objectBehavier": true,
-            "type": "customized",
+            "type": "delete",
             "verticalSpan": 0
           }
         ],
@@ -36686,6 +36710,97 @@
           }
         ],
         "disableInitLoadData": false
+      },
+      {
+        "id": "167e83f4f56",
+        "name": "问题编辑器（创建）",
+        "title": "创建问题",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167e83f2862",
+        "fields": [
+          {
+            "id": "167e83f9d17",
+            "name": "name",
+            "text": "问题简述",
+            "type": "单行文本框",
+            "formFields": [],
+            "tooltips": "简要说明以便团队阅读，有关问题的详细描述可后续补充。",
+            "required": true,
+            "textLimit": 18
+          },
+          {
+            "id": "167e84540b3",
+            "name": "新字段8",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e83f9dca",
+                "name": "custId",
+                "text": "客户编号",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "167e83f9e76",
+                "name": "custInfo",
+                "text": "客户名称",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              }
+            ]
+          },
+          {
+            "id": "167e8454290",
+            "name": "新字段9",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e83f9f19",
+                "name": "matId",
+                "text": "涉及物料号",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "167e83f9fbf",
+                "name": "matLot",
+                "text": "批次",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "167e85d62c3",
+                "name": "procInfo",
+                "text": "制程",
+                "type": "单行文本框",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e845b11f",
+            "name": "dept",
+            "text": "责任部门",
+            "type": "对象选择框",
+            "formFields": [],
+            "required": true,
+            "selectorAssemblyId": "1621d403c8b"
+          },
+          {
+            "id": "167e85fd36b",
+            "name": "primaryDocs",
+            "text": "有关资料",
+            "type": "多个文件选择框",
+            "formFields": [],
+            "tooltips": "提出该问题的一手资料，例如邮件、照片等电子文档",
+            "fileNamespace": "probPriFiles"
+          }
+        ],
+        "smallEditor": false,
+        "tinyEditor": false
       }
     ]
   },
