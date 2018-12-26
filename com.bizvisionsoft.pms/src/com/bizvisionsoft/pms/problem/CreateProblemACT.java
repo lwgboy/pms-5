@@ -20,8 +20,8 @@ public class CreateProblemACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context)
-				.setInput(new Problem().setStatus(Problem.StatusCreated).setCreationInfo(br.operationInfo())).ok((r, t) -> {
-					t = Services.get(ProblemService.class).insert(t);
+				.setInput(new Problem().setCreationInfo(br.operationInfo())).ok((r, t) -> {
+					t = Services.get(ProblemService.class).insertProblem(t);
 					if (t != null) {
 						if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题", "问题创建成功，是否进入问题页面？")) {
 							// TODO

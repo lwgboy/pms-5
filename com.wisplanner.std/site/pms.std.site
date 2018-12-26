@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812261643",
+  "timestamp": "201812261744",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -37138,10 +37138,141 @@
             "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Problem"
           }
         ],
-        "rowActions": [],
+        "rowActions": [
+          {
+            "id": "167e9ddfc5b",
+            "name": "删除",
+            "image": "/img/minus_16_w.svg",
+            "style": "warning",
+            "type": "delete"
+          },
+          {
+            "id": "167e9e13fc3",
+            "name": "编辑",
+            "image": "/img/edit_w.svg",
+            "style": "normal",
+            "editorAssemblyId": "167e9e1bb45",
+            "editorAssemblyEditable": true,
+            "type": "edit"
+          },
+          {
+            "id": "167e9e6c197",
+            "name": "打开",
+            "image": "/img/right_w.svg",
+            "style": "info",
+            "type": "switch"
+          }
+        ],
         "hasTitlebar": true,
         "sortFields": [],
         "stickerTitleScript": "\"问题 - \"+context_passed_parameter.status"
+      },
+      {
+        "id": "167e9e1bb45",
+        "name": "问题编辑器（编辑）",
+        "title": "编辑问题",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167e83f2862",
+        "fields": [
+          {
+            "id": "167e9e234d0",
+            "name": "新字段2",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e9e203f2",
+                "name": "id",
+                "text": "问题编号",
+                "type": "单行文本框",
+                "formFields": [],
+                "readOnly": true
+              },
+              {
+                "id": "167e83f9d17",
+                "name": "name",
+                "text": "问题简述",
+                "type": "单行文本框",
+                "formFields": [],
+                "tooltips": "简要说明以便团队阅读，有关问题的详细描述可后续补充。",
+                "required": true,
+                "textLimit": 18
+              }
+            ]
+          },
+          {
+            "id": "167e84540b3",
+            "name": "新字段8",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e83f9dca",
+                "name": "custId",
+                "text": "客户编号",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "167e83f9e76",
+                "name": "custInfo",
+                "text": "客户名称",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              }
+            ]
+          },
+          {
+            "id": "167e8454290",
+            "name": "新字段9",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167e83f9f19",
+                "name": "matId",
+                "text": "涉及物料",
+                "type": "单行文本框",
+                "formFields": [],
+                "tooltips": "简要初步描述问题涉及的物料，以便后续过程详细分析"
+              },
+              {
+                "id": "167e83f9fbf",
+                "name": "matLot",
+                "text": "批次",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "167e85d62c3",
+                "name": "procInfo",
+                "text": "制程",
+                "type": "单行文本框",
+                "formFields": []
+              }
+            ]
+          },
+          {
+            "id": "167e845b11f",
+            "name": "dept",
+            "text": "责任部门",
+            "type": "对象选择框",
+            "formFields": [],
+            "required": true,
+            "selectorAssemblyId": "1621d403c8b"
+          },
+          {
+            "id": "167e85fd36b",
+            "name": "primaryDocs",
+            "text": "有关资料",
+            "type": "多个文件选择框",
+            "formFields": [],
+            "tooltips": "提出该问题的一手资料，例如邮件、照片等电子文档",
+            "fileNamespace": "probPrimary"
+          }
+        ],
+        "smallEditor": false,
+        "tinyEditor": false
       }
     ]
   },

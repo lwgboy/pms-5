@@ -46,6 +46,8 @@ public class Problem {
 	@WriteValue
 	private String id;
 
+	@ReadValue
+	@WriteValue
 	private OperationInfo creationInfo;
 	
 	public Problem setCreationInfo(OperationInfo creationInfo) {
@@ -67,7 +69,9 @@ public class Problem {
 	private String readCreateByConsigner() {
 		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
+	@ReadValue
+	@WriteValue
 	private OperationInfo initInfo;
 
 	@ReadValue("initOn")
@@ -84,7 +88,9 @@ public class Problem {
 	private String readInitByConsigner() {
 		return Optional.ofNullable(initInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
+	@ReadValue
+	@WriteValue
 	private OperationInfo approveInfo;
 
 	@ReadValue("approveOn")
@@ -101,7 +107,9 @@ public class Problem {
 	private String readApproveByConsigner() {
 		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
 	}
-
+	
+	@ReadValue
+	@WriteValue
 	private OperationInfo closeInfo;
 
 	@ReadValue({ "closeOn" })
@@ -205,6 +213,10 @@ public class Problem {
 	public Problem setStatus(String status) {
 		this.status = status;
 		return this;
+	}
+
+	public ObjectId get_id() {
+		return _id;
 	}
 	
 	

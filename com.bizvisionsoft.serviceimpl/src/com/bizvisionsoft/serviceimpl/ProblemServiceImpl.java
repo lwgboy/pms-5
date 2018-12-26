@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
@@ -14,12 +15,14 @@ import com.mongodb.client.model.Aggregates;
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
 	@Override
-	public Problem insert(Problem p) {
-		return super.insert(p);
+	public Problem insertProblem(Problem p) {
+		p.setStatus(Problem.StatusCreated);
+		p = super.insert(p);
+		return queryProblems(0, 1, new BasicDBObject("_id", p.get_id()), null).get(0);
 	}
 
 	@Override
-	public List<Problem> list(BasicDBObject condition, String status, String userid, String lang) {
+	public List<Problem> listProblems(BasicDBObject condition, String status, String userid, String lang) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -29,15 +32,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Check.isAssigned(status, s -> f.append("status", status));
 
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		return query(skip, limit, f, sort);
+		return queryProblems(skip, limit, f, sort);
 	}
 
-	private List<Problem> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
-		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
+	private List<Problem> queryProblems(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
+		List<Bson> pipeline = appendProblemQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
 		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, List<Bson> pipeline) {
+	private List<Bson> appendProblemQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
+			List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
 
 		if (filter != null)
@@ -56,11 +60,21 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public long count(BasicDBObject filter, String status, String userid, String lang) {
+	public long countProblems(BasicDBObject filter, String status, String userid, String lang) {
 		BasicDBObject f = new BasicDBObject();
 		Check.isAssigned(filter, s -> f.putAll(s));
 		Check.isAssigned(status, s -> f.append("status", status));
 		return count(f, "problem");
+	}
+
+	@Override
+	public long deleteProblem(ObjectId _id) {
+		return delete(_id, Problem.class);
+	}
+
+	@Override
+	public long updateProblems(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, Problem.class);
 	}
 
 }
