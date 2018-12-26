@@ -24,6 +24,8 @@ import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.ResourceActual;
+import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -81,11 +83,30 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
 					.bson();
 			return updateEquipment(fu);
-		} else if (count(new BasicDBObject("_id", _id), "equipment") > 0) {
+		} else if (count(new BasicDBObject("_id", _id), "user") > 0) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
 					.bson();
 			return new UserServiceImpl().update(fu);
 		} else {
+			String id = c("resourceType").distinct("id", new BasicDBObject("_id", _id), String.class).first();
+
+			// 检查资源计划
+			if (count(new BasicDBObject("usedTypedResId", id), ResourcePlan.class) != 0)
+				throw new ServiceException("不能删除在项目中作为资源计划的资源类型。");
+
+			// 检查资源用量
+			if (count(new BasicDBObject("usedTypedResId", id), ResourceActual.class) != 0)
+				throw new ServiceException("不能删除在项目中作为资源用量的资源类型。");
+
+			if (count(new BasicDBObject("resourceType_id", _id), "equipment") > 0) {// 删除与该资源类型关联的设备资源
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+						.set(new BasicDBObject("resourceType_id", null)).bson();
+				updateEquipment(fu);
+			} else if (count(new BasicDBObject("resourceType_id", _id), "user") > 0) {// 删除与该资源类型关联的人力资源
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+						.set(new BasicDBObject("resourceType_id", null)).bson();
+				new UserServiceImpl().update(fu);
+			}
 			return delete(_id, ResourceType.class);
 		}
 	}
@@ -135,6 +156,15 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long deleteEquipment(ObjectId _id) {
 		// TODO 完整性问题
+		String id = c("equipment").distinct("id", new BasicDBObject("_id", _id), String.class).first();
+
+		// 检查资源计划
+		if (count(new BasicDBObject("usedEquipResId", id), ResourcePlan.class) != 0)
+			throw new ServiceException("不能删除在项目中作为资源计划的设备设施。");
+		// 检查资源用量
+		if (count(new BasicDBObject("usedEquipResId", id), ResourceActual.class) != 0)
+			throw new ServiceException("不能删除在项目中作为资源用量的设备设施。");
+
 		return delete(_id, Equipment.class);
 	}
 

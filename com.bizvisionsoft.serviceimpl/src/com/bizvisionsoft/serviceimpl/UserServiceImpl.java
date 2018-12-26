@@ -10,7 +10,10 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Organization;
+import com.bizvisionsoft.service.model.ResourceActual;
+import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -158,6 +161,18 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			throw new ServiceException("不能删除在组织中担任管理者的用户。");
 
 		// TODO 有角色的需要清除
+
+		// 检查资源计划
+		if (count(new BasicDBObject("usedHumanResId", userId), ResourcePlan.class) != 0)
+			throw new ServiceException("不能删除在项目中作为资源计划的用户。");
+		// 检查资源用量
+		if (count(new BasicDBObject("usedHumanResId", userId), ResourceActual.class) != 0)
+			throw new ServiceException("不能删除在项目中作为资源用量的用户。");
+
+		// 检查项目团队成员
+		if (count(new BasicDBObject("$or", Arrays.asList(new BasicDBObject("managerId", userId), new BasicDBObject("member", userId))),
+				OBSItem.class) != 0)
+			throw new ServiceException("不能删除参与到项目中的用户。");
 
 		// TODO 其他检查
 		return delete(_id, User.class);

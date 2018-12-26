@@ -18,7 +18,6 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
@@ -2134,14 +2133,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackage> updatePurchaseWorkPackage(UpdateWorkPackages uwp) {
-		c(WorkPackage.class).deleteMany(
-				new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()));
+		BasicDBObject filter = new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name",
+				uwp.getName());
+		List<ObjectId> ids = c("workPackage").distinct("_id", filter, ObjectId.class).into(new ArrayList<ObjectId>());
+		c("workPackageProgress").deleteMany(new BasicDBObject("", new BasicDBObject("$in", ids)));
 		List<WorkPackage> workPackages = uwp.getWorkPackages();
 		if (workPackages.size() > 0)
 			c(WorkPackage.class).insertMany(workPackages);
 		return listWorkPackage(new Query()
 				.filter(new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name", uwp.getName()))
 				.bson());
+	}
+
+	@Override
+	public void removeWorkPackage(List<UpdateWorkPackages> uwps) {
+		for (UpdateWorkPackages uwp : uwps) {
+			BasicDBObject filter = new BasicDBObject("work_id", uwp.getWork_id()).append("catagory", uwp.getCatagory()).append("name",
+					uwp.getName());
+			List<ObjectId> ids = c("workPackage").distinct("_id", filter, ObjectId.class).into(new ArrayList<ObjectId>());
+			c("workPackageProgress").deleteMany(new BasicDBObject("", new BasicDBObject("$in", ids)));
+			c("workPackage").deleteMany(filter).getDeletedCount();
+		}
 	}
 
 	@Override
@@ -2179,7 +2191,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 				workPackageIds.add(_id);
 			});
-			c(WorkPackageProgress.class).deleteMany(new BasicDBObject("", new BasicDBObject("$in", workPackageIds)));
+			c(WorkPackageProgress.class).deleteMany(new BasicDBObject("package_id", new BasicDBObject("$in", workPackageIds)));
 
 			List<WorkPackageProgress> workPackageProgresss = uwp.getWorkPackageProgresss();
 			if (workPackageProgresss.size() > 0)

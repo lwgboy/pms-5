@@ -27,9 +27,15 @@ public interface ICommand {
 	public static final String Start_Stage = "阶段启动";
 
 	public static final String Finish_Stage = "阶段收尾";
-	
+
 	public static final String Finish_Stage_Ignore_Warrning = "阶段收尾（忽略警告）";
 
+	public static final String Remove_OBSItem = "删除项目组织节点";
 
+	public static final String Appointment_OBSItem = "指定项目组织节点担任者";
+
+	public static final String Edit_OBSItem = "修改项目组织节点担任者";
+
+	public static final String Remove_OBSItem_Member = "删除项目组织节点成员";
 
 }

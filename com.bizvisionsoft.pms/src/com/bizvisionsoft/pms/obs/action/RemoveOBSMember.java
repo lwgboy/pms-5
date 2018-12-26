@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.obs.action;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -14,6 +15,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.User;
@@ -40,8 +42,8 @@ public class RemoveOBSMember {
 	}
 
 	private boolean check(OBSItem obsItem, User user) {
-		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(Arrays.asList(user.getUserId()),
-				obsItem.getScope_id(), obsItem.get_id());
+		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(
+				br.command(obsItem.get_id(), new Date(), ICommand.Remove_OBSItem_Member + "@" + user.getUserId()));
 		boolean hasError = false;
 		boolean hasWarning = false;
 		String message = "";
