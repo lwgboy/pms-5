@@ -1010,7 +1010,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			if (getActualFinish() == null) {
 				Double tf = getTF();
 				if (tf != null && tf == 0) {
-					String message = "本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+					String message = "本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。考虑赶工以确保工期。";
 					return MetaInfoWarpper.warpper(label, message, 3000);
 				}
 			}
@@ -1023,7 +1023,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 				String message = "按照进度估算，预计工作完成时间晚于计划。";
 				Double tf = getTF();
 				if (tf != null && tf == 0) {
-					message += "<br>本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+					message += "<br>本工作处于计划关键路径（总时差为0），如果超期将导致项目超期。考虑赶工以确保工期。";
 				}
 				return MetaInfoWarpper.warpper(label, message, 3000);
 			}
@@ -1035,13 +1035,13 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 					String message = "工作量完成率低于工期完成率<br>表示工作进度可能滞后。";
 					Double tf = getTF();
 					if (tf != null && tf == 0) {
-						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。<br>考虑赶工以确保工期。";
+						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。考虑赶工以确保工期。";
 					}
 					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
 							3000);
 				} else if (getWAR() > dar) {
 					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
-							"工作量完成率超过工期完成率<br>表示工作进度可能滞后。", 3000);
+							"工作量完成率超过工期完成率，表示工作进度可能滞后。", 3000);
 				}
 			}
 		}

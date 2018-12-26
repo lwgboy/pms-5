@@ -17,20 +17,20 @@ import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("problem")
 public class Problem {
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "问题";
-	
+
 	@Exclude
 	public static final String StatusCreated = "已创建";
 
 	@Exclude
-	public static final String StatusAccepted = "已接收";
+	public static final String StatusCanceled = "已取消";
 
 	@Exclude
 	public static final String StatusSolving = "解决中";
-	
+
 	@Exclude
 	public static final String StatusClosed = "已关闭";
 
@@ -40,120 +40,15 @@ public class Problem {
 
 	@ReadValue
 	@WriteValue
-	private String name;
-
-	@ReadValue
-	@WriteValue
 	private String id;
-
-	@ReadValue
-	@WriteValue
-	private OperationInfo creationInfo;
-	
-	public Problem setCreationInfo(OperationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
-	}
-
-	@ReadValue("createOn")
-	private Date readCreateOn() {
-		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("createByInfo")
-	private String readCreateBy() {
-		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("createByConsignerInfo")
-	private String readCreateByConsigner() {
-		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
-	}
-
-	@ReadValue
-	@WriteValue
-	private OperationInfo initInfo;
-
-	@ReadValue("initOn")
-	private Date readInitOn() {
-		return Optional.ofNullable(initInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("initByInfo")
-	private String readInitBy() {
-		return Optional.ofNullable(initInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("initByConsignerInfo")
-	private String readInitByConsigner() {
-		return Optional.ofNullable(initInfo).map(c -> c.consignerName).orElse(null);
-	}
-
-	@ReadValue
-	@WriteValue
-	private OperationInfo approveInfo;
-
-	@ReadValue("approveOn")
-	private Date readApproveOn() {
-		return Optional.ofNullable(approveInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("approveByInfo")
-	private String readApproveBy() {
-		return Optional.ofNullable(approveInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("approveByConsignerInfo")
-	private String readApproveByConsigner() {
-		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
-	}
 	
 	@ReadValue
 	@WriteValue
-	private OperationInfo closeInfo;
-
-	@ReadValue({ "closeOn" })
-	private Date readCloseOn() {
-		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("closeByInfo")
-	private String readCloseBy() {
-		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("closeByConsignerInfo")
-	private String readCloseByConsigner() {
-		return Optional.ofNullable(closeInfo).map(c -> c.consignerName).orElse(null);
-	}
+	private String status;
 
 	@ReadValue
 	@WriteValue
-	private Date receiveOn;
-	
-	@ReadValue
-	@WriteValue
-	private boolean custConfirm;
-	
-	@ReadValue
-	@WriteValue
-	private String custConfirmBy;
-
-	@ReadValue
-	@WriteValue
-	private Date custConfirmOn;
-	
-	@ReadValue
-	@WriteValue
-	private Date custoConfirmRemark;
-	
-	@ReadValue
-	@WriteValue
-	private List<RemoteFile> primaryDocs;
-	
-	@ReadValue
-	@WriteValue
-	private List<RemoteFile> attarchments;
+	private String name;
 	
 	@ReadValue
 	@WriteValue
@@ -162,18 +57,51 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private String custInfo;
+
+	@ReadValue
+	@WriteValue
+	private String partNum;
 	
 	@ReadValue
 	@WriteValue
-	private String matId;
+	private String partVer;
+	
+	@ReadValue
+	@WriteValue
+	private String partName;
 
 	@ReadValue
 	@WriteValue
-	private String matLot;
+	private String lotNum;
 
 	@ReadValue
 	@WriteValue
-	private String procInfo;
+	private Date distDate;
+	
+	@ReadValue
+	@WriteValue
+	private String distQty;
+	
+	@ReadValue
+	@WriteValue
+	private Date issueDate;
+	
+	@ReadValue
+	@WriteValue
+	private String issueBy;
+	
+	@ReadValue
+	@WriteValue
+	private String initiatedFrom;
+	
+	@ReadValue
+	@WriteValue
+	private List<RemoteFile> idrrept;
+	
+	@ReadValue
+	@WriteValue
+	private List<RemoteFile> attarchments;
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
@@ -195,20 +123,123 @@ public class Problem {
 		return Optional.ofNullable(dept_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@ReadValue
+	@WriteValue
+	private boolean custConfirm;
 
 	@ReadValue
-	@WriteValue	
-	private String remark;
+	@WriteValue
+	private String custConfirmBy;
+
+	@ReadValue
+	@WriteValue
+	private Date custConfirmOn;
+
+	@ReadValue
+	@WriteValue
+	private Date custoConfirmRemark;
 	
+	@ReadValue
+	@WriteValue
+	private OperationInfo creationInfo;
+
+	public Problem setCreationInfo(OperationInfo creationInfo) {
+		this.creationInfo = creationInfo;
+		return this;
+	}
+
+	/**
+	 * 创建
+	 * @return
+	 */
+	@ReadValue("createOn")
+	private Date readCreateOn() {
+		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("createByInfo")
+	private String readCreateBy() {
+		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
+	}
+
+	@ReadValue("createByConsignerInfo")
+	private String readCreateByConsigner() {
+		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+	/**
+	 * 启动8D
+	 */
+	@ReadValue
+	@WriteValue
+	private OperationInfo initInfo;
+
+	@ReadValue("initOn")
+	private Date readInitOn() {
+		return Optional.ofNullable(initInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("initByInfo")
+	private String readInitBy() {
+		return Optional.ofNullable(initInfo).map(c -> c.userName).orElse(null);
+	}
+
+	@ReadValue("initByConsignerInfo")
+	private String readInitByConsigner() {
+		return Optional.ofNullable(initInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+	/**
+	 * 批准
+	 */
+	@ReadValue
+	@WriteValue
+	private OperationInfo approveInfo;
+
+	@ReadValue("approveOn")
+	private Date readApproveOn() {
+		return Optional.ofNullable(approveInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("approveByInfo")
+	private String readApproveBy() {
+		return Optional.ofNullable(approveInfo).map(c -> c.userName).orElse(null);
+	}
+
+	@ReadValue("approveByConsignerInfo")
+	private String readApproveByConsigner() {
+		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
+	}
+
+	/**
+	 * 关闭
+	 */
+	@ReadValue
+	@WriteValue
+	private OperationInfo closeInfo;
+
+	@ReadValue({ "closeOn" })
+	private Date readCloseOn() {
+		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("closeByInfo")
+	private String readCloseBy() {
+		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
+	}
+
+	@ReadValue("closeByConsignerInfo")
+	private String readCloseByConsigner() {
+		return Optional.ofNullable(closeInfo).map(c -> c.consignerName).orElse(null);
+	}
+
 	@Override
 	@Label
 	public String toString() {
-		return name + " [" + id + "]";
+		return name+(id == null ? "" : (" ["+id+"]"));
 	}
-	
-	@ReadValue
-	@WriteValue	
-	private String status;
+
 
 	public Problem setStatus(String status) {
 		this.status = status;
@@ -218,7 +249,5 @@ public class Problem {
 	public ObjectId get_id() {
 		return _id;
 	}
-	
-	
-	
+
 }
