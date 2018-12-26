@@ -23,10 +23,15 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+
+		BasicDBObject f = new BasicDBObject();
+		Check.isAssigned(filter, s -> f.putAll(s));
+		Check.isAssigned(status, s -> f.append("status", status));
+
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		return query(skip, limit, filter, sort);
+		return query(skip, limit, f, sort);
 	}
-	
+
 	private List<Problem> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
 		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
 		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
@@ -53,9 +58,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long count(BasicDBObject filter, String status, String userid, String lang) {
 		BasicDBObject f = new BasicDBObject();
-		Check.isAssigned(filter,s->f.putAll(s));
-		Check.isAssigned(status,s->f.append("status", status));
-		return count(f,"problem");
+		Check.isAssigned(filter, s -> f.putAll(s));
+		Check.isAssigned(status, s -> f.append("status", status));
+		return count(f, "problem");
 	}
 
 }
