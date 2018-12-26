@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.obs.action;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -14,6 +15,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.User;
@@ -24,14 +26,14 @@ import com.mongodb.BasicDBObject;
 public class AppointmentOBSItem {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSItem element = (OBSItem) context.getSelection().getFirstElement();
 		if (element.getManagerId() != null) {
-			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(Arrays.asList(element.getManagerId()),
-					element.getScope_id(), element.get_id());
+			List<Result> result = Services.get(OBSService.class)
+					.deleteProjectMemberCheck(br.command(element.get_id(), new Date(), ICommand.Appointment_OBSItem));
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";
@@ -49,17 +51,17 @@ public class AppointmentOBSItem {
 			}
 			if (!message.isEmpty()) {
 				if (hasError) {
-					MessageDialog.openError(bruiService.getCurrentShell(), "指定担任者", message);
+					MessageDialog.openError(br.getCurrentShell(), "指定担任者", message);
 					return;
 				} else if (hasWarning) {
-					if (!MessageDialog.openQuestion(bruiService.getCurrentShell(), "指定担任者", message + "<br>是否继续？"))
+					if (!MessageDialog.openQuestion(br.getCurrentShell(), "指定担任者", message + "<br>是否继续？"))
 						return;
 
 				}
 			}
 		}
 
-		new Selector(bruiService.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
+		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
 			Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(element.getManagerId()), element.getScope_id());
 			element.setManager((User) r.get(0));
 			String userId = ((User) r.get(0)).getUserId();

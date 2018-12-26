@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.obs.action;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -24,18 +26,18 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class EditOBSItem {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			Assembly assembly;
 			if (((OBSItem) em).isRole()) {
-				assembly = bruiService.getAssembly("OBS节点编辑器（角色）");
+				assembly = br.getAssembly("OBS节点编辑器（角色）");
 			} else if (((OBSItem) em).isScopeRoot()) {
-				assembly = bruiService.getAssembly("OBS节点编辑器（根）");
+				assembly = br.getAssembly("OBS节点编辑器（根）");
 			} else {
-				assembly = bruiService.getAssembly("OBS节点编辑器（团队）");
+				assembly = br.getAssembly("OBS节点编辑器（团队）");
 			}
 			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 
@@ -56,8 +58,8 @@ public class EditOBSItem {
 
 	private boolean check(OBSItem em, OBSItem o, String title) {
 		if (em.getManagerId() != null && !em.getManagerId().equals(o.getManagerId())) {
-			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(Arrays.asList(em.getManagerId()),
-					em.getScope_id(), em.get_id());
+			List<Result> result = Services.get(OBSService.class)
+					.deleteProjectMemberCheck(br.command(em.get_id(), new Date(), ICommand.Edit_OBSItem));
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";
@@ -75,10 +77,10 @@ public class EditOBSItem {
 			}
 			if (!message.isEmpty()) {
 				if (hasError) {
-					MessageDialog.openError(bruiService.getCurrentShell(), title, message);
+					MessageDialog.openError(br.getCurrentShell(), title, message);
 					return false;
 				} else if (hasWarning) {
-					if (!MessageDialog.openQuestion(bruiService.getCurrentShell(), title, message + "<br>是否继续？"))
+					if (!MessageDialog.openQuestion(br.getCurrentShell(), title, message + "<br>是否继续？"))
 						return false;
 					else
 						Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(em.getManagerId()), em.getScope_id());
