@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
@@ -59,5 +60,139 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("问题清单/update")
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/_id/{_id}/d1/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D1多功能小组/list")
+	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d1/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D1多功能小组/count")
+	public long countD1(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/d1/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD1(Document d1);
+
+	@POST
+	@Path("/_id/{_id}/d2/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D2问题描述/list")
+	public List<Document> listD2(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d2/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D2问题描述/count")
+	public long countD2(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d3/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D3临时措施/list")
+	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d3/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D3临时措施/count")
+	public long countD3(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d4/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D4根本原因分析/list")
+	public List<Document> listD4(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d4/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D4根本原因分析/count")
+	public long countD4(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d5/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D5永久措施/list")
+	public List<Document> listD5(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d5/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D5永久措施/count")
+	public long countD5(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d6/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D6执行和确认/list")
+	public List<Document> listD6(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d6/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D6执行和确认/count")
+	public long countD6(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d7/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D7系统预防/list")
+	public List<Document> listD7(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d7/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D7系统预防/count")
+	public long countD7(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d8/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8关闭结案/list")
+	public List<Document> listD8(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/d8/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8关闭结案/count")
+	public long countD8(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 }
