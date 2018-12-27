@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateD1CFTMembet {
+public class CreateD1CFTMemberACT {
 
 	@Inject
 	private IBruiService br;
@@ -22,9 +22,9 @@ public class CreateD1CFTMembet {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D1-CTF成员", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			t = Services.get(ProblemService.class).insertD1(t, RWT.getLocale().getLanguage());
+			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage());
+			//TODO 添加卡片项，注意排序问题
 		});
-
 	}
 
 }

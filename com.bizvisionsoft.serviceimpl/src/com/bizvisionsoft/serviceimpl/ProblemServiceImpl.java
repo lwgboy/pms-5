@@ -116,7 +116,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD1(Document d1, String lang) {
+	public Document insertD1Item(Document d1, String lang) {
 		Document user = (Document) d1.get("userId_meta");
 
 		ObjectId org_id = user.getObjectId("org_id");
@@ -143,7 +143,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		doc.append("dept", dept);
 		c("d1CFT").insertOne(doc);
 		// ‰÷»æø®∆¨
-		return doc;
+		return D1CFTRenderer.render(doc, lang);
 	}
 
 	@Override
@@ -155,6 +155,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public long countD2(BasicDBObject filter, ObjectId problem_id) {
 		// TODO Auto-generated method stub
 		return countD1(filter, problem_id);
+	}
+	
+	@Override
+	public Document updateD2ProblemDesc(Document d, String lang) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

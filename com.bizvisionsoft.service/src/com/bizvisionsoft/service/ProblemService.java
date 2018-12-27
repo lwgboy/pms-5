@@ -79,10 +79,10 @@ public interface ProblemService {
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 	@POST
-	@Path("/d1/{lang}")
+	@Path("/d1/item/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD1(Document d1, @PathParam("lang") String lang);
+	public Document insertD1Item(Document d1, @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d2/ds/{lang}")
@@ -101,6 +101,13 @@ public interface ProblemService {
 	public long countD2(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
+	@POST
+	@Path("/d2/pd/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单/update")
+	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	
 	@POST
 	@Path("/_id/{_id}/d3/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -202,5 +209,6 @@ public interface ProblemService {
 	@DataSet("D8关闭结案/count")
 	public long countD8(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
 
 }
