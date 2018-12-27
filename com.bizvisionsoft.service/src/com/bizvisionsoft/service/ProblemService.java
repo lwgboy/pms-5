@@ -112,8 +112,13 @@ public interface ProblemService {
 	@Path("/d2/pd/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/update")
 	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	
+	@POST
+	@Path("/d2/photo/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang);
 	
 	@POST
 	@Path("/_id/{_id}/d3/ds/{lang}")
@@ -216,5 +221,6 @@ public interface ProblemService {
 	@DataSet("D8关闭结案/count")
 	public long countD8(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
 
 }

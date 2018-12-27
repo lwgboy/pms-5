@@ -41,6 +41,16 @@ public class RenderTools {
 				+ "</div>"//
 				+ "</div>";
 	}
+	
+	public static String getTextLineNoBlank(String label, String text, String[] color) {
+		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
+		return "<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
+				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
+				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
+				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
+				+ "</div>"//
+				+ "</div>";
+	}
 
 	public static String shortDate(Date date) {
 		return Formatter.getString(date, "yyyy/MM/dd");
@@ -56,6 +66,19 @@ public class RenderTools {
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
 				+ "</div>";//
 	}
+
+	public static String getTextMultiLineNoBlank3(String label, String text, String[] color) {
+		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
+				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
+				+ "</div>";//
+	}
+	
+	public static String getTextMultiLineNoBlank2(String label, String text, String[] color) {
+		return "<div class='brui_card_text2 label_caption' style='padding:8px 8px 0px 8px;'>" + //
+				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
+				+ "</div>";//
+	}
+
 
 	public static String getTextMultiLine(String text, String color) {
 		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
