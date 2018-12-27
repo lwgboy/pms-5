@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -12,8 +13,10 @@ import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.D1CFTRenderer;
+import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.UpdateOptions;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
@@ -112,11 +115,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long countD1(BasicDBObject filter, ObjectId problem_id) {
-		return 0;
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		return c("d1CFT").countDocuments(filter.append("problem_id", problem_id));
 	}
 
 	@Override
-	public Document insertD1(Document d1, String lang) {
+	public Document insertD1Item(Document d1, String lang) {
 		Document user = (Document) d1.get("userId_meta");
 
 		ObjectId org_id = user.getObjectId("org_id");
@@ -143,18 +149,51 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		doc.append("dept", dept);
 		c("d1CFT").insertOne(doc);
 		// ‰÷»æø®∆¨
-		return doc;
+		return D1CFTRenderer.render(doc, lang);
 	}
 
 	@Override
 	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang) {
-		return listD1(condition, problem_id, lang);
+		List<Document> result = new ArrayList<>();
+		// 5w2h
+		Document doc = getD2ProblemDesc(problem_id);
+		result.add(D2Renderer.renderPDCard(doc, lang));
+		// photos
+		listD2ProblemPhotos(problem_id).forEach(d -> result.add(D2Renderer.renderPhotoCard(d, lang)));
+		return result;
 	}
 
 	@Override
 	public long countD2(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		long count = 1;// d2ProblemDesc;
+		if (filter == null)
+			filter = new BasicDBObject();
+		count += c("d2ProblemPhoto").countDocuments(filter.append("problem_id", problem_id));
+		return count;
+	}
+
+	@Override
+	public Document getD2ProblemDesc(ObjectId problem_id) {
+		return Optional.ofNullable(c("d2ProblemDesc").find(new Document("_id", problem_id)).first())
+				.orElse(new Document("_id", problem_id));
+	}
+
+	private List<Document> listD2ProblemPhotos(ObjectId problem_id) {
+		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD2ProblemDesc(Document d, String lang) {
+		Document filter = new Document("_id", d.get("_id"));
+		Document set = new Document("$set", d);
+		c("d2ProblemDesc").updateOne(filter, set, new UpdateOptions().upsert(true));
+		return d;
+	}
+
+	@Override
+	public Document insertD2ProblemPhoto(Document t, String lang) {
+		c("d2ProblemPhoto").insertOne(t);
+		return t;
 	}
 
 	@Override

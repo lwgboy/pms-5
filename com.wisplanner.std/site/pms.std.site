@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812271555",
+  "timestamp": "201812271628",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -37617,9 +37617,10 @@
           {
             "id": "167eb76e58f",
             "name": "创建CFT成员",
+            "tooltips": "创建CFT成员",
             "image": "/img/add_16_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.problem.CreateD1CFTMembet",
+            "className": "com.bizvisionsoft.pms.problem.CreateD1CFTMemberACT",
             "style": "normal",
             "type": "customized",
             "createActionNewInstanceBundleId": "",
@@ -37629,6 +37630,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37642,10 +37644,31 @@
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
-        "actions": [],
+        "actions": [
+          {
+            "id": "167ed659e04",
+            "name": "编辑问题描述文本",
+            "tooltips": "编辑问题描述",
+            "image": "/img/edit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.EditD2ProblemDescACT",
+            "style": "normal",
+            "type": "customized"
+          },
+          {
+            "id": "167ee4c3edc",
+            "name": "上传照片",
+            "image": "/img/photo_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.CreateD2ProblemImageACT",
+            "style": "normal",
+            "type": "customized"
+          }
+        ],
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37782,6 +37805,167 @@
         ],
         "smallEditor": true,
         "tinyEditor": false
+      },
+      {
+        "id": "167ed6fa714",
+        "name": "D2-5W2H问题描述",
+        "title": "问题描述",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167e9f42ca5",
+        "fields": [
+          {
+            "id": "167ed751225",
+            "name": "desc",
+            "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e用可量化的术语详细说明内部/外部顾客的问题。\u003c/div\u003e\n\u003cb\u003e具体的 \u003c/b\u003e 它明确地解释了有什么不对，并从类似的问题中找出不足；\u003cbr\u003e\n\u003cb\u003e可观察 \u003c/b\u003e  它描述了问题的可见迹象；\u003cbr\u003e\n\u003cb\u003e可测量 \u003c/b\u003e 它描述了“多少”或“多少频度”，以定量的术语指明了问题的范围。\u003cbr\u003e\n\u003cb\u003e可控制 \u003c/b\u003e 一个可控制的问题是一个可以在6到12个月内解决的问题。如果一个问题太大，它应被分解成几个更小的可控制的问题。\u003cbr\u003e\n\u003c/ul\u003e\n\n",
+            "type": "横幅",
+            "formFields": [],
+            "staticContent": true,
+            "bannerStyle": "normal"
+          },
+          {
+            "id": "167ed6ff14b",
+            "name": "what",
+            "text": "What",
+            "type": "单行文本框",
+            "verticalLabel": false,
+            "formFields": [],
+            "textMessage": "什么问题？/当前状况是什么？",
+            "required": true
+          },
+          {
+            "id": "167ed96a6fb",
+            "name": "新字段9",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167ed6ff1f7",
+                "name": "when",
+                "text": "When",
+                "type": "单行文本框",
+                "formFields": [],
+                "textMessage": "问题在何时发生？",
+                "required": true
+              },
+              {
+                "id": "167ed6ff2a7",
+                "name": "where",
+                "text": "Where",
+                "type": "单行文本框",
+                "formFields": [],
+                "textMessage": "问题在何处发生？/有无位置的变化？",
+                "required": true
+              }
+            ]
+          },
+          {
+            "id": "167ed6ff36e",
+            "name": "who",
+            "text": "Who",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "和哪些人有关？/谁负责这项工作？",
+            "required": true
+          },
+          {
+            "id": "167ed6ff404",
+            "name": "why",
+            "text": "Why",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "为什么出现这个问题？/对原因的推测",
+            "required": true
+          },
+          {
+            "id": "167ed99c488",
+            "name": "新字段10",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167ed703cf8",
+                "name": "how",
+                "text": "How",
+                "type": "单行文本框",
+                "formFields": [],
+                "textMessage": "怎样发现问题的？",
+                "required": true
+              },
+              {
+                "id": "167ed703dbf",
+                "name": "howmany",
+                "text": "How many",
+                "type": "单行文本框",
+                "formFields": [],
+                "textMessage": "差距有多大？问题出现多少次？/频度",
+                "required": true
+              }
+            ]
+          }
+        ],
+        "smallEditor": false,
+        "tinyEditor": false
+      },
+      {
+        "id": "167ee4e14aa",
+        "name": "D2-问题照片",
+        "title": "D2-问题照片",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167e9f42ca5",
+        "fields": [
+          {
+            "id": "167ee4e859c",
+            "name": "problemImg",
+            "text": "现场或实物照片",
+            "type": "文件选择框",
+            "formFields": [],
+            "required": true,
+            "fileNamespace": "probImg",
+            "fileFilerExts": ".jpg,.png,.gif"
+          },
+          {
+            "id": "167ee4f0821",
+            "name": "problemImgDesc",
+            "text": "描述",
+            "type": "多行文本框",
+            "formFields": [],
+            "required": true
+          },
+          {
+            "id": "167ee909cca",
+            "name": "新字段6",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167ee57039e",
+                "name": "receiveDate",
+                "text": "收集日期",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "datetime"
+              },
+              {
+                "id": "167ee57414b",
+                "name": "receiver",
+                "text": "接收人",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "167ee57b5c3",
+                "name": "location",
+                "text": "收集地点",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              }
+            ]
+          }
+        ],
+        "smallEditor": true,
+        "tinyEditor": true
       }
     ]
   },
