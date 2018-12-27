@@ -3,6 +3,7 @@ package com.bizvisionsoft.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -101,6 +102,12 @@ public interface ProblemService {
 	public long countD2(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
+	@GET
+	@Path("/_id/{_id}/d2/desc")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD2ProblemDesc(@PathParam("_id") ObjectId problem_id);
+	
 	@POST
 	@Path("/d2/pd/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -209,6 +216,5 @@ public interface ProblemService {
 	@DataSet("D8�رս᰸/count")
 	public long countD8(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
-
 
 }

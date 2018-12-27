@@ -21,8 +21,10 @@ public class EditD2ProblemDescACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
-		Editor.create("D2-5W2H问题描述", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			t = Services.get(ProblemService.class).updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
+		ProblemService service = Services.get(ProblemService.class);
+		Document d = service.getD2ProblemDesc(problem.get_id());
+		Editor.create("D2-5W2H问题描述", context, d, true).ok((r, t) -> {
+			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			//TODO 添加卡片项，注意排序问题
 		});
 	}

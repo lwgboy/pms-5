@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -14,6 +15,7 @@ import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.D1CFTRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.UpdateOptions;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
@@ -156,11 +158,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// TODO Auto-generated method stub
 		return countD1(filter, problem_id);
 	}
-	
+
+	@Override
+	public Document getD2ProblemDesc(ObjectId problem_id) {
+		return Optional.ofNullable(c("d2ProbleDesc").find(new Document("_id", problem_id)).first()).orElse(new Document("_id", problem_id));
+	}
+
 	@Override
 	public Document updateD2ProblemDesc(Document d, String lang) {
-		// TODO Auto-generated method stub
-		return null;
+		Document filter = new Document("_id", d.get("_id"));
+		Document set = new Document("$set", d);
+		c("d2ProbleDesc").updateOne(filter, set,new UpdateOptions().upsert(true));
+		return d;
 	}
 
 	@Override
