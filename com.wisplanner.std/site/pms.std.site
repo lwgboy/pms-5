@@ -7896,6 +7896,16 @@
         ],
         "rowActions": [
           {
+            "id": "167eea7dd4a",
+            "name": "移交成员工作",
+            "text": "移交成员工作",
+            "image": "/img/transfer_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.TransferOBSMember",
+            "style": "normal",
+            "type": "customized"
+          },
+          {
             "id": "162ba98e49e",
             "name": "移除成员",
             "image": "/img/minus_16_w.svg",
@@ -7908,7 +7918,8 @@
         ],
         "hasTitlebar": true,
         "displayInputLabelInTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "162dd6cb668",
@@ -8133,6 +8144,16 @@
             "objectBehavier": true,
             "type": "customized",
             "verticalSpan": 0
+          },
+          {
+            "id": "167eea7c11b",
+            "name": "移交担任者工作",
+            "text": "移交担任者工作",
+            "image": "/img/transfer_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.TransferOBSItem",
+            "style": "normal",
+            "type": "customized"
           },
           {
             "id": "162e1f7e84d",
@@ -37290,8 +37311,7 @@
           }
         ],
         "hasTitlebar": true,
-        "sortFields": [],
-        "stickerTitleScript": "\"问题 - \"+context_passed_parameter.status"
+        "sortFields": []
       },
       {
         "id": "167e9fc93b2",

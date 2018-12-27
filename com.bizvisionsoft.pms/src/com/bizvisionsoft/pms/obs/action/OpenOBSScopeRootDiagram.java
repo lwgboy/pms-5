@@ -21,9 +21,8 @@ public class OpenOBSScopeRootDiagram extends AbstractCreateOBSItem {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object scope, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Shell s = brui.getCurrentShell();
-		Object scope = context.getRootInput();
 		if (scope instanceof IOBSScope) {
 			ObjectId obsRoot_id = ((IOBSScope) scope).getOBS_id();
 			String label = AUtil.readLabel(scope);

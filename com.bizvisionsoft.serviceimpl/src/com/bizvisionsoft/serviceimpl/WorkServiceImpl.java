@@ -2444,7 +2444,27 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	 * 清除指定用户未开始工作的负责人和参与者
 	 */
 	@Override
-	public void removeUnStartWorkUser(List<String> userId, ObjectId project_id) {
+	public void removeUnStartWorkUser(List<String> userId, ObjectId project_id, String currentUserId) {
+		String msgSubject = "工作移除通知";
+		Project project = c(Project.class).find(new Document("_id", project_id)).first();
+		List<Message> messages = new ArrayList<>();
+		c("work").find(new Document("project_id", project_id)//
+				.append("actualFinish", null)//
+				.append("distributed", true)//
+				.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userId)),
+						new Document("assignerId", new Document("$in", userId)))))
+				.forEach((Document d) -> {
+					String content = "项目：" + project.getName() + " ，工作：" + d.getString("fullName");
+					if (userId.contains(d.getString("chargerId"))) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作负责人。", currentUserId,
+								(String) d.getString("chargerId"), null));
+					}
+					if (userId.contains(d.getString("assignerId"))) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作指派者。", currentUserId,
+								(String) d.getString("assignerId"), null));
+					}
+				});
+
 		// 清除工作负责人
 		c("work").updateMany(
 				new Document("project_id", project_id).append("actualStart", null).append("chargerId", new Document("$in", userId)),
@@ -2460,10 +2480,15 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 				new Document("project_id", project_id).append("actualStart", null).append("chargerId", new Document("$in", userId)),
 				new Document("$set", new Document("chargerId", null)));
 
-		// 清除工作工作参与者
+		// 清除工作区工作参与者
 		c("workspace").updateMany(
 				new Document("project_id", project_id).append("actualStart", null).append("assignerId", new Document("$in", userId)),
 				new Document("$set", new Document("assignerId", null)));
+
+		// 消息
+		String projectStatus = project.getStatus();
+		if (messages.size() > 0 && !ProjectStatus.Created.equals(projectStatus))
+			sendMessages(messages);
 	}
 
 	@Override
@@ -2495,6 +2520,59 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		}
 		// 修改工作负责人
 		updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", work_id)).set(new BasicDBObject("chargerId", userId)).bson());
+		// 消息
+		Project project = c(Project.class).find(new Document("_id", project_id)).first();
+		sendMessage("工作指派通知", "项目：" + project.getName() + " ，工作：" + work.getFullName() + "，已指定您担任工作指派者。", work.getAssignerId(), userId,
+				null);
 		return getWork(work_id);
+	}
+
+	@Override
+	public void transferWorkUser(ObjectId project_id, String sourceId, String targetId, String currentUserId) {
+		String msgSubject = "工作移交通知";
+		Project project = c(Project.class).find(new Document("_id", project_id)).first();
+		List<Message> messages = new ArrayList<>();
+		c("work").find(new Document("project_id", project_id)//
+				.append("actualFinish", null)//
+				.append("distributed", true)//
+				.append("$or", Arrays.asList(new Document("chargerId", sourceId), new Document("assignerId", sourceId))))
+				.forEach((Document d) -> {
+					String content = "项目：" + project.getName() + " ，工作：" + d.getString("fullName");
+					if (sourceId.equals(d.getString("chargerId"))) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作负责人。", currentUserId, (String) sourceId, null));
+						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作指派者。", currentUserId, (String) targetId, null));
+					}
+					if (sourceId.equals(d.getString("assignerId"))) {
+						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作指派者。", currentUserId, (String) sourceId, null));
+						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作负责人。", currentUserId, (String) targetId, null));
+					}
+				});
+
+		// 移交未完成工作的负责人，包括：进行中和未开始的工作
+		c("work").updateMany(new Document("project_id", project_id)//
+				.append("chargerId", sourceId)//
+				.append("actualFinish", null), //
+				new Document("$set", new Document("chargerId", targetId)));
+		// 移交未完成工作的指派者，包括：进行中和未开始的工作
+		c("work").updateMany(new Document("project_id", project_id)//
+				.append("assignerId", sourceId)//
+				.append("actualFinish", null), //
+				new Document("$set", new Document("assignerId", targetId)));
+
+		// 移交工作区中未完成工作的负责人，包括：进行中和未开始的工作
+		c("workspace").updateMany(new Document("project_id", project_id)//
+				.append("chargerId", sourceId)//
+				.append("actualFinish", null), //
+				new Document("$set", new Document("chargerId", targetId)));
+		// 移交工作区中未完成工作的指派者，包括：进行中和未开始的工作
+		c("workspace").updateMany(new Document("project_id", project_id)//
+				.append("assignerId", sourceId)//
+				.append("actualFinish", null), //
+				new Document("$set", new Document("assignerId", targetId)));
+
+		// 消息
+		String projectStatus = project.getStatus();
+		if (messages.size() > 0 && !ProjectStatus.Created.equals(projectStatus))
+			sendMessages(messages);
 	}
 }

@@ -29,29 +29,26 @@ public class EditOBSItem {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		context.selected(em -> {
-			Assembly assembly;
-			if (((OBSItem) em).isRole()) {
-				assembly = br.getAssembly("OBS节点编辑器（角色）");
-			} else if (((OBSItem) em).isScopeRoot()) {
-				assembly = br.getAssembly("OBS节点编辑器（根）");
-			} else {
-				assembly = br.getAssembly("OBS节点编辑器（团队）");
-			}
-			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
+	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
+		Assembly assembly;
+		if (((OBSItem) em).isRole()) {
+			assembly = br.getAssembly("OBS节点编辑器（角色）");
+		} else if (((OBSItem) em).isScopeRoot()) {
+			assembly = br.getAssembly("OBS节点编辑器（根）");
+		} else {
+			assembly = br.getAssembly("OBS节点编辑器（团队）");
+		}
+		String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 
-			Editor<Object> editor = new Editor<Object>(assembly, context).setEditable(true).setTitle(message).setInput(false, em);
+		Editor<Object> editor = new Editor<Object>(assembly, context).setEditable(true).setTitle(message).setInput(false, em);
 
-			editor.ok((r, o) -> {
-				if (check((OBSItem) em, (OBSItem) o, message)) {
-					Object part = context.getContent();
-					if (part instanceof IStructuredDataPart) {
-						((IStructuredDataPart) part).doModify(em, o, r);
-					}
+		editor.ok((r, o) -> {
+			if (check((OBSItem) em, (OBSItem) o, message)) {
+				Object part = context.getContent();
+				if (part instanceof IStructuredDataPart) {
+					((IStructuredDataPart) part).doModify(em, o, r);
 				}
-			});
-
+			}
 		});
 
 	}
@@ -83,7 +80,8 @@ public class EditOBSItem {
 					if (!MessageDialog.openQuestion(br.getCurrentShell(), title, message + "<br>是否继续？"))
 						return false;
 					else
-						Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(em.getManagerId()), em.getScope_id());
+						Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(em.getManagerId()), em.getScope_id(),
+								br.getCurrentUserId());
 
 				}
 			}

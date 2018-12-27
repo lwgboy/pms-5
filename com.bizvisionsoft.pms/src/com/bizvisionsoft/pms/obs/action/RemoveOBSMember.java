@@ -67,7 +67,8 @@ public class RemoveOBSMember {
 				if (!MessageDialog.openQuestion(br.getCurrentShell(), "移除团队成员", message + "<br>是否继续？"))
 					return false;
 				else
-					Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(user.getUserId()), obsItem.getScope_id());
+					Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(user.getUserId()), obsItem.getScope_id(),
+							br.getCurrentUserId());
 
 			}
 		}

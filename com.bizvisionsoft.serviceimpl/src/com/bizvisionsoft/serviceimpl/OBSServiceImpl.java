@@ -22,7 +22,6 @@ import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
@@ -320,42 +319,42 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		ObjectId _id = com._id;
 		OBSItem obsItem = get(_id);
 		ObjectId scope_id = obsItem.getScope_id();
-		Set<String> userId = new HashSet<String>();
+		Set<String> userIds = new HashSet<String>();
 		List<ObjectId> obs_id = new ArrayList<ObjectId>();
 		if (com.name.startsWith(ICommand.Appointment_OBSItem)) {
 			obs_id.add(_id);
-			userId.add(obsItem.getManagerId());
+			userIds.add(obsItem.getManagerId());
 		} else if (com.name.startsWith(ICommand.Edit_OBSItem)) {
 			obs_id.add(_id);
-			userId.add(obsItem.getManagerId());
+			userIds.add(obsItem.getManagerId());
 		} else if (com.name.startsWith(ICommand.Remove_OBSItem_Member)) {
 			obs_id.add(_id);
-			userId.add(com.name.replace(ICommand.Remove_OBSItem_Member + "@", ""));
+			userIds.add(com.name.replace(ICommand.Remove_OBSItem_Member + "@", ""));
 		} else if (com.name.startsWith(ICommand.Remove_OBSItem)) {
 			lookupDesentItems(Arrays.asList(_id), "obs", "parent_id", true).forEach((Document d) -> {
 				obs_id.add(d.getObjectId("_id"));
 				Object managerId = d.get("managerId");
 				if (managerId != null)
-					userId.add((String) managerId);
+					userIds.add((String) managerId);
 
 				Object member = d.get("member");
 				if (member instanceof List)
-					userId.addAll((List<String>) member);
+					userIds.addAll((List<String>) member);
 			});
 		}
 		// 判断人员是否在都在项目团队中
-		c("obs").find(new Document("scope_id", scope_id).append("_id", new Document("$nin", obs_id)).append("$or",
-				Arrays.asList(new Document("managerId", new Document("$in", userId)), new Document("member", new Document("$in", userId)))))
+		c("obs").find(new Document("scope_id", scope_id).append("_id", new Document("$nin", obs_id)).append("$or", Arrays
+				.asList(new Document("managerId", new Document("$in", userIds)), new Document("member", new Document("$in", userIds)))))
 				.forEach((Document d) -> {
 					Object managerId = d.get("managerId");
 					if (managerId != null)
-						userId.remove((String) managerId);
+						userIds.remove((String) managerId);
 
 					Object member = d.get("member");
 					if (member instanceof List)
-						userId.removeAll((List<String>) member);
+						userIds.removeAll((List<String>) member);
 				});
-		if (userId.size() > 0) {
+		if (userIds.size() > 0) {
 			// TODO 没考虑可以建立EPS团队的情况
 			List<OBSItem> rootOBS = getScopeRootOBS(scope_id);
 			if (rootOBS.size() > 0) {
@@ -365,12 +364,12 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 				// 检查进行中的工作
 				c("work").find(
 						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
-								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userId)),
-										new Document("assignerId", new Document("$in", userId)))))
+								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+										new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
-							if (!userId.contains(userid))
+							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
 							String userName = getUserName(userid);
 							Set<String> fullname = error.get(userName);
@@ -384,12 +383,12 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 				// 检查工作区进行中的工作
 				c("workspace").find(
 						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
-								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userId)),
-										new Document("assignerId", new Document("$in", userId)))))
+								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+										new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
-							if (!userId.contains(userid))
+							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
 							String userName = getUserName(userid);
 							Set<String> fullname = error.get(userName);
@@ -402,11 +401,11 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 				// 检查未开始的工作
 				c("work").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
-						new Document("chargerId", new Document("$in", userId)), new Document("assignerId", new Document("$in", userId)))))
+						new Document("chargerId", new Document("$in", userIds)), new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
-							if (!userId.contains(userid))
+							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
 							String userName = getUserName(userid);
 							Set<String> fullname = warning.get(userName);
@@ -420,11 +419,11 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 				// 检查工作区未开始的工作
 				c("workspace").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
-						new Document("chargerId", new Document("$in", userId)), new Document("assignerId", new Document("$in", userId)))))
+						new Document("chargerId", new Document("$in", userIds)), new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
-							if (!userId.contains(userid))
+							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
 							String userName = getUserName(userid);
 							Set<String> fullname = warning.get(userName);
@@ -435,14 +434,25 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 							fullname.add(d.getString("fullName"));
 						});
 				error.forEach((u, f) -> {
-					results.add(Result.error(u + " 参与的工作：" + Formatter.getString(new ArrayList<String>(f)) + " 需要移交。"));
+					f.forEach(w -> {
+						results.add(Result.error(u + " 参与的工作：" + w + " 需要移交。"));
+					});
 				});
 				warning.forEach((u, f) -> {
-					results.add(Result.warning("从项目组中移除:" + u + " ，将取消工作区中他作为工作：" + Formatter.getString(new ArrayList<String>(f)) + " 参与者的任命。"));
+					f.forEach(w -> {
+						results.add(Result.warning("从项目组中移除:" + u + " ，将取消工作区中他作为工作：" + w + " 参与者的任命。")
+								.setResultDate(new BasicDBObject("userIds", userIds)));
+					});
 				});
 			}
 		}
 		return results;
+	}
+
+	@Override
+	public void removeUnStartWorkUser(OBSItem obsItem, String currentId) {
+		List<String> userIds = getAllSubOBSItemMember(obsItem.get_id());
+		new WorkServiceImpl().removeUnStartWorkUser(userIds, obsItem.getScope_id(), currentId);
 	}
 
 }

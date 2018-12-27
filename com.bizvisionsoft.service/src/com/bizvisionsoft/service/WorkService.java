@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -794,15 +793,23 @@ public interface WorkService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/removeUnStartWorkUser/{project_id}")
+	@Path("/removeUnStartAllWorkUser/{project_id}/{currentId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void removeUnStartWorkUser(List<String> userId, @PathParam("project_id") ObjectId project_id);
+	public void removeUnStartWorkUser(List<String> userId, @PathParam("project_id") ObjectId project_id,
+			@PathParam("currentId") String currentId);
 
 	@POST
 	@Path("/removeUnStartWorkUser/{work_id}/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Work assignUserToWorkChager(@PathParam("work_id") ObjectId work_id, @PathParam("userId") String userId);
+
+	@POST
+	@Path("/transferWorkUser/{project_id}/{sourceId}/{targetId}/{currentId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void transferWorkUser(@PathParam("project_id") ObjectId project_id, @PathParam("sourceId") String sourceId,
+			@PathParam("targetId") String targetId, @PathParam("currentId") String currentId);
 
 }
