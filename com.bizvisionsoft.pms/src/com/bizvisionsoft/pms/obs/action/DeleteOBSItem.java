@@ -37,32 +37,29 @@ public class DeleteOBSItem {
 				.deleteProjectMemberCheck(br.command(obsItem.get_id(), new Date(), ICommand.Remove_OBSItem));
 		boolean hasError = false;
 		boolean hasWarning = false;
-		String message = "";
 		if (!result.isEmpty()) {
 			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
 					hasError = true;
-					message += "<span class='layui-badge'>错误</span> " + r.message + "<br>";
+					break;
 				} else if (Result.TYPE_WARNING == r.type) {
 					hasWarning = true;
-					message += "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
-				} else {
-					message += "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
+					break;
 				}
 		}
-		if (!message.isEmpty()) {
-			if (hasError) {
-				MessageDialog.openError(br.getCurrentShell(), "移除团队成员", message);
+		String type = obsItem.isRole() ? "角色" : "团队";
+		if (hasError) {
+			MessageDialog.openError(br.getCurrentShell(), "删除" + type,
+					"<span class='layui-badge'>错误</span> " + type + ": " + obsItem + " 的成员有工作需要移交，请移交后再进行删除。");
+			return false;
+		} else if (hasWarning) {
+			if (!MessageDialog.openQuestion(br.getCurrentShell(), "删除" + type,
+					"<span class='layui-badge layui-bg-orange'>警告</span> 从项目组中移除: " + obsItem + " 。将取消该" + type + "所有成员的工作任命。 <br>是否继续？"))
 				return false;
-			} else if (hasWarning) {
-				if (!MessageDialog.openQuestion(br.getCurrentShell(), "移除团队成员", message + "<br>是否继续？"))
-					return false;
-				// else
-				// TODO
-				// Services.get(WorkService.class).removeUnStartWorkUser(userIds,
-				// obsItem.getScope_id());
-
+			else {
+				Services.get(OBSService.class).removeUnStartWorkUser(obsItem, br.getCurrentUserId());
 			}
+
 		}
 
 		return true;

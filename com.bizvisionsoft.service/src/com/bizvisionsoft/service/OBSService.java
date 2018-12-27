@@ -99,7 +99,7 @@ public interface OBSService {
 	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
 	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
-	
+
 	@POST
 	@Path("/member/AllSubOBSItem/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
@@ -116,7 +116,7 @@ public interface OBSService {
 	@Path("/scope/id/{_id}/{roleId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<OBSItem>  getScopeRoleofRoleId(@PathParam("_id") ObjectId scope_id, @PathParam("roleId") String roleId);
+	public List<OBSItem> getScopeRoleofRoleId(@PathParam("_id") ObjectId scope_id, @PathParam("roleId") String roleId);
 
 	@POST
 	@Path("/obsitemwarpper/{_id}")
@@ -160,4 +160,10 @@ public interface OBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Result> deleteProjectMemberCheck(Command com);
+
+	@POST
+	@Path("/removeUnStartWorkUser/{currentId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void removeUnStartWorkUser(OBSItem obsItem, @PathParam("currentId") String currentId);
 }

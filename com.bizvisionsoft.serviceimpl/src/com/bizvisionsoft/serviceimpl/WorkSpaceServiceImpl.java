@@ -28,6 +28,8 @@ import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkInfo;
 import com.bizvisionsoft.service.model.WorkLinkInfo;
+import com.bizvisionsoft.service.model.WorkPackage;
+import com.bizvisionsoft.service.model.WorkPackageProgress;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.service.tools.Check;
@@ -499,11 +501,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				});
 			}
 			// 删除风险
-			c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+			c("riskEffect").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
 			// 根据删除集合删除Work
 			c(Work.class).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", deleteIds)));
 			// 根据删除集合删除资源计划
-			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+			c("resourcePlan").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+			// 根据删除集合删除工作包计划和执行
+			ArrayList<ObjectId> packageIds = c("workPackage")
+					.distinct("_id", new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)), ObjectId.class)
+					.into(new ArrayList<>());
+			c("workPackage").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", deleteIds)));
+			c("workPackageProgress").deleteMany(new BasicDBObject("package_id", new BasicDBObject("$in", packageIds)));
 		}
 
 		// 根据插入集合插入Work
@@ -516,9 +524,20 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			});
 			c("work").insertMany(insertDoc);
 			// 删除关联新增work的parent的风险
-			c(RiskEffect.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			c("riskEffect").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
 			// 删除关联新增work的parent的资源计划
-			c(ResourcePlan.class).deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			c("resourcePlan").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			// 关联新增work的parent的资源用量
+			c("resourceActual").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			// 删除关联新增work的parent的工作包设定和检查项
+			c("work").updateMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)),
+					new BasicDBObject("$set", new BasicDBObject("workPackageSetting", null).append("checklist", null)));
+			// 删除关联新增work的parent的工作包计划和执行
+			ArrayList<ObjectId> packageIds = c("workPackage")
+					.distinct("_id", new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)), ObjectId.class)
+					.into(new ArrayList<>());
+			c("workPackage").deleteMany(new BasicDBObject("work_id", new BasicDBObject("$in", parentIds)));
+			c("workPackageProgress").deleteMany(new BasicDBObject("package_id", new BasicDBObject("$in", packageIds)));
 		}
 
 		Project project = c(Project.class).find(new Document("_id", project_id)).first();
@@ -562,7 +581,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						messages.add(Message.newInstance(msgSubject, content + "，您已不再担任工作负责人。", checkoutBy, (String) oldAssignerId, null));
 					}
 					if (newChargerId != null) {
-						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作负责人。", checkoutBy, (String) oldAssignerId, null));
+						messages.add(Message.newInstance(msgSubject, content + "，已指定您担任工作负责人。", checkoutBy, (String) newChargerId, null));
 					}
 				}
 

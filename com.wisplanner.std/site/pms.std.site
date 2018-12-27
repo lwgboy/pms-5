@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812270347",
+  "timestamp": "201812271555",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -7896,6 +7896,16 @@
         ],
         "rowActions": [
           {
+            "id": "167eea7dd4a",
+            "name": "移交成员工作",
+            "text": "移交成员工作",
+            "image": "/img/transfer_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.TransferOBSMember",
+            "style": "normal",
+            "type": "customized"
+          },
+          {
             "id": "162ba98e49e",
             "name": "移除成员",
             "image": "/img/minus_16_w.svg",
@@ -7908,7 +7918,8 @@
         ],
         "hasTitlebar": true,
         "displayInputLabelInTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "162dd6cb668",
@@ -8133,6 +8144,16 @@
             "objectBehavier": true,
             "type": "customized",
             "verticalSpan": 0
+          },
+          {
+            "id": "167eea7c11b",
+            "name": "移交担任者工作",
+            "text": "移交担任者工作",
+            "image": "/img/transfer_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.obs.action.TransferOBSItem",
+            "style": "normal",
+            "type": "customized"
           },
           {
             "id": "162e1f7e84d",
@@ -37290,8 +37311,7 @@
           }
         ],
         "hasTitlebar": true,
-        "sortFields": [],
-        "stickerTitleScript": "\"问题 - \"+context_passed_parameter.status"
+        "sortFields": []
       },
       {
         "id": "167e9fc93b2",

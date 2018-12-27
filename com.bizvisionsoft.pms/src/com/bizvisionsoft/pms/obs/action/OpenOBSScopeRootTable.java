@@ -15,15 +15,14 @@ import com.bizvisionsoft.service.model.IOBSScope;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class OpenOBSScopeRootTable extends AbstractCreateOBSItem{
+public class OpenOBSScopeRootTable extends AbstractCreateOBSItem {
 
 	@Inject
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object scope, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Shell s = brui.getCurrentShell();
-		Object scope = context.getRootInput();
 		if (scope instanceof IOBSScope) {
 			ObjectId obsRoot_id = ((IOBSScope) scope).getOBS_id();
 			String label = AUtil.readLabel(scope);
@@ -38,6 +37,5 @@ public class OpenOBSScopeRootTable extends AbstractCreateOBSItem{
 			brui.switchContent("项目团队", null);
 		}
 	}
-
 
 }

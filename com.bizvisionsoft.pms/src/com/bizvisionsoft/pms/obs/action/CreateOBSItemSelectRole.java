@@ -15,15 +15,11 @@ public class CreateOBSItemSelectRole extends AbstractCreateOBSItem {
 	private IBruiService bruiService;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		context.selected(em -> {
-
-			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
-			message = "添加角色到" + message;
-			String editor = "OBS节点编辑器（角色）";
-			open(context, em, message, editor,true);
-
-		});
+	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
+		String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
+		message = "添加角色到" + message;
+		String editor = "OBS节点编辑器（角色）";
+		open(context, em, message, editor, true);
 	}
 
 }
