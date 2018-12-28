@@ -1,7 +1,6 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -63,9 +62,7 @@ public class D2Renderer {
 	public static Document renderPhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = RenderTools.margin * 3;
-		Document pic = (Document) ((List<?>) doc.get("problemImg")).get(0);
-		String imgUrl = "/bvs/fs?id=" + pic.get("_id") + "&namespace=" + pic.get("namepace") + "&name=" + pic.get("name") + "&sid=rwt";
-
+		String imgUrl = RenderTools.getFirstImageURL(doc, "problemImg");
 		sb.append("<div style='cursor:pointer;border-radius:4px 4px 0px 0px;background:url(" + imgUrl
 				+ ") no-repeat;background-size:cover;background-position:center center;height:240px;width:100%;' "
 				+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i=" + doc.get("_id")
