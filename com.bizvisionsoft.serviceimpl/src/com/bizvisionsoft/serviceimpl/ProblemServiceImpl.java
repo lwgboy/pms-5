@@ -185,15 +185,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public long deleteD2ProblemPhotos(ObjectId _id) {
-		FileServiceImpl fileServiceImpl = new FileServiceImpl();
-		List<Document> problemImg = (List<Document>) c("d2ProblemPhoto").find(new Document("_id", _id)).first().get("problemImg");
-		long l = c("d2ProblemPhoto").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
-		for (Document doc : problemImg) {
-			fileServiceImpl.delete(doc.getString("namepace"), doc.getObjectId("_id").toString());
-		}
-		return l;
+		Document d2ProblemPhoto = c("d2ProblemPhoto").findOneAndDelete(new BasicDBObject("_id", _id));
+		Check.instanceThen(d2ProblemPhoto.get("problemImg"), List.class,
+				l -> ((List<Document>) l).forEach(d -> deleteFile(d.getString("namepace"), d.getObjectId("_id").toString())));
+		return 1l;
 	}
 
 	@Override
