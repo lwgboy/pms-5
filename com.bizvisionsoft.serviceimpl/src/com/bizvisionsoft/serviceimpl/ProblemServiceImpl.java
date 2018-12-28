@@ -113,14 +113,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return result;
 	}
 
-	// @Override
-	// public long countD1(BasicDBObject filter, ObjectId problem_id) {
-	// if (filter == null) {
-	// filter = new BasicDBObject();
-	// }
-	// return c("d1CFT").countDocuments(filter.append("problem_id", problem_id));
-	// }
-
 	@Override
 	public Document insertD1Item(Document d1, String lang) {
 		Document user = (Document) d1.get("userId_meta");
@@ -165,16 +157,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return result;
 	}
 
-	// @Override
-	// public long countD2(BasicDBObject filter, ObjectId problem_id) {
-	// long count = 1;// d2ProblemDesc;
-	// if (filter == null)
-	// filter = new BasicDBObject();
-	// count += c("d2ProblemPhoto").countDocuments(filter.append("problem_id",
-	// problem_id));
-	// return count;
-	// }
-
 	@Override
 	public Document getD2ProblemDesc(ObjectId problem_id) {
 		return Optional.ofNullable(c("d2ProblemDesc").find(new Document("_id", problem_id)).first())
@@ -204,7 +186,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		// ICA计划 d3ICAPlan，ICA计划条目
 		// charger, finishDate, description, attachment
-		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划
+		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
 
 		// ICA验证 d3ICAVerify，验证结论，验证记录
 		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
@@ -215,6 +197,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// ICA证实 d3ICAConfirm，单条记录，得到内部或外部客户的证实
 		// 是否得到证实，证实人，时间
 		return result;
+	}
+	
+	@Override
+	public Document insertD3ICA(Document t, String lang) {
+		c("d3ICA").insertOne(t);
+		return t;
 	}
 
 	@Override
