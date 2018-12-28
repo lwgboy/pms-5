@@ -199,7 +199,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	private List<Document> listD2ProblemPhotos(ObjectId problem_id) {
-		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public long deleteD2ProblemPhotos(ObjectId _id) {
+		FileServiceImpl fileServiceImpl = new FileServiceImpl();
+		List<Document> problemImg = (List<Document>) c("d2ProblemPhoto").find(new Document("_id", _id)).first().get("problemImg");
+		long l = c("d2ProblemPhoto").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+		for (Document doc : problemImg) {
+			fileServiceImpl.delete(doc.getString("namepace"), doc.getObjectId("_id").toString());
+		}
+		return l;
 	}
 
 	@Override
@@ -207,13 +218,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
 		c("d2ProblemDesc").updateOne(filter, set, new UpdateOptions().upsert(true));
-		return d;
+		return D2Renderer.renderPDCard(d, lang);
 	}
 
 	@Override
 	public Document insertD2ProblemPhoto(Document t, String lang) {
 		c("d2ProblemPhoto").insertOne(t);
-		return t;
+		return D2Renderer.renderPhotoCard(t, lang);
 	}
 
 	@Override
