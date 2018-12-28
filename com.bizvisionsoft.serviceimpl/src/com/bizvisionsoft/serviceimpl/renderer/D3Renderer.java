@@ -27,10 +27,10 @@ public class D3Renderer {
 				+ ";padding:8px'>" + "<div class='brui_card_text'>" + action + "</div></div>");
 		
 		rowHeight += 20 + 8;
-		RenderTools.getIconTextLine("计划", planStart + " ~ " + planFinish, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE);
+		sb.append(RenderTools.getIconTextLine("计划", planStart + " ~ " + planFinish, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE));
 		
 		rowHeight += 20 + 8;
-		RenderTools.getTextLine("预算", budget,  CardTheme.TEXT_LINE);
+		sb.append(RenderTools.getTextLine("预算", budget,  CardTheme.TEXT_LINE));
 		
 		
 		
