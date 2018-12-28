@@ -121,13 +121,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return result;
 	}
 
-	@Override
-	public long countD1(BasicDBObject filter, ObjectId problem_id) {
-		if (filter == null) {
-			filter = new BasicDBObject();
-		}
-		return c("d1CFT").countDocuments(filter.append("problem_id", problem_id));
-	}
+	// @Override
+	// public long countD1(BasicDBObject filter, ObjectId problem_id) {
+	// if (filter == null) {
+	// filter = new BasicDBObject();
+	// }
+	// return c("d1CFT").countDocuments(filter.append("problem_id", problem_id));
+	// }
 
 	@Override
 	public Document insertD1Item(Document d1, String lang) {
@@ -174,20 +174,23 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		// 5w2h
 		Document doc = getD2ProblemDesc(problem_id);
-		result.add(D2Renderer.renderPDCard(doc, lang));
+		if (doc.get("what") != null)
+			result.add(D2Renderer.renderPDCard(doc, lang));
 		// photos
 		listD2ProblemPhotos(problem_id).forEach(d -> result.add(D2Renderer.renderPhotoCard(d, lang)));
+		// TODO 讨论 回复 及其他
 		return result;
 	}
 
-	@Override
-	public long countD2(BasicDBObject filter, ObjectId problem_id) {
-		long count = 1;// d2ProblemDesc;
-		if (filter == null)
-			filter = new BasicDBObject();
-		count += c("d2ProblemPhoto").countDocuments(filter.append("problem_id", problem_id));
-		return count;
-	}
+	// @Override
+	// public long countD2(BasicDBObject filter, ObjectId problem_id) {
+	// long count = 1;// d2ProblemDesc;
+	// if (filter == null)
+	// filter = new BasicDBObject();
+	// count += c("d2ProblemPhoto").countDocuments(filter.append("problem_id",
+	// problem_id));
+	// return count;
+	// }
 
 	@Override
 	public Document getD2ProblemDesc(ObjectId problem_id) {
@@ -215,74 +218,55 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
+		List<Document> result = new ArrayList<>();
+		// ICA计划 d3ICAPlan，ICA计划条目
+		// charger, finishDate, description, attachment
+		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划
 
-	@Override
-	public long countD3(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		// ICA验证 d3ICAVerify，验证结论，验证记录
+		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
+
+		// ICA执行 d3ICAImpl，执行记录
+		// 谁在何时完成了哪些工作，是否达到了效果，后续的跟进
+
+		// ICA证实 d3ICAConfirm，单条记录，得到内部或外部客户的证实
+		// 是否得到证实，证实人，时间
+		return result;
 	}
 
 	@Override
 	public List<Document> listD4(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
-
-	@Override
-	public long countD4(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		List<Document> result = new ArrayList<>();
+		return result;
 	}
 
 	@Override
 	public List<Document> listD5(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
-
-	@Override
-	public long countD5(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		List<Document> result = new ArrayList<>();
+		return result;
 	}
 
 	@Override
 	public List<Document> listD6(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
-
-	@Override
-	public long countD6(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		List<Document> result = new ArrayList<>();
+		return result;
 	}
 
 	@Override
 	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
-
-	@Override
-	public long countD7(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		List<Document> result = new ArrayList<>();
+		return result;
 	}
 
 	@Override
 	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang) {
 		// TODO Auto-generated method stub
-		return listD1(condition, problem_id, lang);
-	}
-
-	@Override
-	public long countD8(BasicDBObject filter, ObjectId problem_id) {
-		// TODO Auto-generated method stub
-		return countD1(filter, problem_id);
+		List<Document> result = new ArrayList<>();
+		return result;
 	}
 
 }

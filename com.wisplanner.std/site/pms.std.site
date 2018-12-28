@@ -37313,7 +37313,7 @@
         ],
         "hasTitlebar": true,
         "sortFields": [],
-        "stickerTitleScript": "\"问题 - \"+context_passed_parameter.status"
+        "stickerTitleScript": "\"问题- \"+context_passed_parameter.status"
       },
       {
         "id": "167e9fc93b2",
@@ -37414,7 +37414,7 @@
                 "heightHint": -1
               }
             ],
-            "laneWidth": 360
+            "laneWidth": 320
           }
         ],
         "folderId": "167e9f42ca5",
@@ -37611,7 +37611,7 @@
         "title": "D1 多功能小组",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D1 CFT 多功能小组",
+        "stickerTitle": "D1 多功能小组",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37650,7 +37650,7 @@
         "title": "D2 问题描述",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D2 Description of Problem 问题描述",
+        "stickerTitle": "D2 问题描述",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37688,7 +37688,7 @@
         "title": "D3 临时措施",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D3 ICA 临时措施",
+        "stickerTitle": "D3 开发ICA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37696,6 +37696,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37705,7 +37706,7 @@
         "title": "D4 根本原因分析",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D4 Root Causes Analysis 根本原因分析",
+        "stickerTitle": "D4 根本原因",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37713,6 +37714,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37722,7 +37724,7 @@
         "title": "D5 永久措施",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D5 PCA 永久措施",
+        "stickerTitle": "D5 选择/验证PCA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37730,6 +37732,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37739,7 +37742,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D6 I/V PCA 实施和验证永久纠正措施",
+        "stickerTitle": "D6 执行/证实PCA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37747,6 +37750,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37756,7 +37760,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D7 System Prevent 系统预防",
+        "stickerTitle": "D7 系统预防",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37764,6 +37768,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37773,7 +37778,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D8 Closed the Case 关闭结案",
+        "stickerTitle": "D8 关闭结案",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37781,6 +37786,7 @@
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
+        "scrollLoadData": false,
         "compactTitleBar": true,
         "sortFields": []
       },
@@ -37845,29 +37851,22 @@
             "required": true
           },
           {
-            "id": "167ed96a6fb",
-            "name": "新字段9",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "167ed6ff1f7",
-                "name": "when",
-                "text": "When",
-                "type": "单行文本框",
-                "formFields": [],
-                "textMessage": "问题在何时发生？",
-                "required": true
-              },
-              {
-                "id": "167ed6ff2a7",
-                "name": "where",
-                "text": "Where",
-                "type": "单行文本框",
-                "formFields": [],
-                "textMessage": "问题在何处发生？/有无位置的变化？",
-                "required": true
-              }
-            ]
+            "id": "167ed6ff1f7",
+            "name": "when",
+            "text": "When",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "问题在何时发生？",
+            "required": true
+          },
+          {
+            "id": "167ed6ff2a7",
+            "name": "where",
+            "text": "Where",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "问题在何处发生？/有无位置的变化？",
+            "required": true
           },
           {
             "id": "167ed6ff36e",
@@ -37888,32 +37887,25 @@
             "required": true
           },
           {
-            "id": "167ed99c488",
-            "name": "新字段10",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "167ed703cf8",
-                "name": "how",
-                "text": "How",
-                "type": "单行文本框",
-                "formFields": [],
-                "textMessage": "怎样发现问题的？",
-                "required": true
-              },
-              {
-                "id": "167ed703dbf",
-                "name": "howmany",
-                "text": "How many",
-                "type": "单行文本框",
-                "formFields": [],
-                "textMessage": "差距有多大？问题出现多少次？/频度",
-                "required": true
-              }
-            ]
+            "id": "167ed703cf8",
+            "name": "how",
+            "text": "How",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "怎样发现问题的？",
+            "required": true
+          },
+          {
+            "id": "167ed703dbf",
+            "name": "howmany",
+            "text": "How many",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "差距有多大？问题出现多少次？/频度",
+            "required": true
           }
         ],
-        "smallEditor": false,
+        "smallEditor": true,
         "tinyEditor": false
       },
       {
@@ -37943,40 +37935,33 @@
             "required": true
           },
           {
-            "id": "167ee909cca",
-            "name": "新字段6",
-            "type": "行",
-            "formFields": [
-              {
-                "id": "167ee57039e",
-                "name": "receiveDate",
-                "text": "收集日期",
-                "type": "日期时间选择",
-                "formFields": [],
-                "required": true,
-                "dateType": "datetime"
-              },
-              {
-                "id": "167ee57414b",
-                "name": "receiver",
-                "text": "接收人",
-                "type": "单行文本框",
-                "formFields": [],
-                "required": true
-              },
-              {
-                "id": "167ee57b5c3",
-                "name": "location",
-                "text": "收集地点",
-                "type": "单行文本框",
-                "formFields": [],
-                "required": true
-              }
-            ]
+            "id": "167ee57039e",
+            "name": "receiveDate",
+            "text": "收集日期",
+            "type": "日期时间选择",
+            "formFields": [],
+            "required": true,
+            "dateType": "datetime"
+          },
+          {
+            "id": "167ee57414b",
+            "name": "receiver",
+            "text": "接收人",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true
+          },
+          {
+            "id": "167ee57b5c3",
+            "name": "location",
+            "text": "收集地点",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true
           }
         ],
         "smallEditor": true,
-        "tinyEditor": true
+        "tinyEditor": false
       }
     ]
   },

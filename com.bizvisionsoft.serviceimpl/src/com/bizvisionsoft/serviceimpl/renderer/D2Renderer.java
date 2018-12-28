@@ -23,22 +23,34 @@ public class D2Renderer {
 		String howmany = Optional.ofNullable(doc.getString("howmany")).orElse("");
 
 		String[] color = new String[] { "000000", "757575" };
-		sb.append(RenderTools.getTextMultiLineNoBlank3("<span class='label_subhead indigo'>What / 当前状况</span>", what, color));
-		rowHeight += 61;
-		sb.append(RenderTools.getTextMultiLineNoBlank2("<span class='label_subhead indigo''>When / 发现时间</span>", when, color));
-		rowHeight += 45;
-		sb.append(RenderTools.getTextMultiLineNoBlank2("<span class='label_subhead indigo''>Where / 地点和位置</span>", where, color));
-		rowHeight += 45;
-		sb.append(RenderTools.getTextMultiLineNoBlank2("<span class='label_subhead indigo''>Who / 有关人员</span>", who, color));
-		rowHeight += 45;
-		sb.append(RenderTools.getTextMultiLineNoBlank3("<span class='label_subhead indigo''>Why / 原因推测</span>", why, color));
-		rowHeight += 61;
-		sb.append(RenderTools.getTextMultiLineNoBlank2("<span class='label_subhead indigo''>How / 怎样发现的问题</span>", how, color));
-		rowHeight += 45;
-		sb.append(RenderTools.getTextMultiLineNoBlank2("<span class='label_subhead indigo''>How many / 频度，数量</span>", howmany, color));
-		rowHeight += 45;
+		sb.append("<div style='height:72px'>"
+				+ RenderTools.getTextMultiLineNoBlank3("<span class='deep_orange' style='font-weight:700;'>What / 当前状况</span>", what, color)
+				+ "</div>");
+		rowHeight += 72;
+		sb.append("<div style='height:40px'>"
+				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>When / 发现时间</span>", when, color)
+				+ "</div>");
+		rowHeight += 40;
+		sb.append("<div style='height:40px'>"
+				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>Where / 地点和位置</span>", where, color) + "</div>");
+		rowHeight += 40;
+		sb.append("<div style='height:40px'>"
+				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>Who / 有关人员</span>", who, color)
+				+ "</div>");
+		rowHeight += 40;
+		sb.append("<div style='height:72px'>"
+				+ RenderTools.getTextMultiLineNoBlank3("<span class='deep_orange' style='font-weight:700;'>Why / 原因推测</span>", why, color)
+				+ "</div>");
+		rowHeight += 72;
+		sb.append("<div style='height:40px'>"
+				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>How / 怎样发现的问题</span>", how, color)
+				+ "</div>");
+		rowHeight += 40;
+		sb.append("<div style='height:40px'>" + RenderTools.getTextMultiLineNoBlank2(
+				"<span class='deep_orange' style='font-weight:700;'>How many / 频度，数量</span>", howmany, color) + "</div>");
+		rowHeight += 40;
 
-		sb.append("<div  style='position:absolute;right:16px;bottom:16px;'>"
+		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit'></a>" + "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f8f8f8;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
