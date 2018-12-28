@@ -14,7 +14,6 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public class D1CFTRenderer {
 
-
 	public static Document render(Document doc, String lang) {
 		CardTheme theme = new CardTheme(CardTheme.CYAN);
 
@@ -23,10 +22,10 @@ public class D1CFTRenderer {
 
 		// 头像
 		String name = doc.getString("name");
-		String role = doc.getString("role");
-		String mobile = Optional.ofNullable(doc.getString("mobile")).map(e->"<a href='tel:"+e+"'>"+e+"</a>").orElse("");
+		String role = getRoleName(doc.getString("role"));
+		String mobile = Optional.ofNullable(doc.getString("mobile")).map(e -> "<a href='tel:" + e + "'>" + e + "</a>").orElse("");
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
-		String email =  Optional.ofNullable(doc.getString("email")).map(e->"<a href='mailto:"+e+"'>"+e+"</a>").orElse("");
+		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
 		List<?> headPics = (List<?>) doc.get("headPics");
 		String headPicURL = null;
@@ -49,22 +48,38 @@ public class D1CFTRenderer {
 		}
 
 		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
-				+ "<div class='label_title'><div>" + role + "</div><div class='label_subhead'>" + name +" "+dept+" "+position+ "</div></div>"//
+				+ "<div class='label_title'><div>" + role + "</div><div class='label_subhead'>" + name + " " + dept + " " + position
+				+ "</div></div>"//
 				+ img //
 				+ "</div>");//
 		rowHeight += 64;
-		
+
 		sb.append(RenderTools.getIconTextLine(null, mobile, RenderTools.IMG_URL_TEL, CardTheme.TEXT_LINE));
 		rowHeight += 20 + 8;
 		sb.append(RenderTools.getIconTextLine(null, email, RenderTools.IMG_URL_EMAIL, CardTheme.TEXT_LINE));
 		rowHeight += 20 + 8;
-		
+
 		sb.append("<div  style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='delete' target='_rwt' class='layui-icon layui-icon-close'></a>" + "</div>");
-		
+
 		RenderTools.renderCardBoard(sb, rowHeight);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+	}
+
+	private static String getRoleName(String roleId) {
+		if ("0".equals(roleId)) {
+			return "组长";
+		} else if ("1".equals(roleId)) {
+			return "设计";
+		} else if ("2".equals(roleId)) {
+			return "工艺";
+		} else if ("3".equals(roleId)) {
+			return "生产";
+		} else if ("4".equals(roleId)) {
+			return "质量";
+		}
+		return "";
 	}
 
 }

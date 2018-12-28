@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.D1CFTRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
@@ -108,6 +109,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		if (sort == null) {
+			sort = new BasicDBObject();
+			condition.put("sort", sort);
+		}
+		sort.append("role", 1).append("_id", -1);
+
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
 		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> D1CFTRenderer.render(d, lang)).into(new ArrayList<>());
 		return result;
@@ -129,6 +137,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		String userId = d1.getString("userId");
 		String role = d1.getString("role");
 		ObjectId problem_id = d1.getObjectId("problem_id");
+
+		if ("0".equals(role) && c("d1CFT").countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
+			throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
+
 		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("userId", userId).append("role", role)
 				.append("name", user.get("name")).append("mobile", user.get("mobile")).append("position", user.get("position"))
 				.append("email", user.get("email")).append("headPics", user.get("headPics"));
@@ -150,6 +162,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		c("d1CFT").insertOne(doc);
 		// 渲染卡片
 		return D1CFTRenderer.render(doc, lang);
+	}
+
+	@Override
+	public long deleteD1CFT(ObjectId _id) {
+		return c("d1CFT").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
 	}
 
 	@Override

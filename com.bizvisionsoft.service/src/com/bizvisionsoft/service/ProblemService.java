@@ -86,6 +86,12 @@ public interface ProblemService {
 	public Document insertD1Item(Document d1, @PathParam("lang") String lang);
 
 	@POST
+	@Path("/d1/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD1CFT(@PathParam("_id") ObjectId _id);
+
+	@POST
 	@Path("/_id/{_id}/d2/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -107,19 +113,19 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD2ProblemDesc(@PathParam("_id") ObjectId problem_id);
-	
+
 	@POST
 	@Path("/d2/pd/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-	
+
 	@POST
 	@Path("/d2/photo/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang);
-	
+
 	@POST
 	@Path("/_id/{_id}/d3/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -221,6 +227,5 @@ public interface ProblemService {
 	@DataSet("D8�رս᰸/count")
 	public long countD8(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
-
 
 }
