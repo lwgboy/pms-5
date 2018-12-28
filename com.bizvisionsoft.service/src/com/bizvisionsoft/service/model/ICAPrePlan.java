@@ -9,7 +9,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("icaPrePlan")
 public class ICAPrePlan {
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	private String typeName = "ICAÔ¤°¸";
@@ -21,7 +21,7 @@ public class ICAPrePlan {
 	@ReadValue
 	@WriteValue
 	private String name;
-	
+
 	@ReadValue
 	@WriteValue
 	private String description;
@@ -29,10 +29,25 @@ public class ICAPrePlan {
 	@ReadValue
 	@WriteValue
 	private String action;
-	
+
 	@ReadValue
 	@WriteValue
 	private String detail;
-	
+
+	@ReadValue
+	@WriteValue
+	private String objective;
+
+	public String getAction() {
+		return action;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public String getObjective() {
+		return objective;
+	}
 
 }

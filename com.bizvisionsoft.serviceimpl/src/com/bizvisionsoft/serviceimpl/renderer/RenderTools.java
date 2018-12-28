@@ -1,7 +1,14 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
+import org.bson.Document;
+
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class RenderTools {
@@ -17,11 +24,14 @@ public class RenderTools {
 	public static final String IMG_URL_TASK = "rwt-resources/extres/img/task_c.svg";
 
 	public static final String IMG_URL_TEL = "rwt-resources/extres/img/tel_c.svg";
-	
+
 	public static final String IMG_URL_EMAIL = "rwt-resources/extres/img/email_c.svg";
 
 	public static String getIconTextLine(String label, String text, String iconURL, String[] color) {
-		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
+		if (label != null)
+			label += "&nbsp;:&nbsp;";
+		else
+			label = "";
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 				+ "<img src='" + iconURL + "' width='20' height='20'>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
@@ -32,7 +42,10 @@ public class RenderTools {
 	}
 
 	public static String getTextLine(String label, String text, String[] color) {
-		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
+		if (label != null)
+			label += "&nbsp;:&nbsp;";
+		else
+			label = "";
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 				+ "<div style='width:20px;height:20px'></div>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
@@ -41,9 +54,12 @@ public class RenderTools {
 				+ "</div>"//
 				+ "</div>";
 	}
-	
+
 	public static String getTextLineNoBlank(String label, String text, String[] color) {
-		if(label!=null) label +="&nbsp;:&nbsp;"; else label="";
+		if (label != null)
+			label += "&nbsp;:&nbsp;";
+		else
+			label = "";
 		return "<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
 				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
@@ -72,13 +88,12 @@ public class RenderTools {
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
 				+ "</div>";//
 	}
-	
+
 	public static String getTextMultiLineNoBlank2(String label, String text, String[] color) {
 		return "<div class='brui_card_text2 label_caption' style='padding:8px 8px 0px 8px;'>" + //
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
 				+ "</div>";//
 	}
-
 
 	public static String getTextMultiLine(String text, String color) {
 		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
@@ -86,4 +101,20 @@ public class RenderTools {
 				+ "</div>";//
 	}
 
+	public static String getFirstImageURL(Document doc, String imgField) {
+		List<?> headPics = (List<?>) doc.get(imgField);
+		if (Check.isAssigned(headPics)) {
+			Document pic = (Document) headPics.get(0);
+			return "/bvs/fs?id=" + pic.get("_id") + "&namespace=" + pic.get("namepace") + "&name=" + pic.get("name") + "&sid=rwt";
+		}
+		return null;
+	}
+
+	public static String getNameImageURL(String name) {
+		try {
+			return "/bvs/svg?text=" + URLEncoder.encode(name, "utf-8") + "&color=ffffff";
+		} catch (UnsupportedEncodingException e) {
+		}
+		return null;
+	}
 }

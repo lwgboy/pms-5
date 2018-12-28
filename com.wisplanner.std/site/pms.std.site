@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812281323",
+  "timestamp": "201812281617",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -37978,6 +37978,7 @@
             "required": true
           }
         ],
+        "actions": [],
         "smallEditor": true,
         "tinyEditor": false
       },
@@ -37996,6 +37997,32 @@
             "type": "单行文本框",
             "formFields": [],
             "required": true
+          },
+          {
+            "id": "167f3db3e0d",
+            "name": "新字段22",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167f3a15f22",
+                "name": "objective",
+                "text": "预期结果",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "167f3d8dbb6",
+                "name": "priority",
+                "text": "优先级",
+                "type": "单选框",
+                "formFields": [],
+                "required": true,
+                "optionValue": "0#1#2#3#4",
+                "optionText": "最高#高#中#低#最低",
+                "radioStyle": "横向分段（默认）"
+              }
+            ]
           },
           {
             "id": "167f29e6b4c",
@@ -38019,14 +38046,33 @@
                 "formFields": [],
                 "required": true,
                 "dateType": "datetime"
+              }
+            ]
+          },
+          {
+            "id": "167f3b4f65d",
+            "name": "新字段19",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167f3a06b06",
+                "name": "budget",
+                "text": "费用预算",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textRestrict": "浮点",
+                "format": ""
               },
               {
                 "id": "167f2a0d85f",
                 "name": "charger",
-                "text": "负责人",
+                "text": "行动负责",
                 "type": "对象选择框",
                 "formFields": [],
-                "selectorAssemblyId": "162ba875640"
+                "required": true,
+                "selectorAssemblyId": "162ba875640",
+                "valueFieldName": "userId"
               }
             ]
           },
@@ -38044,6 +38090,8 @@
             "id": "167f2c77d76",
             "name": "套用模板",
             "text": "选择预案",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.SelectICAPrePlanACT",
             "style": "info",
             "type": "customized"
           }
@@ -38082,6 +38130,15 @@
             "columns": []
           },
           {
+            "id": "167f3a263d9",
+            "name": "objective",
+            "text": "预期结果",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          },
+          {
             "id": "167f323a0fd",
             "name": "action",
             "text": "行动",
@@ -38102,7 +38159,7 @@
           {
             "id": "167f32f7d86",
             "name": "description",
-            "text": "描述",
+            "text": "适用情形",
             "type": "文本输入框（查询）",
             "formFields": []
           },
@@ -38110,6 +38167,13 @@
             "id": "167f32fb028",
             "name": "action",
             "text": "行动",
+            "type": "文本输入框（查询）",
+            "formFields": []
+          },
+          {
+            "id": "167f3a3bef3",
+            "name": "objective",
+            "text": "预期结果",
             "type": "文本输入框（查询）",
             "formFields": []
           }
@@ -38120,7 +38184,8 @@
             "id": "167f32a8325",
             "name": "创建",
             "text": "创建",
-            "forceText": true,
+            "image": "/img/add_16_w.svg",
+            "forceText": false,
             "style": "normal",
             "editorAssemblyId": "167f32496dd",
             "type": "insert",
@@ -38169,7 +38234,7 @@
           {
             "id": "167f324d275",
             "name": "description",
-            "text": "描述",
+            "text": "适用情形",
             "type": "单行文本框",
             "formFields": [],
             "required": true
@@ -38178,6 +38243,14 @@
             "id": "167f324d136",
             "name": "action",
             "text": "行动内容",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true
+          },
+          {
+            "id": "167f3a210f2",
+            "name": "objective",
+            "text": "预期结果",
             "type": "单行文本框",
             "formFields": [],
             "required": true
@@ -38193,6 +38266,15 @@
           }
         ],
         "actions": []
+      },
+      {
+        "id": "167f3479933",
+        "name": "ICA预案选择器",
+        "layout": [],
+        "type": "selector",
+        "folderId": "167f30760ab",
+        "selectorGridAssemblyId": "167f309c94a",
+        "smallEditor": false
       }
     ]
   },
