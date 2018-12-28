@@ -42,22 +42,36 @@ public class D3Renderer {
 
 		sb.append(RenderTools.getTextLineNoBlank("费用预算", budget, CardTheme.TEXT_LINE));
 		rowHeight += 24;
-		
+
 		String url = RenderTools.getFirstImageURL(chargerData, "headPics");
 		String name = chargerData.getString("name");
 		if (url != null) {
 			sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
-			+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
-			+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
-			+ "</div>");
+					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
+					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
+					+ "</div>");
 			rowHeight += 36;
-		}else {
+		} else {
 			sb.append(RenderTools.getTextLineNoBlank("行动负责", name, CardTheme.TEXT_LINE));
 			rowHeight += 24;
 		}
-		
+
+		// 删除按钮
+		sb.append("<div style='position:absolute;right:88px;bottom:16px;'>"// 8+16+16
+				+ "<a href='deleteICA' target='_rwt' class='layui-icon layui-icon-close'></a>" //
+				+ "</div>");
+		// 编辑按钮
+		sb.append("<div style='position:absolute;right:64px;bottom:16px;'>"
+				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit'></a>" //
+				+ "</div>");
+		// 验证按钮
+		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
+				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-survey'></a>" //
+				+ "</div>");
+		// 完成按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit'></a>" + "</div>");
+				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok'></a>" //
+				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
 				+ RenderTools.margin + "px;'>");

@@ -22,17 +22,24 @@ public class EditD2ProblemDescACT {
 	@Inject
 	private IBruiService br;
 
+	@SuppressWarnings("unchecked")
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
 		ProblemService service = Services.get(ProblemService.class);
 		Document d = service.getD2ProblemDesc(problem.get_id());
+		boolean insert = (d.get("what") != null);
 		Editor.create("D2-5W2HÎÊÌâÃèÊö", context, d, true).ok((r, t) -> {
 			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-			Object doc = ((List<?>) viewer.getInput()).get(0);
-			AUtil.simpleCopy(t, doc);
-			viewer.refresh(doc);
+			if (insert) {
+				Object doc = ((List<?>) viewer.getInput()).get(0);
+				AUtil.simpleCopy(t, doc);
+				viewer.refresh(doc);
+			} else {
+				((List<Document>) viewer.getInput()).add(0, t);
+				viewer.refresh();
+			}
 		});
 	}
 
