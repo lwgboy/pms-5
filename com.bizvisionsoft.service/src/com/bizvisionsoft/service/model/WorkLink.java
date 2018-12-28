@@ -83,13 +83,13 @@ public class WorkLink {
 	@Persistence
 	private ObjectId _id;
 
-	@ReadValue({ "项目甘特图/id", "项目甘特图（查看）/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id",
+	@ReadValue({ "项目甘特图/id", "项目甘特图（查看）/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源计划分配）/id", "项目甘特图（资源实际分配）/id", "项目进展甘特图/id",
 			"项目基线甘特图/id" })
 	public String getId() {
 		return _id.toHexString();
 	}
 
-	@WriteValue({ "项目甘特图/id", "项目甘特图（查看）/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源分配）/id", "项目进展甘特图/id",
+	@WriteValue({ "项目甘特图/id", "项目甘特图（查看）/id", "项目甘特图（编辑）/id", "项目甘特图（无表格查看）/id", "项目甘特图（资源计划分配）/id", "项目甘特图（资源实际分配）/id", "项目进展甘特图/id",
 			"项目基线甘特图/id" })
 	public WorkLink setId(String id) {
 		this._id = new ObjectId(id);
@@ -102,14 +102,14 @@ public class WorkLink {
 	@Persistence
 	private ObjectId project_id;
 
-	@ReadValue({ "项目甘特图/project", "项目甘特图（查看）/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project",
-			"项目甘特图（资源分配）/project", "项目进展甘特图/project", "项目基线甘特图/project" })
+	@ReadValue({ "项目甘特图/project", "项目甘特图（查看）/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project", "项目甘特图（资源计划分配）/project",
+			"项目甘特图（资源实际分配）/project", "项目进展甘特图/project", "项目基线甘特图/project" })
 	public String getProject() {
 		return project_id == null ? null : project_id.toHexString();
 	}
 
-	@WriteValue({ "项目甘特图/project", "项目甘特图（查看）/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project",
-			"项目甘特图（资源分配）/project", "项目进展甘特图/project", "项目基线甘特图/project" })
+	@WriteValue({ "项目甘特图/project", "项目甘特图（查看）/project", "项目甘特图（编辑）/project", "项目甘特图（无表格查看）/project", "项目甘特图（资源计划分配）/project",
+			"项目甘特图（资源实际分配）/project", "项目进展甘特图/project", "项目基线甘特图/project" })
 	public WorkLink setProject(String project_id) {
 		this.project_id = project_id == null ? null : new ObjectId(project_id);
 		return this;
@@ -120,8 +120,8 @@ public class WorkLink {
 	//
 	private Work source;
 
-	@ReadValue({ "项目甘特图/source", "项目甘特图（查看）/source", "项目甘特图（编辑）/source", "项目甘特图（无表格查看）/source", "项目甘特图（资源分配）/source",
-			"项目进展甘特图/source" })
+	@ReadValue({ "项目甘特图/source", "项目甘特图（查看）/source", "项目甘特图（编辑）/source", "项目甘特图（无表格查看）/source", "项目甘特图（资源计划分配）/source",
+			"项目甘特图（资源实际分配）/source", "项目进展甘特图/source" })
 	public String getSource() {
 		return source == null ? null : source.get_id().toHexString();
 	}
@@ -159,8 +159,8 @@ public class WorkLink {
 	//
 	private Work target;
 
-	@ReadValue({ "项目甘特图/target", "项目甘特图（查看）/target", "项目甘特图（编辑）/target", "项目甘特图（无表格查看）/target", "项目甘特图（资源分配）/target",
-			"项目进展甘特图/target" })
+	@ReadValue({ "项目甘特图/target", "项目甘特图（查看）/target", "项目甘特图（编辑）/target", "项目甘特图（无表格查看）/target", "项目甘特图（资源计划分配）/target",
+			"项目甘特图（资源实际分配）/target", "项目进展甘特图/target" })
 	public String getTarget() {
 		return target == null ? null : target.get_id().toHexString();
 	}
@@ -205,10 +205,10 @@ public class WorkLink {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
-	@ReadValue({ "项目甘特图/lag", "项目甘特图（查看）/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag",
+	@ReadValue({ "项目甘特图/lag", "项目甘特图（查看）/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源计划分配）/lag", "项目甘特图（资源实际分配）/lag", "项目进展甘特图/lag",
 			"项目基线甘特图/lag" })
-	@WriteValue({ "项目甘特图/lag", "项目甘特图（查看）/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源分配）/lag", "项目进展甘特图/lag",
-			"项目基线甘特图/lag" })
+	@WriteValue({ "项目甘特图/lag", "项目甘特图（查看）/lag", "项目甘特图（编辑）/lag", "项目甘特图（无表格查看）/lag", "项目甘特图（资源计划分配）/lag", "项目甘特图（资源实际分配）/log",
+			"项目进展甘特图/lag", "项目基线甘特图/lag" })
 	@Persistence
 	private int lag;
 
@@ -299,7 +299,7 @@ public class WorkLink {
 	public String getType() {
 		return type;
 	}
-	
+
 	public int getLag() {
 		return lag;
 	}

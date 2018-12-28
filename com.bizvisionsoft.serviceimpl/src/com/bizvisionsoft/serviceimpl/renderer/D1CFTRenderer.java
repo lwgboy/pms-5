@@ -18,7 +18,7 @@ public class D1CFTRenderer {
 
 		// 头像
 		String name = doc.getString("name");
-		String role = doc.getString("role");
+		String role = new String[] {"组长","设计","工艺","生产","质量"}[Integer.parseInt(doc.getString("role"))];
 		String mobile = Optional.ofNullable(doc.getString("mobile")).map(e -> "<a href='tel:" + e + "'>" + e + "</a>").orElse("");
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");

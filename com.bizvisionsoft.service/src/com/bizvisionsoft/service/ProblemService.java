@@ -78,6 +78,12 @@ public interface ProblemService {
 	public Document insertD1Item(Document d1, @PathParam("lang") String lang);
 
 	@POST
+	@Path("/d1/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD1CFT(@PathParam("_id") ObjectId _id);
+
+	@POST
 	@Path("/_id/{_id}/d2/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -97,6 +103,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/d2/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD2ProblemPhotos(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/d2/photo/{lang}")

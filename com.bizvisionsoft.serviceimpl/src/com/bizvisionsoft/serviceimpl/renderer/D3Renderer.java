@@ -37,7 +37,7 @@ public class D3Renderer {
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit'></a>" + "</div>");
 
-		sb.insert(0, "<div class='brui_card_trans' style='background:#f8f8f8;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
+		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
 				+ RenderTools.margin + "px;'>");
 		sb.append("</div>");
 
