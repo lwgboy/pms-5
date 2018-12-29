@@ -37859,8 +37859,7 @@
           {
             "id": "167f264f1d4",
             "name": "添加",
-            "description": "",
-            "tooltips": "添加临时处理措施",
+            "tooltips": "添加临时措施",
             "image": "/img/add_16_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.problem.CreateD3ICAACT",
@@ -37871,12 +37870,12 @@
           {
             "id": "167f4d8d77d",
             "name": "证实",
-            "text": "证实",
-            "description": "",
-            "tooltips": "证实ICA已经满足要求并未产生新的问题",
+            "text": "",
+            "tooltips": "证实ICA满足要求并且没有产生新的问题",
+            "image": "/img/stamp_w.svg",
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.problem.ConfirmD3ICAACT",
-            "forceText": true,
+            "forceText": false,
             "style": "normal",
             "type": "customized"
           }
@@ -38016,6 +38015,7 @@
             "radioStyle": "横向分段（默认）"
           }
         ],
+        "actions": [],
         "smallEditor": true,
         "tinyEditor": false
       },
@@ -38101,6 +38101,7 @@
             "required": true
           }
         ],
+        "actions": [],
         "smallEditor": true,
         "tinyEditor": false
       },
@@ -38462,6 +38463,14 @@
         "type": "editor",
         "folderId": "167e9f42ca5",
         "fields": [
+          {
+            "id": "167fa558ef4",
+            "name": "info",
+            "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e说明\u003c/div\u003e\n在ICA执行前，证明ICA将防止顾客免受问题的影响。\u003cbr\u003e\n提供前后的比较，证明ICA将不会产生任何新的问题。\u003cbr\u003e\n通过评审、试验、试运行、演示、比较等方法验证ICA是否满足以上的要求。\u003cbr\u003e\n\n",
+            "type": "横幅",
+            "formFields": [],
+            "staticContent": true
+          },
           {
             "id": "167f76d339c",
             "name": "title",

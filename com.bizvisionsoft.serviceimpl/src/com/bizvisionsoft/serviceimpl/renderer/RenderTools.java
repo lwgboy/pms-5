@@ -116,4 +116,9 @@ public class RenderTools {
 		}
 		return null;
 	}
+
+	public static String tooltips(String message, String text) {
+		return "<div style='cursor:pointer;' "
+				+ "onmouseover='layer.tips(\"" + message + "\", this, {tips: 1})'>" + text + "</div>";
+	}
 }

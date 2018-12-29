@@ -90,7 +90,7 @@ public class D3Renderer {
 		// 完成按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
 				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok' onmouseover='layer.tips(\"" + "标记ICA已完成"
-				+ "\",this,{tips:1})'></a>" //
+				+ "\", this, {tips: 1})'></a>" //
 				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
