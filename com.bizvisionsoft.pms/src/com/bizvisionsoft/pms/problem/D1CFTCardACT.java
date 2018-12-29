@@ -38,7 +38,7 @@ public class D1CFTCardACT {
 	}
 
 	private void removeD1CFT(ObjectId _id, Document doc, GridTreeViewer viewer) {
-		if (br.confirm("删除", "请确认将要删除选择的记录。")) {
+		if (br.confirm("删除", "请确认删除选择的团队成员。")) {
 			service.deleteD1CFT(_id);
 			((List<?>) viewer.getInput()).remove(doc);
 			viewer.remove(doc);

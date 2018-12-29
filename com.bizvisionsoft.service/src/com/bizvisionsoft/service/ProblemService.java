@@ -173,14 +173,14 @@ public interface ProblemService {
 	@Path("/d3/verified/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD3ICAVerified(Document t, @PathParam("_id") ObjectId d3ICA_id,
+	public List<Document> updateD3ICAVerified(Document t, @PathParam("_id") ObjectId d3ICA_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/d3/verified/_id/{_id}")
+	@Path("/d3/verified/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD3ICAVerified(@PathParam("_id") ObjectId _id);
+	public Document deleteD3ICAVerified(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d3/confirm/")

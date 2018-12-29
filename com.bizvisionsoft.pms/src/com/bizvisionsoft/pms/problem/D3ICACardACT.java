@@ -39,11 +39,11 @@ public class D3ICACardACT {
 		} else if (e.text.startsWith("deleteICA")) {
 			deleteD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("verificationICA")) {
-			verificationD3ICA(_id, element, viewer, context);
+			verificationD3ICA(_id, element, viewer, context, true);
 		} else if (e.text.startsWith("finishICA")) {
 			finishD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("editVerified")) {
-			verificationD3ICA(_id, element, viewer, context);
+			verificationD3ICA(_id, element, viewer, context, false);
 		} else if (e.text.startsWith("deleteVerified")) {
 			deleteD3ICAVerified(_id, element, viewer, context);
 		}
@@ -59,34 +59,57 @@ public class D3ICACardACT {
 	}
 
 	private void deleteD3ICAVerified(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (br.confirm("删除", "请确认将要删除选择的记录。")) {
-			service.deleteD3ICAVerified(_id);
-			((List<?>) viewer.getInput()).remove(doc);
+		if (br.confirm("删除", "请确认删除选择的临时处理措施验证记录。")) {
+			Document d = service.deleteD3ICAVerified(_id, RWT.getLocale().getLanguage());
+			List<?> input = (List<?>) viewer.getInput();
+			int i = input.indexOf(doc);
+			input.remove(doc);
 			viewer.remove(doc);
+			AUtil.simpleCopy(d, input.get(i - 1));
+			viewer.refresh(input.get(i - 1));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, boolean parent) {
 		Document d3ICAVerified = service.getD3ICAVerified(_id);
 		boolean insert = (d3ICAVerified.get("title") == null);
 		Editor.create("D3-ICA验证", context, d3ICAVerified, true).ok((r, t) -> {
-			t = service.updateD3ICAVerified(t, _id, RWT.getLocale().getLanguage());
+			List<Document> u = service.updateD3ICAVerified(t, _id, RWT.getLocale().getLanguage());
+			List<Document> input = (List<Document>) viewer.getInput();
+			int i = input.indexOf(doc);
 			if (insert) {
-				List<Document> input = (List<Document>) viewer.getInput();
-				input.add(input.indexOf(doc) + 1, t);
-				viewer.refresh();
-			} else {
-				AUtil.simpleCopy(t, doc);
+				AUtil.simpleCopy(u.get(0), doc);
+				input.add(i + 1, u.get(1));
+				viewer.insert(input, u.get(1), i + 1);
 				viewer.refresh(doc);
+			} else {
+				if (parent) {
+					AUtil.simpleCopy(u.get(0), doc);
+					AUtil.simpleCopy(u.get(1), input.get(i + 1));
+					viewer.refresh(doc);
+					viewer.refresh(input.get(i + 1));
+				} else {
+					AUtil.simpleCopy(u.get(0), input.get(i - 1));
+					AUtil.simpleCopy(u.get(1), doc);
+					viewer.refresh(input.get(i - 1));
+					viewer.refresh(doc);
+				}
 			}
 		});
 	}
 
 	private void deleteD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (br.confirm("删除", "请确认将要删除选择的记录。")) {
-			service.deleteD3ICA(_id);
-			((List<?>) viewer.getInput()).remove(doc);
+		if (br.confirm("删除", "请确认将要删除选择的临时处理措施。")) {
+			long l = service.deleteD3ICA(_id);
+			List<?> input = (List<?>) viewer.getInput();
+			if (l > 1) {
+				int i = input.indexOf(doc);
+				Object d = input.get(i + 1);
+				input.remove(d);
+				viewer.remove(d);
+			}
+			input.remove(doc);
 			viewer.remove(doc);
 		}
 	}

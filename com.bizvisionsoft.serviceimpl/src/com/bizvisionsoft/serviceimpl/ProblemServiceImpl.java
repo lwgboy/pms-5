@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -222,7 +223,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// ICA计划 d3ICAPlan，ICA计划条目
 		// charger, finishDate, description, attachment
 		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
-		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1)).forEach((Document d) -> {
+		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1)).forEach((Document d) -> {
 			d3Result.add(D3Renderer.renderICA(d, lang));
 			Optional.ofNullable(d.get("verification"))
 					.ifPresent(v -> d3Result.add(D3Renderer.renderICAVerified((Document) v, d.get("_id"), lang)));
@@ -261,7 +262,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteD3ICA(ObjectId _id) {
-		return c("d3ICA").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+		Document d = c("d3ICA").findOneAndDelete(new BasicDBObject("_id", _id));
+		return d.get("verification") == null ? 1l : 2l;
 	}
 
 	@Override
@@ -278,19 +280,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
-		return D3Renderer
-				.renderICAVerified(
-						(Document) c("d3ICA")
-								.findOneAndUpdate(new Document("_id", d3ica_id), new Document("$set", new Document("verification", t)),
-										new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER))
-								.get("verification"),
-						d3ica_id, lang);
+	public List<Document> updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
+		Document doc = c("d3ICA").findOneAndUpdate(new Document("_id", d3ica_id), new Document("$set", new Document("verification", t)),
+				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
+		return Arrays.asList(D3Renderer.renderICA(doc, lang),
+				D3Renderer.renderICAVerified((Document) doc.get("verification"), d3ica_id, lang));
 	}
 
 	@Override
-	public long deleteD3ICAVerified(ObjectId _id) {
-		return c("d3ICA").updateOne(new Document("_id", _id), new Document("$set", new Document("verification", null))).getModifiedCount();
+	public Document deleteD3ICAVerified(ObjectId _id, String lang) {
+		return D3Renderer
+				.renderICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("verification", null)),
+						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)), lang);
 	}
 
 	@Override
