@@ -39,11 +39,9 @@ public class D3ICACardACT {
 		} else if (e.text.startsWith("deleteICA")) {
 			deleteD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("verificationICA")) {
-			verificationD3ICA(_id, element, viewer, context, true);
+			verificationD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("finishICA")) {
 			finishD3ICA(_id, element, viewer, context);
-		} else if (e.text.startsWith("editVerified")) {
-			verificationD3ICA(_id, element, viewer, context, false);
 		} else if (e.text.startsWith("deleteVerified")) {
 			deleteD3ICAVerified(_id, element, viewer, context);
 		}
@@ -51,7 +49,7 @@ public class D3ICACardACT {
 	}
 
 	private void finishD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (br.confirm("完成", "请确认该临时处理措施已经完成。")) {
+		if (br.confirm("完成", "请确认选择的临时处理措施已经完成。")) {
 			Document t = service.finishD3ICA(_id, RWT.getLocale().getLanguage());
 			AUtil.simpleCopy(t, doc);
 			viewer.refresh(doc);
@@ -71,7 +69,7 @@ public class D3ICACardACT {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, boolean parent) {
+	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		Document d3ICAVerified = service.getD3ICAVerified(_id);
 		boolean insert = (d3ICAVerified.get("title") == null);
 		Editor.create("D3-ICA验证", context, d3ICAVerified, true).ok((r, t) -> {
@@ -84,23 +82,16 @@ public class D3ICACardACT {
 				viewer.insert(input, u.get(1), i + 1);
 				viewer.refresh(doc);
 			} else {
-				if (parent) {
-					AUtil.simpleCopy(u.get(0), doc);
-					AUtil.simpleCopy(u.get(1), input.get(i + 1));
-					viewer.refresh(doc);
-					viewer.refresh(input.get(i + 1));
-				} else {
-					AUtil.simpleCopy(u.get(0), input.get(i - 1));
-					AUtil.simpleCopy(u.get(1), doc);
-					viewer.refresh(input.get(i - 1));
-					viewer.refresh(doc);
-				}
+				AUtil.simpleCopy(u.get(0), doc);
+				AUtil.simpleCopy(u.get(1), input.get(i + 1));
+				viewer.refresh(doc);
+				viewer.refresh(input.get(i + 1));
 			}
 		});
 	}
 
 	private void deleteD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (br.confirm("删除", "请确认将要删除选择的临时处理措施。")) {
+		if (br.confirm("删除", "请确认删除选择的临时处理措施。")) {
 			long l = service.deleteD3ICA(_id);
 			List<?> input = (List<?>) viewer.getInput();
 			if (l > 1) {

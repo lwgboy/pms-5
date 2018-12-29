@@ -38478,7 +38478,7 @@
             "type": "单选框",
             "formFields": [],
             "required": true,
-            "optionText": "未通过验证#已验证",
+            "optionText": "已验证#未通过验证",
             "radioStyle": "横向分段（默认）"
           },
           {

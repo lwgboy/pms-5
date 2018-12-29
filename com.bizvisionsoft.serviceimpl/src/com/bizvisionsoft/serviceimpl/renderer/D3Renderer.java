@@ -53,7 +53,7 @@ public class D3Renderer {
 					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
 					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
 					+ "&nbsp;&nbsp;"//
-					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 80px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 36;
@@ -64,29 +64,29 @@ public class D3Renderer {
 					+ "&nbsp;:&nbsp;"//
 					+ "<span style='color:#" + color[1] + "'>" + name + "</span>" //
 					+ "&nbsp;&nbsp;"//
-					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 80px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 24;
 		}
-//		sb.append("<div style='position:absolute;right:16px;top:80px;'>"
-//				+ "</div>");
+		// sb.append("<div style='position:absolute;right:16px;top:80px;'>"
+		// + "</div>");
 
 		// 删除按钮
 		sb.append("<div style='position:absolute;right:88px;bottom:16px;'>"// 8+16+16
-				+ "<a href='deleteICA' target='_rwt' class='layui-icon layui-icon-close'></a>" //
+				+ "<a href='deleteICA' target='_rwt' class='layui-icon layui-icon-close' title='删除'></a>" //
 				+ "</div>");
 		// 编辑按钮
 		sb.append("<div style='position:absolute;right:64px;bottom:16px;'>"
-				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit'></a>" //
+				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit' title='编辑'></a>" //
 				+ "</div>");
 		// 验证按钮
 		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
-				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-vercode'></a>" //
+				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-survey' title='验证'></a>" //
 				+ "</div>");
 		// 完成按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok'></a>" //
+				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok' onmouseover='layer.tips(\""+"标记ICA已完成"+"\", this, {tips: 1})'></a>" //
 				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
@@ -99,6 +99,8 @@ public class D3Renderer {
 	public static Document renderICAVerified(Document doc, Object d3ica_id, String lang) {
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = RenderTools.margin * 3;
+
+		String[] color = new String[] { "000000", "757575" };
 
 		Document user_meta = (Document) doc.get("user_meta");
 		String userName = user_meta.getString("name");
@@ -114,19 +116,30 @@ public class D3Renderer {
 		sb.append("<div style='height:72px'>" + RenderTools.getTextMultiLineNoBlank3("", comment, CardTheme.TEXT_LINE) + "</div>");
 		rowHeight += 72;
 
-		sb.append("<div style='position:absolute;right:40px;>"//
-				+ "<span style='color:#" + CardTheme.TEXT_LINE[0] + "'>" + userName + "</span>&nbsp;&nbsp;" //
-				+ "<span style='color:#" + CardTheme.TEXT_LINE[1] + "'>" + _date + "</span>" //
-				+ "</div>");
-		rowHeight += 24;
+		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
+		if (url != null) {
+			sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
+					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
+					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + userName + "</span>" //
+					+ "<span class='label_caption' style='margin-left:4px;color:#9e9e9e'>" + _date + "</span>"//
+					+ "</div>"//
+					+ "</div>");
+			rowHeight += 36;
+		} else {
+			sb.append("<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
+					+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
+					+ "<span style='color:#" + color[0] + "'>验证人</span>" //
+					+ "&nbsp;:&nbsp;"//
+					+ "<span style='color:#" + color[1] + "'>" + userName + "</span>" //
+					+ "<span class='label_caption' style='margin-left:4px;color:#9e9e9e'>" + _date + "</span>"//
+					+ "</div>"//
+					+ "</div>");
+			rowHeight += 24;
+		}
 
 		// 删除按钮
-		sb.append("<div style='position:absolute;right:40px;top:16px;'>"// 8+16+16
-				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close' ></a>" //
-				+ "</div>");
-		// 编辑按钮
-		sb.append("<div style='position:absolute;right:16px;top:16px;'>"
-				+ "<a href='editVerified' target='_rwt' class='layui-icon layui-icon-edit'></a>" //
+		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"// 8+16+16
+				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close'></a>" //
 				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
