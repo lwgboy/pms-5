@@ -131,6 +131,24 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD3ICA(Document t, @PathParam("lang") String lang);
 
+	@GET
+	@Path("/_id/{_id}/d3/ica")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD3ICA(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/d3/ica/{lang}/update")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/d3/ica/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD3ICA(@PathParam("_id") ObjectId _id);
+
 	@POST
 	@Path("/_id/{_id}/d4/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")

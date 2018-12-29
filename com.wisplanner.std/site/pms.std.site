@@ -37727,9 +37727,25 @@
             "style": "normal",
             "children": [],
             "type": "customized"
+          },
+          {
+            "id": "167f4d8d77d",
+            "name": "客户确认",
+            "text": "确认",
+            "forceText": true,
+            "style": "normal",
+            "type": "customized"
           }
         ],
-        "rowActions": [],
+        "rowActions": [
+          {
+            "id": "167f49ba56c",
+            "name": "操作",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.D3ICACardACT",
+            "type": "customized"
+          }
+        ],
         "hasTitlebar": true,
         "disableStdQuery": true,
         "scrollLoadData": false,

@@ -18,7 +18,8 @@ import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D3Renderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
@@ -185,23 +186,21 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public long deleteD2ProblemPhotos(ObjectId _id) {
-		FileServiceImpl fileServiceImpl = new FileServiceImpl();
-		List<Document> problemImg = (List<Document>) c("d2ProblemPhoto").find(new Document("_id", _id)).first().get("problemImg");
-		long l = c("d2ProblemPhoto").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
-		for (Document doc : problemImg) {
-			fileServiceImpl.delete(doc.getString("namepace"), doc.getObjectId("_id").toString());
-		}
-		return l;
+		Document d2ProblemPhoto = c("d2ProblemPhoto").findOneAndDelete(new BasicDBObject("_id", _id));
+		Check.instanceThen(d2ProblemPhoto.get("problemImg"), List.class,
+				l -> ((List<Document>) l).forEach(d -> deleteFile(d.getString("namepace"), d.getObjectId("_id").toString())));
+		return 1l;
 	}
 
 	@Override
 	public Document updateD2ProblemDesc(Document d, String lang) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
-		c("d2ProblemDesc").updateOne(filter, set, new UpdateOptions().upsert(true));
-		return D2Renderer.renderPDCard(d, lang);
+		return D2Renderer.renderPDCard(c("d2ProblemDesc").findOneAndUpdate(filter, set,
+				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
 	}
 
 	@Override
@@ -233,7 +232,26 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD3ICA(Document t, String lang) {
 		c("d3ICA").insertOne(t);
-		return t;
+		return D3Renderer.renderICA(t, lang);
+	}
+
+	@Override
+	public Document getD3ICA(ObjectId _id) {
+		return c("d3ICA").find(new Document("_id", _id)).first();
+	}
+
+	@Override
+	public Document updateD3ICA(Document d, String lang) {
+		Document filter = new Document("_id", d.get("_id"));
+		Document set = new Document("$set", d);
+		return D3Renderer.renderICA(
+				c("d3ICA").findOneAndUpdate(filter, set, new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)),
+				lang);
+	}
+
+	@Override
+	public long deleteD3ICA(ObjectId _id) {
+		return c("d3ICA").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
 	}
 
 	@Override

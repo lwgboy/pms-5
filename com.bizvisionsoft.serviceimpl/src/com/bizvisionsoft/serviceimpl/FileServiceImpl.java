@@ -20,7 +20,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.gridfs.model.GridFSUploadOptions;
 import com.mongodb.client.model.Filters;
 
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends BasicServiceImpl implements FileService {
 
 	public Response get(String namespace, String id, String fileName) {
 		ObjectId _id = new ObjectId(id);
@@ -30,14 +30,14 @@ public class FileServiceImpl implements FileService {
 			return Response.status(404).build();
 		}
 
-		String contentType = ""+file.getMetadata().get("contentType");
-		if (Check.isNotAssigned(""+contentType)) {
+		String contentType = "" + file.getMetadata().get("contentType");
+		if (Check.isNotAssigned("" + contentType)) {
 			try {
 				contentType = Files.probeContentType(Paths.get(fileName));
 			} catch (IOException e) {
-			} 
+			}
 		}
-		if(Check.isNotAssigned(""+contentType))
+		if (Check.isNotAssigned("" + contentType))
 			contentType = "application/octet-stream";
 
 		String downloadableFileName;
@@ -66,9 +66,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public void delete(String namespace, String id) {
-		ObjectId _id = new ObjectId(id);
-		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
-		bucket.delete(_id);
+		deleteFile(namespace, id);
 	}
 
 }

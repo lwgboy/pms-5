@@ -40,6 +40,8 @@ import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.gridfs.GridFSBucket;
+import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
@@ -942,5 +944,11 @@ public class BasicServiceImpl {
 	 */
 	protected String getUserName(String userId) {
 		return c("user").distinct("name", new Document("userId", userId), String.class).first();
+	}
+	
+	protected void deleteFile(String namespace, String id) {
+		ObjectId _id = new ObjectId(id);
+		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
+		bucket.delete(_id);
 	}
 }
