@@ -61,6 +61,13 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("问题清单/update")
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+	
+	@GET
+	@Path("/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet(DataSet.INPUT)
+	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/_id/{_id}/d1/ds/{lang}")

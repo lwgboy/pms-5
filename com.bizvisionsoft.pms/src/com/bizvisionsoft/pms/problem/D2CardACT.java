@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
@@ -22,6 +21,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class D2CardACT {
 	@Inject
 	private IBruiService br;
+	
 	private ProblemService service;
 
 	public D2CardACT() {
@@ -38,13 +38,13 @@ public class D2CardACT {
 		if (e.text.startsWith("editpd")) {
 			editProblemDesc(_id, element, viewer, context);
 		} else if (e.text.startsWith("deletephoto")) {
-			deleteProblemPhoto(_id, element, viewer, context);
+			deleteProblemPhoto(_id, element, viewer);
 		}
 
 	}
 
-	private void deleteProblemPhoto(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的记录。")) {
+	private void deleteProblemPhoto(ObjectId _id, Document doc, GridTreeViewer viewer) {
+		if (br.confirm("删除", "请确认删除选择的图片资料。")) {
 			service.deleteD2ProblemPhotos(_id);
 			((List<?>) viewer.getInput()).remove(doc);
 			viewer.remove(doc);
