@@ -24,6 +24,11 @@ import com.mongodb.client.model.ReturnDocument;
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
 	@Override
+	public Problem get(ObjectId _id) {
+		return get(_id, Problem.class);
+	}
+	
+	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
 		p = super.insert(p);
@@ -288,5 +293,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		return result;
 	}
+
 
 }
