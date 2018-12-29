@@ -15,7 +15,6 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
-import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -72,8 +71,6 @@ public class D3ICACardACT {
 		Document d3ICAVerified = service.getD3ICAVerified(_id);
 		boolean insert = (d3ICAVerified.get("title") == null);
 		Editor.create("D3-ICAÑéÖ¤", context, d3ICAVerified, true).ok((r, t) -> {
-			t.append("userId", br.getCurrentUserId());
-			t.append("user_meta", BsonTools.encodeDocument(br.getCurrentUserInfo()));
 			t = service.updateD3ICAVerified(t, _id, RWT.getLocale().getLanguage());
 			if (insert) {
 				List<Document> input = (List<Document>) viewer.getInput();

@@ -21,7 +21,7 @@ public class CreateD2ProblemImageACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
-			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D2-ÎÊÌâÕÕÆ¬", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");

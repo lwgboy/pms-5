@@ -44,10 +44,8 @@ public class D3Renderer {
 		sb.append(RenderTools.getTextLineNoBlank("费用预算", budget, CardTheme.TEXT_LINE));
 		rowHeight += 24;
 
-		String status = doc.getBoolean("finish", false) ? "<span class='layui-badge-rim layui-btn-fluid' style='width: 50px;'>已完成</span>"
-				: ((doc.get("verification") != null)
-						? "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>已确认</span>"
-						: "<span class='layui-badge layui-bg-gray layui-btn-fluid' style='width: 50px;'> 已创建</span>");
+		String status = doc.getBoolean("finish", false) ? "已完成"
+				: ((doc.get("verification") != null) ? ((Document) doc.get("verification")).getString("title") : "已创建");
 
 		String url = RenderTools.getFirstImageURL(chargerData, "headPics");
 		String name = chargerData.getString("name");
@@ -56,7 +54,7 @@ public class D3Renderer {
 					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
 					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
 					+ "&nbsp;&nbsp;"//
-					+ status//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 36;
@@ -67,7 +65,7 @@ public class D3Renderer {
 					+ "&nbsp;:&nbsp;"//
 					+ "<span style='color:#" + color[1] + "'>" + name + "</span>" //
 					+ "&nbsp;&nbsp;"//
-					+ status//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 24;
@@ -104,7 +102,7 @@ public class D3Renderer {
 		int rowHeight = RenderTools.margin * 3;
 
 		String img;
-		Document user_meta = (Document) doc.get("user_meta");
+		Document user_meta = (Document) doc.get("userId_meta");
 		String userName = user_meta.getString("name");
 		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
 		if (url != null) {

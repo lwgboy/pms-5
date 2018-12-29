@@ -22,7 +22,7 @@ public class CreateD1CFTMemberACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D1-CTF³ÉÔ±", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			int i = Integer.parseInt(t.getString("role"));
 			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage());

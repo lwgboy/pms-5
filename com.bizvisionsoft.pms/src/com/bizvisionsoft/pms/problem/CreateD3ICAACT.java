@@ -20,7 +20,7 @@ public class CreateD3ICAACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D3-ICA", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertD3ICA(t, RWT.getLocale().getLanguage());
 			//TODO 添加卡片项，注意排序问题

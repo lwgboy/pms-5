@@ -25,7 +25,7 @@ public class EditD2ProblemDescACT {
 	@SuppressWarnings("unchecked")
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
-			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		ProblemService service = Services.get(ProblemService.class);
 		Document d = service.getD2ProblemDesc(problem.get_id());
 		boolean insert = (d.get("what") != null);
