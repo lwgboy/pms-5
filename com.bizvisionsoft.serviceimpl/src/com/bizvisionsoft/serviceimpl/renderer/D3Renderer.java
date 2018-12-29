@@ -25,7 +25,7 @@ public class D3Renderer {
 
 		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
 				+ "<div class='brui_card_text'>" + action + "</div>"//
-				+ "<div style='text-align:center;'><div class='label_headline'>" + priority + "</div>"
+				+ "<div style='text-align:center;margin-left:8px'><div class='label_headline'>" + priority + "</div>"
 				+ "<div class='label_caption'>”≈œ»º∂</div></div>"//
 				+ "</div>");//
 
