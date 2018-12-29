@@ -81,7 +81,7 @@ public class D3Renderer {
 				+ "</div>");
 		// 验证按钮
 		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
-				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-survey'></a>" //
+				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-vercode'></a>" //
 				+ "</div>");
 		// 完成按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
@@ -102,7 +102,7 @@ public class D3Renderer {
 		int rowHeight = RenderTools.margin * 3;
 
 		String img;
-		Document user_meta = (Document) doc.get("userId_meta");
+		Document user_meta = (Document) doc.get("user_meta");
 		String userName = user_meta.getString("name");
 		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
 		if (url != null) {
