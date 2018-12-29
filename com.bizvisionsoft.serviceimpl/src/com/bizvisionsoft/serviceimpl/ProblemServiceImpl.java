@@ -10,8 +10,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
-import com.bizvisionsoft.service.model.Command;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
@@ -93,16 +91,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long updateProblems(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, Problem.class);
-	}
-
-	@Override
-	public List<Result> confirmProblem(Command com) {
-		List<Result> result = new ArrayList<Result>();
-		if (ICommand.D3ICA_Confirm.equals(com.name)) {
-			updateProblems(
-					new FilterAndUpdate().filter(new BasicDBObject("_id", com._id)).set(new BasicDBObject("confirmD3ICA", true)).bson());
-		}
-		return result;
 	}
 
 	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
@@ -303,6 +291,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long deleteD3ICAVerified(ObjectId _id) {
 		return c("d3ICA").updateOne(new Document("_id", _id), new Document("$set", new Document("verification", null))).getModifiedCount();
+	}
+
+	@Override
+	public List<Result> confirmD3ICA(ObjectId _id) {
+		updateProblems(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("confirmD3ICA", true)).bson());
+		return new ArrayList<Result>();
 	}
 
 	@Override

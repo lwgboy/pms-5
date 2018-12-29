@@ -15,8 +15,6 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.OBSService;
-import com.bizvisionsoft.service.model.Command;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.Result;
@@ -314,23 +312,22 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	 * 从项目团队中移除人员检查
 	 */
 	@Override
-	public List<Result> deleteProjectMemberCheck(Command com) {
+	public List<Result> deleteProjectMemberCheck(ObjectId _id, String type) {
 		List<Result> results = new ArrayList<Result>();
-		ObjectId _id = com._id;
 		OBSItem obsItem = get(_id);
 		ObjectId scope_id = obsItem.getScope_id();
 		Set<String> userIds = new HashSet<String>();
 		List<ObjectId> obs_id = new ArrayList<ObjectId>();
-		if (com.name.startsWith(ICommand.Appointment_OBSItem)) {
+		if (type.startsWith("appointmentobsitem")) {
 			obs_id.add(_id);
 			userIds.add(obsItem.getManagerId());
-		} else if (com.name.startsWith(ICommand.Edit_OBSItem)) {
+		} else if (type.startsWith("editobsitem")) {
 			obs_id.add(_id);
 			userIds.add(obsItem.getManagerId());
-		} else if (com.name.startsWith(ICommand.Remove_OBSItem_Member)) {
+		} else if (type.startsWith("removeobsitemmember")) {
 			obs_id.add(_id);
-			userIds.add(com.name.replace(ICommand.Remove_OBSItem_Member + "@", ""));
-		} else if (com.name.startsWith(ICommand.Remove_OBSItem)) {
+			userIds.add(type.replace("removeobsitemmember@", ""));
+		} else if (type.startsWith("deleteobsitem")) {
 			lookupDesentItems(Arrays.asList(_id), "obs", "parent_id", true).forEach((Document d) -> {
 				obs_id.add(d.getObjectId("_id"));
 				Object managerId = d.get("managerId");

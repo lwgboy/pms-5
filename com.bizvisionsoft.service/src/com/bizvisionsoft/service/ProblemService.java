@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
 import com.mongodb.BasicDBObject;
@@ -70,12 +69,6 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
-
-	@POST
-	@Path("/command/confirm/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public List<Result> confirmProblem(Command com);
 
 	@POST
 	@Path("/_id/{_id}/d1/ds/{lang}")
@@ -188,6 +181,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD3ICAVerified(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/d3/confirm/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> confirmD3ICA(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/_id/{_id}/d4/ds/{lang}")
