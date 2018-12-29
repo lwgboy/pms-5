@@ -21,7 +21,7 @@ public class ConfirmD3ICAACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.PAGE_CONTEXT_INPUT_OBJECT) Problem problem) {
+			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		if (br.confirm("客户确认", "请确认所有临时处理措施已经经客户确认。")) {
 			List<Result> result = Services.get(ProblemService.class)
 					.confirmProblem(br.command(problem.get_id(), new Date(), ICommand.D3ICA_Confirm));
