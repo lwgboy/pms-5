@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812282141",
+  "timestamp": "201812290848",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -38309,6 +38309,49 @@
         "folderId": "167f30760ab",
         "selectorGridAssemblyId": "167f309c94a",
         "smallEditor": false
+      },
+      {
+        "id": "167f7687df3",
+        "name": "D3-ICA验证",
+        "title": "D3-验证临时处理措施",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167e9f42ca5",
+        "fields": [
+          {
+            "id": "167f76d2830",
+            "name": "新字段2",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "167f76d339c",
+                "name": "title",
+                "text": "标题",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "167f76d350c",
+                "name": "date",
+                "text": "验证日期",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "datetime"
+              }
+            ]
+          },
+          {
+            "id": "167f76d2235",
+            "name": "comment",
+            "text": "说明",
+            "type": "单行文本框",
+            "formFields": []
+          }
+        ],
+        "actions": [],
+        "smallEditor": true
       }
     ]
   },

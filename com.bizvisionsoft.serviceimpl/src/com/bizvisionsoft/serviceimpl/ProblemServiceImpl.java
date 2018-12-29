@@ -215,8 +215,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// ICA计划 d3ICAPlan，ICA计划条目
 		// charger, finishDate, description, attachment
 		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
-		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1)).map(d -> D3Renderer.renderICA(d, lang))
-				.into(d3Result);
+		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1)).forEach((Document d) -> {
+			d3Result.add(D3Renderer.renderICA(d, lang));
+			Optional.ofNullable(d.get("verification"))
+					.ifPresent(v -> d3Result.add(D3Renderer.renderICAVerified((Document) v, d.get("_id"), lang)));
+		});
 
 		// ICA验证 d3ICAVerify，验证结论，验证记录
 		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
@@ -252,6 +255,19 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long deleteD3ICA(ObjectId _id) {
 		return c("d3ICA").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+	}
+
+	@Override
+	public Document getD3ICAVerified(ObjectId d3ica_id) {
+		return Optional.ofNullable((Document) c("d3ICA").find(new Document("_id", d3ica_id)).first().get("verification"))
+				.orElse(new Document());
+	}
+
+	@Override
+	public Document updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
+		return D3Renderer.renderICAVerified(c("d3ICA").findOneAndUpdate(new Document("_id", d3ica_id),
+				new Document("$set", new Document("verification", t)), new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)),
+				d3ica_id, lang);
 	}
 
 	@Override

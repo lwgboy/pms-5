@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -40,11 +41,23 @@ public class D3ICACardACT {
 		} else if (e.text.startsWith("deleteICA")) {
 			deleteD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("verificationICA")) {
-			deleteD3ICA(_id, element, viewer, context);
+			verificationD3ICA(_id, element, viewer, context);
 		} else if (e.text.startsWith("finishICA")) {
 			deleteD3ICA(_id, element, viewer, context);
 		}
 
+	}
+
+	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+		Document d3ICAVerified = service.getD3ICAVerified(_id);
+		Editor.create("D3-ICAÑéÖ¤", context, d3ICAVerified, true).ok((r, t) -> {
+			t.append("userId", br.getCurrentUserId());
+			t.append("user_meta", BsonTools.encodeDocument(br.getCurrentUserInfo()));
+			t = service.updateD3ICAVerified(t, _id, RWT.getLocale().getLanguage());
+			// TODO Ë¢ÐÂ
+			// AUtil.simpleCopy(t, doc);
+			// viewer.refresh(doc);
+		});
 	}
 
 	private void deleteD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {

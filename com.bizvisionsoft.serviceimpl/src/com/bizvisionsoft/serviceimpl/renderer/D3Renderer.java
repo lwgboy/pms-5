@@ -3,6 +3,7 @@ package com.bizvisionsoft.serviceimpl.renderer;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
+import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class D3Renderer {
@@ -78,6 +79,48 @@ public class D3Renderer {
 		sb.append("</div>");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+	}
+
+	public static Document renderICAVerified(Document doc, Object d3ica_id, String lang) {
+		CardTheme theme = new CardTheme(CardTheme.INDIGO);
+
+		StringBuffer sb = new StringBuffer();
+		int rowHeight = RenderTools.margin * 3;
+
+		String img;
+		Document user_meta = (Document) doc.get("user_meta");
+		String userName = user_meta.getString("name");
+		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
+		if (url != null) {
+			img = "<img src=" + url + " style='float:left;border-radius:28px;width:48px;height:48px;'/>";
+		} else {
+			String alpha = Formatter.getAlphaString(userName);
+			url = RenderTools.getNameImageURL(userName);
+			img = "<img src=" + url + " style='float:left;margin-top:4px;margin-left:4px;background-color:"
+					+ ColorTheme.getHTMLDarkColor(alpha) + ";border-radius:28px;width:48px;height:48px;'/>";
+		}
+
+		String title = doc.getString("title");
+		String comment = doc.getString("comment");
+
+		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
+				+ "<div class='brui_card_text' style='display:flex;align-items:center;'>" + img//
+				+ "<span class='label_title' style='margin-left:4px'>" + title + "</span>" //
+				+ "</div>"//
+				+ "</div>");//
+		rowHeight += 64;
+
+		sb.append("<div style='height:72px'>"
+				+ RenderTools.getTextMultiLineNoBlank3("", comment,
+						CardTheme.TEXT_LINE)
+				+ "</div>");
+		rowHeight += 72;
+
+		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
+				+ RenderTools.margin + "px;'>");
+		sb.append("</div>");
+
+		return new Document("_id", d3ica_id).append("html", sb.toString()).append("height", rowHeight);
 	}
 
 }
