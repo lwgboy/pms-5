@@ -122,7 +122,7 @@ public class D3Renderer {
 
 		// É¾³ý°´Å¥
 		sb.append("<div style='position:absolute;right:40px;top:16px;'>"// 8+16+16
-				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close'></a>" //
+				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close' ></a>" //
 				+ "</div>");
 		// ±à¼­°´Å¥
 		sb.append("<div style='position:absolute;right:16px;top:16px;'>"
