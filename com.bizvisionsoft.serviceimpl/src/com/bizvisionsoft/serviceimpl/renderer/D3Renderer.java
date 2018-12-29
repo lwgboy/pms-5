@@ -74,19 +74,23 @@ public class D3Renderer {
 
 		// 删除按钮
 		sb.append("<div style='position:absolute;right:88px;bottom:16px;'>"// 8+16+16
-				+ "<a href='deleteICA' target='_rwt' class='layui-icon layui-icon-close' title='删除'></a>" //
+				+ "<a href='deleteICA' target='_rwt' class='layui-icon layui-icon-close' onmouseover='layer.tips(\"" + "删除ICA"
+				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
 		// 编辑按钮
 		sb.append("<div style='position:absolute;right:64px;bottom:16px;'>"
-				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit' title='编辑'></a>" //
+				+ "<a href='editICA' target='_rwt' class='layui-icon layui-icon-edit' onmouseover='layer.tips(\"" + "编辑ICA"
+				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
 		// 验证按钮
 		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
-				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-survey' title='验证'></a>" //
+				+ "<a href='verificationICA' target='_rwt' class='layui-icon layui-icon-survey' onmouseover='layer.tips(\"" + "验证ICA"
+				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
 		// 完成按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok' title='完成'></a>" //
+				+ "<a href='finishICA' target='_rwt' class='layui-icon layui-icon-ok' onmouseover='layer.tips(\"" + "标记ICA已完成"
+				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
@@ -139,7 +143,8 @@ public class D3Renderer {
 
 		// 删除按钮
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"// 8+16+16
-				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close' title='删除'></a>" //
+				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close'  onmouseover='layer.tips(\"" + "删除ICA验证记录"
+				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"

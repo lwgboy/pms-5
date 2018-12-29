@@ -30,8 +30,8 @@ public class D2Renderer {
 				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>When / 发现时间</span>", when, color)
 				+ "</div>");
 		rowHeight += 40;
-		sb.append("<div style='height:40px'>"
-				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>Where / 地点和位置</span>", where, color) + "</div>");
+		sb.append("<div style='height:40px'>" + RenderTools.getTextMultiLineNoBlank2(
+				"<span class='deep_orange' style='font-weight:700;'>Where / 地点和位置</span>", where, color) + "</div>");
 		rowHeight += 40;
 		sb.append("<div style='height:40px'>"
 				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>Who / 有关人员</span>", who, color)
@@ -41,16 +41,16 @@ public class D2Renderer {
 				+ RenderTools.getTextMultiLineNoBlank3("<span class='deep_orange' style='font-weight:700;'>Why / 原因推测</span>", why, color)
 				+ "</div>");
 		rowHeight += 72;
-		sb.append("<div style='height:40px'>"
-				+ RenderTools.getTextMultiLineNoBlank2("<span class='deep_orange' style='font-weight:700;'>How / 怎样发现的问题</span>", how, color)
-				+ "</div>");
+		sb.append("<div style='height:40px'>" + RenderTools.getTextMultiLineNoBlank2(
+				"<span class='deep_orange' style='font-weight:700;'>How / 怎样发现的问题</span>", how, color) + "</div>");
 		rowHeight += 40;
 		sb.append("<div style='height:40px'>" + RenderTools.getTextMultiLineNoBlank2(
 				"<span class='deep_orange' style='font-weight:700;'>How many / 频度，数量</span>", howmany, color) + "</div>");
 		rowHeight += 40;
 
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit' title='编辑'></a>" + "</div>");
+				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit'  onmouseover='layer.tips(\"" + "编辑问题描述"
+				+ "\",this,{tips:1})'></a>" + "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f8f8f8;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
 				+ RenderTools.margin + "px;'>");
@@ -83,7 +83,8 @@ public class D2Renderer {
 		rowHeight += 24;
 
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='deletephoto' target='_rwt' class='layui-icon layui-icon-close' title='删除'></a>" + "</div>");
+				+ "<a href='deletephoto' target='_rwt' class='layui-icon layui-icon-close' onmouseover='layer.tips(\"" + "删除图片资料"
+				+ "\",this,{tips:1})'></a>" + "</div>");
 
 		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:" + RenderTools.margin
 				+ "px;'>");
