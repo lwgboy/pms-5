@@ -3083,6 +3083,142 @@
           }
         ]
       }
+    },
+    {
+      "typeName": "页面",
+      "id": "167f7e0a80e",
+      "name": "问题首页",
+      "title": "问题",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "1628e1d1914",
+        "toolbarItems": [
+          {
+            "id": "167f82e67de",
+            "name": "信息",
+            "image": "/img/info_w.svg",
+            "type": "customized"
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "167f80d5b5e",
+            "name": "准备",
+            "children": [
+              {
+                "id": "167f8146569",
+                "name": "基本资料",
+                "type": "customized"
+              },
+              {
+                "id": "167f814aa09",
+                "name": "紧急应变措施",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f80d9b31",
+            "name": "建立团队",
+            "type": "customized"
+          },
+          {
+            "id": "167f80ea6ad",
+            "name": "问题描述",
+            "children": [
+              {
+                "id": "167f80edc4a",
+                "name": "5W2H",
+                "type": "customized"
+              },
+              {
+                "id": "167f80fa1df",
+                "name": "问题描述",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f80fe0e8",
+            "name": "临时抑制措施",
+            "type": "customized"
+          },
+          {
+            "id": "167f8109d89",
+            "name": "根本原因分析",
+            "children": [
+              {
+                "id": "167f8113c45",
+                "name": "因果分析（制造）",
+                "type": "customized"
+              },
+              {
+                "id": "167f817cab5",
+                "name": "因果分析（出厂）",
+                "type": "customized"
+              },
+              {
+                "id": "167f8123a48",
+                "name": "5-Why 起因分析",
+                "type": "customized"
+              },
+              {
+                "id": "167f812dfdf",
+                "name": "根本起因描述",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f8170efd",
+            "name": "永久纠正措施",
+            "type": "customized"
+          },
+          {
+            "id": "167f81defa9",
+            "name": "执行和证实",
+            "type": "customized"
+          },
+          {
+            "id": "167f81ff0f2",
+            "name": "系统性预防",
+            "children": [
+              {
+                "id": "167f8202125",
+                "name": "类似系统分析",
+                "type": "customized"
+              },
+              {
+                "id": "167f820b345",
+                "name": "流程和文件更新",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f820fb0b",
+            "name": "表彰团队",
+            "type": "customized"
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "167e9fc93b2"
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProblemService"
     }
   ],
   "assyLib": {
@@ -37322,9 +37458,11 @@
             "id": "167e9e6c197",
             "name": "打开",
             "image": "/img/right_w.svg",
-            "switchContentToAssemblyId": "167e9fc93b2",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.OpenProblemACT",
             "style": "info",
-            "type": "switch"
+            "type": "customized",
+            "openPageName": ""
           }
         ],
         "hasTitlebar": true,

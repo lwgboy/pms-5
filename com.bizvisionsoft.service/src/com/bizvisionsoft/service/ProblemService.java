@@ -83,7 +83,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D1多功能小组/list")
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -104,7 +104,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D2问题描述/list")
 	public List<Document> listD2(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@GET
@@ -137,7 +137,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D3临时措施/list")
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -195,7 +195,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D4根本原因分析/list")
 	public List<Document> listD4(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -204,7 +204,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D5永久措施/list")
 	public List<Document> listD5(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -213,7 +213,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D6执行和确认/list")
 	public List<Document> listD6(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -222,7 +222,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D7系统预防/list")
 	public List<Document> listD7(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
@@ -231,7 +231,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D8关闭结案/list")
 	public List<Document> listD8(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.PAGE_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 }

@@ -29,8 +29,8 @@ public class OpenEPSOrProject {
 	}
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
-		context.selected(em -> open(em));
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+		context.selected(this::open);
 	}
 
 	private void open(Object em) {
