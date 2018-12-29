@@ -48,7 +48,7 @@ public class D1CFTRenderer {
 		rowHeight += 20 + 8;
 
 		sb.append("<div  style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='delete' target='_rwt' class='layui-icon layui-icon-close'></a>" + "</div>");
+				+ "<a href='delete' target='_rwt' class='layui-icon layui-icon-close' title='É¾³ý'></a>" + "</div>");
 
 		RenderTools.renderCardBoard(sb, rowHeight);
 

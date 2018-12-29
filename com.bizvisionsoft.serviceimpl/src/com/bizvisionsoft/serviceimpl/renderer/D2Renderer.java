@@ -50,7 +50,7 @@ public class D2Renderer {
 		rowHeight += 40;
 
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit'></a>" + "</div>");
+				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit' title='±à¼­'></a>" + "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f8f8f8;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
 				+ RenderTools.margin + "px;'>");
@@ -83,7 +83,7 @@ public class D2Renderer {
 		rowHeight += 24;
 
 		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='deletephoto' target='_rwt' class='layui-icon layui-icon-close'></a>" + "</div>");
+				+ "<a href='deletephoto' target='_rwt' class='layui-icon layui-icon-close' title='É¾³ý'></a>" + "</div>");
 
 		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:" + RenderTools.margin
 				+ "px;'>");
