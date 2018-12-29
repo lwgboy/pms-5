@@ -52,6 +52,8 @@ public class D3Renderer {
 			sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
 					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
+					+ "&nbsp;&nbsp;"//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 36;
@@ -61,13 +63,14 @@ public class D3Renderer {
 					+ "<span style='color:#" + color[0] + "'>" + "行动负责" + "</span>" //
 					+ "&nbsp;:&nbsp;"//
 					+ "<span style='color:#" + color[1] + "'>" + name + "</span>" //
+					+ "&nbsp;&nbsp;"//
+					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 24;
 		}
-		sb.append("<div style='position:absolute;right:16px;top:80px;'>"
-				+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
-				+ "</div>");
+//		sb.append("<div style='position:absolute;right:16px;top:80px;'>"
+//				+ "</div>");
 
 		// 删除按钮
 		sb.append("<div style='position:absolute;right:88px;bottom:16px;'>"// 8+16+16
