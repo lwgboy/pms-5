@@ -38,4 +38,6 @@ public interface ICommand {
 
 	public static final String Remove_OBSItem_Member = "删除项目组织节点成员";
 
+	public static final String D3ICA_Confirm = "确认临时处理措施";
+
 }

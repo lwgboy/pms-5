@@ -44,16 +44,32 @@ public class D3Renderer {
 		sb.append(RenderTools.getTextLineNoBlank("费用预算", budget, CardTheme.TEXT_LINE));
 		rowHeight += 24;
 
+		String status = doc.getBoolean("finish", false) ? "<span class='layui-badge-rim layui-btn-fluid' style='width: 50px;'>已完成</span>"
+				: ((doc.get("verification") != null)
+						? "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>已确认</span>"
+						: "<span class='layui-badge layui-bg-gray layui-btn-fluid' style='width: 50px;'> 已创建</span>");
+
 		String url = RenderTools.getFirstImageURL(chargerData, "headPics");
 		String name = chargerData.getString("name");
 		if (url != null) {
 			sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
 					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
+					+ "&nbsp;&nbsp;"//
+					+ status//
+					+ "</div>"//
 					+ "</div>");
 			rowHeight += 36;
 		} else {
-			sb.append(RenderTools.getTextLineNoBlank("行动负责", name, CardTheme.TEXT_LINE));
+			sb.append("<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
+					+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
+					+ "<span style='color:#" + color[0] + "'>" + "行动负责" + "</span>" //
+					+ "&nbsp;:&nbsp;"//
+					+ "<span style='color:#" + color[1] + "'>" + name + "</span>" //
+					+ "&nbsp;&nbsp;"//
+					+ status//
+					+ "</div>"//
+					+ "</div>");
 			rowHeight += 24;
 		}
 
@@ -102,19 +118,26 @@ public class D3Renderer {
 
 		String title = doc.getString("title");
 		String comment = doc.getString("comment");
+		String _date = Formatter.getString(doc.getDate("date"), "yyyy/MM/dd");
 
 		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
 				+ "<div class='brui_card_text' style='display:flex;align-items:center;'>" + img//
 				+ "<span class='label_title' style='margin-left:4px'>" + title + "</span>" //
 				+ "</div>"//
-				+ "</div>");//
+				+ "<div class='label_display'>" + _date + "</div>" + "</div>");//
 		rowHeight += 64;
 
-		sb.append("<div style='height:72px'>"
-				+ RenderTools.getTextMultiLineNoBlank3("", comment,
-						CardTheme.TEXT_LINE)
-				+ "</div>");
+		sb.append("<div style='height:72px'>" + RenderTools.getTextMultiLineNoBlank3("", comment, CardTheme.TEXT_LINE) + "</div>");
 		rowHeight += 72;
+
+		// 删除按钮
+		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
+				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close'></a>" //
+				+ "</div>");
+		// 编辑按钮
+		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
+				+ "<a href='editVerified' target='_rwt' class='layui-icon layui-icon-edit'></a>" //
+				+ "</div>");
 
 		sb.insert(0, "<div class='brui_card_trans' style='background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:"
 				+ RenderTools.margin + "px;'>");

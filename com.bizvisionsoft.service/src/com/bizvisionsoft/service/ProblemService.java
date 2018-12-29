@@ -15,7 +15,9 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.Result;
 import com.mongodb.BasicDBObject;
 
 @Path("/problem")
@@ -61,13 +63,19 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("问题清单/update")
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
-	
+
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/command/confirm/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> confirmProblem(Command com);
 
 	@POST
 	@Path("/_id/{_id}/d1/ds/{lang}")
@@ -156,6 +164,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD3ICA(@PathParam("_id") ObjectId _id);
 
+	@POST
+	@Path("/_id/{_id}/d3/ica/finish/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document finishD3ICA(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
 	@GET
 	@Path("/_id/{_id}/d3/verified")
 	@Consumes("application/json; charset=UTF-8")
@@ -168,6 +182,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD3ICAVerified(Document t, @PathParam("_id") ObjectId d3ICA_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/d3/verified/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD3ICAVerified(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/_id/{_id}/d4/ds/{lang}")

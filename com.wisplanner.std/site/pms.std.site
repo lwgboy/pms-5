@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812291103",
+  "timestamp": "201812291519",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -3083,23 +3083,6 @@
           }
         ]
       }
-    },
-    {
-      "typeName": "页面",
-      "id": "167f7e0a80e",
-      "name": "问题首页",
-      "title": "问题",
-      "headbar": {},
-      "sidebar": {
-        "toolbarItems": [],
-        "sidebarItems": []
-      },
-      "footbar": {},
-      "contentArea": {
-        "typeName": "内容区",
-        "assemblyLinks": []
-      },
-      "inputDataSetService": "com.bizvisionsoft.service.ProblemService"
     }
   ],
   "assyLib": {
@@ -5038,7 +5021,8 @@
         "rowActions": [],
         "queryBuilderBundle": "com.bizvisionsoft.pms",
         "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "162bca49f7c",
@@ -37643,7 +37627,7 @@
         "title": "D1 多功能小组",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D1 团队",
+        "stickerTitle": "D1 多功能小组",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37729,7 +37713,7 @@
         "title": "D3 临时措施",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D3 临时措施",
+        "stickerTitle": "D3 开发ICA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37748,13 +37732,15 @@
             "id": "167f4d8d77d",
             "name": "客户确认",
             "text": "确认",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.ConfirmD3ICAACT",
             "forceText": true,
             "style": "normal",
             "type": "customized"
           }
         ],
         "rowActions": [
-         {
+          {
             "id": "167f49ba56c",
             "name": "操作",
             "bundleId": "com.bizvisionsoft.pms",
@@ -37792,7 +37778,7 @@
         "title": "D5 永久措施",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D5 永久措施",
+        "stickerTitle": "D5 选择/验证PCA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37810,7 +37796,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D6 执行和确认",
+        "stickerTitle": "D6 执行/证实PCA",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37828,7 +37814,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D7 系统性预防",
+        "stickerTitle": "D7 系统预防",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37846,7 +37832,7 @@
         "title": "",
         "layout": [],
         "type": "board",
-        "stickerTitle": "D8 表彰团队",
+        "stickerTitle": "D8 关闭结案",
         "folderId": "167e9f42ca5",
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
@@ -37883,10 +37869,12 @@
             "type": "单选框",
             "formFields": [],
             "required": true,
+            "optionValue": "0#1#2#3#4",
             "optionText": "组长#设计#工艺#生产#质量",
             "radioStyle": "横向分段（默认）"
           }
         ],
+        "actions": [],
         "smallEditor": true,
         "tinyEditor": false
       },

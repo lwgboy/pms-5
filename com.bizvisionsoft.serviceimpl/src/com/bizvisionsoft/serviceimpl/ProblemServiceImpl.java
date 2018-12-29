@@ -9,7 +9,11 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProblemService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.Command;
+import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -27,7 +31,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Problem get(ObjectId _id) {
 		return get(_id, Problem.class);
 	}
-	
+
 	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
@@ -89,6 +93,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long updateProblems(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, Problem.class);
+	}
+
+	@Override
+	public List<Result> confirmProblem(Command com) {
+		List<Result> result = new ArrayList<Result>();
+		if (ICommand.D3ICA_Confirm.equals(com.name)) {
+			updateProblems(
+					new FilterAndUpdate().filter(new BasicDBObject("_id", com._id)).set(new BasicDBObject("confirmD3ICA", true)).bson());
+		}
+		return result;
 	}
 
 	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
@@ -263,6 +277,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public Document finishD3ICA(ObjectId _id, String lang) {
+		return D3Renderer
+				.renderICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("finish", true)),
+						new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
+	}
+
+	@Override
 	public Document getD3ICAVerified(ObjectId d3ica_id) {
 		return Optional.ofNullable((Document) c("d3ICA").find(new Document("_id", d3ica_id)).first().get("verification"))
 				.orElse(new Document());
@@ -270,9 +291,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
-		return D3Renderer.renderICAVerified(c("d3ICA").findOneAndUpdate(new Document("_id", d3ica_id),
-				new Document("$set", new Document("verification", t)), new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)),
-				d3ica_id, lang);
+		return D3Renderer
+				.renderICAVerified(
+						(Document) c("d3ICA")
+								.findOneAndUpdate(new Document("_id", d3ica_id), new Document("$set", new Document("verification", t)),
+										new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER))
+								.get("verification"),
+						d3ica_id, lang);
+	}
+
+	@Override
+	public long deleteD3ICAVerified(ObjectId _id) {
+		return c("d3ICA").updateOne(new Document("_id", _id), new Document("$set", new Document("verification", null))).getModifiedCount();
 	}
 
 	@Override
@@ -309,6 +339,5 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		return result;
 	}
-
 
 }
