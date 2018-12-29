@@ -42,12 +42,18 @@ public class Problem {
 	@WriteValue
 	private String id;
 	
+	@Label(Label.ID_LABEL)
+	private String getIdLabel() {
+		return id +" ["+ status+"]";
+	}
+	
 	@ReadValue
 	@WriteValue
 	private String status;
 
 	@ReadValue
 	@WriteValue
+	@Label(Label.NAME_LABEL)
 	private String name;
 	
 	@ReadValue
