@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.obs.action;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -15,7 +14,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.User;
@@ -32,8 +30,7 @@ public class AppointmentOBSItem {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSItem element = (OBSItem) em;
 		if (element.getManagerId() != null) {
-			List<Result> result = Services.get(OBSService.class)
-					.deleteProjectMemberCheck(br.command(element.get_id(), new Date(), ICommand.Appointment_OBSItem));
+			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(element.get_id(), "appointmentobsitem");
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";

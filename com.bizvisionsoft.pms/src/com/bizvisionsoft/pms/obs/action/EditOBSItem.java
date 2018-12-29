@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.obs.action;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
-import com.bizvisionsoft.service.model.ICommand;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -55,8 +53,7 @@ public class EditOBSItem {
 
 	private boolean check(OBSItem em, OBSItem o, String title) {
 		if (em.getManagerId() != null && !em.getManagerId().equals(o.getManagerId())) {
-			List<Result> result = Services.get(OBSService.class)
-					.deleteProjectMemberCheck(br.command(em.get_id(), new Date(), ICommand.Edit_OBSItem));
+			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(em.get_id(), "editobsitem");
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";

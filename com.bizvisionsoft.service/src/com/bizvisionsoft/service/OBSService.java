@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.model.Command;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.Result;
@@ -156,10 +155,10 @@ public interface OBSService {
 	public boolean isRoleNumberDuplicated(@PathParam("module_id") ObjectId module_id, @PathParam("scope_id") ObjectId scope_id);
 
 	@POST
-	@Path("/deleteProjectMemberCheck")
+	@Path("/_id/{_id}/deleteProjectMemberCheck/{type}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> deleteProjectMemberCheck(Command com);
+	public List<Result> deleteProjectMemberCheck(@PathParam("_id") ObjectId _id, @PathParam("type") String type);
 
 	@POST
 	@Path("/removeUnStartWorkUser/{currentId}")

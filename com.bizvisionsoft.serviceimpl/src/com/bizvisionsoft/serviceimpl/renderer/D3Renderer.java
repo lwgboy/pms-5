@@ -3,7 +3,6 @@ package com.bizvisionsoft.serviceimpl.renderer;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
-import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class D3Renderer {
@@ -53,8 +52,6 @@ public class D3Renderer {
 			sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
 					+ "<img src='" + url + "' style='border-radius:17px;' width='28' height='28'/>"//
 					+ "<span class='label_caption' style='margin-left:4px;color:#" + color[1] + "'>" + name + "</span>" //
-					+ "&nbsp;&nbsp;"//
-					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 36;
@@ -64,12 +61,13 @@ public class D3Renderer {
 					+ "<span style='color:#" + color[0] + "'>" + "行动负责" + "</span>" //
 					+ "&nbsp;:&nbsp;"//
 					+ "<span style='color:#" + color[1] + "'>" + name + "</span>" //
-					+ "&nbsp;&nbsp;"//
-					+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
 					+ "</div>"//
 					+ "</div>");
 			rowHeight += 24;
 		}
+		sb.append("<div style='position:absolute;right:16px;top:80px;'>"
+				+ "<span class='layui-badge layui-bg-blue layui-btn-fluid' style='width: 50px;'>" + status + "</span>"//
+				+ "</div>");
 
 		// 删除按钮
 		sb.append("<div style='position:absolute;right:88px;bottom:16px;'>"// 8+16+16
@@ -96,44 +94,35 @@ public class D3Renderer {
 	}
 
 	public static Document renderICAVerified(Document doc, Object d3ica_id, String lang) {
-		CardTheme theme = new CardTheme(CardTheme.INDIGO);
-
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = RenderTools.margin * 3;
 
-		String img;
 		Document user_meta = (Document) doc.get("user_meta");
 		String userName = user_meta.getString("name");
-		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
-		if (url != null) {
-			img = "<img src=" + url + " style='float:left;border-radius:28px;width:48px;height:48px;'/>";
-		} else {
-			String alpha = Formatter.getAlphaString(userName);
-			url = RenderTools.getNameImageURL(userName);
-			img = "<img src=" + url + " style='float:left;margin-top:4px;margin-left:4px;background-color:"
-					+ ColorTheme.getHTMLDarkColor(alpha) + ";border-radius:28px;width:48px;height:48px;'/>";
-		}
 
 		String title = doc.getString("title");
 		String comment = doc.getString("comment");
-		String _date = Formatter.getString(doc.getDate("date"), "yyyy/MM/dd");
+		String _date = Formatter.getString(doc.getDate("date"), "yyyy/MM/dd HH:mm:ss");
 
-		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
-				+ "<div class='brui_card_text' style='display:flex;align-items:center;'>" + img//
-				+ "<span class='label_title' style='margin-left:4px'>" + title + "</span>" //
-				+ "</div>"//
-				+ "<div class='label_display'>" + _date + "</div>" + "</div>");//
-		rowHeight += 64;
+		sb.append("<div class='brui_card_text' style='display:flex;align-items:center;height:36px;padding:8px 0px 0px 8px;'>" //
+				+ title + "</div>");//
+		rowHeight += 36;
 
 		sb.append("<div style='height:72px'>" + RenderTools.getTextMultiLineNoBlank3("", comment, CardTheme.TEXT_LINE) + "</div>");
 		rowHeight += 72;
 
+		sb.append("<div style='position:absolute;right:40px;>"//
+				+ "<span style='color:#" + CardTheme.TEXT_LINE[0] + "'>" + userName + "</span>&nbsp;&nbsp;" //
+				+ "<span style='color:#" + CardTheme.TEXT_LINE[1] + "'>" + _date + "</span>" //
+				+ "</div>");
+		rowHeight += 24;
+
 		// 删除按钮
-		sb.append("<div style='position:absolute;right:40px;bottom:16px;'>"// 8+16+16
+		sb.append("<div style='position:absolute;right:40px;top:16px;'>"// 8+16+16
 				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close'></a>" //
 				+ "</div>");
 		// 编辑按钮
-		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
+		sb.append("<div style='position:absolute;right:16px;top:16px;'>"
 				+ "<a href='editVerified' target='_rwt' class='layui-icon layui-icon-edit'></a>" //
 				+ "</div>");
 
