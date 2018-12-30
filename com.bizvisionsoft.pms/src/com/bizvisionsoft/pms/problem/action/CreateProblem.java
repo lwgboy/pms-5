@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class CreateProblemACT {
+public class CreateProblem {
 
 	@Inject
 	private IBruiService br;

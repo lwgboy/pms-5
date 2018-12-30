@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class D3ICACardACT {
+public class D3ICACard {
 	@Inject
 	private IBruiService br;
 	private ProblemService service;
 
-	public D3ICACardACT() {
+	public D3ICACard() {
 		service = Services.get(ProblemService.class);
 	}
 

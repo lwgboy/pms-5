@@ -1,12 +1,9 @@
-package com.bizvisionsoft.pms.problem;
-
-import java.util.List;
+package com.bizvisionsoft.pms.problem.action;
 
 import org.bson.Document;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.rap.rwt.RWT;
 
-import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -17,29 +14,18 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class EditD2ProblemDescACT {
+public class CreateD2ProblemImage {
 
 	@Inject
 	private IBruiService br;
 
-	@SuppressWarnings("unchecked")
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		ProblemService service = Services.get(ProblemService.class);
-		Document d = service.getD2ProblemDesc(problem.get_id());
-		boolean insert = (d.get("what") != null);
-		Editor.create("D2-5W2H问题描述", context, d, true).ok((r, t) -> {
-			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
+		Editor.create("D2-问题照片", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+			t = Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-			if (insert) {
-				Object doc = ((List<?>) viewer.getInput()).get(0);
-				AUtil.simpleCopy(t, doc);
-				viewer.refresh(doc);
-			} else {
-				((List<Document>) viewer.getInput()).add(0, t);
-				viewer.refresh();
-			}
+			viewer.insert(viewer.getInput(), t, 1);
 		});
 	}
 

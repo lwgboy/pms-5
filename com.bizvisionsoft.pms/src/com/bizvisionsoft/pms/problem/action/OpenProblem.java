@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -7,7 +7,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Problem;
 
-public class OpenProblemACT {
+public class OpenProblem {
 
 	@Inject
 	private IBruiService brui;

@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class ConfirmD3ICAACT {
+public class ConfirmD3ICA {
 	@Inject
 	private IBruiService br;
 

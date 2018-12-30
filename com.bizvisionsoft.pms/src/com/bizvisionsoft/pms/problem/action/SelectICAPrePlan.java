@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import org.bson.Document;
 
@@ -11,7 +11,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.model.ICAPrePlan;
 
-public class SelectICAPrePlanACT {
+public class SelectICAPrePlan {
 	
 	@Inject
 	private IBruiService br;

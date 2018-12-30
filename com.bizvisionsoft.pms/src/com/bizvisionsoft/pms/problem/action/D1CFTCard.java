@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.problem;
+package com.bizvisionsoft.pms.problem.action;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class D1CFTCardACT {
+public class D1CFTCard {
 	@Inject
 	private IBruiService br;
 	private ProblemService service;
 
-	public D1CFTCardACT() {
+	public D1CFTCard() {
 		service = Services.get(ProblemService.class);
 	}
 
