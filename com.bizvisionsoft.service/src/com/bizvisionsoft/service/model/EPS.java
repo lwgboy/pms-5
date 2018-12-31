@@ -138,7 +138,7 @@ public class EPS implements Comparable<EPS> {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "EPS";
+	public static final String typeName = "EPS";
 
 	@Override
 	@Label

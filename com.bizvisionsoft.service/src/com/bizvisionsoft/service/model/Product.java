@@ -45,7 +45,7 @@ public class Product {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "产品";
+	public static final String typeName = "产品";
 
 	@ReadValue("benchmarking")
 	private Product readBenchmarking() {

@@ -52,7 +52,7 @@ public class Equipment implements IResourceAssignment {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "设备设施";
+	public static final String typeName = "设备设施";
 
 	@WriteValue("organization ")
 	public void writeOrganization(Organization org) {

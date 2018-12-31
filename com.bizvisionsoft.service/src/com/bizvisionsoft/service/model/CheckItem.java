@@ -43,7 +43,7 @@ public class CheckItem {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "检查项";
+	public static final String typeName = "检查项";
 
 	@Override
 	public int hashCode() {

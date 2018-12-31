@@ -50,14 +50,14 @@ public class RiskEffect {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='brui_ly_hline' style='padding-right:8px;'>");
 		sb.append("<div>");
-		if(work.getActualFinish()!=null) {
+		if (work.getActualFinish() != null) {
 			sb.append("<i class='layui-icon layui-icon-ok' style='color:blue'></i>&nbsp;");
-		}else if(work.getActualStart()!=null) {
+		} else if (work.getActualStart() != null) {
 			sb.append("<i class='layui-icon layui-icon-triangle-r' style='color:green'></i>&nbsp;");
-		}else {
+		} else {
 			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
-		
+
 		sb.append(work.getWBSCode() + " " + work.getFullName() + "</div>");
 		sb.append("<div>" + work.getChargerInfoHtml() + "</div>");
 		sb.append("</div>");
@@ -72,7 +72,7 @@ public class RiskEffect {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "风险影响";
+	public static final String typeName = "风险影响";
 
 	@Override
 	@Label

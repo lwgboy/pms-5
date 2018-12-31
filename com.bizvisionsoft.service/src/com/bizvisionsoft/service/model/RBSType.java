@@ -35,7 +35,7 @@ public class RBSType {
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "RBSÏî";
+	public static final String typeName = "RBSÏî";
 	
 	@Override
 	@Label

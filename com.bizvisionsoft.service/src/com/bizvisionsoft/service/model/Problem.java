@@ -20,7 +20,7 @@ public class Problem {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "问题";
+	public static final String typeName = "问题";
 
 	@Exclude
 	public static final String StatusCreated = "已创建";
@@ -254,6 +254,10 @@ public class Problem {
 
 	public ObjectId get_id() {
 		return _id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }

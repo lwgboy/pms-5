@@ -89,7 +89,7 @@ public class OBSItem implements JsonExternalizable {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private final String typeName = "项目团队";
+	public static final String typeName = "项目团队";
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@ReadValue

@@ -21,7 +21,7 @@ public class WorkTime implements JsonExternalizable{
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "工作时间";
+	public static final String typeName = "工作时间";
 
 	@ReadValue
 	@WriteValue

@@ -41,7 +41,7 @@ public class Calendar {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "工作日历";
+	public static final String typeName = "工作日历";
 
 	@ReadValue
 	@WriteValue

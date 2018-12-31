@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -11,6 +12,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
@@ -34,8 +36,80 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
-		p = super.insert(p);
+		p = insert(p);
 		return queryProblems(0, 1, new BasicDBObject("_id", p.get_id()), null).get(0);
+	}
+
+	@Override
+	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
+		return insert(cc);
+	}
+
+	@Override
+	public long deleteCauseConsequence(ObjectId _id) {
+		return delete(_id, CauseConsequence.class);
+	}
+
+	@Override
+	public long countCauseConsequences(BasicDBObject filter) {
+		return count(filter, CauseConsequence.class);
+	}
+
+	@Override
+	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter) {
+		return createDataSet(new BasicDBObject("filter", filter), CauseConsequence.class);
+	}
+
+	@Override
+	public long updateCauseConsequence(BasicDBObject fu) {
+		return super.update(fu, CauseConsequence.class);
+	}
+
+	@Override
+	public Document getCauseConsequence(ObjectId problem_id, String type) {
+		Problem problem = get(problem_id);
+		List<Document> data = new ArrayList<>();
+		List<Document> links = new ArrayList<>();
+		// 根节点
+		data.add(new Document("id", problem_id)//
+				.append("name", problem.getName())//
+				.append("draggable", true)//
+				.append("category", "问题")//
+				.append("desc", problem.getName())//
+				.append("symbolSize", 50)//
+				.append("value", 20));
+		Arrays.asList(CauseSubject).forEach(s -> {
+			data.add(new Document("id", s)//
+					.append("name", s)//
+					.append("draggable", true)//
+					.append("category", "类别")//
+					.append("symbolSize", 50)//
+					.append("desc", s)//
+					.append("value", 20));
+			links.add(new Document("source", problem_id).append("target", s));
+		});
+
+		c("causeRelation").find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
+			String id = d.getObjectId("_id").toHexString();
+			Document item = new Document("id", id)//
+					.append("name", d.get("name"))//
+					.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
+					.append("draggable", true)//
+					.append("category", d.getString("subject"))//
+					.append("symbolSize", 20 * d.getInteger("weight", 1))//
+					.append("value", 100 * d.getDouble("probability"));
+			data.add(item);
+			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
+			links.add(new Document("source", parentId).append("target", id));
+		});
+
+		List<Document> categories = new ArrayList<>();
+		categories.add(new Document("name", "问题"));
+		categories.add(new Document("name", "类别"));
+		categories.addAll(Arrays.asList(CauseSubject).stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
+
+		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
+
 	}
 
 	@Override

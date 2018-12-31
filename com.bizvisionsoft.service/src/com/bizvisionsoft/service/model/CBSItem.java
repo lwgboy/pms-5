@@ -59,7 +59,7 @@ public class CBSItem implements ICBSAmount {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "CBS";
+	public static final String typeName = "CBS";
 
 	@Override
 	@Label

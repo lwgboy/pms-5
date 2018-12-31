@@ -60,7 +60,7 @@ public class DocuTemplate {
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "文档模板";
+	public static final String typeName = "文档模板";
 	
 	@ReadValue
 	@WriteValue

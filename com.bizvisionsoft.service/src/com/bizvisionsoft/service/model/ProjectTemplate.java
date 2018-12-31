@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -78,7 +79,8 @@ public class ProjectTemplate implements IScope{
 	}
 
 	@ReadValue(ReadValue.TYPE)
-	private String typeName = "项目模板";
+	@Exclude
+	public static final String typeName = "项目模板";
 
 	@Persistence
 	private boolean module = false;

@@ -169,7 +169,7 @@ public class Program {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "项目集";
+	public static final String typeName = "项目集";
 
 	@ImageURL("name")
 	@Exclude

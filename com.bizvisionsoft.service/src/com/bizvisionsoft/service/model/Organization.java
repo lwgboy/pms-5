@@ -134,7 +134,7 @@ public class Organization {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "组织";
+	public static final String typeName = "组织";
 
 	public ObjectId getParentId() {
 		return parent_id;

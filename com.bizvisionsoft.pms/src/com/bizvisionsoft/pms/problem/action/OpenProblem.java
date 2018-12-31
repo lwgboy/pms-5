@@ -15,7 +15,7 @@ public class OpenProblem {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
-			brui.switchPage("问题首页", ((Problem) em).get_id().toHexString());
+			brui.switchPage("问题解决", ((Problem) em).get_id().toHexString());
 		});
 	}
 

@@ -157,7 +157,7 @@ public class User implements IResourceAssignment {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "用户";
+	public static final String typeName = "用户";
 
 	@ReadValue("部门工作日程表/key")
 	private String getSectionKey() {

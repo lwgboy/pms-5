@@ -90,7 +90,7 @@ public class WorkPackage {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "工作包";
+	public static final String typeName = "工作包";
 
 	@Override
 	@Label

@@ -65,7 +65,7 @@ public class OBSInTemplate {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private final String typeName = "项目模板团队";
+	public static final String typeName = "项目模板团队";
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@ReadValue

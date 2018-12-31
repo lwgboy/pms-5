@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -81,7 +82,8 @@ public class WBSModule {
 	}
 
 	@ReadValue(ReadValue.TYPE)
-	private String typeName = "WBSÄ£¿é";
+	@Exclude
+	public static final String typeName = "WBSÄ£¿é";
 
 	@Persistence
 	private boolean module = true;

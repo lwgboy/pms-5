@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812301108",
+  "timestamp": "201901010045",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -645,6 +645,11 @@
             "children": [],
             "name": "问题管理主页",
             "id": "167fcdcde82"
+          },
+          {
+            "children": [],
+            "name": "组件",
+            "id": "167fd52ca53"
           }
         ],
         "name": "问题管理",
@@ -3035,8 +3040,8 @@
     {
       "typeName": "页面",
       "id": "167f7e0a80e",
-      "name": "问题首页",
-      "title": "问题",
+      "name": "问题解决",
+      "title": "8D",
       "headbar": {},
       "sidebar": {
         "enabled": true,
@@ -3102,12 +3107,16 @@
               {
                 "id": "167f8113c45",
                 "name": "因果分析（制造）",
-                "type": "customized"
+                "switchContentToAssemblyId": "167fd5395e8",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"因果分析-制造\"}"
               },
               {
                 "id": "167f817cab5",
                 "name": "因果分析（出厂）",
-                "type": "customized"
+                "switchContentToAssemblyId": "167fd5395e8",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"因果分析-出厂\"}"
               },
               {
                 "id": "167f8123a48",
@@ -3190,7 +3199,7 @@
           },
           {
             "id": "167fcde99c0",
-            "name": "问题解决和跟踪",
+            "name": "解决问题",
             "children": [
               {
                 "id": "167fce928ca",
@@ -3228,15 +3237,22 @@
             "type": "customized"
           },
           {
-            "id": "167fcdebd63",
-            "name": "紧急响应预案",
+            "id": "167fd48eb8a",
+            "name": "行动预案",
+            "children": [
+              {
+                "id": "167fcdebd63",
+                "name": "紧急响应行动预案",
+                "type": "customized"
+              },
+              {
+                "id": "167fcdfb304",
+                "name": "临时控制行动预案",
+                "switchContentToAssemblyId": "167f309c94a",
+                "type": "switch"
+              }
+            ],
             "type": "customized"
-          },
-          {
-            "id": "167fcdfb304",
-            "name": "临时控制行动预案",
-            "switchContentToAssemblyId": "167f309c94a",
-            "type": "switch"
           },
           {
             "id": "167fce0b560",
@@ -38610,6 +38626,89 @@
         "actions": [],
         "rowActions": [],
         "candidates": []
+      },
+      {
+        "id": "167fd5395e8",
+        "name": "关系图",
+        "title": "因果分析",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.problem.assembly.CausalAnalysis",
+        "layout": [],
+        "folderId": "167fd52ca53",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "actions": [],
+        "rowActions": [],
+        "candidates": []
+      },
+      {
+        "id": "16803cae8d2",
+        "name": "因素编辑器",
+        "title": "因素",
+        "layout": [],
+        "type": "editor",
+        "folderId": "167fd52ca53",
+        "fields": [
+          {
+            "id": "16803e61d16",
+            "name": "name",
+            "text": "因素",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true,
+            "textLimit": 20
+          },
+          {
+            "id": "16803e641b9",
+            "name": "description",
+            "text": "描述",
+            "type": "多行文本框",
+            "formFields": []
+          },
+          {
+            "id": "16803e36e06",
+            "name": "新字段5",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "16803e2a736",
+                "name": "weight",
+                "text": "权重",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textRestrict": "整数"
+              },
+              {
+                "id": "16803e2e79d",
+                "name": "probability",
+                "text": "可能性",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textRestrict": "浮点"
+              }
+            ]
+          }
+        ],
+        "actions": [],
+        "smallEditor": true,
+        "tinyEditor": true
+      },
+      {
+        "id": "16803e5398d",
+        "name": "因素表",
+        "layout": [],
+        "type": "grid",
+        "folderId": "167fd52ca53",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": true,
+        "gridHasVScroll": true,
+        "columns": [],
+        "fields": [],
+        "actions": [],
+        "rowActions": [],
+        "sortFields": []
       }
     ]
   },

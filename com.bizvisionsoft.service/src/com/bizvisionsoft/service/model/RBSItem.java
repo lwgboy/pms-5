@@ -233,7 +233,7 @@ public class RBSItem {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "风险项";
+	public static final String typeName = "风险项";
 
 	@Override
 	@Label

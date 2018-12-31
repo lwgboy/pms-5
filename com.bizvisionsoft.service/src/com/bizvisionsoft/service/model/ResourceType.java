@@ -39,7 +39,7 @@ public class ResourceType implements IResourceAssignment {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "资源类型";
+	public static final String typeName = "资源类型";
 
 	/** 资源类别名称 25 Y **/
 	@ReadValue

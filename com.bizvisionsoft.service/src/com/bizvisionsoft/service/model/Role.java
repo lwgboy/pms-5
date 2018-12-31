@@ -46,8 +46,7 @@ public class Role {
 	 * 包含：项目总监、供应链管理、财务管理、制造管理
 	 */
 	@Exclude
-	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID,
-			SYS_ROLE_MM_ID);
+	public static List<String> SYS_ROLES = Arrays.asList(SYS_ROLE_PD_ID, SYS_ROLE_SCM_ID, SYS_ROLE_FM_ID, SYS_ROLE_MM_ID);
 
 	/**
 	 * PMO
@@ -92,7 +91,7 @@ public class Role {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "角色";
+	public static final String typeName = "角色";
 
 	@Structure("组织角色/list")
 	public List<User> getUser() {

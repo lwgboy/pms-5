@@ -435,7 +435,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "项目";
+	public static final String typeName = "项目";
 
 	@Structure("我的项目（首页小组件）/list")
 	private List<ProjectBoardInfo> listProjectBoardInfo() {

@@ -17,13 +17,13 @@ public class TrackView {
 
 	@Exclude
 	public static String CATAGORY_DEVELOPMENT = "研发";
-	
+
 	@Exclude
 	public static String CATAGORY_PURCHASE = "采购";
-	
+
 	@Exclude
 	public static String CATAGORY_PRODUCTION = "生产";
-	
+
 	@Exclude
 	public static String CATAGORY_QUALITY = "质量";
 
@@ -74,7 +74,7 @@ public class TrackView {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "视图和工作包";
+	public static final String typeName = "视图和工作包";
 
 	@Override
 	@Label

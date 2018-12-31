@@ -162,5 +162,5 @@ public class ValueRuleSegment {
 
 	@Exclude
 	@ReadValue(ReadValue.TYPE)
-	public static final String _type = "值规则段";
+	public static final String typeName = "值规则段";
 }

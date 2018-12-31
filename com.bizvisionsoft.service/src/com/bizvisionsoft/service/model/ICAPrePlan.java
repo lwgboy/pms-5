@@ -12,7 +12,7 @@ public class ICAPrePlan {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "ICAÔ¤°¸";
+	public static final String typeName = "ICAÔ¤°¸";
 
 	@ReadValue
 	@WriteValue

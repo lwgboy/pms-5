@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
@@ -107,7 +108,8 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	}
 
 	@ReadValue(ReadValue.TYPE)
-	private String typeName = "EPS";
+	@Exclude
+	public static final String typeName = "EPS";
 
 	@Override
 	@Label

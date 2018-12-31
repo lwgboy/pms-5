@@ -45,7 +45,7 @@ public class AccountItem implements Comparable<AccountItem> {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "财务科目";
+	public static final String typeName = "财务科目";
 
 	/**
 	 * 客户端对象

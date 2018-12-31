@@ -80,7 +80,7 @@ public class DocuSetting {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "文档设置";
+	public static final String typeName = "文档设置";
 
 	public DocuSetting setWorkPackage_id(ObjectId workPackage_id) {
 		this.workPackage_id = workPackage_id;

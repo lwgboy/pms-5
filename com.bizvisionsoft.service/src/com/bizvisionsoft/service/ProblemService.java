@@ -15,12 +15,15 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
 import com.mongodb.BasicDBObject;
 
 @Path("/problem")
 public interface ProblemService {
+	
+	public final String[] CauseSubject = {"人", "设备", "材料", "环境", "方法", "测量"};
 
 	@POST
 	@Path("/item/")
@@ -28,6 +31,42 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("问题清单/insert")
 	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
+
+	@POST
+	@Path("/cc/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public CauseConsequence insertCauseConsequence(CauseConsequence cc);
+
+	@POST
+	@Path("/cc/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteCauseConsequence(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/cc/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countCauseConsequences(BasicDBObject filter);
+
+	@POST
+	@Path("/cc/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter);
+
+	@GET
+	@Path("/chart/problem_id/{problem_id}/type/{type}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getCauseConsequence(@PathParam("problem_id") ObjectId problem_id, @PathParam("type") String type);
+
+	@PUT
+	@Path("/cc/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateCauseConsequence(BasicDBObject fu);
 
 	@POST
 	@Path("/item/{status}/{userid}/ds/{lang}")
@@ -180,7 +219,7 @@ public interface ProblemService {
 	@Path("/d3/verified/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document deleteD3ICAVerified(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	public Document deleteD3ICAVerified(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d3/confirm/")

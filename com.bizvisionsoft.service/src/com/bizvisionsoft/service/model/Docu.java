@@ -49,7 +49,7 @@ public class Docu implements JsonExternalizable {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	private String typeName = "ÎÄµµ";
+	public static final String typeName = "ÎÄµµ";
 
 	public Docu setName(String name) {
 		this.name = name;
