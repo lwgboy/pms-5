@@ -18,9 +18,10 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.bizvisionsoft.serviceimpl.renderer.D1CFTRenderer;
+import com.bizvisionsoft.serviceimpl.renderer.D1Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D3Renderer;
+import com.bizvisionsoft.serviceimpl.renderer.D4Renderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
@@ -201,7 +202,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		sort.append("role", 1).append("_id", -1);
 
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> D1CFTRenderer.render(d, lang)).into(new ArrayList<>());
+		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> D1Renderer.render(d, lang)).into(new ArrayList<>());
 		return result;
 	}
 
@@ -237,7 +238,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		doc.append("dept", dept);
 		c("d1CFT").insertOne(doc);
 		// 渲染卡片
-		return D1CFTRenderer.render(doc, lang);
+		return D1Renderer.render(doc, lang);
 	}
 
 	@Override
@@ -376,8 +377,20 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD4(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
 		List<Document> result = new ArrayList<>();
+		//问题产生的根本原因
+		List<Bson> pipe = new ArrayList<>();
+		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-制造")));
+		pipe.add(new Document("$lookup",new Document("from","causeRelation").append("localField", "_id").append("foreignField", "parent_id").append("as", "parent")));
+		pipe.add(new Document("$match",new Document("parent",new Document("$size",0))));
+		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
+		//问题流出的根本原因
+		pipe.clear();
+		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-产出")));
+		pipe.add(new Document("$lookup",new Document("from","causeRelation").append("localField", "_id").append("foreignField", "parent_id").append("as", "parent")));
+		pipe.add(new Document("$match",new Document("parent",new Document("$size",0))));
+		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
+		
 		return result;
 	}
 

@@ -82,7 +82,6 @@ public class CausalAnalysis {
 		tree = new GridTreeViewer(parent, SWT.V_SCROLL);
 		tree.getGrid().setLinesVisible(false);
 		tree.getGrid().setData(RWT.CUSTOM_VARIANT, "board");
-		// tree.getGrid().setItemHeight(96);
 		tree.setAutoExpandLevel(GridTreeViewer.ALL_LEVELS);
 		GridViewerColumn textColumn = new GridViewerColumn(tree, SWT.NONE);
 		textColumn.setLabelProvider(new CauseLabelProvider(type));

@@ -8,7 +8,7 @@ import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class D1CFTRenderer {
+public class D1Renderer {
 
 	public static Document render(Document doc, String lang) {
 		CardTheme theme = new CardTheme(CardTheme.CYAN);
