@@ -42,78 +42,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
-		return insert(cc);
-	}
-
-	@Override
-	public long deleteCauseConsequence(ObjectId _id) {
-		return delete(_id, CauseConsequence.class);
-	}
-
-	@Override
-	public long countCauseConsequences(BasicDBObject filter) {
-		return count(filter, CauseConsequence.class);
-	}
-
-	@Override
-	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter) {
-		return createDataSet(new BasicDBObject("filter", filter), CauseConsequence.class);
-	}
-
-	@Override
-	public long updateCauseConsequence(BasicDBObject fu) {
-		return super.update(fu, CauseConsequence.class);
-	}
-
-	@Override
-	public Document getCauseConsequence(ObjectId problem_id, String type) {
-		Problem problem = get(problem_id);
-		List<Document> data = new ArrayList<>();
-		List<Document> links = new ArrayList<>();
-		// 根节点
-		data.add(new Document("id", problem_id)//
-				.append("name", problem.getName())//
-				.append("draggable", true)//
-				.append("category", "问题")//
-				.append("desc", problem.getName())//
-				.append("symbolSize", 50)//
-				.append("value", 20));
-		Arrays.asList(CauseSubject).forEach(s -> {
-			data.add(new Document("id", s)//
-					.append("name", s)//
-					.append("draggable", true)//
-					.append("category", "类别")//
-					.append("symbolSize", 50)//
-					.append("desc", s)//
-					.append("value", 20));
-			links.add(new Document("source", problem_id).append("target", s));
-		});
-
-		c("causeRelation").find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
-			String id = d.getObjectId("_id").toHexString();
-			Document item = new Document("id", id)//
-					.append("name", d.get("name"))//
-					.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
-					.append("draggable", true)//
-					.append("category", d.getString("subject"))//
-					.append("symbolSize", 20 * d.getInteger("weight", 1))//
-					.append("value", 100 * d.getDouble("probability"));
-			data.add(item);
-			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
-			links.add(new Document("source", parentId).append("target", id));
-		});
-
-		List<Document> categories = new ArrayList<>();
-		categories.add(new Document("name", "问题"));
-		categories.add(new Document("name", "类别"));
-		categories.addAll(Arrays.asList(CauseSubject).stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
-
-		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
-
-	}
-
-	@Override
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid, String lang) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
@@ -167,29 +95,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long updateProblems(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, Problem.class);
-	}
-
-	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		BasicDBObject f = new BasicDBObject();
-		Check.isAssigned(filter, s -> f.putAll(s));
-		f.append("problem_id", problem_id);
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-
-		List<Bson> pipeline = new ArrayList<>();
-		pipeline.add(Aggregates.match(f));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-		return pipeline;
 	}
 
 	@Override
@@ -298,11 +203,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// ICA计划 d3ICAPlan，ICA计划条目
 		// charger, finishDate, description, attachment
 		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
-		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1)).forEach((Document d) -> {
-			d3Result.add(D3Renderer.renderICA(d, lang));
-			Optional.ofNullable(d.get("verification"))
-					.ifPresent(v -> d3Result.add(D3Renderer.renderICAVerified((Document) v, d.get("_id"), lang)));
-		});
+		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
+				.forEach((Document d) -> d3Result.add(D3Renderer.renderICA(d, lang)));
 
 		// ICA验证 d3ICAVerify，验证结论，验证记录
 		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
@@ -358,8 +260,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
 		Document doc = c("d3ICA").findOneAndUpdate(new Document("_id", d3ica_id), new Document("$set", new Document("verification", t)),
 				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
-		return Arrays.asList(D3Renderer.renderICA(doc, lang),
-				D3Renderer.renderICAVerified((Document) doc.get("verification"), d3ica_id, lang));
+		return Arrays.asList(D3Renderer.renderICA(doc, lang));
 	}
 
 	@Override
@@ -378,20 +279,53 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public List<Document> listD4(BasicDBObject condition, ObjectId problem_id, String lang) {
 		List<Document> result = new ArrayList<>();
-		//问题产生的根本原因
+		// 根本问题描述
+
+		Document data = getD4RootCauseDesc(problem_id);
+		Document rcdCard = null;
+		Document epCard = null;
+		if (data != null) {
+			rcdCard = D4Renderer.renderRootCauseDesc(data, lang);
+			epCard = D4Renderer.renderEscapePoint(data, lang);
+		}
+
+		// 问题产生的原因
+		if (rcdCard != null) {
+			result.add(rcdCard);
+		}
 		List<Bson> pipe = new ArrayList<>();
-		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-制造")));
-		pipe.add(new Document("$lookup",new Document("from","causeRelation").append("localField", "_id").append("foreignField", "parent_id").append("as", "parent")));
-		pipe.add(new Document("$match",new Document("parent",new Document("$size",0))));
-		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
-		//问题流出的根本原因
+		pipe.add(new Document("$match", new Document("problem_id", problem_id).append("type", "因果分析-制造")));
+		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
+				.append("foreignField", "parent_id").append("as", "parent")));
+		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
+		c("causeRelation").aggregate(pipe).map(d -> D4Renderer.renderCauseConsequence(d, lang)).into(result);
+		// 问题流出的原因
+		if (epCard != null) {
+			result.add(epCard);
+		}
 		pipe.clear();
-		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-流出")));
-		pipe.add(new Document("$lookup",new Document("from","causeRelation").append("localField", "_id").append("foreignField", "parent_id").append("as", "parent")));
-		pipe.add(new Document("$match",new Document("parent",new Document("$size",0))));
-		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
-		
+		pipe.add(new Document("$match", new Document("problem_id", problem_id).append("type", "因果分析-流出")));
+		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
+				.append("foreignField", "parent_id").append("as", "parent")));
+		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
+		c("causeRelation").aggregate(pipe).map(d -> D4Renderer.renderCauseConsequence(d, lang)).into(result);
+
 		return result;
+	}
+
+	@Override
+	public Document getD4RootCauseDesc(ObjectId problem_id) {
+		return c("d4RootCauseDesc").find(new Document("_id", problem_id)).first();
+	}
+
+	@Override
+	public void insertD4RootCauseDesc(Document t, String lang) {
+		c("d4RootCauseDesc").insertOne(t);
+	}
+
+	@Override
+	public void updateD4RootCauseDesc(BasicDBObject fu, String lang) {
+		update(fu, "d4RootCauseDesc");
 	}
 
 	@Override
@@ -422,4 +356,98 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return result;
 	}
 
+	@Override
+	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
+		return insert(cc);
+	}
+
+	@Override
+	public long deleteCauseConsequence(ObjectId _id) {
+		return delete(_id, CauseConsequence.class);
+	}
+
+	@Override
+	public long countCauseConsequences(BasicDBObject filter) {
+		return count(filter, CauseConsequence.class);
+	}
+
+	@Override
+	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter) {
+		return createDataSet(new BasicDBObject("filter", filter), CauseConsequence.class);
+	}
+
+	@Override
+	public long updateCauseConsequence(BasicDBObject fu) {
+		return super.update(fu, CauseConsequence.class);
+	}
+
+	@Override
+	public Document getCauseConsequence(ObjectId problem_id, String type) {
+		Problem problem = get(problem_id);
+		List<Document> data = new ArrayList<>();
+		List<Document> links = new ArrayList<>();
+		// 根节点
+		data.add(new Document("id", problem_id)//
+				.append("name", problem.getName())//
+				.append("draggable", true)//
+				.append("category", "问题")//
+				.append("desc", problem.getName())//
+				.append("symbolSize", 50)//
+				.append("value", 20));
+		Arrays.asList(CauseSubject).forEach(s -> {
+			data.add(new Document("id", s)//
+					.append("name", s)//
+					.append("draggable", true)//
+					.append("category", "类别")//
+					.append("symbolSize", 50)//
+					.append("desc", s)//
+					.append("value", 20));
+			links.add(new Document("source", problem_id).append("target", s));
+		});
+
+		c("causeRelation").find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
+			String id = d.getObjectId("_id").toHexString();
+			Document item = new Document("id", id)//
+					.append("name", d.get("name"))//
+					.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
+					.append("draggable", true)//
+					.append("category", d.getString("subject"))//
+					.append("symbolSize", 20 * d.getInteger("weight", 1))//
+					.append("value", 100 * d.getDouble("probability"));
+			data.add(item);
+			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
+			links.add(new Document("source", parentId).append("target", id));
+		});
+
+		List<Document> categories = new ArrayList<>();
+		categories.add(new Document("name", "问题"));
+		categories.add(new Document("name", "类别"));
+		categories.addAll(Arrays.asList(CauseSubject).stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
+
+		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
+
+	}
+
+	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject f = new BasicDBObject();
+		Check.isAssigned(filter, s -> f.putAll(s));
+		f.append("problem_id", problem_id);
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+		List<Bson> pipeline = new ArrayList<>();
+		pipeline.add(Aggregates.match(f));
+
+		if (sort != null)
+			pipeline.add(Aggregates.sort(sort));
+
+		if (skip != null)
+			pipeline.add(Aggregates.skip(skip));
+
+		if (limit != null)
+			pipeline.add(Aggregates.limit(limit));
+		return pipeline;
+	}
 }

@@ -22,8 +22,8 @@ import com.mongodb.BasicDBObject;
 
 @Path("/problem")
 public interface ProblemService {
-	
-	public final String[] CauseSubject = {"人", "设备", "材料", "环境", "方法", "测量"};
+
+	public final String[] CauseSubject = { "人", "设备", "材料", "环境", "方法", "测量" };
 
 	@POST
 	@Path("/item/")
@@ -125,6 +125,12 @@ public interface ProblemService {
 	public Document insertD1Item(Document d1, @PathParam("lang") String lang);
 
 	@POST
+	@Path("/d4/rootCauseDesc/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD4RootCauseDesc(Document t,@PathParam("lang") String language);
+
+	@POST
 	@Path("/d1/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -144,6 +150,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD2ProblemDesc(@PathParam("_id") ObjectId problem_id);
+
+	@GET
+	@Path("/_id/{_id}/d4/rootCauseDesc")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/d2/pd/{lang}")
@@ -184,7 +196,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document getD3ICA(@PathParam("_id") ObjectId _id);
 
-	@POST
+	@PUT
 	@Path("/d3/ica/{lang}/update")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -195,6 +207,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD3ICA(@PathParam("_id") ObjectId _id);
+
+	@PUT
+	@Path("/d4/rootCauseDesc/{lang}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD4RootCauseDesc(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d3/ica/finish/{lang}")
@@ -208,7 +226,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document getD3ICAVerified(@PathParam("_id") ObjectId d3ica_id);
 
-	@POST
+	@PUT
 	@Path("/d3/verified/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
