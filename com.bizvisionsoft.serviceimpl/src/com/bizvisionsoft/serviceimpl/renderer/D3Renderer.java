@@ -45,8 +45,8 @@ public class D3Renderer {
 			Document user_meta = (Document) verification.get("user_meta");
 			String name = user_meta.getString("name");
 			String verifyInfo = comment + "<br>" + name + " " + _date;
-
-			status = "<span class='" + style + "' style='cursor:pointer;' onclick='layer.alert(\"" + verifyInfo + "\", {title:\"" + title
+			
+			status = "<span class='" + style + "' style='cursor:pointer;' onclick='layer.alert(\"" + verifyInfo + "\", {\"skin\": \"layui-layer-lan\",title:\"" + title
 					+ "\"})'>" + status + "</span>";
 		} else {
 			status = "<span class='layui-badge  layui-bg-blue'>" + "ÒÑ´´½¨" + "</span>";
