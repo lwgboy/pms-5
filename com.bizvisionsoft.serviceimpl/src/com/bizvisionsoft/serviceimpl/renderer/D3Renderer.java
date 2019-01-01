@@ -133,8 +133,8 @@ public class D3Renderer {
 				+ title + "</div>");//
 		rowHeight += 36;
 
-		sb.append("<div style='height:72px'>" + RenderTools.getTextMultiLineNoBlank3("", comment, color) + "</div>");
-		rowHeight += 72;
+		sb.append("<div style='height:56px'>" + RenderTools.getTextMultiLineNoBlank3("", comment, color) + "</div>");
+		rowHeight += 56;
 
 		String url = RenderTools.getFirstImageURL(user_meta, "headPics");
 		if (url != null) {

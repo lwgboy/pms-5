@@ -386,7 +386,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
 		//问题流出的根本原因
 		pipe.clear();
-		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-产出")));
+		pipe.add(new Document("$match",new Document("problem_id",problem_id).append("type", "因果分析-流出")));
 		pipe.add(new Document("$lookup",new Document("from","causeRelation").append("localField", "_id").append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match",new Document("parent",new Document("$size",0))));
 		c("causeRelation").aggregate(pipe).map(d->D4Renderer.renderCauseConsequence(d,lang)).into(result);
