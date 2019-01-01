@@ -3,7 +3,6 @@ package com.bizvisionsoft.serviceimpl.renderer;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
-import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class D3Renderer {
@@ -26,23 +25,9 @@ public class D3Renderer {
 
 		String status = doc.getBoolean("finish", false) ? "已完成" : ((verification != null) ? verification.getString("title") : "已创建");
 
-		ColorTheme.BruiColor bg;
-		if (verification != null) {
-			((Document) verification).getString("title");
-			if ("未通过验证".equals(status)) {
-				bg = ColorTheme.BruiColor.Red_400;
-			} else if ("已验证".equals(status)) {
-				bg = ColorTheme.BruiColor.Teal;
-			} else {
-				bg = ColorTheme.BruiColor.Indigo;
-			}
-		} else {
-			bg = ColorTheme.BruiColor.Indigo;
-		}
-
 		String[] color = new String[] { "000000", "757575" };
 
-		sb.append("<div class='brui_card_head' style='background:" + bg + ";color:#" + theme.headFgColor + ";padding:8px;'>"
+		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
 				+ "<div class='brui_card_text'>" + action + "</div>"//
 				+ "<div style='text-align:center;margin-left:8px'><div class='label_headline'>" + priority + "</div>"
 				+ "<div class='label_caption'>优先级</div></div>"//
@@ -162,8 +147,9 @@ public class D3Renderer {
 				+ "<a href='deleteVerified' target='_rwt' class='layui-icon layui-icon-close' style='color:white;' onmouseover='layer.tips(\"" + "删除ICA验证记录"
 				+ "\",this,{tips:1})'></a>" //
 				+ "</div>");
-		ColorTheme.BruiColor bg = title.equals("未通过验证") ? ColorTheme.BruiColor.Red_400 : ColorTheme.BruiColor.Teal;
-		sb.insert(0, "<div class='brui_card_trans' style='background:" + bg + ";height:" + (rowHeight - 2 * RenderTools.margin)
+		
+		String bg = title.equals("未通过验证") ? "e84e40":"5c6bc0";
+		sb.insert(0, "<div class='brui_card_trans' style='background:#" + bg + ";height:" + (rowHeight - 2 * RenderTools.margin)
 				+ "px;margin:" + RenderTools.margin + "px;'>");
 		sb.append("</div>");
 

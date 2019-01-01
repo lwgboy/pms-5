@@ -27,22 +27,22 @@ public class D4Renderer {
 
 		sb.append("<div style='display:flex;flex-direction:column;justify-content:space-around;color:white;'>");
 		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#4957ad;margin-bottom:1px;border-radius:4px 0px 0px 0px;'>");
+				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#5c6bc0;margin-bottom:1px;border-radius:4px 0px 0px 0px;'>");
 		sb.append("<div class='label_caption'>" + type + "</div></div>");
 		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#4957ad;margin-bottom:1px;'>");
+				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#5c6bc0;margin-bottom:1px;'>");
 		sb.append("<div class='label_caption'>" + w + "</div><div class='label_caption'>È¨ÖØ</div></div>");
 		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#4957ad;;border-radius:0px 0px 0px 4px;'>");
+				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#5c6bc0;;border-radius:0px 0px 0px 4px;'>");
 		sb.append("<div class='label_caption'>" + p + "</div><div class='label_caption'>¸ÅÂÊ</div></div>");
 		sb.append("</div>");
 
 		sb.append("<div style='width:0;flex-grow:1;padding:0px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");
-		sb.append("<div class='brui_text_line'>" + name + name + name
-				+ "</div><div class='brui_card_text3 label_caption' style='height:48px;'>" + desc + "</div>");
+		sb.append("<div class='brui_text_line'>" + name + "</div><div class='brui_card_text3 label_caption' style='height:48px;'>" + desc
+				+ "</div>");
 		sb.append("</div>");
 
-		rowHeight += 96;
+		rowHeight += 82;
 
 		sb.insert(0, "<div class='brui_card_trans' style='display:flex;background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin)
 				+ "px;margin:" + RenderTools.margin + "px;'>");

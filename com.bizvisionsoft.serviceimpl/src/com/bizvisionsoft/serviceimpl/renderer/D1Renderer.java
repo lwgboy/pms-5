@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 public class D1Renderer {
 
 	public static Document render(Document doc, String lang) {
-		CardTheme theme = new CardTheme(CardTheme.CYAN);
+		CardTheme theme = new CardTheme(CardTheme.INDIGO);
 
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = RenderTools.margin * 3;
