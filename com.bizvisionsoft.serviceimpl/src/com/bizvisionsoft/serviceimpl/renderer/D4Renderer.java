@@ -13,13 +13,13 @@ public class D4Renderer {
 	public static Document renderRootCauseDesc(Document doc, String lang) {
 		Document charger_meta = (Document) doc.get("charger_meta");
 		Date date = doc.getDate("date");
-		return renderRootCard(doc, "根本原因", doc.getString("rootCauseDesc"), charger_meta, date);
+		return renderRootCard(doc, "问题产生的根本原因", doc.getString("rootCauseDesc"), charger_meta, date);
 	}
 
 	public static Document renderEscapePoint(Document doc, String lang) {
 		Document charger_meta = (Document) doc.get("charger_meta");
 		Date date = doc.getDate("date");
-		return renderRootCard(doc, "逃出点", doc.getString("escapePoint"), charger_meta, date);
+		return renderRootCard(doc, "问题流出的逃出点", doc.getString("escapePoint"), charger_meta, date);
 	}
 
 	private static Document renderRootCard(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date) {
@@ -57,25 +57,14 @@ public class D4Renderer {
 		String desc = Optional.ofNullable(doc.getString("description")).orElse("");
 		int w = doc.getInteger("weight", 1);
 		String p = Formatter.getPercentageFormatString(doc.getDouble("probability"));
-		String type;
-		if ("因果分析-制造".equals(doc.getString("type"))) {
-			type = "产生";
-		} else if ("因果分析-流出".equals(doc.getString("type"))) {
-			type = "流出";
-		} else {
-			type = "产生";// 根据不同类型
-		}
 
-		sb.append("<div style='display:flex;flex-direction:column;justify-content:space-around;color:white;'>");
+		sb.append("<div class='label_caption' style='display:flex;flex-direction:column;justify-content:space-around;color:white;'>");
 		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#616161;margin-bottom:1px;border-radius:4px 0px 0px 0px;'>");
-		sb.append("<div class='label_caption'>" + type + "</div></div>");
+				"<div style='justify-content:center;flex-grow:1;width:44px;display:flex;flex-direction:column;align-items:center;background:#5c6bc0;margin-bottom:1px;border-radius:4px 0px 0px 0px;'>");
+		sb.append("<div>" + w + "</div><div>权重</div></div>");
 		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#616161;margin-bottom:1px;'>");
-		sb.append("<div class='label_caption'>" + w + "</div><div class='label_caption'>权重</div></div>");
-		sb.append(
-				"<div style='flex-grow:1;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#616161;;border-radius:0px 0px 0px 4px;'>");
-		sb.append("<div class='label_caption'>" + p + "</div><div class='label_caption'>概率</div></div>");
+				"<div style='justify-content:center;flex-grow:1;width:44px;display:flex;flex-direction:column;align-items:center;background:#5c6bc0;;border-radius:0px 0px 0px 4px;'>");
+		sb.append("<div>" + p + "</div><div>概率</div></div>");
 		sb.append("</div>");
 
 		sb.append("<div style='width:0;flex-grow:1;padding:0px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");

@@ -34,10 +34,10 @@ public class D3Renderer {
 			status = verification.getString("title");
 			if ("“——È÷§".equals(status)) {
 				style = "layui-badge  layui-bg-green";
-				theme = new CardTheme(CardTheme.TEAL);
+//				theme = new CardTheme(CardTheme.TEAL);
 			} else {
 				style = "layui-badge";
-				theme = new CardTheme(CardTheme.RED);
+//				theme = new CardTheme(CardTheme.RED);
 			}
 			String title = verification.getString("title");
 			String comment = verification.getString("comment");

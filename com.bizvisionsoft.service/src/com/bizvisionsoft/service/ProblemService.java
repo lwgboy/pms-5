@@ -129,6 +129,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertD4RootCauseDesc(Document t,@PathParam("lang") String language);
+	
+	@POST
+	@Path("/d5/criteria/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD5DecisionCriteria(Document t,@PathParam("lang") String language);
 
 	@POST
 	@Path("/d1/item/_id/{_id}")
@@ -156,6 +162,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id);
+	
+	@GET
+	@Path("/_id/{_id}/d5/criteria")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD5DecisionCriteria(@PathParam("_id") ObjectId _id);
 
 	@POST
 	@Path("/d2/pd/{lang}")
@@ -213,6 +225,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateD4RootCauseDesc(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	
+	@PUT
+	@Path("/d5/criteria/{lang}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD5DecisionCriteria(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d3/ica/finish/{lang}")

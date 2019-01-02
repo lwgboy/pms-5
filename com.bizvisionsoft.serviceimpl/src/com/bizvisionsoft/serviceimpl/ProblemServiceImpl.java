@@ -450,4 +450,19 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			pipeline.add(Aggregates.limit(limit));
 		return pipeline;
 	}
+
+	@Override
+	public void insertD5DecisionCriteria(Document t, String language) {
+		c("d5DecisionCriteria").insertOne(t);
+	}
+
+	@Override
+	public Document getD5DecisionCriteria(ObjectId problem_id) {
+		return c("d5DecisionCriteria").find(new Document("_id", problem_id)).first();
+	}
+
+	@Override
+	public void updateD5DecisionCriteria(BasicDBObject fu, String lang) {
+		update(fu, "d5DecisionCriteria");
+	}
 }

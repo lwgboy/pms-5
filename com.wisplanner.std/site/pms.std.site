@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201901020109",
+  "timestamp": "201901021150",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -650,6 +650,11 @@
             "children": [],
             "name": "组件",
             "id": "167fd52ca53"
+          },
+          {
+            "children": [],
+            "name": "编辑器",
+            "id": "1680c2c6a5d"
           }
         ],
         "name": "问题管理",
@@ -3136,13 +3141,25 @@
             "name": "永久纠正措施",
             "children": [
               {
-                "id": "1680a5e44d7",
-                "name": "决策表-纠正问题产生",
+                "id": "1680c122f7e",
+                "name": "目标和决策准则",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.D5EditCriteria",
                 "type": "customized"
               },
               {
-                "id": "1680a5e8c24",
-                "name": "决策表-纠正问题流出",
+                "id": "1680a5e44d7",
+                "name": "候选方案",
+                "type": "customized"
+              },
+              {
+                "id": "1680c110fda",
+                "name": "风险分析",
+                "type": "customized"
+              },
+              {
+                "id": "1680c11872d",
+                "name": "决策表",
                 "type": "customized"
               }
             ],
@@ -38085,7 +38102,7 @@
         "title": "CTF成员",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "167eb7902a6",
@@ -38119,7 +38136,7 @@
         "title": "问题描述",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "167ed751225",
@@ -38205,7 +38222,7 @@
         "title": "D2-问题照片",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "167ee4e859c",
@@ -38261,7 +38278,7 @@
         "title": "D3-临时处理措施(ICA)",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "167ee57b5c3",
@@ -38555,7 +38572,7 @@
         "title": "D3-验证临时处理措施",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "167fa558ef4",
@@ -38730,7 +38747,7 @@
         "title": "验证和确认根本原因",
         "layout": [],
         "type": "editor",
-        "folderId": "167e9f42ca5",
+        "folderId": "1680c2c6a5d",
         "fields": [
           {
             "id": "16809ae53c5",
@@ -38798,6 +38815,112 @@
         "actions": [],
         "smallEditor": true,
         "tinyEditor": false
+      },
+      {
+        "id": "1680c157a20",
+        "name": "D5-目标和准则",
+        "title": "最终目标和决策准则",
+        "layout": [],
+        "type": "editor",
+        "folderId": "1680c2c6a5d",
+        "fields": [
+          {
+            "id": "1680c15cf89",
+            "name": "endResult",
+            "text": "最终目标",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true,
+            "verticalAlignLabel": false
+          },
+          {
+            "id": "1680c17ab71",
+            "name": "givens",
+            "text": "强制要求",
+            "type": "表格",
+            "formFields": [],
+            "required": true,
+            "selectorAssemblyId": "1680c4d6368",
+            "verticalAlignLabel": false,
+            "enableCreateItem": true
+          },
+          {
+            "id": "1680c18939f",
+            "name": "wants",
+            "text": "期望目标",
+            "type": "表格",
+            "formFields": [],
+            "required": true,
+            "selectorAssemblyId": "1680c4ab958",
+            "grabVertical": true,
+            "verticalAlignLabel": false,
+            "enableCreateItem": true
+          }
+        ],
+        "actions": [],
+        "smallEditor": false,
+        "tinyEditor": false
+      },
+      {
+        "id": "1680c4ab958",
+        "name": "D5-目标和准则-期望",
+        "layout": [],
+        "type": "grid",
+        "folderId": "1680c2c6a5d",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": true,
+        "gridHasVScroll": true,
+        "columns": [
+          {
+            "id": "1680c4bf304",
+            "name": "wants",
+            "text": "期望",
+            "alignment": 16384,
+            "width": 240,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "1680c4c44d3",
+            "name": "importance",
+            "text": "重要度",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "sortFields": []
+      },
+      {
+        "id": "1680c4d6368",
+        "name": "D5-目标和准则-强制要求",
+        "layout": [],
+        "type": "grid",
+        "folderId": "1680c2c6a5d",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": false,
+        "gridHasVScroll": true,
+        "columns": [
+          {
+            "id": "1680c4bf304",
+            "name": "givens",
+            "text": "要求",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "sortFields": []
       }
     ]
   },
