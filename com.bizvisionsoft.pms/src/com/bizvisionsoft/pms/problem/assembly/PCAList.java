@@ -25,7 +25,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,20 +127,11 @@ public class PCAList {
 		parent.setLayout(new FormLayout());
 		Action action = new ActionFactory().normalStyle().forceText("创建方案").name("create").get();
 		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(action));
-		Controls.handle(bar).setText("选择永久纠正措施方案").height(48).left().top().right().select(this::handleAction)
-				.add(() -> Controls.handle(createGrid(parent)).mLoc().layout(new FillLayout())).get();
-	}
-
-	private void handleAction(Event e) {
-		if ("create".equals(((Action) e.data).getName())) {
-			Editor.open("D5-PCA-编辑器", context, new Document(), (r, t) -> {
-				t.append("problem_id", problem.get_id()).append("_id", new ObjectId());
-				service.insertD5PCA(t, language);
-				pcaList.add(t);
-				createPCAColumn(t);
-				viewer.refresh();
-			});
-		}
+		Controls.handle(bar).setText("选择永久纠正措施方案").height(48).left().top().right().select(e -> {
+			if ("create".equals(((Action) e.data).getName())) {
+				handleCreatePCA();
+			}
+		}).add(() -> Controls.handle(createGrid(parent)).mLoc().layout(new FillLayout())).get();
 	}
 
 	private Grid createGrid(Composite parent) {
@@ -178,50 +168,33 @@ public class PCAList {
 		} else {
 			col.setText(getPCAColumnHeaderText(name));
 		}
-		col.addListener(SWT.Selection, this::showColumnMenu);
+		col.addListener(SWT.Selection, event -> {
+			Document p = (Document) ((GridColumn) event.widget).getData("pca");
+			ActionMenu m = new ActionMenu(br);
+			List<Action> actions = new ArrayList<>();
+			actions.add(new ActionFactory().text("选择方案").normalStyle().exec((r, t) -> {
+				if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + p.getString("name"))) {
+					handleSelectPCA(p);
+				}
+			}).get());
+
+			actions.add(new ActionFactory().text("编辑方案").normalStyle().exec((r, t) -> {
+				handleEditPCA(p);
+			}).get());
+
+			actions.add(new ActionFactory().text("删除方案").warningStyle().exec((r, t) -> {
+				if (br.confirm("删除PCA", "请确认删除以下方案。<br>" + p.getString("name"))) {
+					handleDeletePCA(p);
+				}
+			}).get());
+
+			m.setActions(actions).open();
+		});
 	}
 
 	private String getPCAColumnHeaderText(String name) {
 		return "<div style='display:flex;justify-content:space-between;'><div class='brui_text_line' style='flex-shrink:1'>" + name
 				+ "</div><i class='layui-icon layui-icon-triangle-d' style='flex-shrink:0'></i></div>";
-	}
-
-	private void showColumnMenu(Event event) {
-		GridColumn col = (GridColumn) event.widget;
-		Document pca = (Document) col.getData("pca");
-		String name = pca.getString("name");
-		ActionMenu m = new ActionMenu(br);
-		List<Action> actions = new ArrayList<>();
-		actions.add(new ActionFactory().text("选择方案").normalStyle().exec((r, t) -> {
-			if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + name)) {
-				Object _id = pca.get("_id");
-				FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("selected", true));
-				service.updateD5PCA(fu.bson(), language);
-
-				fu = new FilterAndUpdate()
-						.filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
-						.set(new BasicDBObject("selected", false));
-				service.updateD5PCA(fu.bson(), language);
-
-				Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> c.getData("pca") != null).forEach(e -> {
-					if (e == col) {
-						col.setText(getPCAColumnHeaderText("<b>[已选择]" + name + "</b>"));
-					} else {
-						Document doc = (Document) e.getData("pca");
-						doc.put("selected", false);
-						e.setText(getPCAColumnHeaderText(doc.getString("name")));
-					}
-				});
-			}
-		}).get());
-
-		actions.add(new ActionFactory().text("编辑方案").normalStyle().exec((r, t) -> {
-		}).get());
-
-		actions.add(new ActionFactory().text("删除方案").warningStyle().exec((r, t) -> {
-		}).get());
-
-		m.setActions(actions).open();
 	}
 
 	private EditingSupport editingSupport(Document pca) {
@@ -231,9 +204,9 @@ public class PCAList {
 			protected void setValue(Object element, Object value) {
 				Document param = (Document) element;
 				if (param.get("weight") == null) {// 强制的
-					setPCAGivensValue(pca, param, value, "givens");
+					handleUpdatePCAParamterValue(pca, param, value, "givens");
 				} else {
-					setPCAGivensValue(pca, param, value, "wants");
+					handleUpdatePCAParamterValue(pca, param, value, "wants");
 				}
 			}
 
@@ -263,34 +236,6 @@ public class PCAList {
 				return element instanceof Document;
 			}
 		};
-	}
-
-	@SuppressWarnings({ "unchecked" })
-	private void setPCAGivensValue(Document pca, Document param, Object value, String fieldName) {
-		List<Document> givens = (List<Document>) pca.get(fieldName);
-		if (givens == null) {
-			givens = new ArrayList<>();
-			pca.put(fieldName, givens);
-		}
-		String name = param.getString("name");
-		boolean find = false;
-		for (int i = 0; i < givens.size(); i++) {
-			Document d = (Document) givens.get(i);
-			if (name.equals(d.get("name"))) {
-				d.append("value", value);
-				find = true;
-				break;
-			}
-		}
-		if (!find)
-			givens.add(new Document("name", name).append("value", value));
-
-		BasicDBObject set = new BasicDBObject();
-		set.putAll(pca);
-		set.remove("_id");
-		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(set);
-		service.updateD5PCA(fu.bson(), language);
-		viewer.update(param, null);
 	}
 
 	private CellLabelProvider labelPCAColumn(Document pca) {
@@ -408,6 +353,81 @@ public class PCAList {
 		if (elem instanceof Document)
 			return ((Document) elem).getString("weight");
 		return "";
+	}
+
+	private void handleCreatePCA() {
+		Editor.open("D5-PCA-编辑器", context, new Document(), (r, t) -> {
+			t.append("problem_id", problem.get_id()).append("_id", new ObjectId());
+			service.insertD5PCA(t, language);
+			pcaList.add(t);
+			createPCAColumn(t);
+			viewer.refresh();
+		});
+	}
+
+	private void handleEditPCA(Document pca) {
+		Editor.open("D5-PCA-编辑器", context, pca, (r, t) -> {
+			r.remove("_id");
+			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(r);
+			service.updateD5PCA(fu.bson(), language);
+			pca.clear();
+			pca.putAll(t);
+			viewer.refresh();
+		});
+	}
+
+	private void handleDeletePCA(Document pca) {
+		service.deleteD5PCA(pca.getObjectId("_id"),language);
+		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> pca == c.getData("pca")).findFirst().ifPresent(c -> c.dispose());
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void handleUpdatePCAParamterValue(Document pca, Document param, Object value, String fieldName) {
+		List<Document> givens = (List<Document>) pca.get(fieldName);
+		if (givens == null) {
+			givens = new ArrayList<>();
+			pca.put(fieldName, givens);
+		}
+		String name = param.getString("name");
+		boolean find = false;
+		for (int i = 0; i < givens.size(); i++) {
+			Document d = (Document) givens.get(i);
+			if (name.equals(d.get("name"))) {
+				d.append("value", value);
+				find = true;
+				break;
+			}
+		}
+		if (!find)
+			givens.add(new Document("name", name).append("value", value));
+
+		BasicDBObject set = new BasicDBObject();
+		set.putAll(pca);
+		set.remove("_id");
+		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(set);
+		service.updateD5PCA(fu.bson(), language);
+		viewer.update(param, null);
+	}
+
+	private void handleSelectPCA(Document pca) {
+		Object _id = pca.get("_id");
+		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("selected", true));
+		service.updateD5PCA(fu.bson(), language);
+		fu = new FilterAndUpdate().filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
+				.set(new BasicDBObject("selected", false));
+		service.updateD5PCA(fu.bson(), language);
+
+		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> c.getData("pca") != null).forEach(e -> {
+			Document otherPCA = (Document) e.getData("pca");
+			String name = otherPCA.getString("name");
+			if (_id.equals(otherPCA.getObjectId("_id"))) {
+				otherPCA.put("selected", true);
+				e.setText(getPCAColumnHeaderText("<b>[已选择]" + name + "</b>"));
+			} else {
+				otherPCA.put("selected", false);
+				e.setText(getPCAColumnHeaderText(name));
+			}
+		});
 	}
 
 }

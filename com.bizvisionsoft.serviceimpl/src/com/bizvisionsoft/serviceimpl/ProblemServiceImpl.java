@@ -244,6 +244,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public void deleteD5PCA(ObjectId _id, String lang) {
+		c("d5PCA").deleteOne(new Document("_id", _id));
+	}
+
+	@Override
 	public Document finishD3ICA(ObjectId _id, String lang) {
 		return D3Renderer
 				.renderICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("finish", true)),
@@ -470,7 +475,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public void updateD5PCA(BasicDBObject fu, String lang) {
 		update(fu, "d5PCA");
 	}
-	
+
 	@Override
 	public void insertD5PCA(Document t, String language) {
 		c("d5PCA").insertOne(t);
