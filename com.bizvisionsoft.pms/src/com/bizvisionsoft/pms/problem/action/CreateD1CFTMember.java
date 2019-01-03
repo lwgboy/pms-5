@@ -23,7 +23,7 @@ public class CreateD1CFTMember {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		Editor.create("D1-CTF成员", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+		Editor.create("D1-CTF成员-编辑器", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			int i = Integer.parseInt(t.getString("role"));
 			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) ((BruiAssemblyContext) context).getContent("viewer");

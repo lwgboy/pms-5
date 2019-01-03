@@ -29,7 +29,7 @@ public class D5EditCriteria {
 		if (insert) {
 			d = new Document();
 		}
-		Editor.create("D5-目标和准则", context, d, true).ok((r, t) -> {
+		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
 				service.insertD5DecisionCriteria(t, RWT.getLocale().getLanguage());

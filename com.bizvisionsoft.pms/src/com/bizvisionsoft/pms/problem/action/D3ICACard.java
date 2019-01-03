@@ -72,7 +72,7 @@ public class D3ICACard {
 	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		Document d3ICAVerified = service.getD3ICAVerified(_id);
 		boolean insert = (d3ICAVerified.get("title") == null);
-		Editor.create("D3-ICA验证", context, d3ICAVerified, true).ok((r, t) -> {
+		Editor.create("D3-ICA验证-编辑器", context, d3ICAVerified, true).ok((r, t) -> {
 			List<Document> u = service.updateD3ICAVerified(t, _id, RWT.getLocale().getLanguage());
 			List<Document> input = (List<Document>) viewer.getInput();
 			int i = input.indexOf(doc);
@@ -107,7 +107,7 @@ public class D3ICACard {
 
 	private void editD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		Document d3ICA = service.getD3ICA(_id);
-		Editor.create("D3-ICA", context, d3ICA, true).ok((r, t) -> {
+		Editor.create("D3-ICA-编辑器", context, d3ICA, true).ok((r, t) -> {
 			t = service.updateD3ICA(t, RWT.getLocale().getLanguage());
 			AUtil.simpleCopy(t, doc);
 			viewer.refresh(doc);

@@ -53,7 +53,7 @@ public class D2Card {
 
 	private void editProblemDesc(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		Document d2ProblemDesc = service.getD2ProblemDesc(_id);
-		Editor.create("D2-5W2HÎÊÌâÃèÊö", context, d2ProblemDesc, true).ok((r, t) -> {
+		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d2ProblemDesc, true).ok((r, t) -> {
 			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			AUtil.simpleCopy(t, doc);
 			viewer.refresh(doc);

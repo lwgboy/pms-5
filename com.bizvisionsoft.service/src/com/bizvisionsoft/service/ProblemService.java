@@ -128,13 +128,19 @@ public interface ProblemService {
 	@Path("/d4/rootCauseDesc/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void insertD4RootCauseDesc(Document t,@PathParam("lang") String language);
-	
+	public void insertD4RootCauseDesc(Document t, @PathParam("lang") String language);
+
 	@POST
 	@Path("/d5/criteria/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void insertD5DecisionCriteria(Document t,@PathParam("lang") String language);
+	public void insertD5DecisionCriteria(Document t, @PathParam("lang") String language);
+
+	@POST
+	@Path("/d5/pca/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD5PCA(Document t, @PathParam("lang") String language);
 
 	@POST
 	@Path("/d1/item/_id/{_id}")
@@ -162,7 +168,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id);
-	
+
 	@GET
 	@Path("/_id/{_id}/d5/criteria")
 	@Consumes("application/json; charset=UTF-8")
@@ -225,7 +231,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateD4RootCauseDesc(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-	
+
 	@PUT
 	@Path("/d5/criteria/{lang}/")
 	@Consumes("application/json; charset=UTF-8")
@@ -280,6 +286,12 @@ public interface ProblemService {
 	public List<Document> listD5(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/_id/{_id}/d5/pca/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> listPCA(@PathParam("_id") ObjectId problem_id);
 
 	@POST
 	@Path("/_id/{_id}/d6/ds/{lang}")

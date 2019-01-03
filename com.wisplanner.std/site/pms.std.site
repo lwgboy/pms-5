@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201901021150",
+  "timestamp": "201901030938",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -3150,16 +3150,12 @@
               {
                 "id": "1680a5e44d7",
                 "name": "候选方案",
-                "type": "customized"
+                "switchContentToAssemblyId": "1680cc8eaa0",
+                "type": "switch"
               },
               {
                 "id": "1680c110fda",
                 "name": "风险分析",
-                "type": "customized"
-              },
-              {
-                "id": "1680c11872d",
-                "name": "决策表",
                 "type": "customized"
               }
             ],
@@ -38098,7 +38094,7 @@
       },
       {
         "id": "167eb788231",
-        "name": "D1-CTF成员",
+        "name": "D1-CTF成员-编辑器",
         "title": "CTF成员",
         "layout": [],
         "type": "editor",
@@ -38132,7 +38128,7 @@
       },
       {
         "id": "167ed6fa714",
-        "name": "D2-5W2H问题描述",
+        "name": "D2-5W2H问题描述-编辑器",
         "title": "问题描述",
         "layout": [],
         "type": "editor",
@@ -38218,8 +38214,8 @@
       },
       {
         "id": "167ee4e14aa",
-        "name": "D2-问题照片",
-        "title": "D2-问题照片",
+        "name": "D2-问题照片-编辑器",
+        "title": "D2-问题照片-编辑器",
         "layout": [],
         "type": "editor",
         "folderId": "1680c2c6a5d",
@@ -38274,7 +38270,7 @@
       },
       {
         "id": "167f26ce3e2",
-        "name": "D3-ICA",
+        "name": "D3-ICA-编辑器",
         "title": "D3-临时处理措施(ICA)",
         "layout": [],
         "type": "editor",
@@ -38568,7 +38564,7 @@
       },
       {
         "id": "167f7687df3",
-        "name": "D3-ICA验证",
+        "name": "D3-ICA验证-编辑器",
         "title": "D3-验证临时处理措施",
         "layout": [],
         "type": "editor",
@@ -38727,23 +38723,8 @@
         "tinyEditor": true
       },
       {
-        "id": "16803e5398d",
-        "name": "因素表",
-        "layout": [],
-        "type": "grid",
-        "folderId": "167fd52ca53",
-        "gridLineVisiable": true,
-        "gridHeaderVisiable": true,
-        "gridHasVScroll": true,
-        "columns": [],
-        "fields": [],
-        "actions": [],
-        "rowActions": [],
-        "sortFields": []
-      },
-      {
         "id": "1680936853a",
-        "name": "D4-根本原因描述",
+        "name": "D4-根本原因描述-编辑器",
         "title": "验证和确认根本原因",
         "layout": [],
         "type": "editor",
@@ -38818,7 +38799,7 @@
       },
       {
         "id": "1680c157a20",
-        "name": "D5-目标和准则",
+        "name": "D5-目标和准则-编辑器",
         "title": "最终目标和决策准则",
         "layout": [],
         "type": "editor",
@@ -38873,7 +38854,7 @@
         "columns": [
           {
             "id": "1680c4bf304",
-            "name": "wants",
+            "name": "name",
             "text": "期望",
             "alignment": 16384,
             "width": 240,
@@ -38882,7 +38863,7 @@
           },
           {
             "id": "1680c4c44d3",
-            "name": "importance",
+            "name": "weight",
             "text": "重要度",
             "alignment": 16384,
             "width": 80,
@@ -38908,7 +38889,150 @@
         "columns": [
           {
             "id": "1680c4bf304",
-            "name": "givens",
+            "name": "name",
+            "text": "要求",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          }
+        ],
+        "fields": [],
+        "gridAutoColumnWidth": true,
+        "actions": [],
+        "rowActions": [],
+        "sortFields": []
+      },
+      {
+        "id": "1680cc8eaa0",
+        "name": "PCA候选方案",
+        "title": "永久纠正措施候选方案",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.problem.assembly.PCAList",
+        "layout": [],
+        "stickerTitle": "永久纠正措施候选方案",
+        "folderId": "167fd52ca53",
+        "actions": [],
+        "rowActions": [],
+        "hasTitlebar": true,
+        "disableStandardExport": true,
+        "disableCustomized": true,
+        "disableStdQuery": true,
+        "disableStdSort": true,
+        "candidates": []
+      },
+      {
+        "id": "1680f0ef12c",
+        "name": "D5-PCA-编辑器",
+        "title": "永久纠正措施",
+        "layout": [],
+        "type": "editor",
+        "folderId": "1680c2c6a5d",
+        "fields": [
+          {
+            "id": "168115b06f3",
+            "name": "杜绝问题产生",
+            "type": "标签页",
+            "formFields": [
+              {
+                "id": "168115bdf7b",
+                "name": "name",
+                "text": "方案名称",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textLimit": 12
+              },
+              {
+                "id": "1680f10b509",
+                "name": "pca1",
+                "text": "消除问题产生",
+                "type": "表格",
+                "verticalLabel": false,
+                "formFields": [],
+                "required": true,
+                "selectorAssemblyId": "1680f115ceb",
+                "hideLabel": false,
+                "verticalAlignLabel": false,
+                "enableCreateItem": true
+              },
+              {
+                "id": "168113c1887",
+                "name": "charger1",
+                "text": "负责人",
+                "type": "对象选择框",
+                "formFields": [],
+                "required": false,
+                "selectorAssemblyId": "162ba875640",
+                "valueFieldName": "userId"
+              },
+              {
+                "id": "168113c777d",
+                "name": "date1",
+                "text": "计划完成",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "date"
+              }
+            ]
+          },
+          {
+            "id": "168115b1512",
+            "name": "控制问题流出",
+            "type": "标签页",
+            "formFields": [
+              {
+                "id": "1680f130231",
+                "name": "pca2",
+                "text": "控制问题流出",
+                "type": "表格",
+                "verticalLabel": false,
+                "formFields": [],
+                "required": true,
+                "selectorAssemblyId": "1680f115ceb",
+                "hideLabel": false,
+                "verticalAlignLabel": false,
+                "enableCreateItem": true
+              },
+              {
+                "id": "168113cf4f0",
+                "name": "charger2",
+                "text": "负责人",
+                "type": "对象选择框",
+                "formFields": [],
+                "required": false,
+                "selectorAssemblyId": "162ba875640",
+                "valueFieldName": "userId"
+              },
+              {
+                "id": "168113cf5e9",
+                "name": "date2",
+                "text": "计划完成",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "date"
+              }
+            ]
+          }
+        ],
+        "actions": [],
+        "smallEditor": true
+      },
+      {
+        "id": "1680f115ceb",
+        "name": "D5-PCA-措施",
+        "layout": [],
+        "type": "grid",
+        "folderId": "1680c2c6a5d",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": false,
+        "gridHasVScroll": true,
+        "columns": [
+          {
+            "id": "1680c4bf304",
+            "name": "name",
             "text": "要求",
             "alignment": 16384,
             "width": 80,
