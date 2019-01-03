@@ -47,6 +47,7 @@ import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -393,6 +394,10 @@ public class PCAList {
 		for (int i = 0; i < givens.size(); i++) {
 			Document d = (Document) givens.get(i);
 			if (name.equals(d.get("name"))) {
+				Object oldValue = d.get("value");
+				if(Check.equals(oldValue, value)) {
+					return;
+				}
 				d.append("value", value);
 				find = true;
 				break;
