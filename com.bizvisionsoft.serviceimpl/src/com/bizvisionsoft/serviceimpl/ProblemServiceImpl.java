@@ -22,6 +22,7 @@ import com.bizvisionsoft.serviceimpl.renderer.D1Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D3Renderer;
 import com.bizvisionsoft.serviceimpl.renderer.D4Renderer;
+import com.bizvisionsoft.serviceimpl.renderer.D5Renderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
@@ -335,8 +336,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD5(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
 		List<Document> result = new ArrayList<>();
+		Document d = c("d5PCA").find(new Document("problem_id", problem_id).append("selected", true)).first();
+		if (d != null) {
+			result.add(D5Renderer.renderSelectedPCA1(d,lang));
+			result.add(D5Renderer.renderSelectedPCA2(d,lang));
+		}
+		
 		return result;
 	}
 

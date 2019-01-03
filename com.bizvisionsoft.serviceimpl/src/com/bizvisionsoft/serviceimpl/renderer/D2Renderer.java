@@ -9,7 +9,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public class D2Renderer {
 
-	public static Document renderPDCard(Document doc, String lang) {
+	public static Document renderPDCardFixHeight(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = RenderTools.margin * 3;
 
@@ -57,6 +57,43 @@ public class D2Renderer {
 		sb.append("</div>");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+	}
+
+	public static Document renderPDCard(Document doc, String lang) {
+		StringBuffer sb = new StringBuffer();
+
+		String what = Optional.ofNullable(doc.getString("what")).orElse("");
+		String when = Optional.ofNullable(doc.getString("when")).orElse("");
+		String where = Optional.ofNullable(doc.getString("where")).orElse("");
+		String who = Optional.ofNullable(doc.getString("who")).orElse("");
+		String why = Optional.ofNullable(doc.getString("why")).orElse("");
+		String how = Optional.ofNullable(doc.getString("how")).orElse("");
+		String howmany = Optional.ofNullable(doc.getString("howmany")).orElse("");
+
+		String[] color = new String[] { "000000", "757575" };
+		sb.append("<div style='padding-top:8px;'>"
+				+ RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>What / 当前状况</span>", what, color)
+				+ "</div>");
+		sb.append(
+				RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>When / 发现时间</span>", when, color));
+		sb.append(RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>Where / 地点和位置</span>", where,
+				color));
+		sb.append(RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>Who / 有关人员</span>", who, color));
+		sb.append(RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>Why / 原因推测</span>", why, color));
+		sb.append(
+				RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>How / 怎样发现的问题</span>", how, color));
+
+		sb.append(RenderTools.getTextMultiLineNoBlank("<span class='deep_orange' style='font-weight:700;'>How many / 频度，数量</span>", howmany,
+				color));
+
+		sb.append("<div style='position:absolute;right:16px;bottom:16px;'>"
+				+ "<a href='editpd' target='_rwt' class='layui-icon layui-icon-edit'  onmouseover='layer.tips(\"" + "编辑问题描述"
+				+ "\",this,{tips:1})'></a>" + "</div>");
+
+		sb.insert(0, "<div class='brui_card_trans' style='background:#f8f8f8;margin:" + RenderTools.margin + "px;'>");
+		sb.append("</div>");
+
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 	public static Document renderPhotoCard(Document doc, String lang) {

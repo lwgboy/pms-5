@@ -28,26 +28,20 @@ public class D4Renderer {
 		CardTheme theme = new CardTheme(CardTheme.RED);
 
 		StringBuffer sb = new StringBuffer();
-		int rowHeight = RenderTools.margin * 3;
 
 		sb.append("<div class='label_title brui_card_head' style='height:36px;background:#" + theme.headBgColor + ";color:#"
 				+ theme.headFgColor + ";padding:8px;'>" + title //
 				+ "</div>");//
-		rowHeight += 36;
 
-		sb.append("<div class='brui_card_text3 brui_card_text' style='height:65px;padding:8px 8px 0px 8px;'>" + rootCauseDesc + "</div>");
-		rowHeight += 65;
+		sb.append("<div class='brui_text_multiline' style='padding:8px 8px 0px 8px;'>" + rootCauseDesc + "</div>");
 
 		sb.append(RenderTools.renderUserAndText(charger_meta, dateStr, theme.lightText));
-		rowHeight += 36;
 
-		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * RenderTools.margin) + "px;margin:" + RenderTools.margin
-				+ "px;'>");
+		sb.insert(0, "<div class='brui_card' style='margin:" + RenderTools.margin + "px;'>");
 		sb.append("</div>");
 
-		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
-
 
 	public static Document renderCauseConsequence(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();

@@ -88,6 +88,12 @@ public class RenderTools {
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
 				+ "</div>";//
 	}
+	
+	public static String getTextMultiLineNoBlank(String label, String text, String[] color) {
+		return "<div class='label_caption' style='padding:0px 8px 8px 8px;'>" + //
+				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div class='brui_text_multiline' style='color:#" + color[1] + "'>" + text + "</div>"//
+				+ "</div>";//
+	}
 
 	public static String getTextMultiLineNoBlank2(String label, String text, String[] color) {
 		return "<div class='brui_card_text2 label_caption' style='padding:8px 8px 0px 8px;'>" + //
@@ -134,7 +140,7 @@ public class RenderTools {
 			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
 					+ ";border-radius:17px;width:28px;height:28px;'/>";
 		}
-		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>" + img
+		return "<div style='padding:8px 8px 8px 8px;display:flex;align-items:center;'>" + img
 				+ "<span class='label_caption' style='margin-left:4px;color:#" + color + "'>" + name + "&nbsp;&nbsp;" + dateStr + "</span>" //
 				+ "</div>";
 	}

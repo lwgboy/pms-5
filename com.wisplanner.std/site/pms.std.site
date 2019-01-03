@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201901031812",
+  "timestamp": "201901032304",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -37880,6 +37880,7 @@
         "type": "board",
         "stickerTitle": "D2 问题描述",
         "folderId": "167e9f42ca5",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
         "actions": [
@@ -37977,6 +37978,7 @@
         "type": "board",
         "stickerTitle": "D4 根本原因",
         "folderId": "167e9f42ca5",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
         "actions": [
@@ -38018,14 +38020,24 @@
       {
         "id": "167eb1ff762",
         "name": "D5永久措施",
-        "title": "D5 永久措施",
+        "title": "D5 永久纠正措施",
         "layout": [],
         "type": "board",
         "stickerTitle": "D5 永久措施",
         "folderId": "167e9f42ca5",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
         "fields": [],
-        "actions": [],
+        "actions": [
+          {
+            "id": "168143d8ab4",
+            "name": "打开方案",
+            "image": "/img/right_w.svg",
+            "switchContentToAssemblyId": "1680cc8eaa0",
+            "style": "normal",
+            "type": "switch"
+          }
+        ],
         "rowActions": [],
         "hasTitlebar": true,
         "disableStdQuery": true,
