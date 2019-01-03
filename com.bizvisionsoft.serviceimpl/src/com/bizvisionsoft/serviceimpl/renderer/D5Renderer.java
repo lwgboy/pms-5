@@ -31,7 +31,7 @@ public class D5Renderer {
 
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("<div class='label_title brui_card_head' style='height:36px;background:#" + theme.headBgColor + ";color:#"
+		sb.append("<div class='label_subhead brui_card_head' style='height:36px;background:#" + theme.headBgColor + ";color:#"
 				+ theme.headFgColor + ";padding:8px;'>" + title //
 				+ "</div>");//
 		sb.append("<div class='layui-text'>");

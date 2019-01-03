@@ -57,7 +57,7 @@ public class D3Renderer {
 		// null) ? verification.getString("title") : "已创建");
 
 		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
-				+ "<div class='brui_card_text'>" + action + "</div>"//
+				+ "<div class='label_subhead brui_card_text'>" + action + "</div>"//
 				+ "<div style='text-align:center;margin-left:8px'><div class='label_headline'>" + priority + "</div>"
 				+ "<div class='label_caption'>优先级</div></div>"//
 				+ "</div>");//

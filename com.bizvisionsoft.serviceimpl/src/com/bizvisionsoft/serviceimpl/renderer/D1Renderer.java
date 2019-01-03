@@ -14,7 +14,6 @@ public class D1Renderer {
 		CardTheme theme = new CardTheme(CardTheme.INDIGO);
 
 		StringBuffer sb = new StringBuffer();
-		int rowHeight = RenderTools.margin * 3;
 
 		// 头像
 		String name = doc.getString("name");
@@ -27,33 +26,31 @@ public class D1Renderer {
 		String img;
 		String url = RenderTools.getFirstImageURL(doc, "headPics");
 		if (url != null) {
-			img = "<img src=" + url + " style='float:left;border-radius:28px;width:48px;height:48px;'/>";
+			img = "<img src=" + url + " style='float:left;border-radius:28px;width:36px;height:36px;'/>";
 		} else {
 			String alpha = Formatter.getAlphaString(name);
 			url = RenderTools.getNameImageURL(name);
 			img = "<img src=" + url + " style='float:left;margin-top:4px;margin-left:4px;background-color:"
-					+ ColorTheme.getHTMLDarkColor(alpha) + ";border-radius:28px;width:48px;height:48px;'/>";
+					+ ColorTheme.getHTMLDarkColor(alpha) + ";border-radius:28px;width:36px;height:36px;'/>";
 		}
 
-		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
-				+ "<div class='label_title'><div>" + role + "</div><div class='label_subhead'>" + name + " " + dept + " " + position
-				+ "</div></div>"//
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " " + dept
+				+ " " + position + "</div></div>"//
 				+ img //
 				+ "</div>");//
-		rowHeight += 64;
 
-		sb.append(RenderTools.getIconTextLine(null, mobile, RenderTools.IMG_URL_TEL, CardTheme.TEXT_LINE));
-		rowHeight += 20 + 8;
-		sb.append(RenderTools.getIconTextLine(null, email, RenderTools.IMG_URL_EMAIL, CardTheme.TEXT_LINE));
-		rowHeight += 20 + 8;
+		sb.append(RenderTools.getIconTextLine(null, mobile, RenderTools.IMG_URL_TEL, CardTheme.TEXT_LINE, 16));
+		sb.append(RenderTools.getIconTextLine(null, email, RenderTools.IMG_URL_EMAIL, CardTheme.TEXT_LINE, 16));
 
-		sb.append("<div  style='position:absolute;right:16px;bottom:16px;'>"
+		sb.append("<div style='position:absolute;right:12px;bottom:12px;'>"
 				+ "<a href='delete' target='_rwt' class='layui-icon layui-icon-close' onmouseover='layer.tips(\"" + "删除团队成员"
 				+ "\",this,{tips:1})'></a>" + "</div>");
 
-		RenderTools.renderCardBoard(sb, rowHeight);
+		sb.insert(0, "<div class='brui_card' style='padding-bottom:8px;margin:8px;'>");
+		sb.append("</div>");
 
-		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 }

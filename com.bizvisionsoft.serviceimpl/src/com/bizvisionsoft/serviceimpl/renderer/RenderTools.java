@@ -28,12 +28,16 @@ public class RenderTools {
 	public static final String IMG_URL_EMAIL = "rwt-resources/extres/img/email_c.svg";
 
 	public static String getIconTextLine(String label, String text, String iconURL, String[] color) {
+		return getIconTextLine(label, text, iconURL, color, 20);
+	}
+
+	public static String getIconTextLine(String label, String text, String iconURL, String[] color, int size) {
 		if (label != null)
 			label += "&nbsp;:&nbsp;";
 		else
 			label = "";
 		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
-				+ "<img src='" + iconURL + "' width='20' height='20'>"//
+				+ "<img src='" + iconURL + "' width='" + size + "' height='" + size + "'>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
 				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
 				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
@@ -88,10 +92,11 @@ public class RenderTools {
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
 				+ "</div>";//
 	}
-	
+
 	public static String getTextMultiLineNoBlank(String label, String text, String[] color) {
 		return "<div class='label_caption' style='padding:0px 8px 8px 8px;'>" + //
-				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div class='brui_text_multiline' style='color:#" + color[1] + "'>" + text + "</div>"//
+				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div class='brui_text_multiline' style='color:#" + color[1]
+				+ "'>" + text + "</div>"//
 				+ "</div>";//
 	}
 
@@ -127,7 +132,7 @@ public class RenderTools {
 	public static String tooltips(String message, String text) {
 		return "<div style='cursor:pointer;' " + "onmouseover='layer.tips(\"" + message + "\", this, {tips: 1})'>" + text + "</div>";
 	}
-	
+
 	public static String renderUserAndText(Document user, String dateStr, String color) {
 		String img;
 		String name = user.getString("name");
