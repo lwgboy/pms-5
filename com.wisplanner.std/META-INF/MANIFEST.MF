@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Std
-Bundle-SymbolicName: com.wisplanner.std
-Bundle-Version: 5.2.0.qualifier
-Bundle-Vendor: WISPLANNER
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
