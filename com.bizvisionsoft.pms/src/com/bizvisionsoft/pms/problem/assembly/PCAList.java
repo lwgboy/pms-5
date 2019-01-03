@@ -1,19 +1,24 @@
 package com.bizvisionsoft.pms.problem.assembly;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridColumnLabelProvider;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.nebula.widgets.grid.Grid;
+import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -32,12 +37,19 @@ import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.ui.SpinnerCellEditor;
+import com.bizvisionsoft.bruiengine.util.BruiColors;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Columns;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.ProblemService;
+import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class PCAList {
 
@@ -97,7 +109,7 @@ public class PCAList {
 
 	private String language;
 
-	private String[] items = new String[] { "","负责人","计划完成", "强制要求", "期望目标" };
+	private String[] items = new String[] { "", "强制要求", "期望目标" };
 
 	private List<Document> pcaList;
 
@@ -116,7 +128,7 @@ public class PCAList {
 		parent.setLayout(new FormLayout());
 		Action action = new ActionFactory().normalStyle().forceText("创建方案").name("create").get();
 		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(action));
-		Controls.handle(bar).setText("永久纠正措施候选方案").height(48).left().top().right().select(this::handleAction)
+		Controls.handle(bar).setText("选择永久纠正措施方案").height(48).left().top().right().select(this::handleAction)
 				.add(() -> Controls.handle(createGrid(parent)).mLoc().layout(new FillLayout())).get();
 	}
 
@@ -141,8 +153,8 @@ public class PCAList {
 		grid.setAutoHeight(true);
 		Controls.handle(grid).markup();
 
-		Columns.create(viewer).setWidth(320).setText("目标/决策项").setLabelProvider(this.getTitleRowText());
-		Columns.create(viewer).setWidth(48).setText("权重").setAlignment(SWT.CENTER).setLabelProvider(this::getWeightRowText);
+		Columns.create(viewer).setWidth(320).setText("目标/决策项").setLabelProvider(this.labelTitleColumn());
+		Columns.create(viewer).setWidth(48).setText("权重").setAlignment(SWT.CENTER).setLabelProvider(this::labelWeightColumn);
 
 		for (int i = 0; i < pcaList.size(); i++) {
 			Document pca = pcaList.get(i);
@@ -155,26 +167,160 @@ public class PCAList {
 	}
 
 	private void createPCAColumn(Document pca) {
-		Columns.create(viewer).setWidth(240).setText("方案：" + pca.getString("name")).setLabelProvider(this.getPCAText(pca)).getColumn()
-				.setWordWrap(true);
+		GridColumn col = Columns.create(viewer).setWidth(240).setEditingSupport(this.editingSupport(pca))
+				.setLabelProvider(this.labelPCAColumn(pca)).getColumn();
+		col.setWordWrap(true);
+		UserSession.bruiToolkit().enableMarkup(col);
+		col.setData("pca", pca);
+		String name = pca.getString("name");
+		if (pca.getBoolean("selected", false)) {
+			col.setText(getPCAColumnHeaderText("<b>[已选择]" + name + "</b>"));
+		} else {
+			col.setText(getPCAColumnHeaderText(name));
+		}
+		col.addListener(SWT.Selection, this::showColumnMenu);
 	}
 
-	private CellLabelProvider getPCAText(Document document) {
+	private String getPCAColumnHeaderText(String name) {
+		return "<div style='display:flex;justify-content:space-between;'><div class='brui_text_line' style='flex-shrink:1'>" + name
+				+ "</div><i class='layui-icon layui-icon-triangle-d' style='flex-shrink:0'></i></div>";
+	}
+
+	private void showColumnMenu(Event event) {
+		GridColumn col = (GridColumn) event.widget;
+		Document pca = (Document) col.getData("pca");
+		String name = pca.getString("name");
+		ActionMenu m = new ActionMenu(br);
+		List<Action> actions = new ArrayList<>();
+		actions.add(new ActionFactory().text("选择方案").normalStyle().exec((r, t) -> {
+			if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + name)) {
+				Object _id = pca.get("_id");
+				FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("selected", true));
+				service.updateD5PCA(fu.bson(), language);
+
+				fu = new FilterAndUpdate()
+						.filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
+						.set(new BasicDBObject("selected", false));
+				service.updateD5PCA(fu.bson(), language);
+
+				Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> c.getData("pca") != null).forEach(e -> {
+					if (e == col) {
+						col.setText(getPCAColumnHeaderText("<b>[已选择]" + name + "</b>"));
+					} else {
+						Document doc = (Document) e.getData("pca");
+						doc.put("selected", false);
+						e.setText(getPCAColumnHeaderText(doc.getString("name")));
+					}
+				});
+			}
+		}).get());
+
+		actions.add(new ActionFactory().text("编辑方案").normalStyle().exec((r, t) -> {
+		}).get());
+
+		actions.add(new ActionFactory().text("删除方案").warningStyle().exec((r, t) -> {
+		}).get());
+
+		m.setActions(actions).open();
+	}
+
+	private EditingSupport editingSupport(Document pca) {
+		return new EditingSupport(viewer) {
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				Document param = (Document) element;
+				if (param.get("weight") == null) {// 强制的
+					setPCAGivensValue(pca, param, value, "givens");
+				} else {
+					setPCAGivensValue(pca, param, value, "wants");
+				}
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				Document param = (Document) element;
+				if (param.get("weight") == null) {// 强制的
+					return Boolean.TRUE.equals(getPCAGivensValue(pca, param));
+				} else {
+					return Optional.ofNullable(getPCAWantsValue(pca, param)).map(i -> i).orElse(0);
+				}
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				Document param = (Document) element;
+				if (param.get("weight") == null) {// 强制的
+					return new CheckboxCellEditor(viewer.getGrid());
+				} else {
+					return new SpinnerCellEditor(viewer.getGrid()).setMaximum(10).setMinimum(0).setIncrement(1).setPageIncrement(2)
+							.setDigits(0);
+				}
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return element instanceof Document;
+			}
+		};
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void setPCAGivensValue(Document pca, Document param, Object value, String fieldName) {
+		List<Document> givens = (List<Document>) pca.get(fieldName);
+		if (givens == null) {
+			givens = new ArrayList<>();
+			pca.put(fieldName, givens);
+		}
+		String name = param.getString("name");
+		boolean find = false;
+		for (int i = 0; i < givens.size(); i++) {
+			Document d = (Document) givens.get(i);
+			if (name.equals(d.get("name"))) {
+				d.append("value", value);
+				find = true;
+				break;
+			}
+		}
+		if (!find)
+			givens.add(new Document("name", name).append("value", value));
+
+		BasicDBObject set = new BasicDBObject();
+		set.putAll(pca);
+		set.remove("_id");
+		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(set);
+		service.updateD5PCA(fu.bson(), language);
+		viewer.update(param, null);
+	}
+
+	private CellLabelProvider labelPCAColumn(Document pca) {
 		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				if (element instanceof Document) {
-					String name = ((Document) element).getString("name");
-					return getPCAParameterText(document, name, "givens", "wants");
+					Document param = (Document) element;
+					if (param.get("weight") == null) {// 强制的
+						Boolean value = getPCAGivensValue(pca, param);
+						if (value == null) {
+							return "";
+						} else if (value) {
+							return "<i class='layui-icon layui-icon-ok'></i>";
+						} else {
+							return "<i class='layui-icon layui-icon-close'></i>";
+						}
+					} else {
+						return Optional.ofNullable(getPCAWantsValue(pca, param)).map(i -> "" + i).orElse("");
+					}
 				} else if (element instanceof Integer) {
 					if (((Integer) element).intValue() == 0) {
-						return getPCAItemText(document);
+						return getPCAItemText(pca);
 					} else {
 						return "";
 					}
 				}
 				return "";
 			}
+
 		};
 	}
 
@@ -204,24 +350,35 @@ public class PCAList {
 			sb.append("</ul>");
 			sb.append("</div>");
 		}
+
 		return sb.toString();
 	}
 
-	private String getPCAParameterText(Document pca, String name, String... fields) {
-		for (int i = 0; i < fields.length; i++) {
-			List<?> list = (List<?>) pca.get(fields[i]);
-			if (list != null) {
-				Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name"))).findFirst()
-						.orElse(null);
-				if (first != null) {
-					return Optional.ofNullable(first.get("value")).map(f -> "" + f).orElse("");
-				}
+	private Boolean getPCAGivensValue(Document pca, Document nameParameter) {
+		String name = nameParameter.getString("name");
+		List<?> list = (List<?>) pca.get("givens");
+		if (list != null) {
+			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name"))).findFirst().orElse(null);
+			if (first != null) {
+				return first.getBoolean("value");
 			}
 		}
-		return "";
+		return null;
 	}
 
-	private CellLabelProvider getTitleRowText() {
+	private Integer getPCAWantsValue(Document pca, Document nameParameter) {
+		String name = nameParameter.getString("name");
+		List<?> list = (List<?>) pca.get("wants");
+		if (list != null) {
+			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name"))).findFirst().orElse(null);
+			if (first != null) {
+				return first.getInteger("value");
+			}
+		}
+		return null;
+	}
+
+	private CellLabelProvider labelTitleColumn() {
 		return new GridColumnLabelProvider() {
 			@Override
 			public void update(ViewerCell cell) {
@@ -238,6 +395,7 @@ public class PCAList {
 					cell.setText(items[(Integer) elem]);
 					if ((Integer) elem > 0) {
 						gridItem.setColumnSpan(0, 1 + pcaList.size());
+						gridItem.setBackground(BruiColors.getColor(BruiColor.Grey_50));
 					} else {
 						gridItem.setColumnSpan(0, 1);
 					}
@@ -246,7 +404,7 @@ public class PCAList {
 		};
 	}
 
-	private String getWeightRowText(Object elem) {
+	private String labelWeightColumn(Object elem) {
 		if (elem instanceof Document)
 			return ((Document) elem).getString("weight");
 		return "";

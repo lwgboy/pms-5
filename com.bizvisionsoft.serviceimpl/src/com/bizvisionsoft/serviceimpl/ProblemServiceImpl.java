@@ -467,6 +467,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public void updateD5PCA(BasicDBObject fu, String lang) {
+		update(fu, "d5PCA");
+	}
+	
+	@Override
 	public void insertD5PCA(Document t, String language) {
 		c("d5PCA").insertOne(t);
 	}
@@ -475,4 +480,5 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listPCA(ObjectId problem_id) {
 		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 	}
+
 }
