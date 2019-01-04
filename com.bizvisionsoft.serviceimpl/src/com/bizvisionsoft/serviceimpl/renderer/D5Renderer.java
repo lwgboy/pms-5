@@ -38,7 +38,7 @@ public class D5Renderer {
 		sb.append("<ul style='margin-left:12px;padding:4px 0px 4px 16px;'>");
 		for (int i = 0; i < list.size(); i++) {
 			Document x = (Document) list.get(i);
-			sb.append("<li>" + x.getString("name") + "</li>");
+			sb.append("<li style='margin-top:0px;'>" + x.getString("name") + "</li>");
 		}
 		sb.append("</ul>");
 		sb.append("</div>");
