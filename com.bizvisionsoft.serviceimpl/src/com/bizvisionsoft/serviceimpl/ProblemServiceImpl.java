@@ -18,11 +18,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
-import com.bizvisionsoft.serviceimpl.renderer.D1Renderer;
-import com.bizvisionsoft.serviceimpl.renderer.D2Renderer;
-import com.bizvisionsoft.serviceimpl.renderer.D3Renderer;
-import com.bizvisionsoft.serviceimpl.renderer.D4Renderer;
-import com.bizvisionsoft.serviceimpl.renderer.D5Renderer;
+import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
@@ -108,23 +104,23 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		sort.append("role", 1).append("_id", -1);
 
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> D1Renderer.render(d, lang)).into(new ArrayList<>());
+		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang)).into(new ArrayList<>());
 		return result;
 	}
 
 	@Override
 	public Document insertD1Item(Document d1, String lang) {
-		Document user = (Document) d1.get("userId_meta");
+		Document user = (Document) d1.get("member_meta");
 
 		ObjectId org_id = user.getObjectId("org_id");
-		String userId = d1.getString("userId");
+		String userId = d1.getString("member");
 		String role = d1.getString("role");
 		ObjectId problem_id = d1.getObjectId("problem_id");
 
 		if ("0".equals(role) && c("d1CFT").countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
 			throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
 
-		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("userId", userId).append("role", role)
+		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId).append("role", role)
 				.append("name", user.get("name")).append("mobile", user.get("mobile")).append("position", user.get("position"))
 				.append("email", user.get("email")).append("headPics", user.get("headPics"));
 
@@ -144,7 +140,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		doc.append("dept", dept);
 		c("d1CFT").insertOne(doc);
 		// 渲染卡片
-		return D1Renderer.render(doc, lang);
+		return ProblemCardRenderer.renderD1CFTMember(doc, lang);
 	}
 
 	@Override
@@ -155,12 +151,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang) {
 		List<Document> result = new ArrayList<>();
+		// photos
+		listD2ProblemPhotos(problem_id).forEach(d -> result.add(ProblemCardRenderer.renderD3PhotoCard(d, lang)));
 		// 5w2h
 		Document doc = getD2ProblemDesc(problem_id);
 		if (doc.get("what") != null)
-			result.add(D2Renderer.renderPDCard(doc, lang));
-		// photos
-		listD2ProblemPhotos(problem_id).forEach(d -> result.add(D2Renderer.renderPhotoCard(d, lang)));
+			result.add(ProblemCardRenderer.renderD25W2H(doc, lang));
 		// TODO 讨论 回复 及其他
 		return result;
 	}
@@ -188,14 +184,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document updateD2ProblemDesc(Document d, String lang) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
-		return D2Renderer.renderPDCard(c("d2ProblemDesc").findOneAndUpdate(filter, set,
+		return ProblemCardRenderer.renderD25W2H(c("d2ProblemDesc").findOneAndUpdate(filter, set,
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
 	}
 
 	@Override
 	public Document insertD2ProblemPhoto(Document t, String lang) {
 		c("d2ProblemPhoto").insertOne(t);
-		return D2Renderer.renderPhotoCard(t, lang);
+		return ProblemCardRenderer.renderD3PhotoCard(t, lang);
 	}
 
 	@Override
@@ -205,7 +201,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// charger, finishDate, description, attachment
 		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
 		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
-				.forEach((Document d) -> d3Result.add(D3Renderer.renderICA(d, lang)));
+				.forEach((Document d) -> d3Result.add(ProblemCardRenderer.renderD3ICA(d, lang)));
 
 		// ICA验证 d3ICAVerify，验证结论，验证记录
 		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
@@ -221,7 +217,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD3ICA(Document t, String lang) {
 		c("d3ICA").insertOne(t);
-		return D3Renderer.renderICA(t, lang);
+		return ProblemCardRenderer.renderD3ICA(t, lang);
 	}
 
 	@Override
@@ -233,7 +229,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document updateD3ICA(Document d, String lang) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
-		return D3Renderer.renderICA(
+		return ProblemCardRenderer.renderD3ICA(
 				c("d3ICA").findOneAndUpdate(filter, set, new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)),
 				lang);
 	}
@@ -251,8 +247,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document finishD3ICA(ObjectId _id, String lang) {
-		return D3Renderer
-				.renderICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("finish", true)),
+		return ProblemCardRenderer
+				.renderD3ICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("finish", true)),
 						new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
 	}
 
@@ -266,13 +262,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> updateD3ICAVerified(Document t, ObjectId d3ica_id, String lang) {
 		Document doc = c("d3ICA").findOneAndUpdate(new Document("_id", d3ica_id), new Document("$set", new Document("verification", t)),
 				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
-		return Arrays.asList(D3Renderer.renderICA(doc, lang));
+		return Arrays.asList(ProblemCardRenderer.renderD3ICA(doc, lang));
 	}
 
 	@Override
 	public Document deleteD3ICAVerified(ObjectId _id, String lang) {
-		return D3Renderer
-				.renderICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("verification", null)),
+		return ProblemCardRenderer
+				.renderD3ICA(c("d3ICA").findOneAndUpdate(new Document("_id", _id), new Document("$set", new Document("verification", null)),
 						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)), lang);
 	}
 
@@ -291,8 +287,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document rcdCard = null;
 		Document epCard = null;
 		if (data != null) {
-			rcdCard = D4Renderer.renderRootCauseDesc(data, lang);
-			epCard = D4Renderer.renderEscapePoint(data, lang);
+			rcdCard = ProblemCardRenderer.renderD4RootCauseDesc(data, lang);
+			epCard = ProblemCardRenderer.renderD4EscapePoint(data, lang);
 		}
 
 		// 问题产生的原因
@@ -304,7 +300,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation").aggregate(pipe).map(d -> D4Renderer.renderCauseConsequence(d, lang)).into(result);
+		c("causeRelation").aggregate(pipe).map(d -> ProblemCardRenderer.renderD4CauseConsequence(d, lang)).into(result);
 		// 问题流出的原因
 		if (epCard != null) {
 			result.add(epCard);
@@ -314,7 +310,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation").aggregate(pipe).map(d -> D4Renderer.renderCauseConsequence(d, lang)).into(result);
+		c("causeRelation").aggregate(pipe).map(d -> ProblemCardRenderer.renderD4CauseConsequence(d, lang)).into(result);
 
 		return result;
 	}
@@ -339,8 +335,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		Document d = c("d5PCA").find(new Document("problem_id", problem_id).append("selected", true)).first();
 		if (d != null) {
-			result.add(D5Renderer.renderSelectedPCA1(d,lang));
-			result.add(D5Renderer.renderSelectedPCA2(d,lang));
+			result.add(ProblemCardRenderer.renderD5PCA1(d,lang));
+			result.add(ProblemCardRenderer.renderD5PCA2(d,lang));
 		}
 		
 		return result;
@@ -492,4 +488,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 	}
 
+	@Override
+	public Document insertD6IVPCA(Document t, String language) {
+		t.append("_id", new ObjectId());
+		c("d6IVPCA").insertOne(t);
+		return ProblemCardRenderer.renderD6IVPCA(t);
+	}
 }

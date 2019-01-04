@@ -143,6 +143,12 @@ public interface ProblemService {
 	public void insertD5PCA(Document t, @PathParam("lang") String language);
 
 	@POST
+	@Path("/d6/ivpca/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD6IVPCA(Document t, @PathParam("lang") String language);
+
+	@POST
 	@Path("/d1/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
