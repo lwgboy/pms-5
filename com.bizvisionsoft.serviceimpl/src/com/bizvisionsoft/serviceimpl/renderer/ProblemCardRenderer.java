@@ -224,8 +224,8 @@ public class ProblemCardRenderer {
 		sb.append("</div>");
 
 		sb.append("<div style='width:0;flex-grow:1;padding:0px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");
-		sb.append("<div class='brui_text_line'>" + name + "</div><div class='brui_card_text3 label_caption' style='height:48px;'>" + desc
-				+ "</div>");
+		sb.append("<div class='brui_text_line label_caption'>" + name
+				+ "</div><div class='brui_card_text3 label_caption' style='height:48px;'>" + desc + "</div>");
 		sb.append("</div>");
 
 		rowHeight += 82;
@@ -238,17 +238,11 @@ public class ProblemCardRenderer {
 	}
 
 	public static Document renderD5PCA1(Document doc, String lang) {
-		List<?> pca = (List<?>) doc.get("pca1");
-		Document charger = (Document) doc.get("charger1_meta");
-		Date date = doc.getDate("date1");
-		return renderD5Card(pca, "杜绝问题产生", charger, date, lang);
+		return renderD5Card((List<?>) doc.get("pca1"), "杜绝问题产生", (Document) doc.get("charger1_meta"), doc.getDate("date1"), lang);
 	}
 
 	public static Document renderD5PCA2(Document doc, String lang) {
-		List<?> pca = (List<?>) doc.get("pca2");
-		Document charger = (Document) doc.get("charger2_meta");
-		Date date = doc.getDate("date2");
-		return renderD5Card(pca, "防止问题流出", charger, date, lang);
+		return renderD5Card((List<?>) doc.get("pca2"), "防止问题流出", (Document) doc.get("charger2_meta"), doc.getDate("date2"), lang);
 	}
 
 	private static Document renderD5Card(List<?> list, String title, Document charger, Date date, String lang) {
@@ -259,7 +253,7 @@ public class ProblemCardRenderer {
 		appendHeader(sb, indigo, title, 36);
 
 		sb.append("<div class='layui-text'>");
-		sb.append("<ul style='margin-left:12px;padding:4px 0px 4px 16px;'>");
+		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
 		for (int i = 0; i < list.size(); i++) {
 			sb.append("<li class='label_caption' style='margin-top:0px;'>" + ((Document) list.get(i)).getString("name") + "</li>");
 		}
