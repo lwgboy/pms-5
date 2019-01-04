@@ -152,7 +152,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang) {
 		List<Document> result = new ArrayList<>();
 		// photos
-		listD2ProblemPhotos(problem_id).forEach(d -> result.add(ProblemCardRenderer.renderD3PhotoCard(d, lang)));
+		listD2ProblemPhotos(problem_id).forEach(d -> result.add(ProblemCardRenderer.renderD2PhotoCard(d, lang)));
 		// 5w2h
 		Document doc = getD2ProblemDesc(problem_id);
 		if (doc.get("what") != null)
@@ -191,7 +191,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD2ProblemPhoto(Document t, String lang) {
 		c("d2ProblemPhoto").insertOne(t);
-		return ProblemCardRenderer.renderD3PhotoCard(t, lang);
+		return ProblemCardRenderer.renderD2PhotoCard(t, lang);
 	}
 
 	@Override

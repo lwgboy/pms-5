@@ -66,7 +66,7 @@ public class ProjectChangeRenderer {
 
 	private String renderTitle() {
 		rowHeight += 64;
-		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
+		return "<div class='brui_card_head_fix' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
 				+ "<div class='label_title'>" + pc.getProjectName() + "</div>"//
 				+ "<div>" + Check.isAssignedThen(pc.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: ´ý¶¨") + "</div>"//

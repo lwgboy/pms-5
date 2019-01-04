@@ -8,7 +8,6 @@ import java.util.List;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class RenderTools {
@@ -93,13 +92,6 @@ public class RenderTools {
 				+ "</div>";//
 	}
 
-	public static String getTextMultiLineNoBlank(String label, String text, String[] color) {
-		return "<div class='label_caption' style='padding:0px 8px 8px 8px;'>" + //
-				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div class='brui_text_multiline' style='color:#" + color[1]
-				+ "'>" + text + "</div>"//
-				+ "</div>";//
-	}
-
 	public static String getTextMultiLineNoBlank2(String label, String text, String[] color) {
 		return "<div class='brui_card_text2 label_caption' style='padding:8px 8px 0px 8px;'>" + //
 				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
@@ -133,20 +125,4 @@ public class RenderTools {
 		return "<div style='cursor:pointer;' " + "onmouseover='layer.tips(\"" + message + "\", this, {tips: 1})'>" + text + "</div>";
 	}
 
-	public static String renderUserAndText(Document user, String dateStr, String color) {
-		String img;
-		String name = user.getString("name");
-		String url = RenderTools.getFirstImageURL(user, "headPics");
-		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
-		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:17px;width:28px;height:28px;'/>";
-		}
-		return "<div style='padding:8px 8px 8px 8px;display:flex;align-items:center;'>" + img
-				+ "<span class='label_caption' style='margin-left:4px;color:#" + color + "'>" + name + "&nbsp;&nbsp;" + dateStr + "</span>" //
-				+ "</div>";
-	}
 }

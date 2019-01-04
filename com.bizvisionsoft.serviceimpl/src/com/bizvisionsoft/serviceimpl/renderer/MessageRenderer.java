@@ -39,7 +39,7 @@ public class MessageRenderer {
 			}
 		}
 
-		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
+		sb.append("<div class='brui_card_head_fix' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
 				+ "<div>"//
 				+ "<div class='label_title'>" + msg.getSubject() + "</div>"//
 				+ "<div>" + senderName + "&nbsp;&nbsp;&nbsp;" + Formatter.getString(msg.getSendDate(), "yyyy-MM-dd HH:mm:ss") + "</div>"//

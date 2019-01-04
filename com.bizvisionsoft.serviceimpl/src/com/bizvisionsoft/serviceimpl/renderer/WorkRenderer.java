@@ -226,7 +226,7 @@ public class WorkRenderer {
 
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
-		return "<div class='label_title brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+		return "<div class='label_title brui_card_head_fix' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
 				+ ";padding:8px'>" + "<div class='brui_card_text'>" + name + "</div><div class='label_display1'>" + _date + "</div></div>";
 	}
 

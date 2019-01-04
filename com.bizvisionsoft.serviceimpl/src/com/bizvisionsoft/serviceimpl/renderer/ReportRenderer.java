@@ -73,7 +73,7 @@ public class ReportRenderer {
 		}
 
 		rowHeight += 64;
-		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
+		return "<div class='brui_card_head_fix' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
 				+ "<div>"//
 				+ "<div class='label_title'>" //
 				+ "<a class='label_title' href='openItem/' target='_rwt' style='color:#" + theme.headFgColor + "';>"
