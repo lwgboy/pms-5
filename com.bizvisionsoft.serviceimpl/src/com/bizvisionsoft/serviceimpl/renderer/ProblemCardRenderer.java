@@ -14,6 +14,8 @@ public class ProblemCardRenderer {
 
 	private static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
 
+	private static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
+
 	private static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
@@ -145,9 +147,9 @@ public class ProblemCardRenderer {
 			status = "<span class='layui-badge  layui-bg-blue'>" + "已创建" + "</span>";
 		}
 
-		sb.append("<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>"
-				+ "<div class='label_subhead brui_card_text'>" + action + "</div>"//
-				+ "<div style='text-align:center;margin-left:8px'><div class='label_headline'>" + priority + "</div>"
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
+				+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + priority + "</div>"
 				+ "<div class='label_caption'>优先级</div></div>"//
 				+ "</div>");//
 
@@ -190,7 +192,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendHeader(sb, red, title, 36);
 
-		RenderTools.appendLine(sb, rootCauseDesc, RenderTools.STLYE_NLINE);
+		RenderTools.appendLine(sb, rootCauseDesc, RenderTools.STYLE_NLINE);
 
 		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
 
@@ -261,7 +263,7 @@ public class ProblemCardRenderer {
 		}
 		RenderTools.appendHeader(sb, indigo, title, 36);
 
-		RenderTools.appendLine(sb, t.getString("iv"), RenderTools.STLYE_NLINE);
+		RenderTools.appendLine(sb, t.getString("iv"), RenderTools.STYLE_NLINE);
 
 		List<?> list = (List<?>) t.get("attachments");
 		if (Check.isAssigned(list)) {
@@ -288,13 +290,102 @@ public class ProblemCardRenderer {
 	}
 
 	public static Document renderD7Similar(Document t, String lang) {
-		// TODO Auto-generated method stub
-		return t;
+		StringBuffer sb = new StringBuffer();
+
+		String label = similarDegreeText[Integer.parseInt(t.getString("degree"))];
+
+		String type = t.getString("similar");
+
+		int prob = t.getDouble("prob").intValue();
+
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + indigo.headBgColor + ";color:#" + indigo.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text' style='flex-grow:1;'>相似情形：" + type + "</div>"//
+				+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + label + "</div>"
+				+ "<div class='label_caption'>相似度</div></div>"//
+				+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + prob
+				+ "<span style='font-size:9px;'>%</span></div>" + "<div class='label_caption'>可能性</div></div>"//
+				+ "</div>");//
+
+		RenderTools.appendLine(sb, t.getString("desc"), RenderTools.STYLE_NLINE);
+
+		List<?> ids = (List<?>) t.get("id");
+		if (Check.isAssigned(ids)) {
+			RenderTools.appendLine(sb, "识别相似情形：", RenderTools.STYLE_1LINE);
+			sb.append("<div class='layui-text'>");
+			sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
+			for (int i = 0; i < ids.size(); i++) {
+				Document d = (Document) ids.get(i);
+				String text = d.getString("id") + " " + d.getString("keyword");
+				sb.append("<li class='label_caption grey' style='margin-top:0px;'>" + text + "</li>");
+			}
+			sb.append("</ul>");
+			sb.append("</div>");
+		}
+
+		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑相似物", "editSimilar");
+
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除相似物", "deleteSimilar");
+
+		RenderTools.appendCardBg(sb, "white");
+
+		return new Document("html", sb.toString());
 	}
 
 	public static Document renderD7SPA(Document t, String lang) {
-		// TODO Auto-generated method stub
-		return t;
+		StringBuffer sb = new StringBuffer();
+		RenderTools.appendHeader(sb, indigo, "系统性预防措施", 36);
+
+		RenderTools.appendLine(sb, t.getString("action"), RenderTools.STYLE_NLINE);
+
+		Document charger = (Document) t.get("charger_meta");
+
+		Date date = t.getDate("date");
+
+		boolean finished = t.getBoolean("finished", false);
+		String status = finished ? ("<span class='layui-badge  layui-bg-blue'>" + "已完成" + "</span>")
+				: ("<span class='layui-badge'>" + "未完成" + "</span>");
+
+		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date) + " " + status);
+
+		if (!finished) {
+			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8, 12, "关闭PCA", "finishSPA");
+
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑系统性预防措施", "editSPA");
+
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除系统性预防措施", "deleteSPA");
+		} else {
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "查看系统性预防措施", "readSPA");
+		}
+
+		RenderTools.appendCardBg(sb, "white");
+
+		return new Document("html", sb.toString());
+	}
+
+	public static Document renderD8Experience(Document t, String lang) {
+		StringBuffer sb = new StringBuffer();
+		
+
+		Document charger = (Document) t.get("charger_meta");
+
+		Date date = t.getDate("date");
+		
+		RenderTools.appendHeader(sb, indigo, t.getString("name")+"<img width=24px height=24px src='rwt-resources/extres/img/exp_w.svg'/>", 36);
+		
+		sb.append("<video width='100%' height='auto' controls>");
+		sb.append("<source src='"+RenderTools.getFirstFileURL(t, "vedio")+"' type='video/mp4'>");
+		sb.append("</video>");
+
+		RenderTools.appendLine(sb, t.getString("abstract"), RenderTools.STYLE_3LINE);
+		
+		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date) );
+
+		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑经验总结", "editSPA");
+
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除经验总结", "deleteSPA");
+
+		RenderTools.appendCardBg(sb, "white");
+		return new Document("html", sb.toString());
 	}
 
 }

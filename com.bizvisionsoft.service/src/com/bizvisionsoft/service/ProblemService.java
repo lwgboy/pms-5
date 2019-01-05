@@ -149,13 +149,19 @@ public interface ProblemService {
 	public Document insertD6IVPCA(Document t, @PathParam("lang") String language);
 
 	@POST
-	@Path("/d8/ss/{lang}")
+	@Path("/d7/ss/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD7SimilarSituation(Document t, @PathParam("lang") String lang);
 
 	@POST
-	@Path("/d8/spa/{lang}")
+	@Path("/d8/exp/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")	
+	public Document insertD8Experience(Document t, @PathParam("lang")  String lang);
+
+	@POST
+	@Path("/d7/spa/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD7PreventAction(Document t, @PathParam("lang") String lang);

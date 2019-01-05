@@ -16,7 +16,7 @@ public class RenderTools {
 
 	public static final String STYLE_1LINE = "brui_text_line label_caption brui_line_padding";
 
-	public static final String STLYE_NLINE = "brui_text_multiline label_caption brui_line_padding";
+	public static final String STYLE_NLINE = "brui_text_multiline label_caption brui_line_padding";
 
 	public static final String STYLE_3LINE = "brui_card_text3 label_caption brui_line_padding";
 
@@ -214,7 +214,7 @@ public class RenderTools {
 			Document fileData = (Document) list.get(i);
 			String name = fileData.getString("name");
 			String url = "/bvs/fs?id=" + fileData.get("_id") + "&namespace=" + fileData.get("namepace") + "&name=" + name + "&sid=rwt";
-			sb.append("<a href='" + url + "' class='brui_line_padding brui_text_line label_caption'>" + name + "</a>");//
+			sb.append("<a href='" + url + "' class='brui_line_padding brui_text_line label_caption grey'>" + name + "</a>");//
 		}
 	}
 

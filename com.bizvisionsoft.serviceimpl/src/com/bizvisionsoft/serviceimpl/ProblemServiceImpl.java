@@ -355,15 +355,19 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
 		List<Document> result = new ArrayList<>();
+		c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
+				.map(d -> ProblemCardRenderer.renderD7Similar(d, lang)).into(result);
+
+		c("d7SPA").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD7SPA(d, lang)).into(result);
+
 		return result;
 	}
 
 	@Override
 	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
 		List<Document> result = new ArrayList<>();
+		c("d8Exp").find(new Document("problem_id", problem_id)).map(d->ProblemCardRenderer.renderD8Experience(d, lang)).into(result);
 		return result;
 	}
 
@@ -502,15 +506,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD7SimilarSituation(Document t, String lang) {
 		t.append("_id", new ObjectId());
-		c("d7similar").insertOne(t);
+		c("d7Similar").insertOne(t);
 		return ProblemCardRenderer.renderD7Similar(t, lang);
 	}
 
 	@Override
 	public Document insertD7PreventAction(Document t, String lang) {
 		t.append("_id", new ObjectId());
-		c("d7spa").insertOne(t);
+		c("d7SPA").insertOne(t);
 		return ProblemCardRenderer.renderD7SPA(t, lang);
+	}
+
+	@Override
+	public Document insertD8Experience(Document t, String lang) {
+		t.append("_id", new ObjectId());
+		c("d8Exp").insertOne(t);
+		return ProblemCardRenderer.renderD8Experience(t, lang);
 	}
 
 }
