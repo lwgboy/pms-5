@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
-import com.bizvisionsoft.service.tools.ColorTheme;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class ProblemCardRenderer {
@@ -32,18 +32,18 @@ public class ProblemCardRenderer {
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
-		String img = getUserHeadPicURL(doc, name);
+		String img = RenderTools.getUserHeadPicURL(doc, name);
 
-		appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " " + dept + " "
-				+ position + "</div></div>" + img, 48);
+		RenderTools.appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " "
+				+ dept + " " + position + "</div></div>" + img, 48);
 
-		appendIconTextLine(sb, RenderTools.IMG_URL_TEL, 16, mobile);
+		RenderTools.appendIconTextLine(sb, RenderTools.IMG_URL_TEL, 16, mobile);
 
-		appendIconTextLine(sb, RenderTools.IMG_URL_EMAIL, 16, email);
+		RenderTools.appendIconTextLine(sb, RenderTools.IMG_URL_EMAIL, 16, email);
 
-		appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
 
-		appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb, "white");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -51,30 +51,32 @@ public class ProblemCardRenderer {
 	public static Document renderD25W2H(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		appendHeader(sb, red, "5W2H", 36);
+		RenderTools.appendHeader(sb, red, "5W2H", 36);
 
-		appendLabelAndMultiLine(sb, "What / 当前状况", "deep_orange", Optional.ofNullable(doc.getString("what")).orElse(""),
+		RenderTools.appendLabelAndMultiLine(sb, "What / 当前状况", "deep_orange", Optional.ofNullable(doc.getString("what")).orElse(""),
 				CardTheme.TEXT_LINE);
 
-		appendLabelAndMultiLine(sb, "When / 发现时间", "deep_orange", Optional.ofNullable(doc.getString("when")).orElse(""),
+		RenderTools.appendLabelAndMultiLine(sb, "When / 发现时间", "deep_orange", Optional.ofNullable(doc.getString("when")).orElse(""),
 				CardTheme.TEXT_LINE);
 
-		appendLabelAndMultiLine(sb, "Where / 地点和位置", "deep_orange", Optional.ofNullable(doc.getString("where")).orElse(""),
+		RenderTools.appendLabelAndMultiLine(sb, "Where / 地点和位置", "deep_orange", Optional.ofNullable(doc.getString("where")).orElse(""),
 				CardTheme.TEXT_LINE);
 
-		appendLabelAndMultiLine(sb, "Who / 有关人员", "deep_orange", Optional.ofNullable(doc.getString("who")).orElse(""), CardTheme.TEXT_LINE);
-
-		appendLabelAndMultiLine(sb, "Why / 原因推测", "deep_orange", Optional.ofNullable(doc.getString("why")).orElse(""), CardTheme.TEXT_LINE);
-
-		appendLabelAndMultiLine(sb, "How / 怎样发现的问题", "deep_orange", Optional.ofNullable(doc.getString("how")).orElse(""),
+		RenderTools.appendLabelAndMultiLine(sb, "Who / 有关人员", "deep_orange", Optional.ofNullable(doc.getString("who")).orElse(""),
 				CardTheme.TEXT_LINE);
 
-		appendLabelAndMultiLine(sb, "How many / 频度，数量", "deep_orange", Optional.ofNullable(doc.getString("howmany")).orElse(""),
+		RenderTools.appendLabelAndMultiLine(sb, "Why / 原因推测", "deep_orange", Optional.ofNullable(doc.getString("why")).orElse(""),
 				CardTheme.TEXT_LINE);
 
-		appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题描述", "editpd");
+		RenderTools.appendLabelAndMultiLine(sb, "How / 怎样发现的问题", "deep_orange", Optional.ofNullable(doc.getString("how")).orElse(""),
+				CardTheme.TEXT_LINE);
 
-		appendCardBg(sb, "white");
+		RenderTools.appendLabelAndMultiLine(sb, "How many / 频度，数量", "deep_orange", Optional.ofNullable(doc.getString("howmany")).orElse(""),
+				CardTheme.TEXT_LINE);
+
+		RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题描述", "editpd");
+
+		RenderTools.appendCardBg(sb, "white");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -82,18 +84,19 @@ public class ProblemCardRenderer {
 	public static Document renderD2PhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("<img src='" + RenderTools.getFirstImageURL(doc, "problemImg")
+		sb.append("<img src='" + RenderTools.getFirstFileURL(doc, "problemImg")
 				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
 				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
 
-		appendFix3Line(sb, doc.getString("problemImgDesc"));
+		RenderTools.appendLine(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
-		appendFix1Line(sb,
-				Formatter.getString(doc.getDate("receiveDate")) + "/" + doc.getString("receiver") + " " + doc.getString("location"));
+		RenderTools.appendLine(sb,
+				Formatter.getString(doc.getDate("receiveDate")) + "/" + doc.getString("receiver") + " " + doc.getString("location"),
+				RenderTools.STYLE_1LINE);
 
-		appendButton(sb, "layui-icon-close", 12, 12, "删除图片资料", "deletephoto");
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除图片资料", "deletephoto");
 
-		appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb, "white");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
@@ -150,57 +153,48 @@ public class ProblemCardRenderer {
 
 		rowHeight += 64;
 
-		appendFix1Line(sb, "预期结果：", CardTheme.TEXT_LINE[0], objective, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLine(sb, "预期结果：", CardTheme.TEXT_LINE[0], objective, CardTheme.TEXT_LINE[1]);
 		rowHeight += 24;
 
-		appendFix1Line(sb, "执行计划：", CardTheme.TEXT_LINE[0], planStart + " ~ " + planFinish, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLine(sb, "执行计划：", CardTheme.TEXT_LINE[0], planStart + " ~ " + planFinish, CardTheme.TEXT_LINE[1]);
 		rowHeight += 24;
 
-		appendFix1Line(sb, "费用预算：", CardTheme.TEXT_LINE[0], budget, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLine(sb, "费用预算：", CardTheme.TEXT_LINE[0], budget, CardTheme.TEXT_LINE[1]);
 		rowHeight += 24;
 
-		appendUserAndText(sb, chargerData, status);
+		RenderTools.appendUserAndText(sb, chargerData, status);
 		rowHeight += 36;
 
 		if (!finished) {
 			// 删除按钮
-			appendButton(sb, "layui-icon-close", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "删除ICA", "deleteICA");
+			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "标记ICA已完成", "finishICA");
 
 			// 编辑按钮
-			appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑ICA", "editICA");
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑ICA", "editICA");
 
 			// 验证按钮
-			appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证ICA", "verificationICA");
+			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证ICA", "verificationICA");
 
 			// 完成按钮
-			appendButton(sb, "layui-icon-ok", 12, 12, "标记ICA已完成", "finishICA");
-
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除ICA", "deleteICA");
 		}
 
-		appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb, "white");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
-	public static Document renderD4RootCauseDesc(Document doc, String lang) {
-		return renderD4Card(doc, "问题产生的根本原因", doc.getString("rootCauseDesc"), (Document) doc.get("charger_meta"), doc.getDate("date"));
-	}
-
-	public static Document renderD4EscapePoint(Document doc, String lang) {
-		return renderD4Card(doc, "问题流出的逃出点", doc.getString("escapePoint"), (Document) doc.get("charger_meta"), doc.getDate("date"));
-	}
-
-	private static Document renderD4Card(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date) {
+	public static Document renderD4(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date, String lang) {
 
 		StringBuffer sb = new StringBuffer();
 
-		appendHeader(sb, red, title, 36);
+		RenderTools.appendHeader(sb, red, title, 36);
 
-		appendMultiLine(sb, rootCauseDesc);
+		RenderTools.appendLine(sb, rootCauseDesc, RenderTools.STLYE_NLINE);
 
-		appendUserAndText(sb, charger_meta, Formatter.getString(date));
+		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
 
-		appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb, "white");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -237,20 +231,9 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
-	public static Document renderD5PCA1(Document doc, String lang) {
-		return renderD5Card((List<?>) doc.get("pca1"), "杜绝问题产生", (Document) doc.get("charger1_meta"), doc.getDate("date1"), lang);
-	}
-
-	public static Document renderD5PCA2(Document doc, String lang) {
-		return renderD5Card((List<?>) doc.get("pca2"), "防止问题流出", (Document) doc.get("charger2_meta"), doc.getDate("date2"), lang);
-	}
-
-	private static Document renderD5Card(List<?> list, String title, Document charger, Date date, String lang) {
-		String dateStr = Formatter.getString(date);
-
+	public static Document renderD5PCA(List<?> list, String title, Document charger, Date date, String lang) {
 		StringBuffer sb = new StringBuffer();
-
-		appendHeader(sb, indigo, title, 36);
+		RenderTools.appendHeader(sb, indigo, title, 36);
 
 		sb.append("<div class='layui-text'>");
 		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
@@ -260,105 +243,58 @@ public class ProblemCardRenderer {
 		sb.append("</ul>");
 		sb.append("</div>");
 
-		appendUserAndText(sb, charger, dateStr);
+		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
 
-		appendCardBg(sb, "white");
-
+		RenderTools.appendCardBg(sb, "white");
 		return new Document("html", sb.toString());
 	}
 
-	public static Document renderD6IVPCA(Document t) {
+	public static Document renderD6IVPCA(Document t, String lang) {
+
+		StringBuffer sb = new StringBuffer();
+
+		String title;
+		if ("make".equals(t.getString("actionType"))) {
+			title = "实施/确认问题产生的纠正措施";
+		} else {
+			title = "实施/确认问题流出的纠正措施";
+		}
+		RenderTools.appendHeader(sb, indigo, title, 36);
+
+		RenderTools.appendLine(sb, t.getString("iv"), RenderTools.STLYE_NLINE);
+
+		List<?> list = (List<?>) t.get("attachments");
+		if (Check.isAssigned(list)) {
+			RenderTools.appendLine(sb, "附件", RenderTools.STYLE_1LINE);
+			RenderTools.appendMultiFiles(sb, list);
+		}
+
+		Date date = t.getDate("date");
+		boolean closed = t.getBoolean("closed", false);
+		String status = closed ? ("<span class='layui-badge  layui-bg-blue'>" + "已关闭" + "</span>")
+				: ("<span class='layui-badge'>" + "未关闭" + "</span>");
+		RenderTools.appendUserAndText(sb, (Document) t.get("charger_meta"), Formatter.getString(date) + " " + status);
+
+		if (!closed) {
+			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8, 12, "关闭PCA", "closePCA");
+
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑PCA实施和验证记录", "editPCA");
+
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除PCA实施和确认记录", "deletePCA");
+		}
+
+		RenderTools.appendCardBg(sb, "white");
+		return new Document("html", sb.toString());
+	}
+
+	public static Document renderD7Similar(Document t, String lang) {
 		// TODO Auto-generated method stub
-		return null;
+		return t;
 	}
 
-	private static void appendButton(StringBuffer sb, String icon, int right, int bottom, String tips, String target) {
-		sb.append("<div style='position:absolute;right:" + right + "px;bottom:" + bottom + "px;'>" + "<a href='" + target
-				+ "' target='_rwt' class='layui-icon " + icon + "' onmouseover='layer.tips(\"" + tips + "\",this,{tips:1})'></a></div>");
+	public static Document renderD7SPA(Document t, String lang) {
+		// TODO Auto-generated method stub
+		return t;
 	}
 
-	public static void appendLabelAndMultiLine(StringBuffer sb, String label, String labelStyle, String text, String[] color) {
-		sb.append("<div class='label_caption' style='padding:8px 8px 0px 8px;'>" + //
-				"<div class='" + labelStyle + "' style='color:#" + color[0] + "'>" + label + "</div>"
-				+ "<div class='brui_text_multiline' style='color:#" + color[1] + "'>" + text + "</div>"//
-				+ "</div>");//
-	}
-
-	private static void appendHeader(StringBuffer sb, CardTheme theme, String text, int height) {
-		sb.append("<div class='label_subhead brui_card_head' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
-				+ theme.headFgColor + ";padding:8px;'>" + text//
-				+ "</div>");//
-	}
-
-	private static void appendIconTextLine(StringBuffer sb, String iconURL, int size, String text) {
-		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
-				+ "<img src='" + iconURL + "' width='" + size + "px' height='" + size + "px'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;'>" //
-				+ text //
-				+ "</div>"//
-				+ "</div>");
-	}
-
-	private static String getUserHeadPicURL(Document doc, String name) {
-		String img;
-		String url = RenderTools.getFirstImageURL(doc, "headPics");
-		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:28px;width:36px;height:36px;'/>";
-		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:28px;width:36px;height:36px;'/>";
-		}
-		return img;
-	}
-
-	public static void appendUserAndText(StringBuffer sb, Document user, String dateStr) {
-		String img;
-		String name = user.getString("name");
-		String url = RenderTools.getFirstImageURL(user, "headPics");
-		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
-		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:17px;width:28px;height:28px;'/>";
-		}
-		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>" + img
-				+ "<span class='label_caption' style='margin-left:4px;'>" + name + "&nbsp;&nbsp;" + dateStr + "</span>" //
-				+ "</div>");
-	}
-
-	private static void appendCardBg(StringBuffer sb, String bg) {
-		sb.insert(0, "<div class='brui_card2' style='background:" + bg + ";'>");
-		sb.append("</div>");
-	}
-
-	private static void appendFix3Line(StringBuffer sb, String text) {
-		if (text != null) {
-			sb.append("<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + text + "</div>");//
-		}
-	}
-
-	private static void appendMultiLine(StringBuffer sb, String text) {
-		if (text != null) {
-			sb.append("<div class='brui_text_multiline label_caption' style='padding:8px 8px 0px 8px;'>" + text + "</div>");//
-		}
-	}
-
-	private static void appendFix1Line(StringBuffer sb, String text) {
-		if (text != null) {
-			sb.append("<div class='brui_text_line label_caption' style='padding:8px 8px 0px 8px;'>" + text + "</div>");//
-		}
-	}
-
-	private static void appendFix1Line(StringBuffer sb, String label, String color1, String text, String color2) {
-		sb.append("<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color1 + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color2 + "'>" + text + "</span>" //
-				+ "</div>"//
-				+ "</div>");
-	}
 }

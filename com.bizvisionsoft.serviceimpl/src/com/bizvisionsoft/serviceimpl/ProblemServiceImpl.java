@@ -104,7 +104,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		sort.append("role", 1).append("_id", -1);
 
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang)).into(new ArrayList<>());
+		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang))
+				.into(new ArrayList<>());
 		return result;
 	}
 
@@ -287,8 +288,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document rcdCard = null;
 		Document epCard = null;
 		if (data != null) {
-			rcdCard = ProblemCardRenderer.renderD4RootCauseDesc(data, lang);
-			epCard = ProblemCardRenderer.renderD4EscapePoint(data, lang);
+			rcdCard = ProblemCardRenderer.renderD4(data, "问题产生的根本原因", data.getString("rootCauseDesc"), (Document) data.get("charger_meta"),
+					data.getDate("date"), lang);
+			epCard = ProblemCardRenderer.renderD4(data, "问题流出的逃出点", data.getString("escapePoint"), (Document) data.get("charger_meta"),
+					data.getDate("date"), lang);
 		}
 
 		// 问题产生的原因
@@ -335,18 +338,19 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		Document d = c("d5PCA").find(new Document("problem_id", problem_id).append("selected", true)).first();
 		if (d != null) {
-			result.add(ProblemCardRenderer.renderD5PCA1(d,lang));
-			result.add(ProblemCardRenderer.renderD5PCA2(d,lang));
+			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca1"), "问题产生纠正措施", (Document) d.get("charger1_meta"),
+					d.getDate("date1"), lang));
+			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca2"), "问题流出纠正措施", (Document) d.get("charger2_meta"),
+					d.getDate("date2"), lang));
 		}
-		
+
 		return result;
 	}
 
 	@Override
 	public List<Document> listD6(BasicDBObject condition, ObjectId problem_id, String lang) {
-		// TODO Auto-generated method stub
-		List<Document> result = new ArrayList<>();
-		return result;
+		return c("d6IVPCA").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD6IVPCA(d, lang))
+				.into(new ArrayList<>());
 	}
 
 	@Override
@@ -489,9 +493,24 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD6IVPCA(Document t, String language) {
+	public Document insertD6IVPCA(Document t, String lang) {
 		t.append("_id", new ObjectId());
 		c("d6IVPCA").insertOne(t);
-		return ProblemCardRenderer.renderD6IVPCA(t);
+		return ProblemCardRenderer.renderD6IVPCA(t, lang);
 	}
+
+	@Override
+	public Document insertD7SimilarSituation(Document t, String lang) {
+		t.append("_id", new ObjectId());
+		c("d7similar").insertOne(t);
+		return ProblemCardRenderer.renderD7Similar(t, lang);
+	}
+
+	@Override
+	public Document insertD7PreventAction(Document t, String lang) {
+		t.append("_id", new ObjectId());
+		c("d7spa").insertOne(t);
+		return ProblemCardRenderer.renderD7SPA(t, lang);
+	}
+
 }
