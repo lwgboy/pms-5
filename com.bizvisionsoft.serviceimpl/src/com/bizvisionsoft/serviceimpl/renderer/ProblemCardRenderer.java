@@ -364,21 +364,23 @@ public class ProblemCardRenderer {
 
 	public static Document renderD8Experience(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
-		
 
-		Document charger = (Document) t.get("charger_meta");
+		String firstFileURL = RenderTools.getFirstFileURL(t, "vedio");
+		if (firstFileURL != null) {
+			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='auto' controls>");
+			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
+			sb.append("</video>");
+		}else {
+			RenderTools.appendHeader(sb, indigo, "经验教训总结", 36);
+		}
 
-		Date date = t.getDate("date");
-		
-		RenderTools.appendHeader(sb, indigo, t.getString("name")+"<img width=24px height=24px src='rwt-resources/extres/img/exp_w.svg'/>", 36);
-		
-		sb.append("<video width='100%' height='auto' controls>");
-		sb.append("<source src='"+RenderTools.getFirstFileURL(t, "vedio")+"' type='video/mp4'>");
-		sb.append("</video>");
+		RenderTools.appendLine(sb, t.getString("name"), RenderTools.STYLE_1LINE);
 
 		RenderTools.appendLine(sb, t.getString("abstract"), RenderTools.STYLE_3LINE);
-		
-		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date) );
+
+		Document charger = (Document) t.get("charger_meta");
+		Date date = t.getDate("date");
+		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
 
 		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑经验总结", "editSPA");
 
