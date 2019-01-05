@@ -18,14 +18,15 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class D2Card {
+public class D8ExpCard {
 	@Inject
 	private IBruiService br;
-	
 	private ProblemService service;
+	private String lang;
 
-	public D2Card() {
+	public D8ExpCard() {
 		service = Services.get(ProblemService.class);
+		lang = RWT.getLocale().getLanguage();
 	}
 
 	@Execute
@@ -35,27 +36,31 @@ public class D2Card {
 			return;
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if (e.text.startsWith("editpd")) {
-			editProblemDesc(_id, element, viewer, context);
-		} else if (e.text.startsWith("deletephoto")) {
-			deleteProblemPhoto(_id, element, viewer);
+		if ("editExp".equals(e.text)) {
+			editExp(_id, element, viewer, context);
+		} else if ("deleteExp".equals(e.text)) {
+			deleteExp(_id, element, viewer, context);
 		}
+
 	}
 
-	private void deleteProblemPhoto(ObjectId _id, Document doc, GridTreeViewer viewer) {
-		if (br.confirm("删除", "请确认删除选择的图片资料。")) {
-			service.deleteD2ProblemPhotos(_id);
-			((List<?>) viewer.getInput()).remove(doc);
+	private void deleteExp(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+		if (br.confirm("删除", "请确认删除选择的经验和教训总结。")) {
+			service.deleteD8Exp(_id);
+			List<?> input = (List<?>) viewer.getInput();
+			input.remove(doc);
 			viewer.remove(doc);
 		}
 	}
 
-	private void editProblemDesc(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		Document d2ProblemDesc = service.getD2ProblemDesc(_id);
-		Editor.create("D2-5W2H问题描述-编辑器", context, d2ProblemDesc, true).ok((r, t) -> {
-			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
-			AUtil.simpleCopy(t, doc);
-			viewer.refresh(doc);
+
+	private void editExp(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+		Document ivpca = service.getD8Exp(_id);
+		Editor.create("D8-经验总结-编辑器", context, ivpca, true).ok((r, t) -> {
+			Document d = service.updateD8Exp(t, lang);
+			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
+
+
 }

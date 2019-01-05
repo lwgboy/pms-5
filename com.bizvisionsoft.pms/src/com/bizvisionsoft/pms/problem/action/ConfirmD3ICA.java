@@ -21,7 +21,7 @@ public class ConfirmD3ICA {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		if (br.confirm("证实", "证实ICA已经满足要求并未产生新的问题。")) {
-			List<Result> result = Services.get(ProblemService.class).confirmD3ICA(problem.get_id());
+			List<Result> result = Services.get(ProblemService.class).icaConfirm(problem.get_id());
 			if (result.isEmpty()) {
 				Layer.message("ICA 已证实");
 			}

@@ -208,7 +208,7 @@ public class ProblemCardRenderer {
 		String name = doc.getString("name");
 		String desc = Optional.ofNullable(doc.getString("description")).orElse("");
 		int w = doc.getInteger("weight", 1);
-		String p = Formatter.getPercentageFormatString(doc.getDouble("probability"));
+		String p = Formatter.getPercentageFormatString(doc.getDouble("probability") / 100);
 
 		sb.append("<div class='label_caption' style='display:flex;flex-direction:column;justify-content:space-around;color:white;'>");
 		sb.append(
@@ -273,12 +273,12 @@ public class ProblemCardRenderer {
 
 		Date date = t.getDate("date");
 		boolean closed = t.getBoolean("closed", false);
-		String status = closed ? ("<span class='layui-badge  layui-bg-blue'>" + "已关闭" + "</span>")
-				: ("<span class='layui-badge'>" + "未关闭" + "</span>");
+		String status = closed ? ("<span class='layui-badge  layui-bg-blue'>" + "已确认" + "</span>")
+				: ("<span class='layui-badge'>" + "未确认" + "</span>");
 		RenderTools.appendUserAndText(sb, (Document) t.get("charger_meta"), Formatter.getString(date) + " " + status);
 
 		if (!closed) {
-			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8, 12, "关闭PCA", "closePCA");
+			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8, 12, "确认PCA", "closePCA");
 
 			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑PCA实施和验证记录", "editPCA");
 
@@ -286,7 +286,7 @@ public class ProblemCardRenderer {
 		}
 
 		RenderTools.appendCardBg(sb, "white");
-		return new Document("html", sb.toString());
+		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 
 	public static Document renderD7Similar(Document t, String lang) {
@@ -315,7 +315,8 @@ public class ProblemCardRenderer {
 			sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
 			for (int i = 0; i < ids.size(); i++) {
 				Document d = (Document) ids.get(i);
-				String text = d.getString("id") + " " + d.getString("keyword");
+				String text = Optional.ofNullable(d.getString("id")).orElse("") + " "
+						+ Optional.ofNullable(d.getString("keyword")).orElse("");
 				sb.append("<li class='label_caption grey' style='margin-top:0px;'>" + text + "</li>");
 			}
 			sb.append("</ul>");
@@ -328,7 +329,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendCardBg(sb, "white");
 
-		return new Document("html", sb.toString());
+		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
 
 	public static Document renderD7SPA(Document t, String lang) {
@@ -341,7 +342,7 @@ public class ProblemCardRenderer {
 
 		Date date = t.getDate("date");
 
-		boolean finished = t.getBoolean("finished", false);
+		boolean finished = t.getBoolean("finish", false);
 		String status = finished ? ("<span class='layui-badge  layui-bg-blue'>" + "已完成" + "</span>")
 				: ("<span class='layui-badge'>" + "未完成" + "</span>");
 
@@ -359,10 +360,10 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendCardBg(sb, "white");
 
-		return new Document("html", sb.toString());
+		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 
-	public static Document renderD8Experience(Document t, String lang) {
+	public static Document renderD8Exp(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
 		String firstFileURL = RenderTools.getFirstFileURL(t, "vedio");
@@ -370,7 +371,7 @@ public class ProblemCardRenderer {
 			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='auto' controls>");
 			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
 			sb.append("</video>");
-		}else {
+		} else {
 			RenderTools.appendHeader(sb, indigo, "经验教训总结", 36);
 		}
 
@@ -382,12 +383,12 @@ public class ProblemCardRenderer {
 		Date date = t.getDate("date");
 		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
 
-		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑经验总结", "editSPA");
+		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑经验总结", "editExp");
 
-		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除经验总结", "deleteSPA");
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除经验总结", "deleteExp");
 
 		RenderTools.appendCardBg(sb, "white");
-		return new Document("html", sb.toString());
+		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 
 }
