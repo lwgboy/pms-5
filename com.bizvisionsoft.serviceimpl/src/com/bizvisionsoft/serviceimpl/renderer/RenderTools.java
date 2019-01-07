@@ -151,15 +151,6 @@ public class RenderTools {
 				+ "</div>");//
 	}
 
-	public static void appendIconTextLine(StringBuffer sb, String iconURL, int size, String text) {
-		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
-				+ "<img src='" + iconURL + "' width='" + size + "px' height='" + size + "px'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;'>" //
-				+ text //
-				+ "</div>"//
-				+ "</div>");
-	}
-
 	public static String getUserHeadPicURL(Document doc, String name) {
 		String img;
 		String url = RenderTools.getFirstFileURL(doc, "headPics");
@@ -175,9 +166,13 @@ public class RenderTools {
 	}
 
 	public static void appendUserAndText(StringBuffer sb, Document user, String dateStr) {
-		String img;
 		String name = user.getString("name");
 		String url = RenderTools.getFirstFileURL(user, "headPics");
+		appendUserAndText(sb, url, name, dateStr);
+	}
+
+	public static void appendUserAndText(StringBuffer sb, String url, String name, String dateStr) {
+		String img;
 		if (url != null) {
 			img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
 		} else {
@@ -196,16 +191,52 @@ public class RenderTools {
 		sb.append("</div>");
 	}
 
-	public static void appendLine(StringBuffer sb, String text, String style) {
+	public static void appendCardBg(StringBuffer sb) {
+		appendCardBg(sb, "white");
+	}
+
+	public static void appendText(StringBuffer sb, String text, String style) {
 		if (text != null) {
 			sb.append("<div class='" + style + "'>" + text + "</div>");//
 		}
 	}
 
-	public static void appendLine(StringBuffer sb, String label, String color1, String text, String color2) {
-		sb.append( "<div class='brui_line_padding label_caption brui_text_line' style='align-items:center;width:100%;display:flex;'>" //
+	public static void appendLabelAndTextLine(StringBuffer sb, String label, String color1, String text, String color2, int marginLeft) {
+		sb.append("<div class='brui_line_padding label_caption brui_text_line' style='align-items:center;width:100%;display:flex;'>" //
+				+ "<span style='margin-left:" + marginLeft + "px;color:#" + color1 + "'>" + label + "</span>" //
+				+ "<span style='color:#" + color2 + "'>" + text + "</span>" //
+				+ "</div>");
+	}
+
+	public static void appendLabelAndTextLine(StringBuffer sb, String label, String text) {
+		appendLabelAndTextLine(sb, label, CardTheme.TEXT_LINE[0], text, CardTheme.TEXT_LINE[1], 0);
+	}
+
+	public static void appendLabelAndTextLine(StringBuffer sb, String label, String text, int maringLeft) {
+		appendLabelAndTextLine(sb, label, CardTheme.TEXT_LINE[0], text, CardTheme.TEXT_LINE[1], maringLeft);
+	}
+
+	public static void appendIconLabelAndTextLine(StringBuffer sb, String iconUrl, int size, String label, String color1, String text,
+			String color2) {
+		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
+				+ "<img src='" + iconUrl + "' width='" + size + "' height='" + size + "'>"//
+				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
 				+ "<span style='color:#" + color1 + "'>" + label + "</span>" //
 				+ "<span style='color:#" + color2 + "'>" + text + "</span>" //
+				+ "</div>"//
+				+ "</div>");
+	}
+
+	public static void appendIconLabelAndTextLine(StringBuffer sb, String iconUrl, String label, String text) {
+		appendIconLabelAndTextLine(sb, iconUrl, 16, label, CardTheme.TEXT_LINE[0], text, CardTheme.TEXT_LINE[1]);
+	}
+
+	public static void appendIconTextLine(StringBuffer sb, String iconURL, int size, String text) {
+		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
+				+ "<img src='" + iconURL + "' width='" + size + "px' height='" + size + "px'>"//
+				+ "<div class='label_caption brui_text_line' style='margin-left:8px;'>" //
+				+ text //
+				+ "</div>"//
 				+ "</div>");
 	}
 

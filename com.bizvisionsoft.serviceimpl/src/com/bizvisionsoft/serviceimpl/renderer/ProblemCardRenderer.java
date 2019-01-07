@@ -45,7 +45,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -78,7 +78,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题描述", "editpd");
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -90,15 +90,15 @@ public class ProblemCardRenderer {
 				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
 				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
 
-		RenderTools.appendLine(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
+		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
-		RenderTools.appendLine(sb,
+		RenderTools.appendText(sb,
 				Formatter.getString(doc.getDate("receiveDate")) + "/" + doc.getString("receiver") + " " + doc.getString("location"),
 				RenderTools.STYLE_1LINE);
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除图片资料", "deletephoto");
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
@@ -155,13 +155,13 @@ public class ProblemCardRenderer {
 
 		rowHeight += 64;
 
-		RenderTools.appendLine(sb, "预期结果：", CardTheme.TEXT_LINE[0], objective, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLabelAndTextLine(sb, "预期结果：",  objective);
 		rowHeight += 24;
 
-		RenderTools.appendLine(sb, "执行计划：", CardTheme.TEXT_LINE[0], planStart + " ~ " + planFinish, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLabelAndTextLine(sb, "执行计划：",  planStart + " ~ " + planFinish);
 		rowHeight += 24;
 
-		RenderTools.appendLine(sb, "费用预算：", CardTheme.TEXT_LINE[0], budget, CardTheme.TEXT_LINE[1]);
+		RenderTools.appendLabelAndTextLine(sb, "费用预算：",  budget);
 		rowHeight += 24;
 
 		RenderTools.appendUserAndText(sb, chargerData, status);
@@ -181,7 +181,7 @@ public class ProblemCardRenderer {
 			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除ICA", "deleteICA");
 		}
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
@@ -192,11 +192,11 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendHeader(sb, red, title, 36);
 
-		RenderTools.appendLine(sb, rootCauseDesc, RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, rootCauseDesc, RenderTools.STYLE_NLINE);
 
 		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
@@ -247,7 +247,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 		return new Document("html", sb.toString());
 	}
 
@@ -263,11 +263,11 @@ public class ProblemCardRenderer {
 		}
 		RenderTools.appendHeader(sb, indigo, title, 36);
 
-		RenderTools.appendLine(sb, t.getString("iv"), RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, t.getString("iv"), RenderTools.STYLE_NLINE);
 
 		List<?> list = (List<?>) t.get("attachments");
 		if (Check.isAssigned(list)) {
-			RenderTools.appendLine(sb, "附件", RenderTools.STYLE_1LINE);
+			RenderTools.appendText(sb, "附件", RenderTools.STYLE_1LINE);
 			RenderTools.appendMultiFiles(sb, list);
 		}
 
@@ -285,7 +285,7 @@ public class ProblemCardRenderer {
 			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除PCA实施和确认记录", "deletePCA");
 		}
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 
@@ -306,11 +306,11 @@ public class ProblemCardRenderer {
 				+ "<span style='font-size:9px;'>%</span></div>" + "<div class='label_caption'>可能性</div></div>"//
 				+ "</div>");//
 
-		RenderTools.appendLine(sb, t.getString("desc"), RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, t.getString("desc"), RenderTools.STYLE_NLINE);
 
 		List<?> ids = (List<?>) t.get("id");
 		if (Check.isAssigned(ids)) {
-			RenderTools.appendLine(sb, "识别相似情形：", RenderTools.STYLE_1LINE);
+			RenderTools.appendText(sb, "识别相似情形：", RenderTools.STYLE_1LINE);
 			sb.append("<div class='layui-text'>");
 			sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
 			for (int i = 0; i < ids.size(); i++) {
@@ -327,7 +327,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除相似物", "deleteSimilar");
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
@@ -336,7 +336,7 @@ public class ProblemCardRenderer {
 		StringBuffer sb = new StringBuffer();
 		RenderTools.appendHeader(sb, indigo, "系统性预防措施", 36);
 
-		RenderTools.appendLine(sb, t.getString("action"), RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, t.getString("action"), RenderTools.STYLE_NLINE);
 
 		Document charger = (Document) t.get("charger_meta");
 
@@ -358,7 +358,7 @@ public class ProblemCardRenderer {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "查看系统性预防措施", "readSPA");
 		}
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
@@ -375,9 +375,9 @@ public class ProblemCardRenderer {
 			RenderTools.appendHeader(sb, indigo, "经验教训总结", 36);
 		}
 
-		RenderTools.appendLine(sb, t.getString("name"), RenderTools.STYLE_1LINE);
+		RenderTools.appendText(sb, t.getString("name"), RenderTools.STYLE_1LINE);
 
-		RenderTools.appendLine(sb, t.getString("abstract"), RenderTools.STYLE_3LINE);
+		RenderTools.appendText(sb, t.getString("abstract"), RenderTools.STYLE_3LINE);
 
 		Document charger = (Document) t.get("charger_meta");
 		Date date = t.getDate("date");
@@ -387,7 +387,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除经验总结", "deleteExp");
 
-		RenderTools.appendCardBg(sb, "white");
+		RenderTools.appendCardBg(sb);
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 

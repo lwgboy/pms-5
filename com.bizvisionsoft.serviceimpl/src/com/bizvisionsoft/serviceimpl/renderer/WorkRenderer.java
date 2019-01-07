@@ -39,9 +39,9 @@ public class WorkRenderer {
 			renderingFinishedWorkCard(sb);
 		}
 
-		RenderTools.renderCardBoard(sb, rowHeight);
-
-		return new Document("_id", work.get_id()).append("html", sb.toString()).append("height", rowHeight);
+		RenderTools.appendCardBg(sb);
+		
+		return new Document("_id", work.get_id()).append("html", sb.toString());
 	}
 
 	private Work work;
@@ -52,14 +52,11 @@ public class WorkRenderer {
 
 	private boolean showProject;
 
-	private int rowHeight;
-
 	private WorkRenderer(Work work) {
 		this.work = work;
-		theme = new CardTheme(work);
+		theme = new CardTheme(CardTheme.INDIGO);
 		canAction = true;
 		showProject = true;
-		rowHeight = RenderTools.margin * 3;
 	}
 
 	private WorkRenderer setCanAction(boolean canAction) {
@@ -82,16 +79,16 @@ public class WorkRenderer {
 
 		// 显示第一行信息
 		if (showProject)
-			sb.append(renderProjectLine());
+			renderProjectLine(sb);
 
 		if (Check.isAssigned(work.getStageName()))
-			sb.append(renderStageName());
+			renderStageName(sb);
 
 		// 显示计划开始和计划完成
-		sb.append(renderPlanSchedule());
+		renderPlanSchedule(sb);
 
 		// 工作负责人
-		sb.append(renderCharger());
+		renderCharger(sb);
 
 	}
 
@@ -102,16 +99,16 @@ public class WorkRenderer {
 
 		// 显示第一行信息
 		if (showProject)
-			sb.append(renderProjectLine());
+			renderProjectLine(sb);
 
 		if (Check.isAssigned(work.getStageName()))
-			sb.append(renderStageName());
+			renderStageName(sb);
 
 		// 显示计划开始和计划完成
-		sb.append(renderPlanSchedule());
+		renderPlanSchedule(sb);
 
 		// 工作指派者
-		sb.append(renderAssigner());
+		renderAssigner(sb);
 
 		// 显示工作包和指派工作
 		sb.append(renderButtons("指派", null, "assignWork/" + work.get_id()));
@@ -136,15 +133,15 @@ public class WorkRenderer {
 
 		// 显示第一行信息
 		if (showProject)
-			sb.append(renderProjectLine());
+			renderProjectLine(sb);
 
 		if (Check.isAssigned(work.getStageName()))
-			sb.append(renderStageName());
+			renderStageName(sb);
 
-		sb.append(renderPlanSchedule());
+		renderPlanSchedule(sb);
 
 		// 工作负责人
-		sb.append(renderCharger());
+		renderCharger(sb);
 
 		// 显示两个指标
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
@@ -184,16 +181,16 @@ public class WorkRenderer {
 
 		// 显示第一行信息
 		if (showProject)
-			sb.append(renderProjectLine());
+			renderProjectLine(sb);
 
 		if (Check.isAssigned(work.getStageName()))
-			sb.append(renderStageName());
+			renderStageName(sb);
 
 		// 显示计划开始和计划完成
-		sb.append(renderPlanSchedule());
+		renderPlanSchedule(sb);
 
 		// 工作负责人
-		sb.append(renderCharger());
+		renderCharger(sb);
 
 		// 显示工作包和开始工作
 		sb.append(renderButtons("开始", null, "startWork/" + work.get_id()));
@@ -203,52 +200,50 @@ public class WorkRenderer {
 
 	}
 
-	private String renderStageName() {
-		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("阶段", work.getStageName(), RenderTools.IMG_URL_TASK, CardTheme.TEXT_LINE);
+	private void renderStageName(StringBuffer sb) {
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_TASK,  "阶段：",  work.getStageName());
 	}
 
-	private String renderPlanSchedule() {
-		rowHeight += 20 + 8;
-
+	private void renderPlanSchedule(StringBuffer sb) {
 		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_CALENDAR,  "计划：", text);
+
+		text = null;
+		if (work.getActualStart() != null)
+			text = RenderTools.shortDate(work.getActualStart());
 		if (work.getActualFinish() != null)
-			text += "，完成于" + RenderTools.shortDate(work.getActualFinish());
+			text += "~" + RenderTools.shortDate(work.getActualFinish());
+		
+		if(text!=null)
+			RenderTools.appendLabelAndTextLine(sb,  "实际：", text,24);
 
-		else if (work.getActualStart() != null)
-			text += "，开始于" + RenderTools.shortDate(work.getActualStart());
-
-		return RenderTools.getIconTextLine("计划", text, RenderTools.IMG_URL_CALENDAR, CardTheme.TEXT_LINE);
 	}
 
 	private String renderTitle(Date date) {
-		rowHeight += 64;
-
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
-		return "<div class='label_title brui_card_head_fix' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-				+ ";padding:8px'>" + "<div class='brui_card_text'>" + name + "</div><div class='label_display1'>" + _date + "</div></div>";
+		
+		return "<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + name + "</div>"//
+				+ "<div class='label_headline' style='text-align:center;margin-left:8px'>" + _date + "</div>"
+				+ "</div>";
 	}
 
-	private String renderProjectLine() {
-		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("项目", work.getProjectName(), RenderTools.IMG_URL_PROJECT, CardTheme.TEXT_LINE);
+	private void renderProjectLine(StringBuffer sb) {
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_PROJECT,"项目：",  work.getProjectName());
 	}
 
-	private String renderCharger() {
-		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("负责", work.warpperChargerInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
+	private void renderCharger(StringBuffer sb) {
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER,  "负责：",  work.warpperChargerInfo());
 	}
 
-	private String renderAssigner() {
-		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("指派", work.warpperAssignerInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
+	private void renderAssigner(StringBuffer sb) {
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER,  "指派：",  work.warpperAssignerInfo());
 	}
 
 	private String renderNoticeBudgets() {
-		rowHeight += 18 + 4 + 8;
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='margin-top:8px;padding:4px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		sb.append("<div class='brui_line_padding' style='margin-top:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Double value = work.getTF();
 		if (value != null) {
 			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>TF " + (int) Math.ceil(value) + "</div>";
@@ -287,7 +282,6 @@ public class WorkRenderer {
 	}
 
 	private String renderButtons(String label, String badge, String href) {
-		rowHeight += 24 + 4 + 16;
 
 		List<TrackView> wps = work.getWorkPackageSetting();
 		List<String[]> btns = new ArrayList<>();
@@ -302,14 +296,14 @@ public class WorkRenderer {
 		}
 
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='margin-top:16px;padding:4px;display:flex;width:100%;justify-content:space-around;align-items:center;'>");
+		sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
-			sb.append("<a class='label_card' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
+			sb.append("<a class='label_subhead' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
 		if (canAction) {
 			sb.append("<div style='display:inline-flex;align-items:center;'>");
 			sb.append(
-					"<a class='label_card' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+					"<a class='label_subhead' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 			if (Check.isAssigned(badge)) {
 				sb.append(" " + badge);
 			}
@@ -320,18 +314,18 @@ public class WorkRenderer {
 	}
 
 	private String renderIndicators(String label1, double ind1, String label2, double ind2) {
-		rowHeight += 120 + 8;
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div style='padding:4px;display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
+		sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
 
-		sb.append("<div><img src='/bvs/svg?type=progress&percent=" + ind1 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
-				+ theme.contrastFgColor + "' width=100 height=100/>");
-		sb.append("<div class='label_body1' style='text-align:center;color:#9e9e9e'>" + label1 + "</div></div>");
+		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label1 + "</div><img src='/bvs/svg?type=progress&percent=" + ind1 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
+				+ theme.contrastFgColor + "' width=72 height=72/>");
+		sb.append("</div>");
 
-		sb.append("<div style='background:#d0d0d0;width:1px;height:80px'></div>");
-		sb.append("<div><img src='/bvs/svg?type=progress&percent=" + ind2 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
-				+ theme.contrastFgColor + "' width=100 height=100/>");
-		sb.append("<div class='label_body1' style='text-align:center;color:#9e9e9e'>" + label2 + "</div></div>");
+		sb.append("<div style='background:#d0d0d0;width:1px;height:60px'></div>");
+		
+		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label2 + "</div><img src='/bvs/svg?type=progress&percent=" + ind2 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
+				+ theme.contrastFgColor + "' width=72 height=72/>");
+		sb.append("</div>");
 
 		sb.append("</div>");
 		return sb.toString();
