@@ -56,13 +56,13 @@ public class AppointmentProjectMangerACT {
 			}
 		}
 
-		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
+		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定项目经理").open(r -> {
 			User user = (User) r.get(0);
 			Project p = Services.get(ProjectService.class).appointmentProjectManger(project.get_id(), user.getUserId(),
 					br.getCurrentUserId());
 			AUtil.simpleCopy(p, em);
 			Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.update(em));
-			Layer.message("已完成项目经理的指派");
+			Layer.message("已完成项目经理的指定");
 		});
 	}
 }
