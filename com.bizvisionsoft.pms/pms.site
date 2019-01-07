@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201901071404",
+  "timestamp": "201901071450",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -7258,7 +7258,8 @@
                 "text": "项目经理",
                 "type": "对象选择框",
                 "formFields": [],
-                "readOnly": true,
+                "readOnly": false,
+                "required": true,
                 "selectorAssemblyId": "162ba875640"
               },
               {
@@ -9078,7 +9079,8 @@
             "verticalSpan": 0
           }
         ],
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "1631b96864a",
@@ -22635,7 +22637,8 @@
         "actions": [],
         "rowActions": [],
         "hasTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "1641fe37163",
@@ -33008,6 +33011,7 @@
         "type": "board",
         "stickerTitle": "已分配",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 8,
         "columns": [],
@@ -33129,6 +33133,7 @@
         "type": "board",
         "stickerTitle": "处理中",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 8,
         "columns": [],
@@ -33250,6 +33255,7 @@
         "type": "board",
         "stickerTitle": "已完成",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 10,
         "columns": [],
@@ -33371,6 +33377,7 @@
         "type": "board",
         "stickerTitle": "待指派",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkService",
         "gridPageCount": 8,
         "columns": [],
@@ -33494,6 +33501,7 @@
         "type": "board",
         "stickerTitle": "未读消息",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.CommonService",
         "gridPageCount": 8,
         "columns": [],
@@ -33550,7 +33558,8 @@
         "hasTitlebar": true,
         "disableInitLoadData": false,
         "compactTitleBar": true,
-        "candidates": []
+        "candidates": [],
+        "sortFields": []
       },
       {
         "id": "16711f4626a",
@@ -33560,6 +33569,7 @@
         "type": "board",
         "stickerTitle": "我的项目",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
         "gridPageCount": 8,
         "columns": [],
@@ -33781,6 +33791,7 @@
         "type": "board",
         "stickerTitle": "我管理的项目",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
         "gridPageCount": 8,
         "columns": [],
@@ -34077,6 +34088,7 @@
         "type": "board",
         "stickerTitle": "待确认的项目报告",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
         "gridPageCount": 8,
         "columns": [],
@@ -34199,6 +34211,7 @@
         "type": "board",
         "stickerTitle": "待审批的项目变更",
         "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
         "gridPageCount": 8,
         "columns": [],
