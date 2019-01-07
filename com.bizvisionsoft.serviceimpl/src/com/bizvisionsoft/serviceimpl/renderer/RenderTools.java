@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 import org.bson.Document;
 
@@ -262,6 +263,17 @@ public class RenderTools {
 
 		if (text != null)
 			appendLabelAndTextLine(sb, "Êµ¼Ê£º", text, 24);
+	}
+
+	public static <T> void appendList(StringBuffer sb, List<T> list, String color, Function<T, String> func) {
+		for (int i = 0; i < list.size(); i++) {
+			T item = list.get(i);
+			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
+					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
+					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
+					+ (func == null ? item : func.apply(item)) + "</div>");
+
+		}
 	}
 
 }

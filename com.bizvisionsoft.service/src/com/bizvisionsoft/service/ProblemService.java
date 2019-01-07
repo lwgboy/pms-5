@@ -358,7 +358,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d5/pca/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> listD5PCA(@PathParam("_id") ObjectId problem_id);
+	public List<Document> listD5PCA(@PathParam("_id") ObjectId problem_id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d6/cards/{lang}")

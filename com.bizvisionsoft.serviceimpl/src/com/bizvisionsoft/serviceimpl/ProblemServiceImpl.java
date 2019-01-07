@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -374,10 +375,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> result = new ArrayList<>();
 		Document d = c("d5PCA").find(new Document("problem_id", problem_id).append("selected", true)).first();
 		if (d != null) {
-			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca1"), "问题产生纠正措施", (Document) d.get("charger1_meta"),
-					d.getDate("date1"), lang));
-			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca2"), "问题流出纠正措施", (Document) d.get("charger2_meta"),
-					d.getDate("date2"), lang));
+			Date planStart = d.getDate("planStart1");
+			Date planFinish = d.getDate("planFinish1");
+
+			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca1"), "问题产生纠正措施", (Document) d.get("charger1_meta"), planStart,
+					planFinish, lang));
+
+			planStart = d.getDate("planStart2");
+			planFinish = d.getDate("planFinish2");
+
+			result.add(ProblemCardRenderer.renderD5PCA((List<?>) d.get("pca2"), "问题流出纠正措施", (Document) d.get("charger2_meta"), planStart,
+					planFinish, lang));
 		}
 
 		return result;
@@ -408,7 +416,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD5PCA(ObjectId problem_id) {
+	public List<Document> listD5PCA(ObjectId problem_id, String lang) {
 		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 	}
 

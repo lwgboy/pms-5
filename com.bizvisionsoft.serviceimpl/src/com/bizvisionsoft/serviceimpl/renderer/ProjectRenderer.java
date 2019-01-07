@@ -176,17 +176,8 @@ public class ProjectRenderer {
 	}
 
 	private void renderTimeline(StringBuffer sb) {
-		List<News> news = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 5);
-		if (news.size() > 0) {
-			sb.append("<div style='padding:8px 16px 0px 16px;'>");
-			for (int i = 0; i < news.size(); i++) {
-				sb.append("<div class='label_caption' style='height:20px;display:flex;color:#" + theme.lightText
-						+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
-						+ "<i class='layui-icon layui-icon-circle' style='margin-right:4px;'></i>" + news.get(i).getSummary() + "</div>");
-
-			}
-			sb.append("</div>");
-		}
+		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 5);
+		RenderTools.appendList(sb, list, theme.lightText, n -> n.getSummary());
 	}
 
 	private void renderWarningNotice(StringBuffer sb) {
