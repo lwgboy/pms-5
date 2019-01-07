@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2056,6 +2057,61 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			// TODO 其他类型
 			return 0l;
 		}
+	}
+
+	@Override
+	public Document getOrganizationSAR(String year, String userId) {
+		return getOrganizationSAR(year, userId, "stageSar", year + " 年 项目计划完成率");
+	}
+
+	@Override
+	public Document getOrganizationSAR1(String year, String userId) {
+		return getOrganizationSAR(year, userId, "sar1", year + " 年 一级计划完成率");
+	}
+
+	@Override
+	public Document getOrganizationSAR2(String year, String userId) {
+		return getOrganizationSAR(year, userId, "sar2", year + " 年 二级计划完成率");
+	}
+
+	@SuppressWarnings("unchecked")
+	private Document getOrganizationSAR(String year, String userId, String sarName, String title) {
+		List<String> xAxisData = new ArrayList<String>();
+		for (int i = 1; i <= 12; i++) {
+			String key = year + "-" + String.format("%02d", i);
+			xAxisData.add(key);
+		}
+		List<String> legendData = new ArrayList<String>();
+		List<Document> series = new ArrayList<Document>();
+
+		c("organization")
+				.aggregate(
+						new JQ("查询-承担部门计划完成率")
+								.set("workmatch",
+										new Document("$expr",
+												new Document("$eq",
+														Arrays.asList(year,
+																new Document("$dateToString",
+																		new Document("format", "%Y").append("date", "$actualFinish"))))))
+								.set("orgmatch", new Document()).set("projectmatch", new Document())// "_id", new Document("$in",
+																									// getAdministratedProjects(userId))))
+								.array())
+				.forEach((Document d) -> {
+					List<Document> project = (List<Document>) d.get("project");
+					if (Check.isAssigned(project)) {
+						String name = d.getString("name");
+						double[] sard = new double[12];
+						for (Document p : project) {
+							int i = Integer.parseInt(p.getString("month").split("-")[1]) - 1;
+							sard[i] = new BigDecimal(p.getDouble(sarName)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+						}
+						series.add(new Document("name", name).append("type", "bar").append("data", Formatter.toList(sard)));
+						legendData.add(name);
+					}
+				});
+		Document doc = new JQ("图表-计划完成率").set("xAxisData", xAxisData).set("legendData", legendData).set("series", series)
+				.set("title", title).doc();
+		return doc;
 	}
 
 }

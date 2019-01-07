@@ -502,4 +502,21 @@ public interface ProjectService {
 	@DataSet({ "我管理的项目/" + DataSet.STRUCTURE_COUNT })
 	public long countSubManagedProjectSchedules(@MethodParam(MethodParam.OBJECT) ProjectScheduleInfo parent);
 
+	@POST
+	@Path("/organizationsar/{year}/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getOrganizationSAR(@PathParam("year") String year, @PathParam("userId") String userId);
+
+	@POST
+	@Path("/organizationsar1/{year}/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getOrganizationSAR1(@PathParam("year") String year, @PathParam("userId") String userId);
+	
+	@POST
+	@Path("/organizationsar2/{year}/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getOrganizationSAR2(@PathParam("year") String year, @PathParam("userId") String userId);
 }

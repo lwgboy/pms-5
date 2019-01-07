@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201812271027",
+  "timestamp": "201901071404",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -219,6 +219,11 @@
             "children": [],
             "name": "所有项目",
             "id": "1646aa7fe79"
+          },
+          {
+            "children": [],
+            "name": "我管理的项目SAR",
+            "id": "16825f2cc8b"
           }
         ],
         "name": "项目管理",
@@ -916,6 +921,13 @@
                 "type": "switch",
                 "role": "项目管理员#项目总监",
                 "verticalSpan": 0
+              },
+              {
+                "id": "16825f19e51",
+                "name": "部门计划完成率",
+                "switchContentToAssemblyId": "16825f3c684",
+                "type": "switch",
+                "role": "项目管理员#项目总监"
               },
               {
                 "id": "16548773bb3",
@@ -16678,7 +16690,8 @@
           }
         ],
         "hasTitlebar": true,
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "sortFields": []
       },
       {
         "id": "16390ce5577",
@@ -18796,7 +18809,8 @@
         "folderId": "163d33c2f06",
         "actions": [],
         "rowActions": [],
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "candidates": []
       },
       {
         "id": "163d9548883",
@@ -20170,7 +20184,8 @@
         "folderId": "163d33c2f06",
         "actions": [],
         "rowActions": [],
-        "disableInitLoadData": false
+        "disableInitLoadData": false,
+        "candidates": []
       },
       {
         "id": "163f1e35a8f",
@@ -37069,6 +37084,114 @@
         "nullValueAllowedFields": "workPackageSetting",
         "smallEditor": false,
         "disableInitLoadData": false
+      },
+      {
+        "id": "16825f3c684",
+        "name": "我管理的项目计划完成率",
+        "layout": [
+          {
+            "id": "16825f4669d",
+            "name": "默认",
+            "columnCount": 2,
+            "horizontalSpacing": 1,
+            "verticalSpacing": 1,
+            "makeColumnsEqualWidth": true,
+            "marginBottom": 0,
+            "marginHeight": 0,
+            "marginTop": 0,
+            "marginWidth": 0,
+            "assemblys": [
+              {
+                "id": "16825f50211",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 2,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "我管理的项目计划完成率组件"
+              },
+              {
+                "id": "16826d2e7d8",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "我管理的一级计划完成率组件"
+              },
+              {
+                "id": "16826d2efab",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 4,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1,
+                "layoutName": "我管理的二级计划完成率组件"
+              }
+            ]
+          }
+        ],
+        "type": "sticker",
+        "stickerTitle": "我管理的项目计划完成率",
+        "folderId": "16825f2cc8b",
+        "actions": [
+          {
+            "id": "16826b81304",
+            "name": "查询期间",
+            "text": "查询期间",
+            "tooltips": "查询期间",
+            "image": "/img/search_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.org.SearchOrganizationSARACT",
+            "style": "info",
+            "type": "customized"
+          }
+        ],
+        "borderRight": true,
+        "borderBottom": true,
+        "candidates": []
+      },
+      {
+        "id": "16825f50211",
+        "name": "我管理的项目计划完成率组件",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.org.OrganizationSARASM",
+        "layout": [],
+        "folderId": "16825f2cc8b",
+        "actions": [],
+        "rowActions": [],
+        "candidates": []
+      },
+      {
+        "id": "16826d2e7d8",
+        "name": "我管理的一级计划完成率组件",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.org.OrganizationSAR1ASM",
+        "layout": [],
+        "folderId": "16825f2cc8b",
+        "actions": [],
+        "rowActions": [],
+        "candidates": []
+      },
+      {
+        "id": "16826d2efab",
+        "name": "我管理的二级计划完成率组件",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.org.OrganizationSAR2ASM",
+        "layout": [],
+        "folderId": "16825f2cc8b",
+        "actions": [],
+        "rowActions": [],
+        "candidates": []
       }
     ]
   },
