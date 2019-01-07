@@ -120,7 +120,7 @@ public class PCAList {
 		service = Services.get(ProblemService.class);
 		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
 		items[0] = decisionCriteria.getString("endResult");
-		pcaList = service.listPCA(problem.get_id());
+		pcaList = service.listD5PCA(problem.get_id());
 	}
 
 	@CreateUI

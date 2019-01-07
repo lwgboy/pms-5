@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -88,7 +89,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteD0ERA(ObjectId _id) {
-		return deleteOne(_id, "d30ERA");
+		return deleteOne(_id, "d0ERA");
 	}
 
 	@Override
@@ -254,9 +255,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD0ERA(Document t, String lang) {
+	public Document insertD0ERA(Document t, String lang, String render) {
 		c("d0ERA").insertOne(t);
-		return ProblemCardRenderer.renderD0ERA(t, lang);
+		if ("card".equals(render)) {
+			return ProblemCardRenderer.renderD0ERA(t, lang);
+		} else if ("gridrow".equals(render)) {
+			return listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang).get(0);
+		}
+		return t;
 	}
 
 	@Override
@@ -363,11 +369,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD0(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Document> result = new ArrayList<>();
-		c("d0ERA").find(new Document("problem_id", problem_id))
-				.forEach((Document d) -> result.add(ProblemCardRenderer.renderD0ERA(d, lang)));
+		return c("d0ERA").find(new Document("problem_id", problem_id)).map((Document d) -> ProblemCardRenderer.renderD0ERA(d, lang))
+				.into(new ArrayList<>());
+	}
 
-		return result;
+	@Override
+	public List<Document> listD0DS(BasicDBObject condition, ObjectId problem_id, String lang) {
+		List<Bson> pipe = createDxPipeline(condition, problem_id);
+		pipe.add(Aggregates.project(new Document("name", true).append("date", true).append("chargerInfo", "$charger_meta.name")
+				.append("content", new Document("$reduce", new Document("input", "$era.name").append("initialValue", "").append("in",
+						new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+		return c("d0ERA").aggregate(pipe).into(new ArrayList<>());
 	}
 
 	@Override
@@ -487,7 +499,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listPCA(ObjectId problem_id) {
+	public List<Document> listD5PCA(ObjectId problem_id) {
 		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 	}
 
@@ -516,8 +528,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document updateD0ERA(Document d, String lang) {
-		return updateThen(d, lang, "d0ERA", ProblemCardRenderer::renderD0ERA);
+	public Document updateD0ERA(Document d, String lang, String render) {
+		BiFunction<Document, String, Document> func;
+		if ("gridrow".equals(render)) {
+			func = (t,
+					l) -> listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang)
+							.get(0);
+		} else if ("card".equals(render)) {
+			func = ProblemCardRenderer::renderD0ERA;
+		} else {
+			func = (t, l) -> t;
+		}
+		return updateThen(d, lang, "d0ERA", func);
 	}
 
 	@Override
