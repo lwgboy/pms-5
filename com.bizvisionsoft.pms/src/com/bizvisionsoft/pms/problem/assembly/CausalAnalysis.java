@@ -42,6 +42,9 @@ public class CausalAnalysis {
 
 	@Inject
 	private String type;
+	
+	@Inject
+	private String title;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -78,7 +81,7 @@ public class CausalAnalysis {
 	private void leftPane(Composite parent) {
 		parent.setLayout(new FormLayout());
 		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
-		bar.setText(type);
+		bar.setText(title);
 		tree = new GridTreeViewer(parent, SWT.V_SCROLL);
 		tree.getGrid().setLinesVisible(false);
 		tree.getGrid().setData(RWT.CUSTOM_VARIANT, "board");

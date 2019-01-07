@@ -120,7 +120,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题初始记录信息面板/list")
+	@DataSet("D0问题初始记录信息面板/list")
 	public Problem info(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@PathParam("lang") @MethodParam(MethodParam.LANG) String lang);
 
@@ -140,7 +140,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d2/desc")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题描述5W2H信息面板/list")
+	@DataSet("D2问题描述5W2H信息面板/list")
 	public Document getD2ProblemDesc(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 	@POST

@@ -1,7 +1,5 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -108,20 +106,10 @@ public class ProblemCardRenderer {
 	public static Document renderD2PhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-//		sb.append("<img src='" + RenderTools.getFirstFileURL(doc, "problemImg")
-//				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-//				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
-//
-		String filter = "";
-		try {
-			filter = URLEncoder.encode(new Document("problem_id",doc.get("problem_id")).toJson(),"utf-8");
-		} catch (UnsupportedEncodingException e) {
-		}
 		sb.append("<img src='" + RenderTools.getFirstFileURL(doc, "problemImg")
-		+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&filter="
-		+ filter + "&f=problemImg&alt=problemImgDesc\", function(json){layer.photos({photos: json});});'" + "/>");
+				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
 
-		
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
 		RenderTools.appendText(sb,
