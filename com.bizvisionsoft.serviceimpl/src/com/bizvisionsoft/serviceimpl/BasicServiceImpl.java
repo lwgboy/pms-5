@@ -128,7 +128,11 @@ public class BasicServiceImpl {
 	}
 
 	protected <T> T get(ObjectId _id, Class<T> clazz) {
-		return Optional.ofNullable(c(clazz).find(new BasicDBObject("_id", _id)).first()).orElse(null);
+		return c(clazz).find(new BasicDBObject("_id", _id)).first();
+	}
+	
+	protected Document getDocument(ObjectId _id, String col) {
+		return c(col).find(new BasicDBObject("_id", _id)).first();
 	}
 
 	protected <T> long delete(ObjectId _id, Class<T> clazz) {

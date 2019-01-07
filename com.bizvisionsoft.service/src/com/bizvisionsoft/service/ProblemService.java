@@ -49,6 +49,12 @@ public interface ProblemService {
 	public long deleteCauseConsequence(@PathParam("_id") ObjectId _id);
 
 	@DELETE
+	@Path("/d0/era/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD0ERA(@PathParam("_id") ObjectId _id);
+	
+	@DELETE
 	@Path("/d1/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -111,23 +117,44 @@ public interface ProblemService {
 	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@GET
+	@Path("/_id/{_id}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题初始记录信息面板/list")
+	public Problem info(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+			@PathParam("lang") @MethodParam(MethodParam.LANG) String lang);
+
+	@GET
 	@Path("/chart/problem_id/{problem_id}/type/{type}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getCauseConsequence(@PathParam("problem_id") ObjectId problem_id, @PathParam("type") String type);
 
 	@GET
+	@Path("/_id/{_id}/d0/era")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD0ERA(@PathParam("_id") ObjectId _id);
+	
+	@GET
 	@Path("/_id/{_id}/d2/desc")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getD2ProblemDesc(@PathParam("_id") ObjectId problem_id);
+	@DataSet("问题描述5W2H信息面板/list")
+	public Document getD2ProblemDesc(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+	
+	@POST
+	@Path("/_id/{_id}/d2/photo/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> listD2ProblemPhotos(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 	@GET
 	@Path("/_id/{_id}/d3/ica")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD3ICA(@PathParam("_id") ObjectId _id);
-
+	
 	@GET
 	@Path("/_id/{_id}/d4/rootCauseDesc")
 	@Consumes("application/json; charset=UTF-8")
@@ -175,6 +202,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc);
+	
+	@POST
+	@Path("/d0/era/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD0ERA(Document t, @PathParam("lang") String lang);
 
 	@POST
 	@Path("/d1/item/{lang}")
@@ -248,6 +281,15 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter);
+	
+	@POST
+	@Path("/_id/{_id}/d0/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D0紧急应变措施/list")
+	public List<Document> listD0(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d1/ds/{lang}")
@@ -342,6 +384,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long updateCauseConsequence(BasicDBObject fu);
+	
+	@PUT
+	@Path("/d0/era/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateD0ERA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/d2/pd/{lang}")
