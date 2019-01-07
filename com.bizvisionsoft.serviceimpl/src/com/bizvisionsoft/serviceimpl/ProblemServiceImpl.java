@@ -83,12 +83,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteCauseConsequence(ObjectId _id) {
-		return delete(_id, CauseConsequence.class);
+		return deleteOne(_id, "causeRelation");
+	}
+
+	@Override
+	public long deleteD0ERA(ObjectId _id) {
+		return deleteOne(_id, "d30ERA");
 	}
 
 	@Override
 	public long deleteD1CFT(ObjectId _id) {
-		return c("d1CFT").deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+		return deleteOne(_id, "d1CFT");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,23 +129,26 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public long deleteD7SPA(ObjectId _id) {
 		return deleteOne(_id, "d7SPA");
 	}
-	
+
 	@Override
 	public long deleteD8Exp(ObjectId _id) {
 		return deleteOne(_id, "d8Exp");
 	}
 
-
 	@Override
 	public long deleteProblem(ObjectId _id) {
 		return delete(_id, Problem.class);
 	}
-	
+
 	@Override
 	public Problem get(ObjectId _id) {
 		return get(_id, Problem.class);
 	}
-	
+
+	public Problem info(ObjectId _id, String lang) {
+		return get(_id);
+	}
+
 	@Override
 	public Document getCauseConsequence(ObjectId problem_id, String type) {
 		Problem problem = get(problem_id);
@@ -187,18 +195,23 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
 
 	}
-	
+
+	@Override
+	public Document getD0ERA(ObjectId _id) {
+		return c("d0ERA").find(new Document("_id", _id)).first();
+	}
+
 	@Override
 	public Document getD2ProblemDesc(ObjectId problem_id) {
 		return Optional.ofNullable(c("d2ProblemDesc").find(new Document("_id", problem_id)).first())
 				.orElse(new Document("_id", problem_id));
 	}
-	
+
 	@Override
 	public Document getD3ICA(ObjectId _id) {
 		return c("d3ICA").find(new Document("_id", _id)).first();
 	}
-	
+
 	@Override
 	public Document getD4RootCauseDesc(ObjectId problem_id) {
 		return c("d4RootCauseDesc").find(new Document("_id", problem_id)).first();
@@ -223,7 +236,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document getD7SPA(ObjectId _id) {
 		return c("d7SPA").find(new Document("_id", _id)).first();
 	}
-	
+
 	@Override
 	public Document getD8Exp(ObjectId _id) {
 		return c("d8Exp").find(new Document("_id", _id)).first();
@@ -238,6 +251,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
 		return insert(cc);
+	}
+
+	@Override
+	public Document insertD0ERA(Document t, String lang) {
+		c("d0ERA").insertOne(t);
+		return ProblemCardRenderer.renderD0ERA(t, lang);
 	}
 
 	@Override
@@ -286,7 +305,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		c("d3ICA").insertOne(t);
 		return ProblemCardRenderer.renderD3ICA(t, lang);
 	}
-	
+
 	@Override
 	public void insertD4RootCauseDesc(Document t, String lang) {
 		c("d4RootCauseDesc").insertOne(t);
@@ -308,14 +327,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		c("d6IVPCA").insertOne(t);
 		return ProblemCardRenderer.renderD6IVPCA(t, lang);
 	}
-	
+
 	@Override
 	public Document insertD7PreventAction(Document t, String lang) {
 		t.append("_id", new ObjectId());
 		c("d7SPA").insertOne(t);
 		return ProblemCardRenderer.renderD7SPA(t, lang);
 	}
-	
 
 	@Override
 	public Document insertD7SimilarSituation(Document t, String lang) {
@@ -344,6 +362,15 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public List<Document> listD0(BasicDBObject condition, ObjectId problem_id, String lang) {
+		List<Document> result = new ArrayList<>();
+		c("d0ERA").find(new Document("problem_id", problem_id))
+				.forEach((Document d) -> result.add(ProblemCardRenderer.renderD0ERA(d, lang)));
+
+		return result;
+	}
+
+	@Override
 	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 		if (sort == null) {
@@ -367,31 +394,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document doc = getD2ProblemDesc(problem_id);
 		if (doc.get("what") != null)
 			result.add(ProblemCardRenderer.renderD25W2H(doc, lang));
-		// TODO 讨论 回复 及其他
 		return result;
 	}
 
-	private List<Document> listD2ProblemPhotos(ObjectId problem_id) {
+	public List<Document> listD2ProblemPhotos(ObjectId problem_id) {
 		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
 	}
 
 	@Override
 	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
 		List<Document> d3Result = new ArrayList<>();
-		// ICA计划 d3ICAPlan，ICA计划条目
-		// charger, finishDate, description, attachment
-		// 谁负责，在何时，完成哪些工作（通常的ICA有哪些），附件是详细的计划，文件
 		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
 				.forEach((Document d) -> d3Result.add(ProblemCardRenderer.renderD3ICA(d, lang)));
-
-		// ICA验证 d3ICAVerify，验证结论，验证记录
-		// 谁在什么时候，采用何种方式进行了验证，验证的结论是什么，验证的记录
-
-		// ICA执行 d3ICAImpl，执行记录
-		// 谁在何时完成了哪些工作，是否达到了效果，后续的跟进
-
-		// ICA证实 d3ICAConfirm，单条记录，得到内部或外部客户的证实
-		// 是否得到证实，证实人，时间
 		return d3Result;
 	}
 
@@ -502,6 +516,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public Document updateD0ERA(Document d, String lang) {
+		return updateThen(d, lang, "d0ERA", ProblemCardRenderer::renderD0ERA);
+	}
+
+	@Override
 	public Document updateD2ProblemDesc(Document d, String lang) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
@@ -543,7 +562,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document updateD7SPA(Document d, String lang) {
 		return updateThen(d, lang, "d7SPA", ProblemCardRenderer::renderD7SPA);
 	}
-	
+
 	@Override
 	public Document updateD8Exp(Document d, String lang) {
 		return updateThen(d, lang, "d8Exp", ProblemCardRenderer::renderD8Exp);
@@ -553,5 +572,4 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public long updateProblems(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, Problem.class);
 	}
-
 }

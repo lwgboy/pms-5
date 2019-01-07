@@ -24,6 +24,21 @@ public class ProblemCardRenderer {
 
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
+	public static Document renderD0ERA(Document doc, String lang) {
+		Document charger = (Document) doc.get("charger_meta");
+		Date date = doc.getDate("date");
+		String title = doc.getString("name");
+		List<?> list = (List<?>) doc.get("era");
+		StringBuffer sb = new StringBuffer();
+		renderListItemsCard(sb,list, title, charger, date, red);
+		
+		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑紧急应变措施", "editERA");
+
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除紧急应变措施", "deleteERA");
+
+		return new Document("html", sb.toString()).append("_id", doc.get("_id"));
+	}
+
 	public static Document renderD1CFTMember(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
@@ -155,13 +170,13 @@ public class ProblemCardRenderer {
 
 		rowHeight += 64;
 
-		RenderTools.appendLabelAndTextLine(sb, "预期结果：",  objective);
+		RenderTools.appendLabelAndTextLine(sb, "预期结果：", objective);
 		rowHeight += 24;
 
-		RenderTools.appendLabelAndTextLine(sb, "执行计划：",  planStart + " ~ " + planFinish);
+		RenderTools.appendLabelAndTextLine(sb, "执行计划：", planStart + " ~ " + planFinish);
 		rowHeight += 24;
 
-		RenderTools.appendLabelAndTextLine(sb, "费用预算：",  budget);
+		RenderTools.appendLabelAndTextLine(sb, "费用预算：", budget);
 		rowHeight += 24;
 
 		RenderTools.appendUserAndText(sb, chargerData, status);
@@ -235,8 +250,12 @@ public class ProblemCardRenderer {
 
 	public static Document renderD5PCA(List<?> list, String title, Document charger, Date date, String lang) {
 		StringBuffer sb = new StringBuffer();
-		RenderTools.appendHeader(sb, indigo, title, 36);
+		renderListItemsCard(sb,list, title, charger, date, indigo);
+		return new Document("html", sb.toString());
+	}
 
+	private static void renderListItemsCard(StringBuffer sb ,List<?> list, String title, Document charger, Date date, CardTheme theme) {
+		RenderTools.appendHeader(sb, theme, title, 36);
 		sb.append("<div class='layui-text'>");
 		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
 		for (int i = 0; i < list.size(); i++) {
@@ -248,7 +267,6 @@ public class ProblemCardRenderer {
 		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
 
 		RenderTools.appendCardBg(sb);
-		return new Document("html", sb.toString());
 	}
 
 	public static Document renderD6IVPCA(Document t, String lang) {
