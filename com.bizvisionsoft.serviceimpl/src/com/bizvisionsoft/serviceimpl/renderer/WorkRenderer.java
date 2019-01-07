@@ -205,18 +205,12 @@ public class WorkRenderer {
 	}
 
 	private void renderPlanSchedule(StringBuffer sb) {
-		String text = RenderTools.shortDate(work.getPlanStart()) + "~" + RenderTools.shortDate(work.getPlanFinish());
-		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_CALENDAR,  "计划：", text);
+		Date planStart = work.getPlanStart();
+		Date planFinish = work.getPlanFinish();
+		Date actualStart = work.getActualStart();
+		Date actualFinish = work.getActualFinish();
 
-		text = null;
-		if (work.getActualStart() != null)
-			text = RenderTools.shortDate(work.getActualStart());
-		if (work.getActualFinish() != null)
-			text += "~" + RenderTools.shortDate(work.getActualFinish());
-		
-		if(text!=null)
-			RenderTools.appendLabelAndTextLine(sb,  "实际：", text,24);
-
+		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
 	}
 
 	private String renderTitle(Date date) {

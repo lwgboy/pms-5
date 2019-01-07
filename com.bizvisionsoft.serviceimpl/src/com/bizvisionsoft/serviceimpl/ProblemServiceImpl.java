@@ -87,16 +87,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return deleteOne(_id, "causeRelation");
 	}
 
-	@Override
-	public long deleteD0ERA(ObjectId _id) {
-		return deleteOne(_id, "d0ERA");
-	}
-
-	@Override
-	public long deleteD1CFT(ObjectId _id) {
-		return deleteOne(_id, "d1CFT");
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public long deleteD2ProblemPhotos(ObjectId _id) {
@@ -198,11 +188,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document getD0ERA(ObjectId _id) {
-		return c("d0ERA").find(new Document("_id", _id)).first();
-	}
-
-	@Override
 	public Document getD2ProblemDesc(ObjectId problem_id) {
 		return Optional.ofNullable(c("d2ProblemDesc").find(new Document("_id", problem_id)).first())
 				.orElse(new Document("_id", problem_id));
@@ -252,52 +237,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
 		return insert(cc);
-	}
-
-	@Override
-	public Document insertD0ERA(Document t, String lang, String render) {
-		c("d0ERA").insertOne(t);
-		if ("card".equals(render)) {
-			return ProblemCardRenderer.renderD0ERA(t, lang);
-		} else if ("gridrow".equals(render)) {
-			return listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang).get(0);
-		}
-		return t;
-	}
-
-	@Override
-	public Document insertD1Item(Document d1, String lang) {
-		Document user = (Document) d1.get("member_meta");
-
-		ObjectId org_id = user.getObjectId("org_id");
-		String userId = d1.getString("member");
-		String role = d1.getString("role");
-		ObjectId problem_id = d1.getObjectId("problem_id");
-
-		if ("0".equals(role) && c("d1CFT").countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
-			throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
-
-		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId).append("role", role)
-				.append("name", user.get("name")).append("mobile", user.get("mobile")).append("position", user.get("position"))
-				.append("email", user.get("email")).append("headPics", user.get("headPics"));
-
-		List<Bson> pipe = new JQ("查询-用户所在组织-根据组织类型").set("match", new Document("userId", userId)).set("orgType", "部门").array();
-		pipe.add(Aggregates.sort(new Document("idx", -1)));
-		user = c("user").aggregate(pipe).first();
-
-		String dept;
-		if (user != null) {
-			dept = ((Document) user.get("org")).getString("fullName");
-		} else if (org_id != null) {
-			dept = getString("organization", "fullName", org_id);
-		} else {
-			dept = "";
-		}
-		// TODO 唯一索引，多国语言提示传lang参数
-		doc.append("dept", dept);
-		c("d1CFT").insertOne(doc);
-		// 渲染卡片
-		return ProblemCardRenderer.renderD1CFTMember(doc, lang);
 	}
 
 	@Override
@@ -365,36 +304,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter) {
 		return createDataSet(new BasicDBObject("filter", filter), CauseConsequence.class);
-	}
-
-	@Override
-	public List<Document> listD0(BasicDBObject condition, ObjectId problem_id, String lang) {
-		return c("d0ERA").find(new Document("problem_id", problem_id)).map((Document d) -> ProblemCardRenderer.renderD0ERA(d, lang))
-				.into(new ArrayList<>());
-	}
-
-	@Override
-	public List<Document> listD0DS(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Bson> pipe = createDxPipeline(condition, problem_id);
-		pipe.add(Aggregates.project(new Document("name", true).append("date", true).append("chargerInfo", "$charger_meta.name")
-				.append("content", new Document("$reduce", new Document("input", "$era.name").append("initialValue", "").append("in",
-						new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
-		return c("d0ERA").aggregate(pipe).into(new ArrayList<>());
-	}
-
-	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		if (sort == null) {
-			sort = new BasicDBObject();
-			condition.put("sort", sort);
-		}
-		sort.append("role", 1).append("_id", -1);
-
-		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang))
-				.into(new ArrayList<>());
-		return result;
 	}
 
 	@Override
@@ -528,21 +437,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document updateD0ERA(Document d, String lang, String render) {
-		BiFunction<Document, String, Document> func;
-		if ("gridrow".equals(render)) {
-			func = (t,
-					l) -> listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang)
-							.get(0);
-		} else if ("card".equals(render)) {
-			func = ProblemCardRenderer::renderD0ERA;
-		} else {
-			func = (t, l) -> t;
-		}
-		return updateThen(d, lang, "d0ERA", func);
-	}
-
-	@Override
 	public Document updateD2ProblemDesc(Document d, String lang) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
@@ -594,4 +488,124 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public long updateProblems(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, Problem.class);
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D0 紧急应变措施
+	@Override
+	public Document getD0ERA(ObjectId _id) {
+		return getDocument(_id, "d0ERA");
+	}
+
+	@Override
+	public long deleteD0ERA(ObjectId _id) {
+		return deleteOne(_id, "d0ERA");
+	}
+
+	@Override
+	public Document insertD0ERA(Document t, String lang, String render) {
+		c("d0ERA").insertOne(t);
+		if ("card".equals(render)) {
+			return ProblemCardRenderer.renderD0ERA(t, lang);
+		} else if ("gridrow".equals(render)) {
+			return listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang).get(0);
+		}
+		return t;
+	}
+
+	@Override
+	public List<Document> listD0(BasicDBObject condition, ObjectId problem_id, String lang) {
+		return c("d0ERA").find(new Document("problem_id", problem_id)).map((Document d) -> ProblemCardRenderer.renderD0ERA(d, lang))
+				.into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> listD0DS(BasicDBObject condition, ObjectId problem_id, String lang) {
+		List<Bson> pipe = createDxPipeline(condition, problem_id);
+		pipe.add(new Document("$addFields",
+				(new Document("chargerInfo", "$charger_meta.name").append("content",
+						new Document("$reduce", new Document("input", "$era.name").append("initialValue", "").append("in",
+								new Document("$concat", Arrays.asList("$$value", "$$this", "; "))))))));
+		return c("d0ERA").aggregate(pipe).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD0ERA(Document d, String lang, String render) {
+		BiFunction<Document, String, Document> func;
+		if ("gridrow".equals(render)) {
+			func = (t,
+					l) -> listD0DS(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang)
+							.get(0);
+		} else if ("card".equals(render)) {
+			func = ProblemCardRenderer::renderD0ERA;
+		} else {
+			func = (t, l) -> t;
+		}
+		return updateThen(d, lang, "d0ERA", func);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D1 CFT团队
+
+	@Override
+	public long deleteD1CFT(ObjectId _id) {
+		return deleteOne(_id, "d1CFT");
+	}
+
+	@Override
+	public Document insertD1Item(Document d1, String lang, String render) {
+		Document user = (Document) d1.get("member_meta");
+
+		ObjectId org_id = user.getObjectId("org_id");
+		String userId = d1.getString("member");
+		String role = d1.getString("role");
+		ObjectId problem_id = d1.getObjectId("problem_id");
+
+		if ("0".equals(role) && c("d1CFT").countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
+			throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
+
+		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId).append("role", role)
+				.append("name", user.get("name")).append("mobile", user.get("mobile")).append("position", user.get("position"))
+				.append("email", user.get("email")).append("headPics", user.get("headPics"));
+
+		List<Bson> pipe = new JQ("查询-用户所在组织-根据组织类型").set("match", new Document("userId", userId)).set("orgType", "部门").array();
+		pipe.add(Aggregates.sort(new Document("idx", -1)));
+		user = c("user").aggregate(pipe).first();
+
+		String dept;
+		if (user != null) {
+			dept = ((Document) user.get("org")).getString("fullName");
+		} else if (org_id != null) {
+			dept = getString("organization", "fullName", org_id);
+		} else {
+			dept = "";
+		}
+		// TODO 唯一索引，多国语言提示传lang参数
+		doc.append("dept", dept);
+		c("d1CFT").insertOne(doc);
+		// 渲染卡片
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD1CFTMember(doc, lang);
+		else
+			return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
+	}
+
+	@Override
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
+		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
+
+		List<Bson> pipeline = createDxPipeline(condition, problem_id);
+		return c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang)).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<Document> listD1DS(BasicDBObject condition, ObjectId problem_id, String lang) {
+		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
+
+		List<Bson> pipeline = createDxPipeline(condition, problem_id);
+		return c("d1CFT").aggregate(pipeline)
+				.map(d -> d.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(d.getString("role"))]))
+				.into(new ArrayList<>());
+	}
+
 }

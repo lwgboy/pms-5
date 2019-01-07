@@ -16,7 +16,7 @@ public class ProblemCardRenderer {
 
 	private static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
-	private static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
+	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
 
@@ -26,12 +26,17 @@ public class ProblemCardRenderer {
 
 	public static Document renderD0ERA(Document doc, String lang) {
 		Document charger = (Document) doc.get("charger_meta");
-		Date date = doc.getDate("date");
+		Date planStart = doc.getDate("planStart");
+		Date planFinish = doc.getDate("planFinish");
+		Date actualStart = doc.getDate("actualStart");
+		Date actualFinish = doc.getDate("actualFinish");
+		
 		String title = doc.getString("name");
 		List<?> list = (List<?>) doc.get("era");
 		StringBuffer sb = new StringBuffer();
-		renderListItemsCard(sb,list, title, charger, date, red);
 		
+		renderListItemsCard(sb, list, title, charger, planStart,planFinish,actualStart,actualFinish, red);
+
 		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑紧急应变措施", "editERA");
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除紧急应变措施", "deleteERA");
@@ -250,11 +255,11 @@ public class ProblemCardRenderer {
 
 	public static Document renderD5PCA(List<?> list, String title, Document charger, Date date, String lang) {
 		StringBuffer sb = new StringBuffer();
-		renderListItemsCard(sb,list, title, charger, date, indigo);
+		renderListItemsCard2(sb, list, title, charger, date, indigo);
 		return new Document("html", sb.toString());
 	}
 
-	private static void renderListItemsCard(StringBuffer sb ,List<?> list, String title, Document charger, Date date, CardTheme theme) {
+	private static void renderListItemsCard2(StringBuffer sb, List<?> list, String title, Document charger, Date date, CardTheme theme) {
 		RenderTools.appendHeader(sb, theme, title, 36);
 		sb.append("<div class='layui-text'>");
 		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
@@ -265,6 +270,26 @@ public class ProblemCardRenderer {
 		sb.append("</div>");
 
 		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
+
+		RenderTools.appendCardBg(sb);
+	}
+
+	private static void renderListItemsCard(StringBuffer sb, List<?> list, String title, Document charger, Date planStart, Date planFinish,
+			Date actualStart, Date actualFinish, CardTheme theme) {
+		RenderTools.appendHeader(sb, theme, title, 36);
+
+		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
+		
+		sb.append("<div class='layui-text'>");
+		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
+		for (int i = 0; i < list.size(); i++) {
+			sb.append("<li class='label_caption' style='margin-top:0px;'>" + ((Document) list.get(i)).getString("name") + "</li>");
+		}
+		sb.append("</ul>");
+		sb.append("</div>");
+
+		
+		RenderTools.appendUserAndText(sb, charger, null);
 
 		RenderTools.appendCardBg(sb);
 	}

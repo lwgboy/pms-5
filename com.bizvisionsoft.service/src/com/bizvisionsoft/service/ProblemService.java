@@ -207,13 +207,13 @@ public interface ProblemService {
 	@Path("/d0/era/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD0ERA(Document t, @PathParam("lang") String lang,@PathParam("render") String renderType);
+	public Document insertD0ERA(Document t, @PathParam("lang") String lang, @PathParam("render") String renderType);
 
 	@POST
-	@Path("/d1/item/{lang}")
+	@Path("/d1/item/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD1Item(Document d1, @PathParam("lang") String lang);
+	public Document insertD1Item(Document d1, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
 	@Path("/d2/photo/{lang}")
@@ -295,7 +295,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d0/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("D0紧急应变措施表格/list" )
+	@DataSet("D0紧急应变措施表格/list")
 	public List<Document> listD0DS(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
@@ -306,6 +306,15 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D1多功能小组/list")
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/_id/{_id}/d1/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D1多功能小组表格/list")
+	public List<Document> listD1DS(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
@@ -398,7 +407,8 @@ public interface ProblemService {
 	@Path("/d0/era/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD0ERA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @PathParam("render") String render);
+	public Document updateD0ERA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@PathParam("render") String render);
 
 	@POST
 	@Path("/d2/pd/{lang}")
