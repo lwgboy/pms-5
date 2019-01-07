@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import org.bson.Document;
 import org.bson.codecs.Codec;
@@ -136,6 +137,14 @@ public class BasicServiceImpl {
 
 	protected <T> long delete(ObjectId _id, String cname, Class<T> clazz) {
 		return c(cname, clazz).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
+	}
+	
+	protected <T> long deleteMany(Bson filter, String cname) {
+		return c(cname).deleteMany(filter).getDeletedCount();
+	}
+	
+	protected <T> long deleteOne(ObjectId _id, String cname) {
+		return c(cname).deleteOne(new Document("_id",_id)).getDeletedCount();
 	}
 
 	protected <T> long count(BasicDBObject filter, Class<T> clazz) {
@@ -950,5 +959,14 @@ public class BasicServiceImpl {
 		ObjectId _id = new ObjectId(id);
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		bucket.delete(_id);
+	}
+	
+	protected Document updateThen(Document d, String lang, String col, BiFunction<Document, String, Document> func) {
+		Document filter = new Document("_id", d.get("_id"));
+		d.remove("_id");
+		Document set = new Document("$set", d);
+		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
+		Document doc = c(col).findOneAndUpdate(filter, set, options);
+		return func.apply(doc, lang);
 	}
 }

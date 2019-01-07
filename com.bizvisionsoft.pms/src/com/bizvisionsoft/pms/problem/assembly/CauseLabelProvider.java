@@ -33,7 +33,7 @@ public class CauseLabelProvider extends ColumnLabelProvider {
 			String name = Optional.ofNullable(cc.getName()).orElse("");
 			String description = Optional.ofNullable(cc.getDescription()).orElse("");
 			int w = cc.getWeight();
-			double p = cc.getProbability();
+			double p = cc.getProbability()/100;
 			StringBuffer sb = new StringBuffer();
 			sb.append("<div style='height:96px;width:100%;display:flex;'>");
 			

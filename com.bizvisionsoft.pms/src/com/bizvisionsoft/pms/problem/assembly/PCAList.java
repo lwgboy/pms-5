@@ -275,7 +275,7 @@ public class PCAList {
 		List<?> list = (List<?>) pca.get("pca1");
 		if (list != null) {
 			sb.append("<div class='layui-text'>");
-			sb.append("<div>杜绝问题产生</div>");
+			sb.append("<div>问题产生纠正措施</div>");
 			sb.append("<ul style='margin-left: 4px;padding:4px 0px 4px 16px;'>");
 			for (int i = 0; i < list.size(); i++) {
 				Document x = (Document) list.get(i);
@@ -287,7 +287,7 @@ public class PCAList {
 		list = (List<?>) pca.get("pca2");
 		if (list != null) {
 			sb.append("<div class='layui-text'>");
-			sb.append("<div>防止问题流出</div>");
+			sb.append("<div>问题流出纠正措施</div>");
 			sb.append("<ul style='margin-left: 4px;padding:4px 0px 4px 16px;'>");
 			for (int i = 0; i < list.size(); i++) {
 				Document x = (Document) list.get(i);

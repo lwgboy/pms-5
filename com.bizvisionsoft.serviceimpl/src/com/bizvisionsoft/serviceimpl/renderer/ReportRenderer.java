@@ -11,79 +11,51 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public class ReportRenderer {
 
-	private WorkReport report;
-	private int rowHeight;
-	private CardTheme theme;
-
 	public static Document render(WorkReport report) {
-		return new ReportRenderer(report).render();
-	}
-
-	public ReportRenderer(WorkReport report) {
-		this.report = report;
-		rowHeight = RenderTools.margin * 3;
-		theme = new CardTheme(CardTheme.LIGHT_GREY);
-	}
-
-	private Document render() {
+		CardTheme theme = new CardTheme(CardTheme.TEAL);
 		StringBuffer sb = new StringBuffer();
 
-		sb.append(renderTitle());
-		// 报告人
-		sb.append(renderReporter());
-
-		String remark = report.getWorkRemark();
-		if (Check.isAssigned(remark)) {
-			rowHeight += 72;
-			sb.append(RenderTools.getTextMultiLine("重要活动", remark, CardTheme.TEXT_LINE));
-		}
-
-		remark = report.getOtherRemark();
-		if (Check.isAssigned(remark)) {
-			rowHeight += 72;
-			sb.append(RenderTools.getTextMultiLine("其他问题", remark, CardTheme.TEXT_LINE));
-		}
-
-		sb.append(renderRightButton());
-
-		RenderTools.renderCardBoard(sb, rowHeight);
-		return new Document("_id", report.get_id()).append("html", sb.toString()).append("height", rowHeight);
-	}
-
-	private Object renderRightButton() {
-		return "<div class='layui-btn layui-btn-xs layui-btn-normal' style='position:absolute;right:16px;bottom:16px;'>"
-				+ "<a href='confirm' target='_rwt' class='layui-icon layui-icon-ok' style='color:#fff;'></a>" + "</div>";
-	}
-
-	private String renderReporter() {
-		rowHeight += 20 + 8;
-		return RenderTools.getIconTextLine("报告人", report.warpperReporterInfo(), RenderTools.IMG_URL_USER, CardTheme.TEXT_LINE);
-	}
-
-	private String renderTitle() {
 		String type = report.getType();
 		Date period = report.getPeriod();
 		String number = "";
 		if (WorkReport.TYPE_DAILY.equals(type)) {
-			number = "日报<br>" + Formatter.getString(period, "M/d");
+			number = Formatter.getString(period, "M/d日报");
 		} else if (WorkReport.TYPE_WEEKLY.equals(type)) {
-			number = "周报<br>" + Formatter.getString(period, "M-W");
+			number = Formatter.getString(period, "M-W周报");
 		} else if (WorkReport.TYPE_MONTHLY.equals(type)) {
-			number = "月报<br>" + Formatter.getString(period, "M月");
+			number = Formatter.getString(period, "M月报");
 		}
 
-		rowHeight += 64;
-		return "<div class='brui_card_head' style='background:#" + theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>" //
-				+ "<div>"//
-				+ "<div class='label_title'>" //
-				+ "<a class='label_title' href='openItem/' target='_rwt' style='color:#" + theme.headFgColor + "';>"
-				+ report.getProjectName() + "</a>"//
-				+ "</div>"//
-				+ "<div>" + Check.isAssignedThen(report.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: 待定") + "</div>"//
-				+ "</div>" //
-				+ "<div class='label_title' style='text-align:right;'>" + number + "</div>"//
-				+ "</div>";
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px'><div><a class='label_subhead' href='openItem/' target='_rwt' style='color:#" + theme.headFgColor + "';>"
+				+ report.getProjectName() + "</a><div class='label_caption'>"
+				+ Check.isAssignedThen(report.getProjectNumber(), n -> "S/N: " + n).orElse("S/N: 待定") + "</div>"//
+				+ "</div>"
+				+ "<div class='label_title'>" + number + "</div>"//
+				+ "</div>");
+		
+		String remark = report.getWorkRemark();
+		if (Check.isAssigned(remark)) {
+			RenderTools.appendText(sb, "重要活动：", RenderTools.STYLE_1LINE);
+			RenderTools.appendText(sb, remark, RenderTools.STYLE_3LINE);
+		}
 
+		remark = report.getOtherRemark();
+		if (Check.isAssigned(remark)) {
+			RenderTools.appendText(sb, "其他问题：", RenderTools.STYLE_1LINE);
+			RenderTools.appendText(sb, remark, RenderTools.STYLE_3LINE);
+		}
+
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER, "报告人：", report.warpperReporterInfo());
+
+		
+		RenderTools.appendButton(sb, "layui-icon-ok", 12, 12, "确认报告", "confirm");
+		
+		RenderTools.appendCardBg(sb);
+		
+		return new Document("_id", report.get_id()).append("html", sb.toString());
 	}
+
+
 
 }
