@@ -67,7 +67,7 @@ public class CausalAnalysis {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.white).get();
+		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.White).get();
 
 		// 在面板中创建容器（左）
 		Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT, 0.25f).formLayout().put(this::leftPane)

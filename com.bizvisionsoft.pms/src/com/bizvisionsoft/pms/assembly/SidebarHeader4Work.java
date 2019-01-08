@@ -53,9 +53,9 @@ public class SidebarHeader4Work {
 		Work input = context.getParentContext().getInput(Work.class, false);
 		String pjName = Optional.ofNullable(input.getProject()).map(p -> p.getName()).orElse("");
 		title.setText(
-				"<div style='color:white;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"
+				"<div style='color:White;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
 						+ input.getText() + "</div>"
-						+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"
+						+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
 						+ pjName + "</div>" + "</div>");
 		pic.addListener(SWT.MouseDown, e -> {
 			WidgetToolkit.execJS("history.back()");

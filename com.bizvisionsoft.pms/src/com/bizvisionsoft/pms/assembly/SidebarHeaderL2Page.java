@@ -63,13 +63,13 @@ public class SidebarHeaderL2Page {
 
 		if (id != null) {
 			title.setText(
-					"<div style='color:white;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"
+					"<div style='color:White;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
 							+ name + "</div>"
-							+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"
+							+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
 							+ id + "</div>" + "</div>");
 		} else {
 			title.setText(
-					"<div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:white;margin-left:2px;margin-top:12px;width:180px;'>"
+					"<div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;color:White;margin-left:2px;margin-top:12px;width:180px;'>"
 							+ name + "</div>");
 		}
 		pic.addListener(SWT.MouseDown, e -> {

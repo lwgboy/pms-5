@@ -97,13 +97,13 @@ public class ResourceChartASM {
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
 
-		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.white).get();
+		Composite content = Controls.contentPanel(parent).mLoc().formLayout().bg(BruiColor.White).get();
 		// // 创建顶栏
 		// Composite content = Controls.handle(createBar(parent)).loc(SWT.LEFT | SWT.TOP
 		// | SWT.RIGHT, 48)
 		// // 在顶栏下方增加面板
 		// .add(() ->
-		// Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.white).get();
+		// Controls.contentPanel(parent).mLoc()).formLayout().bg(BruiColor.White).get();
 
 		// 在面板中创建容器（左）
 		Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT, 0.25f).formLayout().put(this::leftPane)

@@ -37,14 +37,14 @@ public class CauseLabelProvider extends ColumnLabelProvider {
 			StringBuffer sb = new StringBuffer();
 			sb.append("<div style='height:96px;width:100%;display:flex;'>");
 			
-			sb.append("<div style='display:flex;flex-direction:column;justify-content:space-around;color:white;'>");
+			sb.append("<div style='display:flex;flex-direction:column;justify-content:space-around;color:White;'>");
 			sb.append("<div style='flex-grow:1;border-radius:4px;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#4957ad;margin-bottom:4px;'>");
 			sb.append("<div class='label_caption'>"+w+"</div><div class='label_caption'>»®÷ÿ</div></div>");
 			sb.append("<div style='flex-grow:1;border-radius:4px;width:44px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:#4957ad;margin-bottom:4px;'>");
 			sb.append("<div class='label_caption'>"+Formatter.getPercentageFormatString(p)+"</div><div class='label_caption'>∏≈¬ </div></div>");
 			sb.append("</div>");
 
-			sb.append("<div style='flex-grow:1;color:white;background:#4957ad;padding:0px 8px;border-radius:4px;margin:0px 0px 4px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");
+			sb.append("<div style='flex-grow:1;color:White;background:#4957ad;padding:0px 8px;border-radius:4px;margin:0px 0px 4px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");
 			sb.append("<div class='brui_text_line'>" + name + "</div>" + "<div class='brui_card_text3 label_caption' style='height:48px;'>"
 					+ description + "</div>");
 			sb.append("</div>");

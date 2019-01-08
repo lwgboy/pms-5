@@ -44,7 +44,7 @@ public class ProjectProgressSummaryWidgetASM {
 
 	@CreateUI
 	public void createUI(Composite parent) {
-		parent.setBackground(BruiColors.getColor(BruiColor.white));
+		parent.setBackground(BruiColors.getColor(BruiColor.White));
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
 
@@ -115,7 +115,7 @@ public class ProjectProgressSummaryWidgetASM {
 				b.setBackground(BruiColors.getColor(BruiColor.Teal_500));
 				b.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			} else if (work.getStartOn() != null && work.getFinishOn() == null) {
-				b.setBackground(BruiColors.getColor(BruiColor.light_blue_500));
+				b.setBackground(BruiColors.getColor(BruiColor.Light_blue_500));
 				b.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 		}
@@ -135,7 +135,7 @@ public class ProjectProgressSummaryWidgetASM {
 				sb.append("<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>");
 				sb.append("<div class='layui-timeline-content layui-text'>");
 				sb.append(
-						"<div class='layui-timeline-title' style='white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
+						"<div class='layui-timeline-title' style='White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
 								+ news.get(i).getSummary() + "</div>");
 				sb.append("</div></li>");
 				// height += 40;

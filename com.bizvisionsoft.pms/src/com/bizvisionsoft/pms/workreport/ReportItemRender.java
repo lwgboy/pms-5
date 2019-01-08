@@ -167,7 +167,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 
 		String content = Optional.ofNullable(ri.getPmRemark()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
-				+ "white-space:normal; word-break:break-all;" //
+				+ "White-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
 				+ "text-overflow:-o-ellipsis-lastline;"//
 				+ "overflow: hidden;"//
@@ -197,7 +197,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 
 		String content = Optional.ofNullable(ri.getProblems()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
-				+ "white-space:normal; word-break:break-all;" //
+				+ "White-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
 				+ "text-overflow:-o-ellipsis-lastline;"//
 				+ "overflow: hidden;"//
@@ -227,7 +227,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 
 		String content = Optional.ofNullable(ri.getStatement()).orElse("");
 		sb.append("<div style='height:76px;" // 4行文字高度
-				+ "white-space:normal; word-break:break-all;" //
+				+ "White-space:normal; word-break:break-all;" //
 				+ "text-overflow: ellipsis;"//
 				+ "text-overflow:-o-ellipsis-lastline;"//
 				+ "overflow: hidden;"//

@@ -60,7 +60,7 @@ public class MsgCardACT {
 		sb.append("<hr>");
 
 		String content = msg.getContent();
-		sb.append("<div style='white-space:normal;word-wrap:break-word;overflow:auto;;margin-top:8px'>" + content + "</div>");
+		sb.append("<div style='White-space:normal;word-wrap:break-word;overflow:auto;;margin-top:8px'>" + content + "</div>");
 
 		sb.append("</div>");
 		Layer.alert(subject, sb.toString(), 460, 300);

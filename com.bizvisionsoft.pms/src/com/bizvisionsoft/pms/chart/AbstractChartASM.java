@@ -39,7 +39,7 @@ public abstract class AbstractChartASM {
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FillLayout());
-		parent.setBackground(BruiColors.getColor(BruiColor.white));
+		parent.setBackground(BruiColors.getColor(BruiColor.White));
 		content = new ECharts(parent, SWT.NONE);
 		setOptionBefore();
 		content.setOption(getOption());

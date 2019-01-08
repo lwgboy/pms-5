@@ -29,7 +29,7 @@ public class ProjectGanttViewWidgetASM {
 
 	@CreateUI
 	public void createUI(Composite parent) {
-		Controls.handle(parent).layout(new FormLayout()).bg(BruiColor.white);
+		Controls.handle(parent).layout(new FormLayout()).bg(BruiColor.White);
 
 		Label title = Controls.label(parent).setText("进度进展甘特图").fg(BruiColor.Grey_600).left(0, 8).top(0, 8).get();
 

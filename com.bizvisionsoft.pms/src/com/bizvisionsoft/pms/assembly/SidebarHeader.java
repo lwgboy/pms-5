@@ -40,7 +40,7 @@ public class SidebarHeader {
 			name += " (" + br.getCurrentConsignerInfo().getName() + " ´ú¹Ü)";
 		}
 
-		return "<div style='margin-top:4px;width:144px'><img src='resource/image/logo_w.svg' height=22px><div style='margin-left:2px;margin-top:2px;color:white;font-size:13px;'>"
+		return "<div style='margin-top:4px;width:144px'><img src='resource/image/logo_w.svg' height=22px><div style='margin-left:2px;margin-top:2px;color:White;font-size:13px;'>"
 				+ name + "</div></div>";
 	}
 }

@@ -114,7 +114,7 @@ public class ProjectBoardRender {
 				sb.append("<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>");
 				sb.append("<div class='layui-timeline-content layui-text'>");
 				sb.append(
-						"<div class='layui-timeline-title' style='white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
+						"<div class='layui-timeline-title' style='White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;'>"
 								+ news.get(i).getSummary() + "</div>");
 				sb.append("</div></li>");
 				// height += 40;

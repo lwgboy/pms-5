@@ -187,7 +187,7 @@ public abstract class AbstractWorkCardRender implements IWorkAction {
 		String _date = Formatter.getString(date, "M/d");
 		sb.append("<div class='label_title brui_card_head_fix' style='display:flex;justify-content:space-between;height:64px;background:#"
 				+ theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px'>"
-				+ "<div style='word-break:break-word;white-space:pre-line;'>" + name + "</div><div style='font-size:36px;'>" + _date
+				+ "<div style='word-break:break-word;White-space:pre-line;'>" + name + "</div><div style='font-size:36px;'>" + _date
 				+ "</div></div>");
 	}
 

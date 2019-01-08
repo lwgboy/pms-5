@@ -128,10 +128,10 @@ public class WorkBoardRender implements IWorkAction {
 					+ "' target='_rwt'><img class='layui-btn layui-btn-primary layui-btn-sm' style='padding:6px 10px;' src='rwt-resources/extres/img/finish.svg'/></a></div>");
 		}
 
-		sb.append("<div style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
+		sb.append("<div style='margin-right: 64px;overflow: hidden;word-break: break-word;White-space: nowrap;text-overflow: ellipsis;'>"
 				+ work.getProjectName() + "</div>");
 		sb.append(
-				"<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;white-space: nowrap;text-overflow: ellipsis;'>"
+				"<div class='label_title' style='margin-right: 64px;overflow: hidden;word-break: break-word;White-space: nowrap;text-overflow: ellipsis;'>"
 						+ work.getFullName() + "</div>");
 		sb.append(
 				"<div style='width:100%;margin-top:2px;display:inline-flex;justify-content:space-between;'><div style='display:inline-flex;'>¼Æ»®: "
