@@ -959,8 +959,7 @@ public class BasicServiceImpl {
 		return c("user").distinct("name", new Document("userId", userId), String.class).first();
 	}
 	
-	protected void deleteFile(String namespace, String id) {
-		ObjectId _id = new ObjectId(id);
+	protected void deleteFile(String namespace, ObjectId _id) {
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		bucket.delete(_id);
 	}

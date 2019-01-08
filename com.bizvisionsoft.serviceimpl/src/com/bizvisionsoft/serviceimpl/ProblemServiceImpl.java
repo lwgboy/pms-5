@@ -100,8 +100,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long deleteD2ProblemPhotos(ObjectId _id) {
 		Document d2ProblemPhoto = c("d2ProblemPhoto").findOneAndDelete(new BasicDBObject("_id", _id));
-		Check.instanceThen(d2ProblemPhoto.get("problemImg"), List.class,
-				l -> ((List<Document>) l).forEach(d -> deleteFile(d.getString("namepace"), d.getObjectId("_id").toString())));
+		Optional.ofNullable(d2ProblemPhoto).ifPresent(l -> ((List<Document>) l.get("problemImg"))
+				.forEach(d -> deleteFile(d.getString("namepace"), d.getObjectId("_id"))));
 		return 1l;
 	}
 
