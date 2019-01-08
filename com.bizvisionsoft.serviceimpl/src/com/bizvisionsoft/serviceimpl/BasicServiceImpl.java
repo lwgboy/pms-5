@@ -130,7 +130,7 @@ public class BasicServiceImpl {
 	protected <T> T get(ObjectId _id, Class<T> clazz) {
 		return c(clazz).find(new BasicDBObject("_id", _id)).first();
 	}
-	
+
 	protected Document getDocument(ObjectId _id, String col) {
 		return c(col).find(new BasicDBObject("_id", _id)).first();
 	}
@@ -142,13 +142,13 @@ public class BasicServiceImpl {
 	protected <T> long delete(ObjectId _id, String cname, Class<T> clazz) {
 		return c(cname, clazz).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
 	}
-	
+
 	protected <T> long deleteMany(Bson filter, String cname) {
 		return c(cname).deleteMany(filter).getDeletedCount();
 	}
-	
+
 	protected <T> long deleteOne(ObjectId _id, String cname) {
-		return c(cname).deleteOne(new Document("_id",_id)).getDeletedCount();
+		return c(cname).deleteOne(new Document("_id", _id)).getDeletedCount();
 	}
 
 	protected <T> long count(BasicDBObject filter, Class<T> clazz) {
@@ -963,7 +963,7 @@ public class BasicServiceImpl {
 		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
 		bucket.delete(_id);
 	}
-	
+
 	protected Document updateThen(Document d, String lang, String col, BiFunction<Document, String, Document> func) {
 		Document filter = new Document("_id", d.get("_id"));
 		d.remove("_id");
@@ -971,5 +971,23 @@ public class BasicServiceImpl {
 		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
 		Document doc = c(col).findOneAndUpdate(filter, set, options);
 		return func.apply(doc, lang);
+	}
+
+	protected BasicDBObject ensureGet(BasicDBObject condition, String field) {
+		BasicDBObject doc = (BasicDBObject) condition.get(field);
+		if (doc == null) {
+			doc = new BasicDBObject();
+			condition.put(field, doc);
+		}
+		return doc;
+	}
+
+	protected Document ensureGet(Document condition, String field) {
+		Document doc = (Document) condition.get(field);
+		if (doc == null) {
+			doc = new Document();
+			condition.put(field, doc);
+		}
+		return doc;
 	}
 }

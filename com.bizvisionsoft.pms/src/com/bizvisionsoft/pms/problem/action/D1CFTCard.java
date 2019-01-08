@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Event;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProblemService;
@@ -26,12 +27,11 @@ public class D1CFTCard {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if (e.text.startsWith("delete")) {
+		if ("É¾³ý".equals(a.getName()) || "delete".equals(e.text)) {
 			removeD1CFT(_id, element, viewer);
 		}
 

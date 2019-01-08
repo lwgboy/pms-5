@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -31,15 +32,25 @@ public class D0Card {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if ("editERA".equals(e.text)) {
-			editERA(_id, element, viewer, context);
-		} else if ("deleteERA".equals(e.text)) {
+
+		if ("±à¼­".equals(a.getName())) {
+			editERA(_id, element, viewer, context, "gridrow");
+
+		} else if ("É¾³ý".equals(a.getName())) {
 			deleteERA(_id, element, viewer, context);
+
+		} else if ("²Ù×÷".equals(a.getName())) {
+			if ("editERA".equals(e.text)) {
+				editERA(_id, element, viewer, context, "card");
+
+			} else if ("deleteERA".equals(e.text)) {
+
+				deleteERA(_id, element, viewer, context);
+			}
 		}
 
 	}
@@ -53,14 +64,12 @@ public class D0Card {
 		}
 	}
 
-
-	private void editERA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void editERA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD0ERA(_id);
 		Editor.create("D0-ERA-±à¼­Æ÷", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD0ERA(t, lang);
+			Document d = service.updateD0ERA(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
-
 
 }

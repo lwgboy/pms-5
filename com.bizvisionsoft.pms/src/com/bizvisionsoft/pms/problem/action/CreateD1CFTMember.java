@@ -19,13 +19,16 @@ public class CreateD1CFTMember {
 
 	@Inject
 	private IBruiService br;
+	
+	@Inject
+	private String render;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D1-CTF³ÉÔ±-±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			int i = Integer.parseInt(t.getString("role"));
-			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage());
+			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage(),render);
 			GridTreeViewer viewer = (GridTreeViewer) ((BruiAssemblyContext) context).getContent("viewer");
 			viewer.insert(viewer.getInput(), t, i);
 		});

@@ -16,7 +16,7 @@ public class ProblemCardRenderer {
 
 	private static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
-	private static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
+	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
 
@@ -26,12 +26,17 @@ public class ProblemCardRenderer {
 
 	public static Document renderD0ERA(Document doc, String lang) {
 		Document charger = (Document) doc.get("charger_meta");
-		Date date = doc.getDate("date");
+		Date planStart = doc.getDate("planStart");
+		Date planFinish = doc.getDate("planFinish");
+		Date actualStart = doc.getDate("actualStart");
+		Date actualFinish = doc.getDate("actualFinish");
+
 		String title = doc.getString("name");
 		List<?> list = (List<?>) doc.get("era");
 		StringBuffer sb = new StringBuffer();
-		renderListItemsCard(sb,list, title, charger, date, red);
-		
+
+		renderListItemsCard(sb, list, title, charger, planStart, planFinish, actualStart, actualFinish, red);
+
 		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑紧急应变措施", "editERA");
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除紧急应变措施", "deleteERA");
@@ -248,23 +253,21 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
-	public static Document renderD5PCA(List<?> list, String title, Document charger, Date date, String lang) {
+	public static Document renderD5PCA(List<?> list, String title, Document charger, Date planStart, Date planFinish, String lang) {
 		StringBuffer sb = new StringBuffer();
-		renderListItemsCard(sb,list, title, charger, date, indigo);
+		renderListItemsCard(sb, list, title, charger, planStart, planFinish, null, null, indigo);
 		return new Document("html", sb.toString());
 	}
 
-	private static void renderListItemsCard(StringBuffer sb ,List<?> list, String title, Document charger, Date date, CardTheme theme) {
+	private static void renderListItemsCard(StringBuffer sb, List<?> list, String title, Document charger, Date planStart, Date planFinish,
+			Date actualStart, Date actualFinish, CardTheme theme) {
 		RenderTools.appendHeader(sb, theme, title, 36);
-		sb.append("<div class='layui-text'>");
-		sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
-		for (int i = 0; i < list.size(); i++) {
-			sb.append("<li class='label_caption' style='margin-top:0px;'>" + ((Document) list.get(i)).getString("name") + "</li>");
-		}
-		sb.append("</ul>");
-		sb.append("</div>");
 
-		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
+		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
+
+		RenderTools.appendList(sb, list, indigo.lightText, o -> ((Document) o).getString("name"));
+
+		RenderTools.appendUserAndText(sb, charger, null);
 
 		RenderTools.appendCardBg(sb);
 	}
@@ -329,16 +332,12 @@ public class ProblemCardRenderer {
 		List<?> ids = (List<?>) t.get("id");
 		if (Check.isAssigned(ids)) {
 			RenderTools.appendText(sb, "识别相似情形：", RenderTools.STYLE_1LINE);
-			sb.append("<div class='layui-text'>");
-			sb.append("<ul style='margin-left:12px;padding:8px 8px 0px 16px;'>");
-			for (int i = 0; i < ids.size(); i++) {
-				Document d = (Document) ids.get(i);
-				String text = Optional.ofNullable(d.getString("id")).orElse("") + " "
-						+ Optional.ofNullable(d.getString("keyword")).orElse("");
-				sb.append("<li class='label_caption grey' style='margin-top:0px;'>" + text + "</li>");
-			}
-			sb.append("</ul>");
-			sb.append("</div>");
+
+			RenderTools.appendList(sb, ids, indigo.lightText, o -> {
+				Document d = (Document) o;
+				return Optional.ofNullable(d.getString("id")).orElse("") + " " + Optional.ofNullable(d.getString("keyword")).orElse("");
+			});
+
 		}
 
 		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑相似物", "editSimilar");

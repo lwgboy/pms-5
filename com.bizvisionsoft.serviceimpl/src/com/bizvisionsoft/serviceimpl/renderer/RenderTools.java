@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 import org.bson.Document;
 
@@ -165,13 +166,13 @@ public class RenderTools {
 		return img;
 	}
 
-	public static void appendUserAndText(StringBuffer sb, Document user, String dateStr) {
+	public static void appendUserAndText(StringBuffer sb, Document user, String text) {
 		String name = user.getString("name");
 		String url = RenderTools.getFirstFileURL(user, "headPics");
-		appendUserAndText(sb, url, name, dateStr);
+		appendUserAndText(sb, url, name, text);
 	}
 
-	public static void appendUserAndText(StringBuffer sb, String url, String name, String dateStr) {
+	public static void appendUserAndText(StringBuffer sb, String url, String name, String text) {
 		String img;
 		if (url != null) {
 			img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
@@ -181,8 +182,9 @@ public class RenderTools {
 			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
 					+ ";border-radius:17px;width:28px;height:28px;'/>";
 		}
+		text = text == null ? "" : ("&nbsp;&nbsp;" + text);
 		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>" + img
-				+ "<span class='label_caption' style='margin-left:4px;'>" + name + "&nbsp;&nbsp;" + dateStr + "</span>" //
+				+ "<span class='label_caption' style='margin-left:4px;'>" + name + text + "</span>" //
 				+ "</div>");
 	}
 
@@ -246,6 +248,31 @@ public class RenderTools {
 			String name = fileData.getString("name");
 			String url = "/bvs/fs?id=" + fileData.get("_id") + "&namespace=" + fileData.get("namepace") + "&name=" + name + "&sid=rwt";
 			sb.append("<a href='" + url + "' class='brui_line_padding brui_text_line label_caption grey'>" + name + "</a>");//
+		}
+	}
+
+	public static void appendSchedule(StringBuffer sb, Date planStart, Date planFinish, Date actualStart, Date actualFinish) {
+		String text = shortDate(planStart) + "~" + shortDate(planFinish);
+		appendIconLabelAndTextLine(sb, IMG_URL_CALENDAR, "计划：", text);
+
+		text = null;
+		if (actualStart != null)
+			text = shortDate(actualStart);
+		if (actualFinish != null)
+			text += "~" + shortDate(actualFinish);
+
+		if (text != null)
+			appendLabelAndTextLine(sb, "实际：", text, 24);
+	}
+
+	public static <T> void appendList(StringBuffer sb, List<T> list, String color, Function<T, String> func) {
+		for (int i = 0; i < list.size(); i++) {
+			T item = list.get(i);
+			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
+					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
+					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
+					+ (func == null ? item : func.apply(item)) + "</div>");
+
 		}
 	}
 
