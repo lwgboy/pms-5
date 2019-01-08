@@ -294,22 +294,14 @@ public interface ProblemService {
 			@MethodParam("render") @PathParam("render") String render);
 
 	@POST
-	@Path("/_id/{_id}/d1/cards/{lang}")
+	@Path("/_id/{_id}/d1/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("D1多功能小组/list")
+	@DataSet({"D1多功能小组/list","D1多功能小组表格/list"})
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	@POST
-	@Path("/_id/{_id}/d1/ds/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("D1多功能小组表格/list")
-	public List<Document> listD1DS(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render);
 
 	@POST
 	@Path("/_id/{_id}/d2/cards/{lang}")
@@ -321,23 +313,15 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/_id/{_id}/d3/cards/{lang}")
+	@Path("/_id/{_id}/d3/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("D3临时措施/list")
+	@DataSet({"D3临时措施/list","D3临时处理措施表格/list"})
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render);
 	
-	@POST
-	@Path("/_id/{_id}/d3/ds/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("D3临时处理措施表格/list")
-	public List<Document> listD3DS(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
 	@POST
 	@Path("/_id/{_id}/d4/cards/{lang}")
 	@Consumes("application/json; charset=UTF-8")

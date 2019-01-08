@@ -319,21 +319,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang) {
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
 		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
-
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		return c("d1CFT").aggregate(pipeline).map(d -> ProblemCardRenderer.renderD1CFTMember(d, lang)).into(new ArrayList<>());
-	}
-
-	@Override
-	public List<Document> listD1DS(BasicDBObject condition, ObjectId problem_id, String lang) {
-		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
-
-		List<Bson> pipeline = createDxPipeline(condition, problem_id);
-		return c("d1CFT").aggregate(pipeline)
-				.map(d -> d.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(d.getString("role"))]))
-				.into(new ArrayList<>());
+		Function<Document, Document> f;
+		if ("card".equals(render)) {
+			f = d -> ProblemCardRenderer.renderD1CFTMember(d, lang);
+		} else {
+			f = d -> d.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(d.getString("role"))]);
+		}
+		return c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -413,17 +408,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Document> d3Result = new ArrayList<>();
-		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
-				.forEach((Document d) -> d3Result.add(ProblemCardRenderer.renderD3ICA(d, lang)));
-		return d3Result;
-	}
-
-	@Override
-	public List<Document> listD3DS(BasicDBObject condition, ObjectId problem_id, String lang) {
-		return c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
-				.map(d -> d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]))
+	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		Function<Document, Document> f;
+		if ("card".equals(render))
+			f = d -> ProblemCardRenderer.renderD3ICA(d, lang);
+		else
+			f = d -> d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]);
+		return c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1)).map(f)
 				.into(new ArrayList<>());
 	}
 
@@ -432,10 +423,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		BiFunction<Document, String, Document> func;
 		if ("card".equals(render))
 			func = ProblemCardRenderer::renderD3ICA;
-		else if ("gridrow".equals(render))
-			func = (m, l) -> m.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(m.getString("priority"))]);
 		else
-			func = null;
+			func = (m, l) -> m.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(m.getString("priority"))]);
 		return updateThen(d, lang, "d3ICA", func);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
