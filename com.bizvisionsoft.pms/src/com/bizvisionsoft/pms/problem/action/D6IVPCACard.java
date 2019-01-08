@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -31,16 +32,16 @@ public class D6IVPCACard {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if (e.text.startsWith("editPCA")) {
-			edit(_id, element, viewer, context);
-		} else if (e.text.startsWith("closePCA")) {
-			close(_id, element, viewer, context);
-		} else if (e.text.startsWith("deletePCA")) {
+		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
+		if ("编辑".equals(a.getName()) || "editPCA".equals(e.text)) {
+			edit(_id, element, viewer, context, render);
+		} else if ("关闭".equals(a.getName()) || "closePCA".equals(e.text)) {
+			close(_id, element, viewer, context, render);
+		} else if ("删除".equals(a.getName()) || "deletePCA".equals(e.text)) {
 			delete(_id, element, viewer, context);
 		}
 
@@ -55,17 +56,17 @@ public class D6IVPCACard {
 		}
 	}
 
-	private void close(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void close(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		if (br.confirm("关闭", "请确认关闭永久纠正措施的执行和确认项。")) {
-			Document d = service.updateD6IVPCA(new Document("_id", _id).append("closed", true), lang);
+			Document d = service.updateD6IVPCA(new Document("_id", _id).append("closed", true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}
 	}
 
-	private void edit(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void edit(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD6IVPCA(_id);
 		Editor.create("D6-IVPCA-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD6IVPCA(t, lang);
+			Document d = service.updateD6IVPCA(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
