@@ -147,6 +147,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d2/photo/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet("D2现场照片表格/list")
 	public List<Document> listD2ProblemPhotos(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 	@GET
@@ -216,10 +217,10 @@ public interface ProblemService {
 	public Document insertD1Item(Document d1, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
-	@Path("/d2/photo/{lang}")
+	@Path("/d2/photo/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang);
+	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render")  String render);
 
 	@POST
 	@Path("/d3/ica/{lang}")
