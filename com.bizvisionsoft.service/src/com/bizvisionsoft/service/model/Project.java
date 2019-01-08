@@ -386,7 +386,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * 责任单位
+	 * 承担单位
 	 */
 	@Persistence // 数据库存取
 	private ObjectId impUnit_id;
@@ -406,8 +406,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	@WriteValue("impUnit") // 编辑器用
 	public void setOrganization(Organization org) {
 		this.impUnit_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
-		this.responsibleUnit = Check.isAssigned(responsibleUnit) ? responsibleUnit
-				: Optional.ofNullable(org).map(o -> o.getFullName()).orElse(null);
 	}
 
 	@ReadValue("impUnit") // 编辑器用
@@ -415,17 +413,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 
-	/**
-	 * 承担单位
-	 */
-	@ReadValue
-	@Persistence
-	private String responsibleUnit;
-
-	@WriteValue("responsibleUnit") // 编辑器用
-	public void setResponsibleUnit(Organization org) {
-		this.responsibleUnit = Optional.ofNullable(org).map(o -> o.getFullName()).orElse(null);
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
