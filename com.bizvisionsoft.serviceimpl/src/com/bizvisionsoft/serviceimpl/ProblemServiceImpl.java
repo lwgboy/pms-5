@@ -89,11 +89,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public long deleteD3ICA(ObjectId _id) {
-		return deleteOne(_id, "d3ICA");
-	}
-
-	@Override
 	public long deleteD5PCA(ObjectId _id, String lang) {
 		return deleteOne(_id, "d5PCA");
 	}
@@ -186,11 +181,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document getD3ICA(ObjectId _id) {
-		return c("d3ICA").find(new Document("_id", _id)).first();
-	}
-
-	@Override
 	public Document getD4RootCauseDesc(ObjectId problem_id) {
 		return c("d4RootCauseDesc").find(new Document("_id", problem_id)).first();
 	}
@@ -229,12 +219,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc) {
 		return insert(cc);
-	}
-
-	@Override
-	public Document insertD3ICA(Document t, String lang) {
-		c("d3ICA").insertOne(t);
-		return ProblemCardRenderer.renderD3ICA(t, lang);
 	}
 
 	@Override
@@ -302,14 +286,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (doc.get("what") != null)
 			result.add(ProblemCardRenderer.renderD25W2H(doc, lang));
 		return result;
-	}
-
-	@Override
-	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Document> d3Result = new ArrayList<>();
-		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
-				.forEach((Document d) -> d3Result.add(ProblemCardRenderer.renderD3ICA(d, lang)));
-		return d3Result;
 	}
 
 	@Override
@@ -431,11 +407,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document set = new Document("$set", d);
 		return ProblemCardRenderer.renderD25W2H(c("d2ProblemDesc").findOneAndUpdate(filter, set,
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
-	}
-
-	@Override
-	public Document updateD3ICA(Document d, String lang) {
-		return updateThen(d, lang, "d3ICA", ProblemCardRenderer::renderD3ICA);
 	}
 
 	@Override
@@ -623,6 +594,56 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	public List<Document> listD2ProblemPhotos(ObjectId problem_id) {
 		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D3 临时处理措施
+	//
+
+	@Override
+	public long deleteD3ICA(ObjectId _id) {
+		return deleteOne(_id, "d3ICA");
+	}
+
+	@Override
+	public Document getD3ICA(ObjectId _id) {
+		return getDocument(_id, "d3ICA");
+	}
+
+	@Override
+	public Document insertD3ICA(Document t, String lang, String render) {
+		c("d3ICA").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD3ICA(t, lang);
+		else
+			return t.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(t.getString("priority"))]);
+	}
+
+	@Override
+	public List<Document> listD3(BasicDBObject condition, ObjectId problem_id, String lang) {
+		List<Document> d3Result = new ArrayList<>();
+		c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
+				.forEach((Document d) -> d3Result.add(ProblemCardRenderer.renderD3ICA(d, lang)));
+		return d3Result;
+	}
+
+	@Override
+	public List<Document> listD3DS(BasicDBObject condition, ObjectId problem_id, String lang) {
+		return c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1))
+				.map(d -> d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]))
+				.into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD3ICA(Document d, String lang, String render) {
+		BiFunction<Document, String, Document> func;
+		if ("card".equals(render))
+			func = ProblemCardRenderer::renderD3ICA;
+		else if ("gridrow".equals(render))
+			func = (m, l) -> m.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(m.getString("priority"))]);
+		else
+			func = null;
+		return updateThen(d, lang, "d3ICA", func);
 	}
 
 }

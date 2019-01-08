@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public class ProblemCardRenderer {
 
-	private static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
+	public static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
 
 	private static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 

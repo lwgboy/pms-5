@@ -13,6 +13,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -34,40 +35,40 @@ public class D3ICACard {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if (e.text.startsWith("editICA")) {
-			editD3ICA(_id, element, viewer, context);
-		} else if (e.text.startsWith("deleteICA")) {
-			deleteD3ICA(_id, element, viewer, context);
-		} else if (e.text.startsWith("verificationICA")) {
-			verificationD3ICA(_id, element, viewer, context);
-		} else if (e.text.startsWith("finishICA")) {
-			finishD3ICA(_id, element, viewer, context);
+		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
+		if ("编辑".equals(a.getName()) || "editICA".equals(e.text)) {
+			editD3ICA(_id, element, viewer, context, render);
+		} else if ("删除".equals(a.getName()) || "deleteICA".equals(e.text)) {
+			deleteD3ICA(_id, element, viewer, context, render);
+		} else if ("验证".equals(a.getName()) || "verificationICA".equals(e.text)) {
+			verificationD3ICA(_id, element, viewer, context, render);
+		} else if ("完成".equals(a.getName()) || "finishICA".equals(e.text)) {
+			finishD3ICA(_id, element, viewer, context, render);
 		}
 
 	}
 
-	private void finishD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void finishD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		if (br.confirm("完成", "请确认选择的临时处理措施已经完成。")) {
-			Document d = service.updateD3ICA(new Document("_id", _id).append("finish", true), lang);
+			Document d = service.updateD3ICA(new Document("_id", _id).append("finish", true), lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}
 	}
 
-	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void verificationD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document input = Optional.ofNullable((Document) service.getD3ICA(_id).get("verification")).orElse(new Document());
 		Editor.create("D3-ICA验证-编辑器", context, input, true).ok((r, t) -> {
-			Document d = service.updateD3ICA(new Document("_id", _id).append("verification", t), lang);
+			Document d = service.updateD3ICA(new Document("_id", _id).append("verification", t), lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 
 		});
 	}
 
-	private void deleteD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void deleteD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		if (br.confirm("删除", "请确认删除选择的临时处理措施。")) {
 			service.deleteD3ICA(_id);
 			List<?> input = (List<?>) viewer.getInput();
@@ -76,9 +77,9 @@ public class D3ICACard {
 		}
 	}
 
-	private void editD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void editD3ICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Editor.create("D3-ICA-编辑器", context, service.getD3ICA(_id), true).ok((r, t) -> {
-			Document d = service.updateD3ICA(t, lang);
+			Document d = service.updateD3ICA(t, lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}

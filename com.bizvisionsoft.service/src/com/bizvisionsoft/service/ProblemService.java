@@ -223,10 +223,10 @@ public interface ProblemService {
 	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render")  String render);
 
 	@POST
-	@Path("/d3/ica/{lang}")
+	@Path("/d3/ica/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD3ICA(Document t, @PathParam("lang") String lang);
+	public Document insertD3ICA(Document t, @PathParam("lang") String lang,@PathParam("render") String render);
 
 	@POST
 	@Path("/d4/rootCauseDesc/{lang}")
@@ -336,6 +336,15 @@ public interface ProblemService {
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	
+	@POST
+	@Path("/_id/{_id}/d3/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D3临时处理措施表格/list")
+	public List<Document> listD3DS(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
 	@Path("/_id/{_id}/d4/cards/{lang}")
@@ -418,10 +427,10 @@ public interface ProblemService {
 	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@PUT
-	@Path("/d3/ica/{lang}")
+	@Path("/d3/ica/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,@PathParam("render") String render);
 
 	@PUT
 	@Path("/d4/rootCauseDesc/{lang}/")

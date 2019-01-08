@@ -976,7 +976,7 @@ public class BasicServiceImpl {
 		Document set = new Document("$set", d);
 		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
 		Document doc = c(col).findOneAndUpdate(filter, set, options);
-		return func.apply(doc, lang);
+		return Optional.ofNullable(func).map(f -> f.apply(doc, lang)).orElse(doc);
 	}
 
 	protected BasicDBObject ensureGet(BasicDBObject condition, String field) {
