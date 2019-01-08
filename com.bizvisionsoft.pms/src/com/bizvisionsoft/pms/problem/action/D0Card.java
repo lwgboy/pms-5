@@ -37,10 +37,10 @@ public class D0Card {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 
-		if ("±à¼­".equals(a.getName())) {
+		if ("editERA".equals(a.getName())) {
 			editERA(_id, element, viewer, context, "gridrow");
 
-		} else if ("É¾³ý".equals(a.getName())) {
+		} else if ("deleteERA".equals(a.getName())) {
 			deleteERA(_id, element, viewer, context);
 
 		} else if ("²Ù×÷".equals(a.getName())) {

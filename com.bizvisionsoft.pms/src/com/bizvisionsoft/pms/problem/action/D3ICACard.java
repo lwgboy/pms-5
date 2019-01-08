@@ -40,13 +40,13 @@ public class D3ICACard {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
-		if ("编辑".equals(a.getName()) || "editICA".equals(e.text)) {
+		if ("editICA".equals(a.getName()) || "editICA".equals(e.text)) {
 			editD3ICA(_id, element, viewer, context, render);
-		} else if ("删除".equals(a.getName()) || "deleteICA".equals(e.text)) {
+		} else if ("deleteICA".equals(a.getName()) || "deleteICA".equals(e.text)) {
 			deleteD3ICA(_id, element, viewer, context, render);
-		} else if ("验证".equals(a.getName()) || "verificationICA".equals(e.text)) {
+		} else if ("verificationICA".equals(a.getName()) || "verificationICA".equals(e.text)) {
 			verificationD3ICA(_id, element, viewer, context, render);
-		} else if ("完成".equals(a.getName()) || "finishICA".equals(e.text)) {
+		} else if ("finishICA".equals(a.getName()) || "finishICA".equals(e.text)) {
 			finishD3ICA(_id, element, viewer, context, render);
 		}
 

@@ -37,11 +37,11 @@ public class D6IVPCACard {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		String render = "²Ù×÷".equals(a.getName()) ? "card" : "gridrow";
-		if ("±à¼­".equals(a.getName()) || "editPCA".equals(e.text)) {
+		if ("editPCA".equals(a.getName()) || "editPCA".equals(e.text)) {
 			edit(_id, element, viewer, context, render);
-		} else if ("È·ÈÏ".equals(a.getName()) || "closePCA".equals(e.text)) {
+		} else if ("closePCA".equals(a.getName()) || "closePCA".equals(e.text)) {
 			close(_id, element, viewer, context, render);
-		} else if ("É¾³ý".equals(a.getName()) || "deletePCA".equals(e.text)) {
+		} else if ("deletePCA".equals(a.getName()) || "deletePCA".equals(e.text)) {
 			delete(_id, element, viewer, context);
 		}
 

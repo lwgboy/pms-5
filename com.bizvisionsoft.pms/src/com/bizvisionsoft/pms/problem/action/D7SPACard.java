@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -31,23 +32,24 @@ public class D7SPACard {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if ("editSimilar".equals(e.text)) {
-			editSimilar(_id, element, viewer, context);
-		} else if ("deleteSimilar".equals(e.text)) {
+		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
+
+		if ("editSimilar".equals(a.getName())||"editSimilar".equals(e.text)) {
+			editSimilar(_id, element, viewer, context,render);
+		} else if ("deleteSimilar".equals(a.getName())||"deleteSimilar".equals(e.text)) {
 			deleteSimilar(_id, element, viewer, context);
-		} else if ("readSPA".equals(e.text)) {
+		} else if ("readSPA".equals(a.getName())||"readSPA".equals(e.text)) {
 			readSPA(_id, element, viewer, context);
-		} else if ("deleteSPA".equals(e.text)) {
+		} else if ("deleteSPA".equals(a.getName())||"deleteSPA".equals(e.text)) {
 			deleteSPA(_id, element, viewer, context);
-		} else if ("editSPA".equals(e.text)) {
-			editSPA(_id, element, viewer, context);
-		} else if ("finishSPA".equals(e.text)) {
-			finishSPA(_id, element, viewer, context);
+		} else if ("editSPA".equals(a.getName())||"editSPA".equals(e.text)) {
+			editSPA(_id, element, viewer, context,render);
+		} else if ("finishSPA".equals(a.getName())||"finishSPA".equals(e.text)) {
+			finishSPA(_id, element, viewer, context,render);
 		}
 
 	}
@@ -70,25 +72,25 @@ public class D7SPACard {
 		}
 	}
 
-	private void editSimilar(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void editSimilar(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD7Similar(_id);
 		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD7Similar(t, lang);
+			Document d = service.updateD7Similar(t, lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
 	
-	private void finishSPA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void finishSPA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		if (br.confirm("完成", "请确认选择的预防措施已经完成。")) {
-			Document d = service.updateD7SPA(new Document("_id", _id).append("finish", true), lang);
+			Document d = service.updateD7SPA(new Document("_id", _id).append("finish", true), lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}
 	}
 
-	private void editSPA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void editSPA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD7SPA(_id);
 		Editor.create("D7-预防措施-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD7SPA(t, lang);
+			Document d = service.updateD7SPA(t, lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}

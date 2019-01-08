@@ -220,13 +220,13 @@ public interface ProblemService {
 	@Path("/d2/photo/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render")  String render);
+	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
 	@Path("/d3/ica/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD3ICA(Document t, @PathParam("lang") String lang,@PathParam("render") String render);
+	public Document insertD3ICA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
 	@Path("/d4/rootCauseDesc/{lang}")
@@ -250,25 +250,25 @@ public interface ProblemService {
 	@Path("/d6/ivpca/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD6IVPCA(Document t, @PathParam("lang") String language, @PathParam("render")String render);
+	public Document insertD6IVPCA(Document t, @PathParam("lang") String language, @PathParam("render") String render);
 
 	@POST
-	@Path("/d7/spa/{lang}")
+	@Path("/d7/spa/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD7PreventAction(Document t, @PathParam("lang") String lang);
+	public Document insertD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
-	@Path("/d7/ss/{lang}")
+	@Path("/d7/ss/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD7SimilarSituation(Document t, @PathParam("lang") String lang);
+	public Document insertD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
-	@Path("/d8/exp/{lang}")
+	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertD8Experience(Document t, @PathParam("lang") String lang);
+	public Document insertD8Experience(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
 	@Path("/item/")
@@ -287,21 +287,19 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d0/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"D0紧急应变措施/list","D0紧急应变措施表格/list"})
+	@DataSet({ "D0紧急应变措施/list", "D0紧急应变措施表格/list" })
 	public List<Document> listD0(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam("render") @PathParam("render") String render);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
 	@Path("/_id/{_id}/d1/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"D1多功能小组/list","D1多功能小组表格/list"})
+	@DataSet({ "D1多功能小组/list", "D1多功能小组表格/list" })
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam("render") @PathParam("render") String render);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
 	@Path("/_id/{_id}/d2/cards/{lang}")
@@ -316,12 +314,11 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d3/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"D3临时措施/list","D3临时处理措施表格/list"})
+	@DataSet({ "D3临时措施/list", "D3临时处理措施表格/list" })
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam("render") @PathParam("render") String render);
-	
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
 	@POST
 	@Path("/_id/{_id}/d4/cards/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -350,29 +347,46 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d6/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"D6执行和确认/list","D6执行和确认永久纠正措施表格/list"})
+	@DataSet({ "D6执行和确认/list", "D6执行和确认永久纠正措施表格/list" })
 	public List<Document> listD6(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam("render") @PathParam("render") String render);
-	
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
 	@POST
-	@Path("/_id/{_id}/d7/cards/{lang}")
+	@Path("/_id/{_id}/d7/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D7系统预防/list")
 	public List<Document> listD7(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
-	@Path("/_id/{_id}/d8/cards/{lang}")
+	@Path("/_id/{_id}/d7/ss/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("D8关闭结案/list")
+	@DataSet("D7类似系统表格/list")
+	public List<Document> listD7Similar(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
+	@POST
+	@Path("/_id/{_id}/d7/spa/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D7系统性预防措施表格/list")
+	public List<Document> listD7SPA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
+	@POST
+	@Path("/_id/{_id}/d8/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8关闭结案/list", "D8经验教训表格/list" })
 	public List<Document> listD8(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
 	@Path("/item/{status}/{userid}/ds/{lang}")
@@ -407,7 +421,8 @@ public interface ProblemService {
 	@Path("/d3/ica/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,@PathParam("render") String render);
+	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@PathParam("render") String render);
 
 	@PUT
 	@Path("/d4/rootCauseDesc/{lang}/")
@@ -431,25 +446,26 @@ public interface ProblemService {
 	@Path("/d6/pca/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD6IVPCA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,@PathParam("render") String render);
+	public Document updateD6IVPCA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@PathParam("render") String render);
 
 	@PUT
-	@Path("/d7/simi/{lang}")
+	@Path("/d7/simi/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD7Similar(Document t, @PathParam("lang") String lang);
+	public Document updateD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@PUT
-	@Path("/d7/spa/{lang}")
+	@Path("/d7/spa/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD7SPA(Document t, @PathParam("lang") String lang);
+	public Document updateD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@PUT
-	@Path("/d8/exp/{lang}")
+	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document updateD8Exp(Document t, @PathParam("lang") String lang);
+	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@PUT
 	@Path("/item/")

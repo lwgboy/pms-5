@@ -14,7 +14,7 @@ public class ProblemCardRenderer {
 
 	public static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
 
-	private static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
+	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
 	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 

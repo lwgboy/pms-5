@@ -29,6 +29,15 @@ import com.mongodb.client.model.ReturnDocument;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
+	@Override
+	public Problem get(ObjectId _id) {
+		return get(_id, Problem.class);
+	}
+
+	public Problem info(ObjectId _id, String lang) {
+		return get(_id);
+	}
+
 	private List<Bson> appendProblemQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
 			List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
@@ -80,47 +89,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public long deleteD7Similar(ObjectId _id) {
-		return deleteOne(_id, "d7Similar");
-	}
-
-	@Override
-	public long deleteD7SPA(ObjectId _id) {
-		return deleteOne(_id, "d7SPA");
-	}
-
-	@Override
-	public long deleteD8Exp(ObjectId _id) {
-		return deleteOne(_id, "d8Exp");
-	}
-
-	@Override
 	public long deleteProblem(ObjectId _id) {
 		return delete(_id, Problem.class);
-	}
-
-	@Override
-	public Problem get(ObjectId _id) {
-		return get(_id, Problem.class);
-	}
-
-	public Problem info(ObjectId _id, String lang) {
-		return get(_id);
-	}
-
-	@Override
-	public Document getD7Similar(ObjectId _id) {
-		return c("d7Similar").find(new Document("_id", _id)).first();
-	}
-
-	@Override
-	public Document getD7SPA(ObjectId _id) {
-		return c("d7SPA").find(new Document("_id", _id)).first();
-	}
-
-	@Override
-	public Document getD8Exp(ObjectId _id) {
-		return c("d8Exp").find(new Document("_id", _id)).first();
 	}
 
 	@Override
@@ -130,54 +100,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD7PreventAction(Document t, String lang) {
-		t.append("_id", new ObjectId());
-		c("d7SPA").insertOne(t);
-		return ProblemCardRenderer.renderD7SPA(t, lang);
-	}
-
-	@Override
-	public Document insertD7SimilarSituation(Document t, String lang) {
-		t.append("_id", new ObjectId());
-		c("d7Similar").insertOne(t);
-		return ProblemCardRenderer.renderD7Similar(t, lang);
-	}
-
-	@Override
-	public Document insertD8Experience(Document t, String lang) {
-		t.append("_id", new ObjectId());
-		c("d8Exp").insertOne(t);
-		return ProblemCardRenderer.renderD8Exp(t, lang);
-	}
-
-	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
 		p = insert(p);
 		return queryProblems(0, 1, new BasicDBObject("_id", p.get_id()), null).get(0);
-	}
-
-	@Override
-	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Document> result = new ArrayList<>();
-		c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
-				.map(d -> ProblemCardRenderer.renderD7Similar(d, lang)).into(result);
-
-		c("d7SPA").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD7SPA(d, lang)).into(result);
-
-		return result;
-	}
-
-	@Override
-	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang) {
-		List<Document> result = new ArrayList<>();
-		c("d8Exp").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD8Exp(d, lang)).into(result);
-		return result;
-	}
-
-	@Override
-	public List<Document> listD5PCA(ObjectId problem_id, String lang) {
-		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -197,21 +123,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	private List<Problem> queryProblems(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
 		List<Bson> pipeline = appendProblemQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
 		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
-	}
-
-	@Override
-	public Document updateD7Similar(Document d, String lang) {
-		return updateThen(d, lang, "d7Similar", ProblemCardRenderer::renderD7Similar);
-	}
-
-	@Override
-	public Document updateD7SPA(Document d, String lang) {
-		return updateThen(d, lang, "d7SPA", ProblemCardRenderer::renderD7SPA);
-	}
-
-	@Override
-	public Document updateD8Exp(Document d, String lang) {
-		return updateThen(d, lang, "d8Exp", ProblemCardRenderer::renderD8Exp);
 	}
 
 	@Override
@@ -315,7 +226,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			return ProblemCardRenderer.renderD1CFTMember(doc, lang);
 		else
-			return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
+			return appendRoleText(doc, lang);
 	}
 
 	@Override
@@ -326,9 +237,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			f = d -> ProblemCardRenderer.renderD1CFTMember(d, lang);
 		} else {
-			f = d -> d.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(d.getString("role"))]);
+			f = d -> appendRoleText(d, lang);
 		}
 		return c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
+	}
+
+	private Document appendRoleText(Document doc, String lang) {
+		return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -399,12 +314,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD3ICA(Document t, String lang, String render) {
-		c("d3ICA").insertOne(t);
+	public Document insertD3ICA(Document d, String lang, String render) {
+		c("d3ICA").insertOne(d);
 		if ("card".equals(render))
-			return ProblemCardRenderer.renderD3ICA(t, lang);
+			return ProblemCardRenderer.renderD3ICA(d, lang);
 		else
-			return t.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(t.getString("priority"))]);
+			return appendPriortyText(d, lang);
 	}
 
 	@Override
@@ -413,7 +328,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			f = d -> ProblemCardRenderer.renderD3ICA(d, lang);
 		else
-			f = d -> d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]);
+			f = d -> appendPriortyText(d, lang);
 		return c("d3ICA").find(new Document("problem_id", problem_id)).sort(new Document("priority", 1).append("_id", 1)).map(f)
 				.into(new ArrayList<>());
 	}
@@ -424,9 +339,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			func = ProblemCardRenderer::renderD3ICA;
 		else
-			func = (m, l) -> m.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(m.getString("priority"))]);
+			func = this::appendPriortyText;
 		return updateThen(d, lang, "d3ICA", func);
 	}
+
+	private Document appendPriortyText(Document d, String lang) {
+		return d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]);
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -602,6 +522,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public List<Document> listD5PCA(ObjectId problem_id, String lang) {
+		return c("d5PCA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+	}
+
+	@Override
 	public void updateD5DecisionCriteria(BasicDBObject fu, String lang) {
 		update(fu, "d5DecisionCriteria");
 	}
@@ -626,13 +551,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD6IVPCA(Document t, String lang, String render) {
-		t.append("_id", new ObjectId());
-		c("d6IVPCA").insertOne(t);
-		if ("card".equals(render))
-			return ProblemCardRenderer.renderD6IVPCA(t, lang);
-		else
-			return t;
+	public Document insertD6IVPCA(Document d, String lang, String render) {
+		d.append("_id", new ObjectId());
+		c("d6IVPCA").insertOne(d);
+		if ("card".equals(render)) {
+			return ProblemCardRenderer.renderD6IVPCA(d, lang);
+		} else {
+			return appendActionText(d, lang);
+		}
 	}
 
 	@Override
@@ -641,15 +567,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			func = d -> ProblemCardRenderer.renderD6IVPCA(d, lang);
 		} else {
-			func = d -> {
-				String act = d.getString("actionType");
-				if ("make".equals(act)) {
-					d.append("actionTypeText", "问题产生纠正措施");
-				} else if ("out".equals(act)) {
-					d.append("actionTypeText", "问题流出纠正措施");
-				}
-				return d;
-			};
+			func = d -> this.appendActionText(d, lang);
 		}
 		return c("d6IVPCA").find(new Document("problem_id", problem_id)).map(func).into(new ArrayList<>());
 	}
@@ -660,17 +578,138 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			func = ProblemCardRenderer::renderD6IVPCA;
 		} else {
-			func = (d, l) -> {
-				String act = d.getString("actionType");
-				if ("make".equals(act)) {
-					d.append("actionTypeText", "问题产生纠正措施");
-				} else if ("out".equals(act)) {
-					d.append("actionTypeText", "问题流出纠正措施");
-				}
-				return d;
-			};
+			func = this::appendActionText;
 		}
 		return updateThen(doc, lang, "d6IVPCA", func);
+	}
+
+	private Document appendActionText(Document d, String lang) {
+		String act = d.getString("actionType");
+		if ("make".equals(act)) {
+			d.append("actionTypeText", "问题产生纠正措施");
+		} else if ("out".equals(act)) {
+			d.append("actionTypeText", "问题流出纠正措施");
+		}
+		return d;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D7 预防
+	//
+	@Override
+	public long deleteD7Similar(ObjectId _id) {
+		return deleteOne(_id, "d7Similar");
+	}
+
+	@Override
+	public Document getD7Similar(ObjectId _id) {
+		return getDocument(_id, "d7Similar");
+	}
+
+	@Override
+	public Document insertD7Similar(Document t, String lang, String render) {
+		t.append("_id", new ObjectId());
+		c("d7Similar").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD7Similar(t, lang);
+		else
+			return appendDegreeText(t, lang);
+	}
+
+	@Override
+	public Document updateD7Similar(Document d, String lang, String render) {
+		if ("card".equals(render))
+			return updateThen(d, lang, "d7Similar", ProblemCardRenderer::renderD7Similar);
+		else
+			return updateThen(d, lang, "d7Similar", this::appendDegreeText);
+
+	}
+
+	@Override
+	public long deleteD7SPA(ObjectId _id) {
+		return deleteOne(_id, "d7SPA");
+	}
+
+	@Override
+	public Document getD7SPA(ObjectId _id) {
+		return getDocument(_id, "d7SPA");
+	}
+
+	@Override
+	public List<Document> listD7Similar(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		return c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
+				.map(d -> appendDegreeText(d, lang)).into(new ArrayList<>());
+	}
+
+	private Document appendDegreeText(Document d, String lang) {
+		return d.append("dgreeText", ProblemCardRenderer.similarDegreeText[Integer.parseInt(d.getString("degree"))]);
+	}
+
+	@Override
+	public List<Document> listD7SPA(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		return c("d7SPA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD7SPA(Document d, String lang, String render) {
+		return updateThen(d, lang, "d7SPA", "card".equals(render) ? ProblemCardRenderer::renderD7SPA : null);
+	}
+
+	@Override
+	public Document insertD7SPA(Document t, String lang, String render) {
+		t.append("_id", new ObjectId());
+		c("d7SPA").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD7SPA(t, lang);
+		return t;
+	}
+
+	@Override
+	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		List<Document> result = new ArrayList<>();
+		c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
+				.map(d -> ProblemCardRenderer.renderD7Similar(d, lang)).into(result);
+
+		c("d7SPA").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD7SPA(d, lang)).into(result);
+
+		return result;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D8 关闭
+	//
+	@Override
+	public Document updateD8Exp(Document d, String lang, String render) {
+		return updateThen(d, lang, "d8Exp", "card".equals(render) ? ProblemCardRenderer::renderD8Exp : null);
+	}
+
+	@Override
+	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		if ("card".equals(render)) {
+			return c("d8Exp").find(new Document("problem_id", problem_id)).map(d -> ProblemCardRenderer.renderD8Exp(d, lang))
+					.into(new ArrayList<>());
+		} else {
+			return c("d8Exp").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+		}
+	}
+
+	@Override
+	public Document getD8Exp(ObjectId _id) {
+		return getDocument(_id, "d8Exp");
+	}
+
+	@Override
+	public long deleteD8Exp(ObjectId _id) {
+		return deleteOne(_id, "d8Exp");
+	}
+
+	@Override
+	public Document insertD8Experience(Document t, String lang, String render) {
+		t.append("_id", new ObjectId());
+		c("d8Exp").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD8Exp(t, lang);
+		return t;
 	}
 
 }

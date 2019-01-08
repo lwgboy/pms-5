@@ -18,12 +18,15 @@ public class CreateD7Similar {
 
 	@Inject
 	private IBruiService br;
+	
+	@Inject
+	private String render;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		Editor.create("D7-ÀàËÆÎÊÌâ-±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			Services.get(ProblemService.class).insertD7SimilarSituation(t, RWT.getLocale().getLanguage());
+			Services.get(ProblemService.class).insertD7Similar(t, RWT.getLocale().getLanguage(),render);
 			IQueryEnable content = (IQueryEnable) context.getContent();
 			content.doRefresh();
 		});

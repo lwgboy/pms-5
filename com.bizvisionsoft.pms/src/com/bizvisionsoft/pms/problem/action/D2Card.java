@@ -37,7 +37,7 @@ public class D2Card {
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if ("editpd".equals(e.text)) {
 			editProblemDesc(_id, element, viewer, context);
-		} else if ("É¾³ý".equals(a.getName()) || "deletephoto".equals(e.text)) {
+		} else if ("deletephoto".equals(a.getName()) || "deletephoto".equals(e.text)) {
 			deleteProblemPhoto(_id, element, viewer);
 		}
 	}

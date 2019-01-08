@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -31,14 +32,14 @@ public class D8ExpCard {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
+		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if ("editExp".equals(e.text)) {
-			editExp(_id, element, viewer, context);
-		} else if ("deleteExp".equals(e.text)) {
+		if ("editExp".equals(a.getName())||"editExp".equals(e.text)) {
+			editExp(_id, element, viewer, context,render);
+		} else if ("deleteExp".equals(a.getName())||"deleteExp".equals(e.text)) {
 			deleteExp(_id, element, viewer, context);
 		}
 
@@ -53,14 +54,12 @@ public class D8ExpCard {
 		}
 	}
 
-
-	private void editExp(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void editExp(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD8Exp(_id);
 		Editor.create("D8-经验总结-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD8Exp(t, lang);
+			Document d = service.updateD8Exp(t, lang,render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
-
 
 }

@@ -31,7 +31,7 @@ public class D1CFTCard {
 			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if ("É¾³ý".equals(a.getName()) || "delete".equals(e.text)) {
+		if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
 			removeD1CFT(_id, element, viewer);
 		}
 
