@@ -88,15 +88,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return deleteOne(_id, "causeRelation");
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public long deleteD2ProblemPhotos(ObjectId _id) {
-		Document d2ProblemPhoto = c("d2ProblemPhoto").findOneAndDelete(new BasicDBObject("_id", _id));
-		Check.instanceThen(d2ProblemPhoto.get("problemImg"), List.class,
-				l -> ((List<Document>) l).forEach(d -> deleteFile(d.getString("namepace"), d.getObjectId("_id").toString())));
-		return 1l;
-	}
-
 	@Override
 	public long deleteD3ICA(ObjectId _id) {
 		return deleteOne(_id, "d3ICA");
@@ -241,12 +232,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertD2ProblemPhoto(Document t, String lang) {
-		c("d2ProblemPhoto").insertOne(t);
-		return ProblemCardRenderer.renderD2PhotoCard(t, lang);
-	}
-
-	@Override
 	public Document insertD3ICA(Document t, String lang) {
 		c("d3ICA").insertOne(t);
 		return ProblemCardRenderer.renderD3ICA(t, lang);
@@ -317,10 +302,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (doc.get("what") != null)
 			result.add(ProblemCardRenderer.renderD25W2H(doc, lang));
 		return result;
-	}
-
-	public List<Document> listD2ProblemPhotos(ObjectId problem_id) {
-		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -497,8 +478,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return update(filterAndUpdate, Problem.class);
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// D0 紧急应变措施
+	//
 	@Override
 	public Document getD0ERA(ObjectId _id) {
 		return getDocument(_id, "d0ERA");
@@ -550,11 +532,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		return updateThen(d, lang, "d0ERA", func);
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// D1 CFT团队
-
+	//
 	@Override
 	public long deleteD1CFT(ObjectId _id) {
 		return deleteOne(_id, "d1CFT");
@@ -614,6 +596,33 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("d1CFT").aggregate(pipeline)
 				.map(d -> d.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(d.getString("role"))]))
 				.into(new ArrayList<>());
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// D2 现场照片
+	//
+	@Override
+	public long deleteD2ProblemPhotos(ObjectId _id) {
+		Document delete = c("d2ProblemPhoto").findOneAndDelete(new BasicDBObject("_id", _id));
+		if (delete != null) {
+			deleteFileInField(delete, "problemImg");
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public Document insertD2ProblemPhoto(Document t, String lang, String render) {
+		c("d2ProblemPhoto").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD2PhotoCard(t, lang);
+		return t;
+	}
+
+	public List<Document> listD2ProblemPhotos(ObjectId problem_id) {
+		return c("d2ProblemPhoto").find(new Document("problem_id", problem_id)).sort(new Document("_id", -1)).into(new ArrayList<>());
 	}
 
 }

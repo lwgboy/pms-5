@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -21,7 +22,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class D2Card {
 	@Inject
 	private IBruiService br;
-	
+
 	private ProblemService service;
 
 	public D2Card() {
@@ -30,14 +31,13 @@ public class D2Card {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
-			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
-		if (e.text == null)
-			return;
+			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if (e.text.startsWith("editpd")) {
+		if ("editpd".equals(e.text)) {
 			editProblemDesc(_id, element, viewer, context);
-		} else if (e.text.startsWith("deletephoto")) {
+		} else if ("É¾³ý".equals(a.getName()) || "deletephoto".equals(e.text)) {
 			deleteProblemPhoto(_id, element, viewer);
 		}
 	}

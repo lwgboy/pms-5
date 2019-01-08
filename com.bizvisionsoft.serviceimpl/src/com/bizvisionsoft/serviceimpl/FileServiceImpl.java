@@ -66,7 +66,7 @@ public class FileServiceImpl extends BasicServiceImpl implements FileService {
 
 	@Override
 	public void delete(String namespace, String id) {
-		deleteFile(namespace, id);
+		deleteFile(new Document("namespace", namespace).append("_id", new ObjectId(id)));
 	}
 
 }

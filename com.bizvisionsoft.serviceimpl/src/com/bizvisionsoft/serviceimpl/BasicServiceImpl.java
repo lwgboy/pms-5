@@ -41,7 +41,6 @@ import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -959,10 +958,16 @@ public class BasicServiceImpl {
 		return c("user").distinct("name", new Document("userId", userId), String.class).first();
 	}
 
-	protected void deleteFile(String namespace, String id) {
-		ObjectId _id = new ObjectId(id);
-		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
-		bucket.delete(_id);
+	protected void deleteFile(Document remoteFile) {
+		ObjectId _id = remoteFile.getObjectId("_id");
+		String namespace = remoteFile.getString("namepace");
+		GridFSBuckets.create(Service.db(), namespace).delete(_id);
+	}
+
+	protected void deleteFileInField(Document delete, String field) {
+		List<?> list = (List<?>) delete.get(field);
+		if (list != null)
+			list.forEach(itm -> deleteFile((Document) itm));
 	}
 
 	protected Document updateThen(Document d, String lang, String col, BiFunction<Document, String, Document> func) {

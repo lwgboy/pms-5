@@ -208,7 +208,7 @@ public class FileTools {
 	
 	public static final String DEFAULT_CONTENT_TYPE_FILE_NAME = "content-type.tmp";
 	
-	public static String getContentType(File uploadedFile, String defaultType) {
+	public static String getUploadedLocalFileContentType(File uploadedFile, String defaultType) {
 		String contentType = null;
 		BufferedReader br = null;
 		if (uploadedFile.exists()) {
