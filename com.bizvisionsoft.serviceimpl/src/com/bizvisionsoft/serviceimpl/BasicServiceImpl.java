@@ -971,12 +971,17 @@ public class BasicServiceImpl {
 	}
 
 	protected Document updateThen(Document d, String lang, String col, BiFunction<Document, String, Document> func) {
+		Document doc = update(d, col);
+		return Optional.ofNullable(func).map(f -> f.apply(doc, lang)).orElse(doc);
+	}
+
+	protected Document update(Document d, String col) {
 		Document filter = new Document("_id", d.get("_id"));
 		d.remove("_id");
 		Document set = new Document("$set", d);
 		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
 		Document doc = c(col).findOneAndUpdate(filter, set, options);
-		return Optional.ofNullable(func).map(f -> f.apply(doc, lang)).orElse(doc);
+		return doc;
 	}
 
 	protected BasicDBObject ensureGet(BasicDBObject condition, String field) {

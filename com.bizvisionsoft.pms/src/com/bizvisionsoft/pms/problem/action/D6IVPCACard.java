@@ -39,7 +39,7 @@ public class D6IVPCACard {
 		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
 		if ("编辑".equals(a.getName()) || "editPCA".equals(e.text)) {
 			edit(_id, element, viewer, context, render);
-		} else if ("关闭".equals(a.getName()) || "closePCA".equals(e.text)) {
+		} else if ("确认".equals(a.getName()) || "closePCA".equals(e.text)) {
 			close(_id, element, viewer, context, render);
 		} else if ("删除".equals(a.getName()) || "deletePCA".equals(e.text)) {
 			delete(_id, element, viewer, context);
@@ -57,7 +57,7 @@ public class D6IVPCACard {
 	}
 
 	private void close(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
-		if (br.confirm("关闭", "请确认关闭永久纠正措施的执行和确认项。")) {
+		if (br.confirm("确认", "请确认确认关闭永久纠正措施。")) {
 			Document d = service.updateD6IVPCA(new Document("_id", _id).append("closed", true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}

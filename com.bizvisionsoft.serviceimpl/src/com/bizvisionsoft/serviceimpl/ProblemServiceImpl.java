@@ -640,7 +640,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Function<Document, Document> func;
 		if ("card".equals(render)) {
 			func = d -> ProblemCardRenderer.renderD6IVPCA(d, lang);
-		} else if ("gridrow".equals(render)) {
+		} else {
 			func = d -> {
 				String act = d.getString("actionType");
 				if ("make".equals(act)) {
@@ -650,15 +650,27 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				}
 				return d;
 			};
-		} else {
-			func = d -> d;
 		}
 		return c("d6IVPCA").find(new Document("problem_id", problem_id)).map(func).into(new ArrayList<>());
 	}
 
 	@Override
-	public Document updateD6IVPCA(Document d, String lang, String render) {
-		return updateThen(d, lang, "d6IVPCA", "card".equals(render) ? ProblemCardRenderer::renderD6IVPCA : null);
+	public Document updateD6IVPCA(Document doc, String lang, String render) {
+		BiFunction<Document, String, Document> func;
+		if ("card".equals(render)) {
+			func = ProblemCardRenderer::renderD6IVPCA;
+		} else {
+			func = (d, l) -> {
+				String act = d.getString("actionType");
+				if ("make".equals(act)) {
+					d.append("actionTypeText", "问题产生纠正措施");
+				} else if ("out".equals(act)) {
+					d.append("actionTypeText", "问题流出纠正措施");
+				}
+				return d;
+			};
+		}
+		return updateThen(doc, lang, "d6IVPCA", func);
 	}
 
 }
