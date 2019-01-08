@@ -120,17 +120,21 @@ public class PCAList {
 		service = Services.get(ProblemService.class);
 		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
 		items[0] = decisionCriteria.getString("endResult");
-		pcaList = service.listD5PCA(problem.get_id(),language);
+		pcaList = service.listD5PCA(problem.get_id(), language);
 	}
 
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
-		Action action = new ActionFactory().normalStyle().forceText("创建方案").name("create").get();
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(action));
+		Action action1 = new ActionFactory().normalStyle().forceText("目标和准则").name("editCriteria").get();
+		Action action2 = new ActionFactory().normalStyle().forceText("创建方案").name("createSolution").get();
+
+		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(action1, action2));
 		Controls.handle(bar).setText("选择永久纠正措施方案").height(48).left().top().right().select(e -> {
-			if ("create".equals(((Action) e.data).getName())) {
+			if ("createSolution".equals(((Action) e.data).getName())) {
 				handleCreatePCA();
+			} else if ("editCriteria".equals(((Action) e.data).getName())) {
+				handleEditCriteria();
 			}
 		}).add(() -> Controls.handle(createGrid(parent)).mLoc().layout(new FillLayout())).get();
 	}
@@ -366,6 +370,25 @@ public class PCAList {
 		});
 	}
 
+	private void handleEditCriteria() {
+		Document d = service.getD5DecisionCriteria(problem.get_id());
+		boolean insert = d == null;
+		if (insert) {
+			d = new Document();
+		}
+		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
+			if (insert) {
+				t.append("_id", problem.get_id());
+				service.insertD5DecisionCriteria(t, RWT.getLocale().getLanguage());
+			} else {
+				r.remove("_id");
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
+				service.updateD5DecisionCriteria(fu, RWT.getLocale().getLanguage());
+			}
+			viewer.refresh();
+		});
+	}
+
 	private void handleEditPCA(Document pca) {
 		Editor.open("D5-PCA-编辑器", context, pca, (r, t) -> {
 			r.remove("_id");
@@ -378,7 +401,7 @@ public class PCAList {
 	}
 
 	private void handleDeletePCA(Document pca) {
-		service.deleteD5PCA(pca.getObjectId("_id"),language);
+		service.deleteD5PCA(pca.getObjectId("_id"), language);
 		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> pca == c.getData("pca")).findFirst().ifPresent(c -> c.dispose());
 	}
 
@@ -395,7 +418,7 @@ public class PCAList {
 			Document d = (Document) givens.get(i);
 			if (name.equals(d.get("name"))) {
 				Object oldValue = d.get("value");
-				if(Check.equals(oldValue, value)) {
+				if (Check.equals(oldValue, value)) {
 					return;
 				}
 				d.append("value", value);
