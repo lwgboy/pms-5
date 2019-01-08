@@ -12,6 +12,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Check;
 
+@Deprecated
 public class ProjectWorkCardRender extends WorkCardRender {
 
 	@Inject
