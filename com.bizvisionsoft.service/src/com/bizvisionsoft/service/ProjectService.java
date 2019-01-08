@@ -513,10 +513,17 @@ public interface ProjectService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getOrganizationSAR1(@PathParam("year") String year, @PathParam("userId") String userId);
-	
+
 	@POST
 	@Path("/organizationsar2/{year}/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getOrganizationSAR2(@PathParam("year") String year, @PathParam("userId") String userId);
+
+	@POST
+	@Path("/_id/{_id}/appointmentProjectManger/{pmId}/{currentId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Project appointmentProjectManger(@PathParam("_id") ObjectId _id, @PathParam("pmId") String pmId,
+			@PathParam("currentId") String currentId);
 }

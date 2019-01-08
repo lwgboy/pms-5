@@ -2114,4 +2114,26 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return doc;
 	}
 
+	@Override
+	public Project appointmentProjectManger(ObjectId _id, String newPMId, String currentUserId) {
+		String msgSubject = "项目指派通知";
+		Project project = c(Project.class).find(new Document("_id", _id)).first();
+		String userId = project.getPmId();
+		new WorkServiceImpl().removeUnStartWorkUser(Arrays.asList(userId), _id, currentUserId);
+		c("project").updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("pmId", newPMId)));
+		c("obs").updateOne(new BasicDBObject("_id", project.getOBS_id()),
+				new BasicDBObject("$set", new BasicDBObject("managerId", newPMId)));
+
+		List<Message> messages = new ArrayList<>();
+		String content = "项目：" + project.getName();
+		messages.add(Message.newInstance(msgSubject, content + "，您已不再担任项目经理。", currentUserId, userId, null));
+		messages.add(Message.newInstance(msgSubject, content + "，已指定您担任项目经理。", currentUserId, newPMId, null));
+		// 消息
+		String projectStatus = project.getStatus();
+		if (messages.size() > 0 && !ProjectStatus.Created.equals(projectStatus))
+			sendMessages(messages);
+
+		return get(_id);
+	}
+
 }

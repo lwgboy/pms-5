@@ -138,7 +138,7 @@ public class ProjectRenderer {
 	}
 
 	private void renderOrg(StringBuffer sb) {
-		RenderTools.appendLabelAndTextLine(sb, "承担单位：", pj.getImpUnitOrgFullName(), 24);
+		RenderTools.appendLabelAndTextLine(sb, "责任单位：", pj.getImpUnitOrgFullName(), 24);
 	}
 
 	private void renderPM(StringBuffer sb) {
