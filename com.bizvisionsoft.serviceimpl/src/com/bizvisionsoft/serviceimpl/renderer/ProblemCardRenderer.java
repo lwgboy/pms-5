@@ -364,7 +364,7 @@ public class ProblemCardRenderer {
 		String firstFileURL = RenderTools.getFirstFileURL(t, "vedio");
 		if (firstFileURL != null) {
 			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='auto' controls>");
-			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
+			sb.append("<source src='" + firstFileURL + "' type='video/mp4' preload='auto'>");
 			sb.append("</video>");
 		} else {
 			RenderTools.appendHeader(sb, indigo, "经验教训总结", 36);
