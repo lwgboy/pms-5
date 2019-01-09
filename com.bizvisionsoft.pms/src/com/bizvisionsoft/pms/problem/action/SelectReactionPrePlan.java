@@ -18,7 +18,7 @@ public class SelectReactionPrePlan {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Selector.open("行动预案选择器", context, null, s->{
+		Selector.create("行动预案选择器", context, null).setTitle("选择预案").open( s->{
 			ProblemReactionPrePlan plan = (ProblemReactionPrePlan) s.get(0);
 			Document doc = (Document) context.getInput();
 			doc.append("action", plan.getAction()).append("detail", plan.getDetail()).append("objective", plan.getObjective());
