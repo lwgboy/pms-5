@@ -44,12 +44,16 @@ public class ProblemCardRenderer {
 		if (Check.isAssigned(by, on))
 			RenderTools.appendLabelAndTextLine(sb, "发起：", on + " " + by);
 
-		Document creation = (Document) doc.get("creationInfo");
-		by = Optional.ofNullable(creation.getString("userName")).orElse("");
-		on = Optional.ofNullable(creation.getDate("date")).map(Formatter::getString).orElse("");
-		if (Check.isAssigned(by, on))
-			RenderTools.appendLabelAndTextLine(sb, "创建：", on + " " + by);
-		
+		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
+
+		// 解决中的可以进入tops
+		if ("解决中".equals(doc.get("status"))) {
+			sb.append("<div class='brui_line_padding' style='display:inline-flex;align-items:center;width:100%;justify-content: center;'>");
+			
+			sb.append("<a class='label_subhead' style='color:#" + indigo.headBgColor + ";' href='open8D' target='_rwt'>打开</a>");
+			//add more button here
+			sb.append("</div>");
+		}
 		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());

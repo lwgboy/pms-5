@@ -81,7 +81,7 @@ public class D0Card {
 	private void verify(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document data = service.getD0ERA(_id);
 		Document input = Optional.ofNullable((Document) data.get("verification")).orElse(new Document());
-		Editor.create("D0-ERA-±à¼­Æ÷", context, input, true).ok((r, t) -> {
+		Editor.create("D0-ERAÑéÖ¤-±à¼­Æ÷", context, input, true).ok((r, t) -> {
 			Document d = service.updateD0ERA(new Document("_id", _id).append("verification", t), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 

@@ -384,7 +384,7 @@ public interface ProblemService {
 	@Path("/item/{status}/{userid}/card/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "已创建问题看板/list" })
+	@DataSet({ "已创建问题看板/list","解决中问题看板/list","已关闭问题看板/list","已取消问题看板/list" })
 	public List<Document> listProblemsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
