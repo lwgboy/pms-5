@@ -40,20 +40,20 @@ public class D3ICACard {
 		ObjectId _id = element.getObjectId("_id");
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		String render = "操作".equals(a.getName()) ? "card" : "gridrow";
-		if ("editICA".equals(a.getName()) || "editICA".equals(e.text)) {
-			editICA(_id, element, viewer, context, render);
-		} else if ("readICA".equals(a.getName()) || "readICA".equals(e.text)) {
-			readICA(_id, element, viewer, context, render);
-		} else if ("deleteICA".equals(a.getName()) || "deleteICA".equals(e.text)) {
-			delete(_id, element, viewer, context, render);
-		} else if ("verificationICA".equals(a.getName()) || "verificationICA".equals(e.text)) {
+		if ("edit".equals(a.getName()) || "edit".equals(e.text)) {
+			edit(_id, element, viewer, context, render);
+		} else if ("read".equals(a.getName()) || "read".equals(e.text)) {
+			read(_id,  context);
+		} else if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
+			delete(_id, element, viewer);
+		} else if ("verify".equals(a.getName()) || "verify".equals(e.text)) {
 			verify(_id, element, viewer, context, render);
-		} else if ("finishICA".equals(a.getName()) || "finishICA".equals(e.text)) {
-			finish(_id, element, viewer, context, render);
+		} else if ("finish".equals(a.getName()) || "finish".equals(e.text)) {
+			finish(_id, element, viewer,  render);
 		}
 	}
 
-	private void finish(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+	private void finish(ObjectId _id, Document doc, GridTreeViewer viewer, String render) {
 		if (br.confirm("完成", "请确认选择的临时处理措施已经完成。")) {
 			Document d = service.updateD3ICA(new Document("_id", _id).append("finish", true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
@@ -69,7 +69,7 @@ public class D3ICACard {
 		});
 	}
 
-	private void delete(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+	private void delete(ObjectId _id, Document doc, GridTreeViewer viewer) {
 		if (br.confirm("删除", "请确认删除选择的临时处理措施。")) {
 			service.deleteD3ICA(_id);
 			List<?> input = (List<?>) viewer.getInput();
@@ -78,14 +78,14 @@ public class D3ICACard {
 		}
 	}
 
-	private void editICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+	private void edit(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Editor.create("D3-ICA-编辑器", context, service.getD3ICA(_id), true).ok((r, t) -> {
 			Document d = service.updateD3ICA(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
 
-	private void readICA(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+	private void read(ObjectId _id, BruiAssemblyContext context) {
 		Editor.create("D3-ICA-编辑器", context, service.getD3ICA(_id), true).setEditable(false).open();
 	}
 }
