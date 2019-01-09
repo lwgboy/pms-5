@@ -7,12 +7,12 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("icaPrePlan")
-public class ICAPrePlan {
+@PersistenceCollection("problemReactionPrePlan")
+public class ProblemReactionPrePlan {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	public static final String typeName = "ICA预案";
+	public static final String typeName = "行动预案";
 
 	@ReadValue
 	@WriteValue

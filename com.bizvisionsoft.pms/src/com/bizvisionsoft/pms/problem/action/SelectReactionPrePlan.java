@@ -9,17 +9,17 @@ import com.bizvisionsoft.bruiengine.assembly.EditorPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.service.model.ICAPrePlan;
+import com.bizvisionsoft.service.model.ProblemReactionPrePlan;
 
-public class SelectICAPrePlan {
+public class SelectReactionPrePlan {
 	
 	@Inject
 	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Selector.open("ICA预案选择器", context, null, s->{
-			ICAPrePlan plan = (ICAPrePlan) s.get(0);
+		Selector.open("行动预案选择器", context, null, s->{
+			ProblemReactionPrePlan plan = (ProblemReactionPrePlan) s.get(0);
 			Document doc = (Document) context.getInput();
 			doc.append("action", plan.getAction()).append("detail", plan.getDetail()).append("objective", plan.getObjective());
 			EditorPart content = (EditorPart) context.getContent();

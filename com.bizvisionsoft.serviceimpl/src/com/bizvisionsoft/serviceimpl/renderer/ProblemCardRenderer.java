@@ -25,23 +25,19 @@ public class ProblemCardRenderer {
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
 	public static Document renderD0ERA(Document doc, String lang) {
-		Document charger = (Document) doc.get("charger_meta");
-		Date planStart = doc.getDate("planStart");
-		Date planFinish = doc.getDate("planFinish");
-		Date actualStart = doc.getDate("actualStart");
-		Date actualFinish = doc.getDate("actualFinish");
+		
+		StringBuffer sb = renderAction(doc,red);
 
-		String title = doc.getString("name");
-		List<?> list = (List<?>) doc.get("era");
-		StringBuffer sb = new StringBuffer();
+		if (!doc.getBoolean("finish", false)) {
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑紧急应变措施", "editERA");
 
-		renderListItemsCard(sb, list, title, charger, planStart, planFinish, actualStart, actualFinish, red);
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除紧急应变措施", "deleteERA");
+		}
 
-		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑紧急应变措施", "editERA");
+		RenderTools.appendCardBg(sb);
 
-		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除紧急应变措施", "deleteERA");
-
-		return new Document("html", sb.toString()).append("_id", doc.get("_id"));
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+		
 	}
 
 	public static Document renderD1CFTMember(Document doc, String lang) {
@@ -124,23 +120,42 @@ public class ProblemCardRenderer {
 	}
 
 	public static Document renderD3ICA(Document doc, String lang) {
+		StringBuffer sb = renderAction(doc,indigo);
 
-		StringBuffer sb = new StringBuffer();
-		int rowHeight = RenderTools.margin * 3;
+		if (!doc.getBoolean("finish", false)) {
+			// 删除按钮
+			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "标记ICA已完成", "finishICA");
 
+			// 编辑按钮
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑ICA", "editICA");
+
+			// 验证按钮
+			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证ICA", "verificationICA");
+
+			// 完成按钮
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除ICA", "deleteICA");
+		}
+
+		RenderTools.appendCardBg(sb);
+
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
+
+	private static StringBuffer renderAction(Document doc,CardTheme theme) {
+		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
 		String priority = priorityText[Integer.parseInt(doc.getString("priority"))];
-		String planStart = Formatter.getString(doc.get("planStart"));
-		String planFinish = Formatter.getString(doc.get("planFinish"));
+		Date planStart = doc.getDate("planStart");
+		Date planFinish =doc.getDate("planFinish");
+		Date actualStart = doc.getDate("actualStart");
+		Date actualFinish = doc.getDate("actualFinish");
 		String budget = doc.getString("budget");
 		Document chargerData = (Document) doc.get("charger_meta");
-
 		Document verification = (Document) doc.get("verification");
 
-		boolean finished = doc.getBoolean("finish", false);
+		StringBuffer sb = new StringBuffer();
 		String status;
-		CardTheme theme = indigo;
 		if (finished) {
 			status = "<span class='layui-badge  layui-bg-green'>" + "已完成" + "</span>";
 			theme = deepGrey;
@@ -173,37 +188,15 @@ public class ProblemCardRenderer {
 				+ "<div class='label_caption'>优先级</div></div>"//
 				+ "</div>");//
 
-		rowHeight += 64;
 
-		RenderTools.appendLabelAndTextLine(sb, "预期结果：", objective);
-		rowHeight += 24;
+		RenderTools.appendLabelAndTextLine(sb, "预期结果：", objective, 0);
 
-		RenderTools.appendLabelAndTextLine(sb, "执行计划：", planStart + " ~ " + planFinish);
-		rowHeight += 24;
+		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
 
-		RenderTools.appendLabelAndTextLine(sb, "费用预算：", budget);
-		rowHeight += 24;
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_MONEY, "预算：", budget);
 
 		RenderTools.appendUserAndText(sb, chargerData, status);
-		rowHeight += 36;
-
-		if (!finished) {
-			// 删除按钮
-			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "标记ICA已完成", "finishICA");
-
-			// 编辑按钮
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑ICA", "editICA");
-
-			// 验证按钮
-			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证ICA", "verificationICA");
-
-			// 完成按钮
-			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除ICA", "deleteICA");
-		}
-
-		RenderTools.appendCardBg(sb);
-
-		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
+		return sb;
 	}
 
 	public static Document renderD4(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date, String lang) {

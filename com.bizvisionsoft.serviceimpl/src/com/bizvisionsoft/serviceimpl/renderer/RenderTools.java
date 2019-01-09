@@ -26,6 +26,8 @@ public class RenderTools {
 	public static final String IMG_URL_CALENDAR = "rwt-resources/extres/img/calendar_c.svg";
 
 	public static final String IMG_URL_USER = "rwt-resources/extres/img/user_c.svg";
+	
+	public static final String IMG_URL_MONEY = "rwt-resources/extres/img/money_c.svg";
 
 	public static final String IMG_URL_PROJECT = "rwt-resources/extres/img/project_c.svg";
 
@@ -204,9 +206,9 @@ public class RenderTools {
 	}
 
 	public static void appendLabelAndTextLine(StringBuffer sb, String label, String color1, String text, String color2, int marginLeft) {
-		sb.append("<div class='brui_line_padding label_caption brui_text_line' style='align-items:center;width:100%;display:flex;'>" //
-				+ "<span style='margin-left:" + marginLeft + "px;color:#" + color1 + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color2 + "'>" + text + "</span>" //
+		sb.append("<div class='brui_line_padding label_caption' style='align-items:center;width:100%;display:flex;'>" //
+				+ "<div style='margin-left:" + marginLeft + "px;color:#" + color1 + "'>" + label + "</div>" //
+				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + text + "</div>" //
 				+ "</div>");
 	}
 
@@ -222,9 +224,9 @@ public class RenderTools {
 			String color2) {
 		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
 				+ "<img src='" + iconUrl + "' width='" + size + "' height='" + size + "'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color1 + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color2 + "'>" + text + "</span>" //
+				+ "<div class='label_caption' style='margin-left:8px;width:100%;display:inline-flex;'>" //
+				+ "<div style='color:#" + color1 + "'>" + label + "</div>" //
+				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + text + "</div>" //
 				+ "</div>"//
 				+ "</div>");
 	}

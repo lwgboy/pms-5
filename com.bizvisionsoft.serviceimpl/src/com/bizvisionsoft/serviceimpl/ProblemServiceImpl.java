@@ -149,35 +149,29 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			return ProblemCardRenderer.renderD0ERA(t, lang);
 		} else if ("gridrow".equals(render)) {
-			return listD0(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang, "gridrow")
-					.get(0);
+			return appendPriortyText(t, lang);
 		}
 		return t;
 	}
 
 	@Override
 	public List<Document> listD0(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			return c("d0ERA").find(new Document("problem_id", problem_id)).map((Document d) -> ProblemCardRenderer.renderD0ERA(d, lang))
-					.into(new ArrayList<>());
+			f = d -> ProblemCardRenderer.renderD0ERA(d, lang);
 		} else {
-			List<Bson> pipe = createDxPipeline(condition, problem_id);
-			pipe.add(new Document("$addFields", (new Document("content", new Document("$reduce", new Document("input", "$era.name")
-					.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; "))))))));
-			return c("d0ERA").aggregate(pipe).into(new ArrayList<>());
+			f = d -> appendPriortyText(d, lang);
 		}
+		return c("d0ERA").find(new Document("problem_id", problem_id)).map(f).into(new ArrayList<>());
 	}
 
 	@Override
 	public Document updateD0ERA(Document d, String lang, String render) {
 		BiFunction<Document, String, Document> func;
-		if ("gridrow".equals(render)) {
-			func = (t, l) -> listD0(new BasicDBObject("filter", new BasicDBObject("_id", t.get("_id"))), t.getObjectId("problem_id"), lang,
-					"gridrow").get(0);
-		} else if ("card".equals(render)) {
+		if ("card".equals(render)) {
 			func = ProblemCardRenderer::renderD0ERA;
 		} else {
-			func = (t, l) -> t;
+			func = this::appendPriortyText;
 		}
 		return updateThen(d, lang, "d0ERA", func);
 	}
