@@ -24,6 +24,37 @@ public class ProblemCardRenderer {
 
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
+	public static Document renderProblem(Document doc, String lang) {
+
+		StringBuffer sb = new StringBuffer();
+
+		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
+
+		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
+
+		RenderTools.appendLabelAndTextLine(sb, "零件：", doc.getString("partName"));
+
+		String pnum = Check.isAssignedThen(doc.getString("partNum"), s -> "S/N:" + s).orElse("");
+		String prev = Check.isAssignedThen(doc.getString("partVer"), s -> " Rev:" + s).orElse("");
+		String lotNum = Check.isAssignedThen(doc.getString("lotNum"), s -> s).orElse("");
+		RenderTools.appendLabelAndTextLine(sb, "批次：", pnum + prev + " Lot:" + lotNum);
+
+		String by = Optional.ofNullable(doc.getString("issueBy")).orElse("");
+		String on = Optional.ofNullable(doc.getDate("issueDate")).map(Formatter::getString).orElse("");
+		if (Check.isAssigned(by, on))
+			RenderTools.appendLabelAndTextLine(sb, "发起：", on + " " + by);
+
+		Document creation = (Document) doc.get("creationInfo");
+		by = Optional.ofNullable(creation.getString("userName")).orElse("");
+		on = Optional.ofNullable(creation.getDate("date")).map(Formatter::getString).orElse("");
+		if (Check.isAssigned(by, on))
+			RenderTools.appendLabelAndTextLine(sb, "创建：", on + " " + by);
+		
+		RenderTools.appendCardBg(sb);
+
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
+
 	public static Document renderD0ERA(Document doc, String lang) {
 		StringBuffer sb = renderAction(doc, red);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
@@ -201,7 +232,7 @@ public class ProblemCardRenderer {
 
 	public static Document renderD4CauseConsequence(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
-		int rowHeight = RenderTools.margin * 3;
+		int rowHeight = 8 * 3;
 
 		String name = doc.getString("name");
 		String desc = Optional.ofNullable(doc.getString("description")).orElse("");
@@ -224,8 +255,8 @@ public class ProblemCardRenderer {
 
 		rowHeight += 82;
 
-		sb.insert(0, "<div class='brui_card_trans' style='display:flex;background:#f9f9f9;height:" + (rowHeight - 2 * RenderTools.margin)
-				+ "px;margin:" + RenderTools.margin + "px;'>");
+		sb.insert(0,
+				"<div class='brui_card_trans' style='display:flex;background:#f9f9f9;height:" + (rowHeight - 2 * 8) + "px;margin:8px;'>");
 		sb.append("</div>");
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);

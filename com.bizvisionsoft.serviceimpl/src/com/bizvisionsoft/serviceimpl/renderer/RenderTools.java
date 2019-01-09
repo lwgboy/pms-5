@@ -21,12 +21,10 @@ public class RenderTools {
 
 	public static final String STYLE_3LINE = "brui_card_text3 label_caption brui_line_padding";
 
-	public static final int margin = 8;
-
 	public static final String IMG_URL_CALENDAR = "rwt-resources/extres/img/calendar_c.svg";
 
 	public static final String IMG_URL_USER = "rwt-resources/extres/img/user_c.svg";
-	
+
 	public static final String IMG_URL_MONEY = "rwt-resources/extres/img/money_c.svg";
 
 	public static final String IMG_URL_PROJECT = "rwt-resources/extres/img/project_c.svg";
@@ -37,82 +35,8 @@ public class RenderTools {
 
 	public static final String IMG_URL_EMAIL = "rwt-resources/extres/img/email_c.svg";
 
-	public static String getIconTextLine(String label, String text, String iconURL, String[] color) {
-		return getIconTextLine(label, text, iconURL, color, 20);
-	}
-
-	public static String getIconTextLine(String label, String text, String iconURL, String[] color, int size) {
-		if (label != null)
-			label += "&nbsp;:&nbsp;";
-		else
-			label = "";
-		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
-				+ "<img src='" + iconURL + "' width='" + size + "' height='" + size + "'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
-				+ "</div>"//
-				+ "</div>";
-	}
-
-	public static String getTextLine(String label, String text, String[] color) {
-		if (label != null)
-			label += "&nbsp;:&nbsp;";
-		else
-			label = "";
-		return "<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>"//
-				+ "<div style='width:20px;height:20px'></div>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
-				+ "</div>"//
-				+ "</div>";
-	}
-
-	public static String getTextLineNoBlank(String label, String text, String[] color) {
-		if (label != null)
-			label += "&nbsp;:&nbsp;";
-		else
-			label = "";
-		return "<div style='padding:8px 8px 0px 0px;display:flex;align-items:center;'>"//
-				+ "<div class='label_caption brui_text_line' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<span style='color:#" + color[0] + "'>" + label + "</span>" //
-				+ "<span style='color:#" + color[1] + "'>" + text + "</span>" //
-				+ "</div>"//
-				+ "</div>";
-	}
-
 	public static String shortDate(Date date) {
 		return Formatter.getString(date, "yyyy/MM/dd");
-	}
-
-	public static void renderCardBoard(StringBuffer sb, int rowHeight) {
-		sb.insert(0, "<div class='brui_card' style='height:" + (rowHeight - 2 * margin) + "px;margin:" + margin + "px;'>");
-		sb.append("</div>");
-	}
-
-	public static String getTextMultiLine(String label, String text, String[] color) {
-		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 36px;'>" + //
-				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
-				+ "</div>";//
-	}
-
-	public static String getTextMultiLineNoBlank3(String label, String text, String[] color) {
-		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
-				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
-				+ "</div>";//
-	}
-
-	public static String getTextMultiLineNoBlank2(String label, String text, String[] color) {
-		return "<div class='brui_card_text2 label_caption' style='padding:8px 8px 0px 8px;'>" + //
-				"<div style='color:#" + color[0] + "'>" + label + "</div>" + "<div style='color:#" + color[1] + "'>" + text + "</div>"//
-				+ "</div>";//
-	}
-
-	public static String getTextMultiLine(String text, String color) {
-		return "<div class='brui_card_text3 label_caption' style='padding:8px 8px 0px 8px;'>" + //
-				"<div style='color:#" + color + "'>" + text + "</div>"//
-				+ "</div>";//
 	}
 
 	public static String getFirstFileURL(Document doc, String imgField) {
@@ -130,10 +54,6 @@ public class RenderTools {
 		} catch (UnsupportedEncodingException e) {
 		}
 		return null;
-	}
-
-	public static String tooltips(String message, String text) {
-		return "<div style='cursor:pointer;' " + "onmouseover='layer.tips(\"" + message + "\", this, {tips: 1})'>" + text + "</div>";
 	}
 
 	public static void appendButton(StringBuffer sb, String icon, int right, int bottom, String tips, String target) {
@@ -207,8 +127,8 @@ public class RenderTools {
 
 	public static void appendLabelAndTextLine(StringBuffer sb, String label, String color1, String text, String color2, int marginLeft) {
 		sb.append("<div class='brui_line_padding label_caption' style='align-items:center;width:100%;display:flex;'>" //
-				+ "<div style='margin-left:" + marginLeft + "px;color:#" + color1 + "'>" + label + "</div>" //
-				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + text + "</div>" //
+				+ "<div style='margin-left:" + marginLeft + "px;color:#" + color1 + "'>" + (label == null ? "" : label) + "</div>" //
+				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + (text == null ? "" : text) + "</div>" //
 				+ "</div>");
 	}
 
@@ -225,8 +145,8 @@ public class RenderTools {
 		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
 				+ "<img src='" + iconUrl + "' width='" + size + "' height='" + size + "'>"//
 				+ "<div class='label_caption' style='margin-left:8px;width:100%;display:inline-flex;'>" //
-				+ "<div style='color:#" + color1 + "'>" + label + "</div>" //
-				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + text + "</div>" //
+				+ "<div style='color:#" + color1 + "'>" + (label == null ? "" : label) + "</div>" //
+				+ "<div class='brui_text_line' style='color:#" + color2 + "'>" + (text == null ? "" : text) + "</div>" //
 				+ "</div>"//
 				+ "</div>");
 	}
@@ -239,7 +159,7 @@ public class RenderTools {
 		sb.append("<div class='brui_line_padding' style='display:flex;align-items:center;'>"//
 				+ "<img src='" + iconURL + "' width='" + size + "px' height='" + size + "px'>"//
 				+ "<div class='label_caption brui_text_line' style='margin-left:8px;'>" //
-				+ text //
+				+ (text == null ? "" : text) //
 				+ "</div>"//
 				+ "</div>");
 	}

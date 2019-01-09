@@ -4,9 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.bizvisionsoft.annotations.md.service.Label;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class OperationInfo {
+public class OperationInfo implements JsonExternalizable{
 
 	public String userName;
 

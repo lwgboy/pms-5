@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.Result;
@@ -38,22 +39,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return get(_id);
 	}
 
-	private List<Bson> appendProblemQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
-			List<Bson> pipeline) {
+	private List<Bson> appendProblemQueryPipeline(BasicDBObject condition,List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
+		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
+		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
 		return pipeline;
 	}
 
@@ -103,26 +94,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
 		p = insert(p);
-		return queryProblems(0, 1, new BasicDBObject("_id", p.get_id()), null).get(0);
+		List<Bson> pipe = appendProblemQueryPipeline(new Query().filter(new BasicDBObject("_id", p.get_id())).bson(), new ArrayList<>());
+		return c(Problem.class).aggregate(pipe).first();
 	}
 
 	@Override
-	public List<Problem> listProblems(BasicDBObject condition, String status, String userid, String lang) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-
-		BasicDBObject f = new BasicDBObject();
-		Check.isAssigned(filter, s -> f.putAll(s));
-		Check.isAssigned(status, s -> f.append("status", status));
-
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		return queryProblems(skip, limit, f, sort);
+	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
+		ensureGet(condition, "filter").append("status", status);
+		List<Bson> pipeline = appendProblemQueryPipeline(condition, new ArrayList<>());
+		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	private List<Problem> queryProblems(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort) {
-		List<Bson> pipeline = appendProblemQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
-		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
+	@Override
+	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
+		ensureGet(condition, "filter").append("status", status);
+		List<Bson> pipeline = appendProblemQueryPipeline(condition, new ArrayList<>());
+		return c("problem").aggregate(pipeline).map(d->ProblemCardRenderer.renderProblem(d,lang)).into(new ArrayList<>());
 	}
 
 	@Override

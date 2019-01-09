@@ -32,16 +32,6 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public long countCauseConsequences(BasicDBObject filter);
 
-	@POST
-	@Path("/item/{status}/{userid}/count/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/count")
-	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("status") @PathParam("status") String status,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
 	@DELETE
 	@Path("/cc/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -271,13 +261,6 @@ public interface ProblemService {
 	public Document insertD8Experience(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/insert")
-	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
-
-	@POST
 	@Path("/cc/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -389,14 +372,48 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
-	@Path("/item/{status}/{userid}/ds/{lang}")
+	@Path("/item/{status}/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/list")
+	@DataSet({ "问题清单/list" })
 	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
+	@POST
+	@Path("/item/{status}/{userid}/card/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "已创建问题看板/list" })
+	public List<Document> listProblemsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	
+	@POST
+	@Path("/item/{status}/{userid}/count/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单/count", "已创建问题看板/count" })
+	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@PUT
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单/update")
+	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单/insert")
+	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
 
 	@PUT
 	@Path("/cc/")
@@ -466,12 +483,4 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-
-	@PUT
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/update")
-	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
-
 }
