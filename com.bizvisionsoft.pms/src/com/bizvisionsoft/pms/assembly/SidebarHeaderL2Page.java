@@ -45,8 +45,8 @@ public class SidebarHeaderL2Page {
 		fd.right = new FormAttachment(100);
 
 		String url = bruiService.getResourceURL("/img/left_w.svg");
-		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:8px;' src='" + url + "' width=" + 32
-				+ "px height=" + 32 + "px/>");
+		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:12px;margin-left:8px;' src='" + url + "' width=" + 24
+				+ "px height=" + 24 + "px/>");
 
 		Object input = context.getParentContext().getInput();
 
