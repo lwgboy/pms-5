@@ -123,17 +123,15 @@ public class ProblemCardRenderer {
 		StringBuffer sb = renderAction(doc,indigo);
 
 		if (!doc.getBoolean("finish", false)) {
-			// 删除按钮
 			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "标记ICA已完成", "finishICA");
 
-			// 编辑按钮
 			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑ICA", "editICA");
 
-			// 验证按钮
 			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证ICA", "verificationICA");
 
-			// 完成按钮
 			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除ICA", "deleteICA");
+		}else {
+			RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "查看详细", "readICA");
 		}
 
 		RenderTools.appendCardBg(sb);
