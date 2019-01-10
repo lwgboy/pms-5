@@ -27,7 +27,6 @@ import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
-import com.mongodb.client.model.UnwindOptions;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
@@ -46,15 +45,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
-		
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
-
 		return pipeline;
-	}
-
-	private void additionalLookupAndUnwind(List<Bson> pipeline, String col) {
-		pipeline.add(Aggregates.lookup(col, "_id", "problem_id", col));
-		pipeline.add(Aggregates.unwind("$"+col, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 	}
 
 	@Override
@@ -111,7 +103,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		additionalLookupAndUnwind(pipeline, "d2ProblemPhoto");
 		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
