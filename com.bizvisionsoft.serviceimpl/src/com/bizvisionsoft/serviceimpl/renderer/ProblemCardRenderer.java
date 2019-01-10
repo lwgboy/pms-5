@@ -9,6 +9,7 @@ import org.bson.Document;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class ProblemCardRenderer {
 
@@ -30,6 +31,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
 
+		// 问题照片
 		Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
 				.map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>) d).get(0)).orElse(null);
 		if (photoDoc != null) {
@@ -54,10 +56,57 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 
-		// 解决中的可以进入tops
 		if ("解决中".equals(doc.get("status"))) {
-			sb.append("<div class='brui_line_padding' style='display:inline-flex;align-items:center;width:100%;justify-content: center;'>");
+			// 【紧急应对】eraStarted,eraStopped
+			Document eraStarted = (Document) doc.get("eraStarted");
+			Document eraStopped = (Document) doc.get("eraStopped");
+			if (eraStarted != null) {// 紧急应对已启用
+				String text, msg;
+				if (eraStopped != null) {
+					msg = eraStopped.getString("userName") + Formatter.getString(eraStopped.getDate("date")) + "<br>已终止紧急应对措施";
+					text = "<span class='layui-badge'>" + "ERA 已终止" + "</span>";
+				} else {
+					msg = eraStarted.getString("userName") + Formatter.getString(eraStarted.getDate("date")) + "<br>已启动紧急应对措施";
+					text = "<span class='layui-badge layui-bg-blue'>" + "ERA 已启动" + "</span>";
+				}
+				text = MetaInfoWarpper.warpper(text, msg);
+				RenderTools.appendText(sb, text, RenderTools.STYLE_1LINE);
+			}
 
+			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
+			double ind = 0;
+			String label = null;
+			String title = null;
+
+			if ((Document) doc.get("pcaConfirmed") != null) {
+				label = "通过长期监控永久纠正措施能够长期有效。";
+				title = "PCA已确认";
+				ind = 1d;
+			}
+			if ((Document) doc.get("pcaValidated") != null) {
+				label = "通过实施和验证，永久纠正措施能够解决问题，达到预期目标。";
+				title = "PCA已验证";
+				ind = .75d;
+			}
+			if ((Document) doc.get("pcaApproved") != null) {
+				label = "已批准永久纠正措施的方案开始执行。";
+				title = "PCA已批准";
+				ind = .5d;
+			}
+			if ((Document) doc.get("icaConfirmed") != null) {
+				label = "已确认临时控制措施有效。";
+				title = "ICA已确认";
+				ind = .25d;
+			}
+			if (ind > 0) {
+				sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
+				RenderTools.appendIndicator(sb, ind, title, label,
+						ind > 0.75 ? CardTheme.CONTRAST_TEAL : (ind > 0.5 ? CardTheme.CONTRAST_BLUE : CardTheme.CONTRAST_ORANGE));
+				sb.append("</div>");
+			}
+
+			// 【按钮】解决中的可以进入tops
+			sb.append("<div class='brui_line_padding' style='display:inline-flex;align-items:center;width:100%;justify-content: center;'>");
 			sb.append("<a class='label_subhead' style='color:#" + indigo.headBgColor + ";' href='open8D' target='_rwt'>打开</a>");
 			// add more button here
 			sb.append("</div>");

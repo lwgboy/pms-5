@@ -227,36 +227,30 @@ public class ProjectRenderer {
 		Double ind = pj.getWAR();
 		if (ind != null) {
 			label = "项目所有工作累计的实际工期与计划工期的比值，反映项目工作量的完成情况。";
-			appendIndicator(sb, ind, "工作量", label, CardTheme.CONTRAST_TEAL);
+			RenderTools.appendIndicator(sb, ind, "工作量", label, CardTheme.CONTRAST_TEAL);
 		}
 
 		ind = pj.getDAR();
 		if (ind != null) {
 			label = "项目实际工期与计划工期的比值，反映项目截至目前耗时状况。";
-			appendIndicator(sb, ind, "工期完成", label, CardTheme.CONTRAST_CYAN);
+			RenderTools.appendIndicator(sb, ind, "工期完成", label, CardTheme.CONTRAST_CYAN);
 		}
 
 		ind = pj.getCAR();
 		if (ind != null) {
 			label = "项目累计的实际成本与计划成本（预算）的比值，反映项目截至目前消耗的资金状况。";
-			appendIndicator(sb, ind, "预算用量", label, CardTheme.CONTRAST_INDIGO);
+			RenderTools.appendIndicator(sb, ind, "预算用量", label, CardTheme.CONTRAST_INDIGO);
 		}
 
 		ind = pj.getDurationProbability();
 		if (ind != null) {
 			label = "根据风险模拟后，计算按计划完成项目的概率。";
-			appendIndicator(sb, ind, "按期概率", label,
+			RenderTools.appendIndicator(sb, ind, "按期概率", label,
 					ind > 0.75 ? CardTheme.CONTRAST_TEAL : (ind > 0.5 ? CardTheme.CONTRAST_BLUE : CardTheme.CONTRAST_ORANGE));
 		}
 
 		sb.append("</div>");
 
-	}
-
-	private void appendIndicator(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
-		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + MetaInfoWarpper.warpper(label, text)
-				+ "</div><img src='/bvs/svg?type=progress&percent=" + ind + "&bgColor=" + theme.contrastBgColor + "&fgColor="
-				+ theme.contrastFgColor + "' width=72 height=72/></div>");
 	}
 
 }
