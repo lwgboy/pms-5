@@ -94,7 +94,7 @@ public class ProblemCardRenderer {
 			}
 
 			// 【按钮】解决中的可以进入tops
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开TOPS", "open8D");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
 		}
 		RenderTools.appendCardBg(sb);
 
