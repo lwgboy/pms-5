@@ -159,8 +159,8 @@ public class ProjectRenderer {
 		return content;
 	}
 
-	private void renderProjectStage(StringBuffer text) {
-		text.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:inline-flex;'>");
+	private void renderProjectStage(StringBuffer sb) {
+		sb.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:inline-flex;'>");
 		ServicesLoader.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
@@ -170,9 +170,9 @@ public class ProjectRenderer {
 			} else {
 				style = "layui-btn layui-btn-primary layui-btn-sm";
 			}
-			text.append("<div class='" + style + "' style='width: 100%;'>" + work.getText() + "</div>");
+			sb.append("<div class='" + style + "' style='width: 100%;'>" + work.getText() + "</div>");
 		});
-		text.append("</div>");
+		sb.append("</div>");
 	}
 
 	private void renderTimeline(StringBuffer sb) {

@@ -39,6 +39,26 @@ public class ProblemCardRenderer {
 					+ "' style='cursor:pointer;width:100%;height:auto;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
 					+ photoDoc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
 		}
+		
+		if ("解决中".equals(doc.get("status"))) {
+			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
+			String[] msg = new String[] { "已确认临时控制措施有效。", //
+					"已批准永久纠正措施的方案开始执行。", //
+					"通过长期监控永久纠正措施能够长期有效。", //
+					"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
+			};
+			String[] title = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
+			String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
+			sb.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:flex;'>");
+			for (int i = 0; i < fields.length; i++) {
+				String style = "layui-btn layui-btn-sm";
+				if ((Document) doc.get(fields[i]) == null) {
+					style += " layui-btn-primary ";
+				}
+				sb.append("<div class='" + style + "' style='width: 100%;'>" + MetaInfoWarpper.warpper(title[i], msg[i]) + "</div>");
+			}
+			sb.append("</div>");
+		}
 
 		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
 
@@ -56,7 +76,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 
-		if ("解决中".equals(doc.get("status"))) {
+		if (!"已创建".equals(doc.get("status"))) {
 			// 【紧急应对】eraStarted,eraStopped
 			Document eraStarted = (Document) doc.get("eraStarted");
 			Document eraStopped = (Document) doc.get("eraStopped");
@@ -73,43 +93,8 @@ public class ProblemCardRenderer {
 				RenderTools.appendText(sb, text, RenderTools.STYLE_1LINE);
 			}
 
-			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
-			double ind = 0;
-			String label = null;
-			String title = null;
-
-			if ((Document) doc.get("pcaConfirmed") != null) {
-				label = "通过长期监控永久纠正措施能够长期有效。";
-				title = "PCA已确认";
-				ind = 1d;
-			}
-			if ((Document) doc.get("pcaValidated") != null) {
-				label = "通过实施和验证，永久纠正措施能够解决问题，达到预期目标。";
-				title = "PCA已验证";
-				ind = .75d;
-			}
-			if ((Document) doc.get("pcaApproved") != null) {
-				label = "已批准永久纠正措施的方案开始执行。";
-				title = "PCA已批准";
-				ind = .5d;
-			}
-			if ((Document) doc.get("icaConfirmed") != null) {
-				label = "已确认临时控制措施有效。";
-				title = "ICA已确认";
-				ind = .25d;
-			}
-			if (ind > 0) {
-				sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
-				RenderTools.appendIndicator(sb, ind, title, label,
-						ind > 0.75 ? CardTheme.CONTRAST_TEAL : (ind > 0.5 ? CardTheme.CONTRAST_BLUE : CardTheme.CONTRAST_ORANGE));
-				sb.append("</div>");
-			}
-
 			// 【按钮】解决中的可以进入tops
-			sb.append("<div class='brui_line_padding' style='display:inline-flex;align-items:center;width:100%;justify-content: center;'>");
-			sb.append("<a class='label_subhead' style='color:#" + indigo.headBgColor + ";' href='open8D' target='_rwt'>打开</a>");
-			// add more button here
-			sb.append("</div>");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开TOPS", "open8D");
 		}
 		RenderTools.appendCardBg(sb);
 

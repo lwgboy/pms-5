@@ -198,11 +198,17 @@ public class RenderTools {
 
 		}
 	}
-	
+
 	public static void appendIndicator(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
 		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + MetaInfoWarpper.warpper(label, text)
 				+ "</div><img src='/bvs/svg?type=progress&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor=" + indColor[1]
 				+ "' width=72 height=72/></div>");
+	}
+
+	public static void appendIndicator2(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
+		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + MetaInfoWarpper.warpper(label, text)
+				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor="
+				+ indColor[1] + "' width=72 height=72/></div>");
 	}
 
 }
