@@ -30,6 +30,14 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
 
+		Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
+				.map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>) d).get(0)).orElse(null);
+		if (photoDoc != null) {
+			sb.append("<img src='" + RenderTools.getFirstFileURL(photoDoc, "problemImg")
+					+ "' style='cursor:pointer;width:100%;height:auto;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+					+ photoDoc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
+		}
+
 		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
 
 		RenderTools.appendLabelAndTextLine(sb, "零件：", doc.getString("partName"));
@@ -49,9 +57,9 @@ public class ProblemCardRenderer {
 		// 解决中的可以进入tops
 		if ("解决中".equals(doc.get("status"))) {
 			sb.append("<div class='brui_line_padding' style='display:inline-flex;align-items:center;width:100%;justify-content: center;'>");
-			
+
 			sb.append("<a class='label_subhead' style='color:#" + indigo.headBgColor + ";' href='open8D' target='_rwt'>打开</a>");
-			//add more button here
+			// add more button here
 			sb.append("</div>");
 		}
 		RenderTools.appendCardBg(sb);
