@@ -17,6 +17,7 @@ import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -693,5 +694,30 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return ProblemCardRenderer.renderD8Exp(t, lang);
 		return t;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题严重性级别
+	//
+	@Override
+	public List<SeverityInd> listRiskSeverityInd() {
+		return c(SeverityInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<SeverityInd>());
+	}
+
+	@Override
+	public SeverityInd insertRiskSeverityInd(SeverityInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteRiskSeverityInd(ObjectId _id) {
+		return delete(_id, SeverityInd.class);
+	}
+
+	@Override
+	public long updateRiskSeverityInd(BasicDBObject fu) {
+		return update(fu, SeverityInd.class);
+	}
+
+
 
 }

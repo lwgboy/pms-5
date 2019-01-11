@@ -18,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
 import com.mongodb.BasicDBObject;
 
@@ -483,4 +484,35 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/qltyInfInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题严重性等级/" + DataSet.LIST })
+	public List<SeverityInd> listRiskSeverityInd();
+
+	@POST
+	@Path("/qltyInfInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题严重性等级/" + DataSet.INSERT)
+	public SeverityInd insertRiskSeverityInd(@MethodParam(MethodParam.OBJECT) SeverityInd item);
+
+	@DELETE
+	@Path("/qltyInfInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题严重性等级/" + DataSet.DELETE)
+	public long deleteRiskSeverityInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/qltyInfInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题严重性等级/" + DataSet.UPDATE)
+	public long updateRiskSeverityInd(BasicDBObject filterAndUpdate);
 }

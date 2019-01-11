@@ -204,7 +204,6 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long updateRiskQuanlityInfInd(BasicDBObject fu) {
 		return update(fu, QuanlityInfInd.class);
-
 	}
 
 	@Override
