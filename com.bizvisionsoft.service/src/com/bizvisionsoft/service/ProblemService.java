@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
@@ -489,30 +490,65 @@ public interface ProblemService {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/qltyInfInds/ds")
+	@Path("/serverityInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题严重性等级/" + DataSet.LIST })
-	public List<SeverityInd> listRiskSeverityInd();
+	@DataSet({ "严重性等级/" + DataSet.LIST })
+	public List<SeverityInd> listSeverityInd();
 
 	@POST
-	@Path("/qltyInfInds/")
+	@Path("/serverityInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题严重性等级/" + DataSet.INSERT)
-	public SeverityInd insertRiskSeverityInd(@MethodParam(MethodParam.OBJECT) SeverityInd item);
+	@DataSet("严重性等级/" + DataSet.INSERT)
+	public SeverityInd insertSeverityInd(@MethodParam(MethodParam.OBJECT) SeverityInd item);
 
 	@DELETE
-	@Path("/qltyInfInds/_id/{_id}")
+	@Path("/serverityInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题严重性等级/" + DataSet.DELETE)
-	public long deleteRiskSeverityInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	@DataSet("严重性等级/" + DataSet.DELETE)
+	public long deleteSeverityInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
-	@Path("/qltyInfInds/")
+	@Path("/serverityInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题严重性等级/" + DataSet.UPDATE)
-	public long updateRiskSeverityInd(BasicDBObject filterAndUpdate);
+	@DataSet("严重性等级/" + DataSet.UPDATE)
+	public long updateSeverityInd(BasicDBObject filterAndUpdate);
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/lostInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "损失等级/" + DataSet.LIST })
+	public List<LostInd> listLostInd();
+
+	@POST
+	@Path("/lostInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.INSERT)
+	public LostInd insertLostInd(@MethodParam(MethodParam.OBJECT) LostInd item);
+
+	@DELETE
+	@Path("/lostInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.DELETE)
+	public long deleteLostInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/lostInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.UPDATE)
+	public long updateLostInd(BasicDBObject filterAndUpdate);
+	
+	
+	
+	
 }

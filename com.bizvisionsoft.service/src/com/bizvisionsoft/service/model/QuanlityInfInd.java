@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -27,5 +28,10 @@ public class QuanlityInfInd {
 	public String toString() {
 		return text;
 	}
+	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	public static final String typeName = "质量影响等级";
+
 
 }

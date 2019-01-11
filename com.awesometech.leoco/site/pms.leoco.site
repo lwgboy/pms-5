@@ -4844,7 +4844,7 @@
               },
               {
                 "id": "1642fb940b8",
-                "name": "风险临近性指标设置",
+                "name": "临近性指标设置",
                 "switchContentToAssemblyId": "163868653d9",
                 "openContent": false,
                 "propagate": false,
@@ -29764,10 +29764,10 @@
       },
       {
         "id": "163868653d9",
-        "name": "风险临近性指标设置",
+        "name": "临近性指标设置",
         "layout": [],
         "type": "grid",
-        "stickerTitle": "风险临近性指标",
+        "stickerTitle": "临近性指标",
         "folderId": "16386861cb6",
         "gridAutoExpandLevel": 0,
         "gridCustomItemHeight": 0,
@@ -29933,8 +29933,8 @@
       },
       {
         "id": "163868971b2",
-        "name": "风险临近性指标编辑",
-        "title": "风险临近性指标",
+        "name": "临近性指标编辑",
+        "title": "临近性指标",
         "layout": [],
         "type": "editor",
         "folderId": "16386861cb6",
@@ -30168,7 +30168,7 @@
       },
       {
         "id": "16386c44e87",
-        "name": "text-value编辑器",
+        "name": "指标编辑器",
         "title": "",
         "layout": [],
         "type": "editor",

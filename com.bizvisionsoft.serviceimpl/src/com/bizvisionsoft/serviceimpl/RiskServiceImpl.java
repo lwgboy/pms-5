@@ -142,8 +142,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 			double cost = doc.getDouble("costInf");
 			int time = doc.getInteger("timeInf");
 			double score = calculateRiskInfValue(qty, cost, time);
-			c("rbsItem").updateOne(new Document("_id", doc.get("_id")),
-					new Document("$set", new Document("infValue", score)));
+			c("rbsItem").updateOne(new Document("_id", doc.get("_id")), new Document("$set", new Document("infValue", score)));
 		});
 
 		return count;
@@ -177,8 +176,8 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public String getUrgencyText(long days) {
 		String text = c("riskUrInd").distinct("text",
-				new BasicDBObject("min", new BasicDBObject("$lt", days)).append("max", new BasicDBObject("$gte", days)),
-				String.class).first();
+				new BasicDBObject("min", new BasicDBObject("$lt", days)).append("max", new BasicDBObject("$gte", days)), String.class)
+				.first();
 		if (text != null) {
 			return text;
 		} else {
@@ -308,8 +307,8 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 		ArrayList<Document> works = c("work").find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Document> links = c("worklinks").find(new Document("project_id", _id)).into(new ArrayList<>());
-		ArrayList<Document> riskEffect = c("riskEffect")
-				.aggregate(new JQ("查询-风险-GraphicRisk模型").set("project_id", _id).array()).into(new ArrayList<>());
+		ArrayList<Document> riskEffect = c("riskEffect").aggregate(new JQ("查询-风险-GraphicRisk模型").set("project_id", _id).array())
+				.into(new ArrayList<>());
 
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
@@ -331,15 +330,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		List<List<Double>> tData = new ArrayList<>();
 		mcs.TMap.entrySet().forEach(e -> {
 			double key = e.getKey();
-			double perc = new BigDecimal(100f * e.getValue() / times).setScale(4, BigDecimal.ROUND_HALF_UP)
-					.doubleValue();
+			double perc = new BigDecimal(100f * e.getValue() / times).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 			tData.add(Arrays.asList(key, perc));
 		});
 
 		tData.sort((l1, l2) -> (int) (l1.get(0) - l2.get(0)));
 
-		Document simulateResult = new Document("project_id", _id).append("times", times).append("date", new Date())
-				.append("Tdata", tData).append("noRiskT", mcs.noRiskT);
+		Document simulateResult = new Document("project_id", _id).append("times", times).append("date", new Date()).append("Tdata", tData)
+				.append("noRiskT", mcs.noRiskT);
 		c("monteCarloSimulate").deleteMany(new Document("project_id", _id));
 		c("monteCarloSimulate").insertOne(simulateResult);
 
@@ -350,8 +348,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	private void updateWorkRiskIndicators(ObjectId _id, Float aci, Float acp) {
-		c("work").updateOne(new Document("_id", _id),
-				new Document("$set", new Document("aci", aci).append("acp", acp)));
+		c("work").updateOne(new Document("_id", _id), new Document("$set", new Document("aci", aci).append("acp", acp)));
 	}
 
 	@Override
@@ -363,22 +360,22 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		}
 		if (tData == null)
 			tData = new ArrayList<>();
-		
+
 		ArrayList<List<Double>> sData = new ArrayList<>();
-		tData.forEach(elem->{
-			Double v1 = (Double) ((List<?>)elem).get(0);
-			Double v2 = (Double) ((List<?>)elem).get(1);
+		tData.forEach(elem -> {
+			Double v1 = (Double) ((List<?>) elem).get(0);
+			Double v2 = (Double) ((List<?>) elem).get(1);
 			Double sum;
-			if(sData.size()==0) {
+			if (sData.size() == 0) {
 				sum = v2;
-			}else {
-				sum = sData.get(sData.size()-1).get(1)+v2;
+			} else {
+				sum = sData.get(sData.size() - 1).get(1) + v2;
 			}
-			sum = (double)Math.round(sum*100)/100;
-			sData.add(Arrays.asList(new Double[] {v1,sum}));
+			sum = (double) Math.round(sum * 100) / 100;
+			sData.add(Arrays.asList(new Double[] { v1, sum }));
 		});
-		
-		return new JQ("图表-MCS-项目").set("data", tData).set("sum",sData).doc();
+
+		return new JQ("图表-MCS-项目").set("data", tData).set("sum", sData).doc();
 	}
 
 	@Override
@@ -417,16 +414,14 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		}
 
 		long t = (pj.getDate("planFinish").getTime() - pj.getDate("planStart").getTime()) / (1000 * 60 * 60 * 24);
-		Document doc = c("monteCarloSimulate")
-				.aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", t).array()).first();
+		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", t).array()).first();
 
 		return Optional.ofNullable(doc).map(d -> (Number) d.get("prob")).map(p -> p.doubleValue() / 100).orElse(0d);
 	}
 
 	@Override
 	public List<List<Double>> getDurationForcast(ObjectId project_id) {
-		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询-MCS-估计工期").set("project_id", project_id).array())
-				.first();
+		Document doc = c("monteCarloSimulate").aggregate(new JQ("查询-MCS-估计工期").set("project_id", project_id).array()).first();
 
 		if (doc == null) {
 			return null;
@@ -437,8 +432,8 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		Document maxT = (Document) doc.get("maxT");
 
 		Document maxP = (Document) doc.get("maxP");
-		doc = c("monteCarloSimulate")
-				.aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", maxP.get("t")).array()).first();
+		doc = c("monteCarloSimulate").aggregate(new JQ("查询-MCS-工期概率").set("project_id", project_id).set("T", maxP.get("t")).array())
+				.first();
 
 		ArrayList<List<Double>> result = new ArrayList<List<Double>>();
 		result.add(Arrays.asList(((Number) minT.get("t")).doubleValue(), ((Number) minT.get("p")).doubleValue()));
@@ -450,40 +445,32 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public Document getRiskProximityChart(ObjectId project_id) {
+		ArrayList<List<Object>> data = getRiskProximityData(project_id);
 		String size = "function (data) {return Math.sqrt(data[2])*8;}";
-		ArrayList<List<Object>> data = new ArrayList<List<Object>>();
-		c("rbsItem").find(new Document("project_id", project_id)).forEach((Document d) -> {
-			Object _i = d.get("infValue");
-			Object _p = d.get("probability");
-			Object _d = d.get("detectable");
-			if (_i != null && _p != null && _d != null) {
-				Double rci = ((Number) _i).doubleValue() * ((Number) _p).doubleValue();
-				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
-						/ (24 * 60 * 60 * 1000));
-				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
-				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
-			}
-		});
 		return new JQ("图表-风险临近性可检测性").set("data", data).set("size", size).doc();
 	}
 
 	@Override
 	public Document getRiskProximityChart2(ObjectId project_id) {
+		ArrayList<List<Object>> data = getRiskProximityData(project_id);
 		String size = "function (data) {return Math.sqrt(data[2])*8;}";
+		return new JQ("图表-风险临近性可检测性2").set("data", data).set("size", size).doc();
+	}
+
+	private ArrayList<List<Object>> getRiskProximityData(ObjectId project_id) {
 		ArrayList<List<Object>> data = new ArrayList<List<Object>>();
 		c("rbsItem").find(new Document("project_id", project_id)).forEach((Document d) -> {
-			Object _i = d.get("infValue");
-			Object _p = d.get("probability");
-			Object _d = d.get("detectable");
-			if (_i != null && _p != null && _d != null) {
+			Double _i = d.getDouble("infValue");
+			Double _p = d.get("probability", 50d);
+			int _d = 10 - d.getInteger("detectable", 1);// 已经确认为int类型，由小到大，1为绝对探测，10为无法探测
+			if (_i != null && _p != null) {
 				Double rci = ((Number) _i).doubleValue() * ((Number) _p).doubleValue();
 				Integer urgency = (int) ((d.getDate("forecast").getTime() - Calendar.getInstance().getTimeInMillis())
 						/ (24 * 60 * 60 * 1000));
-				Integer detectable = Arrays.asList("很低", "低", "中", "高", "很高").indexOf(_d);
-				data.add(Arrays.asList(urgency, detectable, rci, d.get("name")));
+				data.add(Arrays.asList(urgency, _d, rci, d.get("name")));
 			}
 		});
-		return new JQ("图表-风险临近性可检测性2").set("data", data).set("size", size).doc();
+		return data;
 	}
 
 }

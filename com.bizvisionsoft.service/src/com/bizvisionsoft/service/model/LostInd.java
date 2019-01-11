@@ -8,8 +8,8 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("severityInd")
-public class SeverityInd {
+@PersistenceCollection("lostInd")
+public class LostInd {
 	
 	@ReadValue
 	@WriteValue
@@ -33,7 +33,7 @@ public class SeverityInd {
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	public static final String typeName = "严重性指标";
+	public static final String typeName = "损失指标";
 
 	@Override
 	@Label

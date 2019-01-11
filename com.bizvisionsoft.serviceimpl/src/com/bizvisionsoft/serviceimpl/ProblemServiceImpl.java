@@ -16,6 +16,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
@@ -699,25 +700,47 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	// 问题严重性级别
 	//
 	@Override
-	public List<SeverityInd> listRiskSeverityInd() {
+	public List<SeverityInd> listSeverityInd() {
 		return c(SeverityInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<SeverityInd>());
 	}
 
 	@Override
-	public SeverityInd insertRiskSeverityInd(SeverityInd item) {
+	public SeverityInd insertSeverityInd(SeverityInd item) {
 		return insert(item);
 	}
 
 	@Override
-	public long deleteRiskSeverityInd(ObjectId _id) {
+	public long deleteSeverityInd(ObjectId _id) {
 		return delete(_id, SeverityInd.class);
 	}
 
 	@Override
-	public long updateRiskSeverityInd(BasicDBObject fu) {
+	public long updateSeverityInd(BasicDBObject fu) {
 		return update(fu, SeverityInd.class);
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题损失级别
+	//
+	@Override
+	public List<LostInd> listLostInd() {
+		return c(LostInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public LostInd insertLostInd(LostInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteLostInd(ObjectId _id) {
+		return delete(_id, LostInd.class);
+	}
+
+	@Override
+	public long updateLostInd(BasicDBObject fu) {
+		return update(fu, LostInd.class);
+	}
 
 
 }
