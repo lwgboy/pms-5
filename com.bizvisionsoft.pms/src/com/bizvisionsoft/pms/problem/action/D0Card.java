@@ -52,7 +52,7 @@ public class D0Card {
 	}
 
 	private void delete(ObjectId _id, Document doc, GridTreeViewer viewer) {
-		if (br.confirm("删除", "请确认删除选择紧急应变措施。")) {
+		if (br.confirm("删除", "请确认删除选择紧急反应行动。")) {
 			service.deleteD0ERA(_id);
 			List<?> input = (List<?>) viewer.getInput();
 			input.remove(doc);
@@ -72,7 +72,7 @@ public class D0Card {
 	}
 
 	private void finish(ObjectId _id, Document doc, GridTreeViewer viewer, String render) {
-		if (br.confirm("完成", "请确认选择的紧急应变措施已经完成。")) {
+		if (br.confirm("完成", "请确认选择的紧急反应行动已经完成。")) {
 			Document d = service.updateD0ERA(new Document("_id", _id).append("finish", true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}

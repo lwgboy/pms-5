@@ -54,7 +54,7 @@ public class D3ICACard {
 	}
 
 	private void finish(ObjectId _id, Document doc, GridTreeViewer viewer, String render) {
-		if (br.confirm("完成", "请确认选择的临时处理措施已经完成。")) {
+		if (br.confirm("完成", "请确认选择的临时控制行动已经完成。")) {
 			Document d = service.updateD3ICA(new Document("_id", _id).append("finish", true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		}
@@ -70,7 +70,7 @@ public class D3ICACard {
 	}
 
 	private void delete(ObjectId _id, Document doc, GridTreeViewer viewer) {
-		if (br.confirm("删除", "请确认删除选择的临时处理措施。")) {
+		if (br.confirm("删除", "请确认删除选择的临时控制行动。")) {
 			service.deleteD3ICA(_id);
 			List<?> input = (List<?>) viewer.getInput();
 			input.remove(doc);

@@ -270,7 +270,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d0/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D0紧急应变措施/list", "D0紧急应变措施表格/list" })
+	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list" })
 	public List<Document> listD0(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
@@ -297,7 +297,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d3/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D3临时措施/list", "D3临时处理措施表格/list" })
+	@DataSet({ "D3临时控制行动/list", "D3临时控制行动表格/list" })
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
