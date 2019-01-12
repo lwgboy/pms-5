@@ -175,6 +175,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public String getUrgencyText(long days) {
+		//TODO 友好的显示方式，同时应考虑和取数合并
 		String text = c("riskUrInd").distinct("text",
 				new BasicDBObject("min", new BasicDBObject("$lt", days)).append("max", new BasicDBObject("$gte", days)), String.class)
 				.first();

@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("lostInd")
+@PersistenceCollection("incidenceInd")
 public class IncidenceInd {
 	
 	@ReadValue
@@ -33,12 +33,12 @@ public class IncidenceInd {
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	public static final String typeName = "损失指标";
+	public static final String typeName = "影响范围指标";
 
 	@Override
 	@Label
 	public String toString() {
-		return value + " ["+index+"]";
+		return index+"." + value +" （"+ text+"）";
 	}
 
 }

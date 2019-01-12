@@ -38,7 +38,7 @@ public class LostInd {
 	@Override
 	@Label
 	public String toString() {
-		return value + " ["+index+"]";
+		return index+"." + value +" £¨"+ text+"£©";
 	}
 
 }

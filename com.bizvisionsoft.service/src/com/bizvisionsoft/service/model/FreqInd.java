@@ -8,7 +8,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("lostInd")
+@PersistenceCollection("freqInd")
 public class FreqInd {
 	
 	@ReadValue
@@ -33,12 +33,12 @@ public class FreqInd {
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	public static final String typeName = "损失指标";
+	public static final String typeName = "频度指标";
 
 	@Override
 	@Label
 	public String toString() {
-		return value + " ["+index+"]";
+		return index+"." + value +" （"+ text+"）";
 	}
 
 }

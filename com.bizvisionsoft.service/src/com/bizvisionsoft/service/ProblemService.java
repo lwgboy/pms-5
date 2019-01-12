@@ -541,7 +541,7 @@ public interface ProblemService {
 	public long deleteLostInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
-	@Path("/freqInds/")
+	@Path("/lostInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("ËðÊ§µÈ¼¶/" + DataSet.UPDATE)

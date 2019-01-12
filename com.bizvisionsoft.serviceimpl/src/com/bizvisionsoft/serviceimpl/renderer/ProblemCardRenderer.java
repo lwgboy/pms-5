@@ -1,5 +1,6 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
+import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCardRenderer {
 
@@ -26,39 +28,23 @@ public class ProblemCardRenderer {
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
 	public static Document renderProblem(Document doc, String lang) {
+		Object _id = doc.get("_id");
 
 		StringBuffer sb = new StringBuffer();
 
 		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
 
 		// 问题照片
-		Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
-				.map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>) d).get(((List<?>) d).size()-1)).orElse(null);
-		if (photoDoc != null) {
-			sb.append("<img src='" + RenderTools.getFirstFileURL(photoDoc, "problemImg")
-					+ "' style='cursor:pointer;width:100%;height:auto;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-					+ photoDoc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
-		}
-		
-		if ("解决中".equals(doc.get("status"))) {
-			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
-			String[] msg = new String[] { "已确认临时控制措施有效。", //
-					"已批准永久纠正措施的方案开始执行。", //
-					"通过长期监控永久纠正措施能够长期有效。", //
-					"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
-			};
-			String[] title = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
-			String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
-			sb.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:flex;'>");
-			for (int i = 0; i < fields.length; i++) {
-				String style = "layui-btn layui-btn-sm";
-				if ((Document) doc.get(fields[i]) == null) {
-					style += " layui-btn-primary ";
-				}
-				sb.append("<div class='" + style + "' style='width: 100%;'>" + MetaInfoWarpper.warpper(title[i], msg[i]) + "</div>");
-			}
-			sb.append("</div>");
-		}
+		// Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
+		// .map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>)
+		// d).get(((List<?>) d).size() - 1)).orElse(null);
+		// if (photoDoc != null) {
+		// sb.append("<img src='" + RenderTools.getFirstFileURL(photoDoc, "problemImg")
+		// + "'
+		// style='cursor:pointer;width:100%;height:auto;'onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+		// + photoDoc.get("_id") + "&f=problemImg\",function(json){layer.photos({photos:
+		// json});});'" + "/>");
+		// }
 
 		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
 
@@ -74,7 +60,58 @@ public class ProblemCardRenderer {
 		if (Check.isAssigned(by, on))
 			RenderTools.appendLabelAndTextLine(sb, "发起：", on + " " + by);
 
-		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
+		// RenderTools.appendLabelAndTextLine(sb, "来源：",
+		// doc.getString("initiatedFrom"));
+
+		/////////////////////////////////////////////////////////////////
+		// 指标
+		// 1. 计算PCI(问题关键指数)
+		int severityInd = Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
+		// int detectionInd = Optional.ofNullable((Document)
+		// doc.get("detectionInd")).map(d -> d.getInteger("index")).orElse(0);
+		// int freqInd = Optional.ofNullable((Document) doc.get("freqInd")).map(d ->
+		// d.getInteger("index")).orElse(0);
+		// 2. incidenceInd影响程度
+		int incidenceInd = Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
+		// 3. lostInd损失程度
+		int lostInd = Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
+		// 4. urgencyInd紧急程度
+		// int urgencyInd = Optional.ofNullable((Document) doc.get("urgencyInd")).map(d
+		// -> d.getInteger("index")).orElse(0);
+		List<Document> charts = new ArrayList<Document>();
+		if (severityInd + incidenceInd + lostInd > 0) {
+			sb.append("<div name='" + _id + "' style='width:100%;height:100px;'></div>");
+			Document chart = new Document();
+			chart.append("renderTo", "" + _id);
+			chart.append("option", new JQ("图表-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
+					.set("value2", incidenceInd).set("name3", "损失程度").set("value3", lostInd).doc());
+			charts.add(chart);
+		}
+
+		/////////////////////////////////////////////////////////////////
+		// 进度栏
+		if ("解决中".equals(doc.get("status"))) {
+			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
+			String[] msg = new String[] { "已确认临时控制措施有效。", //
+					"已批准永久纠正措施的方案开始执行。", //
+					"通过长期监控永久纠正措施能够长期有效。", //
+					"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
+			};
+			String[] title = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
+			String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
+			sb.append("<div class='label_caption brui_ly_hline brui_line_padding'>");
+			int max = 0;
+			for (int i = 0; i < fields.length; i++) {
+				if ((Document) doc.get(fields[i]) != null) {
+					max = Math.max(max, i);
+				}
+				sb.append(MetaInfoWarpper.warpper(title[i], msg[i]));
+			}
+			sb.append("</div>");
+			sb.append("<div class='layui-progress layui-progress' style='margin:0px 8px;'>");
+			sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
+			sb.append("</div>");
+		}
 
 		if (!"已创建".equals(doc.get("status"))) {
 			// 【紧急应对】eraStarted,eraStopped
@@ -96,9 +133,13 @@ public class ProblemCardRenderer {
 			// 【按钮】解决中的可以进入tops
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
 		}
+
 		RenderTools.appendCardBg(sb);
 
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+		Document result = new Document("_id", _id).append("html", sb.toString());
+		if (!charts.isEmpty())
+			result.append("charts", charts);
+		return result;
 	}
 
 	public static Document renderD0ERA(Document doc, String lang) {

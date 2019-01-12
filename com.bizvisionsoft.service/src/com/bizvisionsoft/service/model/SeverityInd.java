@@ -38,7 +38,7 @@ public class SeverityInd {
 	@Override
 	@Label
 	public String toString() {
-		return value + " ["+index+"]";
+		return index+"." + value +" £¨"+ text+"£©";
 	}
 
 }

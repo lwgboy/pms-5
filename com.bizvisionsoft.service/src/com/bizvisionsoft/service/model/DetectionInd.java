@@ -38,7 +38,7 @@ public class DetectionInd {
 	@Override
 	@Label
 	public String toString() {
-		return value +" Ã”“›:"+ text +" ["+index+"]";
+		return index+"." + value +" £®"+ text+"£©";
 	}
 	
 	

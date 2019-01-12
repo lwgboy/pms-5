@@ -16,6 +16,8 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.FreqInd;
+import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.SeverityInd;
@@ -41,13 +43,15 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return get(_id);
 	}
 
-	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition,List<Bson> pipeline) {
+	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition, List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
 		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
 		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
+		pipeline.addAll(new JQ("追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
+				.set("urgencyIndField", "urgencyInd").array());
 		return pipeline;
 	}
 
@@ -112,7 +116,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		return c("problem").aggregate(pipeline).map(d->ProblemCardRenderer.renderProblem(d,lang)).into(new ArrayList<>());
+		return c("problem").aggregate(pipeline).map(d -> ProblemCardRenderer.renderProblem(d, lang)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -695,7 +699,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return ProblemCardRenderer.renderD8Exp(t, lang);
 		return t;
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 问题严重性级别
 	//
@@ -742,5 +746,44 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return update(fu, LostInd.class);
 	}
 
+	@Override
+	public List<FreqInd> listFreqInd() {
+		return c(FreqInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public FreqInd insertFreqInd(FreqInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteFreqInd(ObjectId _id) {
+		return delete(_id, FreqInd.class);
+	}
+
+	@Override
+	public long updateFreqInd(BasicDBObject fu) {
+		return update(fu, FreqInd.class);
+	}
+
+	@Override
+	public List<IncidenceInd> listIncidenceInd() {
+		return c(IncidenceInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public IncidenceInd insertIncidenceInd(IncidenceInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteIncidenceInd(ObjectId _id) {
+		return delete(_id, IncidenceInd.class);
+	}
+
+	@Override
+	public long updateIncidenceInd(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, IncidenceInd.class);
+	}
 
 }
