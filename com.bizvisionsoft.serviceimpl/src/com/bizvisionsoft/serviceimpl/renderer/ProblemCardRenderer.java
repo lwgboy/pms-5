@@ -33,7 +33,7 @@ public class ProblemCardRenderer {
 
 		// ÎÊÌâÕÕÆ¬
 		Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
-				.map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>) d).get(0)).orElse(null);
+				.map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>) d).get(((List<?>) d).size()-1)).orElse(null);
 		if (photoDoc != null) {
 			sb.append("<img src='" + RenderTools.getFirstFileURL(photoDoc, "problemImg")
 					+ "' style='cursor:pointer;width:100%;height:auto;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="

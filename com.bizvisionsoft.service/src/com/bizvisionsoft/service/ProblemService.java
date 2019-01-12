@@ -28,6 +28,53 @@ public interface ProblemService {
 
 	public final String[] CauseSubject = { "人", "设备", "材料", "环境", "方法", "测量" };
 
+	@DELETE
+	@Path("/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/delete")
+	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet(DataSet.INPUT)
+	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/item/{status}/{userid}/count/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（已创建）/count", "问题清单（解决中）/count", "问题清单（已关闭，已取消）/count", "已创建问题看板/count" })
+	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@PUT
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/update")
+	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/insert")
+	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
+
+	@POST
+	@Path("/item/{status}/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（已创建）/list", "问题清单（解决中）/list", "问题清单（已关闭，已取消）/list" })
+	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
+
 	@POST
 	@Path("/cc/count/")
 	@Consumes("application/json; charset=UTF-8")
@@ -93,20 +140,6 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD8Exp(@PathParam("_id") ObjectId _id);
-
-	@DELETE
-	@Path("/item/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/delete")
-	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-
-	@GET
-	@Path("/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.INPUT)
-	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/{lang}")
@@ -374,48 +407,14 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
-	@Path("/item/{status}/{userid}/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单/list" })
-	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("status") @PathParam("status") String status,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-
-	@POST
 	@Path("/item/{status}/{userid}/card/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "已创建问题看板/list","解决中问题看板/list","已关闭问题看板/list","已取消问题看板/list" })
+	@DataSet({ "已创建问题看板/list", "解决中问题看板/list", "已关闭问题看板/list", "已取消问题看板/list" })
 	public List<Document> listProblemsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	
-	@POST
-	@Path("/item/{status}/{userid}/count/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单/count", "已创建问题看板/count" })
-	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("status") @PathParam("status") String status,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	@PUT
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/update")
-	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
-
-	@POST
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/insert")
-	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
 
 	@PUT
 	@Path("/cc/")
@@ -485,8 +484,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -516,8 +514,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("严重性等级/" + DataSet.UPDATE)
 	public long updateSeverityInd(BasicDBObject filterAndUpdate);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -547,8 +544,5 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("损失等级/" + DataSet.UPDATE)
 	public long updateLostInd(BasicDBObject filterAndUpdate);
-	
-	
-	
-	
+
 }
