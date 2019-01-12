@@ -4,7 +4,7 @@
 				name : '<name1>',
 				type : 'gauge',
 				center : [ '50%', '50%' ],
-				radius : '80%',
+				radius : '75%',
 				min : 1,
 				max : 10,
 				axisLabel : {
@@ -16,7 +16,7 @@
 				axisLine : {
 					show : true,
 					lineStyle : {
-						width : 6,
+						width : 4,
 						shadowBlur : 0,
 						color : [ [ 0.2, '#9CD6CE' ], [ 0.4, '#7CBB55' ],
 								[ 0.6, '#DDBD4D' ], [ 0.8, '#E98E2C' ],
@@ -32,7 +32,7 @@
 				title : {
 					fontSize : 12,
 					color : '#4d4d4d',
-					offsetCenter : [ 0, '100%' ]
+					offsetCenter : [ 0, '80%' ]
 				},
 				detail : false,
 				data : [ {
@@ -43,8 +43,8 @@
 			},
 			{
 				name : '<name2>',
-				center : [ '16%', '50%' ],
-				radius : '80%',
+				center : [ '18%', '50%' ],
+				radius : '75%',
 				type : 'gauge',
 				min : 1,
 				max : 10,
@@ -57,7 +57,7 @@
 				axisLine : {
 					show : true,
 					lineStyle : {
-						width : 6,
+						width : 4,
 						shadowBlur : 0,
 						color : [ [ 0.2, '#9CD6CE' ], [ 0.4, '#7CBB55' ],
 								[ 0.6, '#DDBD4D' ], [ 0.8, '#E98E2C' ],
@@ -73,7 +73,7 @@
 				title : {
 					fontSize : 12,
 					color : '#4d4d4d',
-					offsetCenter : [ 0, '100%' ]
+					offsetCenter : [ 0, '80%' ]
 				},
 				detail : false,
 				data : [ {
@@ -84,9 +84,9 @@
 			},
 			{
 				name : '<name3>',
-				center : [ '83%', '50%' ],
+				center : [ '82%', '50%' ],
 				type : 'gauge',
-				radius : '80%',
+				radius : '75%',
 				min : 1,
 				max : 10,
 				axisLabel : {
@@ -98,7 +98,7 @@
 				axisLine : {
 					show : true,
 					lineStyle : {
-						width : 6,
+						width : 4,
 						shadowBlur : 0,
 						color : [ [ 0.2, '#9CD6CE' ], [ 0.4, '#7CBB55' ],
 								[ 0.6, '#DDBD4D' ], [ 0.8, '#E98E2C' ],
@@ -114,7 +114,7 @@
 				title : {
 					fontSize : 12,
 					color : '#4d4d4d',
-					offsetCenter : [ 0, '100%' ]
+					offsetCenter : [ 0, '80%' ]
 				},
 				detail : false,
 				data : [ {

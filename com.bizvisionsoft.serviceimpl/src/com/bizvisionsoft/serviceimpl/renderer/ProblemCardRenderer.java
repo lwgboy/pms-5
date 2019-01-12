@@ -80,7 +80,7 @@ public class ProblemCardRenderer {
 		// -> d.getInteger("index")).orElse(0);
 		List<Document> charts = new ArrayList<Document>();
 		if (severityInd + incidenceInd + lostInd > 0) {
-			sb.append("<div name='" + _id + "' style='width:100%;height:100px;'></div>");
+			sb.append("<div name='" + _id + "' style='width:100%;height:120px;'></div>");
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
 			chart.append("option", new JQ("图表-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
@@ -130,8 +130,17 @@ public class ProblemCardRenderer {
 				RenderTools.appendText(sb, text, RenderTools.STYLE_1LINE);
 			}
 
-			// 【按钮】解决中的可以进入tops
+		}
+
+		// 【按钮】
+		if ("解决中".equals(doc.get("status"))) {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+		} else if ("已创建".equals(doc.get("status"))) {
+			if (severityInd == 0) {
+				RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题指标", "editProblem");
+			}else {
+				RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
+			}
 		}
 
 		RenderTools.appendCardBg(sb);
