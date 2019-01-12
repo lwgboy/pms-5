@@ -17,6 +17,8 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.FreqInd;
+import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.SeverityInd;
@@ -539,10 +541,70 @@ public interface ProblemService {
 	public long deleteLostInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
-	@Path("/lostInds/")
+	@Path("/freqInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("损失等级/" + DataSet.UPDATE)
 	public long updateLostInd(BasicDBObject filterAndUpdate);
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/freqInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "频度等级/" + DataSet.LIST })
+	public List<FreqInd> listFreqInd();
 
+	@POST
+	@Path("/freqInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.INSERT)
+	public FreqInd insertFreqInd(@MethodParam(MethodParam.OBJECT) FreqInd item);
+
+	@DELETE
+	@Path("/freqInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.DELETE)
+	public long deleteFreqInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/freqInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.UPDATE)
+	public long updateFreqInd(BasicDBObject filterAndUpdate);
+
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/incidenceInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "影响范围等级/" + DataSet.LIST })
+	public List<IncidenceInd> listIncidenceInd();
+
+	@POST
+	@Path("/incidenceInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.INSERT)
+	public IncidenceInd insertIncidenceInd(@MethodParam(MethodParam.OBJECT) IncidenceInd item);
+
+	@DELETE
+	@Path("/incidenceInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.DELETE)
+	public long deleteIncidenceInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/incidenceInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.UPDATE)
+	public long updateIncidenceInd(BasicDBObject filterAndUpdate);
 }
