@@ -46,6 +46,9 @@ public class ProblemCardRenderer {
 		// json});});'" + "/>");
 		// }
 
+		RenderTools.appendLabelAndTextLine(sb, "类别：",
+				Optional.ofNullable((Document) doc.get("classifyProblem")).map(d -> d.getString("path")).orElse(""));
+
 		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
 
 		RenderTools.appendLabelAndTextLine(sb, "零件：", doc.getString("partName"));
@@ -138,7 +141,7 @@ public class ProblemCardRenderer {
 		} else if ("已创建".equals(doc.get("status"))) {
 			if (severityInd == 0) {
 				RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题指标", "editProblem");
-			}else {
+			} else {
 				RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
 			}
 		}

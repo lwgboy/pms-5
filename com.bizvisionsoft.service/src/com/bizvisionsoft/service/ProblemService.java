@@ -61,7 +61,7 @@ public interface ProblemService {
 	@Path("/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单（已创建）/update")
+	@DataSet({"问题清单（已创建）/update","问题清单（解决中）/update"})
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
 
 	@POST
