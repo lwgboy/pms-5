@@ -1,5 +1,8 @@
 package com.bizvisionsoft.pms.problem.assembly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
@@ -29,7 +32,9 @@ import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -112,7 +117,13 @@ public class CausalAnalysis {
 		});
 
 		tree.setContentProvider(new CauseContentProvider(problem, type));
-		tree.setInput(ProblemService.CauseSubject);
+		List<ClassifyCause> classifyCause = service.listClassifyCause(new BasicDBObject("parent_id",null));
+		if(Check.isNotAssigned(classifyCause)) {
+			Layer.message("请先设置原因分类");
+			tree.setInput(new ArrayList<>());
+		}else {
+			tree.setInput(classifyCause);
+		}
 		Controls.handle(tree.getControl()).markup().loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(bar)
 				.listen(SWT.Selection, this::showTreeMemu)
 				.listen(SWT.Resize, e -> textColumn.getColumn().setWidth(tree.getGrid().getBounds().width - 36));
@@ -121,8 +132,8 @@ public class CausalAnalysis {
 	public void showTreeMemu(Event event) {
 		Object element = event.item.getData();
 		if ("add".equals(event.text)) {
-			if (element instanceof String) {// 类别
-				createCauseItem((String) element);
+			if (element instanceof ClassifyCause) {// 类别
+				createCauseItem( (ClassifyCause)element);
 			} else if (element instanceof CauseConsequence) {
 				createCauseItem((CauseConsequence) element);
 			}
@@ -149,6 +160,16 @@ public class CausalAnalysis {
 			t = service.insertCauseConsequence(t);
 			tree.refresh(parent, false);
 			refreshChart();
+			tree.expandToLevel(parent, -1);
+		});
+	}
+
+	private void createCauseItem(ClassifyCause element) {
+		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type).setSubject(element.name);
+		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
+			t = service.insertCauseConsequence(t);
+			tree.refresh(element, false);
+			refreshChart();
 			tree.expandAll();
 		});
 	}
@@ -159,15 +180,6 @@ public class CausalAnalysis {
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id())).set(r);
 			service.updateCauseConsequence(fu.bson());
 			tree.update(AUtil.simpleCopy(t, cc), null);
-			refreshChart();
-		});
-	}
-
-	private void createCauseItem(String subject) {
-		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type).setSubject(subject);
-		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
-			t = service.insertCauseConsequence(t);
-			tree.refresh(subject, false);
 			refreshChart();
 		});
 	}

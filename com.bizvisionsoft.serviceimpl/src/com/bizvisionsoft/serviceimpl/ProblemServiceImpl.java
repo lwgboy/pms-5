@@ -873,6 +873,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public List<ClassifyCause> rootClassifyCauseSelector(CauseConsequence cc) {
+		if (cc == null)
+			return new ArrayList<>();
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("name", cc.getSubject())));
+		pipeline.add(Aggregates.lookup("classifyCause", "_id", "parent_id", "children1"));
+		pipeline.add(Aggregates.unwind("$children1"));
+		pipeline.add(Aggregates.replaceRoot("$children1"));
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		pipeline.addAll(new JQ("查询-通用-层次结构-增加isLeaf和Path").set("from", "classifyCause").array());
+		debugPipeline(pipeline);
+		return c(ClassifyCause.class).aggregate(pipeline).into(new ArrayList<>());
+
+	}
+
+	@Override
 	public long countClassifyCause(ObjectId parent_id) {
 		return count(new BasicDBObject("parent_id", parent_id), "classifyCause");
 	}

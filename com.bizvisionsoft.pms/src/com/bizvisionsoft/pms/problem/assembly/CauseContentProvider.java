@@ -1,10 +1,13 @@
 package com.bizvisionsoft.pms.problem.assembly;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
@@ -34,14 +37,14 @@ public class CauseContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object value) {
-		return (Object[]) value;
+		return ((List<?>) value).toArray();
 	}
 
 	@Override
 	public Object[] getChildren(Object elem) {
 		BasicDBObject filter = new BasicDBObject();
-		if (elem instanceof String) {
-			filter.append("type", type).append("subject", elem).append("parent_id",null).append("problem_id", problem.get_id());
+		if (elem instanceof ClassifyCause) {
+			filter.append("type", type).append("subject", ((ClassifyCause) elem).name).append("parent_id", null).append("problem_id", problem.get_id());
 		} else if (elem instanceof CauseConsequence) {
 			filter.append("type", type).append("subject", ((CauseConsequence) elem).getSubject())
 					.append("parent_id", ((CauseConsequence) elem).get_id()).append("problem_id", problem.get_id());
@@ -59,8 +62,8 @@ public class CauseContentProvider implements ITreeContentProvider {
 	@Override
 	public boolean hasChildren(Object elem) {
 		BasicDBObject filter = new BasicDBObject();
-		if (elem instanceof String) {
-			filter.append("type", type).append("subject", elem).append("problem_id", problem.get_id());
+		if (elem instanceof ClassifyCause) {
+			filter.append("type", type).append("subject", ((ClassifyCause) elem).name).append("problem_id", problem.get_id());
 		} else if (elem instanceof CauseConsequence) {
 			filter.append("type", type).append("subject", ((CauseConsequence) elem).getSubject())
 					.append("parent_id", ((CauseConsequence) elem).get_id()).append("problem_id", problem.get_id());

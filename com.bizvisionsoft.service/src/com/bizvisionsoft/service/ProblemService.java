@@ -701,6 +701,14 @@ public interface ProblemService {
 	public List<ClassifyCause> rootClassifyCause();
 
 	@POST
+	@Path("/classifyCause/root/selector/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类（选择器用）/" + DataSet.LIST })
+	public List<ClassifyCause> rootClassifyCauseSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) CauseConsequence cc);
+
+	
+	@POST
 	@Path("/classifyCause/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
