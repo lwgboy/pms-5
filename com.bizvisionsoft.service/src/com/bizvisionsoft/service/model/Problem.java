@@ -11,7 +11,9 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
@@ -286,6 +288,10 @@ public class Problem {
 
 	@ReadValue
 	@WriteValue
+	private ClassifyProblem classifyProblem;
+
+	@ReadValue
+	@WriteValue
 	private RiskUrgencyInd urgencyInd;
 
 	@ReadValue("severityIndInfo")
@@ -324,6 +330,11 @@ public class Problem {
 	@ReadValue("detectionIndInfo")
 	private String getDetectionIndInfo() {
 		return Optional.ofNullable(detectionInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@SelectionValidation("classifyProblem")
+	private boolean selectable(@MethodParam(MethodParam.OBJECT) ClassifyProblem elem) {
+		return elem.isLeaf;
 	}
 
 }

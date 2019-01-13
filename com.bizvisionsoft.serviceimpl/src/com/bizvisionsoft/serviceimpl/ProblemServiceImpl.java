@@ -12,6 +12,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
@@ -796,6 +797,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			pipeline.add(Aggregates.match(filter));
 		}
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		pipeline.addAll(new JQ("查询-通用-层次结构-增加isLeaf和Path").set("from", clazz.getAnnotation(PersistenceCollection.class).value()).array());
+
 		return c(clazz).aggregate(pipeline).into(new ArrayList<>());
 	}
 

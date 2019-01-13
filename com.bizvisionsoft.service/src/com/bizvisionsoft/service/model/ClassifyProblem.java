@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -53,5 +56,25 @@ public class ClassifyProblem {
 	}
 
 
+	@ReadValue
+	public String path;
+	
+	@ReadValue
+	@SetValue
+	public boolean isLeaf;
+
+	@ReadValue
+	public List<ObjectId> _ids;
+	
+	
+	@Override
+	@Label
+	public String toString() {
+		return ""+path;
+	}
+	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	public static final String typeName = "问题类别";
 
 }
