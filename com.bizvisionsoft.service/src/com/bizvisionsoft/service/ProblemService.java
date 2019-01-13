@@ -24,6 +24,7 @@ import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.mongodb.BasicDBObject;
@@ -33,19 +34,19 @@ public interface ProblemService {
 
 	public final String[] CauseSubject = { "人", "设备", "材料", "环境", "方法", "测量" };
 
-	@DELETE
-	@Path("/item/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单（已创建）/delete")
-	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
 	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
+
+	@DELETE
+	@Path("/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/delete")
+	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@POST
 	@Path("/item/{status}/{userid}/count/{lang}")
@@ -61,7 +62,7 @@ public interface ProblemService {
 	@Path("/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"问题清单（已创建）/update","问题清单（解决中）/update"})
+	@DataSet({ "问题清单（已创建）/update", "问题清单（解决中）/update" })
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
 
 	@POST
@@ -652,7 +653,6 @@ public interface ProblemService {
 	@DataSet({ "问题成本分类/" + DataSet.UPDATE })
 	public long updateClassifyProblemLost(BasicDBObject filterAndUpdate);
 
-	
 	@POST
 	@Path("/classifyProblem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -692,7 +692,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题分类/" + DataSet.UPDATE })
 	public long updateClassifyProblem(BasicDBObject filterAndUpdate);
-	
+
 	@POST
 	@Path("/classifyCause/root/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -707,7 +707,6 @@ public interface ProblemService {
 	@DataSet({ "原因分类（选择器用）/" + DataSet.LIST })
 	public List<ClassifyCause> rootClassifyCauseSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) CauseConsequence cc);
 
-	
 	@POST
 	@Path("/classifyCause/ds/")
 	@Consumes("application/json; charset=UTF-8")
@@ -742,4 +741,44 @@ public interface ProblemService {
 	public long updateClassifyCause(BasicDBObject filterAndUpdate);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题成本项
+	@DELETE
+	@Path("/costItem/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本账目表格/delete")
+	public long deleteCostItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@POST
+	@Path("/{_id}/costItem/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/list" })
+	public List<ProblemCostItem> listCostItems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/{_id}/costItem/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/count" })
+	public long countCostItems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@PUT
+	@Path("/costItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/update" })
+	public long updateCostItems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/{_id}/costItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本账目表格/insert")
+	public ProblemCostItem insertCostItem(@MethodParam(MethodParam.OBJECT) ProblemCostItem p,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
 }

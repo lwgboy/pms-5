@@ -24,6 +24,7 @@ import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.tools.Check;
@@ -33,6 +34,7 @@ import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 
@@ -906,6 +908,40 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long updateClassifyCause(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, "classifyCause");
+	}
+
+	@Override
+	public long deleteCostItem(ObjectId _id) {
+		return deleteOne(_id, "problemCostItem");
+	}
+
+	@Override
+	public List<ProblemCostItem> listCostItems(BasicDBObject condition, ObjectId problem_id) {
+		ensureGet(condition, "filter").append("problem_id", problem_id);
+		ensureGet(condition, "sort").append("date", -1);
+		return list(ProblemCostItem.class, condition,
+				Aggregates.addFields(new Field<Document>("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
+	}
+
+	@Override
+	public long countCostItems(BasicDBObject filter, ObjectId problem_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.append("problem_id", problem_id);
+		return count(filter, "problemCostItem");
+	}
+
+	@Override
+	public long updateCostItems(BasicDBObject fu) {
+		return update(fu, "problemCostItem");
+	}
+
+	@Override
+	public ProblemCostItem insertCostItem(ProblemCostItem p, ObjectId problem_id) {
+		p.setProblem_id(problem_id);
+		insert(p);
+		BasicDBObject cond = new Query().filter(new BasicDBObject("_id", p.get_id())).bson();
+		return listCostItems(cond, problem_id).get(0);
 	}
 
 }
