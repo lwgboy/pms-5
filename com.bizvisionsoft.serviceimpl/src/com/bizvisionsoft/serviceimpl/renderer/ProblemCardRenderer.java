@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -349,7 +350,13 @@ public class ProblemCardRenderer {
 
 		sb.append("<div style='width:0;flex-grow:1;padding:0px 4px;display:flex;flex-direction:column;justify-content:space-around;'>");
 		sb.append("<div class='brui_text_line label_caption'>" + name
-				+ "</div><div class='brui_card_text3 label_caption' style='height:48px;'>" + desc + "</div>");
+				+ "</div><div class='brui_card_text label_caption' style='height:32px;'>" + desc + "</div>");
+
+		Optional.ofNullable((Document) doc.get("classifyCause")).map(c -> c.getString("path")).ifPresent(path -> {
+			sb.append("<div class='brui_text_line label_caption'>");
+			Arrays.asList(path.split("/")).forEach(em -> sb.append("<span class='layui-bg-green layui-badge' style='margin-right:4px;'>" + em + "</span>"));
+			sb.append("</div>");
+		});
 		sb.append("</div>");
 
 		rowHeight += 82;
