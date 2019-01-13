@@ -17,12 +17,15 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
+import com.bizvisionsoft.service.model.ClassifyProblem;
+import com.bizvisionsoft.service.model.ClassifyProblemLost;
 import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
-import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.mongodb.BasicDBObject;
 
 @Path("/problem")
@@ -546,7 +549,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("损失等级/" + DataSet.UPDATE)
 	public long updateLostInd(BasicDBObject filterAndUpdate);
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -577,7 +580,6 @@ public interface ProblemService {
 	@DataSet("频度等级/" + DataSet.UPDATE)
 	public long updateFreqInd(BasicDBObject filterAndUpdate);
 
-	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
@@ -607,4 +609,129 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("影响范围等级/" + DataSet.UPDATE)
 	public long updateIncidenceInd(BasicDBObject filterAndUpdate);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/classifyProblemLost/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.LIST })
+	public List<ClassifyProblemLost> rootClassifyProblemLost();
+
+	@POST
+	@Path("/classifyProblemLost/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyProblemLost> listClassifyProblemLost(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyProblemLost/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyProblemLost(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyProblemLost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.INSERT })
+	public ClassifyProblemLost insertClassifyProblemLost(@MethodParam(MethodParam.OBJECT) ClassifyProblemLost ai);
+
+	@DELETE
+	@Path("/classifyProblemLost/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.DELETE })
+	public long deleteClassifyProblemLost(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyProblemLost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.UPDATE })
+	public long updateClassifyProblemLost(BasicDBObject filterAndUpdate);
+
+	
+	@POST
+	@Path("/classifyProblem/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.LIST })
+	public List<ClassifyProblem> rootClassifyProblem();
+
+	@POST
+	@Path("/classifyProblem/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyProblem> listClassifyProblem(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyProblem/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyProblem(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyProblem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.INSERT })
+	public ClassifyProblem insertClassifyProblem(@MethodParam(MethodParam.OBJECT) ClassifyProblem ai);
+
+	@DELETE
+	@Path("/classifyProblem/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.DELETE })
+	public long deleteClassifyProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyProblem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.UPDATE })
+	public long updateClassifyProblem(BasicDBObject filterAndUpdate);
+	
+	@POST
+	@Path("/classifyCause/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.LIST })
+	public List<ClassifyCause> rootClassifyCause();
+
+	@POST
+	@Path("/classifyCause/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyCause> listClassifyCause(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyCause/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyCause(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyCause/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.INSERT })
+	public ClassifyCause insertClassifyCause(@MethodParam(MethodParam.OBJECT) ClassifyCause ai);
+
+	@DELETE
+	@Path("/classifyCause/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.DELETE })
+	public long deleteClassifyCause(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyCause/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.UPDATE })
+	public long updateClassifyCause(BasicDBObject filterAndUpdate);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 }

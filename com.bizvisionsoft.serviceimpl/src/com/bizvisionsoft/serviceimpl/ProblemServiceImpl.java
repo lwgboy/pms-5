@@ -16,12 +16,15 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
+import com.bizvisionsoft.service.model.ClassifyProblem;
+import com.bizvisionsoft.service.model.ClassifyProblemLost;
 import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
-import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -784,6 +787,106 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long updateIncidenceInd(BasicDBObject filterAndUpdate) {
 		return update(filterAndUpdate, IncidenceInd.class);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	private <T> List<T> listClassifyItems(BasicDBObject filter, Class<T> clazz) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		if (filter != null) {
+			pipeline.add(Aggregates.match(filter));
+		}
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		return c(clazz).aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<ClassifyProblemLost> rootClassifyProblemLost() {
+		return listClassifyProblemLost(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyProblemLost> listClassifyProblemLost(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyProblemLost.class);
+	}
+
+	@Override
+	public long countClassifyProblemLost(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyProblemLost");
+	}
+
+	@Override
+	public ClassifyProblemLost insertClassifyProblemLost(ClassifyProblemLost ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyProblemLost(ObjectId _id) {
+		return deleteOne(_id, "classifyProblemLost");
+	}
+
+	@Override
+	public long updateClassifyProblemLost(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyProblemLost");
+	}
+
+	@Override
+	public List<ClassifyProblem> rootClassifyProblem() {
+		return listClassifyProblem(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyProblem> listClassifyProblem(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyProblem.class);
+	}
+
+	@Override
+	public long countClassifyProblem(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyProblem");
+	}
+
+	@Override
+	public ClassifyProblem insertClassifyProblem(ClassifyProblem ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyProblem(ObjectId _id) {
+		return deleteOne(_id, "classifyProblem");
+	}
+
+	@Override
+	public long updateClassifyProblem(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyProblem");
+	}
+
+	@Override
+	public List<ClassifyCause> rootClassifyCause() {
+		return listClassifyCause(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyCause> listClassifyCause(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyCause.class);
+	}
+
+	@Override
+	public long countClassifyCause(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyCause");
+	}
+
+	@Override
+	public ClassifyCause insertClassifyCause(ClassifyCause ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyCause(ObjectId _id) {
+		return deleteOne(_id, "classifyCause");
+	}
+
+	@Override
+	public long updateClassifyCause(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyCause");
 	}
 
 }
