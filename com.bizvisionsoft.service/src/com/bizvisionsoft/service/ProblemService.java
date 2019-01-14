@@ -41,6 +41,12 @@ public interface ProblemService {
 	@DataSet(DataSet.INPUT)
 	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
+	@GET
+	@Path("/_id/{_id}/cost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getSummaryCost(@PathParam("_id") ObjectId _id);
+
 	@DELETE
 	@Path("/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")

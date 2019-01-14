@@ -80,4 +80,8 @@ public class ProblemCostItem {
 	public ObjectId get_id() {
 		return _id;
 	}
+	
+	public double getSummary() {
+		return summary;
+	}
 }

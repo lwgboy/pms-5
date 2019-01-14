@@ -103,17 +103,21 @@ public class ProblemCardRenderer {
 			};
 			String[] title = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
 			String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
-			sb.append("<div class='label_caption brui_ly_hline brui_line_padding'>");
+			
+			String label ="";
 			int max = 0;
 			for (int i = 0; i < fields.length; i++) {
 				if ((Document) doc.get(fields[i]) != null) {
 					max = Math.max(max, i);
 				}
-				sb.append(MetaInfoWarpper.warpper(title[i], msg[i]));
+				label +=MetaInfoWarpper.warpper(title[i], msg[i]);
 			}
-			sb.append("</div>");
-			sb.append("<div class='layui-progress layui-progress' style='margin:0px 8px;'>");
+			
+			sb.append("<div class='layui-progress layui-progress' style='margin:8px 8px 0px 8px;'>");
 			sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
+			sb.append("</div>");
+			sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#"+indigo.lightText+";padding-top:0px;'>");
+			sb.append(label);
 			sb.append("</div>");
 		}
 

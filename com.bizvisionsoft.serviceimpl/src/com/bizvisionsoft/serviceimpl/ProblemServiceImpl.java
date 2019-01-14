@@ -944,4 +944,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return listCostItems(cond, problem_id).get(0);
 	}
 
+	@Override
+	public Document getSummaryCost(ObjectId problem_id) {
+		List<Document> pipe = Arrays.asList(new Document("$match",new Document("problem_id",problem_id)),
+		new Document("$group",new Document("_id","$problem_id").append("drAmount", new Document("$sum","$drAmount")).append("crAmount", new Document("$sum","$crAmount"))),
+		new Document("$addFields",new Document("summary",new Document("$add",Arrays.asList("$drAmount","$crAmount")))));
+		debugPipeline(pipe);
+		return c("problemCostItem").aggregate(pipe).first();
+	}
+
 }
