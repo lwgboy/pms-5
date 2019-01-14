@@ -189,7 +189,7 @@ public class ProblemCardRenderer {
 	}
 
 	public static Document renderD0ERA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, red, null);
+		StringBuffer sb = renderAction(doc, red, lang,null);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
@@ -273,11 +273,11 @@ public class ProblemCardRenderer {
 	}
 
 	public static Document renderD3ICA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo, null);
+		StringBuffer sb = renderAction(doc, indigo,lang, null);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	private static StringBuffer renderAction(Document doc, CardTheme theme, String head) {
+	private static StringBuffer renderAction(Document doc, CardTheme theme,String lang, String head) {
 		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
@@ -435,7 +435,7 @@ public class ProblemCardRenderer {
 		} else {
 			head = "实施/确认问题流出的纠正措施";
 		}
-		StringBuffer sb = renderAction(doc, indigo, head);
+		StringBuffer sb = renderAction(doc, indigo,lang, head);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
@@ -478,35 +478,9 @@ public class ProblemCardRenderer {
 		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
 
-	public static Document renderD7SPA(Document t, String lang) {
-		StringBuffer sb = new StringBuffer();
-		RenderTools.appendHeader(sb, indigo, "系统性预防措施", 36);
-
-		RenderTools.appendText(sb, t.getString("action"), RenderTools.STYLE_NLINE);
-
-		Document charger = (Document) t.get("charger_meta");
-
-		Date date = t.getDate("date");
-
-		boolean finished = t.getBoolean("finish", false);
-		String status = finished ? ("<span class='layui-badge  layui-bg-blue'>" + "已完成" + "</span>")
-				: ("<span class='layui-badge'>" + "未完成" + "</span>");
-
-		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date) + " " + status);
-
-		if (!finished) {
-			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8, 12, "关闭PCA", "finishSPA");
-
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑系统性预防措施", "editSPA");
-
-			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除系统性预防措施", "deleteSPA");
-		} else {
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "查看系统性预防措施", "readSPA");
-		}
-
-		RenderTools.appendCardBg(sb);
-
-		return new Document("html", sb.toString()).append("_id", t.get("_id"));
+	public static Document renderD7SPA(Document doc, String lang) {
+		StringBuffer sb = renderAction(doc, indigo,lang, "系统性预防措施");
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 	public static Document renderD8Exp(Document t, String lang) {

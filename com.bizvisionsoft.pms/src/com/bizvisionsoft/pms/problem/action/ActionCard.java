@@ -21,7 +21,7 @@ public abstract class ActionCard {
 
 	protected ProblemService service;
 
-	private String lang;
+	protected String lang;
 
 	public ActionCard() {
 		service = Services.get(ProblemService.class);
@@ -81,15 +81,19 @@ public abstract class ActionCard {
 	protected abstract String getItemTypeName();
 
 	private void edit(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
-		Editor.create(getEditorName(), context, service.getD3ICA(_id), true).ok((r, t) -> {
+		Document input = getAction(_id);
+		Editor.create(getEditorName(), context, input, true).ok((r, t) -> {
 			Document d = doUpdate(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
 
+	protected abstract Document getAction(ObjectId _id) ;
+
 	protected abstract String getEditorName();
 
 	private void read(ObjectId _id, BruiAssemblyContext context) {
-		Editor.create(getEditorName(), context, service.getD3ICA(_id), true).setEditable(false).open();
+		Document input = getAction(_id);
+		Editor.create(getEditorName(), context, input, true).setEditable(false).open();
 	}
 }

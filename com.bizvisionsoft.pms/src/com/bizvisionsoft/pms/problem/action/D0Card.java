@@ -10,14 +10,11 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.ProblemService;
 
 public class D0Card extends ActionCard{
 	
 	@Inject
 	private IBruiService br;
-
-	private ProblemService service;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
@@ -54,5 +51,10 @@ public class D0Card extends ActionCard{
 	@Override
 	protected String getEditorName() {
 		return "D0-ERA-±à¼­Æ÷";
+	}
+
+	@Override
+	protected Document getAction(ObjectId _id) {
+		return service.getD0ERA(_id);
 	}
 }

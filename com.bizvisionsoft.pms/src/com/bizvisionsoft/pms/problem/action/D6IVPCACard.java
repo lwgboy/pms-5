@@ -10,14 +10,11 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.service.ProblemService;
 
 public class D6IVPCACard extends ActionCard{
 	
 	@Inject
 	private IBruiService br;
-
-	private ProblemService service;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
@@ -39,6 +36,11 @@ public class D6IVPCACard extends ActionCard{
 	@Override
 	protected void doDelete(ObjectId _id) {
 		service.deleteD6IVPCA(_id);
+	}
+	
+	@Override
+	protected Document getAction(ObjectId _id) {
+		return service.getD6IVPCA(_id);
 	}
 
 	@Override
