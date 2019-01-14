@@ -32,8 +32,6 @@ import com.mongodb.BasicDBObject;
 @Path("/problem")
 public interface ProblemService {
 
-	public final String[] CauseSubject = { "人", "设备", "材料", "环境", "方法", "测量" };
-
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -146,6 +144,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD7SPA(@PathParam("_id") ObjectId _id);
+	
+	@DELETE
+	@Path("/d8/lra/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD8LRA(@PathParam("_id") ObjectId _id);
 
 	@DELETE
 	@Path("/d8/exp/_id/{_id}")
@@ -222,6 +226,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD7SPA(@PathParam("_id") ObjectId _id);
+	
+	@GET
+	@Path("/_id/{_id}/d8/lra")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD8LRA(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/d8/exp")
@@ -301,6 +311,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
+	@POST
+	@Path("/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+	
 	@POST
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -410,6 +426,15 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
+	@Path("/_id/{_id}/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8损失挽回措施表格/list")
+	public List<Document> listD8LRA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+	
+	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -491,6 +516,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
+	@PUT
+	@Path("/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+	
 	@PUT
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")

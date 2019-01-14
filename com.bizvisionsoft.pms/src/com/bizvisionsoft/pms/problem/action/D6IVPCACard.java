@@ -44,17 +44,12 @@ public class D6IVPCACard extends ActionCard{
 	}
 
 	@Override
-	protected String getVerfiyEditorName() {
-		return "D6-PCA验证-编辑器";
-	}
-
-	@Override
 	protected String getItemTypeName() {
 		return "永久纠正措施";
 	}
 
 	@Override
 	protected String getEditorName() {
-		return "D6-PCA编辑器";
+		return "Dx-分类行动计划-编辑器";
 	}
 }

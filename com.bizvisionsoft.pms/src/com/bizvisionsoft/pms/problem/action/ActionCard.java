@@ -57,15 +57,23 @@ public abstract class ActionCard {
 	protected abstract Document doUpdate(Document append, String lang, String render);
 
 	private void verify(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
-		Document input = Optional.ofNullable((Document) service.getD3ICA(_id).get("verification")).orElse(new Document());
-		Editor.create(getVerfiyEditorName(), context, input, true).ok((r, t) -> {
+		Document document = getAction(_id);
+		Document input = Optional.ofNullable((Document) document.get("verification")).orElse(new Document());
+		String title = "验证" + getItemTypeName();
+		String editorName = getVerfiyEditorName();
+		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
 			Document d = doUpdate(new Document("_id", _id).append("verification", t), lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
-
 		});
 	}
 
-	protected abstract String getVerfiyEditorName();
+	protected String getVerfiyEditorName() {
+		return "Dx-行动验证-编辑器";
+	}
+	
+	protected String getEditorName() {
+		return "Dx-行动计划-编辑器";
+	}
 
 	private void delete(ObjectId _id, Document doc, GridTreeViewer viewer) {
 		if (getBruiService().confirm("删除", "请确认删除选择的" + getItemTypeName())) {
@@ -82,18 +90,20 @@ public abstract class ActionCard {
 
 	private void edit(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document input = getAction(_id);
-		Editor.create(getEditorName(), context, input, true).ok((r, t) -> {
+		String editorName = getEditorName();
+		String title = getItemTypeName();
+		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
 			Document d = doUpdate(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
 
-	protected abstract Document getAction(ObjectId _id) ;
-
-	protected abstract String getEditorName();
+	protected abstract Document getAction(ObjectId _id);
 
 	private void read(ObjectId _id, BruiAssemblyContext context) {
 		Document input = getAction(_id);
-		Editor.create(getEditorName(), context, input, true).setEditable(false).open();
+		String editorName = getEditorName();
+		String title = getItemTypeName();
+		Editor.create(editorName, context, input, true).setTitle(title).setEditable(false).open();
 	}
 }

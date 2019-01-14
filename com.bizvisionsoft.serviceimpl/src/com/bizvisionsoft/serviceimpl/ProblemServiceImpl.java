@@ -395,6 +395,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Problem problem = get(problem_id);
 		List<Document> data = new ArrayList<>();
 		List<Document> links = new ArrayList<>();
+
+		List<String> causeSubject = c("classifyCause").find(new Document("parent_id", null)).map(d -> d.getString("name"))
+				.into(new ArrayList<>());
 		// 根节点
 		data.add(new Document("id", problem_id)//
 				.append("name", problem.getName())//
@@ -403,7 +406,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				.append("desc", problem.getName())//
 				.append("symbolSize", 50)//
 				.append("value", 20));
-		Arrays.asList(CauseSubject).forEach(s -> {
+		// TODO
+		causeSubject.forEach(s -> {
 			data.add(new Document("id", s)//
 					.append("name", s)//
 					.append("draggable", true)//
@@ -431,7 +435,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> categories = new ArrayList<>();
 		categories.add(new Document("name", "问题"));
 		categories.add(new Document("name", "类别"));
-		categories.addAll(Arrays.asList(CauseSubject).stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
+		categories.addAll(causeSubject.stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
 
 		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
 	}
@@ -715,6 +719,35 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return t;
 	}
 
+	@Override
+	public long deleteD8LRA(ObjectId _id) {
+		return deleteOne(_id, "d8LRA");
+	}
+
+	@Override
+	public Document getD8LRA(ObjectId _id) {
+		return getDocument(_id, "d8LRA");
+	}
+
+	@Override
+	public Document insertD8LRA(Document t, String lang, String render) {
+		t.append("_id", new ObjectId());
+		c("d8LRA").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD8LRA(t, lang);
+		return t;
+	}
+
+	@Override
+	public List<Document> listD8LRA(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		return c("d8LRA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD8LRA(Document d, String lang, String render) {
+		return updateThen(d, lang, "d8LRA", "card".equals(render) ? ProblemCardRenderer::renderD8LRA : null);
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 问题严重性级别
 	//
@@ -968,7 +1001,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document periodCostChart(ObjectId problem_id) {
 		List<String> x = new ArrayList<>();
 		Set<String> legend = new HashSet<>();
-		Map<String,Document> ds = new HashMap<>();
+		Map<String, Document> ds = new HashMap<>();
 		c("problemCostItem").aggregate(new JQ("查询-问题成本-根科目和年月汇总").set("match", new Document("problem_id", problem_id)).array())
 				.forEach((Document d) -> {
 					// 科目构建系列
@@ -979,7 +1012,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 					Document data = (Document) d.get("data");
 					x.addAll(data.keySet());
-					ds.put(account,data);
+					ds.put(account, data);
 				});
 
 		List<String> xAxis = new ArrayList<>();
@@ -997,10 +1030,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			} catch (ParseException e) {
 			}
 		}
-		
-		
-		List<Document> series = legend.stream().map(l->{
-			List<Double> data = xAxis.stream().map(s->ds.get(l).get(s,0d)).collect(Collectors.toList());
+
+		List<Document> series = legend.stream().map(l -> {
+			List<Double> data = xAxis.stream().map(s -> ds.get(l).get(s, 0d)).collect(Collectors.toList());
 			return new Document("name", l).append("type", "bar").append("barGap", 0).append("data", data);
 		}).collect(Collectors.toList());
 

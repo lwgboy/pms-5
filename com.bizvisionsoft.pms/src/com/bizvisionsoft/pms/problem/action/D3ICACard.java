@@ -44,17 +44,8 @@ public class D3ICACard extends ActionCard{
 	}
 
 	@Override
-	protected String getVerfiyEditorName() {
-		return "D3-ICA验证-编辑器";
-	}
-
-	@Override
 	protected String getItemTypeName() {
 		return "临时控制行动";
 	}
 
-	@Override
-	protected String getEditorName() {
-		return "D3-ICA-编辑器";
-	}
 }

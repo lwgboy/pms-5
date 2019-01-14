@@ -511,4 +511,9 @@ public class ProblemCardRenderer {
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
 	}
 
+	public static Document renderD8LRA(Document doc, String lang) {
+		StringBuffer sb = renderAction(doc, indigo,lang, "ËðÊ§Íì»Ø´ëÊ©");
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
+
 }

@@ -70,18 +70,8 @@ public class D7SPACard extends ActionCard{
 	}
 
 	@Override
-	protected String getVerfiyEditorName() {
-		return "D7-SPAÑéÖ¤-±à¼­Æ÷";
-	}
-
-	@Override
 	protected String getItemTypeName() {
 		return "ÏµÍ³Ô¤·À´ëÊ©";
-	}
-
-	@Override
-	protected String getEditorName() {
-		return "D7-Ô¤·À´ëÊ©-±à¼­Æ÷";
 	}
 
 	@Override

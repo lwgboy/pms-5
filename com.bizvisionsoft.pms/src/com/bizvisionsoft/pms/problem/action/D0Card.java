@@ -39,18 +39,8 @@ public class D0Card extends ActionCard{
 	}
 
 	@Override
-	protected String getVerfiyEditorName() {
-		return "D0-ERA验证-编辑器";
-	}
-
-	@Override
 	protected String getItemTypeName() {
 		return "紧急反应行动";
-	}
-
-	@Override
-	protected String getEditorName() {
-		return "D0-ERA-编辑器";
 	}
 
 	@Override
