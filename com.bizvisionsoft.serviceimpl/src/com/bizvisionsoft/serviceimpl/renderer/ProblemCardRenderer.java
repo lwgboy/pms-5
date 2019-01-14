@@ -1,6 +1,5 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,10 +28,43 @@ public class ProblemCardRenderer {
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
 	public static Document renderProblem(Document doc, String lang) {
-		Object _id = doc.get("_id");
-
 		StringBuffer sb = new StringBuffer();
 
+		// 【公共块】//
+		appendProblemCommonInfo(doc, sb);
+
+		// 【指标表】
+		Document chart = createProblemInstuctors(doc);
+		if (chart != null)
+			sb.append("<div name='" + doc.get("_id") + "' style='width:100%;height:120px;'></div>");
+
+		// 【不同状态的内容块】
+		if ("解决中".equals(doc.get("status"))) {
+			appendProblemScheduleBar(doc, sb);
+		} else if ("已创建".equals(doc.get("status"))) {
+		} else if ("已关闭".equals(doc.get("status"))) {
+			appendProblemCostInfo(doc, sb);
+		} else if ("已取消".equals(doc.get("status"))) {
+		}
+
+		// 【按钮块】
+		appendProblemButtons(doc, sb);
+
+		// 【卡片背景】
+		RenderTools.appendCardBg(sb);
+
+		Document result = new Document("_id", doc.get("_id")).append("html", sb.toString());
+		if (chart != null)
+			result.append("charts", Arrays.asList(chart));
+		return result;
+	}
+
+	private static void appendProblemCostInfo(Document doc, StringBuffer sb) {
+		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
+				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", s));
+	}
+
+	private static void appendProblemCommonInfo(Document doc, StringBuffer sb) {
 		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
 
 		// 问题照片
@@ -50,14 +82,15 @@ public class ProblemCardRenderer {
 		RenderTools.appendLabelAndTextLine(sb, "类别：",
 				Optional.ofNullable((Document) doc.get("classifyProblem")).map(d -> d.getString("path")).orElse(""));
 
-		RenderTools.appendLabelAndTextLine(sb, "客户：", doc.getString("custInfo"));
-
-		RenderTools.appendLabelAndTextLine(sb, "零件：", doc.getString("partName"));
+		Check.isAssigned(doc.getString("custInfo"), s -> RenderTools.appendLabelAndTextLine(sb, "客户：", s));
+		Check.isAssigned(doc.getString("partName"), s -> RenderTools.appendLabelAndTextLine(sb, "零件：", s));
 
 		String pnum = Check.isAssignedThen(doc.getString("partNum"), s -> "S/N:" + s).orElse("");
 		String prev = Check.isAssignedThen(doc.getString("partVer"), s -> " Rev:" + s).orElse("");
 		String lotNum = Check.isAssignedThen(doc.getString("lotNum"), s -> s).orElse("");
-		RenderTools.appendLabelAndTextLine(sb, "批次：", pnum + prev + " Lot:" + lotNum);
+		if (Check.isAssigned(pnum, prev,lotNum)) 
+			RenderTools.appendLabelAndTextLine(sb, "批次：", pnum + prev + " Lot:" + lotNum);
+		
 
 		String by = Optional.ofNullable(doc.getString("issueBy")).orElse("");
 		String on = Optional.ofNullable(doc.getDate("issueDate")).map(Formatter::getString).orElse("");
@@ -66,7 +99,10 @@ public class ProblemCardRenderer {
 
 		// RenderTools.appendLabelAndTextLine(sb, "来源：",
 		// doc.getString("initiatedFrom"));
+	}
 
+	private static Document createProblemInstuctors(Document doc) {
+		Object _id = doc.get("_id");
 		/////////////////////////////////////////////////////////////////
 		// 指标
 		// 1. 计算PCI(问题关键指数)
@@ -82,81 +118,73 @@ public class ProblemCardRenderer {
 		// 4. urgencyInd紧急程度
 		// int urgencyInd = Optional.ofNullable((Document) doc.get("urgencyInd")).map(d
 		// -> d.getInteger("index")).orElse(0);
-		List<Document> charts = new ArrayList<Document>();
 		if (severityInd + incidenceInd + lostInd > 0) {
-			sb.append("<div name='" + _id + "' style='width:100%;height:120px;'></div>");
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
-			chart.append("option", new JQ("图表-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
+			chart.append("option", new JQ("图表-通用-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
 					.set("value2", incidenceInd).set("name3", "损失程度").set("value3", lostInd).doc());
-			charts.add(chart);
+			return chart;
 		}
+		return null;
+	}
 
-		/////////////////////////////////////////////////////////////////
-		// 进度栏
-		if ("解决中".equals(doc.get("status"))) {
-			// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
-			String[] msg = new String[] { "已确认临时控制措施有效。", //
-					"已批准永久纠正措施的方案开始执行。", //
-					"通过长期监控永久纠正措施能够长期有效。", //
-					"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
-			};
-			String[] title = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
-			String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
-			
-			String label ="";
-			int max = 0;
-			for (int i = 0; i < fields.length; i++) {
-				if ((Document) doc.get(fields[i]) != null) {
-					max = Math.max(max, i);
-				}
-				label +=MetaInfoWarpper.warpper(title[i], msg[i]);
-			}
-			
-			sb.append("<div class='layui-progress layui-progress' style='margin:8px 8px 0px 8px;'>");
-			sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
-			sb.append("</div>");
-			sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#"+indigo.lightText+";padding-top:0px;'>");
-			sb.append(label);
-			sb.append("</div>");
-		}
-
-		if (!"已创建".equals(doc.get("status"))) {
-			// 【紧急应对】eraStarted,eraStopped
-			Document eraStarted = (Document) doc.get("eraStarted");
-			Document eraStopped = (Document) doc.get("eraStopped");
-			if (eraStarted != null) {// 紧急应对已启用
-				String text, msg;
-				if (eraStopped != null) {
-					msg = eraStopped.getString("userName") + Formatter.getString(eraStopped.getDate("date")) + "<br>已终止紧急应对措施";
-					text = "<span class='layui-badge'>" + "ERA 已终止" + "</span>";
-				} else {
-					msg = eraStarted.getString("userName") + Formatter.getString(eraStarted.getDate("date")) + "<br>已启动紧急应对措施";
-					text = "<span class='layui-badge layui-bg-blue'>" + "ERA 已启动" + "</span>";
-				}
-				text = MetaInfoWarpper.warpper(text, msg);
-				RenderTools.appendText(sb, text, RenderTools.STYLE_1LINE);
-			}
-
-		}
-
-		// 【按钮】
+	private static void appendProblemButtons(Document doc, StringBuffer sb) {
+		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
 		} else if ("已创建".equals(doc.get("status"))) {
-			if (severityInd == 0) {
-				RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题指标", "editProblem");
-			} else {
-				RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
+			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑问题指标", "editProblem");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
+		} else if ("已关闭".equals(doc.get("status"))) {
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+		} else if ("已取消".equals(doc.get("status"))) {
+			// TODO 查看问题定义？
+		}
+	}
+
+	private static void appendProblemScheduleBar(Document doc, StringBuffer sb) {
+		/////////////////////////////////////////////////////////////////
+		// 进度栏
+		// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
+		String[] msgs = new String[] { "已确认临时控制措施有效。", //
+				"已批准永久纠正措施的方案开始执行。", //
+				"通过长期监控永久纠正措施能够长期有效。", //
+				"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
+		};
+		String[] titles = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
+		String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
+
+		String label = "";
+		int max = 0;
+		for (int i = 0; i < fields.length; i++) {
+			if ((Document) doc.get(fields[i]) != null) {
+				max = Math.max(max, i);
 			}
+			label += MetaInfoWarpper.warpper(titles[i], msgs[i]);
 		}
 
-		RenderTools.appendCardBg(sb);
+		sb.append("<div class='layui-progress layui-progress' style='margin:8px 8px 0px 8px;'>");
+		sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
+		sb.append("</div>");
+		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#" + indigo.lightText + ";padding-top:0px;'>");
+		sb.append(label);
+		sb.append("</div>");
 
-		Document result = new Document("_id", _id).append("html", sb.toString());
-		if (!charts.isEmpty())
-			result.append("charts", charts);
-		return result;
+		// 【紧急应对】eraStarted,eraStopped
+		Document eraStarted = (Document) doc.get("eraStarted");
+		Document eraStopped = (Document) doc.get("eraStopped");
+		if (eraStarted != null) {// 紧急应对已启用
+			String text, msg;
+			if (eraStopped != null) {
+				msg = eraStopped.getString("userName") + Formatter.getString(eraStopped.getDate("date")) + "<br>已终止紧急应对措施";
+				text = "<span class='layui-badge'>" + "ERA 已终止" + "</span>";
+			} else {
+				msg = eraStarted.getString("userName") + Formatter.getString(eraStarted.getDate("date")) + "<br>已启动紧急应对措施";
+				text = "<span class='layui-badge layui-bg-blue'>" + "ERA 已启动" + "</span>";
+			}
+			text = MetaInfoWarpper.warpper(text, msg);
+			RenderTools.appendText(sb, text, RenderTools.STYLE_1LINE);
+		}
 	}
 
 	public static Document renderD0ERA(Document doc, String lang) {
@@ -358,7 +386,8 @@ public class ProblemCardRenderer {
 
 		Optional.ofNullable((Document) doc.get("classifyCause")).map(c -> c.getString("path")).ifPresent(path -> {
 			sb.append("<div class='brui_text_line label_caption'>");
-			Arrays.asList(path.split("/")).forEach(em -> sb.append("<span class='layui-bg-green layui-badge' style='margin-right:4px;'>" + em + "</span>"));
+			Arrays.asList(path.split("/"))
+					.forEach(em -> sb.append("<span class='layui-bg-green layui-badge' style='margin-right:4px;'>" + em + "</span>"));
 			sb.append("</div>");
 		});
 		sb.append("</div>");

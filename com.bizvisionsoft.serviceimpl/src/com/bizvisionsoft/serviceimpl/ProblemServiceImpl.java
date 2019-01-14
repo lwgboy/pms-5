@@ -1,10 +1,18 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -58,6 +66,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
 		pipeline.addAll(new JQ("追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
 				.set("urgencyIndField", "urgencyInd").array());
+		pipeline.addAll(new JQ("追加-问题成本合计").array());
 		return pipeline;
 	}
 
@@ -946,11 +955,56 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document getSummaryCost(ObjectId problem_id) {
-		List<Document> pipe = Arrays.asList(new Document("$match",new Document("problem_id",problem_id)),
-		new Document("$group",new Document("_id","$problem_id").append("drAmount", new Document("$sum","$drAmount")).append("crAmount", new Document("$sum","$crAmount"))),
-		new Document("$addFields",new Document("summary",new Document("$add",Arrays.asList("$drAmount","$crAmount")))));
+		List<Document> pipe = Arrays.asList(new Document("$match", new Document("problem_id", problem_id)),
+				new Document("$group",
+						new Document("_id", "$problem_id").append("drAmount", new Document("$sum", "$drAmount")).append("crAmount",
+								new Document("$sum", "$crAmount"))),
+				new Document("$addFields", new Document("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
 		debugPipeline(pipe);
 		return c("problemCostItem").aggregate(pipe).first();
+	}
+
+	@Override
+	public Document periodCostChart(ObjectId problem_id) {
+		List<String> x = new ArrayList<>();
+		Set<String> legend = new HashSet<>();
+		Map<String,Document> ds = new HashMap<>();
+		c("problemCostItem").aggregate(new JQ("查询-问题成本-根科目和年月汇总").set("match", new Document("problem_id", problem_id)).array())
+				.forEach((Document d) -> {
+					// 科目构建系列
+					// 期间为x轴
+					// 数值为y轴
+					String account = d.getString("_id");
+					legend.add(account);
+
+					Document data = (Document) d.get("data");
+					x.addAll(data.keySet());
+					ds.put(account,data);
+				});
+
+		List<String> xAxis = new ArrayList<>();
+		if (!x.isEmpty()) {
+			Collections.sort(x);
+			try {
+				Calendar min = Calendar.getInstance();
+				min.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(0)));
+				Calendar max = Calendar.getInstance();
+				max.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(x.size() - 1)));
+				while (!min.after(max)) {
+					xAxis.add(new SimpleDateFormat("yyyy-MM").format(min.getTime()));
+					min.add(Calendar.MONTH, 1);
+				}
+			} catch (ParseException e) {
+			}
+		}
+		
+		
+		List<Document> series = legend.stream().map(l->{
+			List<Double> data = xAxis.stream().map(s->ds.get(l).get(s,0d)).collect(Collectors.toList());
+			return new Document("name", l).append("type", "bar").append("barGap", 0).append("data", data);
+		}).collect(Collectors.toList());
+
+		return new JQ("图表-通用-多维堆叠柱图").set("legend", legend).set("xAxis", xAxis).set("series", series).doc();
 	}
 
 }

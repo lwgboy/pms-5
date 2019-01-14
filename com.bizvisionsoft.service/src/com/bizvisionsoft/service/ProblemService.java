@@ -58,7 +58,7 @@ public interface ProblemService {
 	@Path("/item/{status}/{userid}/count/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单（已创建）/count", "问题清单（解决中）/count", "问题清单（已关闭，已取消）/count", "已创建问题看板/count" })
+	@DataSet({ "问题清单（已创建）/count", "问题清单（解决中）/count", "问题清单（已关闭）/count", "问题清单（已取消）/count", "已创建问题看板/count" })
 	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
@@ -82,7 +82,7 @@ public interface ProblemService {
 	@Path("/item/{status}/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单（已创建）/list", "问题清单（解决中）/list", "问题清单（已关闭，已取消）/list" })
+	@DataSet({ "问题清单（已创建）/list", "问题清单（解决中）/list", "问题清单（已关闭）/list", "问题清单（已取消）/list" })
 	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
@@ -786,5 +786,14 @@ public interface ProblemService {
 	@DataSet("D8问题成本账目表格/insert")
 	public ProblemCostItem insertCostItem(@MethodParam(MethodParam.OBJECT) ProblemCostItem p,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+	
+	@POST
+	@Path("/{_id}/chart/periodCost")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本期间分类汇总/list")
+	public Document periodCostChart(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	
 
 }

@@ -293,7 +293,16 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private RiskUrgencyInd urgencyInd;
+	
+	@ReadValue
+	@SetValue
+	private CostItem cost;
 
+	@ReadValue("cost.summary")
+	private double getCostSummary() {
+		return Optional.ofNullable(cost).map(c->c.summary).orElse(0d);
+	}
+	
 	@ReadValue("severityIndInfo")
 	private String getSeverityIndInfo() {
 		return Optional.ofNullable(severityInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
