@@ -28,7 +28,7 @@ public class CreateD6IVPCA {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		Editor.create("D6-IVPCA-±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+		Editor.create("D6-PCA±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertD6IVPCA(t, RWT.getLocale().getLanguage(),render);
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 			((List<Document>) viewer.getInput()).add(t);
