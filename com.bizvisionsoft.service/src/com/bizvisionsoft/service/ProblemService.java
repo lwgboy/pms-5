@@ -144,7 +144,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD7SPA(@PathParam("_id") ObjectId _id);
-	
+
 	@DELETE
 	@Path("/d8/lra/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -226,7 +226,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD7SPA(@PathParam("_id") ObjectId _id);
-	
+
 	@GET
 	@Path("/_id/{_id}/d8/lra")
 	@Consumes("application/json; charset=UTF-8")
@@ -316,7 +316,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-	
+
 	@POST
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -433,7 +433,7 @@ public interface ProblemService {
 	public List<Document> listD8LRA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
-	
+
 	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -521,7 +521,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-	
+
 	@PUT
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -817,7 +817,7 @@ public interface ProblemService {
 	@DataSet("D8问题成本账目表格/insert")
 	public ProblemCostItem insertCostItem(@MethodParam(MethodParam.OBJECT) ProblemCostItem p,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
-	
+
 	@POST
 	@Path("/{_id}/chart/periodCost")
 	@Consumes("application/json; charset=UTF-8")
@@ -825,6 +825,42 @@ public interface ProblemService {
 	@DataSet("D8问题成本期间分类汇总/list")
 	public Document periodCostChart(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 通用行动
+	@POST
+	@Path("/_id/{_id}/{stage}/action/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertAction(Document t, 
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage, @PathParam("lang") String lang, @PathParam("render") String render);
+
+	@DELETE
+	@Path("/action/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteAction(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/action/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getAction(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/{stage}/actions/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render);
+
+	@PUT
+	@Path("/action/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateAction(Document d, 
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @PathParam("render") String render);
 
 }

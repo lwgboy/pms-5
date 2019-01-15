@@ -140,6 +140,53 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 通用行动
+	//
+	@Override
+	public Document getAction(ObjectId _id) {
+		return getDocument(_id, "problemAction");
+	}
+
+	@Override
+	public long deleteAction(ObjectId _id) {
+		return deleteOne(_id, "problemAction");
+	}
+
+	@Override
+	public Document insertAction(Document t, ObjectId problem_id, String stage, String lang, String render) {
+		c("problemAction").insertOne(t.append("problem_id", problem_id).append("stage", stage));
+		if ("card".equals(render)) {
+			return ProblemCardRenderer.renderAction(t, lang);
+		} else if ("gridrow".equals(render)) {
+			return appendPriortyText(t, lang);
+		}
+		return t;
+	}
+
+	@Override
+	public List<Document> listActions(BasicDBObject condition, ObjectId problem_id, String stage, String lang, String render) {
+		Function<Document, Document> f;
+		if ("card".equals(render)) {
+			f = d -> ProblemCardRenderer.renderAction(d, lang);
+		} else {
+			f = d -> appendPriortyText(d, lang);
+		}
+		return c("problemAction").find(new Document("problem_id", problem_id)).map(f).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateAction(Document d, String lang, String render) {
+		BiFunction<Document, String, Document> func;
+		if ("card".equals(render)) {
+			func = ProblemCardRenderer::renderAction;
+		} else {
+			func = this::appendPriortyText;
+		}
+		return updateThen(d, lang, "problemAction", func);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// D0 紧急反应行动
 	//
 	@Override

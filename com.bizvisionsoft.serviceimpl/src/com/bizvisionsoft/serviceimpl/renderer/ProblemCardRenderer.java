@@ -192,6 +192,11 @@ public class ProblemCardRenderer {
 		StringBuffer sb = renderAction(doc, red, lang,null);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
+	
+	public static Document renderAction(Document doc, String lang) {
+		StringBuffer sb = renderAction(doc, red, lang,null);
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
 
 	public static Document renderD1CFTMember(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
