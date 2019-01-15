@@ -22,6 +22,8 @@ public class ProblemCardRenderer {
 	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
+	
+	private static final CardTheme cyan = new CardTheme(CardTheme.CYAN);
 
 	private static final CardTheme deepGrey = new CardTheme(CardTheme.DEEP_GREY);
 
@@ -354,15 +356,19 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public static Document renderD4(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date, String lang) {
+	public static Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date, String lang) {
 
 		StringBuffer sb = new StringBuffer();
+
+		String title = "make".equals(type) ? "问题产生的根本原因" : "问题流出的逃出点";
 
 		RenderTools.appendHeader(sb, red, title, 36);
 
 		RenderTools.appendText(sb, rootCauseDesc, RenderTools.STYLE_NLINE);
 
 		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
+
+		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "open/"+type);
 
 		RenderTools.appendCardBg(sb);
 
@@ -404,7 +410,6 @@ public class ProblemCardRenderer {
 		sb.insert(0,
 				"<div class='brui_card_trans' style='display:flex;background:#f9f9f9;height:" + (rowHeight - 2 * 8) + "px;margin:8px;'>");
 		sb.append("</div>");
-
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
@@ -436,7 +441,7 @@ public class ProblemCardRenderer {
 
 		int prob = t.getDouble("prob").intValue();
 
-		sb.append("<div class='brui_card_head' style='height:48px;background:#" + indigo.headBgColor + ";color:#" + indigo.headFgColor
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + cyan.headBgColor + ";color:#" + cyan.headFgColor
 				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text' style='flex-grow:1;'>相似情形：" + type + "</div>"//
 				+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + label + "</div>"
 				+ "<div class='label_caption'>相似度</div></div>"//
@@ -444,7 +449,7 @@ public class ProblemCardRenderer {
 				+ "<span style='font-size:9px;'>%</span></div>" + "<div class='label_caption'>可能性</div></div>"//
 				+ "</div>");//
 
-		RenderTools.appendText(sb, t.getString("desc"), RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, t.getString("desc"), RenderTools.STYLE_3LINE);
 
 		List<?> ids = (List<?>) t.get("id");
 		if (Check.isAssigned(ids)) {

@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -118,13 +119,18 @@ public class PCAList {
 		language = RWT.getLocale().getLanguage();
 		problem = context.getRootInput(Problem.class, false);
 		service = Services.get(ProblemService.class);
-		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
-		if(decisionCriteria!=null) {
-			items = new String[] {decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
-		}else {
-			items = new String[] { "强制要求", "期望目标" };
-		}
+		loadDecisionCriteria();
 		pcaList = service.listD5PCA(problem.get_id(), language);
+	}
+
+	private void loadDecisionCriteria() {
+		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
+		if (decisionCriteria != null) {
+			items = new String[] { decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
+		} else {
+			items = new String[] { "", "强制要求", "期望目标" };
+			Layer.message("请先设定目标和准则");
+		}
 	}
 
 	@CreateUI
@@ -383,12 +389,13 @@ public class PCAList {
 		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
-				service.insertD5DecisionCriteria(t, RWT.getLocale().getLanguage());
+				service.insertD5DecisionCriteria(t, language);
 			} else {
 				r.remove("_id");
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
-				service.updateD5DecisionCriteria(fu, RWT.getLocale().getLanguage());
+				service.updateD5DecisionCriteria(fu, language);
 			}
+			loadDecisionCriteria();
 			viewer.refresh();
 		});
 	}

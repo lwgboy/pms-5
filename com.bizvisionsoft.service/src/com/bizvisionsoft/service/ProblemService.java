@@ -303,6 +303,16 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
+	@Path("/_id/{_id}/d7/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D7系统预防/list")
+	public List<Document> listD7(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
+	
+	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -688,7 +698,7 @@ public interface ProblemService {
 	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list", //
 			"D3临时控制行动/list", "D3临时控制行动表格/list", //
 			"D6执行和确认/list", "D6执行和确认永久纠正措施表格/list", //
-			"D7系统性预防措施表格/list", "D7系统预防/list", //
+			"D7系统性预防措施表格/list",  //
 			"D8损失挽回措施表格/list" })
 	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,

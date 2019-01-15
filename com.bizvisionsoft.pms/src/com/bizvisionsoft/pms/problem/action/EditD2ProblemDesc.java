@@ -33,11 +33,12 @@ public class EditD2ProblemDesc {
 			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 			if (update) {
-				Object doc = ((List<?>) viewer.getInput()).get(0);
+				List<?> list = (List<?>) viewer.getInput();
+				Object doc = list.get(list.size() - 1);
 				AUtil.simpleCopy(t, doc);
 				viewer.refresh(doc);
 			} else {
-				((List<Document>) viewer.getInput()).add(0, t);
+				((List<Document>) viewer.getInput()).add(t);
 				viewer.refresh();
 			}
 		});

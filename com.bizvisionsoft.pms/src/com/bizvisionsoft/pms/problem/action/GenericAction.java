@@ -11,6 +11,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -40,7 +41,7 @@ public class GenericAction {
 
 	@Inject
 	private String editor;
-	
+
 	@Inject
 	private String verifyEditor;
 
@@ -85,14 +86,18 @@ public class GenericAction {
 	}
 
 	protected void doEdit(Document element, BruiAssemblyContext context, GridTreeViewer viewer) {
-		ObjectId _id = element.getObjectId("_id");
-		Document input = service.getAction(_id);
-		String editorName = getEditorName();
-		String title = getItemTypeName();
-		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-			Document d = service.updateAction(t, lang, render);
-			viewer.update(AUtil.simpleCopy(d, element), null);
-		});
+		if (Check.isTrue(element.get("finish"))) {// 已经完成
+			doRead(context, element);
+		} else {
+			ObjectId _id = element.getObjectId("_id");
+			Document input = service.getAction(_id);
+			String editorName = getEditorName();
+			String title = getItemTypeName();
+			Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
+				Document d = service.updateAction(t, lang, render);
+				viewer.update(AUtil.simpleCopy(d, element), null);
+			});
+		}
 	}
 
 	protected void doRead(BruiAssemblyContext context, Document element) {
@@ -145,4 +150,28 @@ public class GenericAction {
 		return actionName[Arrays.asList(actionType).indexOf(stage)];
 	}
 
+	@Behavior("delete")
+	private boolean enableDelete(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if (Check.isTrue(element.get("finish"))) {// 已经完成
+			return false;
+		}
+		return true;
+	}
+
+	@Behavior("verify")
+	private boolean enableVerify(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if (Check.isTrue(element.get("finish"))) {// 已经完成
+			return false;
+		}
+		return true;
+	}
+
+	@Behavior("finish")
+	private boolean enableFinish(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if (Check.isTrue(element.get("finish"))) {// 已经完成
+			return false;
+		}
+		return true;
+
+	}
 }

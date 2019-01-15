@@ -28,7 +28,7 @@ public class CreateD2ProblemImage {
 		Editor.create("D2-ÎÊÌâÕÕÆ¬-±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render);
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-			viewer.insert(viewer.getInput(), t, 1);
+			viewer.insert(viewer.getInput(), t, 0);
 		});
 	}
 

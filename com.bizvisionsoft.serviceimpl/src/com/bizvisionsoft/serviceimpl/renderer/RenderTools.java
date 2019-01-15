@@ -189,14 +189,24 @@ public class RenderTools {
 	}
 
 	public static <T> void appendList(StringBuffer sb, List<T> list, String color, Function<T, String> func) {
-		for (int i = 0; i < list.size(); i++) {
+		int size = list.size();
+		boolean overflow = false;
+		if (size > 6) {
+			overflow = true;
+			size = 5;
+		}
+		for (int i = 0; i < size; i++) {
 			T item = list.get(i);
 			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
 					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
 					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
 					+ (func == null ? item : func.apply(item)) + "</div>");
-
 		}
+		if (overflow) {
+			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
+					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
+					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
+					+ "......" + "</div>");		}
 	}
 
 	public static void appendIndicator(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
@@ -207,8 +217,8 @@ public class RenderTools {
 
 	public static void appendIndicator2(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
 		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + MetaInfoWarpper.warpper(label, text)
-				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor="
-				+ indColor[1] + "' width=72 height=72/></div>");
+				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor=" + indColor[1]
+				+ "' width=72 height=72/></div>");
 	}
 
 }

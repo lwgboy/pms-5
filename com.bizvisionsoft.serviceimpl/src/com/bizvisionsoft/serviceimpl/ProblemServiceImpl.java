@@ -393,7 +393,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					.append("symbolSize", 50)//
 					.append("desc", s)//
 					.append("value", 20));
-			links.add(new Document("source", problem_id).append("target", s));
+			links.add(new Document("source", problem_id).append("target", s).append("emphasis", new Document("label", new Document("show",false))));
 		});
 
 		c("causeRelation").find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
@@ -403,11 +403,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
 					.append("draggable", true)//
 					.append("category", d.getString("subject"))//
-					.append("symbolSize", 20 * d.getInteger("weight", 1))//
+					.append("symbolSize", 5 * d.getInteger("weight", 1))//
 					.append("value", 100 * d.getDouble("probability"));
 			data.add(item);
 			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
-			links.add(new Document("source", parentId).append("target", id));
+			links.add(new Document("source", parentId).append("target", id).append("emphasis", new Document("label", new Document("show",false))));
 		});
 
 		List<Document> categories = new ArrayList<>();
@@ -432,9 +432,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document rcdCard = null;
 		Document epCard = null;
 		if (data != null) {
-			rcdCard = ProblemCardRenderer.renderD4(data, "问题产生的根本原因", data.getString("rootCauseDesc"), (Document) data.get("charger_meta"),
+			rcdCard = ProblemCardRenderer.renderD4(data, "make", data.getString("rootCauseDesc"), (Document) data.get("charger_meta"),
 					data.getDate("date"), lang);
-			epCard = ProblemCardRenderer.renderD4(data, "问题流出的逃出点", data.getString("escapePoint"), (Document) data.get("charger_meta"),
+			epCard = ProblemCardRenderer.renderD4(data, "out",data.getString("escapePoint"), (Document) data.get("charger_meta"),
 					data.getDate("date"), lang);
 		}
 
@@ -558,6 +558,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD7Similar(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
 		return c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
 				.map(d -> appendDegreeText(d, lang)).into(new ArrayList<>());
+	}
+	
+	@Override
+	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		List<Document> result = new ArrayList<>();
+		c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
+				.map(d -> ProblemCardRenderer.renderD7Similar(d, lang)).into(result);
+
+		result.addAll(listActions(condition, problem_id, "spa", lang, render));
+
+		return result;
 	}
 
 	private Document appendDegreeText(Document d, String lang) {
@@ -898,11 +909,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
 		List<Bson> pipeline = new ArrayList<>();
 		pipeline.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("stage", stageName).array());
-		Optional.ofNullable((BasicDBObject)condition.get("filter")).ifPresent(f->pipeline.add(Aggregates.match(f)));
+		Optional.ofNullable((BasicDBObject) condition.get("filter")).ifPresent(f -> pipeline.add(Aggregates.match(f)));
 		pipeline.add(Aggregates.sort(ensureGet(condition, "sort").append("_id", -1)));
-		Optional.ofNullable((Integer)condition.get("skip")).ifPresent(f->pipeline.add(Aggregates.skip(f)));
-		Optional.ofNullable((Integer)condition.get("limit")).ifPresent(f->pipeline.add(Aggregates.limit(f)));
-		
+		Optional.ofNullable((Integer) condition.get("skip")).ifPresent(f -> pipeline.add(Aggregates.skip(f)));
+		Optional.ofNullable((Integer) condition.get("limit")).ifPresent(f -> pipeline.add(Aggregates.limit(f)));
+
 		return c("problem").aggregate(pipeline).into(new ArrayList<>());
 	}
 
@@ -915,7 +926,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (filter != null)
 			pipe.add(new BasicDBObject("$match", filter));
 		pipe.add(Aggregates.count());
-		return Optional.ofNullable(c("problem").aggregate(pipe).first()).map(d->(Number)d.get("count")).map(d->d.longValue()).orElse(0l);
+		return Optional.ofNullable(c("problem").aggregate(pipe).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue())
+				.orElse(0l);
 	}
 
 }

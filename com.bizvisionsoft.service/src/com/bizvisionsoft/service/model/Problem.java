@@ -345,5 +345,9 @@ public class Problem {
 	private boolean selectable(@MethodParam(MethodParam.OBJECT) ClassifyProblem elem) {
 		return elem.isLeaf;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
 
 }

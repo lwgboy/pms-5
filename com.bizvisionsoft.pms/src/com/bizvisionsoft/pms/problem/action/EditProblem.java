@@ -51,8 +51,7 @@ public class EditProblem {
 		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(new Problem().setCreationInfo(br.operationInfo())).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertProblem(t);
 			if (t != null) {
-				// TODO
-				// 不一定都要使用8D
+				// TODO 可以考虑其他的过程
 				if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题创建成功，是否进入问题页面？")) {
 					br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
 				}
