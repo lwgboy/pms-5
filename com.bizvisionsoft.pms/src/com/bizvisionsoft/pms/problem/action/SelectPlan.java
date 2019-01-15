@@ -9,22 +9,22 @@ import com.bizvisionsoft.bruiengine.assembly.EditorPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.service.model.SPAPrePlan;
+import com.bizvisionsoft.service.model.ProblemActionPlan;
 
-public class SelectSPAPrePlan {
-
+public class SelectPlan {
 	
 	@Inject
 	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Selector.open("SPA预案选择器", context, null, s->{
-			SPAPrePlan plan = (SPAPrePlan) s.get(0);
+		Selector.create("行动预案选择器", context, null).setTitle("选择预案").open( s->{
+			ProblemActionPlan plan = (ProblemActionPlan) s.get(0);
 			Document doc = (Document) context.getInput();
-			doc.append("action", plan.getAction()).append("detail", plan.getDetail());
+			doc.append("action", plan.getAction()).append("detail", plan.getDetail()).append("objective", plan.getObjective());
 			EditorPart content = (EditorPart) context.getContent();
-			content.reloadFieldValue(new String[] {"action","detail"});
+			content.reloadFieldValue(new String[] {"action","detail","objective"});
 		});
 	}
+
 }

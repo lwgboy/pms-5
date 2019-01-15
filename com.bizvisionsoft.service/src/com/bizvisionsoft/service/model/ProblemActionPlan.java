@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
@@ -7,8 +9,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("problemReactionPrePlan")
-public class ProblemReactionPrePlan {
+@PersistenceCollection("problemActionPlan")
+public class ProblemActionPlan {
 
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
@@ -17,6 +19,26 @@ public class ProblemReactionPrePlan {
 	@ReadValue
 	@WriteValue
 	private ObjectId _id;
+	
+	@ReadValue
+	@WriteValue
+	private String id;
+	
+	@ReadValue
+	@WriteValue
+	private List<String> stage;
+	
+	@ReadValue
+	@WriteValue
+	private List<ClassifyProblem> classifyProblems;
+	
+	@ReadValue
+	@WriteValue
+	private String usage;
+	
+	@ReadValue
+	@WriteValue
+	private boolean applicable;
 
 	@ReadValue
 	@WriteValue

@@ -46,7 +46,7 @@ public class GenericAction {
 
 	private static final String[] actionType = new String[] { "era", "ica", "pca", "spa", "lra" };
 
-	private static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "损失挽回措施" };
+	private static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
 
 	public GenericAction() {
 		service = Services.get(ProblemService.class);
