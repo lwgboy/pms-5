@@ -188,22 +188,6 @@ public interface ProjectService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
-	@Path("/favorite/{userid}/card/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("我关注的项目看板/list")
-	public List<Document> listFavoriteProjectsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-
-	@POST
-	@Path("/favorite/{userid}/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("我关注的项目看板/count")
-	public long countFavoriteProjects(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-
-	@POST
 	@Path("/member/daily/{userid}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

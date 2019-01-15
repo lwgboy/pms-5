@@ -714,45 +714,6 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<Document> listFavoriteProjectsCard(BasicDBObject condition, String userid) {
-		// TODO 应该可以和listAdministratedProjectsCard进行合并，需要查找是否存在其它相同的需要合并的内容一同进行合并。
-		// 获取用户关注的项目的配置信息
-		Document doc = c("clientSetting").find(new Document("userId", userid).append("name", "关注的项目")).first();
-		if (doc == null)// 如果用户没有配置过关注的项，则没有相应的配置，直接进行返回。
-			return new ArrayList<Document>();
-		// 获取查询。
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
-			filter = new BasicDBObject();
-			condition.put("filter", filter);
-		}
-		// 添加关注项目的查询
-		filter.append("_id", new BasicDBObject("$in", doc.get("value")));
-
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		// 添加项目默认查询
-		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
-		return c(Project.class).aggregate(pipeline).map(ProjectRenderer::render).into(new ArrayList<>());
-	}
-
-	@Override
-	public long countFavoriteProjects(BasicDBObject filter, String userid) {
-		// 获取用户关注的项目的配置信息
-		Document doc = c("clientSetting").find(new Document("userId", userid).append("name", "关注的项目")).first();
-		if (doc == null)// 如果用户没有配置过关注的项，则没有相应的配置，返回0。
-			return 0l;
-
-		if (filter == null) {// 如果没有进行查询，则关注的项目数就是查询记录数
-			return ((List<?>) doc.get("value")).size();
-		}
-		// 添加关注项目的查询，并查询记录数。
-		filter.append("_id", new BasicDBObject("$in", doc.get("value")));
-		return count(filter);
-	}
-
-	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 杨骏 2018/11/1

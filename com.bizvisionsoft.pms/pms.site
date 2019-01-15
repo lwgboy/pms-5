@@ -9947,15 +9947,6 @@
         "actions": [],
         "rowActions": [
           {
-            "id": "16850a594a0",
-            "name": "关注",
-            "image": "/img/favorite.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.FavoriteProjectACT",
-            "style": "info",
-            "type": "customized"
-          },
-          {
             "id": "1632eb0c047",
             "name": "打开",
             "image": "/img/right.svg",
@@ -27079,15 +27070,6 @@
         ],
         "actions": [],
         "rowActions": [
-          {
-            "id": "168506c6d34",
-            "name": "关注",
-            "image": "/img/favorite.svg",
-            "bundleId": "com.bizvisionsoft.pms",
-            "className": "com.bizvisionsoft.pms.project.action.FavoriteProjectACT",
-            "style": "info",
-            "type": "customized"
-          },
           {
             "id": "16504ff9e32",
             "name": "菜单",
