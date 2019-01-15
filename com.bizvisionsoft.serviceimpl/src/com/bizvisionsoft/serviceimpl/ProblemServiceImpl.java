@@ -892,4 +892,30 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return new JQ("图表-通用-多维堆叠柱图").set("legend", legend).set("xAxis", xAxis).set("series", series).doc();
 	}
 
+	@Override
+	public List<Document> listAdvisablePlan(BasicDBObject condition, ObjectId problem_id, String stage) {
+		String[] stageNames = new String[] { "紧急反应", "临时控制", "永久纠正", "系统预防", "善后措施" };
+		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
+		List<Bson> pipeline = new ArrayList<>();
+		pipeline.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("stage", stageName).array());
+		Optional.ofNullable((BasicDBObject)condition.get("filter")).ifPresent(f->pipeline.add(Aggregates.match(f)));
+		pipeline.add(Aggregates.sort(ensureGet(condition, "sort").append("_id", -1)));
+		Optional.ofNullable((Integer)condition.get("skip")).ifPresent(f->pipeline.add(Aggregates.skip(f)));
+		Optional.ofNullable((Integer)condition.get("limit")).ifPresent(f->pipeline.add(Aggregates.limit(f)));
+		
+		return c("problem").aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countAdvisablePlan(BasicDBObject filter, ObjectId problem_id, String stage) {
+		String[] stageNames = new String[] { "紧急反应", "临时控制", "永久纠正", "系统预防", "善后措施" };
+		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
+		List<Bson> pipe = new ArrayList<>();
+		pipe.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("stage", stageName).array());
+		if (filter != null)
+			pipe.add(new BasicDBObject("$match", filter));
+		pipe.add(Aggregates.count());
+		return Optional.ofNullable(c("problem").aggregate(pipe).first()).map(d->(Number)d.get("count")).map(d->d.longValue()).orElse(0l);
+	}
+
 }

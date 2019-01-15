@@ -702,4 +702,25 @@ public interface ProblemService {
 	public Document updateAction(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 			@PathParam("render") String render);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 行动预案
+	@POST
+	@Path("/_id/{_id}/{stage}/advisableplan/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("行动预案选择列表/list")
+	public List<Document> listAdvisablePlan(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage
+			);
+
+	@POST
+	@Path("/_id/{_id}/{stage}/advisableplan/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("行动预案选择列表/count")
+	public long countAdvisablePlan(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage);
+
 }
