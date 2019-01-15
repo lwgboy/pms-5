@@ -17,14 +17,73 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
+import com.bizvisionsoft.service.model.ClassifyProblem;
+import com.bizvisionsoft.service.model.ClassifyProblemLost;
+import com.bizvisionsoft.service.model.FreqInd;
+import com.bizvisionsoft.service.model.IncidenceInd;
+import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.mongodb.BasicDBObject;
 
 @Path("/problem")
 public interface ProblemService {
 
-	public final String[] CauseSubject = { "人", "设备", "材料", "环境", "方法", "测量" };
+	@GET
+	@Path("/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet(DataSet.INPUT)
+	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}/cost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getSummaryCost(@PathParam("_id") ObjectId _id);
+
+	@DELETE
+	@Path("/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/delete")
+	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@POST
+	@Path("/item/{status}/{userid}/count/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（已创建）/count", "问题清单（解决中）/count", "问题清单（已关闭）/count", "问题清单（已取消）/count", "已创建问题看板/count" })
+	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@PUT
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（已创建）/update", "问题清单（解决中）/update" })
+	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/item/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("问题清单（已创建）/insert")
+	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
+
+	@POST
+	@Path("/item/{status}/{userid}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（已创建）/list", "问题清单（解决中）/list", "问题清单（已关闭）/list", "问题清单（已取消）/list" })
+	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
 
 	@POST
 	@Path("/cc/count/")
@@ -85,26 +144,18 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD7SPA(@PathParam("_id") ObjectId _id);
+	
+	@DELETE
+	@Path("/d8/lra/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD8LRA(@PathParam("_id") ObjectId _id);
 
 	@DELETE
 	@Path("/d8/exp/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD8Exp(@PathParam("_id") ObjectId _id);
-
-	@DELETE
-	@Path("/item/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/delete")
-	public long deleteProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
-
-	@GET
-	@Path("/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet(DataSet.INPUT)
-	public Problem get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/{lang}")
@@ -175,6 +226,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD7SPA(@PathParam("_id") ObjectId _id);
+	
+	@GET
+	@Path("/_id/{_id}/d8/lra")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD8LRA(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/d8/exp")
@@ -255,6 +312,12 @@ public interface ProblemService {
 	public Document insertD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
+	@Path("/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+	
+	@POST
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -270,7 +333,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d0/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D0紧急应变措施/list", "D0紧急应变措施表格/list" })
+	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list" })
 	public List<Document> listD0(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
@@ -297,7 +360,7 @@ public interface ProblemService {
 	@Path("/_id/{_id}/d3/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D3临时措施/list", "D3临时处理措施表格/list" })
+	@DataSet({ "D3临时控制行动/list", "D3临时控制行动表格/list" })
 	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
@@ -363,6 +426,15 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
+	@Path("/_id/{_id}/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8损失挽回措施表格/list")
+	public List<Document> listD8LRA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+	
+	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -372,48 +444,14 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
-	@Path("/item/{status}/{userid}/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单/list" })
-	public List<Problem> listProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("status") @PathParam("status") String status,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid);
-
-	@POST
 	@Path("/item/{status}/{userid}/card/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "已创建问题看板/list","解决中问题看板/list","已关闭问题看板/list","已取消问题看板/list" })
+	@DataSet({ "已创建问题看板/list", "解决中问题看板/list", "已关闭问题看板/list", "已取消问题看板/list" })
 	public List<Document> listProblemsCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam("status") @PathParam("status") String status,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	
-	@POST
-	@Path("/item/{status}/{userid}/count/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单/count", "已创建问题看板/count" })
-	public long countProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("status") @PathParam("status") String status,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	@PUT
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/update")
-	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
-
-	@POST
-	@Path("/item/")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("问题清单/insert")
-	public Problem insertProblem(@MethodParam(MethodParam.OBJECT) Problem p);
 
 	@PUT
 	@Path("/cc/")
@@ -479,8 +517,314 @@ public interface ProblemService {
 	public Document updateD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@PUT
+	@Path("/d8/lra/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+	
+	@PUT
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/serverityInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "严重性等级/" + DataSet.LIST })
+	public List<SeverityInd> listSeverityInd();
+
+	@POST
+	@Path("/serverityInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("严重性等级/" + DataSet.INSERT)
+	public SeverityInd insertSeverityInd(@MethodParam(MethodParam.OBJECT) SeverityInd item);
+
+	@DELETE
+	@Path("/serverityInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("严重性等级/" + DataSet.DELETE)
+	public long deleteSeverityInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/serverityInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("严重性等级/" + DataSet.UPDATE)
+	public long updateSeverityInd(BasicDBObject filterAndUpdate);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/lostInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "损失等级/" + DataSet.LIST })
+	public List<LostInd> listLostInd();
+
+	@POST
+	@Path("/lostInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.INSERT)
+	public LostInd insertLostInd(@MethodParam(MethodParam.OBJECT) LostInd item);
+
+	@DELETE
+	@Path("/lostInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.DELETE)
+	public long deleteLostInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/lostInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("损失等级/" + DataSet.UPDATE)
+	public long updateLostInd(BasicDBObject filterAndUpdate);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/freqInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "频度等级/" + DataSet.LIST })
+	public List<FreqInd> listFreqInd();
+
+	@POST
+	@Path("/freqInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.INSERT)
+	public FreqInd insertFreqInd(@MethodParam(MethodParam.OBJECT) FreqInd item);
+
+	@DELETE
+	@Path("/freqInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.DELETE)
+	public long deleteFreqInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/freqInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("频度等级/" + DataSet.UPDATE)
+	public long updateFreqInd(BasicDBObject filterAndUpdate);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/incidenceInds/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "影响范围等级/" + DataSet.LIST })
+	public List<IncidenceInd> listIncidenceInd();
+
+	@POST
+	@Path("/incidenceInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.INSERT)
+	public IncidenceInd insertIncidenceInd(@MethodParam(MethodParam.OBJECT) IncidenceInd item);
+
+	@DELETE
+	@Path("/incidenceInds/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.DELETE)
+	public long deleteIncidenceInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/incidenceInds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("影响范围等级/" + DataSet.UPDATE)
+	public long updateIncidenceInd(BasicDBObject filterAndUpdate);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	@POST
+	@Path("/classifyProblemLost/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.LIST })
+	public List<ClassifyProblemLost> rootClassifyProblemLost();
+
+	@POST
+	@Path("/classifyProblemLost/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyProblemLost> listClassifyProblemLost(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyProblemLost/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyProblemLost(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyProblemLost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.INSERT })
+	public ClassifyProblemLost insertClassifyProblemLost(@MethodParam(MethodParam.OBJECT) ClassifyProblemLost ai);
+
+	@DELETE
+	@Path("/classifyProblemLost/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.DELETE })
+	public long deleteClassifyProblemLost(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyProblemLost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本分类/" + DataSet.UPDATE })
+	public long updateClassifyProblemLost(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/classifyProblem/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.LIST })
+	public List<ClassifyProblem> rootClassifyProblem();
+
+	@POST
+	@Path("/classifyProblem/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyProblem> listClassifyProblem(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyProblem/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyProblem(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyProblem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.INSERT })
+	public ClassifyProblem insertClassifyProblem(@MethodParam(MethodParam.OBJECT) ClassifyProblem ai);
+
+	@DELETE
+	@Path("/classifyProblem/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.DELETE })
+	public long deleteClassifyProblem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyProblem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题分类/" + DataSet.UPDATE })
+	public long updateClassifyProblem(BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/classifyCause/root/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.LIST })
+	public List<ClassifyCause> rootClassifyCause();
+
+	@POST
+	@Path("/classifyCause/root/selector/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类（选择器用）/" + DataSet.LIST })
+	public List<ClassifyCause> rootClassifyCauseSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) CauseConsequence cc);
+
+	@POST
+	@Path("/classifyCause/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ClassifyCause> listClassifyCause(BasicDBObject filter);
+
+	@POST
+	@Path("/classifyCause/parent/{parent_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countClassifyCause(@PathParam("parent_id") ObjectId parent_id);
+
+	@POST
+	@Path("/classifyCause/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.INSERT })
+	public ClassifyCause insertClassifyCause(@MethodParam(MethodParam.OBJECT) ClassifyCause ai);
+
+	@DELETE
+	@Path("/classifyCause/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.DELETE })
+	public long deleteClassifyCause(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@PUT
+	@Path("/classifyCause/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类/" + DataSet.UPDATE })
+	public long updateClassifyCause(BasicDBObject filterAndUpdate);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题成本项
+	@DELETE
+	@Path("/costItem/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本账目表格/delete")
+	public long deleteCostItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+
+	@POST
+	@Path("/{_id}/costItem/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/list" })
+	public List<ProblemCostItem> listCostItems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@POST
+	@Path("/{_id}/costItem/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/count" })
+	public long countCostItems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	@PUT
+	@Path("/costItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D8问题成本账目表格/update" })
+	public long updateCostItems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+
+	@POST
+	@Path("/{_id}/costItem/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本账目表格/insert")
+	public ProblemCostItem insertCostItem(@MethodParam(MethodParam.OBJECT) ProblemCostItem p,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+	
+	@POST
+	@Path("/{_id}/chart/periodCost")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D8问题成本期间分类汇总/list")
+	public Document periodCostChart(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
+
+	
+
 }

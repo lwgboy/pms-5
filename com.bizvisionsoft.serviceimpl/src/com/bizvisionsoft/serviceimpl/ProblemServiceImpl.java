@@ -1,10 +1,18 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -12,12 +20,21 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CauseConsequence;
+import com.bizvisionsoft.service.model.ClassifyCause;
+import com.bizvisionsoft.service.model.ClassifyProblem;
+import com.bizvisionsoft.service.model.ClassifyProblemLost;
+import com.bizvisionsoft.service.model.FreqInd;
+import com.bizvisionsoft.service.model.IncidenceInd;
+import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
+import com.bizvisionsoft.service.model.SeverityInd;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -25,9 +42,9 @@ import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
-import com.mongodb.client.model.UnwindOptions;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
@@ -40,21 +57,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return get(_id);
 	}
 
-	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition,List<Bson> pipeline) {
+	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition, List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
 		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
 		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
 		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
-		
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
-
+		pipeline.addAll(new JQ("追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
+				.set("urgencyIndField", "urgencyInd").array());
+		pipeline.addAll(new JQ("追加-问题成本合计").array());
 		return pipeline;
-	}
-
-	private void additionalLookupAndUnwind(List<Bson> pipeline, String col) {
-		pipeline.add(Aggregates.lookup(col, "_id", "problem_id", col));
-		pipeline.add(Aggregates.unwind("$"+col, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 	}
 
 	@Override
@@ -111,7 +124,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		additionalLookupAndUnwind(pipeline, "d2ProblemPhoto");
 		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 	}
 
@@ -119,7 +131,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		return c("problem").aggregate(pipeline).map(d->ProblemCardRenderer.renderProblem(d,lang)).into(new ArrayList<>());
+		return c("problem").aggregate(pipeline).map(d -> ProblemCardRenderer.renderProblem(d, lang)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -128,7 +140,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// D0 紧急应变措施
+	// D0 紧急反应行动
 	//
 	@Override
 	public Document getD0ERA(ObjectId _id) {
@@ -291,7 +303,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// D3 临时处理措施
+	// D3 临时控制行动
 	//
 
 	@Override
@@ -383,6 +395,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Problem problem = get(problem_id);
 		List<Document> data = new ArrayList<>();
 		List<Document> links = new ArrayList<>();
+
+		List<String> causeSubject = c("classifyCause").find(new Document("parent_id", null)).map(d -> d.getString("name"))
+				.into(new ArrayList<>());
 		// 根节点
 		data.add(new Document("id", problem_id)//
 				.append("name", problem.getName())//
@@ -391,7 +406,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				.append("desc", problem.getName())//
 				.append("symbolSize", 50)//
 				.append("value", 20));
-		Arrays.asList(CauseSubject).forEach(s -> {
+		// TODO
+		causeSubject.forEach(s -> {
 			data.add(new Document("id", s)//
 					.append("name", s)//
 					.append("draggable", true)//
@@ -419,7 +435,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> categories = new ArrayList<>();
 		categories.add(new Document("name", "问题"));
 		categories.add(new Document("name", "类别"));
-		categories.addAll(Arrays.asList(CauseSubject).stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
+		categories.addAll(causeSubject.stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
 
 		return new JQ("图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
 	}
@@ -701,6 +717,326 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			return ProblemCardRenderer.renderD8Exp(t, lang);
 		return t;
+	}
+
+	@Override
+	public long deleteD8LRA(ObjectId _id) {
+		return deleteOne(_id, "d8LRA");
+	}
+
+	@Override
+	public Document getD8LRA(ObjectId _id) {
+		return getDocument(_id, "d8LRA");
+	}
+
+	@Override
+	public Document insertD8LRA(Document t, String lang, String render) {
+		t.append("_id", new ObjectId());
+		c("d8LRA").insertOne(t);
+		if ("card".equals(render))
+			return ProblemCardRenderer.renderD8LRA(t, lang);
+		return t;
+	}
+
+	@Override
+	public List<Document> listD8LRA(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+		return c("d8LRA").find(new Document("problem_id", problem_id)).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document updateD8LRA(Document d, String lang, String render) {
+		return updateThen(d, lang, "d8LRA", "card".equals(render) ? ProblemCardRenderer::renderD8LRA : null);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题严重性级别
+	//
+	@Override
+	public List<SeverityInd> listSeverityInd() {
+		return c(SeverityInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<SeverityInd>());
+	}
+
+	@Override
+	public SeverityInd insertSeverityInd(SeverityInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteSeverityInd(ObjectId _id) {
+		return delete(_id, SeverityInd.class);
+	}
+
+	@Override
+	public long updateSeverityInd(BasicDBObject fu) {
+		return update(fu, SeverityInd.class);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题损失级别
+	//
+	@Override
+	public List<LostInd> listLostInd() {
+		return c(LostInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public LostInd insertLostInd(LostInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteLostInd(ObjectId _id) {
+		return delete(_id, LostInd.class);
+	}
+
+	@Override
+	public long updateLostInd(BasicDBObject fu) {
+		return update(fu, LostInd.class);
+	}
+
+	@Override
+	public List<FreqInd> listFreqInd() {
+		return c(FreqInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public FreqInd insertFreqInd(FreqInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteFreqInd(ObjectId _id) {
+		return delete(_id, FreqInd.class);
+	}
+
+	@Override
+	public long updateFreqInd(BasicDBObject fu) {
+		return update(fu, FreqInd.class);
+	}
+
+	@Override
+	public List<IncidenceInd> listIncidenceInd() {
+		return c(IncidenceInd.class).find().sort(new BasicDBObject("_id", 1)).into(new ArrayList<>());
+	}
+
+	@Override
+	public IncidenceInd insertIncidenceInd(IncidenceInd item) {
+		return insert(item);
+	}
+
+	@Override
+	public long deleteIncidenceInd(ObjectId _id) {
+		return delete(_id, IncidenceInd.class);
+	}
+
+	@Override
+	public long updateIncidenceInd(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, IncidenceInd.class);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	private <T> List<T> listClassifyItems(BasicDBObject filter, Class<T> clazz) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		if (filter != null) {
+			pipeline.add(Aggregates.match(filter));
+		}
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		pipeline.addAll(new JQ("查询-通用-层次结构-增加isLeaf和Path").set("from", clazz.getAnnotation(PersistenceCollection.class).value()).array());
+
+		return c(clazz).aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<ClassifyProblemLost> rootClassifyProblemLost() {
+		return listClassifyProblemLost(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyProblemLost> listClassifyProblemLost(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyProblemLost.class);
+	}
+
+	@Override
+	public long countClassifyProblemLost(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyProblemLost");
+	}
+
+	@Override
+	public ClassifyProblemLost insertClassifyProblemLost(ClassifyProblemLost ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyProblemLost(ObjectId _id) {
+		return deleteOne(_id, "classifyProblemLost");
+	}
+
+	@Override
+	public long updateClassifyProblemLost(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyProblemLost");
+	}
+
+	@Override
+	public List<ClassifyProblem> rootClassifyProblem() {
+		return listClassifyProblem(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyProblem> listClassifyProblem(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyProblem.class);
+	}
+
+	@Override
+	public long countClassifyProblem(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyProblem");
+	}
+
+	@Override
+	public ClassifyProblem insertClassifyProblem(ClassifyProblem ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyProblem(ObjectId _id) {
+		return deleteOne(_id, "classifyProblem");
+	}
+
+	@Override
+	public long updateClassifyProblem(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyProblem");
+	}
+
+	@Override
+	public List<ClassifyCause> rootClassifyCause() {
+		return listClassifyCause(new BasicDBObject("parent_id", null));
+	}
+
+	@Override
+	public List<ClassifyCause> listClassifyCause(BasicDBObject filter) {
+		return listClassifyItems(filter, ClassifyCause.class);
+	}
+
+	@Override
+	public List<ClassifyCause> rootClassifyCauseSelector(CauseConsequence cc) {
+		if (cc == null)
+			return new ArrayList<>();
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("name", cc.getSubject())));
+		pipeline.add(Aggregates.lookup("classifyCause", "_id", "parent_id", "children1"));
+		pipeline.add(Aggregates.unwind("$children1"));
+		pipeline.add(Aggregates.replaceRoot("$children1"));
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		pipeline.addAll(new JQ("查询-通用-层次结构-增加isLeaf和Path").set("from", "classifyCause").array());
+		debugPipeline(pipeline);
+		return c(ClassifyCause.class).aggregate(pipeline).into(new ArrayList<>());
+
+	}
+
+	@Override
+	public long countClassifyCause(ObjectId parent_id) {
+		return count(new BasicDBObject("parent_id", parent_id), "classifyCause");
+	}
+
+	@Override
+	public ClassifyCause insertClassifyCause(ClassifyCause ai) {
+		return insert(ai);
+	}
+
+	@Override
+	public long deleteClassifyCause(ObjectId _id) {
+		return deleteOne(_id, "classifyCause");
+	}
+
+	@Override
+	public long updateClassifyCause(BasicDBObject filterAndUpdate) {
+		return update(filterAndUpdate, "classifyCause");
+	}
+
+	@Override
+	public long deleteCostItem(ObjectId _id) {
+		return deleteOne(_id, "problemCostItem");
+	}
+
+	@Override
+	public List<ProblemCostItem> listCostItems(BasicDBObject condition, ObjectId problem_id) {
+		ensureGet(condition, "filter").append("problem_id", problem_id);
+		ensureGet(condition, "sort").append("date", -1);
+		return list(ProblemCostItem.class, condition,
+				Aggregates.addFields(new Field<Document>("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
+	}
+
+	@Override
+	public long countCostItems(BasicDBObject filter, ObjectId problem_id) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.append("problem_id", problem_id);
+		return count(filter, "problemCostItem");
+	}
+
+	@Override
+	public long updateCostItems(BasicDBObject fu) {
+		return update(fu, "problemCostItem");
+	}
+
+	@Override
+	public ProblemCostItem insertCostItem(ProblemCostItem p, ObjectId problem_id) {
+		p.setProblem_id(problem_id);
+		insert(p);
+		BasicDBObject cond = new Query().filter(new BasicDBObject("_id", p.get_id())).bson();
+		return listCostItems(cond, problem_id).get(0);
+	}
+
+	@Override
+	public Document getSummaryCost(ObjectId problem_id) {
+		List<Document> pipe = Arrays.asList(new Document("$match", new Document("problem_id", problem_id)),
+				new Document("$group",
+						new Document("_id", "$problem_id").append("drAmount", new Document("$sum", "$drAmount")).append("crAmount",
+								new Document("$sum", "$crAmount"))),
+				new Document("$addFields", new Document("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
+		debugPipeline(pipe);
+		return c("problemCostItem").aggregate(pipe).first();
+	}
+
+	@Override
+	public Document periodCostChart(ObjectId problem_id) {
+		List<String> x = new ArrayList<>();
+		Set<String> legend = new HashSet<>();
+		Map<String, Document> ds = new HashMap<>();
+		c("problemCostItem").aggregate(new JQ("查询-问题成本-根科目和年月汇总").set("match", new Document("problem_id", problem_id)).array())
+				.forEach((Document d) -> {
+					// 科目构建系列
+					// 期间为x轴
+					// 数值为y轴
+					String account = d.getString("_id");
+					legend.add(account);
+
+					Document data = (Document) d.get("data");
+					x.addAll(data.keySet());
+					ds.put(account, data);
+				});
+
+		List<String> xAxis = new ArrayList<>();
+		if (!x.isEmpty()) {
+			Collections.sort(x);
+			try {
+				Calendar min = Calendar.getInstance();
+				min.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(0)));
+				Calendar max = Calendar.getInstance();
+				max.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(x.size() - 1)));
+				while (!min.after(max)) {
+					xAxis.add(new SimpleDateFormat("yyyy-MM").format(min.getTime()));
+					min.add(Calendar.MONTH, 1);
+				}
+			} catch (ParseException e) {
+			}
+		}
+
+		List<Document> series = legend.stream().map(l -> {
+			List<Double> data = xAxis.stream().map(s -> ds.get(l).get(s, 0d)).collect(Collectors.toList());
+			return new Document("name", l).append("type", "bar").append("barGap", 0).append("data", data);
+		}).collect(Collectors.toList());
+
+		return new JQ("图表-通用-多维堆叠柱图").set("legend", legend).set("xAxis", xAxis).set("series", series).doc();
 	}
 
 }

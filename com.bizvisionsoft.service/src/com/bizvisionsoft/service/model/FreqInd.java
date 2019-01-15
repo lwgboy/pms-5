@@ -8,8 +8,8 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
-@PersistenceCollection("quanlityInfoInd")
-public class QuanlityInfInd {
+@PersistenceCollection("freqInd")
+public class FreqInd {
 	
 	@ReadValue
 	@WriteValue
@@ -23,15 +23,22 @@ public class QuanlityInfInd {
 	@WriteValue 
 	public String value;
 	
-	@Override
-	@Label
-	public String toString() {
-		return text;
-	}
+	@ReadValue
+	@WriteValue 
+	public String desc;
+	
+	@ReadValue
+	@WriteValue 
+	public int index;
 	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
-	public static final String typeName = "质量影响等级";
+	public static final String typeName = "频度指标";
 
+	@Override
+	@Label
+	public String toString() {
+		return index+"." + value +" （"+ text+"）";
+	}
 
 }

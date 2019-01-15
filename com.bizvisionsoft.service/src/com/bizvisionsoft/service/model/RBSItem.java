@@ -22,7 +22,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("rbsItem")
@@ -111,12 +110,8 @@ public class RBSItem {
 	 * 发生概率
 	 */
 	@ReadValue
+	@WriteValue
 	private double probability;
-
-	@WriteValue("probability")
-	private void setProbability(String _probability) {
-		probability = Formatter.getDouble(_probability);
-	}
 
 	/**
 	 * 后果描述
@@ -132,23 +127,9 @@ public class RBSItem {
 	/**
 	 * 工期影响（天）
 	 */
+	@ReadValue
+	@WriteValue
 	private int timeInf;
-
-	@WriteValue("timeInf")
-	private void setTimeInf(String _timeInf) {
-		timeInf = Formatter.getInt(_timeInf, "工期影响必须输入整数。");
-	}
-
-	@ReadValue("timeInf")
-	private String readTimeInf() {
-		if (timeInf > 0) {
-			return "+" + timeInf;
-		} else if (timeInf < 0) {
-			return "" + timeInf;
-		} else {
-			return "";
-		}
-	}
 
 	public int getTimeInf() {
 		return timeInf;
@@ -157,23 +138,9 @@ public class RBSItem {
 	/**
 	 * 成本影响（万元）
 	 */
+	@ReadValue
+	@WriteValue
 	private double costInf;
-
-	@WriteValue("costInf")
-	private void setCostInf(String _timeInf) {
-		costInf = Formatter.getDouble(_timeInf);
-	}
-
-	@ReadValue("costInf")
-	private String readCostInf() {
-		if (costInf > 0) {
-			return "+" + costInf;
-		} else if (costInf < 0) {
-			return "" + costInf;
-		} else {
-			return "";
-		}
-	}
 
 	public double getCostInf() {
 		return costInf;
@@ -221,7 +188,7 @@ public class RBSItem {
 	 */
 	@ReadValue
 	@WriteValue
-	private String detectable;
+	private int detectable;
 
 	/**
 	 * 风险序数 rci x 概率
@@ -280,13 +247,6 @@ public class RBSItem {
 	private Map<String, Object> getQuanlityInfIndOption() {
 		Map<String, Object> res = new LinkedHashMap<String, Object>();
 		ServicesLoader.get(RiskService.class).listRiskQuanlityInfInd().forEach(qii -> res.put(qii.text, qii.value));
-		return res;
-	}
-
-	@ReadOptions("detectable")
-	private Map<String, Object> getDetectableIndOption() {
-		Map<String, Object> res = new LinkedHashMap<String, Object>();
-		ServicesLoader.get(RiskService.class).listRiskDetectionInd().forEach(qii -> res.put(qii.text, qii.value));
 		return res;
 	}
 

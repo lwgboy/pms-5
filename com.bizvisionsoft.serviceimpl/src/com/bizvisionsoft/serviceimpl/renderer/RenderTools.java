@@ -58,7 +58,7 @@ public class RenderTools {
 	}
 
 	public static void appendButton(StringBuffer sb, String icon, int right, int bottom, String tips, String target) {
-		sb.append("<div style='position:absolute;right:" + right + "px;bottom:" + bottom + "px;'>" + "<a href='" + target
+		sb.append("<div style='z-index:99999;position:absolute;right:" + right + "px;bottom:" + bottom + "px;'>" + "<a href='" + target
 				+ "' target='_rwt' class='layui-icon " + icon + "' onmouseover='layer.tips(\"" + tips + "\",this,{tips:1})'></a></div>");
 	}
 

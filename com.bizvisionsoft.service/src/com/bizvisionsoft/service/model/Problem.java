@@ -11,9 +11,12 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 @PersistenceCollection("problem")
 public class Problem {
@@ -41,12 +44,12 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private String id;
-	
+
 	@Label(Label.ID_LABEL)
 	private String getIdLabel() {
-		return id +" ["+ status+"]";
+		return id + " [" + status + "]";
 	}
-	
+
 	@ReadValue
 	@WriteValue
 	private String status;
@@ -55,7 +58,7 @@ public class Problem {
 	@WriteValue
 	@Label(Label.NAME_LABEL)
 	private String name;
-	
+
 	@ReadValue
 	@WriteValue
 	private String custId;
@@ -67,11 +70,11 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private String partNum;
-	
+
 	@ReadValue
 	@WriteValue
 	private String partVer;
-	
+
 	@ReadValue
 	@WriteValue
 	private String partName;
@@ -83,32 +86,31 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private Date distDate;
-	
+
 	@ReadValue
 	@WriteValue
 	private String distQty;
-	
+
 	@ReadValue
 	@WriteValue
 	private Date issueDate;
-	
+
 	@ReadValue
 	@WriteValue
 	private String issueBy;
-	
+
 	@ReadValue
 	@WriteValue
 	private String initiatedFrom;
-	
+
 	@ReadValue
 	@WriteValue
 	private List<RemoteFile> idrrept;
-	
+
 	@ReadValue
 	@WriteValue
 	private List<RemoteFile> attarchments;
-	
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 责任部门
@@ -129,7 +131,7 @@ public class Problem {
 		return Optional.ofNullable(dept_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@ReadValue
 	@WriteValue
 	private boolean custConfirm;
@@ -145,7 +147,7 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private Date custoConfirmRemark;
-	
+
 	@ReadValue
 	@WriteValue
 	private OperationInfo creationInfo;
@@ -157,6 +159,7 @@ public class Problem {
 
 	/**
 	 * 创建
+	 * 
 	 * @return
 	 */
 	@ReadValue("createOn")
@@ -243,9 +246,8 @@ public class Problem {
 	@Override
 	@Label
 	public String toString() {
-		return name+(id == null ? "" : (" ["+id+"]"));
+		return name + (id == null ? "" : (" [" + id + "]"));
 	}
-
 
 	public Problem setStatus(String status) {
 		this.status = status;
@@ -255,9 +257,93 @@ public class Problem {
 	public ObjectId get_id() {
 		return _id;
 	}
-	
+
 	public String getName() {
 		return name;
+	}
+
+	@ReadValue
+	@WriteValue
+	private SeverityInd severityInd;
+
+	@ReadValue
+	@WriteValue
+	private Date latestTimeReq;
+
+	@ReadValue
+	@WriteValue
+	private LostInd lostInd;
+
+	@ReadValue
+	@WriteValue
+	private IncidenceInd incidenceInd;
+
+	@ReadValue
+	@WriteValue
+	private FreqInd freqInd;
+
+	@ReadValue
+	@WriteValue
+	private DetectionInd detectionInd;
+
+	@ReadValue
+	@WriteValue
+	private ClassifyProblem classifyProblem;
+
+	@ReadValue
+	@WriteValue
+	private RiskUrgencyInd urgencyInd;
+	
+	@ReadValue
+	@SetValue
+	private CostItem cost;
+
+	@ReadValue("cost.summary")
+	private double getCostSummary() {
+		return Optional.ofNullable(cost).map(c->c.summary).orElse(0d);
+	}
+	
+	@ReadValue("severityIndInfo")
+	private String getSeverityIndInfo() {
+		return Optional.ofNullable(severityInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	private String getIndIndex(int index) {
+		if (index >= 6)
+			return "<span class='layui-badge layui-bg-red'>" + index + "</span>";
+		if (index >= 3)
+			return "<span class='layui-badge layui-bg-orange'>" + index + "</span>";
+		return "<span class='layui-badge layui-bg-blue'>" + index + "</span>";
+	}
+
+	@ReadValue("urgencyIndInfo")
+	private String getUrgencyIndInfo() {
+		return Optional.ofNullable(urgencyInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@ReadValue("incidenceIndInfo")
+	private String getIncidenceIndInfo() {
+		return Optional.ofNullable(incidenceInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@ReadValue("lostIndInfo")
+	private String getLostIndIndInfo() {
+		return Optional.ofNullable(lostInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@ReadValue("freqIndInfo")
+	private String getFreqIndInfo() {
+		return Optional.ofNullable(freqInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@ReadValue("detectionIndInfo")
+	private String getDetectionIndInfo() {
+		return Optional.ofNullable(detectionInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+	}
+
+	@SelectionValidation("classifyProblem")
+	private boolean selectable(@MethodParam(MethodParam.OBJECT) ClassifyProblem elem) {
+		return elem.isLeaf;
 	}
 
 }

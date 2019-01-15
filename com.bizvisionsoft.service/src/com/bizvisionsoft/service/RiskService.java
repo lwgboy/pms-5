@@ -130,28 +130,28 @@ public interface RiskService {
 	@Path("/urgInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("风险临近性指标设置/" + DataSet.LIST)
+	@DataSet("临近性指标设置/" + DataSet.LIST)
 	public List<RiskUrgencyInd> listRiskUrgencyInd();
 
 	@POST
 	@Path("/urgInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("风险临近性指标设置/" + DataSet.INSERT)
+	@DataSet("临近性指标设置/" + DataSet.INSERT)
 	public RiskUrgencyInd insertRiskUrgencyInd(@MethodParam(MethodParam.OBJECT) RiskUrgencyInd item);
 
 	@DELETE
 	@Path("/urgInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("风险临近性指标设置/" + DataSet.DELETE)
+	@DataSet("临近性指标设置/" + DataSet.DELETE)
 	public long deleteRiskUrgencyInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
 	@PUT
 	@Path("/urgInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("风险临近性指标设置/" + DataSet.UPDATE)
+	@DataSet("临近性指标设置/" + DataSet.UPDATE)
 	public long updateRiskUrgencyInd(BasicDBObject filterAndUpdate);
 
 	@GET

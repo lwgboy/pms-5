@@ -109,7 +109,7 @@ public class PCAList {
 
 	private String language;
 
-	private String[] items = new String[] { "", "强制要求", "期望目标" };
+	private String[] items;
 
 	private List<Document> pcaList;
 
@@ -119,7 +119,11 @@ public class PCAList {
 		problem = context.getRootInput(Problem.class, false);
 		service = Services.get(ProblemService.class);
 		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
-		items[0] = decisionCriteria.getString("endResult");
+		if(decisionCriteria!=null) {
+			items = new String[] {decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
+		}else {
+			items = new String[] { "强制要求", "期望目标" };
+		}
 		pcaList = service.listD5PCA(problem.get_id(), language);
 	}
 
@@ -361,7 +365,7 @@ public class PCAList {
 	}
 
 	private void handleCreatePCA() {
-		Editor.open("D5-PCA-编辑器", context, new Document(), (r, t) -> {
+		Editor.open("D5-PCA方案-编辑器", context, new Document(), (r, t) -> {
 			t.append("problem_id", problem.get_id()).append("_id", new ObjectId());
 			service.insertD5PCA(t, language);
 			pcaList.add(t);
@@ -390,7 +394,7 @@ public class PCAList {
 	}
 
 	private void handleEditPCA(Document pca) {
-		Editor.open("D5-PCA-编辑器", context, pca, (r, t) -> {
+		Editor.open("D5-PCA方案-编辑器", context, pca, (r, t) -> {
 			r.remove("_id");
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(r);
 			service.updateD5PCA(fu.bson(), language);
