@@ -129,6 +129,11 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
+	public Document getClientSetting(String userId, String name) {
+		return c("clientSetting").find(new Document("userId", userId).append("name", name)).first();
+	}
+
+	@Override
 	public void updateClientSetting(Document setting) {
 		Document query = new Document();
 		query.putAll(setting);

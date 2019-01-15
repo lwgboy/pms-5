@@ -714,6 +714,35 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
+	public List<Document> listFavoriteProjectsCard(BasicDBObject condition, String userid) {
+		Document doc = c("clientSetting").find(new Document("userId", userid).append("name", "关注的项目")).first();
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (filter == null) {
+			filter = new BasicDBObject();
+			condition.put("filter", filter);
+		}
+		filter.append("_id", new BasicDBObject("$in", doc.get("value")));
+
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>());
+		return c(Project.class).aggregate(pipeline).map(ProjectRenderer::render).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countFavoriteProjects(BasicDBObject filter, String userid) {
+		Document doc = c("clientSetting").find(new Document("userId", userid).append("name", "关注的项目")).first();
+		if (filter == null) {
+			// filter = new BasicDBObject();
+			return ((List<?>) doc.get("value")).size();
+		}
+		filter.append("_id", new BasicDBObject("$in", doc.get("value")));
+		return count(filter);
+	}
+
+	@Override
 	public long countParticipatedProjects(BasicDBObject filter, String userId) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 		// 杨骏 2018/11/1

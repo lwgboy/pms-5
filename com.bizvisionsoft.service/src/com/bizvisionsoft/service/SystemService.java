@@ -68,6 +68,12 @@ public interface SystemService {
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
 			@PathParam("name") String name);
 
+	@GET
+	@Path("/clientSetting/{name}/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getClientSetting(@PathParam("userId") String userId, @PathParam("name") String name);
+
 	@PUT
 	@Path("/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
@@ -163,7 +169,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs);
-	
+
 	@DELETE
 	@Path("/valueRuleSegment/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
