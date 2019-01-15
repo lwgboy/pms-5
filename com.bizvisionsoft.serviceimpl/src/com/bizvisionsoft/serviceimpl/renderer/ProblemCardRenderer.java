@@ -188,16 +188,6 @@ public class ProblemCardRenderer {
 		}
 	}
 
-	public static Document renderD0ERA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, red, lang,null);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-	
-	public static Document renderAction(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, red, lang,null);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
 	public static Document renderD1CFTMember(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
@@ -277,12 +267,18 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
 
-	public static Document renderD3ICA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, null);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
+	public static Document renderAction(Document doc, String lang) {
+		String stage = doc.getString("stage");
+		CardTheme theme = "era".equals(stage) ? red : indigo;// 紧急行动为红色标题
+		String head;
+		if ("make".equals(doc.getString("actionType"))) {
+			head = "纠正问题产生";
+		} else if ("out".equals(doc.getString("actionType"))) {
+			head = "控制问题流出";
+		} else {
+			head = null;
+		}
 
-	private static StringBuffer renderAction(Document doc, CardTheme theme,String lang, String head) {
 		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
@@ -356,7 +352,7 @@ public class ProblemCardRenderer {
 		}
 
 		RenderTools.appendCardBg(sb);
-		return sb;
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 	public static Document renderD4(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date, String lang) {
@@ -432,18 +428,6 @@ public class ProblemCardRenderer {
 		RenderTools.appendCardBg(sb);
 	}
 
-	public static Document renderD6IVPCA(Document doc, String lang) {
-
-		String head;
-		if ("make".equals(doc.getString("actionType"))) {
-			head = "实施/确认问题产生的纠正措施";
-		} else {
-			head = "实施/确认问题流出的纠正措施";
-		}
-		StringBuffer sb = renderAction(doc, indigo,lang, head);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
 	public static Document renderD7Similar(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
@@ -483,11 +467,6 @@ public class ProblemCardRenderer {
 		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
 
-	public static Document renderD7SPA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, "系统性预防措施");
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
 	public static Document renderD8Exp(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
@@ -514,11 +493,6 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendCardBg(sb);
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
-	}
-
-	public static Document renderD8LRA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, "损失挽回措施");
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 }
