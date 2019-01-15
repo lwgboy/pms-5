@@ -132,12 +132,11 @@ public class ProblemCardRenderer {
 	private static void appendProblemButtons(Document doc, StringBuffer sb) {
 		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
 		} else if ("已创建".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑问题指标", "editProblem");
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决", "kickoff");
 		} else if ("已关闭".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
 		} else if ("已取消".equals(doc.get("status"))) {
 			// TODO 查看问题定义？
 		}

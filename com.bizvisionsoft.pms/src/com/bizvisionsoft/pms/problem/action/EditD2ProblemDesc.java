@@ -28,11 +28,11 @@ public class EditD2ProblemDesc {
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		ProblemService service = Services.get(ProblemService.class);
 		Document d = service.getD2ProblemDesc(problem.get_id());
-		boolean insert = (d.get("what") != null);
+		boolean update = (d.get("what") != null);
 		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d, true).ok((r, t) -> {
 			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-			if (insert) {
+			if (update) {
 				Object doc = ((List<?>) viewer.getInput()).get(0);
 				AUtil.simpleCopy(t, doc);
 				viewer.refresh(doc);
