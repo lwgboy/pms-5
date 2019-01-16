@@ -4,6 +4,7 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Catalog;
+import com.bizvisionsoft.service.model.ClassifyProblemLost;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
@@ -117,6 +118,16 @@ public class CatalogMapper {
 		c.icon = "img/item_c.svg";
 		c.meta = doc;
 		c.match = new Document("subAccounts", doc.getString("id"));
+		return c;
+	}
+
+	public static Catalog classifyProblemLost(Document doc) {
+		Catalog c = new Catalog();
+		c._id = doc.getObjectId("_id");
+		c.label = doc.getString("name");
+		setType(c, ClassifyProblemLost.class);
+		c.meta = doc;
+		c.match = new Document("parent_id", c._id);
 		return c;
 	}
 

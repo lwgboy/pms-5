@@ -22,7 +22,7 @@ public class ProblemCardRenderer {
 	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
-	
+
 	private static final CardTheme cyan = new CardTheme(CardTheme.CYAN);
 
 	private static final CardTheme deepGrey = new CardTheme(CardTheme.DEEP_GREY);
@@ -109,23 +109,29 @@ public class ProblemCardRenderer {
 		/////////////////////////////////////////////////////////////////
 		// 指标
 		// 1. 计算PCI(问题关键指数)
-		int severityInd = Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
+		int severityInd = 10 * Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
+//		String severityText = Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getString("value")).orElse("");
 		// int detectionInd = Optional.ofNullable((Document)
 		// doc.get("detectionInd")).map(d -> d.getInteger("index")).orElse(0);
 		// int freqInd = Optional.ofNullable((Document) doc.get("freqInd")).map(d ->
 		// d.getInteger("index")).orElse(0);
 		// 2. incidenceInd影响程度
-		int incidenceInd = Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
+		int incidenceInd = 10 * Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
+//		String incidenceText = Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getString("value")).orElse("");
 		// 3. lostInd损失程度
-		int lostInd = Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
+		int lostInd = 10 * Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
+//		String lostText = Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getString("value")).orElse("");
 		// 4. urgencyInd紧急程度
 		// int urgencyInd = Optional.ofNullable((Document) doc.get("urgencyInd")).map(d
 		// -> d.getInteger("index")).orElse(0);
 		if (severityInd + incidenceInd + lostInd > 0) {
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
-			chart.append("option", new JQ("图表-通用-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
-					.set("value2", incidenceInd).set("name3", "损失程度").set("value3", lostInd).doc());
+			chart.append("option", new JQ("图表-通用-小型三联排仪表")//
+					.set("name1", "").set("value1", severityInd).set("title1", "严重度")//
+					.set("name2", "").set("value2", incidenceInd).set("title2", "影响面")//
+					.set("name3", "").set("value3", lostInd).set("title3", "损失程度")//
+					.doc());
 			return chart;
 		}
 		return null;
@@ -368,7 +374,7 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
 
-		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "open/"+type);
+		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "open/" + type);
 
 		RenderTools.appendCardBg(sb);
 

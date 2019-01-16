@@ -24,6 +24,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.ClassifyCause;
 import com.bizvisionsoft.service.model.ClassifyProblem;
@@ -39,6 +40,7 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
+import com.bizvisionsoft.serviceimpl.renderer.ProblemCostChartRender;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
 import com.mongodb.client.FindIterable;
@@ -393,7 +395,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					.append("symbolSize", 50)//
 					.append("desc", s)//
 					.append("value", 20));
-			links.add(new Document("source", problem_id).append("target", s).append("emphasis", new Document("label", new Document("show",false))));
+			links.add(new Document("source", problem_id).append("target", s).append("emphasis",
+					new Document("label", new Document("show", false))));
 		});
 
 		c("causeRelation").find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
@@ -407,7 +410,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					.append("value", 100 * d.getDouble("probability"));
 			data.add(item);
 			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
-			links.add(new Document("source", parentId).append("target", id).append("emphasis", new Document("label", new Document("show",false))));
+			links.add(new Document("source", parentId).append("target", id).append("emphasis",
+					new Document("label", new Document("show", false))));
 		});
 
 		List<Document> categories = new ArrayList<>();
@@ -434,7 +438,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (data != null) {
 			rcdCard = ProblemCardRenderer.renderD4(data, "make", data.getString("rootCauseDesc"), (Document) data.get("charger_meta"),
 					data.getDate("date"), lang);
-			epCard = ProblemCardRenderer.renderD4(data, "out",data.getString("escapePoint"), (Document) data.get("charger_meta"),
+			epCard = ProblemCardRenderer.renderD4(data, "out", data.getString("escapePoint"), (Document) data.get("charger_meta"),
 					data.getDate("date"), lang);
 		}
 
@@ -559,7 +563,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("d7Similar").find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
 				.map(d -> appendDegreeText(d, lang)).into(new ArrayList<>());
 	}
-	
+
 	@Override
 	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
 		List<Document> result = new ArrayList<>();
@@ -928,6 +932,39 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(Aggregates.count());
 		return Optional.ofNullable(c("problem").aggregate(pipe).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue())
 				.orElse(0l);
+	}
+
+	@Override
+	public List<Catalog> listClassifyCostRoot() {
+		return Arrays.asList(CatalogMapper.classifyProblemLost(new Document("name", "问题成本分类")));
+	}
+
+	@Override
+	public List<Catalog> listClassifyCostStructure(Catalog parent) {
+		return c("classifyProblemLost").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
+				.map(CatalogMapper::classifyProblemLost).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countClassifyCostStructure(Catalog parent) {
+		return c("classifyProblemLost").countDocuments(new Document("parent_id", parent._id));
+	}
+
+	@Override
+	public Document defaultClassifyCostOption() {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		cal.set(year, 0, 1, 0, 0);
+		Date start = cal.getTime();
+		cal.add(Calendar.YEAR, 1);
+		cal.add(Calendar.MINUTE, -1);
+		Date end = cal.getTime();
+		return new Document("dateRange", Arrays.asList(start, end)).append("xAxis", "month");
+	}
+
+	@Override
+	public Document createClassifyCostChart(Document condition) {
+		return ProblemCostChartRender.renderClassifyCostChart(condition);
 	}
 
 }

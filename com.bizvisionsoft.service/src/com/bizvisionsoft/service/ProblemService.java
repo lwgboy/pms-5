@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.ClassifyCause;
 import com.bizvisionsoft.service.model.ClassifyProblem;
@@ -733,4 +734,43 @@ public interface ProblemService {
 			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
 			@MethodParam("stage") @PathParam("stage") String stage);
 
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 成本分析
+	@POST
+	@Path("/selector/cost/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/list" })
+	public List<Catalog> listClassifyCostRoot();
+
+	@POST
+	@Path("/res/selector/structure/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/slist" })
+	public List<Catalog> listClassifyCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/res/selector/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/scount" })
+	public long countClassifyCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+	
+	@POST
+	@Path("/res/option/default")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/default" })
+	public Document defaultClassifyCostOption();
+	
+	@POST
+	@Path("/res/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/chart" })
+	public Document createClassifyCostChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	
 }
