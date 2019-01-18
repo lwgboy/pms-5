@@ -163,7 +163,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年MM月dd日") +"至" +Formatter.getString(to, "yyyy年MM月dd日") +"期间 问题损失成本";
+			title  = Formatter.getString(from, "yyyy年MM月dd日") +"至" +Formatter.getString(to, "yyyy年MM月dd日") +"期间 问题成本分类统计";
 		} else if ("month".equals(xAxis)) {
 			dateFormat = "%Y-%m";
 			sdf = new SimpleDateFormat("yyyy-MM");
@@ -172,7 +172,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.MONTH, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年MM月") +"至" +Formatter.getString(to, "yyyy年MM月") +"期间 问题损失成本";
+			title  = Formatter.getString(from, "yyyy年MM月") +"至" +Formatter.getString(to, "yyyy年MM月") +"期间 问题成本分类统计";
 		} else if ("year".equals(xAxis)) {
 			dateFormat = "%Y";
 			sdf = new SimpleDateFormat("yyyy");
@@ -181,7 +181,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.YEAR, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年") +"至" +Formatter.getString(to, "yyyy年") +"期间 问题损失成本";
+			title  = Formatter.getString(from, "yyyy年") +"至" +Formatter.getString(to, "yyyy年") +"期间 问题成本分类统计";
 		}
 
 	}
