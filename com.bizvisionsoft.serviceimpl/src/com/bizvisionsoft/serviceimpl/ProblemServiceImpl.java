@@ -959,7 +959,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		cal.add(Calendar.YEAR, 1);
 		cal.add(Calendar.MINUTE, -1);
 		Date end = cal.getTime();
-		return new Document("dateRange", Arrays.asList(start, end)).append("xAxis", "month");
+		return new Document("dateRange", Arrays.asList(start, end)).append("xAxis", "month").append("stack", "╥жап");
 	}
 
 	@Override
