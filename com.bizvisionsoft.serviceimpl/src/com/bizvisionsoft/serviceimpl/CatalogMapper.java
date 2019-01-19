@@ -4,7 +4,6 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Catalog;
-import com.bizvisionsoft.service.model.ClassifyProblemLost;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.Organization;
@@ -121,11 +120,11 @@ public class CatalogMapper {
 		return c;
 	}
 
-	public static Catalog classifyProblemLost(Document doc) {
+	public static Catalog classifyProblem(Document doc) {
 		Catalog c = new Catalog();
 		c._id = doc.getObjectId("_id");
 		c.label = doc.getString("name");
-		setType(c, ClassifyProblemLost.class);
+//		setType(c, ClassifyProblemLost.class);//无需类型
 		c.meta = doc;
 		c.match = new Document("parent_id", c._id);
 		return c;

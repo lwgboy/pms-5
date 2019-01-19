@@ -49,19 +49,61 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 	}
 
 	public static Document renderClassifyCostChart(Document condition) {
-		return new ProblemCostChartRender(condition).render();
+		return new ProblemCostChartRender(condition).renderClassifyCost();
+	}
+	
+	public static Document renderClassifyProblemChart(Document condition) {
+		return new ProblemCostChartRender(condition).renderClassifyProblem();
 	}
 
-	private Document render() {
+	public static Document renderClassifyCauseChart(Document condition) {
+		return new ProblemCostChartRender(condition).renderClassifyCause();
+	}
+	
+	public static Document renderClassifyDeptChart(Document condition) {
+		return new ProblemCostChartRender(condition).renderClassifyDept();
+	}
+	
+	private Document renderClassifyDept() {
+		List<Bson> pipe = new ArrayList<>();
+		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
+		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
+		new JQ("查询-问题成本-责任部门查问题").appendTo(pipe);
+		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		debugPipeline(pipe);
+		ArrayList<Document> dataset = c("organization").aggregate(pipe).into(new ArrayList<>());
+		return buildDetailChart(dataset);
+	}
+
+	private Document renderClassifyCause() {
 		if (!isSelectRoot()) {
 			// 增加筛选条件
-			return renderClassifyPeriodChart();
+			return renderClassifyCauseDetailChart();
 		} else {
-			return renderRootPeriodChart();
+			return renderRootChart();
+		}
+	}
+	
+
+	private Document renderClassifyCost() {
+		if (!isSelectRoot()) {
+			// 增加筛选条件
+			return renderClassifyCostDetailChart();
+		} else {
+			return renderRootChart();
+		}
+	}
+	
+	private Document renderClassifyProblem() {
+		if (!isSelectRoot()) {
+			// 增加筛选条件
+			return renderClassifyProblemDetailChart();
+		} else {
+			return renderRootChart();
 		}
 	}
 
-	private Document renderRootPeriodChart() {
+	private Document renderRootChart() {
 		List<Bson> pipe = new ArrayList<>();
 		pipe.add(new Document("$match", new Document("date", new Document("$lte", to).append("$gte", from))));
 		pipe.add(new Document("$project",
@@ -86,14 +128,42 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				.set("图例", false);
 		return chart.doc();
 	}
-
-	private Document renderClassifyPeriodChart() {
+	
+	
+	private Document renderClassifyCostDetailChart() {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
 		new JQ("查询-问题成本-按时间和成本分类").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-
 		ArrayList<Document> dataset = c("classifyProblemLost").aggregate(pipe).into(new ArrayList<>());
+		return buildDetailChart(dataset);
+	}
+	
+
+	private Document renderClassifyProblemDetailChart() {
+		List<Bson> pipe = new ArrayList<>();
+		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
+		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
+		new JQ("查询-问题成本-问题分类查问题").appendTo(pipe);
+		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("classifyProblem").aggregate(pipe).into(new ArrayList<>());
+		return buildDetailChart(dataset);
+	}
+	
+	private Document renderClassifyCauseDetailChart() {
+		List<Bson> pipe = new ArrayList<>();
+		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
+		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
+		new JQ("查询-问题成本-原因分类查问题").appendTo(pipe);
+		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("classifyCause").aggregate(pipe).into(new ArrayList<>());
+		return buildDetailChart(dataset);
+
+	}
+	
+
+	private Document buildDetailChart(ArrayList<Document> dataset) {
+		if(dataset.isEmpty()) return new Document();
 		// 构建系列数据集
 		List<Document> summary = new ArrayList<>();
 
@@ -145,6 +215,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				.set("数据放缩", x0AxisData.size() > 10 ? new Document("type","slider").append("bottom", 40) : false)//
 				.set("图例", new Document("bottom",10).append("type", "scroll"));
 		Document doc = jq.doc();
+		debugDocument(doc);
 		return doc;
 	}
 
@@ -163,7 +234,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年MM月dd日") +"至" +Formatter.getString(to, "yyyy年MM月dd日") +"期间 问题成本分类统计";
+			title  = Formatter.getString(from, "yyyy年M月d日") +"至" +Formatter.getString(to, "yyyy年M月d日") +"期间 问题损失分类统计";
 		} else if ("month".equals(xAxis)) {
 			dateFormat = "%Y-%m";
 			sdf = new SimpleDateFormat("yyyy-MM");
@@ -172,7 +243,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.MONTH, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年MM月") +"至" +Formatter.getString(to, "yyyy年MM月") +"期间 问题成本分类统计";
+			title  = Formatter.getString(from, "yyyy年M月") +"至" +Formatter.getString(to, "yyyy年M月") +"期间 问题损失分类统计";
 		} else if ("year".equals(xAxis)) {
 			dateFormat = "%Y";
 			sdf = new SimpleDateFormat("yyyy");
@@ -181,9 +252,10 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				agg.add(0d);
 				cal.add(Calendar.YEAR, 1);
 			}
-			title  = Formatter.getString(from, "yyyy年") +"至" +Formatter.getString(to, "yyyy年") +"期间 问题成本分类统计";
+			title  = Formatter.getString(from, "yyyy年") +"至" +Formatter.getString(to, "yyyy年") +"期间 问题损失分类统计";
 		}
 
 	}
+
 
 }

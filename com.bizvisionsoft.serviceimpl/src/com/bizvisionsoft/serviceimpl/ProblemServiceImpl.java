@@ -51,6 +51,7 @@ import com.mongodb.client.model.ReturnDocument;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
+	
 	private Document appendRoleText(Document doc, String lang) {
 		return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
 	}
@@ -935,14 +936,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Catalog> listClassifyCostRoot() {
-		return Arrays.asList(CatalogMapper.classifyProblemLost(new Document("name", "问题成本分类")));
+	public List<Catalog> listClassifyRoot() {
+		return Arrays.asList(CatalogMapper.classifyProblem(new Document("name", "所有类别")));
 	}
 
 	@Override
 	public List<Catalog> listClassifyCostStructure(Catalog parent) {
 		return c("classifyProblemLost").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
-				.map(CatalogMapper::classifyProblemLost).into(new ArrayList<>());
+				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
 
 	@Override
@@ -965,6 +966,64 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document createClassifyCostChart(Document condition) {
 		return ProblemCostChartRender.renderClassifyCostChart(condition);
+	}
+
+
+	@Override
+	public List<Catalog> listClassifyProblemStructure(Catalog parent) {
+		return c("classifyProblem").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
+				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countClassifyProblemStructure(Catalog parent) {
+		return c("classifyProblem").countDocuments(new Document("parent_id", parent._id));
+
+	}
+
+	
+	@Override
+	public Document createClassifyProblemChart(Document condition) {
+		return ProblemCostChartRender.renderClassifyProblemChart(condition);
+	}
+
+
+	@Override
+	public Document createClassifyDeptChart(Document condition) {
+		return ProblemCostChartRender.renderClassifyDeptChart(condition);
+	}
+
+	@Override
+	public List<Catalog> listClassifyCauseStructure(Catalog parent) {
+		return c("classifyCause").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
+				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countClassifyCauseStructure(Catalog parent) {
+		return c("classifyCause").countDocuments(new Document("parent_id", parent._id));
+
+	}
+
+	@Override
+	public Document createClassifyCauseChart(Document condition) {
+		return ProblemCostChartRender.renderClassifyCauseChart(condition);
+	}
+
+	@Override
+	public List<Catalog> listOrgRoot() {
+		return c("organization").find(new Document("parent_id",null)).map(CatalogMapper::org).into(new ArrayList<>());
+	}
+	
+	@Override
+	public List<Catalog> listOrgStructure(Catalog parent) {
+		return c("organization").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
+				.map(CatalogMapper::org).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countOrgStructure(Catalog parent) {
+		return c("organization").countDocuments(new Document("parent_id", parent._id));
 	}
 
 }
