@@ -1,12 +1,16 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -18,6 +22,8 @@ import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCostChartRender extends BasicServiceImpl {
+
+	private static final int MIN_COUNT_DATAZOOM = 30;
 
 	private List<Document> input;
 
@@ -33,6 +39,9 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 
 	private String title;
 
+	public ProblemCostChartRender() {
+	}
+
 	@SuppressWarnings("unchecked")
 	public ProblemCostChartRender(Document condition) {
 		Document option = (Document) condition.get("option");
@@ -44,14 +53,10 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 		initializeXAxis();
 	}
 
-	private boolean isSelectRoot() {
-		return input.size() == 1 && input.get(0).get("_id") == null;
-	}
-
 	public static Document renderClassifyCostChart(Document condition) {
 		return new ProblemCostChartRender(condition).renderClassifyCost();
 	}
-	
+
 	public static Document renderClassifyProblemChart(Document condition) {
 		return new ProblemCostChartRender(condition).renderClassifyProblem();
 	}
@@ -59,18 +64,123 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 	public static Document renderClassifyCauseChart(Document condition) {
 		return new ProblemCostChartRender(condition).renderClassifyCause();
 	}
-	
+
 	public static Document renderClassifyDeptChart(Document condition) {
 		return new ProblemCostChartRender(condition).renderClassifyDept();
 	}
-	
+
+	public static Document renderCostClassifyByProblemChart() {
+		return new ProblemCostChartRender()._renderCostClassifyByProblemChart();
+	}
+
+	public static Document renderCountClassifyByProblemChart() {
+		return new ProblemCostChartRender()._renderCountClassifyByProblemChart();
+	}
+
+	public static Document renderCostClassifyByCauseChart() {
+		return new ProblemCostChartRender()._renderCostPie("查询-问题成本-原因权重计算", "问题原因（损失比重）", "causeRelation");
+	}
+
+	public static Document renderCostClassifyByDeptChart() {
+		return new ProblemCostChartRender()._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
+	}
+
+	private Document _renderCountClassifyByProblemChart() {
+		String queryName = "查询-问题根分类-各月数量";
+		String title = "问题数量";
+		List<String> xAxis = getXAxisOfProblem();
+		return _renderClassifyProblemBarChart(queryName, title, xAxis);
+	}
+
+	private Document _renderCostClassifyByProblemChart() {
+		String queryName = "查询-问题根分类-各月成本";
+		String title = "问题损失";
+		List<String> xAxis = getXAxisOfProblemCost();
+		return _renderClassifyProblemBarChart(queryName, title, xAxis);
+	}
+
+	private Document _renderClassifyProblemBarChart(String queryName, String title, List<String> xAxis) {
+		List<Document> dataset = new ArrayList<>();
+		List<Document> series = new ArrayList<>();
+
+		ArrayList<Document> result = c("classifyProblem").aggregate(new JQ(queryName).array()).into(new ArrayList<>());
+		for (int i = 0; i < result.size(); i++) {
+			Document data = result.get(i);
+			dataset.add(data);
+			String name = data.getString("_id");
+
+			Document s = new Document("datasetIndex", 2 * i)//
+					.append("name", name)//
+					.append("xAxisIndex", 0).append("yAxisIndex", 0)//					
+					.append("encode", new Document("x", "_id").append("y", "value"))//
+					.append("type", "bar").append("label", new Document("normal", new Document("show", true).append("position", "top")));//
+			series.add(s);
+
+			Document mData = new Document("_id", name).append("source", getMoMData((List<?>) data.get("source"), xAxis, -1));
+			dataset.add(mData);
+
+			s = new Document("datasetIndex", 2 * i + 1)//
+					.append("name", name)//
+					.append("xAxisIndex", 0).append("yAxisIndex", 1)//
+					.append("encode", new Document("x", "_id").append("y", "value"))//
+					.append("type", "line").append("label",
+							new Document("normal", new Document("show", false).append("position", "top").append("formatter", "{@value}%")));//
+			series.add(s);
+		}
+
+		return new JQ("图表-通用-带数据集-紧凑布局-2y轴")//
+				.set("标题", title)//
+				.set("数据集", dataset)//
+				.set("x轴数据", xAxis)//
+				.set("y1轴名称", "金额")//
+				.set("y2轴名称", "环比减少(%)")//
+				.set("系列", series)//
+				.doc();
+	}
+
+	private List<Document> getMoMData(List<?> list, List<String> xAxis, int direction) {
+		Map<String, Double> map = new HashMap<String, Double>();
+		list.forEach(o -> map.put(((Document) o).getString("_id"), ((Document) o).getDouble("value")));
+		Calendar cal = Calendar.getInstance();
+
+		List<Document> result = new ArrayList<>();
+		xAxis.forEach(date -> {
+			try {
+				double cValue = Optional.ofNullable(map.get(date)).orElse(0d);
+				cal.setTime(new SimpleDateFormat("yyyy-MM").parse(date));
+				cal.add(Calendar.MONTH, -1);
+				String pDate = new SimpleDateFormat("yyyy-MM").format(cal.getTime());
+				double pValue = Optional.ofNullable(map.get(pDate)).orElse(0d);
+				if (pValue != 0) {
+					result.add(new Document("_id", date).append("value",
+							direction * (double) Math.round((cValue - pValue) / pValue * 10000) / 100));
+				}
+			} catch (ParseException e) {
+			}
+		});
+		return result;
+	}
+
+	private Document _renderCostPie(String queryName, String title, String col) {
+		ArrayList<Document> source = c(col).aggregate(new JQ(queryName).array()).into(new ArrayList<>());
+		List<Document> series = Arrays.asList(//
+				new Document("type", "pie")//
+						.append("radius", "60%").append("label", new Document("normal", new Document("show",true).append("formatter", "{b}\n{d}%")))
+						.append("encode", new Document("itemName", "_id").append("value", "amount")));//
+		Document doc = new JQ("图表-通用-带数据集-紧凑布局-无轴")//
+				.set("标题", title)//
+				.set("数据集", new Document("source", source))//
+				.set("系列", series)//
+				.doc();
+		return doc;
+	}
+
 	private Document renderClassifyDept() {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
 		new JQ("查询-问题成本-责任部门查问题").appendTo(pipe);
 		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-		debugPipeline(pipe);
 		ArrayList<Document> dataset = c("organization").aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
@@ -83,7 +193,6 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 			return renderRootChart();
 		}
 	}
-	
 
 	private Document renderClassifyCost() {
 		if (!isSelectRoot()) {
@@ -93,7 +202,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 			return renderRootChart();
 		}
 	}
-	
+
 	private Document renderClassifyProblem() {
 		if (!isSelectRoot()) {
 			// 增加筛选条件
@@ -111,7 +220,6 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 						.append("amount", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
 		pipe.add(new Document("$group", new Document("_id", "$date").append("amount", new Document("$sum", "$amount"))));
 
-		debugPipeline(pipe);
 		ArrayList<Document> source = c("problemCostItem").aggregate(pipe).into(new ArrayList<>());
 
 		List<Document> series = Arrays.asList(new Document("type", "bar")//
@@ -124,12 +232,11 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 				.set("x轴名称", "期间")//
 				.set("x轴数据", x0AxisData)//
 				.set("y轴名称", "损失金额（人民币元）").set("系列", series)//
-				.set("数据放缩", x0AxisData.size() > 10 ? new Document() : false)//
+				.set("数据放缩", x0AxisData.size() > MIN_COUNT_DATAZOOM ? new Document() : false)//
 				.set("图例", false);
 		return chart.doc();
 	}
-	
-	
+
 	private Document renderClassifyCostDetailChart() {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
@@ -138,7 +245,6 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 		ArrayList<Document> dataset = c("classifyProblemLost").aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
-	
 
 	private Document renderClassifyProblemDetailChart() {
 		List<Bson> pipe = new ArrayList<>();
@@ -149,7 +255,7 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 		ArrayList<Document> dataset = c("classifyProblem").aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
-	
+
 	private Document renderClassifyCauseDetailChart() {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
@@ -160,14 +266,50 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 		return buildDetailChart(dataset);
 
 	}
-	
 
 	private Document buildDetailChart(ArrayList<Document> dataset) {
-		if(dataset.isEmpty()) return new Document();
+
 		// 构建系列数据集
 		List<Document> summary = new ArrayList<>();
 
 		ArrayList<Document> series = new ArrayList<Document>();
+		buildSeriesAndSummary(dataset, summary, series);
+
+		// 追加总计系列
+		if (!summary.isEmpty()) {
+			dataset.add(new Document("source", summary));// 总计
+			series.add(new Document("datasetIndex", dataset.size() - 1)//
+					.append("type", "bar")//
+					.append("barWidth", "20%")//
+					.append("xAxisIndex", 1).append("yAxisIndex", 1)//
+					.append("encode", new Document("x", "_id").append("y", "amount"))
+					.append("label", new Document("normal", new Document("show", true).append("position", "top"))));
+
+			// 构造总计系列的x轴
+
+			// 追加饼图
+			series.add(new Document("datasetIndex", dataset.size() - 1)//
+					.append("name", "分类占比")//
+					.append("type", "pie")//
+					.append("center", Arrays.asList("80%", "25%")).append("radius", "30%")
+					.append("label", new Document("normal", new Document("formatter", "{b}\n{d}%"))));
+		}
+
+		JQ jq = new JQ("图表-通用-上下两栏目")//
+				.set("标题", title)//
+				.set("数据集", dataset)//
+				.set("x轴名称", "期间")//
+				.set("x轴数据", x0AxisData)//
+				.set("y轴名称", "损失金额（人民币元）")//
+				.set("系列", series)//
+				.set("数据放缩", x0AxisData.size() > MIN_COUNT_DATAZOOM ? new Document("type", "slider").append("bottom", 40) : false)//
+				.set("图例", new Document("bottom", 10).append("type", "scroll"));
+		Document doc = jq.doc();
+		debugDocument(doc);
+		return doc;
+	}
+
+	private void buildSeriesAndSummary(List<Document> dataset, List<Document> summary, List<Document> series) {
 		for (int i = 0; i < dataset.size(); i++) {
 			Document source = dataset.get(i);
 			String name = source.getString("_id");
@@ -180,82 +322,56 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 					.append("name", name)//
 					.append("type", "bar")//
 					.append("xAxisIndex", 0).append("yAxisIndex", 0)//
-					.append("encode", new Document("x","_id").append("y", "amount"))
+					.append("encode", new Document("x", "_id").append("y", "amount"))
 					.append("label", new Document("normal", new Document("show", true).append("position", "top")));
 			series.add(amount);
 		}
-
-		// 追加总计系列
-		dataset.add(new Document("source", summary));// 总计
-		series.add(new Document("datasetIndex", dataset.size() - 1)//
-				.append("type", "bar")//
-				.append("barWidth", "20%")//
-				.append("xAxisIndex", 1).append("yAxisIndex", 1)//
-				.append("encode", new Document("x","_id").append("y", "amount"))
-				.append("label", new Document("normal", new Document("show", true).append("position", "top"))));
-
-		//构造总计系列的x轴
-		
-		
-		// 追加饼图
-		series.add(new Document("datasetIndex", dataset.size() - 1)//
-				.append("name", "分类占比")//
-				.append("type", "pie")//
-				.append("center", Arrays.asList("80%","25%")).append("radius", Arrays.asList("20%","30%"))
-				.append("label", new Document("normal",new Document("formatter","{b}\n{d}%")))
-				);
-
-		JQ jq = new JQ("图表-通用-上下两栏目")//
-				.set("标题", title)//
-				.set("数据集", dataset)//
-				.set("x轴名称", "期间")//
-				.set("x轴数据", x0AxisData)//
-				.set("y轴名称", "损失金额（人民币元）")//
-				.set("系列", series)//
-				.set("数据放缩", x0AxisData.size() > 10 ? new Document("type","slider").append("bottom", 40) : false)//
-				.set("图例", new Document("bottom",10).append("type", "scroll"));
-		Document doc = jq.doc();
-		debugDocument(doc);
-		return doc;
 	}
 
 	private void initializeXAxis() {
-		x0AxisData = new ArrayList<String>();
+		x0AxisData = getXAxisData(xAxis, from, to);
 		// markLineData = new Document();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(from);
-		List<Double> agg = new ArrayList<Double>();
-		SimpleDateFormat sdf;
 		if ("date".equals(xAxis)) {
 			dateFormat = "%Y-%m-%d";
-			sdf = new SimpleDateFormat("yyyy-MM-dd");
-			while (!cal.getTime().after(to)) {
-				x0AxisData.add(sdf.format(cal.getTime()));
-				agg.add(0d);
-				cal.add(Calendar.DAY_OF_MONTH, 1);
-			}
-			title  = Formatter.getString(from, "yyyy年M月d日") +"至" +Formatter.getString(to, "yyyy年M月d日") +"期间 问题损失分类统计";
+			title = Formatter.getString(from, "yyyy年M月d日") + "至" + Formatter.getString(to, "yyyy年M月d日") + "期间 问题损失分类统计";
 		} else if ("month".equals(xAxis)) {
 			dateFormat = "%Y-%m";
-			sdf = new SimpleDateFormat("yyyy-MM");
-			while (!cal.getTime().after(to)) {
-				x0AxisData.add(sdf.format(cal.getTime()));
-				agg.add(0d);
-				cal.add(Calendar.MONTH, 1);
-			}
-			title  = Formatter.getString(from, "yyyy年M月") +"至" +Formatter.getString(to, "yyyy年M月") +"期间 问题损失分类统计";
+			title = Formatter.getString(from, "yyyy年M月") + "至" + Formatter.getString(to, "yyyy年M月") + "期间 问题损失分类统计";
 		} else if ("year".equals(xAxis)) {
 			dateFormat = "%Y";
-			sdf = new SimpleDateFormat("yyyy");
-			while (!cal.getTime().after(to)) {
-				x0AxisData.add(sdf.format(cal.getTime()));
-				agg.add(0d);
-				cal.add(Calendar.YEAR, 1);
-			}
-			title  = Formatter.getString(from, "yyyy年") +"至" +Formatter.getString(to, "yyyy年") +"期间 问题损失分类统计";
+			title = Formatter.getString(from, "yyyy年") + "至" + Formatter.getString(to, "yyyy年") + "期间 问题损失分类统计";
 		}
-
 	}
 
+	private boolean isSelectRoot() {
+		return input.size() == 1 && input.get(0).get("_id") == null;
+	}
+
+	private List<String> getXAxisOfProblemCost() {
+		Document date = c("problemCostItem").aggregate(Arrays.asList(new Document("$group",
+				new Document("_id", null).append("from", new Document("$min", "$date")).append("to", new Document("$max", "$date")))))
+				.first();
+
+		if (date == null)
+			return new ArrayList<>();
+		Date from = date.getDate("from");
+		Date to = date.getDate("to");
+		return getXAxisData("month", from, to);
+	}
+
+	private List<String> getXAxisOfProblem() {
+		Document date = c("problem").aggregate(
+				Arrays.asList(new Document("$match", new Document("status", new Document("$in", Arrays.asList("已创建", "解决中", "已关闭")))),
+						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$creationInfo.date"))
+								.append("to", new Document("$max", "$creationInfo.date")))))
+				.first();
+		if (date == null)
+			return new ArrayList<>();
+		Date from = date.getDate("from");
+		Date to = date.getDate("to");
+		return getXAxisData("month", from, to);
+	}
 
 }

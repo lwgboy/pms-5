@@ -852,4 +852,38 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按问题原因分类钻取/chart" })
 	public Document createClassifyCauseChart(@MethodParam(MethodParam.CONDITION) Document condition);
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题综合分析 
+	@POST
+	@Path("/cost/classifyproblem/bar")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按问题分类图表/list" })
+	public Document createCostClassifyByProblemChart();
+	
+	@POST
+	@Path("/count/classifyproblem/bar")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题数量按问题分类图表/list" })
+	public Document createCountClassifyByProblemChart();
+	
+	@POST
+	@Path("/cost/classifyCause/pie")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按原因分类图表/list" })
+	public Document createCostClassifyByCauseChart();
+	
+	@POST
+	@Path("/count/classifyCause/pie")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按部门分类图表/list" })
+	public Document createCostClassifyByDeptChart();
+
+	
+
+
 }

@@ -1026,4 +1026,25 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return c("organization").countDocuments(new Document("parent_id", parent._id));
 	}
 
+	@Override
+	public Document createCostClassifyByProblemChart() {
+		return ProblemCostChartRender.renderCostClassifyByProblemChart();
+	}
+	
+	@Override
+	public Document createCountClassifyByProblemChart() {
+		return ProblemCostChartRender.renderCountClassifyByProblemChart();
+	}
+	
+	@Override
+	public Document createCostClassifyByCauseChart() {
+		return ProblemCostChartRender.renderCostClassifyByCauseChart();
+	}
+	
+	@Override
+	public Document createCostClassifyByDeptChart() {
+		return ProblemCostChartRender.renderCostClassifyByDeptChart();
+	}
+
+
 }
