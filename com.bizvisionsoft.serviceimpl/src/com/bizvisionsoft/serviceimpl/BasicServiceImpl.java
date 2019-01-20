@@ -196,18 +196,17 @@ public class BasicServiceImpl {
 		return c(col).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	final protected long count(String col, BasicDBObject filter, Bson...  appendPipelines) {
+	final protected long count(String col, BasicDBObject filter, Bson... appendPipelines) {
 		List<Bson> pipeline = null;
 		if (appendPipelines != null)
 			pipeline = Arrays.asList(appendPipelines);
-		return count(col,filter,pipeline);
+		return count(col, filter, pipeline);
 	}
-	
+
 	final protected long count(String col, BasicDBObject filter, List<Bson> appendPipelines) {
 		ArrayList<Bson> pipeline = combinateCountPipeline(filter, appendPipelines);
 		return Optional.ofNullable(c(col).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue()).orElse(0l);
 	}
-
 
 	private ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
 		Integer skip = (Integer) condition.get("skip");
@@ -1077,5 +1076,9 @@ public class BasicServiceImpl {
 			}
 		}
 		return xAxisData;
+	}
+
+	public Document blankChart() {
+		return new JQ("图表-无数据").doc();
 	}
 }

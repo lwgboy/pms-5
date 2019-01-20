@@ -13,7 +13,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.model.Problem;
-import com.bizvisionsoft.service.model.ProblemActionPlan;
 
 public class SelectPlan {
 
@@ -36,9 +35,9 @@ public class SelectPlan {
 		Selector sel =Selector.create("行动预案选择器", context, null);
 		sel.getContext().acceptParamters(cond.toJson());
 		sel.setTitle("选择预案").open(s -> {
-			ProblemActionPlan plan = (ProblemActionPlan) s.get(0);
+			Document plan = (Document) s.get(0);
 			Document doc = (Document) context.getInput();
-			doc.append("action", plan.getAction()).append("detail", plan.getDetail()).append("objective", plan.getObjective());
+			doc.append("action", plan.get("action")).append("detail", plan.get("detail")).append("objective", plan.get("objective"));
 			EditorPart content = (EditorPart) context.getContent();
 			content.reloadFieldValue(new String[] { "action", "detail", "objective" });
 		});

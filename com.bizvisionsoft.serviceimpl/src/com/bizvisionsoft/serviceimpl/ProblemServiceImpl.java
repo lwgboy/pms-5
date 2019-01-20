@@ -40,7 +40,7 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
-import com.bizvisionsoft.serviceimpl.renderer.ProblemCostChartRender;
+import com.bizvisionsoft.serviceimpl.renderer.ProblemChartRender;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
 import com.mongodb.client.FindIterable;
@@ -964,7 +964,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document createClassifyCostChart(Document condition) {
-		return ProblemCostChartRender.renderClassifyCostChart(condition);
+		return ProblemChartRender.renderClassifyCostChart(condition);
 	}
 
 	@Override
@@ -981,12 +981,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document createClassifyProblemChart(Document condition) {
-		return ProblemCostChartRender.renderClassifyProblemChart(condition);
+		return ProblemChartRender.renderClassifyProblemChart(condition);
 	}
 
 	@Override
 	public Document createClassifyDeptChart(Document condition) {
-		return ProblemCostChartRender.renderClassifyDeptChart(condition);
+		return ProblemChartRender.renderClassifyDeptChart(condition);
 	}
 
 	@Override
@@ -1003,7 +1003,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document createClassifyCauseChart(Document condition) {
-		return ProblemCostChartRender.renderClassifyCauseChart(condition);
+		return ProblemChartRender.renderClassifyCauseChart(condition);
 	}
 
 	@Override
@@ -1024,22 +1024,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document createCostClassifyByProblemChart() {
-		return ProblemCostChartRender.renderCostClassifyByProblemChart();
+		return ProblemChartRender.renderCostClassifyByProblemChart();
 	}
 
 	@Override
 	public Document createCountClassifyByProblemChart() {
-		return ProblemCostChartRender.renderCountClassifyByProblemChart();
+		return ProblemChartRender.renderCountClassifyByProblemChart();
 	}
 
 	@Override
 	public Document createCostClassifyByCauseChart() {
-		return ProblemCostChartRender.renderCostClassifyByCauseChart();
+		return ProblemChartRender.renderCostClassifyByCauseChart();
 	}
 
 	@Override
 	public Document createCostClassifyByDeptChart() {
-		return ProblemCostChartRender.renderCostClassifyByDeptChart();
+		return ProblemChartRender.renderCostClassifyByDeptChart();
 	}
 
 	@Override

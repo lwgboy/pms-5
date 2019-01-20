@@ -21,7 +21,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
-public class ProblemCostChartRender extends BasicServiceImpl {
+public class ProblemChartRender extends BasicServiceImpl {
 
 	private static final int MIN_COUNT_DATAZOOM = 30;
 
@@ -39,11 +39,11 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 
 	private String title;
 
-	public ProblemCostChartRender() {
+	public ProblemChartRender() {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ProblemCostChartRender(Document condition) {
+	public ProblemChartRender(Document condition) {
 		Document option = (Document) condition.get("option");
 		List<?> dateRange = (List<?>) option.get("dateRange");
 		from = (Date) dateRange.get(0);
@@ -54,48 +54,50 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 	}
 
 	public static Document renderClassifyCostChart(Document condition) {
-		return new ProblemCostChartRender(condition).renderClassifyCost();
+		return new ProblemChartRender(condition).renderClassifyCost();
 	}
 
 	public static Document renderClassifyProblemChart(Document condition) {
-		return new ProblemCostChartRender(condition).renderClassifyProblem();
+		return new ProblemChartRender(condition).renderClassifyProblem();
 	}
 
 	public static Document renderClassifyCauseChart(Document condition) {
-		return new ProblemCostChartRender(condition).renderClassifyCause();
+		return new ProblemChartRender(condition).renderClassifyCause();
 	}
 
 	public static Document renderClassifyDeptChart(Document condition) {
-		return new ProblemCostChartRender(condition).renderClassifyDept();
+		return new ProblemChartRender(condition).renderClassifyDept();
 	}
 
 	public static Document renderCostClassifyByProblemChart() {
-		return new ProblemCostChartRender()._renderCostClassifyByProblemChart();
+		return new ProblemChartRender()._renderCostClassifyByProblemChart();
 	}
 
 	public static Document renderCountClassifyByProblemChart() {
-		return new ProblemCostChartRender()._renderCountClassifyByProblemChart();
+		return new ProblemChartRender()._renderCountClassifyByProblemChart();
 	}
 
 	public static Document renderCostClassifyByCauseChart() {
-		return new ProblemCostChartRender()._renderCostPie("查询-问题成本-原因权重计算", "问题原因（损失比重）", "causeRelation");
+		return new ProblemChartRender()._renderCostPie("查询-问题成本-原因权重计算", "问题原因（损失比重）", "causeRelation");
 	}
 
 	public static Document renderCostClassifyByDeptChart() {
-		return new ProblemCostChartRender()._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
+		return new ProblemChartRender()._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
 	}
 
 	private Document _renderCountClassifyByProblemChart() {
+		List<String> xAxis = getXAxisOfProblem();
+		if(xAxis.isEmpty()) return blankChart();
 		String queryName = "查询-问题根分类-各月数量";
 		String title = "问题数量";
-		List<String> xAxis = getXAxisOfProblem();
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
 	}
 
 	private Document _renderCostClassifyByProblemChart() {
+		List<String> xAxis = getXAxisOfProblemCost();
+		if(xAxis.isEmpty()) return blankChart();
 		String queryName = "查询-问题根分类-各月成本";
 		String title = "问题损失";
-		List<String> xAxis = getXAxisOfProblemCost();
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
 	}
 
@@ -163,6 +165,8 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 
 	private Document _renderCostPie(String queryName, String title, String col) {
 		ArrayList<Document> source = c(col).aggregate(new JQ(queryName).array()).into(new ArrayList<>());
+		if(source.isEmpty()) return blankChart();
+		
 		List<Document> series = Arrays.asList(//
 				new Document("type", "pie")//
 						.append("radius", "60%").append("label", new Document("normal", new Document("show",true).append("formatter", "{b}\n{d}%")))
@@ -221,7 +225,8 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 		pipe.add(new Document("$group", new Document("_id", "$date").append("amount", new Document("$sum", "$amount"))));
 
 		ArrayList<Document> source = c("problemCostItem").aggregate(pipe).into(new ArrayList<>());
-
+		if(source.isEmpty()) return blankChart();
+		
 		List<Document> series = Arrays.asList(new Document("type", "bar")//
 				.append("name", "损失金额").append("label", new Document("normal", new Document("show", true).append("position", "top")))//
 		);
@@ -268,7 +273,8 @@ public class ProblemCostChartRender extends BasicServiceImpl {
 	}
 
 	private Document buildDetailChart(ArrayList<Document> dataset) {
-
+		if(dataset.isEmpty()) return blankChart();
+		
 		// 构建系列数据集
 		List<Document> summary = new ArrayList<>();
 
