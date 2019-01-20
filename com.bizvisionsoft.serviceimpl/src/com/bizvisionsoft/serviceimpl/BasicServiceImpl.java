@@ -166,10 +166,16 @@ public class BasicServiceImpl {
 
 	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, Bson... appendPipelines) {
 		List<Bson> pipeline = null;
-
 		if (appendPipelines != null)
 			pipeline = Arrays.asList(appendPipelines);
 		return list(clazz, condition, pipeline);
+	}
+
+	final protected List<Document> list(String col, BasicDBObject condition, Bson... appendPipelines) {
+		List<Bson> pipeline = null;
+		if (appendPipelines != null)
+			pipeline = Arrays.asList(appendPipelines);
+		return list(col, condition, pipeline);
 	}
 
 	/**
@@ -181,6 +187,29 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
+		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
+	}
+
+	final protected List<Document> list(String col, BasicDBObject condition, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
+		return c(col).aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	final protected long count(String col, BasicDBObject filter, Bson...  appendPipelines) {
+		List<Bson> pipeline = null;
+		if (appendPipelines != null)
+			pipeline = Arrays.asList(appendPipelines);
+		return count(col,filter,pipeline);
+	}
+	
+	final protected long count(String col, BasicDBObject filter, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateCountPipeline(filter, appendPipelines);
+		return Optional.ofNullable(c(col).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue()).orElse(0l);
+	}
+
+
+	private ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -202,8 +231,17 @@ public class BasicServiceImpl {
 		if (appendPipelines != null) {
 			pipeline.addAll(appendPipelines);
 		}
+		return pipeline;
+	}
 
-		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
+	private ArrayList<Bson> combinateCountPipeline(BasicDBObject filter, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		if (appendPipelines != null)
+			pipeline.addAll(appendPipelines);
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+		pipeline.add(Aggregates.count());
+		return pipeline;
 	}
 
 	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz) {
@@ -1003,7 +1041,7 @@ public class BasicServiceImpl {
 		}
 		return doc;
 	}
-	
+
 	protected ArrayList<String> getXAxisData(String xAxis, Date from, Date to) {
 		ArrayList<String> xAxisData = new ArrayList<String>();
 		SimpleDateFormat sdf;

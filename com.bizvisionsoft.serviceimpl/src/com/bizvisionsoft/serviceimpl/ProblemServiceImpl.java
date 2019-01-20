@@ -51,7 +51,6 @@ import com.mongodb.client.model.ReturnDocument;
 
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
-	
 	private Document appendRoleText(Document doc, String lang) {
 		return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
 	}
@@ -968,7 +967,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return ProblemCostChartRender.renderClassifyCostChart(condition);
 	}
 
-
 	@Override
 	public List<Catalog> listClassifyProblemStructure(Catalog parent) {
 		return c("classifyProblem").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
@@ -981,12 +979,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	}
 
-	
 	@Override
 	public Document createClassifyProblemChart(Document condition) {
 		return ProblemCostChartRender.renderClassifyProblemChart(condition);
 	}
-
 
 	@Override
 	public Document createClassifyDeptChart(Document condition) {
@@ -1012,13 +1008,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listOrgRoot() {
-		return c("organization").find(new Document("parent_id",null)).map(CatalogMapper::org).into(new ArrayList<>());
+		return c("organization").find(new Document("parent_id", null)).map(CatalogMapper::org).into(new ArrayList<>());
 	}
-	
+
 	@Override
 	public List<Catalog> listOrgStructure(Catalog parent) {
-		return c("organization").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
-				.map(CatalogMapper::org).into(new ArrayList<>());
+		return c("organization").find(new Document("parent_id", parent._id)).sort(new Document("index", 1)).map(CatalogMapper::org)
+				.into(new ArrayList<>());
 	}
 
 	@Override
@@ -1030,21 +1026,46 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document createCostClassifyByProblemChart() {
 		return ProblemCostChartRender.renderCostClassifyByProblemChart();
 	}
-	
+
 	@Override
 	public Document createCountClassifyByProblemChart() {
 		return ProblemCostChartRender.renderCountClassifyByProblemChart();
 	}
-	
+
 	@Override
 	public Document createCostClassifyByCauseChart() {
 		return ProblemCostChartRender.renderCostClassifyByCauseChart();
 	}
-	
+
 	@Override
 	public Document createCostClassifyByDeptChart() {
 		return ProblemCostChartRender.renderCostClassifyByDeptChart();
 	}
 
+	@Override
+	public List<Document> listSPA(BasicDBObject condition) {
+		List<Bson> pipeline = new ArrayList<>();
+		pipeline.add(Aggregates.match(new Document("stage", "spa")));
+		pipeline.add(Aggregates.lookup("problem", "problem_id", "_id", "problem")); //
+		pipeline.add(Aggregates.unwind("$problem"));
+		pipeline.add(Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"));//
+		pipeline.add(Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
+				.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
+		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+
+		return c("problemAction").aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countSPA(BasicDBObject filter) {
+		return count("problemAction", filter, Aggregates.match(new Document("stage", "spa")),
+				Aggregates.lookup("problem", "problem_id", "_id", "problem"), //
+				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
+				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
+						.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+	}
 
 }

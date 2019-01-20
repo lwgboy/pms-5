@@ -883,7 +883,19 @@ public interface ProblemService {
 	@DataSet({ "问题损失按部门分类图表/list" })
 	public Document createCostClassifyByDeptChart();
 
-	
+	@POST
+	@Path("/spa/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("系统性预防措施表格/list")
+	public List<Document> listSPA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/spa/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("系统性预防措施表格/count")
+	public long countSPA(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 
 }
