@@ -111,23 +111,26 @@ public class ProblemChartRender extends BasicServiceImpl {
 			dataset.add(data);
 			String name = data.getString("_id");
 
-			Document s = new Document("datasetIndex", 2 * i)//
+			Document s = new Document("datasetIndex", dataset.size()-1)//
 					.append("name", name)//
 					.append("xAxisIndex", 0).append("yAxisIndex", 0)//					
 					.append("encode", new Document("x", "_id").append("y", "value"))//
 					.append("type", "bar").append("label", new Document("normal", new Document("show", true).append("position", "top")));//
 			series.add(s);
 
-			Document mData = new Document("_id", name).append("source", getMoMData((List<?>) data.get("source"), xAxis, -1));
-			dataset.add(mData);
-
-			s = new Document("datasetIndex", 2 * i + 1)//
-					.append("name", name)//
-					.append("xAxisIndex", 0).append("yAxisIndex", 1)//
-					.append("encode", new Document("x", "_id").append("y", "value"))//
-					.append("type", "line").append("label",
-							new Document("normal", new Document("show", false).append("position", "top").append("formatter", "{@value}%")));//
-			series.add(s);
+			List<Document> momSource = getMoMData((List<?>) data.get("source"), xAxis, -1);
+			if(!momSource.isEmpty()) {
+				Document mData = new Document("_id", name).append("source", momSource);
+				dataset.add(mData);
+				
+				s = new Document("datasetIndex", dataset.size()-1)//
+						.append("name", name)//
+						.append("xAxisIndex", 0).append("yAxisIndex", 1)//
+						.append("encode", new Document("x", "_id").append("y", "value"))//
+						.append("type", "line").append("label",
+								new Document("normal", new Document("show", false).append("position", "top").append("formatter", "{@value}%")));//
+				series.add(s);
+			}
 		}
 
 		return new JQ("图表-通用-带数据集-紧凑布局-2y轴")//
