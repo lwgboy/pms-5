@@ -69,8 +69,29 @@ public class GenericAction {
 			doVerify(element, context, viewer);
 		} else if ("finish".equals(a.getName()) || "finish".equals(e.text)) {
 			doFinish(element, viewer);
-		} else if ("create".equals(a.getName())) {
+		} else if ("create".equals(a.getName()) || "create".equals(e.text)) {
 			doCreate(problem, context, viewer);
+		} else if ("editSimilar".equals(a.getName()) || "editSimilar".equals(e.text)) {
+			editSimilar(element, viewer, context, render);
+		} else if ("deleteSimilar".equals(a.getName()) || "deleteSimilar".equals(e.text)) {
+			deleteSimilar(element, viewer, context);
+		}
+	}
+	
+	private void editSimilar(Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+		Document ivpca = service.getD7Similar(doc.getObjectId("_id"));
+		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
+			Document d = service.updateD7Similar(t, lang,render);
+			viewer.update(AUtil.simpleCopy(d, doc), null);
+		});
+	}
+
+	private void deleteSimilar(Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+		if (br.confirm("删除", "请确认删除选择的相似项。")) {
+			service.deleteD7Similar(doc.getObjectId("_id"));
+			List<?> input = (List<?>) viewer.getInput();
+			input.remove(doc);
+			viewer.remove(doc);
 		}
 	}
 
