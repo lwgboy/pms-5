@@ -15,8 +15,6 @@ import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCardRenderer {
 
-	public static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
-
 	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
 	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
@@ -205,7 +203,7 @@ public class ProblemCardRenderer {
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
-		String img = RenderTools.getUserHeadPicURL(doc, name);
+		String img = RenderTools.getUserHeadPicURL(doc,36);
 
 		RenderTools.appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " "
 				+ dept + " " + position + "</div></div>" + img, 48);
@@ -289,7 +287,7 @@ public class ProblemCardRenderer {
 		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
-		String priority = priorityText[Integer.parseInt(doc.getString("priority"))];
+//		Integer index = doc.getInteger("index");
 		Date planStart = doc.getDate("planStart");
 		Date planFinish = doc.getDate("planFinish");
 		Date actualStart = doc.getDate("actualStart");
@@ -328,14 +326,12 @@ public class ProblemCardRenderer {
 		if (head == null) {
 			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
 					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
-					+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + priority + "</div>"
-					+ "<div class='label_caption'>优先级</div></div>"//
+//					+ "<div class='label_title' style='text-align:center;margin-left:8px'>" + index + "</div>"
 					+ "</div>");//
 		} else {
 			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
 					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + head + "</div>"//
-					+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + priority + "</div>"
-					+ "<div class='label_caption'>优先级</div></div>"//
+//					+ "<div class='label_title' style='text-align:center;margin-left:8px'>" + index + "</div>"
 					+ "</div>");//
 			RenderTools.appendText(sb, action, RenderTools.STYLE_NLINE);
 		}

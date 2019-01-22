@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.bson.Document;
@@ -75,23 +76,22 @@ public class RenderTools {
 				+ "</div>");//
 	}
 
-	public static String getUserHeadPicURL(Document doc, String name) {
+	public static String getUserHeadPicURL(Document doc, int size) {
 		String img;
 		String url = RenderTools.getFirstFileURL(doc, "headPics");
 		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:28px;width:36px;height:36px;'/>";
+			img = "<img src=" + url + " style='border-radius:" + size + "px;width:" + size + "px;height:" + size + "px;'/>";
 		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:28px;width:36px;height:36px;'/>";
+			url = "resource/image/people.svg";
+			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:#212121" + ";border-radius:" + size
+					+ "px;width:" + size + "px;height:" + size + "px;'/>";
 		}
 		return img;
 	}
 
 	public static void appendUserAndText(StringBuffer sb, Document user, String text) {
 		String name = user.getString("name");
-		String url = RenderTools.getFirstFileURL(user, "headPics");
+		String url = Optional.ofNullable(RenderTools.getFirstFileURL(user, "headPics")).orElse("resource/image/people.svg");
 		appendUserAndText(sb, url, name, text);
 	}
 
@@ -205,8 +205,8 @@ public class RenderTools {
 		if (overflow) {
 			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
 					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
-					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
-					+ "......" + "</div>");		}
+					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>" + "......" + "</div>");
+		}
 	}
 
 	public static void appendIndicator(StringBuffer sb, Double ind, String label, String text, String[] indColor) {

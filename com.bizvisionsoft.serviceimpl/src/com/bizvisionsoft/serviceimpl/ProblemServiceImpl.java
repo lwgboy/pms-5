@@ -55,10 +55,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
 	}
 
-	private Document appendPriortyText(Document d, String lang) {
-		return d.append("priorityText", ProblemCardRenderer.priorityText[Integer.parseInt(d.getString("priority"))]);
-	}
-
 	private Document appendActionText(Document d, String lang) {
 		String act = d.getString("actionType");
 		if ("make".equals(act)) {
@@ -179,7 +175,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			t = ProblemCardRenderer.renderAction(t, lang);
 		} else if ("gridrow".equals(render)) {
-			appendPriortyText(t, lang);
 			appendActionText(t, lang);
 		}
 		return t;
@@ -192,14 +187,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			f = d -> ProblemCardRenderer.renderAction(d, lang);
 		} else {
 			f = d -> {
-				appendPriortyText(d, lang);
 				appendActionText(d, lang);
 				return d;
 			};
 		}
 		// TODO condition
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
-				.sort(new Document("priority", 1));
+				.sort(new Document("index", 1));
 		return iter.map(f).into(new ArrayList<>());
 	}
 
@@ -210,7 +204,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			func = ProblemCardRenderer::renderAction;
 		} else {
 			func = (d, l) -> {
-				appendPriortyText(d, l);
 				appendActionText(d, l);
 				return d;
 			};
