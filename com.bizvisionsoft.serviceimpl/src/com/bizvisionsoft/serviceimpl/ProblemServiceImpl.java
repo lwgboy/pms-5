@@ -193,7 +193,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		// TODO condition
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
-				.sort(new Document("actionType",1).append("index", 1));
+				.sort(new Document("actionType", 1).append("index", 1));
 		return iter.map(f).into(new ArrayList<>());
 	}
 
@@ -902,29 +902,30 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listAdvisablePlan(BasicDBObject condition, ObjectId problem_id, String stage) {
-		String[] stageNames = new String[] { "紧急反应", "临时控制", "永久纠正", "系统预防", "善后措施" };
-		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
-		List<Bson> pipeline = new ArrayList<>();
-		pipeline.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("stage", stageName).array());
+		List<Bson> pipeline = createAdvisePipeline(problem_id, stage);
 		Optional.ofNullable((BasicDBObject) condition.get("filter")).ifPresent(f -> pipeline.add(Aggregates.match(f)));
 		pipeline.add(Aggregates.sort(ensureGet(condition, "sort").append("_id", -1)));
 		Optional.ofNullable((Integer) condition.get("skip")).ifPresent(f -> pipeline.add(Aggregates.skip(f)));
 		Optional.ofNullable((Integer) condition.get("limit")).ifPresent(f -> pipeline.add(Aggregates.limit(f)));
-
 		return c("problem").aggregate(pipeline).into(new ArrayList<>());
 	}
 
 	@Override
 	public long countAdvisablePlan(BasicDBObject filter, ObjectId problem_id, String stage) {
+		List<Bson> pipeline = createAdvisePipeline(problem_id, stage);
+		if (filter != null)
+			pipeline.add(new BasicDBObject("$match", filter));
+		pipeline.add(Aggregates.count());
+		return Optional.ofNullable(c("problem").aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue())
+				.orElse(0l);
+	}
+
+	private List<Bson> createAdvisePipeline(ObjectId problem_id, String stage) {
 		String[] stageNames = new String[] { "紧急反应", "临时控制", "永久纠正", "系统预防", "善后措施" };
 		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
-		List<Bson> pipe = new ArrayList<>();
-		pipe.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("stage", stageName).array());
-		if (filter != null)
-			pipe.add(new BasicDBObject("$match", filter));
-		pipe.add(Aggregates.count());
-		return Optional.ofNullable(c("problem").aggregate(pipe).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue())
-				.orElse(0l);
+		List<Bson> pipeline = new ArrayList<>();
+		pipeline.addAll(new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("in", Arrays.asList(stageName, "$stage")).array());
+		return pipeline;
 	}
 
 	@Override
