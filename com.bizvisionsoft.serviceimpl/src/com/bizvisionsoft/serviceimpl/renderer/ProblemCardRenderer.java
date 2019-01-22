@@ -258,10 +258,10 @@ public class ProblemCardRenderer {
 	public static Document renderD2PhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("<img src='" + RenderTools.getFirstFileURL(doc, "problemImg")
-				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
-
+		sb.append("<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("+RenderTools.getFirstFileURL(doc, "problemImg")+")' "
+				+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'"+ "></div>");
+		
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
 		RenderTools.appendText(sb,
