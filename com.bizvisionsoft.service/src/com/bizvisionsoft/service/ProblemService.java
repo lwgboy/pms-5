@@ -312,7 +312,6 @@ public interface ProblemService {
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
-	
 	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -699,7 +698,7 @@ public interface ProblemService {
 	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list", //
 			"D3临时控制行动/list", "D3临时控制行动表格/list", //
 			"D6执行和确认/list", "D6执行和确认永久纠正措施表格/list", //
-			"D7系统性预防措施表格/list",  //
+			"D7系统性预防措施表格/list", //
 			"D8损失挽回措施表格/list" })
 	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
@@ -721,9 +720,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("行动预案选择列表/list")
 	public List<Document> listAdvisablePlan(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
-			@MethodParam("stage") @PathParam("stage") String stage
-			);
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage);
 
 	@POST
 	@Path("/_id/{_id}/{stage}/advisableplan/count")
@@ -731,17 +728,33 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("行动预案选择列表/count")
 	public long countAdvisablePlan(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
-			@MethodParam("stage") @PathParam("stage") String stage);
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage);
 
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 目标和决策准则选择器
+	@POST
+	@Path("/_id/{_id}/criteriaTemplate/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目标和决策准则选择表格/list")
+	public List<Document> listCriteriaTemplate(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/criteriaTemplate/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目标和决策准则选择表格/count")
+	public long countCriteriaTemplate(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 成本分析 问题成本按成本分类钻取
 	@POST
 	@Path("/cost/selector/root/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题成本按成本分类钻取/list","问题成本按问题分类钻取/list","问题成本按问题原因分类钻取/list" })
+	@DataSet({ "问题成本按成本分类钻取/list", "问题成本按问题分类钻取/list", "问题成本按问题原因分类钻取/list" })
 	public List<Catalog> listClassifyRoot();
 
 	@POST
@@ -757,14 +770,14 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按成本分类钻取/scount" })
 	public long countClassifyCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-	
+
 	@POST
 	@Path("/cost/option/default")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题成本按成本分类钻取/default","问题成本按问题分类钻取/default","问题成本按责任部门分类钻取/default","问题成本按问题原因分类钻取/default" })
+	@DataSet({ "问题成本按成本分类钻取/default", "问题成本按问题分类钻取/default", "问题成本按责任部门分类钻取/default", "问题成本按问题原因分类钻取/default" })
 	public Document defaultClassifyCostOption();
-	
+
 	@POST
 	@Path("/cost/classifycost/chart/")
 	@Consumes("application/json; charset=UTF-8")
@@ -772,7 +785,6 @@ public interface ProblemService {
 	@DataSet({ "问题成本按成本分类钻取/chart" })
 	public Document createClassifyCostChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
-	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 成本分析 问题成本按问题分类钻取
 
@@ -789,18 +801,17 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按问题分类钻取/scount" })
 	public long countClassifyProblemStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-	
+
 	@POST
 	@Path("/cost/classifyproblem/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按问题分类钻取/chart" })
 	public Document createClassifyProblemChart(@MethodParam(MethodParam.CONDITION) Document condition);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 成本分析 问题成本按责任部门分类钻取
-	
+
 	@POST
 	@Path("/cost/selector/root/org")
 	@Consumes("application/json; charset=UTF-8")
@@ -821,14 +832,14 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按责任部门分类钻取/scount" })
 	public long countOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-	
+
 	@POST
 	@Path("/res/dept/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按责任部门分类钻取/chart" })
 	public Document createClassifyDeptChart(@MethodParam(MethodParam.CONDITION) Document condition);
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 成本分析 问题成本按原因分类钻取
 
@@ -845,37 +856,37 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按问题原因分类钻取/scount" })
 	public long countClassifyCauseStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
-	
+
 	@POST
 	@Path("/res/cause/chart/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本按问题原因分类钻取/chart" })
 	public Document createClassifyCauseChart(@MethodParam(MethodParam.CONDITION) Document condition);
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 问题综合分析 
+	// 问题综合分析
 	@POST
 	@Path("/cost/classifyproblem/bar")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题损失按问题分类图表/list" })
 	public Document createCostClassifyByProblemChart();
-	
+
 	@POST
 	@Path("/count/classifyproblem/bar")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题数量按问题分类图表/list" })
 	public Document createCountClassifyByProblemChart();
-	
+
 	@POST
 	@Path("/cost/classifyCause/pie")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题损失按原因分类图表/list" })
 	public Document createCostClassifyByCauseChart();
-	
+
 	@POST
 	@Path("/count/classifyCause/pie")
 	@Consumes("application/json; charset=UTF-8")
@@ -896,6 +907,5 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/count")
 	public long countSPA(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
-
 
 }
