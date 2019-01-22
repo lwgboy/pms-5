@@ -1,8 +1,11 @@
 package com.bizvisionsoft.pms.problem.action;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.eclipse.rap.rwt.RWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -66,6 +69,11 @@ public class LifecycleChage {
 				}
 			}
 		} else if ("pcaApproved".equals(stage)) {
+			List<Document> selected = service.listD5(new BasicDBObject("selected", true), _id, RWT.getLocale().getLanguage());
+			if (selected.size() == 0) {
+				Layer.error("尚未选定将要实施的永久纠正措施");
+				return;
+			}
 			if (pb.getPcaApproved() != null) {
 				Layer.message("永久纠正措施已批准");
 			} else {
