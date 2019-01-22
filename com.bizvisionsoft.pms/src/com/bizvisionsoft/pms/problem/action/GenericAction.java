@@ -77,11 +77,11 @@ public class GenericAction {
 			deleteSimilar(element, viewer, context);
 		}
 	}
-	
+
 	private void editSimilar(Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD7Similar(doc.getObjectId("_id"));
 		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD7Similar(t, lang,render);
+			Document d = service.updateD7Similar(t, lang, render);
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
@@ -147,6 +147,9 @@ public class GenericAction {
 		String editorName = getVerfiyEditorName();
 		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
 			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render);
+			if ("已验证".equals(t.get("title")) && br.confirm("验证", "验证通过，是否立即完成本项行动？")) {
+				d = service.updateAction(new Document("_id", _id).append("finish", true), lang, render);
+			}
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		});
 	}
