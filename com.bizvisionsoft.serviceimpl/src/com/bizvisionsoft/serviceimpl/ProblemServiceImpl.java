@@ -882,21 +882,21 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					x.addAll(data.keySet());
 					ds.put(account, data);
 				});
+		if (x.isEmpty())
+			return blankChart();
 
 		List<String> xAxis = new ArrayList<>();
-		if (!x.isEmpty()) {
-			Collections.sort(x);
-			try {
-				Calendar min = Calendar.getInstance();
-				min.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(0)));
-				Calendar max = Calendar.getInstance();
-				max.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(x.size() - 1)));
-				while (!min.after(max)) {
-					xAxis.add(new SimpleDateFormat("yyyy-MM").format(min.getTime()));
-					min.add(Calendar.MONTH, 1);
-				}
-			} catch (ParseException e) {
+		Collections.sort(x);
+		try {
+			Calendar min = Calendar.getInstance();
+			min.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(0)));
+			Calendar max = Calendar.getInstance();
+			max.setTime(new SimpleDateFormat("yyyy-MM").parse(x.get(x.size() - 1)));
+			while (!min.after(max)) {
+				xAxis.add(new SimpleDateFormat("yyyy-MM").format(min.getTime()));
+				min.add(Calendar.MONTH, 1);
 			}
+		} catch (ParseException e) {
 		}
 
 		List<Document> series = legend.stream().map(l -> {
