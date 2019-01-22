@@ -108,17 +108,20 @@ public class ProblemCardRenderer {
 		// 指标
 		// 1. 计算PCI(问题关键指数)
 		int severityInd = 10 * Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
-//		String severityText = Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getString("value")).orElse("");
+		// String severityText = Optional.ofNullable((Document)
+		// doc.get("severityInd")).map(d -> d.getString("value")).orElse("");
 		// int detectionInd = Optional.ofNullable((Document)
 		// doc.get("detectionInd")).map(d -> d.getInteger("index")).orElse(0);
 		// int freqInd = Optional.ofNullable((Document) doc.get("freqInd")).map(d ->
 		// d.getInteger("index")).orElse(0);
 		// 2. incidenceInd影响程度
 		int incidenceInd = 10 * Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
-//		String incidenceText = Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getString("value")).orElse("");
+		// String incidenceText = Optional.ofNullable((Document)
+		// doc.get("incidenceInd")).map(d -> d.getString("value")).orElse("");
 		// 3. lostInd损失程度
 		int lostInd = 10 * Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
-//		String lostText = Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getString("value")).orElse("");
+		// String lostText = Optional.ofNullable((Document) doc.get("lostInd")).map(d ->
+		// d.getString("value")).orElse("");
 		// 4. urgencyInd紧急程度
 		// int urgencyInd = Optional.ofNullable((Document) doc.get("urgencyInd")).map(d
 		// -> d.getInteger("index")).orElse(0);
@@ -203,7 +206,7 @@ public class ProblemCardRenderer {
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
-		String img = RenderTools.getUserHeadPicURL(doc,36);
+		String img = RenderTools.getUserHeadPicURL(doc, 36);
 
 		RenderTools.appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " "
 				+ dept + " " + position + "</div></div>" + img, 48);
@@ -275,19 +278,19 @@ public class ProblemCardRenderer {
 	public static Document renderAction(Document doc, String lang) {
 		String stage = doc.getString("stage");
 		CardTheme theme = "era".equals(stage) ? red : indigo;// 紧急行动为红色标题
-		String head;
+		String type;
 		if ("make".equals(doc.getString("actionType"))) {
-			head = "纠正问题产生";
+			type = "纠正<br>产生";
 		} else if ("out".equals(doc.getString("actionType"))) {
-			head = "控制问题流出";
+			type = "控制<br>流出";
 		} else {
-			head = null;
+			type = "";
 		}
 
 		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
-//		Integer index = doc.getInteger("index");
+		// Integer index = doc.getInteger("index");
 		Date planStart = doc.getDate("planStart");
 		Date planFinish = doc.getDate("planFinish");
 		Date actualStart = doc.getDate("actualStart");
@@ -323,18 +326,9 @@ public class ProblemCardRenderer {
 		}
 
 		StringBuffer sb = new StringBuffer();
-		if (head == null) {
-			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
-//					+ "<div class='label_title' style='text-align:center;margin-left:8px'>" + index + "</div>"
-					+ "</div>");//
-		} else {
-			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + head + "</div>"//
-//					+ "<div class='label_title' style='text-align:center;margin-left:8px'>" + index + "</div>"
-					+ "</div>");//
-			RenderTools.appendText(sb, action, RenderTools.STYLE_NLINE);
-		}
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
+				+ "<div class='label_subhead' style='text-align:center;margin-left:4px'>" + type + "</div>" + "</div>");//
 
 		RenderTools.appendLabelAndTextLine(sb, "预期结果：", objective, 0);
 
