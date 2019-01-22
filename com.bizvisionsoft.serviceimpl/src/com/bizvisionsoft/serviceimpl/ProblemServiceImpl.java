@@ -1055,9 +1055,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listSPA(BasicDBObject condition) {
+	public List<Document> listActions(BasicDBObject condition,String stage) {
 		List<Bson> pipeline = new ArrayList<>();
-		pipeline.add(Aggregates.match(new Document("stage", "spa")));
+		pipeline.add(Aggregates.match(new Document("stage", stage)));
 		pipeline.add(Aggregates.lookup("problem", "problem_id", "_id", "problem")); //
 		pipeline.add(Aggregates.unwind("$problem"));
 		pipeline.add(Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"));//
@@ -1072,8 +1072,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public long countSPA(BasicDBObject filter) {
-		return count("problemAction", filter, Aggregates.match(new Document("stage", "spa")),
+	public long countActions(BasicDBObject filter,String stage) {
+		return count("problemAction", filter, Aggregates.match(new Document("stage", stage)),
 				Aggregates.lookup("problem", "problem_id", "_id", "problem"), //
 				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
 				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")

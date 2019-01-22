@@ -350,4 +350,37 @@ public class Problem {
 		return status;
 	}
 
+	@ReadValue
+	@WriteValue
+	private OperationInfo icaConfirmed;
+
+	public OperationInfo getIcaConfirmed() {
+		return icaConfirmed;
+	}
+	
+	@ReadValue
+	@WriteValue
+	private OperationInfo pcaApproved;
+	
+	public OperationInfo getPcaApproved() {
+		return pcaApproved;
+	}
+	
+	@ReadValue
+	@WriteValue
+	private OperationInfo pcaValidated;
+	
+	public OperationInfo getPcaValidated() {
+		return pcaValidated;
+	}
+	
+	@ReadValue
+	@WriteValue
+	private OperationInfo pcaConfirmed;
+	
+	public OperationInfo getPcaConfirmed() {
+		return pcaConfirmed;
+	}
+	
+
 }

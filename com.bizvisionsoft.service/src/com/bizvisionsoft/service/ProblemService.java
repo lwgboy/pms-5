@@ -895,17 +895,18 @@ public interface ProblemService {
 	public Document createCostClassifyByDeptChart();
 
 	@POST
-	@Path("/spa/ds")
+	@Path("/actions/{stage}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/list")
-	public List<Document> listSPA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("stage") @PathParam("stage") String stage);
 
 	@POST
-	@Path("/spa/count")
+	@Path("/actions/{stage}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/count")
-	public long countSPA(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countActions(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @MethodParam("stage") @PathParam("stage") String stage);
 
 }
