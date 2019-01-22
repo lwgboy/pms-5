@@ -193,7 +193,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		// TODO condition
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
-				.sort(new Document("index", 1));
+				.sort(new Document("actionType",1).append("index", 1));
 		return iter.map(f).into(new ArrayList<>());
 	}
 
