@@ -7,7 +7,9 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 
 @PersistenceCollection("problemActionPlan")
 public class ProblemActionPlan {
@@ -70,6 +72,11 @@ public class ProblemActionPlan {
 
 	public String getObjective() {
 		return objective;
+	}
+	
+	@SelectionValidation("classifyProblems")
+	private boolean classifyProblemsSelectable(@MethodParam(MethodParam.OBJECT) ClassifyProblem elem) {
+		return elem.isLeaf;
 	}
 
 }
