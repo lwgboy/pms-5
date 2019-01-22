@@ -107,7 +107,7 @@ public class GenericAction {
 	}
 
 	protected void doEdit(Document element, BruiAssemblyContext context, GridTreeViewer viewer) {
-		if (Check.isTrue(element.get("finish"))) {// 已经完成
+		if (isFinished(element)) {// 已经完成
 			doRead(context, element);
 		} else {
 			ObjectId _id = element.getObjectId("_id");
@@ -176,15 +176,14 @@ public class GenericAction {
 
 	@Behavior("delete")
 	private boolean enableDelete(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if (Check.isTrue(element.get("finish"))) {// 已经完成
+		if (isFinished(element)) // 已经完成
 			return false;
-		}
 		return true;
 	}
 
 	@Behavior("verify")
 	private boolean enableVerify(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if (Check.isTrue(element.get("finish"))) {// 已经完成
+		if (isFinished(element)) {// 已经完成
 			return false;
 		}
 		return true;
@@ -192,10 +191,20 @@ public class GenericAction {
 
 	@Behavior("finish")
 	private boolean enableFinish(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if (Check.isTrue(element.get("finish"))) {// 已经完成
+		if (isFinished(element)) // 已经完成
 			return false;
-		}
+		if (!isVerified(element))// 未验证的
+			return false;
+
 		return true;
 
+	}
+
+	private boolean isVerified(Document element) {
+		return Optional.ofNullable((Document) element.get("verification")).map(d -> "已验证".equals(d.getString("title"))).orElse(false);
+	}
+
+	private boolean isFinished(Document element) {
+		return Check.isTrue(element.get("finish"));
 	}
 }

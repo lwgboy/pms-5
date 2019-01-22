@@ -258,10 +258,11 @@ public class ProblemCardRenderer {
 	public static Document renderD2PhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("+RenderTools.getFirstFileURL(doc, "problemImg")+")' "
-				+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'"+ "></div>");
-		
+		sb.append(
+				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
+						+ RenderTools.getFirstFileURL(doc, "problemImg") + ")' " + "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+						+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
 		RenderTools.appendText(sb,
@@ -336,16 +337,24 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendUserAndText(sb, chargerData, status);
 
-		if (!doc.getBoolean("finish", false)) {
-			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "完成", "finish");
-
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑", "edit");
-
-			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证", "verify");
-
-			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除", "delete");
+		int size = 16 + 8;
+		int loc = 12;
+		if (doc.getBoolean("finish", false)) {
+			RenderTools.appendButton(sb, "layui-icon-more", loc, 12, "详细", "read");
 		} else {
-			RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "read");
+			RenderTools.appendButton(sb, "layui-icon-edit", loc, 12, "编辑", "edit");
+			loc += size;
+
+			RenderTools.appendButton(sb, "layui-icon-survey", loc, 12, "验证", "verify");
+			loc += size;
+
+			RenderTools.appendButton(sb, "layui-icon-close", loc, 12, "删除", "delete");
+			loc += size;
+
+			boolean verfied = Optional.ofNullable(verification).map(v -> v.getString("title")).map(t -> "已验证".equals(t)).orElse(false);
+			if (verfied) // 已经验证的，才可以完成
+				RenderTools.appendButton(sb, "layui-icon-ok", loc, 12, "完成", "finish");
+
 		}
 
 		RenderTools.appendCardBg(sb);
