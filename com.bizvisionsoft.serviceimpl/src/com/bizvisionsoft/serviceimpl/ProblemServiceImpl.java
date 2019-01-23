@@ -33,6 +33,8 @@ import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemActionInfo;
+import com.bizvisionsoft.service.model.ProblemActionLinkInfo;
 import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
@@ -1055,7 +1057,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listActions(BasicDBObject condition,String stage) {
+	public List<Document> listActions(BasicDBObject condition, String stage) {
 		List<Bson> pipeline = new ArrayList<>();
 		pipeline.add(Aggregates.match(new Document("stage", stage)));
 		pipeline.add(Aggregates.lookup("problem", "problem_id", "_id", "problem")); //
@@ -1072,12 +1074,66 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public long countActions(BasicDBObject filter,String stage) {
+	public long countActions(BasicDBObject filter, String stage) {
 		return count("problemAction", filter, Aggregates.match(new Document("stage", stage)),
 				Aggregates.lookup("problem", "problem_id", "_id", "problem"), //
 				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
 				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
 						.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+	}
+
+	@Override
+	public List<ProblemActionInfo> listGanttActions(ObjectId problem_id) {
+		List<ProblemActionInfo> result = new ArrayList<>();
+
+		String[][] stages = new String[][] { { "era", "紧急应对行动" }, { "ica", "临时控制行动" }, { "pca", "永久纠正措施" }, { "spa", "系统性预防措施" },
+				{ "lra", "挽回和善后措施" } };
+
+		for (int i = 0; i < stages.length; i++) {
+			List<ProblemActionInfo> actions = listGanttStageActions(problem_id, stages[i][0]);
+			if (!actions.isEmpty()) {
+				ProblemActionInfo stage = new ProblemActionInfo();
+				stage._id = new ObjectId();
+				stage.stage = stages[i][0];
+				stage.text = stages[i][1];
+				stage.chargerInfo = "";
+				stage.index = i;
+				stage.type = "project";
+				actions.forEach(p -> {
+					if (stage.start_date == null || stage.start_date.after(p.start_date))
+						stage.start_date = p.start_date;
+					if (stage.end_date == null || stage.end_date.before(p.end_date)) {
+						stage.end_date = p.end_date;
+					}
+					p.type = "task";
+					p.parent_id = stage._id;
+				});
+				result.add(stage);
+				result.addAll(actions);
+			}
+		}
+		return result;
+	}
+
+	private List<ProblemActionInfo> listGanttStageActions(ObjectId problem_id, String stage) {
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$match", new Document("problem_id", problem_id).append("stage", stage)));
+		pipeline.add(new Document("$project", //
+				new Document("text", "$action")//
+						.append("start_date", "$planStart")//
+						.append("end_date", "$planFinish")//
+						.append("index", true)//
+						.append("chargerInfo", "$charger_meta.name")//
+						.append("finished", "$finish")//
+						.append("verification", true)//
+		));
+		pipeline.add(new Document("$sort", new Document("index", 1).append("_id", 1)));
+		return c("problemAction").aggregate(pipeline, ProblemActionInfo.class).into(new ArrayList<>());
+	}
+
+	@Override
+	public List<ProblemActionLinkInfo> listGanttActionLinks(ObjectId _id) {
+		return new ArrayList<>();
 	}
 
 }

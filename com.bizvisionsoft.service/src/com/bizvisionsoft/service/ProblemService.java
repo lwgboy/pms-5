@@ -25,6 +25,8 @@ import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemActionInfo;
+import com.bizvisionsoft.service.model.ProblemActionLinkInfo;
 import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
@@ -908,5 +910,17 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/count")
 	public long countActions(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @MethodParam("stage") @PathParam("stage") String stage);
+
+	@POST
+	@Path("/_id/{_id}/actions/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ProblemActionInfo> listGanttActions(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/links/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ProblemActionLinkInfo> listGanttActionLinks(@PathParam("_id") ObjectId _id);
 
 }
