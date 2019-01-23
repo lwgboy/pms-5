@@ -132,116 +132,6 @@ public class Problem {
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@ReadValue
-	@WriteValue
-	private boolean custConfirm;
-
-	@ReadValue
-	@WriteValue
-	private String custConfirmBy;
-
-	@ReadValue
-	@WriteValue
-	private Date custConfirmOn;
-
-	@ReadValue
-	@WriteValue
-	private Date custoConfirmRemark;
-
-	@ReadValue
-	@WriteValue
-	private OperationInfo creationInfo;
-
-	public Problem setCreationInfo(OperationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
-	}
-
-	/**
-	 * 创建
-	 * 
-	 * @return
-	 */
-	@ReadValue("createOn")
-	private Date readCreateOn() {
-		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("createByInfo")
-	private String readCreateBy() {
-		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("createByConsignerInfo")
-	private String readCreateByConsigner() {
-		return Optional.ofNullable(creationInfo).map(c -> c.consignerName).orElse(null);
-	}
-
-	/**
-	 * 启动8D
-	 */
-	@ReadValue
-	@WriteValue
-	private OperationInfo initInfo;
-
-	@ReadValue("initOn")
-	private Date readInitOn() {
-		return Optional.ofNullable(initInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("initByInfo")
-	private String readInitBy() {
-		return Optional.ofNullable(initInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("initByConsignerInfo")
-	private String readInitByConsigner() {
-		return Optional.ofNullable(initInfo).map(c -> c.consignerName).orElse(null);
-	}
-
-	/**
-	 * 批准
-	 */
-	@ReadValue
-	@WriteValue
-	private OperationInfo approveInfo;
-
-	@ReadValue("approveOn")
-	private Date readApproveOn() {
-		return Optional.ofNullable(approveInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("approveByInfo")
-	private String readApproveBy() {
-		return Optional.ofNullable(approveInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("approveByConsignerInfo")
-	private String readApproveByConsigner() {
-		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
-	}
-
-	/**
-	 * 关闭
-	 */
-	@ReadValue
-	@WriteValue
-	private OperationInfo closeInfo;
-
-	@ReadValue({ "closeOn" })
-	private Date readCloseOn() {
-		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
-	}
-
-	@ReadValue("closeByInfo")
-	private String readCloseBy() {
-		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
-	}
-
-	@ReadValue("closeByConsignerInfo")
-	private String readCloseByConsigner() {
-		return Optional.ofNullable(closeInfo).map(c -> c.consignerName).orElse(null);
-	}
 
 	@Override
 	@Label
@@ -349,6 +239,40 @@ public class Problem {
 	public String getStatus() {
 		return status;
 	}
+	
+	
+	@ReadValue
+	@WriteValue
+	private OperationInfo creationInfo;
+
+	public Problem setCreationInfo(OperationInfo creationInfo) {
+		this.creationInfo = creationInfo;
+		return this;
+	}
+
+	@ReadValue("createOn")
+	private Date readCreateOn() {
+		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("createBy")
+	private String readCreateBy() {
+		return Optional.ofNullable(creationInfo).map(c -> c.userName).orElse(null);
+	}
+
+	@ReadValue
+	@WriteValue
+	private OperationInfo initInfo;
+
+	@ReadValue("initOn")
+	private Date readInitOn() {
+		return Optional.ofNullable(initInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("initBy")
+	private String readInitBy() {
+		return Optional.ofNullable(initInfo).map(c -> c.userName).orElse(null);
+	}
 
 	@ReadValue
 	@WriteValue
@@ -358,12 +282,32 @@ public class Problem {
 		return icaConfirmed;
 	}
 	
+	@ReadValue({ "icaConfirmedOn" })
+	private Date icaConfirmedOn() {
+		return Optional.ofNullable(icaConfirmed).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("icaConfirmedBy")
+	private String icaConfirmedBy() {
+		return Optional.ofNullable(icaConfirmed).map(c -> c.userName).orElse(null);
+	}
+
 	@ReadValue
 	@WriteValue
 	private OperationInfo pcaApproved;
 	
 	public OperationInfo getPcaApproved() {
 		return pcaApproved;
+	}
+	
+	@ReadValue({ "pcaApprovedOn" })
+	private Date pcaApprovedOn() {
+		return Optional.ofNullable(pcaApproved).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("pcaApprovedBy")
+	private String pcaApprovedBy() {
+		return Optional.ofNullable(pcaApproved).map(c -> c.userName).orElse(null);
 	}
 	
 	@ReadValue
@@ -374,6 +318,17 @@ public class Problem {
 		return pcaValidated;
 	}
 	
+	@ReadValue({ "pcaValidatedOn" })
+	private Date pcaValidatedOn() {
+		return Optional.ofNullable(pcaValidated).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("pcaValidatedBy")
+	private String pcaValidatedBy() {
+		return Optional.ofNullable(pcaValidated).map(c -> c.userName).orElse(null);
+	}
+
+	
 	@ReadValue
 	@WriteValue
 	private OperationInfo pcaConfirmed;
@@ -382,5 +337,52 @@ public class Problem {
 		return pcaConfirmed;
 	}
 	
+	@ReadValue({ "pcaConfirmedOn" })
+	private Date pcaConfirmedOn() {
+		return Optional.ofNullable(pcaConfirmed).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("pcaConfirmedBy")
+	private String pcaConfirmedBy() {
+		return Optional.ofNullable(pcaConfirmed).map(c -> c.userName).orElse(null);
+	}
+
+
+	/**
+	 * 关闭
+	 */
+	@ReadValue
+	@WriteValue
+	private OperationInfo closeInfo;
+
+	@ReadValue({ "closeOn" })
+	private Date readCloseOn() {
+		return Optional.ofNullable(closeInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("closeBy")
+	private String readCloseBy() {
+		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
+	}
+
+	
+	/**
+	 * 取消
+	 */
+	@ReadValue
+	@WriteValue
+	private OperationInfo cancelInfo;
+
+	@ReadValue({ "cancelOn" })
+	private Date readCancelOn() {
+		return Optional.ofNullable(cancelInfo).map(c -> c.date).orElse(null);
+	}
+
+	@ReadValue("cancelBy")
+	private String readCancelBy() {
+		return Optional.ofNullable(cancelInfo).map(c -> c.userName).orElse(null);
+	}
+
+
 
 }

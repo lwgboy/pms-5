@@ -96,6 +96,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Check.isAssigned(status, s -> f.append("status", status));
 		return count(f, "problem");
 	}
+	
 
 	private List<Bson> createDxPipeline(BasicDBObject condition, ObjectId problem_id) {
 		Integer skip = (Integer) condition.get("skip");
@@ -143,9 +144,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		return c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
+		ArrayList<Problem> result = c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
+		return result;
 	}
-
+	
 	@Override
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);

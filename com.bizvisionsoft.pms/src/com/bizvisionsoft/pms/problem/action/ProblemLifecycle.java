@@ -16,7 +16,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
 public class ProblemLifecycle {
-	
+
 	@Inject
 	private IBruiService br;
 
@@ -37,17 +37,19 @@ public class ProblemLifecycle {
 
 	private void doCancel(BruiAssemblyContext context, ObjectId _id) {
 		if (br.confirm("取消问题", "请确认取消问题解决。")) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "已取消")).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "已取消"))
+					.set(new BasicDBObject("cancelInfo", br.operationInfo().encodeBson())).bson();
 			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
 				Layer.message("问题已取消");
 				refreshContentPart(context);
 			}
-		}		
+		}
 	}
 
 	private void doClose(BruiAssemblyContext context, ObjectId _id) {
 		if (br.confirm("关闭问题", "请确认关闭问题。")) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "已关闭")).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "已关闭"))
+					.set(new BasicDBObject("closeInfo", br.operationInfo().encodeBson())).bson();
 			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
 				Layer.message("问题已关闭");
 				refreshContentPart(context);
@@ -57,7 +59,8 @@ public class ProblemLifecycle {
 
 	private void doStart(BruiAssemblyContext context, ObjectId _id) {
 		if (br.confirm("启动问题解决", "请确认启动问题解决程序。")) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "解决中")).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "解决中"))
+					.set(new BasicDBObject("initInfo", br.operationInfo().encodeBson())).bson();
 			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
 				Layer.message("问题解决程序已启动");
 				refreshContentPart(context);
