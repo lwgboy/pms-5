@@ -98,6 +98,30 @@ public class Formatter {
 		return getInt(text, "不是合法数值");
 	}
 
+	public static int getIntValue(Object value) {
+		if (value == null)
+			return 0;
+		if (value instanceof String) {
+			return getInt((String) value);
+		}
+		if(value instanceof Number) {
+			return ((Number) value).intValue();
+		}
+		throw new RuntimeException(value+" 不是合法的int类型");
+	}
+	
+	public static double getDoubleValue(Object value) {
+		if (value == null)
+			return 0;
+		if (value instanceof String) {
+			return getInt((String) value);
+		}
+		if(value instanceof Number) {
+			return ((Number) value).doubleValue();
+		}
+		throw new RuntimeException(value+" 不是合法的double类型");
+	}
+
 	/**
 	 * 字符串转double
 	 * 
@@ -400,7 +424,7 @@ public class Formatter {
 		c.add(Calendar.MILLISECOND, -1);
 		return c.getTime();
 	}
-	
+
 	public static Date getStartOfMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -450,7 +474,6 @@ public class Formatter {
 		c.add(Calendar.MILLISECOND, -1);
 		return c.getTime();
 	}
-
 
 	public static List<Double> toList(double... ds) {
 		List<Double> result = new ArrayList<>();

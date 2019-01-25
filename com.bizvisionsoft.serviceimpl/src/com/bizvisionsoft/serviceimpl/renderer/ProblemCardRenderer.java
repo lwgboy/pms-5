@@ -444,7 +444,7 @@ public class ProblemCardRenderer {
 
 		String type = t.getString("similar");
 
-		int prob = t.getDouble("prob").intValue();
+		int prob = Formatter.getIntValue(t.get("prob"));
 
 		sb.append("<div class='brui_card_head' style='height:48px;background:#" + cyan.headBgColor + ";color:#" + cyan.headFgColor
 				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text' style='flex-grow:1;'>œ‡À∆«È–Œ£∫" + type + "</div>"//
