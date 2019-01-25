@@ -33,7 +33,7 @@ public class ProblemCard {
 						.bson();
 				if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
 					Layer.message("问题解决程序已启动");
-					context.getParentContext().refresh(true);
+					br.switchPage("问题解决-TOPS过程", _id.toHexString());
 				}
 			}
 		}
