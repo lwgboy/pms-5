@@ -11,7 +11,7 @@ public class MessageRenderer {
 	public static Document render(Message msg) {
 		StringBuffer sb = new StringBuffer();
 
-		RenderTools.appendHeader(sb, new CardTheme(CardTheme.DEEP_GREY), msg.getSubject(), 36);
+		RenderTools.appendSingleLineHeader(sb, new CardTheme(CardTheme.DEEP_GREY), msg.getSubject(), 36);
 
 		RenderTools.appendText(sb, msg.getContent(), RenderTools.STYLE_3LINE);
 

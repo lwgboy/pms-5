@@ -1,5 +1,7 @@
 package com.bizvisionsoft.pms.problem.action;
 
+import java.util.List;
+
 import org.bson.Document;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.rap.rwt.RWT;
@@ -29,6 +31,7 @@ public class CreateD2ProblemImage {
 			t = Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render);
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 			viewer.insert(viewer.getInput(), t, 0);
+			((List<Document>) viewer.getInput()).add(0,t);
 		});
 	}
 

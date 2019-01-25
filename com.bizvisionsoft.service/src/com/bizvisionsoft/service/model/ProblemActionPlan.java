@@ -30,6 +30,16 @@ public class ProblemActionPlan {
 	@WriteValue
 	private List<String> stage;
 	
+	@ReadValue("stageInfo")
+	private String readStageInfo() {
+		if(stage!=null) {
+			return stage.stream().map(s->"<span class='layui-badge layui-bg-blue'>"+s.charAt(0)+"</span>&nbsp;").reduce(String::concat).orElse("");
+		}else {
+			return "";
+		}
+		
+	}
+	
 	@ReadValue
 	@WriteValue
 	private List<ClassifyProblem> classifyProblems;

@@ -1143,4 +1143,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return new ArrayList<>();
 	}
 
+	@Override
+	public void insertActions(List<Document> actions) {
+		c("problemAction").insertMany(actions);
+	}
+
 }

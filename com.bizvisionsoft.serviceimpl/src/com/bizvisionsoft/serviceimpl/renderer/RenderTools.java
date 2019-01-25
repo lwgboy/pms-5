@@ -71,7 +71,13 @@ public class RenderTools {
 	}
 
 	public static void appendHeader(StringBuffer sb, CardTheme theme, String text, int height) {
-		sb.append("<div class='label_subhead brui_card_head' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
+				+ theme.headFgColor + ";padding:8px;'>" + text//
+				+ "</div>");//
+	}
+	
+	public static void appendSingleLineHeader(StringBuffer sb, CardTheme theme, String text, int height) {
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='display:block;height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
 				+ theme.headFgColor + ";padding:8px;'>" + text//
 				+ "</div>");//
 	}

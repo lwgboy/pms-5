@@ -681,6 +681,12 @@ public interface ProblemService {
 	public Document insertAction(Document t, @PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam("stage") @PathParam("stage") String stage, @PathParam("lang") String lang, @PathParam("render") String render);
 
+	@POST
+	@Path("/actions/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertActions(List<Document> actions);
+	
 	@DELETE
 	@Path("/action/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")

@@ -67,7 +67,7 @@ public class ProblemCardRenderer {
 	}
 
 	private static void appendProblemCommonInfo(Document doc, StringBuffer sb) {
-		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
+		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
 
 		// Œ Ã‚’’∆¨
 		// Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
@@ -426,7 +426,7 @@ public class ProblemCardRenderer {
 
 	private static void renderListItemsCard(StringBuffer sb, List<?> list, String title, Document charger, Date planStart, Date planFinish,
 			Date actualStart, Date actualFinish, CardTheme theme) {
-		RenderTools.appendHeader(sb, theme, title, 36);
+		RenderTools.appendSingleLineHeader(sb, theme, title, 36);
 
 		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
 
