@@ -872,29 +872,37 @@ public interface ProblemService {
 	@Path("/cost/classifyproblem/bar")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题损失按问题分类图表/list" })
+	@DataSet({ "问题损失按问题分类条形图/list" })
 	public Document createCostClassifyByProblemChart();
 
 	@POST
 	@Path("/count/classifyproblem/bar")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题数量按问题分类图表/list" })
+	@DataSet({ "问题数量按问题分类条形图/list" })
 	public Document createCountClassifyByProblemChart();
 
 	@POST
 	@Path("/cost/classifyCause/pie")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题损失按原因分类图表/list" })
+	@DataSet({ "问题损失按原因分类饼图/list" })
 	public Document createCostClassifyByCauseChart();
 
 	@POST
 	@Path("/count/classifyCause/pie")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题损失按部门分类图表/list" })
+	@DataSet({ "问题损失按部门分类饼图/list" })
 	public Document createCostClassifyByDeptChart();
+	
+	@POST
+	@Path("/classifyProblem/classifyCause/graph")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题原因因果关系/list" })
+	public Document createCauseProblemChart();
+
 
 	@POST
 	@Path("/actions/{stage}/ds")

@@ -8,9 +8,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -85,9 +87,59 @@ public class ProblemChartRender extends BasicServiceImpl {
 		return new ProblemChartRender()._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
 	}
 
+	public static Document renderCauseProblemChart() {
+		return new ProblemChartRender()._renderCauseProblemChart();
+	}
+
+	private Document _renderCauseProblemChart() {
+		Set<String> cateNames = new HashSet<>();
+		List<Document> cNodes = new ArrayList<>();
+		List<Document> pNodes = new ArrayList<>();
+		List<Document> links = new ArrayList<>();
+		c("causeRelation").aggregate(new JQ("查询-问题分类-原因分类-因果关系").array()).forEach((Document d) -> {
+			String cName = d.getString("cNode");
+			String cata = "因素:" + cName.split("/")[0].trim();
+			cateNames.add(cata);
+			Document cNode = cNodes.stream().filter(n -> cName.equals(n.get("name"))).findFirst().orElse(null);
+			if (cNode == null) {
+				cNode = new Document("name", cName)//
+						.append("id", new ObjectId().toHexString()).append("draggable", true)//
+						.append("category", cata)//
+						.append("symbolSize", 20)//
+						.append("value", 20);
+				cNodes.add(cNode);
+			}
+
+			String pName = d.getString("pNode");
+			cata = "问题:" + pName.split("/")[0].trim();
+			cateNames.add(cata);
+			Document pNode = pNodes.stream().filter(n -> pName.equals(n.get("name"))).findFirst().orElse(null);
+			if (pNode == null) {
+				pNode = new Document("name", pName)//
+						.append("id", new ObjectId().toHexString()).append("draggable", true)//
+						.append("category", cata)//
+						.append("symbolSize", 60)//
+						.append("value", 20);
+				pNodes.add(pNode);
+			}
+
+			links.add(new Document("source", cNode.get("id")).append("target", pNode.get("id")).append("emphasis",
+					new Document("label", new Document("show", false))));
+		});
+
+		cNodes.addAll(pNodes);
+		List<Document> categories = cateNames.stream().sorted().map(s -> new Document("name", s)).collect(Collectors.toList());
+
+		Document chart = new JQ("图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", cNodes).set("links", links).set("categories", categories)
+				.doc();
+		debugDocument(chart);
+		return chart;
+	}
+
 	private Document _renderCountClassifyByProblemChart() {
 		List<String> xAxis = getXAxisOfProblem();
-		if(xAxis.isEmpty()) return blankChart();
+		if (xAxis.isEmpty())
+			return blankChart();
 		String queryName = "查询-问题根分类-各月数量";
 		String title = "问题数量";
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
@@ -95,7 +147,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 	private Document _renderCostClassifyByProblemChart() {
 		List<String> xAxis = getXAxisOfProblemCost();
-		if(xAxis.isEmpty()) return blankChart();
+		if (xAxis.isEmpty())
+			return blankChart();
 		String queryName = "查询-问题根分类-各月成本";
 		String title = "问题损失";
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
@@ -111,24 +164,24 @@ public class ProblemChartRender extends BasicServiceImpl {
 			dataset.add(data);
 			String name = data.getString("_id");
 
-			Document s = new Document("datasetIndex", dataset.size()-1)//
+			Document s = new Document("datasetIndex", dataset.size() - 1)//
 					.append("name", name)//
-					.append("xAxisIndex", 0).append("yAxisIndex", 0)//					
+					.append("xAxisIndex", 0).append("yAxisIndex", 0)//
 					.append("encode", new Document("x", "_id").append("y", "value"))//
 					.append("type", "bar").append("label", new Document("normal", new Document("show", true).append("position", "top")));//
 			series.add(s);
 
 			List<Document> momSource = getMoMData((List<?>) data.get("source"), xAxis, -1);
-			if(!momSource.isEmpty()) {
+			if (!momSource.isEmpty()) {
 				Document mData = new Document("_id", name).append("source", momSource);
 				dataset.add(mData);
-				
-				s = new Document("datasetIndex", dataset.size()-1)//
+
+				s = new Document("datasetIndex", dataset.size() - 1)//
 						.append("name", name)//
 						.append("xAxisIndex", 0).append("yAxisIndex", 1)//
 						.append("encode", new Document("x", "_id").append("y", "value"))//
-						.append("type", "line").append("label",
-								new Document("normal", new Document("show", false).append("position", "top").append("formatter", "{@value}%")));//
+						.append("type", "line").append("label", new Document("normal",
+								new Document("show", false).append("position", "top").append("formatter", "{@value}%")));//
 				series.add(s);
 			}
 		}
@@ -168,11 +221,13 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 	private Document _renderCostPie(String queryName, String title, String col) {
 		ArrayList<Document> source = c(col).aggregate(new JQ(queryName).array()).into(new ArrayList<>());
-		if(source.isEmpty()) return blankChart();
-		
+		if (source.isEmpty())
+			return blankChart();
+
 		List<Document> series = Arrays.asList(//
 				new Document("type", "pie")//
-						.append("radius", "60%").append("label", new Document("normal", new Document("show",true).append("formatter", "{b}\n{d}%")))
+						.append("radius", 100)
+						.append("label", new Document("normal", new Document("show", true).append("formatter", "{b}\n{d}%")))
 						.append("encode", new Document("itemName", "_id").append("value", "amount")));//
 		Document doc = new JQ("图表-通用-带数据集-紧凑布局-无轴")//
 				.set("标题", title)//
@@ -228,8 +283,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 		pipe.add(new Document("$group", new Document("_id", "$date").append("amount", new Document("$sum", "$amount"))));
 
 		ArrayList<Document> source = c("problemCostItem").aggregate(pipe).into(new ArrayList<>());
-		if(source.isEmpty()) return blankChart();
-		
+		if (source.isEmpty())
+			return blankChart();
+
 		List<Document> series = Arrays.asList(new Document("type", "bar")//
 				.append("name", "损失金额").append("label", new Document("normal", new Document("show", true).append("position", "top")))//
 		);
@@ -276,8 +332,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 	}
 
 	private Document buildDetailChart(ArrayList<Document> dataset) {
-		if(dataset.isEmpty()) return blankChart();
-		
+		if (dataset.isEmpty())
+			return blankChart();
+
 		// 构建系列数据集
 		List<Document> summary = new ArrayList<>();
 

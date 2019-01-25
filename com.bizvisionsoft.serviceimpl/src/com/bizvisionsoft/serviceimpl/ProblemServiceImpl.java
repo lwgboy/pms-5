@@ -1057,6 +1057,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document createCostClassifyByDeptChart() {
 		return ProblemChartRender.renderCostClassifyByDeptChart();
 	}
+	
+	@Override
+	public Document createCauseProblemChart() {
+		return ProblemChartRender.renderCauseProblemChart();
+	}
 
 	@Override
 	public List<Document> listActions(BasicDBObject condition, String stage) {
