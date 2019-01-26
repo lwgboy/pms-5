@@ -481,7 +481,7 @@ public class ProblemCardRenderer {
 
 		String firstFileURL = RenderTools.getFirstFileURL(t, "video");
 		if (firstFileURL != null) {
-			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='auto' controls preload='auto'>");
+			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='180px' controls preload='auto'>");
 			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
 			sb.append("</video>");
 		} else {
