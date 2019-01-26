@@ -253,6 +253,16 @@ public interface ProblemService {
 	// ObjectId problem_id,
 	// @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 	// @MethodParam("render") @PathParam("render") String render);
+	
+	@POST
+	@Path("/_id/{_id}/d0init/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D0问题初始记录/list" })
+	public List<Document> listD0Init(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
 
 	@POST
 	@Path("/_id/{_id}/d1/{render}/{lang}")
