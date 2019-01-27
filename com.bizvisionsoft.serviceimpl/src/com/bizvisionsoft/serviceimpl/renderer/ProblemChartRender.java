@@ -8,17 +8,16 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
@@ -92,45 +91,41 @@ public class ProblemChartRender extends BasicServiceImpl {
 	}
 
 	private Document _renderCauseProblemChart() {
-		Set<String> cateNames = new HashSet<>();
-		List<Document> cNodes = new ArrayList<>();
-		List<Document> pNodes = new ArrayList<>();
-		List<Document> links = new ArrayList<>();
-		c("causeRelation").aggregate(new JQ("查询-问题分类-原因分类-因果关系").array()).forEach((Document d) -> {
-			String cName = d.getString("cNode");
-			String cata = "因素:" + cName.split("/")[0].trim();
-			cateNames.add(cata);
-			Document cNode = cNodes.stream().filter(n -> cName.equals(n.get("name"))).findFirst().orElse(null);
-			if (cNode == null) {
-				cNode = new Document("name", cName)//
-						.append("id", new ObjectId().toHexString()).append("draggable", true)//
-						.append("category", cata)//
-						.append("symbolSize", 20)//
-						.append("value", 20);
-				cNodes.add(cNode);
-			}
+		List<Document> categories = new ArrayList<>();
+		List<Document> nodes = c("problem").aggregate(new JQ("查询-问题权重").array()).map((Document d) -> {
+			String name = d.getString("name");
+			String cata = "问题:" + name.split("/")[0].trim();
+			categories.add(new Document("name", cata));
+			double value = Check.instanceOf(d.get("value"), Number.class).map(n -> n.doubleValue()).orElse(0d);
+			return new Document("name", name)//
+					.append("id", d.getObjectId("_id").toHexString())//
+					.append("draggable", true)//
+					.append("category", cata)//
+					.append("symbolSize", 100 * value)//
+					.append("value", 100 * value);
+		}).into(new ArrayList<>());
 
-			String pName = d.getString("pNode");
-			cata = "问题:" + pName.split("/")[0].trim();
-			cateNames.add(cata);
-			Document pNode = pNodes.stream().filter(n -> pName.equals(n.get("name"))).findFirst().orElse(null);
-			if (pNode == null) {
-				pNode = new Document("name", pName)//
-						.append("id", new ObjectId().toHexString()).append("draggable", true)//
-						.append("category", cata)//
-						.append("symbolSize", 60)//
-						.append("value", 20);
-				pNodes.add(pNode);
-			}
+		c("problem").aggregate(new JQ("查询-原因权重").array()).map((Document d) -> {
+			String name = d.getString("name");
+			String cata = "原因:" + name.split("/")[0].trim();
+			categories.add(new Document("name", cata));
+			double value = Check.instanceOf(d.get("value"), Number.class).map(n -> n.doubleValue()).orElse(0d);
+			return new Document("name", name)//
+					.append("id", d.getObjectId("_id").toHexString())//
+					.append("draggable", true)//
+					.append("category", cata)//
+					.append("symbolSize", value / 100)//
+					.append("value", value / 100);
+		}).into(nodes);
 
-			links.add(new Document("source", cNode.get("id")).append("target", pNode.get("id")).append("emphasis",
-					new Document("label", new Document("show", false))));
-		});
+		List<Document> links = c("problem").aggregate(new JQ("查询-问题因果关系").array())
+				.map((Document d) -> 
+				new Document("source", d.getObjectId("_id").toHexString())
+						.append("target", d.getObjectId("pid").toHexString())
+						.append("emphasis", new Document("label", new Document("show", false))))
+				.into(new ArrayList<>());
 
-		cNodes.addAll(pNodes);
-		List<Document> categories = cateNames.stream().sorted().map(s -> new Document("name", s)).collect(Collectors.toList());
-
-		Document chart = new JQ("图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", cNodes).set("links", links).set("categories", categories)
+		Document chart = new JQ("图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links).set("categories", categories)
 				.doc();
 		debugDocument(chart);
 		return chart;
@@ -430,8 +425,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 	private List<String> getXAxisOfProblem() {
 		Document date = c("problem").aggregate(
 				Arrays.asList(new Document("$match", new Document("status", new Document("$in", Arrays.asList("已创建", "解决中", "已关闭")))),
-						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$issueDate"))
-								.append("to", new Document("$max", "$issueDate")))))
+						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$issueDate")).append("to",
+								new Document("$max", "$issueDate")))))
 				.first();
 		if (date == null)
 			return new ArrayList<>();
