@@ -191,13 +191,12 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		int max = 0;
 		for (int i = 0; i < fields.length; i++) {
 			if ((Document) doc.get(fields[i]) != null) {
-				max = Math.max(max, i);
+				max = Math.max(max, i)+1;
 			}
 			label += MetaInfoWarpper.warpper(titles[i], msgs[i]);
 		}
-
 		sb.append("<div class='layui-progress layui-progress-big' style='margin:8px 8px 0px 8px;'>");
-		sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
+		sb.append("<div class='layui-progress-bar' style='width:" + 100 * max  /  fields.length + "%'></div>");
 		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#fff;position: absolute;padding-top:0px;'>");
 		sb.append(label);
 		sb.append("</div>");

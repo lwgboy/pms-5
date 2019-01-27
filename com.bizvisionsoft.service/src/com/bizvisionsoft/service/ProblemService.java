@@ -551,7 +551,7 @@ public interface ProblemService {
 	@Path("/classifyProblem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题分类/" + DataSet.LIST })
+	@DataSet({ "问题分类/" + DataSet.LIST ,"问题分类选择表格（查询用）/list"})
 	public List<ClassifyProblem> rootClassifyProblem();
 
 	@POST

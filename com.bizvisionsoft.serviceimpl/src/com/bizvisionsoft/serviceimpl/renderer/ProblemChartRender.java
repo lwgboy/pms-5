@@ -102,6 +102,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("draggable", true)//
 					.append("category", cata)//
 					.append("symbolSize", 100 * value)//
+					.append("symbol", "circle")//
+					.append("itemStyle", new Document("opacity",0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10))//
 					.append("value", 100 * value);
 		}).into(new ArrayList<>());
 

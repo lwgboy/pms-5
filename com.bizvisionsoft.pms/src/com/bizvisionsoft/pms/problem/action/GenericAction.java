@@ -139,7 +139,7 @@ public class GenericAction {
 	protected void doRead(BruiAssemblyContext context, Document element) {
 		ObjectId _id = element.getObjectId("_id");
 		Document input = service.getAction(_id);
-		String editorName = getEditorName();
+		String editorName = getEditorNameForRead();
 		String title = getItemTypeName();
 		Editor.create(editorName, context, input, true).setTitle(title).setEditable(false).open();
 	}
@@ -181,6 +181,10 @@ public class GenericAction {
 
 	protected String getEditorName() {
 		return Check.option(editor).orElse("Dx-行动计划-编辑器");
+	}
+	
+	protected String getEditorNameForRead() {
+		return Check.option(editor).orElse("Dx-行动计划-编辑器（查看）");
 	}
 
 	private String getItemTypeName() {
