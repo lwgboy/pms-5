@@ -31,20 +31,30 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 	public Document renderProblem(Document doc, String lang, boolean control) {
 		StringBuffer sb = new StringBuffer();
 
+		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
+
+		if ("解决中".equals(doc.get("status"))) {
+			appendProblemScheduleBar(doc, sb);
+		}
+
 		// 【公共块】//
 		appendProblemCommonInfo(doc, sb);
 
+		Document chart = null;
 		// 【不同状态的内容块】
 		if ("解决中".equals(doc.get("status"))) {
-			appendProblemScheduleBar(doc, sb);
+			// 【指标表】
+			chart = createProblemInstuctors(doc);
 		} else if ("已创建".equals(doc.get("status"))) {
+			// 【指标表】
+			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
 			appendProblemCostInfo(doc, sb);
+			// 【指标表】
+			chart = createProblemInstuctors(doc);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
-		// 【指标表】
-		Document chart = createProblemInstuctors(doc);
 		if (chart != null)
 			sb.append("<div name='" + doc.get("_id") + "' style='width:100%;height:120px;'></div>");
 		else
@@ -69,8 +79,6 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 	}
 
 	private void appendProblemCommonInfo(Document doc, StringBuffer sb) {
-		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
-
 		// 问题照片
 		// Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
 		// .map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>)
@@ -100,8 +108,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		if (Check.isAssigned(by, on))
 			RenderTools.appendLabelAndTextLine(sb, "发起：", on + " " + by);
 
-		// RenderTools.appendLabelAndTextLine(sb, "来源：",
-		// doc.getString("initiatedFrom"));
+		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 	}
 
 	private Document createProblemInstuctors(Document doc) {
@@ -131,10 +138,11 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
 			chart.append("option", new JQ("图表-通用-小型三联排仪表")//
-					.set("name1", "").set("value1", severityInd).set("title1", "{" + level(severityInd) + "|" + severityInd / 10 + "}\n严重度")//
+					.set("name1", "").set("value1", severityInd)
+					.set("title1", "{" + level(severityInd) + "|" + severityInd / 10 + "}\n\n严重度")//
 					.set("name2", "").set("value2", incidenceInd)
-					.set("title2", "{" + level(incidenceInd) + "|" + incidenceInd / 10 + "}\n影响面")//
-					.set("name3", "").set("value3", lostInd).set("title3", "{" + level(lostInd) + "|" + lostInd / 10 + "}\n损失程度")//
+					.set("title2", "{" + level(incidenceInd) + "|" + incidenceInd / 10 + "}\n\n影响面")//
+					.set("name3", "").set("value3", lostInd).set("title3", "{" + level(lostInd) + "|" + lostInd / 10 + "}\n\n损失程度")//
 					.doc());
 			debugDocument(chart);
 			return chart;
@@ -190,11 +198,11 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			label += MetaInfoWarpper.warpper(titles[i], msgs[i]);
 		}
 
-		sb.append("<div class='layui-progress layui-progress' style='margin:8px 8px 0px 8px;'>");
+		sb.append("<div class='layui-progress layui-progress-big' style='margin:8px 8px 0px 8px;'>");
 		sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
-		sb.append("</div>");
-		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#" + indigo.lightText + ";padding-top:0px;'>");
+		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#fff;position: absolute;padding-top:0px;'>");
 		sb.append(label);
+		sb.append("</div>");
 		sb.append("</div>");
 
 		// 【紧急应对】eraStarted,eraStopped
@@ -238,6 +246,21 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
+
+	public Document renderActionPlaceHoder(Document doc, String lang) {
+		String code = doc.getString("_action");
+		String text = doc.getString("_text");
+		if (code != null) {
+			StringBuffer sb = new StringBuffer();
+			sb.append("<div style='width:100%;height:108px;'>"
+					+ "<div class='brui_card_rowbutton'>"
+					+ "<a style='width:100%;height:100%;color:white;font-size:72px;font-family:none;font-weight:lighter;text-align:center;' href='" + code +"' target='_rwt'>"+text+""
+					+ "</a>"
+					+ "</div></div>");
+			return new Document("html", sb.toString());
+		}
+		return null;
 	}
 
 	public Document renderD25W2H(Document doc, String lang) {

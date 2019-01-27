@@ -151,7 +151,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		return c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang,true)).into(new ArrayList<>());
+		return c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -197,7 +197,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// TODO condition
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
 				.sort(new Document("actionType", 1).append("index", 1));
-		return iter.map(f).into(new ArrayList<>());
+		ArrayList<Document> result = iter.map(f).into(new ArrayList<>());
+		if (result.isEmpty())
+			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+		return result;
 	}
 
 	@Override
@@ -217,7 +220,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listD0Init(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
-		return c("problem").find(new Document("_id", problem_id)).map(d -> new ProblemCardRenderer().renderProblem(d, lang,false))
+		return c("problem").find(new Document("_id", problem_id)).map(d -> new ProblemCardRenderer().renderProblem(d, lang, false))
 				.into(new ArrayList<>());
 	}
 
@@ -277,7 +280,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		} else {
 			f = d -> appendRoleText(d, lang);
 		}
-		return c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
+		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
+		if (result.isEmpty())
+			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+		return result;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,6 +336,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document doc = getD2ProblemDesc(problem_id);
 		if (doc.get("what") != null)
 			result.add(new ProblemCardRenderer().renderD25W2H(doc, lang));
+
+		if (result.isEmpty()) {
+			String text= "<img src='rwt-resources/extres/img/photo_w.svg' style='width='36px' height='36px'>";
+			result.add(
+					new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "createPhoto").append("_text", text), lang));
+		}
 		return result;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

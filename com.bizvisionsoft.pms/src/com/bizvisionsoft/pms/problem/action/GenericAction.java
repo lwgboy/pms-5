@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -64,13 +65,13 @@ public class GenericAction {
 		} else if ("read".equals(a.getName()) || "read".equals(e.text)) {
 			doRead(context, element);
 		} else if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
-			doDelete(element, viewer);
+			doDelete(element, context);
 		} else if ("verify".equals(a.getName()) || "verify".equals(e.text)) {
 			doVerify(element, context, viewer);
 		} else if ("finish".equals(a.getName()) || "finish".equals(e.text)) {
 			doFinish(element, viewer);
 		} else if ("create".equals(a.getName()) || "create".equals(e.text)) {
-			doCreate(problem, context, viewer);
+			doCreate(problem, context);
 		} else if ("editSimilar".equals(a.getName()) || "editSimilar".equals(e.text)) {
 			editSimilar(element, viewer, context, render);
 		} else if ("deleteSimilar".equals(a.getName()) || "deleteSimilar".equals(e.text)) {
@@ -95,14 +96,12 @@ public class GenericAction {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	protected void doCreate(Problem problem, BruiAssemblyContext context, GridTreeViewer viewer) {
+	protected void doCreate(Problem problem, BruiAssemblyContext context) {
 		String editorName = getEditorName();
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, new Document(), true).setTitle(getItemTypeName()).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(), render);
-			((List<Document>) viewer.getInput()).add(t);
-			viewer.insert(viewer.getInput(), t, -1);
+			((IQueryEnable)context.getContent()).doRefresh();
 		});
 	}
 
@@ -129,13 +128,11 @@ public class GenericAction {
 		Editor.create(editorName, context, input, true).setTitle(title).setEditable(false).open();
 	}
 
-	protected void doDelete(Document element, GridTreeViewer viewer) {
+	protected void doDelete(Document element, BruiAssemblyContext context) {
 		if (br.confirm("删除", "请确认删除选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
 			service.deleteAction(_id);
-			List<?> input = (List<?>) viewer.getInput();
-			input.remove(element);
-			viewer.remove(element);
+			((IQueryEnable)context.getContent()).doRefresh();
 		}
 	}
 
