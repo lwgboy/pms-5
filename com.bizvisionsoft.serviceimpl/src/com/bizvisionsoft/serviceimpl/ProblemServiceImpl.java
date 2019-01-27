@@ -198,7 +198,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
 				.sort(new Document("actionType", 1).append("index", 1));
 		ArrayList<Document> result = iter.map(f).into(new ArrayList<>());
-		if (result.isEmpty())
+		if ("card".equals(render)&&result.isEmpty())
 			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
 		return result;
 	}
@@ -281,7 +281,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			f = d -> appendRoleText(d, lang);
 		}
 		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
-		if (result.isEmpty())
+		if ("card".equals(render)&&result.isEmpty())
 			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
 		return result;
 	}

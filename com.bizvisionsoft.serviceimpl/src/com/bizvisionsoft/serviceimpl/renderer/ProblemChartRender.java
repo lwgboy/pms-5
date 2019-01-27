@@ -430,8 +430,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 	private List<String> getXAxisOfProblem() {
 		Document date = c("problem").aggregate(
 				Arrays.asList(new Document("$match", new Document("status", new Document("$in", Arrays.asList("已创建", "解决中", "已关闭")))),
-						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$creationInfo.date"))
-								.append("to", new Document("$max", "$creationInfo.date")))))
+						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$issueDate"))
+								.append("to", new Document("$max", "$issueDate")))))
 				.first();
 		if (date == null)
 			return new ArrayList<>();

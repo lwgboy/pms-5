@@ -50,8 +50,6 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
 			appendProblemCostInfo(doc, sb);
-			// 【指标表】
-			chart = createProblemInstuctors(doc);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
@@ -75,7 +73,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 	private void appendProblemCostInfo(Document doc, StringBuffer sb) {
 		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
-				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", s));
+				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>"+s+"</span>"));
 	}
 
 	private void appendProblemCommonInfo(Document doc, StringBuffer sb) {
