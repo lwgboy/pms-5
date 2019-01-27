@@ -7,6 +7,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
 
 import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -71,5 +72,13 @@ public class D2Action {
 			AUtil.simpleCopy(t, doc);
 			viewer.refresh(doc);
 		});
+	}
+	
+	@Behavior({"createPhoto","deletephoto"})
+	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"½â¾öÖÐ".equals(problem.getStatus()))
+			return false;
+		return true;
 	}
 }

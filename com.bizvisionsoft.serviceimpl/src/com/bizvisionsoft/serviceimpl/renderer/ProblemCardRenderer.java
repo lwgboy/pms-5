@@ -73,7 +73,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 	private void appendProblemCostInfo(Document doc, StringBuffer sb) {
 		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
-				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>"+s+"</span>"));
+				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>" + s + "</span>"));
 	}
 
 	private void appendProblemCommonInfo(Document doc, StringBuffer sb) {
@@ -220,7 +220,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		}
 	}
 
-	public Document renderD1CFTMember(Document doc, String lang) {
+	public Document renderD1CFTMember(Document doc, String lang, boolean editable) {
 		StringBuffer sb = new StringBuffer();
 
 		// 头像
@@ -239,7 +239,8 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		RenderTools.appendIconTextLine(sb, RenderTools.IMG_URL_EMAIL, 16, email);
 
-		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
+		if (editable)
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
 
 		RenderTools.appendCardBg(sb);
 
@@ -251,11 +252,9 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		String text = doc.getString("_text");
 		if (code != null) {
 			StringBuffer sb = new StringBuffer();
-			sb.append("<div style='width:100%;height:108px;'>"
-					+ "<div class='brui_card_rowbutton'>"
-					+ "<a style='width:100%;height:100%;color:white;font-size:72px;font-family:none;font-weight:lighter;text-align:center;' href='" + code +"' target='_rwt'>"+text+""
-					+ "</a>"
-					+ "</div></div>");
+			sb.append("<div style='width:100%;height:108px;'>" + "<div class='brui_card_rowbutton'>"
+					+ "<a style='width:100%;height:100%;color:white;font-size:72px;font-family:none;font-weight:lighter;text-align:center;' href='"
+					+ code + "' target='_rwt'>" + text + "" + "</a>" + "</div></div>");
 			return new Document("html", sb.toString());
 		}
 		return null;
@@ -315,7 +314,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
 
-	public Document renderAction(Document doc, String lang) {
+	public Document renderAction(Document doc, String lang, boolean editable) {
 		String stage = doc.getString("stage");
 		CardTheme theme = "era".equals(stage) ? red : indigo;// 紧急行动为红色标题
 		String type;
@@ -378,7 +377,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		int size = 16 + 8;
 		int loc = 12;
-		if (doc.getBoolean("finish", false)) {
+		if (!editable || doc.getBoolean("finish", false)) {
 			RenderTools.appendButton(sb, "layui-icon-more", loc, 12, "详细", "read");
 		} else {
 			RenderTools.appendButton(sb, "layui-icon-edit", loc, 12, "编辑", "edit");

@@ -27,6 +27,22 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class GenericAction {
 
+	private static final String ACTION_DELETE_SIMILAR = "deleteSimilar";
+
+	private static final String ACTION_EDIT_SIMILAR = "editSimilar";
+
+	private static final String ACTION_CREATE = "create";
+
+	private static final String ACTION_FINISH = "finish";
+
+	private static final String ACTION_VERIFY = "verify";
+
+	private static final String ACTION_DELETE = "delete";
+
+	private static final String ACTION_READ = "read";
+
+	private static final String ACTION_EDIT = "edit";
+
 	private ProblemService service;
 
 	private String lang;
@@ -60,21 +76,21 @@ public class GenericAction {
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, @MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.EVENT) Event e, @MethodParam(Execute.ACTION) Action a) {
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-		if ("edit".equals(a.getName()) || "edit".equals(e.text)) {
+		if (ACTION_EDIT.equals(a.getName()) || ACTION_EDIT.equals(e.text)) {
 			doEdit(element, context, viewer);
-		} else if ("read".equals(a.getName()) || "read".equals(e.text)) {
+		} else if (ACTION_READ.equals(a.getName()) || ACTION_READ.equals(e.text)) {
 			doRead(context, element);
-		} else if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
+		} else if (ACTION_DELETE.equals(a.getName()) || ACTION_DELETE.equals(e.text)) {
 			doDelete(element, context);
-		} else if ("verify".equals(a.getName()) || "verify".equals(e.text)) {
+		} else if (ACTION_VERIFY.equals(a.getName()) || ACTION_VERIFY.equals(e.text)) {
 			doVerify(element, context, viewer);
-		} else if ("finish".equals(a.getName()) || "finish".equals(e.text)) {
+		} else if (ACTION_FINISH.equals(a.getName()) || ACTION_FINISH.equals(e.text)) {
 			doFinish(element, viewer);
-		} else if ("create".equals(a.getName()) || "create".equals(e.text)) {
+		} else if (ACTION_CREATE.equals(a.getName()) || ACTION_CREATE.equals(e.text)) {
 			doCreate(problem, context);
-		} else if ("editSimilar".equals(a.getName()) || "editSimilar".equals(e.text)) {
+		} else if (ACTION_EDIT_SIMILAR.equals(a.getName()) || ACTION_EDIT_SIMILAR.equals(e.text)) {
 			editSimilar(element, viewer, context, render);
-		} else if ("deleteSimilar".equals(a.getName()) || "deleteSimilar".equals(e.text)) {
+		} else if (ACTION_DELETE_SIMILAR.equals(a.getName()) || ACTION_DELETE_SIMILAR.equals(e.text)) {
 			deleteSimilar(element, viewer, context);
 		}
 	}
@@ -101,7 +117,7 @@ public class GenericAction {
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, new Document(), true).setTitle(getItemTypeName()).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(), render);
-			((IQueryEnable)context.getContent()).doRefresh();
+			((IQueryEnable) context.getContent()).doRefresh();
 		});
 	}
 
@@ -132,7 +148,7 @@ public class GenericAction {
 		if (br.confirm("删除", "请确认删除选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
 			service.deleteAction(_id);
-			((IQueryEnable)context.getContent()).doRefresh();
+			((IQueryEnable) context.getContent()).doRefresh();
 		}
 	}
 
@@ -145,7 +161,7 @@ public class GenericAction {
 		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
 			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render);
 			if ("已验证".equals(t.get("title")) && br.confirm("验证", "验证通过，是否立即完成本项行动？")) {
-				d = service.updateAction(new Document("_id", _id).append("finish", true), lang, render);
+				d = service.updateAction(new Document("_id", _id).append(ACTION_FINISH, true), lang, render);
 			}
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		});
@@ -154,7 +170,7 @@ public class GenericAction {
 	protected void doFinish(Document element, GridTreeViewer viewer) {
 		if (br.confirm("完成", "请确认完成选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
-			Document d = service.updateAction(new Document("_id", _id).append("finish", true), lang, render);
+			Document d = service.updateAction(new Document("_id", _id).append(ACTION_FINISH, true), lang, render);
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		}
 	}
@@ -170,24 +186,52 @@ public class GenericAction {
 	private String getItemTypeName() {
 		return actionName[Arrays.asList(actionType).indexOf(stage)];
 	}
+	
+	@Behavior(ACTION_EDIT)
+	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
+		return true;
+		//TODO
+	}
 
-	@Behavior("delete")
-	private boolean enableDelete(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+	
+	@Behavior(ACTION_CREATE)
+	private boolean enableCreate(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
+		return true;
+		//TODO
+	}
+
+	@Behavior(ACTION_DELETE)
+	private boolean enableDelete(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
 		if (isFinished(element)) // 已经完成
 			return false;
 		return true;
 	}
 
-	@Behavior("verify")
-	private boolean enableVerify(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+	@Behavior(ACTION_VERIFY)
+	private boolean enableVerify(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
 		if (isFinished(element)) {// 已经完成
 			return false;
 		}
 		return true;
 	}
 
-	@Behavior("finish")
-	private boolean enableFinish(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+	@Behavior(ACTION_FINISH)
+	private boolean enableFinish(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
 		if (isFinished(element)) // 已经完成
 			return false;
 		if (!isVerified(element))// 未验证的

@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.eclipse.rap.rwt.RWT;
 
 import com.bizivisionsoft.widgets.util.Layer;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -83,5 +84,14 @@ public class GeneratePCA {
 		service.insertActions(actions);
 		grid.doRefresh();
 	}
+	
+	@Behavior({"启动紧急反应行动","中止紧急反应行动"})
+	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
+		return true;
+	}
+
 
 }

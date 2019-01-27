@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.problem.action;
 import org.bson.Document;
 import org.eclipse.rap.rwt.RWT;
 
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -28,6 +29,14 @@ public class EditD2ProblemDesc {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
 			((IQueryEnable)context).doRefresh();
 		});
+	}
+	
+	@Behavior({"编辑问题描述文本"})
+	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if(!"解决中".equals(problem.getStatus()))
+			return false;
+		return true;
 	}
 
 }

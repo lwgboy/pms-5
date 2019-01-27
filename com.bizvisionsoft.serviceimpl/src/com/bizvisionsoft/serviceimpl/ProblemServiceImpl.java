@@ -176,7 +176,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document insertAction(Document t, ObjectId problem_id, String stage, String lang, String render) {
 		c("problemAction").insertOne(t.append("problem_id", problem_id).append("stage", stage));
 		if ("card".equals(render)) {
-			t = new ProblemCardRenderer().renderAction(t, lang);
+			t = new ProblemCardRenderer().renderAction(t, lang, true);
 		} else if ("gridrow".equals(render)) {
 			appendActionText(t, lang);
 		}
@@ -185,9 +185,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Document> listActions(BasicDBObject condition, ObjectId problem_id, String stage, String lang, String render) {
+		boolean editable = isProblemEditable(problem_id);
+
 		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			f = d -> new ProblemCardRenderer().renderAction(d, lang);
+			f = d -> new ProblemCardRenderer().renderAction(d, lang, editable);
 		} else {
 			f = d -> {
 				appendActionText(d, lang);
@@ -198,21 +200,24 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		FindIterable<Document> iter = c("problemAction").find(new Document("problem_id", problem_id).append("stage", stage))
 				.sort(new Document("actionType", 1).append("index", 1));
 		ArrayList<Document> result = iter.map(f).into(new ArrayList<>());
-		if ("card".equals(render)&&result.isEmpty())
+		if (editable && "card".equals(render) && result.isEmpty())
 			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
 		return result;
+	}
+
+	private boolean isProblemEditable(ObjectId problem_id) {
+		String status = c("problem").distinct("status", new Document("_id", problem_id), String.class).first();
+		boolean editable = "½â¾öÖÐ".equals(status);
+		return editable;
 	}
 
 	@Override
 	public Document updateAction(Document doc, String lang, String render) {
 		BiFunction<Document, String, Document> func;
 		if ("card".equals(render)) {
-			func = new ProblemCardRenderer()::renderAction;
+			func = (d, l) -> new ProblemCardRenderer().renderAction(d, l, true);
 		} else {
-			func = (d, l) -> {
-				appendActionText(d, l);
-				return d;
-			};
+			func = this::appendActionText;
 		}
 		return updateThen(doc, lang, "problemAction", func);
 	}
@@ -265,7 +270,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		c("d1CFT").insertOne(doc);
 		// äÖÈ¾¿¨Æ¬
 		if ("card".equals(render))
-			return new ProblemCardRenderer().renderD1CFTMember(doc, lang);
+			return new ProblemCardRenderer().renderD1CFTMember(doc, lang, true);
 		else
 			return appendRoleText(doc, lang);
 	}
@@ -276,12 +281,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
 		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			f = d -> new ProblemCardRenderer().renderD1CFTMember(d, lang);
+			boolean editable = isProblemEditable(problem_id);
+			f = d -> new ProblemCardRenderer().renderD1CFTMember(d, lang, editable);
 		} else {
 			f = d -> appendRoleText(d, lang);
 		}
 		ArrayList<Document> result = c("d1CFT").aggregate(pipeline).map(f).into(new ArrayList<>());
-		if ("card".equals(render)&&result.isEmpty())
+		if ("card".equals(render) && result.isEmpty())
 			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
 		return result;
 	}
@@ -338,7 +344,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			result.add(new ProblemCardRenderer().renderD25W2H(doc, lang));
 
 		if (result.isEmpty()) {
-			String text= "<img src='rwt-resources/extres/img/photo_w.svg' style='width='36px' height='36px'>";
+			String text = "<img src='rwt-resources/extres/img/photo_w.svg' style='width='36px' height='36px'>";
 			result.add(
 					new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "createPhoto").append("_text", text), lang));
 		}
