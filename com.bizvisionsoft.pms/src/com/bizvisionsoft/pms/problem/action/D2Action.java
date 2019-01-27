@@ -20,7 +20,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class D2Card {
+public class D2Action {
 	@Inject
 	private IBruiService br;
 
@@ -29,7 +29,7 @@ public class D2Card {
 	@Inject
 	private String render;
 
-	public D2Card() {
+	public D2Action() {
 		service = Services.get(ProblemService.class);
 	}
 

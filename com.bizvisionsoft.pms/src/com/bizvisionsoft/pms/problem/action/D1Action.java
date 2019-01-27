@@ -17,7 +17,7 @@ import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-public class D1CFTCard {
+public class D1Action {
 	@Inject
 	private IBruiService br;
 	private ProblemService service;
@@ -25,7 +25,7 @@ public class D1CFTCard {
 	@Inject
 	private String render;
 
-	public D1CFTCard() {
+	public D1Action() {
 		service = Services.get(ProblemService.class);
 	}
 
