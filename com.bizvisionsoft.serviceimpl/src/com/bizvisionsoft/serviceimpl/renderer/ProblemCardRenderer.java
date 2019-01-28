@@ -179,10 +179,10 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		/////////////////////////////////////////////////////////////////
 		// 进度栏
 		// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
-		String[] msgs = new String[] { "已确认临时控制措施有效。", //
-				"已批准永久纠正措施的方案开始执行。", //
-				"通过长期监控永久纠正措施能够长期有效。", //
-				"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
+		String[] msgs = new String[] { "临时控制行动是否能有效保护顾客（包括内部顾客）不受问题影响", //
+				"批准永久纠正措施的方案开始执行", //
+				"通过验证和长期监控，永久纠正措施能够长期有效", //
+				"顾客（包括内部顾客）已经确认永久纠正措施能够解决问题" //
 		};
 		String[] titles = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
 		String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
