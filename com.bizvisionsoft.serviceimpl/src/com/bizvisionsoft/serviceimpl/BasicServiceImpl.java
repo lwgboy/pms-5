@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
@@ -164,10 +166,16 @@ public class BasicServiceImpl {
 
 	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, Bson... appendPipelines) {
 		List<Bson> pipeline = null;
-
 		if (appendPipelines != null)
 			pipeline = Arrays.asList(appendPipelines);
 		return list(clazz, condition, pipeline);
+	}
+
+	final protected List<Document> list(String col, BasicDBObject condition, Bson... appendPipelines) {
+		List<Bson> pipeline = null;
+		if (appendPipelines != null)
+			pipeline = Arrays.asList(appendPipelines);
+		return list(col, condition, pipeline);
 	}
 
 	/**
@@ -179,6 +187,28 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	final protected <T> List<T> list(Class<T> clazz, BasicDBObject condition, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
+		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
+	}
+
+	final protected List<Document> list(String col, BasicDBObject condition, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
+		return c(col).aggregate(pipeline).into(new ArrayList<>());
+	}
+
+	final protected long count(String col, BasicDBObject filter, Bson... appendPipelines) {
+		List<Bson> pipeline = null;
+		if (appendPipelines != null)
+			pipeline = Arrays.asList(appendPipelines);
+		return count(col, filter, pipeline);
+	}
+
+	final protected long count(String col, BasicDBObject filter, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = combinateCountPipeline(filter, appendPipelines);
+		return Optional.ofNullable(c(col).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue()).orElse(0l);
+	}
+
+	private ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -200,8 +230,17 @@ public class BasicServiceImpl {
 		if (appendPipelines != null) {
 			pipeline.addAll(appendPipelines);
 		}
+		return pipeline;
+	}
 
-		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
+	private ArrayList<Bson> combinateCountPipeline(BasicDBObject filter, List<Bson> appendPipelines) {
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		if (appendPipelines != null)
+			pipeline.addAll(appendPipelines);
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+		pipeline.add(Aggregates.count());
+		return pipeline;
 	}
 
 	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz) {
@@ -1000,5 +1039,46 @@ public class BasicServiceImpl {
 			condition.put(field, doc);
 		}
 		return doc;
+	}
+
+	protected ArrayList<String> getXAxisData(String xAxis, Date from, Date to) {
+		ArrayList<String> xAxisData = new ArrayList<String>();
+		SimpleDateFormat sdf;
+		if ("date".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfDay(from);
+			to = Formatter.getEndOfDay(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM-dd");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+			}
+		} else if ("month".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfMonth(from);
+			to = Formatter.getEndOfMonth(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.MONTH, 1);
+			}
+		} else if ("year".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfYear(from);
+			to = Formatter.getEndOfYear(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.YEAR, 1);
+			}
+		}
+		return xAxisData;
+	}
+
+	public Document blankChart() {
+		return new JQ("图表-无数据").doc();
 	}
 }

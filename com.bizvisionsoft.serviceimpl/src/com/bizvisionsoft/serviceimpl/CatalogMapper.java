@@ -120,4 +120,14 @@ public class CatalogMapper {
 		return c;
 	}
 
+	public static Catalog classifyProblem(Document doc) {
+		Catalog c = new Catalog();
+		c._id = doc.getObjectId("_id");
+		c.label = doc.getString("name");
+//		setType(c, ClassifyProblemLost.class);//无需类型
+		c.meta = doc;
+		c.match = new Document("parent_id", c._id);
+		return c;
+	}
+
 }

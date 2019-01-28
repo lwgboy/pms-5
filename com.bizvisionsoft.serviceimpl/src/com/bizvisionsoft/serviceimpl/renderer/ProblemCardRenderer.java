@@ -11,11 +11,10 @@ import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
+import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
-public class ProblemCardRenderer {
-
-	public static final String[] priorityText = new String[] { "最高", "高", "中", "低", "最低" };
+public class ProblemCardRenderer extends BasicServiceImpl {
 
 	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
@@ -23,34 +22,45 @@ public class ProblemCardRenderer {
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
 
+	private static final CardTheme cyan = new CardTheme(CardTheme.CYAN);
+
 	private static final CardTheme deepGrey = new CardTheme(CardTheme.DEEP_GREY);
 
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
-	public static Document renderProblem(Document doc, String lang) {
+	public Document renderProblem(Document doc, String lang, boolean control) {
 		StringBuffer sb = new StringBuffer();
+
+		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
+
+		if ("解决中".equals(doc.get("status"))) {
+			appendProblemScheduleBar(doc, sb);
+		}
 
 		// 【公共块】//
 		appendProblemCommonInfo(doc, sb);
 
+		Document chart = null;
 		// 【不同状态的内容块】
 		if ("解决中".equals(doc.get("status"))) {
-			appendProblemScheduleBar(doc, sb);
+			// 【指标表】
+			chart = createProblemInstuctors(doc);
 		} else if ("已创建".equals(doc.get("status"))) {
+			// 【指标表】
+			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
 			appendProblemCostInfo(doc, sb);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
-		// 【指标表】
-		Document chart = createProblemInstuctors(doc);
 		if (chart != null)
 			sb.append("<div name='" + doc.get("_id") + "' style='width:100%;height:120px;'></div>");
 		else
 			sb.append("<div style='width:100%;height:24px;'></div>");// 占位
 
 		// 【按钮块】
-		appendProblemButtons(doc, sb);
+		if (control)
+			appendProblemButtons(doc, sb);
 
 		// 【卡片背景】
 		RenderTools.appendCardBg(sb);
@@ -61,14 +71,12 @@ public class ProblemCardRenderer {
 		return result;
 	}
 
-	private static void appendProblemCostInfo(Document doc, StringBuffer sb) {
+	private void appendProblemCostInfo(Document doc, StringBuffer sb) {
 		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
-				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", s));
+				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>" + s + "</span>"));
 	}
 
-	private static void appendProblemCommonInfo(Document doc, StringBuffer sb) {
-		RenderTools.appendHeader(sb, indigo, doc.getString("name"), 36);
-
+	private void appendProblemCommonInfo(Document doc, StringBuffer sb) {
 		// 问题照片
 		// Document photoDoc = Optional.ofNullable(doc.get("d2ProblemPhoto"))
 		// .map(d -> ((List<?>) d).isEmpty() ? null : (Document) ((List<?>)
@@ -98,52 +106,76 @@ public class ProblemCardRenderer {
 		if (Check.isAssigned(by, on))
 			RenderTools.appendLabelAndTextLine(sb, "发起：", on + " " + by);
 
-		// RenderTools.appendLabelAndTextLine(sb, "来源：",
-		// doc.getString("initiatedFrom"));
+		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 	}
 
-	private static Document createProblemInstuctors(Document doc) {
+	private Document createProblemInstuctors(Document doc) {
 		Object _id = doc.get("_id");
 		/////////////////////////////////////////////////////////////////
 		// 指标
 		// 1. 计算PCI(问题关键指数)
-		int severityInd = Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
+		int severityInd = 10 * Optional.ofNullable((Document) doc.get("severityInd")).map(d -> d.getInteger("index")).orElse(0);
+		// String severityText = Optional.ofNullable((Document)
+		// doc.get("severityInd")).map(d -> d.getString("value")).orElse("");
 		// int detectionInd = Optional.ofNullable((Document)
 		// doc.get("detectionInd")).map(d -> d.getInteger("index")).orElse(0);
 		// int freqInd = Optional.ofNullable((Document) doc.get("freqInd")).map(d ->
 		// d.getInteger("index")).orElse(0);
 		// 2. incidenceInd影响程度
-		int incidenceInd = Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
+		int incidenceInd = 10 * Optional.ofNullable((Document) doc.get("incidenceInd")).map(d -> d.getInteger("index")).orElse(0);
+		// String incidenceText = Optional.ofNullable((Document)
+		// doc.get("incidenceInd")).map(d -> d.getString("value")).orElse("");
 		// 3. lostInd损失程度
-		int lostInd = Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
+		int lostInd = 10 * Optional.ofNullable((Document) doc.get("lostInd")).map(d -> d.getInteger("index")).orElse(0);
+		// String lostText = Optional.ofNullable((Document) doc.get("lostInd")).map(d ->
+		// d.getString("value")).orElse("");
 		// 4. urgencyInd紧急程度
 		// int urgencyInd = Optional.ofNullable((Document) doc.get("urgencyInd")).map(d
 		// -> d.getInteger("index")).orElse(0);
 		if (severityInd + incidenceInd + lostInd > 0) {
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
-			chart.append("option", new JQ("图表-通用-小型三联排仪表").set("name1", "严重度").set("value1", severityInd).set("name2", "影响程度")
-					.set("value2", incidenceInd).set("name3", "损失程度").set("value3", lostInd).doc());
+			chart.append("option", new JQ("图表-通用-小型三联排仪表")//
+					.set("name1", "").set("value1", severityInd)
+					.set("title1", "{" + level(severityInd) + "|" + severityInd / 10 + "}\n\n严重度")//
+					.set("name2", "").set("value2", incidenceInd)
+					.set("title2", "{" + level(incidenceInd) + "|" + incidenceInd / 10 + "}\n\n影响面")//
+					.set("name3", "").set("value3", lostInd).set("title3", "{" + level(lostInd) + "|" + lostInd / 10 + "}\n\n损失程度")//
+					.doc());
+			debugDocument(chart);
 			return chart;
 		}
 		return null;
 	}
 
-	private static void appendProblemButtons(Document doc, StringBuffer sb) {
+	private String level(int index) {
+		if (index <= 20)
+			return "level0";
+		if (index <= 40)
+			return "level1";
+		if (index <= 60)
+			return "level2";
+		if (index <= 80)
+			return "level3";
+		if (index <= 100)
+			return "level4";
+		return "level4";
+	}
+
+	private void appendProblemButtons(Document doc, StringBuffer sb) {
 		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
 		} else if ("已创建".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑问题指标", "editProblem");
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决程序", "kickoff");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "启动问题解决", "kickoff");
 		} else if ("已关闭".equals(doc.get("status"))) {
-			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "打开问题T.O.P.S.主页", "open8D");
+			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
 		} else if ("已取消".equals(doc.get("status"))) {
 			// TODO 查看问题定义？
 		}
 	}
 
-	private static void appendProblemScheduleBar(Document doc, StringBuffer sb) {
+	private void appendProblemScheduleBar(Document doc, StringBuffer sb) {
 		/////////////////////////////////////////////////////////////////
 		// 进度栏
 		// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
@@ -159,16 +191,15 @@ public class ProblemCardRenderer {
 		int max = 0;
 		for (int i = 0; i < fields.length; i++) {
 			if ((Document) doc.get(fields[i]) != null) {
-				max = Math.max(max, i);
+				max = Math.max(max, i)+1;
 			}
 			label += MetaInfoWarpper.warpper(titles[i], msgs[i]);
 		}
-
-		sb.append("<div class='layui-progress layui-progress' style='margin:8px 8px 0px 8px;'>");
-		sb.append("<div class='layui-progress-bar' style='width:" + 100 * (max + 1) / (1 + fields.length) + "%'></div>");
-		sb.append("</div>");
-		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#" + indigo.lightText + ";padding-top:0px;'>");
+		sb.append("<div class='layui-progress layui-progress-big' style='margin:8px 8px 0px 8px;'>");
+		sb.append("<div class='layui-progress-bar' style='width:" + 100 * max  /  fields.length + "%'></div>");
+		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#fff;position: absolute;padding-top:0px;'>");
 		sb.append(label);
+		sb.append("</div>");
 		sb.append("</div>");
 
 		// 【紧急应对】eraStarted,eraStopped
@@ -188,12 +219,7 @@ public class ProblemCardRenderer {
 		}
 	}
 
-	public static Document renderD0ERA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, red, lang,null);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
-	public static Document renderD1CFTMember(Document doc, String lang) {
+	public Document renderD1CFTMember(Document doc, String lang, boolean editable) {
 		StringBuffer sb = new StringBuffer();
 
 		// 头像
@@ -203,7 +229,7 @@ public class ProblemCardRenderer {
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
-		String img = RenderTools.getUserHeadPicURL(doc, name);
+		String img = RenderTools.getUserHeadPicURL(doc, 36);
 
 		RenderTools.appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " "
 				+ dept + " " + position + "</div></div>" + img, 48);
@@ -212,14 +238,28 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendIconTextLine(sb, RenderTools.IMG_URL_EMAIL, 16, email);
 
-		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
+		if (editable)
+			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除团队成员", "delete");
 
 		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public static Document renderD25W2H(Document doc, String lang) {
+	public Document renderActionPlaceHoder(Document doc, String lang) {
+		String code = doc.getString("_action");
+		String text = doc.getString("_text");
+		if (code != null) {
+			StringBuffer sb = new StringBuffer();
+			sb.append("<div style='width:100%;height:108px;'>" + "<div class='brui_card_rowbutton'>"
+					+ "<a style='width:100%;height:100%;color:white;font-size:72px;font-family:none;font-weight:lighter;text-align:center;' href='"
+					+ code + "' target='_rwt'>" + text + "" + "</a>" + "</div></div>");
+			return new Document("html", sb.toString());
+		}
+		return null;
+	}
+
+	public Document renderD25W2H(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
 		RenderTools.appendHeader(sb, red, "5W2H", 36);
@@ -252,12 +292,13 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public static Document renderD2PhotoCard(Document doc, String lang) {
+	public Document renderD2PhotoCard(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("<img src='" + RenderTools.getFirstFileURL(doc, "problemImg")
-				+ "' style='cursor:pointer;width:100%;height:auto;border-radius:4px 4px 0px 0px;' onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-				+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "/>");
+		sb.append(
+				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
+						+ RenderTools.getFirstFileURL(doc, "problemImg") + ")' " + "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+						+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
 
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
@@ -272,16 +313,22 @@ public class ProblemCardRenderer {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
 
-	public static Document renderD3ICA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, null);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
+	public Document renderAction(Document doc, String lang, boolean editable) {
+		String stage = doc.getString("stage");
+		CardTheme theme = "era".equals(stage) ? red : indigo;// 紧急行动为红色标题
+		String type;
+		if ("make".equals(doc.getString("actionType"))) {
+			type = "纠正<br>产生";
+		} else if ("out".equals(doc.getString("actionType"))) {
+			type = "控制<br>流出";
+		} else {
+			type = "";
+		}
 
-	private static StringBuffer renderAction(Document doc, CardTheme theme,String lang, String head) {
 		boolean finished = doc.getBoolean("finish", false);
 		String action = doc.getString("action");
 		String objective = doc.getString("objective");
-		String priority = priorityText[Integer.parseInt(doc.getString("priority"))];
+		// Integer index = doc.getInteger("index");
 		Date planStart = doc.getDate("planStart");
 		Date planFinish = doc.getDate("planFinish");
 		Date actualStart = doc.getDate("actualStart");
@@ -317,20 +364,9 @@ public class ProblemCardRenderer {
 		}
 
 		StringBuffer sb = new StringBuffer();
-		if (head == null) {
-			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
-					+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + priority + "</div>"
-					+ "<div class='label_caption'>优先级</div></div>"//
-					+ "</div>");//
-		} else {
-			sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
-					+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + head + "</div>"//
-					+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + priority + "</div>"
-					+ "<div class='label_caption'>优先级</div></div>"//
-					+ "</div>");//
-			RenderTools.appendText(sb, action, RenderTools.STYLE_NLINE);
-		}
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + action + "</div>"//
+				+ "<div class='label_subhead' style='text-align:center;margin-left:4px'>" + type + "</div>" + "</div>");//
 
 		RenderTools.appendLabelAndTextLine(sb, "预期结果：", objective, 0);
 
@@ -338,25 +374,35 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendUserAndText(sb, chargerData, status);
 
-		if (!doc.getBoolean("finish", false)) {
-			RenderTools.appendButton(sb, "layui-icon-ok", 12 + 16 + 8 + 16 + 8 + 16 + 8, 12, "完成", "finish");
-
-			RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8 + 16 + 8, 12, "编辑", "edit");
-
-			RenderTools.appendButton(sb, "layui-icon-survey", 12 + 16 + 8, 12, "验证", "verify");
-
-			RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "删除", "delete");
+		int size = 16 + 8;
+		int loc = 12;
+		if (!editable || doc.getBoolean("finish", false)) {
+			RenderTools.appendButton(sb, "layui-icon-more", loc, 12, "详细", "read");
 		} else {
-			RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "read");
+			RenderTools.appendButton(sb, "layui-icon-edit", loc, 12, "编辑", "edit");
+			loc += size;
+
+			RenderTools.appendButton(sb, "layui-icon-survey", loc, 12, "验证", "verify");
+			loc += size;
+
+			RenderTools.appendButton(sb, "layui-icon-close", loc, 12, "删除", "delete");
+			loc += size;
+
+			boolean verfied = Optional.ofNullable(verification).map(v -> v.getString("title")).map(t -> "已验证".equals(t)).orElse(false);
+			if (verfied) // 已经验证的，才可以完成
+				RenderTools.appendButton(sb, "layui-icon-ok", loc, 12, "完成", "finish");
+
 		}
 
 		RenderTools.appendCardBg(sb);
-		return sb;
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public static Document renderD4(Document doc, String title, String rootCauseDesc, Document charger_meta, Date date, String lang) {
+	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date, String lang) {
 
 		StringBuffer sb = new StringBuffer();
+
+		String title = "make".equals(type) ? "问题产生的根本原因" : "问题流出的逃出点";
 
 		RenderTools.appendHeader(sb, red, title, 36);
 
@@ -364,12 +410,14 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
 
+		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "open/" + type);
+
 		RenderTools.appendCardBg(sb);
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public static Document renderD4CauseConsequence(Document doc, String lang) {
+	public Document renderD4CauseConsequence(Document doc, String lang) {
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = 8 * 3;
 
@@ -404,19 +452,18 @@ public class ProblemCardRenderer {
 		sb.insert(0,
 				"<div class='brui_card_trans' style='display:flex;background:#f9f9f9;height:" + (rowHeight - 2 * 8) + "px;margin:8px;'>");
 		sb.append("</div>");
-
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
-	public static Document renderD5PCA(List<?> list, String title, Document charger, Date planStart, Date planFinish, String lang) {
+	public Document renderD5PCA(List<?> list, String title, Document charger, Date planStart, Date planFinish, String lang) {
 		StringBuffer sb = new StringBuffer();
 		renderListItemsCard(sb, list, title, charger, planStart, planFinish, null, null, indigo);
 		return new Document("html", sb.toString());
 	}
 
-	private static void renderListItemsCard(StringBuffer sb, List<?> list, String title, Document charger, Date planStart, Date planFinish,
+	private void renderListItemsCard(StringBuffer sb, List<?> list, String title, Document charger, Date planStart, Date planFinish,
 			Date actualStart, Date actualFinish, CardTheme theme) {
-		RenderTools.appendHeader(sb, theme, title, 36);
+		RenderTools.appendSingleLineHeader(sb, theme, title, 36);
 
 		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
 
@@ -427,28 +474,16 @@ public class ProblemCardRenderer {
 		RenderTools.appendCardBg(sb);
 	}
 
-	public static Document renderD6IVPCA(Document doc, String lang) {
-
-		String head;
-		if ("make".equals(doc.getString("actionType"))) {
-			head = "实施/确认问题产生的纠正措施";
-		} else {
-			head = "实施/确认问题流出的纠正措施";
-		}
-		StringBuffer sb = renderAction(doc, indigo,lang, head);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
-	public static Document renderD7Similar(Document t, String lang) {
+	public Document renderD7Similar(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
 		String label = similarDegreeText[Integer.parseInt(t.getString("degree"))];
 
 		String type = t.getString("similar");
 
-		int prob = t.getDouble("prob").intValue();
+		int prob = Formatter.getIntValue(t.get("prob"));
 
-		sb.append("<div class='brui_card_head' style='height:48px;background:#" + indigo.headBgColor + ";color:#" + indigo.headFgColor
+		sb.append("<div class='brui_card_head' style='height:48px;background:#" + cyan.headBgColor + ";color:#" + cyan.headFgColor
 				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text' style='flex-grow:1;'>相似情形：" + type + "</div>"//
 				+ "<div style='text-align:center;margin-left:8px'><div class='label_title'>" + label + "</div>"
 				+ "<div class='label_caption'>相似度</div></div>"//
@@ -456,7 +491,7 @@ public class ProblemCardRenderer {
 				+ "<span style='font-size:9px;'>%</span></div>" + "<div class='label_caption'>可能性</div></div>"//
 				+ "</div>");//
 
-		RenderTools.appendText(sb, t.getString("desc"), RenderTools.STYLE_NLINE);
+		RenderTools.appendText(sb, t.getString("desc"), RenderTools.STYLE_3LINE);
 
 		List<?> ids = (List<?>) t.get("id");
 		if (Check.isAssigned(ids)) {
@@ -478,17 +513,12 @@ public class ProblemCardRenderer {
 		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
 
-	public static Document renderD7SPA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, "系统性预防措施");
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
-	}
-
-	public static Document renderD8Exp(Document t, String lang) {
+	public Document renderD8Exp(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
 		String firstFileURL = RenderTools.getFirstFileURL(t, "video");
 		if (firstFileURL != null) {
-			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='auto' controls preload='auto'>");
+			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='180px' controls preload='auto'>");
 			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
 			sb.append("</video>");
 		} else {
@@ -509,11 +539,6 @@ public class ProblemCardRenderer {
 
 		RenderTools.appendCardBg(sb);
 		return new Document("html", sb.toString()).append("_id", t.get("_id"));
-	}
-
-	public static Document renderD8LRA(Document doc, String lang) {
-		StringBuffer sb = renderAction(doc, indigo,lang, "损失挽回措施");
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
 }

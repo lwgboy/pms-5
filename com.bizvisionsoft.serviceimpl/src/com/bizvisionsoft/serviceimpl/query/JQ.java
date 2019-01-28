@@ -22,7 +22,7 @@ import com.bizvisionsoft.serviceimpl.Service;
 public class JQ {
 
 	private static Map<String, String> query = new ConcurrentHashMap<String, String>();
-	
+
 	private static Map<String, Long> lastModify = new ConcurrentHashMap<String, Long>();
 
 	private Map<String, Object> parameters = new HashMap<String, Object>();
@@ -32,7 +32,7 @@ public class JQ {
 	public JQ(String queryName) {
 		this.queryName = queryName;
 	}
-	
+
 	public JQ() {
 	}
 
@@ -190,6 +190,11 @@ public class JQ {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public List<Bson> appendTo(List<Bson> list) {
+		list.addAll(array());
+		return list;
 	}
 
 }

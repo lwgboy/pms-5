@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.ClassifyCause;
 import com.bizvisionsoft.service.model.ClassifyProblem;
@@ -24,6 +25,8 @@ import com.bizvisionsoft.service.model.FreqInd;
 import com.bizvisionsoft.service.model.IncidenceInd;
 import com.bizvisionsoft.service.model.LostInd;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.ProblemActionInfo;
+import com.bizvisionsoft.service.model.ProblemActionLinkInfo;
 import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
@@ -98,12 +101,6 @@ public interface ProblemService {
 	public long deleteCauseConsequence(@PathParam("_id") ObjectId _id);
 
 	@DELETE
-	@Path("/d0/era/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteD0ERA(@PathParam("_id") ObjectId _id);
-
-	@DELETE
 	@Path("/d1/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -116,40 +113,16 @@ public interface ProblemService {
 	public long deleteD2ProblemPhotos(@PathParam("_id") ObjectId _id);
 
 	@DELETE
-	@Path("/d3/ica/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteD3ICA(@PathParam("_id") ObjectId _id);
-
-	@DELETE
 	@Path("/d5/pca/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD5PCA(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@DELETE
-	@Path("/d6/ivpca/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteD6IVPCA(@PathParam("_id") ObjectId _id);
-
-	@DELETE
 	@Path("/d7/simi/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD7Similar(@PathParam("_id") ObjectId _id);
-
-	@DELETE
-	@Path("/d7/spa/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteD7SPA(@PathParam("_id") ObjectId _id);
-	
-	@DELETE
-	@Path("/d8/lra/_id/{_id}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public long deleteD8LRA(@PathParam("_id") ObjectId _id);
 
 	@DELETE
 	@Path("/d8/exp/_id/{_id}")
@@ -172,12 +145,6 @@ public interface ProblemService {
 	public Document getCauseConsequence(@PathParam("problem_id") ObjectId problem_id, @PathParam("type") String type);
 
 	@GET
-	@Path("/_id/{_id}/d0/era")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document getD0ERA(@PathParam("_id") ObjectId _id);
-
-	@GET
 	@Path("/_id/{_id}/d2/desc")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -192,12 +159,6 @@ public interface ProblemService {
 	public List<Document> listD2ProblemPhotos(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
 	@GET
-	@Path("/_id/{_id}/d3/ica")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document getD3ICA(@PathParam("_id") ObjectId _id);
-
-	@GET
 	@Path("/_id/{_id}/d4/rootCauseDesc")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -210,28 +171,10 @@ public interface ProblemService {
 	public Document getD5DecisionCriteria(@PathParam("_id") ObjectId _id);
 
 	@GET
-	@Path("/_id/{_id}/d6/ivpca")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document getD6IVPCA(@PathParam("_id") ObjectId _id);
-
-	@GET
 	@Path("/_id/{_id}/d7/simi")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD7Similar(@PathParam("_id") ObjectId _id);
-
-	@GET
-	@Path("/_id/{_id}/d7/spa")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document getD7SPA(@PathParam("_id") ObjectId _id);
-	
-	@GET
-	@Path("/_id/{_id}/d8/lra")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document getD8LRA(@PathParam("_id") ObjectId _id);
 
 	@GET
 	@Path("/_id/{_id}/d8/exp")
@@ -252,12 +195,6 @@ public interface ProblemService {
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc);
 
 	@POST
-	@Path("/d0/era/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document insertD0ERA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-
-	@POST
 	@Path("/d1/item/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -268,12 +205,6 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-
-	@POST
-	@Path("/d3/ica/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document insertD3ICA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
 	@POST
 	@Path("/d4/rootCauseDesc/{lang}")
@@ -294,29 +225,11 @@ public interface ProblemService {
 	public void insertD5PCA(Document t, @PathParam("lang") String language);
 
 	@POST
-	@Path("/d6/ivpca/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document insertD6IVPCA(Document t, @PathParam("lang") String language, @PathParam("render") String render);
-
-	@POST
-	@Path("/d7/spa/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document insertD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-
-	@POST
 	@Path("/d7/ss/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
-	@POST
-	@Path("/d8/lra/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document insertD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-	
 	@POST
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -329,14 +242,27 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public List<CauseConsequence> listCauseConsequences(BasicDBObject filter);
 
+	// @POST
+	// @Path("/_id/{_id}/d0/{render}/{lang}")
+	// @Consumes("application/json; charset=UTF-8")
+	// @Produces("application/json; charset=UTF-8")
+	// @DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list" })
+	// public List<Document> listD0(@MethodParam(MethodParam.CONDITION)
+	// BasicDBObject condition,
+	// @PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID)
+	// ObjectId problem_id,
+	// @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+	// @MethodParam("render") @PathParam("render") String render);
+	
 	@POST
-	@Path("/_id/{_id}/d0/{render}/{lang}")
+	@Path("/_id/{_id}/d0init/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list" })
-	public List<Document> listD0(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	@DataSet({ "D0问题初始记录/list" })
+	public List<Document> listD0Init(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
 
 	@POST
 	@Path("/_id/{_id}/d1/{render}/{lang}")
@@ -355,15 +281,6 @@ public interface ProblemService {
 	public List<Document> listD2(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	@POST
-	@Path("/_id/{_id}/d3/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D3临时控制行动/list", "D3临时控制行动表格/list" })
-	public List<Document> listD3(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
 	@Path("/_id/{_id}/d4/cards/{lang}")
@@ -390,11 +307,11 @@ public interface ProblemService {
 	public List<Document> listD5PCA(@PathParam("_id") ObjectId problem_id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/_id/{_id}/d6/{render}/{lang}")
+	@Path("/_id/{_id}/d7/ss/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D6执行和确认/list", "D6执行和确认永久纠正措施表格/list" })
-	public List<Document> listD6(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	@DataSet("D7类似系统表格/list")
+	public List<Document> listD7Similar(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
@@ -407,33 +324,6 @@ public interface ProblemService {
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
-	@POST
-	@Path("/_id/{_id}/d7/ss/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("D7类似系统表格/list")
-	public List<Document> listD7Similar(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
-
-	@POST
-	@Path("/_id/{_id}/d7/spa/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("D7系统性预防措施表格/list")
-	public List<Document> listD7SPA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
-
-	@POST
-	@Path("/_id/{_id}/d8/lra/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("D8损失挽回措施表格/list")
-	public List<Document> listD8LRA(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
-	
 	@POST
 	@Path("/_id/{_id}/d8/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -459,25 +349,11 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public long updateCauseConsequence(BasicDBObject fu);
 
-	@PUT
-	@Path("/d0/era/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document updateD0ERA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@PathParam("render") String render);
-
 	@POST
 	@Path("/d2/pd/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD2ProblemDesc(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
-
-	@PUT
-	@Path("/d3/ica/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document updateD3ICA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@PathParam("render") String render);
 
 	@PUT
 	@Path("/d4/rootCauseDesc/{lang}/")
@@ -498,30 +374,11 @@ public interface ProblemService {
 	public void updateD5PCA(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@PUT
-	@Path("/d6/pca/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document updateD6IVPCA(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@PathParam("render") String render);
-
-	@PUT
 	@Path("/d7/simi/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
 
-	@PUT
-	@Path("/d7/spa/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document updateD7SPA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-
-	@PUT
-	@Path("/d8/lra/{render}/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public Document updateD8LRA(Document t, @PathParam("lang") String lang, @PathParam("render") String render);
-	
 	@PUT
 	@Path("/d8/exp/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -694,7 +551,7 @@ public interface ProblemService {
 	@Path("/classifyProblem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题分类/" + DataSet.LIST })
+	@DataSet({ "问题分类/" + DataSet.LIST ,"问题分类选择表格（查询用）/list"})
 	public List<ClassifyProblem> rootClassifyProblem();
 
 	@POST
@@ -817,7 +674,7 @@ public interface ProblemService {
 	@DataSet("D8问题成本账目表格/insert")
 	public ProblemCostItem insertCostItem(@MethodParam(MethodParam.OBJECT) ProblemCostItem p,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
-	
+
 	@POST
 	@Path("/{_id}/chart/periodCost")
 	@Consumes("application/json; charset=UTF-8")
@@ -825,6 +682,269 @@ public interface ProblemService {
 	@DataSet("D8问题成本期间分类汇总/list")
 	public Document periodCostChart(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 通用行动
+	@POST
+	@Path("/_id/{_id}/{stage}/action/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertAction(Document t, @PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage, @PathParam("lang") String lang, @PathParam("render") String render);
+
+	@POST
+	@Path("/actions/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertActions(List<Document> actions);
 	
+	@DELETE
+	@Path("/action/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteAction(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/action/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getAction(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/{stage}/actions/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "D0紧急反应行动/list", "D0紧急反应行动表格/list", //
+			"D3临时控制行动/list", "D3临时控制行动表格/list", //
+			"D6执行和确认/list", "D6执行和确认永久纠正措施表格/list", //
+			"D7系统性预防措施表格/list", //
+			"D8损失挽回措施表格/list" })
+	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render);
+
+	@PUT
+	@Path("/action/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateAction(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@PathParam("render") String render);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 行动预案
+	@POST
+	@Path("/_id/{_id}/{stage}/advisableplan/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("行动预案选择列表/list")
+	public List<Document> listAdvisablePlan(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage);
+
+	@POST
+	@Path("/_id/{_id}/{stage}/advisableplan/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("行动预案选择列表/count")
+	public long countAdvisablePlan(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 目标和决策准则选择器
+	@POST
+	@Path("/_id/{_id}/criteriaTemplate/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目标和决策准则选择表格/list")
+	public List<Document> listCriteriaTemplate(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/criteriaTemplate/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目标和决策准则选择表格/count")
+	public long countCriteriaTemplate(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 成本分析 问题成本按成本分类钻取
+	@POST
+	@Path("/cost/selector/root/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/list", "问题成本按问题分类钻取/list", "问题成本按问题原因分类钻取/list" })
+	public List<Catalog> listClassifyRoot();
+
+	@POST
+	@Path("/cost/selector/classifycost/structure/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/slist" })
+	public List<Catalog> listClassifyCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/selector/classifycost/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/scount" })
+	public long countClassifyCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/option/default")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/default", "问题成本按问题分类钻取/default", "问题成本按责任部门分类钻取/default", "问题成本按问题原因分类钻取/default" })
+	public Document defaultClassifyCostOption();
+
+	@POST
+	@Path("/cost/classifycost/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按成本分类钻取/chart" })
+	public Document createClassifyCostChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 成本分析 问题成本按问题分类钻取
+
+	@POST
+	@Path("/cost/selector/classifyproblem/structure/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题分类钻取/slist" })
+	public List<Catalog> listClassifyProblemStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/selector/classifyproblem/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题分类钻取/scount" })
+	public long countClassifyProblemStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/classifyproblem/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题分类钻取/chart" })
+	public Document createClassifyProblemChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 成本分析 问题成本按责任部门分类钻取
+
+	@POST
+	@Path("/cost/selector/root/org")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按责任部门分类钻取/list" })
+	public List<Catalog> listOrgRoot();
+
+	@POST
+	@Path("/cost/selector/dept/structure/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按责任部门分类钻取/slist" })
+	public List<Catalog> listOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/selector/dept/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按责任部门分类钻取/scount" })
+	public long countOrgStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/res/dept/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按责任部门分类钻取/chart" })
+	public Document createClassifyDeptChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 成本分析 问题成本按原因分类钻取
+
+	@POST
+	@Path("/cost/selector/cause/structure/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题原因分类钻取/slist" })
+	public List<Catalog> listClassifyCauseStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/cost/selector/cause/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题原因分类钻取/scount" })
+	public long countClassifyCauseStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
+
+	@POST
+	@Path("/res/cause/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题成本按问题原因分类钻取/chart" })
+	public Document createClassifyCauseChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题综合分析
+	@POST
+	@Path("/cost/classifyproblem/bar")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按问题分类条形图/list" })
+	public Document createCostClassifyByProblemChart();
+
+	@POST
+	@Path("/count/classifyproblem/bar")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题数量按问题分类条形图/list" })
+	public Document createCountClassifyByProblemChart();
+
+	@POST
+	@Path("/cost/classifyCause/pie")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按原因分类饼图/list" })
+	public Document createCostClassifyByCauseChart();
+
+	@POST
+	@Path("/count/classifyCause/pie")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题损失按部门分类饼图/list" })
+	public Document createCostClassifyByDeptChart();
+	
+	@POST
+	@Path("/classifyProblem/classifyCause/graph")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题原因因果关系/list" })
+	public Document createCauseProblemChart();
+
+
+	@POST
+	@Path("/actions/{stage}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("系统性预防措施表格/list")
+	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("stage") @PathParam("stage") String stage);
+
+	@POST
+	@Path("/actions/{stage}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("系统性预防措施表格/count")
+	public long countActions(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @MethodParam("stage") @PathParam("stage") String stage);
+
+	@POST
+	@Path("/_id/{_id}/actions/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ProblemActionInfo> listGanttActions(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/links/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ProblemActionLinkInfo> listGanttActionLinks(@PathParam("_id") ObjectId _id);
 
 }

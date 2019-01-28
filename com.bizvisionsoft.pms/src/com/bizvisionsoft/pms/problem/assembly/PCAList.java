@@ -22,12 +22,14 @@ import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -118,13 +120,18 @@ public class PCAList {
 		language = RWT.getLocale().getLanguage();
 		problem = context.getRootInput(Problem.class, false);
 		service = Services.get(ProblemService.class);
-		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
-		if(decisionCriteria!=null) {
-			items = new String[] {decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
-		}else {
-			items = new String[] { "强制要求", "期望目标" };
-		}
+		loadDecisionCriteria();
 		pcaList = service.listD5PCA(problem.get_id(), language);
+	}
+
+	private void loadDecisionCriteria() {
+		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
+		if (decisionCriteria != null) {
+			items = new String[] { decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
+		} else {
+			items = new String[] { "", "强制要求", "期望目标" };
+			Layer.message("请先设定目标和准则");
+		}
 	}
 
 	@CreateUI
@@ -166,8 +173,8 @@ public class PCAList {
 	}
 
 	private void createPCAColumn(Document pca) {
-		GridColumn col = Columns.create(viewer).setWidth(240).setEditingSupport(this.editingSupport(pca))
-				.setLabelProvider(this.labelPCAColumn(pca)).getColumn();
+		GridColumn col = Columns.create(viewer).setWidth(420).setEditingSupport(this.editingSupport(pca))
+				.setLabelProvider(labelPCAColumn(pca)).getColumn();
 		col.setWordWrap(true);
 		UserSession.bruiToolkit().enableMarkup(col);
 		col.setData("pca", pca);
@@ -181,17 +188,17 @@ public class PCAList {
 			Document p = (Document) ((GridColumn) event.widget).getData("pca");
 			ActionMenu m = new ActionMenu(br);
 			List<Action> actions = new ArrayList<>();
-			actions.add(new ActionFactory().text("选择方案").normalStyle().exec((r, t) -> {
+			actions.add(new ActionFactory().img("/img/finish_w.svg").text("选择方案").normalStyle().exec((r, t) -> {
 				if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + p.getString("name"))) {
 					handleSelectPCA(p);
 				}
 			}).get());
 
-			actions.add(new ActionFactory().text("编辑方案").normalStyle().exec((r, t) -> {
+			actions.add(new ActionFactory().img("/img/edit_w.svg").text("编辑方案").normalStyle().exec((r, t) -> {
 				handleEditPCA(p);
 			}).get());
 
-			actions.add(new ActionFactory().text("删除方案").warningStyle().exec((r, t) -> {
+			actions.add(new ActionFactory().img("/img/delete_w.svg").text("删除方案").warningStyle().exec((r, t) -> {
 				if (br.confirm("删除PCA", "请确认删除以下方案。<br>" + p.getString("name"))) {
 					handleDeletePCA(p);
 				}
@@ -273,6 +280,11 @@ public class PCAList {
 					}
 				}
 				return "";
+			}
+			
+			@Override
+			public Color getBackground(Object element) {
+				return super.getBackground(element);
 			}
 
 		};
@@ -383,12 +395,13 @@ public class PCAList {
 		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
-				service.insertD5DecisionCriteria(t, RWT.getLocale().getLanguage());
+				service.insertD5DecisionCriteria(t, language);
 			} else {
 				r.remove("_id");
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
-				service.updateD5DecisionCriteria(fu, RWT.getLocale().getLanguage());
+				service.updateD5DecisionCriteria(fu, language);
 			}
+			loadDecisionCriteria();
 			viewer.refresh();
 		});
 	}
@@ -401,6 +414,7 @@ public class PCAList {
 			pca.clear();
 			pca.putAll(t);
 			viewer.refresh();
+			updateColumnText(pca.getObjectId("_id"));
 		});
 	}
 
@@ -449,10 +463,14 @@ public class PCAList {
 				.set(new BasicDBObject("selected", false));
 		service.updateD5PCA(fu.bson(), language);
 
+		updateColumnText(_id);
+	}
+
+	private void updateColumnText(Object pca_id) {
 		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> c.getData("pca") != null).forEach(e -> {
 			Document otherPCA = (Document) e.getData("pca");
 			String name = otherPCA.getString("name");
-			if (_id.equals(otherPCA.getObjectId("_id"))) {
+			if (pca_id.equals(otherPCA.getObjectId("_id"))) {
 				otherPCA.put("selected", true);
 				e.setText(getPCAColumnHeaderText("<b>[已选择]" + name + "</b>"));
 			} else {

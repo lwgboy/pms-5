@@ -98,6 +98,30 @@ public class Formatter {
 		return getInt(text, "不是合法数值");
 	}
 
+	public static int getIntValue(Object value) {
+		if (value == null)
+			return 0;
+		if (value instanceof String) {
+			return getInt((String) value);
+		}
+		if(value instanceof Number) {
+			return ((Number) value).intValue();
+		}
+		throw new RuntimeException(value+" 不是合法的int类型");
+	}
+	
+	public static double getDoubleValue(Object value) {
+		if (value == null)
+			return 0;
+		if (value instanceof String) {
+			return getInt((String) value);
+		}
+		if(value instanceof Number) {
+			return ((Number) value).doubleValue();
+		}
+		throw new RuntimeException(value+" 不是合法的double类型");
+	}
+
 	/**
 	 * 字符串转double
 	 * 
@@ -397,6 +421,56 @@ public class Formatter {
 		c.set(Calendar.SECOND, 0);
 		c.set(Calendar.MILLISECOND, 0);
 		c.add(Calendar.DATE, 1);
+		c.add(Calendar.MILLISECOND, -1);
+		return c.getTime();
+	}
+
+	public static Date getStartOfMonth(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
+	public static Date getEndOfMonth(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.MILLISECOND, -1);
+		return c.getTime();
+	}
+
+	public static Date getStartOfYear(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.MONTH, 0);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
+	public static Date getEndOfYear(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.MONTH, 0);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.add(Calendar.YEAR, 1);
 		c.add(Calendar.MILLISECOND, -1);
 		return c.getTime();
 	}

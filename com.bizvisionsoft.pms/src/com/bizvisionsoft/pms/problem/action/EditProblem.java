@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.problem.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -49,12 +50,16 @@ public class EditProblem {
 
 	private void create(IBruiContext context) {
 		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(new Problem().setCreationInfo(br.operationInfo())).ok((r, t) -> {
-			t = Services.get(ProblemService.class).insertProblem(t);
+			ProblemService service = Services.get(ProblemService.class);
+			t = service.insertProblem(t);
 			if (t != null) {
-				// TODO
-				// 不一定都要使用8D
-				if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题创建成功，是否进入问题页面？")) {
-					br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
+				if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题已经创建成功，是否立即开始解决问题？")) {
+					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id()))
+							.set(new BasicDBObject("status", "解决中")).bson();
+					if (service.updateProblems(fu) > 0) {
+						Layer.message("问题解决程序已启动");
+						br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
+					}
 				}
 			}
 		});

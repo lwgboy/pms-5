@@ -7,7 +7,6 @@ import org.bson.Document;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 
-import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.annotations.ui.grid.GridRenderColumnFooter;
@@ -30,13 +29,6 @@ public class ProblemCostGridRender extends GridPartDefaultRender {
 	@Inject
 	private IBruiService bruiService;
 
-	private Document summary;
-
-	@Init
-	private void init() {
-		summary = Services.get(ProblemService.class).getSummaryCost(context.getRootInput(Problem.class, false).get_id());
-	}
-
 	@Override
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
@@ -58,6 +50,7 @@ public class ProblemCostGridRender extends GridPartDefaultRender {
 	@GridRenderColumnFooter
 	public void renderColumnFooter(@MethodParam(GridRenderColumnHeader.PARAM_COLUMN_WIDGET) GridColumn col,
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
+		Document summary = Services.get(ProblemService.class).getSummaryCost(context.getRootInput(Problem.class, false).get_id());
 		Optional.ofNullable(summary).map(s -> s.getDouble(column.getName())).map(v -> Formatter.getString(v, column.getFormat()))
 				.ifPresent(col::setFooterText);
 	}

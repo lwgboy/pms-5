@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.bson.Document;
@@ -70,28 +71,33 @@ public class RenderTools {
 	}
 
 	public static void appendHeader(StringBuffer sb, CardTheme theme, String text, int height) {
-		sb.append("<div class='label_subhead brui_card_head' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
+				+ theme.headFgColor + ";padding:8px;'>" + text//
+				+ "</div>");//
+	}
+	
+	public static void appendSingleLineHeader(StringBuffer sb, CardTheme theme, String text, int height) {
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='display:block;height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
 				+ theme.headFgColor + ";padding:8px;'>" + text//
 				+ "</div>");//
 	}
 
-	public static String getUserHeadPicURL(Document doc, String name) {
+	public static String getUserHeadPicURL(Document doc, int size) {
 		String img;
 		String url = RenderTools.getFirstFileURL(doc, "headPics");
 		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:28px;width:36px;height:36px;'/>";
+			img = "<img src=" + url + " style='border-radius:" + size + "px;width:" + size + "px;height:" + size + "px;'/>";
 		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:28px;width:36px;height:36px;'/>";
+			url = "resource/image/people.svg";
+			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:#212121" + ";border-radius:" + size
+					+ "px;width:" + size + "px;height:" + size + "px;'/>";
 		}
 		return img;
 	}
 
 	public static void appendUserAndText(StringBuffer sb, Document user, String text) {
 		String name = user.getString("name");
-		String url = RenderTools.getFirstFileURL(user, "headPics");
+		String url = Optional.ofNullable(RenderTools.getFirstFileURL(user, "headPics")).orElse("resource/image/people.svg");
 		appendUserAndText(sb, url, name, text);
 	}
 
@@ -189,13 +195,23 @@ public class RenderTools {
 	}
 
 	public static <T> void appendList(StringBuffer sb, List<T> list, String color, Function<T, String> func) {
-		for (int i = 0; i < list.size(); i++) {
+		int size = list.size();
+		boolean overflow = false;
+		if (size > 6) {
+			overflow = true;
+			size = 5;
+		}
+		for (int i = 0; i < size; i++) {
 			T item = list.get(i);
 			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
 					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
 					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>"
 					+ (func == null ? item : func.apply(item)) + "</div>");
-
+		}
+		if (overflow) {
+			sb.append("<div class='label_caption' style='padding:8px 16px 0px 12px;display:flex;color:#" + color
+					+ ";White-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;align-items:baseline;'>"
+					+ "<i class='layui-icon layui-icon-circle' style='font-size:7px;margin-right:8px;'></i>" + "......" + "</div>");
 		}
 	}
 
@@ -207,8 +223,8 @@ public class RenderTools {
 
 	public static void appendIndicator2(StringBuffer sb, Double ind, String label, String text, String[] indColor) {
 		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + MetaInfoWarpper.warpper(label, text)
-				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor="
-				+ indColor[1] + "' width=72 height=72/></div>");
+				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor=" + indColor[1]
+				+ "' width=72 height=72/></div>");
 	}
 
 }
