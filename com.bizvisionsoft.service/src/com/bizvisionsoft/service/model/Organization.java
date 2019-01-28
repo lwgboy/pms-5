@@ -77,6 +77,14 @@ public class Organization {
 	@ReadValue
 	@WriteValue
 	private String type;
+	
+	/**
+	 * 外部组织类型
+	 */
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private String externalType;
 
 	@Persistence
 	private String managerId;

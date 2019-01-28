@@ -60,8 +60,11 @@ public class D1Action {
 	
 	@Behavior({"create","delete"})
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
-			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
+			@MethodParam(Execute.CURRENT_USER_ID) String userId) {
 		if(!"½â¾öÖÐ".equals(problem.getStatus()))
+			return false;
+		if(!service.hasPrivate(problem.get_id(),ProblemService.ACTION_EDIT_TEAM,userId))
 			return false;
 		return true;
 	}

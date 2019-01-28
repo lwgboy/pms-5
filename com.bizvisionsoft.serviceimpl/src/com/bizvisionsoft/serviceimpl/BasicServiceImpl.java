@@ -196,47 +196,39 @@ public class BasicServiceImpl {
 		return c(col).aggregate(pipeline).into(new ArrayList<>());
 	}
 
-	final protected long count(String col, BasicDBObject filter, Bson... appendPipelines) {
+	final protected long count(String col, BasicDBObject filter, Bson... prefixPipeline) {
 		List<Bson> pipeline = null;
-		if (appendPipelines != null)
-			pipeline = Arrays.asList(appendPipelines);
+		if (prefixPipeline != null)
+			pipeline = Arrays.asList(prefixPipeline);
 		return count(col, filter, pipeline);
 	}
 
-	final protected long count(String col, BasicDBObject filter, List<Bson> appendPipelines) {
-		ArrayList<Bson> pipeline = combinateCountPipeline(filter, appendPipelines);
+	final protected long count(String col, BasicDBObject filter, List<Bson> prefixPipelines) {
+		ArrayList<Bson> pipeline = combinateCountPipeline(prefixPipelines,filter);
 		return Optional.ofNullable(c(col).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue()).orElse(0l);
 	}
 
-	private ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+	protected List<Bson> appendConditionToPipeline(List<Bson> pipeline, BasicDBObject condition) {
+		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
+		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
+		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+		return pipeline;
+	}
+	
+	protected ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
+		appendConditionToPipeline(pipeline,condition);
 		if (appendPipelines != null) {
 			pipeline.addAll(appendPipelines);
 		}
 		return pipeline;
 	}
 
-	private ArrayList<Bson> combinateCountPipeline(BasicDBObject filter, List<Bson> appendPipelines) {
+	protected ArrayList<Bson> combinateCountPipeline(List<Bson> prefixPipeline,BasicDBObject filter) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		if (appendPipelines != null)
-			pipeline.addAll(appendPipelines);
+		if (prefixPipeline != null)
+			pipeline.addAll(prefixPipeline);
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
 		pipeline.add(Aggregates.count());

@@ -78,10 +78,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition, List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
-		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
-		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+		appendConditionToPipeline(pipeline, condition);
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
 		pipeline.addAll(new JQ("追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
 				.set("urgencyIndField", "urgencyInd").array());
@@ -134,6 +131,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
+
 		p = insert(p);
 		List<Bson> pipe = appendBasicQueryPipeline(new Query().filter(new BasicDBObject("_id", p.get_id())).bson(), new ArrayList<>());
 		return c(Problem.class).aggregate(pipe).first();
@@ -143,6 +141,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
+		pipeline.addAll(new JQ("追加-问题查询权限").set("userId", userid).array());
 		ArrayList<Problem> result = c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 		return result;
 	}
@@ -151,6 +150,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
+		pipeline.addAll(new JQ("追加-问题查询权限").set("userId", userid).array());
 		return c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true)).into(new ArrayList<>());
 	}
 
@@ -276,12 +276,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String userId, String lang, String render) {
 		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
 		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			boolean editable = isProblemEditable(problem_id);
+			boolean editable = isProblemEditable(problem_id) && new ProblemActionControl().hasPrivate(problem_id, ACTION_EDIT_TEAM, userId);
 			f = d -> new ProblemCardRenderer().renderD1CFTMember(d, lang, editable);
 		} else {
 			f = d -> appendRoleText(d, lang);
@@ -1095,10 +1095,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipeline.add(Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"));//
 		pipeline.add(Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
 				.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
-		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
-		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+		appendConditionToPipeline(pipeline, condition);
 
 		return c("problemAction").aggregate(pipeline).into(new ArrayList<>());
 	}
@@ -1110,6 +1107,25 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
 				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
 						.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+	}
+
+	@Override
+	public List<Document> listExp(BasicDBObject condition) {
+		List<Bson> pipe = new ArrayList<>();
+		pipe.add(new Document("$lookup",
+				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
+		pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		appendConditionToPipeline(pipe, condition);
+		return c("d8Exp").aggregate(pipe).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countExp(BasicDBObject filter) {
+		List<Bson> prefixPipelines = new ArrayList<>();
+		prefixPipelines.add(new Document("$lookup",
+				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
+		prefixPipelines.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		return count("d8Exp", filter, prefixPipelines);
 	}
 
 	@Override
@@ -1163,12 +1179,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<ProblemActionLinkInfo> listGanttActionLinks(ObjectId _id) {
+		// TODO
 		return new ArrayList<>();
 	}
 
 	@Override
 	public void insertActions(List<Document> actions) {
 		c("problemAction").insertMany(actions);
+	}
+
+	@Override
+	public boolean hasPrivate(ObjectId problem_id, String action, String userId) {
+		return new ProblemActionControl().hasPrivate(problem_id, action, userId);
 	}
 
 }

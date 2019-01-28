@@ -35,6 +35,41 @@ import com.mongodb.BasicDBObject;
 @Path("/problem")
 public interface ProblemService {
 
+	/**
+	 * 添加或删除CTF团队成员
+	 */
+	public static final String ACTION_EDIT_TEAM = "editTeam";
+
+	public static final String ACTION_DELETE_SIMILAR = "deleteSimilar";
+
+	public static final String ACTION_EDIT_SIMILAR = "editSimilar";
+
+	public static final String ACTION_CREATE = "create";
+
+	public static final String ACTION_FINISH = "finish";
+
+	public static final String ACTION_VERIFY = "verify";
+
+	public static final String ACTION_DELETE = "delete";
+
+	public static final String ACTION_READ = "read";
+
+	public static final String ACTION_EDIT = "edit";
+
+	public static final String ACTION_PCA_APPROVE = "pcaApproved";
+
+	public static final String ACTION_ICA_CONFIRM = "icaConfirmed";
+
+	public static final String ACTION_PCA_VALIDATE = "pcaValidated";
+
+	public static final String ACTION_PCA_CONFIRM = "pcaConfirmed";
+	
+	public static final String ACTION_PROBLEM_START = "startProblem";
+
+	public static final String ACTION_PROBLEM_CLOSE = "closeProblem";
+
+	public static final String ACTION_PROBLEM_CANCEL = "cancelProblem";
+
 	@GET
 	@Path("/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -253,7 +288,7 @@ public interface ProblemService {
 	// ObjectId problem_id,
 	// @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 	// @MethodParam("render") @PathParam("render") String render);
-	
+
 	@POST
 	@Path("/_id/{_id}/d0init/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -263,14 +298,14 @@ public interface ProblemService {
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
-
 	@POST
-	@Path("/_id/{_id}/d1/{render}/{lang}")
+	@Path("/_id/{_id}/d1/{userid}/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "D1多功能小组/list", "D1多功能小组表格/list" })
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
 
 	@POST
@@ -332,6 +367,20 @@ public interface ProblemService {
 	public List<Document> listD8(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render);
+
+	@POST
+	@Path("/exp/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题经验库表格/list" })
+	public List<Document> listExp(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/exp/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题经验库表格/count" })
+	public long countExp(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/item/{status}/{userid}/card/{lang}")
@@ -551,7 +600,7 @@ public interface ProblemService {
 	@Path("/classifyProblem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题分类/" + DataSet.LIST ,"问题分类选择表格（查询用）/list"})
+	@DataSet({ "问题分类/" + DataSet.LIST, "问题分类选择表格（查询用）/list" })
 	public List<ClassifyProblem> rootClassifyProblem();
 
 	@POST
@@ -696,7 +745,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertActions(List<Document> actions);
-	
+
 	@DELETE
 	@Path("/action/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
@@ -911,14 +960,13 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题损失按部门分类饼图/list" })
 	public Document createCostClassifyByDeptChart();
-	
+
 	@POST
 	@Path("/classifyProblem/classifyCause/graph")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题原因因果关系/list" })
 	public Document createCauseProblemChart();
-
 
 	@POST
 	@Path("/actions/{stage}/ds")
@@ -946,5 +994,11 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<ProblemActionLinkInfo> listGanttActionLinks(@PathParam("_id") ObjectId _id);
+
+	@GET
+	@Path("/_id/{_id}/action/{action}/userId/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action, @PathParam("userId") String userId);
 
 }
