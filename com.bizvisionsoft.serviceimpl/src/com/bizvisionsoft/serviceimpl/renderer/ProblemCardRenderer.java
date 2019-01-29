@@ -49,7 +49,8 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			// 【指标表】
 			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
-			appendProblemCostInfo(doc, sb);
+			// appendProblemCostInfo(doc, sb);//避免显示损失，防止泄露到外部用户
+			chart = createProblemInstuctors(doc);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
@@ -60,7 +61,9 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		// 【按钮块】
 		if (control)
-			appendProblemButtons(doc, sb);
+			appendProblemOpenButtons(doc, sb);
+		else
+			appendProblemEditButtons(doc, sb);
 
 		// 【卡片背景】
 		RenderTools.appendCardBg(sb);
@@ -71,6 +74,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return result;
 	}
 
+	@SuppressWarnings("unused")
 	private void appendProblemCostInfo(Document doc, StringBuffer sb) {
 		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
 				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>" + s + "</span>"));
@@ -162,7 +166,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return "level4";
 	}
 
-	private void appendProblemButtons(Document doc, StringBuffer sb) {
+	private void appendProblemOpenButtons(Document doc, StringBuffer sb) {
 		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
@@ -172,6 +176,16 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
 		} else if ("已取消".equals(doc.get("status"))) {
 			// TODO 查看问题定义？
+		}
+	}
+	
+	private void appendProblemEditButtons(Document doc, StringBuffer sb) {
+		// 添加【按钮】
+		if ("解决中".equals(doc.get("status"))) {
+			RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题初始记录和指标", "edit");
+		} else if ("已创建".equals(doc.get("status"))) {
+		} else if ("已关闭".equals(doc.get("status"))) {
+		} else if ("已取消".equals(doc.get("status"))) {
 		}
 	}
 

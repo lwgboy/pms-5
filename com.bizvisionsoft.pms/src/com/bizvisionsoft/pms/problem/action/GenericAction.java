@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Event;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
+import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
@@ -45,41 +46,50 @@ public class GenericAction {
 
 	@Inject
 	private String verifyEditor;
+	
+	@Inject
+	private BruiAssemblyContext context;
+
+	private GridTreeViewer viewer;
 
 	private static final String[] actionType = new String[] { "era", "ica", "pca", "spa", "lra" };
 
 	private static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
 
 	public GenericAction() {
+	}
+	
+	@Init
+	private void init() {
 		service = Services.get(ProblemService.class);
 		lang = RWT.getLocale().getLanguage();
+		viewer = (GridTreeViewer) context.getContent("viewer");
 	}
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
-			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, @MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, 
 			@MethodParam(Execute.EVENT) Event e, @MethodParam(Execute.ACTION) Action a) {
-		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if (ProblemService.ACTION_EDIT.equals(a.getName()) || ProblemService.ACTION_EDIT.equals(e.text)) {
-			doEdit(element, context, viewer);
+			doEdit(element);
 		} else if (ProblemService.ACTION_READ.equals(a.getName()) || ProblemService.ACTION_READ.equals(e.text)) {
-			doRead(context, element);
+			doRead(element);
 		} else if (ProblemService.ACTION_DELETE.equals(a.getName()) || ProblemService.ACTION_DELETE.equals(e.text)) {
-			doDelete(element, context);
+			doDelete(element);
 		} else if (ProblemService.ACTION_VERIFY.equals(a.getName()) || ProblemService.ACTION_VERIFY.equals(e.text)) {
-			doVerify(element, context, viewer);
+			doVerify(element);
 		} else if (ProblemService.ACTION_FINISH.equals(a.getName()) || ProblemService.ACTION_FINISH.equals(e.text)) {
-			doFinish(element, viewer);
+			doFinish(element);
 		} else if (ProblemService.ACTION_CREATE.equals(a.getName()) || ProblemService.ACTION_CREATE.equals(e.text)) {
-			doCreate(problem, context);
+			doCreate(problem);
 		} else if (ProblemService.ACTION_EDIT_SIMILAR.equals(a.getName()) || ProblemService.ACTION_EDIT_SIMILAR.equals(e.text)) {
-			editSimilar(element, viewer, context, render);
+			editSimilar(element,render);
 		} else if (ProblemService.ACTION_DELETE_SIMILAR.equals(a.getName()) || ProblemService.ACTION_DELETE_SIMILAR.equals(e.text)) {
-			deleteSimilar(element, viewer, context);
+			deleteSimilar(element);
 		}
 	}
 
-	private void editSimilar(Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
+	private void editSimilar(Document doc,  String render) {
 		Document ivpca = service.getD7Similar(doc.getObjectId("_id"));
 		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
 			Document d = service.updateD7Similar(t, lang, render);
@@ -87,7 +97,7 @@ public class GenericAction {
 		});
 	}
 
-	private void deleteSimilar(Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
+	private void deleteSimilar(Document doc) {
 		if (br.confirm("删除", "请确认删除选择的相似项。")) {
 			service.deleteD7Similar(doc.getObjectId("_id"));
 			List<?> input = (List<?>) viewer.getInput();
@@ -96,7 +106,7 @@ public class GenericAction {
 		}
 	}
 
-	protected void doCreate(Problem problem, BruiAssemblyContext context) {
+	protected void doCreate(Problem problem) {
 		String editorName = getEditorName();
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, new Document(), true).setTitle(getItemTypeName()).ok((r, t) -> {
@@ -105,9 +115,9 @@ public class GenericAction {
 		});
 	}
 
-	protected void doEdit(Document element, BruiAssemblyContext context, GridTreeViewer viewer) {
+	protected void doEdit(Document element) {
 		if (isFinished(element)) {// 已经完成
-			doRead(context, element);
+			doRead(element);
 		} else {
 			ObjectId _id = element.getObjectId("_id");
 			Document input = service.getAction(_id);
@@ -120,7 +130,7 @@ public class GenericAction {
 		}
 	}
 
-	protected void doRead(BruiAssemblyContext context, Document element) {
+	protected void doRead(Document element) {
 		ObjectId _id = element.getObjectId("_id");
 		Document input = service.getAction(_id);
 		String editorName = getEditorNameForRead();
@@ -128,7 +138,7 @@ public class GenericAction {
 		Editor.create(editorName, context, input, true).setTitle(title).setEditable(false).open();
 	}
 
-	protected void doDelete(Document element, BruiAssemblyContext context) {
+	protected void doDelete(Document element) {
 		if (br.confirm("删除", "请确认删除选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
 			service.deleteAction(_id);
@@ -136,7 +146,7 @@ public class GenericAction {
 		}
 	}
 
-	protected void doVerify(Document element, BruiAssemblyContext context, GridTreeViewer viewer) {
+	protected void doVerify(Document element) {
 		ObjectId _id = element.getObjectId("_id");
 		Document document = service.getAction(_id);
 		Document input = Optional.ofNullable((Document) document.get("verification")).orElse(new Document());
@@ -151,7 +161,7 @@ public class GenericAction {
 		});
 	}
 
-	protected void doFinish(Document element, GridTreeViewer viewer) {
+	protected void doFinish(Document element) {
 		if (br.confirm("完成", "请确认完成选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
 			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render);

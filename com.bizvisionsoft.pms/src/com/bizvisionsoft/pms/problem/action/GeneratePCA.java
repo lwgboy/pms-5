@@ -85,7 +85,7 @@ public class GeneratePCA {
 		grid.doRefresh();
 	}
 	
-	@Behavior({"启动紧急反应行动","中止紧急反应行动"})
+	@Behavior({"generate"})
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
 		if(!"解决中".equals(problem.getStatus()))

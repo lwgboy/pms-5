@@ -151,7 +151,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
 		pipeline.addAll(new JQ("追加-问题查询权限").set("userId", userid).array());
-		return c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true)).into(new ArrayList<>());
+		ArrayList<Document> result = c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true))
+				.into(new ArrayList<>());
+		if ("已创建".equals(status) && result.isEmpty()) {
+			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+		}
+		return result;
 	}
 
 	@Override
