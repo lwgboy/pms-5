@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.message;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -45,8 +46,7 @@ public class MsgCardACT {
 
 		// 头像
 		sb.append("<div style='display:block;'>");
-		String sender = msg.getSenderInfo();
-		String senderName = sender;// .substring(0, sender.indexOf("[")).trim();
+		String senderName = Optional.ofNullable(msg.getSenderInfo()).orElse("系统");// .substring(0, sender.indexOf("[")).trim();
 
 		// 内容区
 		sb.append("<div> ");
@@ -54,7 +54,7 @@ public class MsgCardACT {
 		String subject = msg.getSubject();
 		sb.append("<div>发送者：" + senderName + "</div>");
 		Date sendDate = msg.getSendDate();
-		sb.append("<div>日期：" + Formatter.getString(sendDate, "yyyy-MM-dd HH:mm:ss", RWT.getLocale()) + "</div>");
+		sb.append("<div>发送日期：" + Formatter.getString(sendDate, "yyyy-MM-dd HH:mm:ss", RWT.getLocale()) + "</div>");
 		sb.append("</div>");
 
 		sb.append("<hr>");

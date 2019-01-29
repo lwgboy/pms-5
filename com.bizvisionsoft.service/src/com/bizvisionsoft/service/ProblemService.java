@@ -69,6 +69,14 @@ public interface ProblemService {
 	public static final String ACTION_PROBLEM_CLOSE = "closeProblem";
 
 	public static final String ACTION_PROBLEM_CANCEL = "cancelProblem";
+	
+	public static final String[] actionType = new String[] { "era", "ica", "pca", "spa", "lra" };
+
+	public static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
+
+	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量", "顾客代表", "ERA", "ICA", "PCA", "SPA", "LRA" };
+
+	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
 	@GET
 	@Path("/_id/{_id}")
@@ -106,6 +114,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题清单（已创建）/update", "问题清单（解决中）/update" })
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+	
+	@PUT
+	@Path("/item/{msgCode}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateProblemsLifecycle(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu, @PathParam("msgCode") String msgCode);
 
 	@POST
 	@Path("/item/")
@@ -773,11 +787,11 @@ public interface ProblemService {
 			@MethodParam("render") @PathParam("render") String render);
 
 	@PUT
-	@Path("/action/{render}/{lang}")
+	@Path("/action/{msgType}/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateAction(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@PathParam("render") String render);
+			@PathParam("render") String render,@PathParam("msgType") String msgType);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 行动预案
@@ -1000,5 +1014,6 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action, @PathParam("userId") String userId);
+
 
 }

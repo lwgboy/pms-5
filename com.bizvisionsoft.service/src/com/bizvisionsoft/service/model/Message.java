@@ -202,4 +202,8 @@ public class Message {
 	public ObjectId get_id() {
 		return _id;
 	}
+	
+	public String getSender() {
+		return sender;
+	}
 }

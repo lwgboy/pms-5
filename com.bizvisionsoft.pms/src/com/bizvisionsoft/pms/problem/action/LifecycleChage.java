@@ -76,7 +76,7 @@ public class LifecycleChage {
 				if (br.confirm("确认临时控制行动有效", msg)) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("临时控制行动的有效性已确认");
 				} else {
 					Layer.message("临时控制行动的有效性确认已取消");
@@ -99,7 +99,7 @@ public class LifecycleChage {
 				if (br.confirm("批准永久纠正措施", "请确认：批准实施永久纠正措施？")) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施已批准");
 				} else {
 					Layer.message("永久纠正措施批准已取消");
@@ -121,7 +121,7 @@ public class LifecycleChage {
 				if (br.confirm("验证永久纠正措施实施效果", "请确认：永久纠正措施的实施效果已通过验证")) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施的实施效果已通过验证");
 				} else {
 					Layer.message("永久纠正措施的实施效果验证已取消");
@@ -157,7 +157,7 @@ public class LifecycleChage {
 				if (br.confirm("确认永久纠正措施有效", msg)) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施的有效性已确认");
 				} else {
 					Layer.message("永久纠正措施的有效性确认已取消");

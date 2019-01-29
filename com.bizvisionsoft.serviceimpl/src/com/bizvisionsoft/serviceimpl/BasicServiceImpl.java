@@ -65,6 +65,13 @@ public class BasicServiceImpl {
 	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME, CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
+	
+	protected Document findAndUpdate(BasicDBObject fu, String col) {
+		BasicDBObject filter = (BasicDBObject) fu.get("filter");
+		BasicDBObject update = (BasicDBObject) fu.get("update");
+		update.remove("_id");
+		return c(col).findOneAndUpdate(filter, update);
+	}
 
 	protected <T> long update(BasicDBObject fu, Class<T> clazz) {
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
@@ -148,8 +155,12 @@ public class BasicServiceImpl {
 		return c(cname).deleteMany(filter).getDeletedCount();
 	}
 
-	protected <T> long deleteOne(ObjectId _id, String cname) {
+	protected long deleteOne(ObjectId _id, String cname) {
 		return c(cname).deleteOne(new Document("_id", _id)).getDeletedCount();
+	}
+	
+	protected Document findAndDeleteOne(ObjectId _id, String cname) {
+		return c(cname).findOneAndDelete(new Document("_id", _id));
 	}
 
 	protected <T> long count(BasicDBObject filter, Class<T> clazz) {

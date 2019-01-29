@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.problem.action;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Event;
 
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
@@ -30,13 +31,13 @@ public class EditProblem {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event e) {
 		if ("create".equals(actionType)) {
 			create(context);
-		} else if ("edit".equals(actionType)) {
+		} else if ("edit".equals(actionType) || "edit".equals(e.text)) {
 			Problem problem = (Problem) context.getRootInput();
 			edit(context, problem, true);
-		} else {
+		} else if ("read".equals(actionType) || "read".equals(e.text)) {
 			Problem problem = (Problem) context.getRootInput();
 			edit(context, problem, false);
 		}

@@ -11,7 +11,6 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
@@ -71,14 +70,14 @@ public class RenderTools {
 	}
 
 	public static void appendHeader(StringBuffer sb, CardTheme theme, String text, int height) {
-		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
-				+ theme.headFgColor + ";padding:8px;'>" + text//
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='height:" + height + "px;background:#" + theme.headBgColor
+				+ ";color:#" + theme.headFgColor + ";padding:8px;'>" + text//
 				+ "</div>");//
 	}
-	
+
 	public static void appendSingleLineHeader(StringBuffer sb, CardTheme theme, String text, int height) {
-		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='display:block;height:" + height + "px;background:#" + theme.headBgColor + ";color:#"
-				+ theme.headFgColor + ";padding:8px;'>" + text//
+		sb.append("<div class='label_subhead brui_card_head brui_text_line' style='display:block;height:" + height + "px;background:#"
+				+ theme.headBgColor + ";color:#" + theme.headFgColor + ";padding:8px;'>" + text//
 				+ "</div>");//
 	}
 
@@ -97,20 +96,14 @@ public class RenderTools {
 
 	public static void appendUserAndText(StringBuffer sb, Document user, String text) {
 		String name = user.getString("name");
-		String url = Optional.ofNullable(RenderTools.getFirstFileURL(user, "headPics")).orElse("resource/image/people.svg");
+		String url = RenderTools.getFirstFileURL(user, "headPics");
 		appendUserAndText(sb, url, name, text);
 	}
 
 	public static void appendUserAndText(StringBuffer sb, String url, String name, String text) {
-		String img;
-		if (url != null) {
-			img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
-		} else {
-			String alpha = Formatter.getAlphaString(name);
-			url = RenderTools.getNameImageURL(name);
-			img = "<img src=" + url + " style='margin-top:4px;margin-left:4px;background-color:" + ColorTheme.getHTMLDarkColor(alpha)
-					+ ";border-radius:17px;width:28px;height:28px;'/>";
-		}
+		url = Optional.ofNullable(url).orElse("resource/image/people.svg");
+		String img = "<img src=" + url + " style='border-radius:17px;width:28px;height:28px;'/>";
+		name = name == null ? "" : name;
 		text = text == null ? "" : ("&nbsp;&nbsp;" + text);
 		sb.append("<div style='padding:8px 8px 0px 8px;display:flex;align-items:center;'>" + img
 				+ "<span class='label_caption' style='margin-left:4px;'>" + name + text + "</span>" //

@@ -52,10 +52,6 @@ public class GenericAction {
 
 	private GridTreeViewer viewer;
 
-	private static final String[] actionType = new String[] { "era", "ica", "pca", "spa", "lra" };
-
-	private static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
-
 	public GenericAction() {
 	}
 	
@@ -124,7 +120,7 @@ public class GenericAction {
 			String editorName = getEditorName();
 			String title = getItemTypeName();
 			Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-				Document d = service.updateAction(t, lang, render);
+				Document d = service.updateAction(t, lang, render,"updated");
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		}
@@ -153,9 +149,9 @@ public class GenericAction {
 		String title = "验证" + getItemTypeName();
 		String editorName = getVerfiyEditorName();
 		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render);
+			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render,"verified");
 			if ("已验证".equals(t.get("title")) && br.confirm("验证", "验证通过，是否立即完成本项行动？")) {
-				d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render);
+				d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render,"finished");
 			}
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		});
@@ -164,7 +160,7 @@ public class GenericAction {
 	protected void doFinish(Document element) {
 		if (br.confirm("完成", "请确认完成选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
-			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render);
+			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render,"finished");
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		}
 	}
@@ -182,7 +178,7 @@ public class GenericAction {
 	}
 
 	private String getItemTypeName() {
-		return actionName[Arrays.asList(actionType).indexOf(stage)];
+		return ProblemService.actionName[Arrays.asList(ProblemService.actionType).indexOf(stage)];
 	}
 
 	@Behavior(ProblemService.ACTION_EDIT)

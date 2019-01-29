@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -15,10 +16,6 @@ import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCardRenderer extends BasicServiceImpl {
-
-	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
-
-	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量", "顾客代表" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
 
@@ -178,7 +175,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			// TODO 查看问题定义？
 		}
 	}
-	
+
 	private void appendProblemEditButtons(Document doc, StringBuffer sb) {
 		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
@@ -238,7 +235,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		// 头像
 		String name = doc.getString("name");
-		String role = cftRoleText[Integer.parseInt(doc.getString("role"))];
+		String role = ProblemService.cftRoleText[Integer.parseInt(doc.getString("role"))];
 		String mobile = Optional.ofNullable(doc.getString("mobile")).map(e -> "<a href='tel:" + e + "'>" + e + "</a>").orElse("");
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
@@ -491,7 +488,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 	public Document renderD7Similar(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		String label = similarDegreeText[Integer.parseInt(t.getString("degree"))];
+		String label = ProblemService.similarDegreeText[Integer.parseInt(t.getString("degree"))];
 
 		String type = t.getString("similar");
 

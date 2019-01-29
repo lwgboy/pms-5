@@ -41,7 +41,7 @@ public class ProblemLifecycle {
 		if (br.confirm("取消问题", "请确认取消问题解决。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "已取消").append("cancelInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"canceled") > 0) {
 				Layer.message("问题已取消");
 				refreshContentPart(context);
 			}
@@ -56,7 +56,7 @@ public class ProblemLifecycle {
 		if (br.confirm("关闭问题", "请确认关闭问题。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "已关闭").append("closeInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"closed") > 0) {
 				Layer.message("问题已关闭");
 				refreshContentPart(context);
 			}
@@ -67,7 +67,7 @@ public class ProblemLifecycle {
 		if (br.confirm("启动问题解决", "请确认启动问题解决程序。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "解决中").append("initInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"started") > 0) {
 				Layer.message("问题解决程序已启动");
 				refreshContentPart(context);
 			}
