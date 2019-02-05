@@ -1342,12 +1342,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document defaultProblemAnlysisOption(ObjectId problem_id) {
-		return new Document("keyword", getString("problem", "name", problem_id));
+		return new Document("keyword", getString("problem", "name", problem_id)).append("problem_id", problem_id);
 	}
 
 	@Override
 	public Document createProblemAnlysisChart(Document condition) {
-		return new Document();
+		return ProblemChartRender.renderAnlysisChart(condition);
 	}
 
 }

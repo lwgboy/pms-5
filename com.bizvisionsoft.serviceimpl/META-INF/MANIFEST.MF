@@ -14,7 +14,8 @@ Require-Bundle: com.bizvisionsoft.mongocodex,
  com.bizvisionsoft.math,
  com.google.gson,
  slf4j.api,
- org.eclipse.osgi
+ org.eclipse.osgi,
+ com.hankcs.hanlp
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
 Export-Package: com.bizvisionsoft.serviceimpl

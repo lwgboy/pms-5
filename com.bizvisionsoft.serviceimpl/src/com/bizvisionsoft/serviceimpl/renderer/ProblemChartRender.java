@@ -21,6 +21,9 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.suggest.Suggester;
+import com.mongodb.client.model.Aggregates;
 
 public class ProblemChartRender extends BasicServiceImpl {
 
@@ -70,6 +73,10 @@ public class ProblemChartRender extends BasicServiceImpl {
 		return new ProblemChartRender(condition).renderClassifyDept();
 	}
 
+	public static Document renderAnlysisChart(Document condition) {
+		return new ProblemChartRender()._renderAnlysisChart(condition);
+	}
+
 	public static Document renderCostClassifyByProblemChart() {
 		return new ProblemChartRender()._renderCostClassifyByProblemChart();
 	}
@@ -90,6 +97,30 @@ public class ProblemChartRender extends BasicServiceImpl {
 		return new ProblemChartRender()._renderCauseProblemChart();
 	}
 
+	@SuppressWarnings("unchecked")
+	private Document _renderAnlysisChart(Document condition) {
+		Document option = (Document) condition.get("option");
+		List<ObjectId> catalog_ids = ((List<Document>) condition.get("input")).stream().map(d -> d.getObjectId("_id"))
+				.collect(Collectors.toList());
+		ObjectId problem_id = option.getObjectId("problem_id");
+		// 限定问题的类别
+		c("problem").aggregate(Arrays.asList(//
+				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", problem_id))//
+				));
+		List<String> keywordList = HanLP.extractPhrase(option.getString("keyword"), 5);
+		
+		// 0. 分解关键词
+
+		// 1. 查找相似的问题
+
+		// 2. 根据相似的问题查找原因
+
+		// 3. 根据关键词 查找经验库
+
+		// 4. 根据相似的问题查找ERA,ICA,PCA
+		return new Document();
+	}
+
 	private Document _renderCauseProblemChart() {
 		List<Document> categories = new ArrayList<>();
 		List<Document> nodes = c("problem").aggregate(new JQ("查询-问题权重").array()).map((Document d) -> {
@@ -103,7 +134,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("category", cata)//
 					.append("symbolSize", 100 * value)//
 					.append("symbol", "circle")//
-					.append("itemStyle", new Document("opacity",0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10))//
+					.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10))//
 					.append("value", 100 * value);
 		}).into(new ArrayList<>());
 
@@ -121,8 +152,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		}).into(nodes);
 
 		List<Document> links = c("problem").aggregate(new JQ("查询-问题因果关系").array())
-				.map((Document d) -> 
-				new Document("source", d.getObjectId("_id").toHexString())
+				.map((Document d) -> new Document("source", d.getObjectId("_id").toHexString())
 						.append("target", d.getObjectId("pid").toHexString())
 						.append("emphasis", new Document("label", new Document("show", false))))
 				.into(new ArrayList<>());
