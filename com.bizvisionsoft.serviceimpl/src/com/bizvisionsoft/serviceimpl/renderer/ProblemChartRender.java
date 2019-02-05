@@ -20,9 +20,9 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
+import com.bizvisionsoft.serviceimpl.ProblemServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.suggest.Suggester;
 import com.mongodb.client.model.Aggregates;
 
 public class ProblemChartRender extends BasicServiceImpl {
@@ -99,26 +99,158 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 	@SuppressWarnings("unchecked")
 	private Document _renderAnlysisChart(Document condition) {
+		List<Document> categories = new ArrayList<>();
+		List<Document> nodes = new ArrayList<>();
+		List<Document> links = new ArrayList<>();
+
 		Document option = (Document) condition.get("option");
+		String rootId = option.getObjectId("problem_id").toHexString();
+		String rootTitle = option.getString("keyword");
+
+		// 【1】加入根节点
+		String cata = rootTitle;
+		Document node = new Document("name", rootTitle)//
+				.append("id", rootId)//
+				.append("draggable", true)//
+				.append("category", cata)//
+				.append("symbolSize", 80)//
+				.append("symbol", "circle")//
+				.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10));//
+		categories.add(new Document("name", cata));
+		nodes.add(node);
+
+		// 0. 分解关键词
+		List<String> keyword = HanLP.extractKeyword(rootTitle, 15);
+
+		// 限定问题的类别
 		List<ObjectId> catalog_ids = ((List<Document>) condition.get("input")).stream().map(d -> d.getObjectId("_id"))
 				.collect(Collectors.toList());
-		ObjectId problem_id = option.getObjectId("problem_id");
-		// 限定问题的类别
+
+		// 1. 查找相似的问题; TODO 使用语义分析
+		List<ObjectId> similarProblems = new ArrayList<>();
 		c("problem").aggregate(Arrays.asList(//
-				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", problem_id))//
-				));
-		List<String> keywordList = HanLP.extractPhrase(option.getString("keyword"), 5);
+				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", new Document("$in", catalog_ids)))//
+		)).forEach((Document d) -> {
+			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)) {
+				// 【2】加入相似问题目录
+				String probCata = d.getString("name");
+				categories.add(new Document("name", probCata));
+
+				ObjectId parentId = d.getObjectId("_id");
+				String subid = parentId.toHexString();
+				Document subnode = new Document("name", probCata).append("id", subid)//
+						.append("draggable", true).append("category", probCata).append("symbolSize", 50);//
+				nodes.add(subnode);
+
+				Document sublink = new Document("source", subid).append("target", rootId)//
+						.append("label", new Document("show", true).append("formatter", "function(d){return '相似';}"))//
+						.append("emphasis", new Document("label", new Document("show", false)));
+				links.add(sublink);
+
+				// 2. 根据相似的问题查找原因
+				appendCauseNodesLinks(nodes, links, parentId, "产生", "因果分析-制造", probCata);
+				appendCauseNodesLinks(nodes, links, parentId, "流出", "因果分析-流出", probCata);
+
+				similarProblems.add(d.getObjectId("_id"));
+			}
+		});
+		// 【3】. 根据相似的问题查找ERA,ICA,PCA
+		String[] stage = {"era","ica","pca"};
+		String[] name = {"ERA","ICA","PCA"};
+		for (int i = 0; i < name.length; i++) {
+			ArrayList<Document> actions = c("problemAction").aggregate(Arrays.asList(
+					Aggregates.match(new Document("stage",stage[i]).append("problem_id", new Document("$in",similarProblems))),
+					Aggregates.sort(new Document("problem_id",1).append("index", 1))
+					)).into(new ArrayList<>());
+			if(!actions.isEmpty()) {
+				String actionCata = name[i];
+				categories.add(new Document("name", actionCata));
+				//【3.1】创建行动类别节点
+				String stageId = new ObjectId().toHexString();
+				Document subnode = new Document("name", name[i]).append("id", stageId)//
+						.append("label", new Document("position","inside")).append("draggable", true).append("category", actionCata).append("symbolSize", 36);//
+				nodes.add(subnode);
+
+				Document sublink = new Document("source", stageId).append("target", rootId)//
+						.append("emphasis", new Document("label", new Document("show", false)));
+				links.add(sublink);
+				//【3.2】创建行动节点的下级节点
+				actions.forEach(d->{
+					String actionId = d.getObjectId("_id").toHexString();
+					Document action = new Document("name", d.getString("action")).append("id", actionId)//
+							.append("draggable", true).append("category", actionCata).append("symbolSize", 10);//
+					nodes.add(action);
+
+					Document actionLink = new Document("source", actionId).append("target", stageId)//
+							.append("emphasis", new Document("label", new Document("show", false)));
+					links.add(actionLink);
+				});
+			}
+		}
 		
-		// 0. 分解关键词
+		
+		
+		// 【4】. 根据关键词 查找经验库
+		categories.add(new Document("name", "经验"));
+		c("d8Exp").aggregate(Arrays.asList(// TODO 保存时写keyword
+				Aggregates.match(new Document("keyword", new Document("$in", keyword))))).forEach((Document exp) -> {
+					String id = exp.getObjectId("_id").toHexString();
+					Document subnode = new Document("name", exp.getString("name")).append("id", id)//
+							.append("symbol", "path://M165,30c-2.762,0-5,2.239-5,5v150c0,2.762-2.238,5-5,5H45c-8.27,0-15-6.73-15-15s6.73-15,15-15h90\r\n" + 
+									"		c8.27,0,15-6.73,15-15V25c0-8.27-6.73-15-15-15H35c-8.27,0-15,6.73-15,15v150c0,13.779,11.22,25,25,25h110c8.27,0,15-6.73,15-15V35\r\n" + 
+									"		C170,32.239,167.762,30,165,30z")
+							.append("draggable", true).append("category", "经验").append("symbolSize", 16);//
+					nodes.add(subnode);
 
-		// 1. 查找相似的问题
+					Document sublink = new Document("source", id).append("target", rootId)//
+							.append("label", new Document("show", true).append("formatter", "function(d){return '经验';}"))//
+							.append("emphasis", new Document("label", new Document("show", false)));
+					links.add(sublink);
 
-		// 2. 根据相似的问题查找原因
+				});
+		
+		if(nodes.size()==1) {
+			return blankChart();
+		}
+		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
+				.doc();
+		debugDocument(chart);
+		return chart;
+	}
 
-		// 3. 根据关键词 查找经验库
+	private void appendCauseNodesLinks(List<Document> nodes, List<Document> links, ObjectId sProb_id, String name, String type,
+			String cata) {
+		String makeId = new ObjectId().toHexString();
+		Document node = new Document("name", "?").append("id", makeId)//
+				.append("label", new Document("position","inside"))
+				.append("draggable", true).append("category", cata).append("symbolSize", 36);//
+		nodes.add(node);
+		Document link = new Document("source", makeId).append("target", sProb_id.toHexString())//
+				.append("label", new Document("show", true).append("formatter", "function(d){return '"+name+"';}"))//
+				.append("emphasis", new Document("label", new Document("show", false)));
+		links.add(link);
 
-		// 4. 根据相似的问题查找ERA,ICA,PCA
-		return new Document();
+		c("causeRelation").find(new Document("problem_id", sProb_id).append("type", type)).forEach((Document doc) -> {
+			String id = doc.getObjectId("_id").toHexString();
+			Document item = new Document("id", id)//
+					.append("name", doc.get("name"))//
+					.append("draggable", true)//
+					.append("category", cata)//
+					.append("symbolSize", 5 * doc.getInteger("weight", 1))//
+					.append("value", 100 * doc.getDouble("probability"));
+			nodes.add(item);
+
+			ObjectId parentId = doc.getObjectId("parent_id");
+			if (parentId == null) {
+				links.add(new Document("source", id).append("target", makeId)//
+						.append("label",
+								new Document("show", true).append("formatter", "function(d){return '" + doc.getString("subject") + "';}"))//
+						.append("emphasis", new Document("label", new Document("show", false))));
+			} else {
+				links.add(new Document("source", id).append("target", parentId.toHexString()).append("emphasis",
+						new Document("label", new Document("show", false))));
+			}
+		});
 	}
 
 	private Document _renderCauseProblemChart() {
