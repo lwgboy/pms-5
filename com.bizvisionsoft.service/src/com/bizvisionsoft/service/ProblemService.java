@@ -63,13 +63,13 @@ public interface ProblemService {
 	public static final String ACTION_PCA_VALIDATE = "pcaValidated";
 
 	public static final String ACTION_PCA_CONFIRM = "pcaConfirmed";
-	
+
 	public static final String ACTION_PROBLEM_START = "startProblem";
 
 	public static final String ACTION_PROBLEM_CLOSE = "closeProblem";
 
 	public static final String ACTION_PROBLEM_CANCEL = "cancelProblem";
-	
+
 	public static final String[] actionType = new String[] { "era", "ica", "pca", "spa", "lra" };
 
 	public static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
@@ -114,7 +114,7 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题清单（已创建）/update", "问题清单（解决中）/update" })
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
-	
+
 	@PUT
 	@Path("/item/{msgCode}/")
 	@Consumes("application/json; charset=UTF-8")
@@ -791,7 +791,7 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document updateAction(Document d, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@PathParam("render") String render,@PathParam("msgType") String msgType);
+			@PathParam("render") String render, @PathParam("msgType") String msgType);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 行动预案
@@ -873,14 +873,14 @@ public interface ProblemService {
 	@Path("/cost/selector/classifyproblem/structure/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题成本按问题分类钻取/slist" })
+	@DataSet({ "问题成本按问题分类钻取/slist", "问题智能分析/slist" })
 	public List<Catalog> listClassifyProblemStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
 	@Path("/cost/selector/classifyproblem/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题成本按问题分类钻取/scount" })
+	@DataSet({ "问题成本按问题分类钻取/scount", "问题智能分析/scount" })
 	public long countClassifyProblemStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -946,6 +946,31 @@ public interface ProblemService {
 	public Document createClassifyCauseChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 问题的智能分析
+	@POST
+	@Path("/_id/{_id}/anlysis/root/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题智能分析/list" })
+	public List<Catalog> listProblemAnlysisRoot(
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId problem_id);
+
+	@POST
+	@Path("/_id/{_id}/anlysis/default")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题智能分析/default" })
+	public Document defaultProblemAnlysisOption(
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId problem_id);
+
+	@POST
+	@Path("/anlysis/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题智能分析/chart" })
+	public Document createProblemAnlysisChart(@MethodParam(MethodParam.CONDITION) Document condition);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 问题综合分析
 	@POST
 	@Path("/cost/classifyproblem/bar")
@@ -1009,11 +1034,21 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public List<ProblemActionLinkInfo> listGanttActionLinks(@PathParam("_id") ObjectId _id);
 
+	/**
+	 * 权限
+	 * 
+	 * @param _id
+	 *            问题_id
+	 * @param action
+	 *            操作代码
+	 * @param userId
+	 *            用户名
+	 * @return 是否有权限
+	 */
 	@GET
 	@Path("/_id/{_id}/action/{action}/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action, @PathParam("userId") String userId);
-
 
 }

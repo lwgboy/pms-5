@@ -1150,8 +1150,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listClassifyProblemStructure(Catalog parent) {
-		return c("classifyProblem").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
-				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+		return c("classifyProblem").find(new Document("parent_id", Optional.ofNullable(parent).map(p -> p._id).orElse(null)))
+				.sort(new Document("index", 1)).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
 
 	@Override
@@ -1333,6 +1333,21 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public boolean hasPrivate(ObjectId problem_id, String action, String userId) {
 		return new ProblemActionControl().hasPrivate(problem_id, action, userId);
+	}
+
+	@Override
+	public List<Catalog> listProblemAnlysisRoot(ObjectId problem_id) {
+		return c("problem").aggregate(new JQ("查询-问题-根分类").set("problem_id", problem_id).array()).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+	}
+
+	@Override
+	public Document defaultProblemAnlysisOption(ObjectId problem_id) {
+		return new Document("keyword", getString("problem", "name", problem_id));
+	}
+
+	@Override
+	public Document createProblemAnlysisChart(Document condition) {
+		return new Document();
 	}
 
 }
