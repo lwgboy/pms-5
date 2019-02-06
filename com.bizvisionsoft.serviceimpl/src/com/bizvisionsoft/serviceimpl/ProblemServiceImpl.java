@@ -742,8 +742,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	// D8 关闭
 	//
 	@Override
-	public Document updateD8Exp(Document d, String lang, String render) {
-		return updateThen(d, lang, "d8Exp", "card".equals(render) ? new ProblemCardRenderer()::renderD8Exp : null);
+	public Document updateD8Exp(Document t, String lang, String render) {
+		List<String> result = extractKeywords(t, 10, "name");// 确保
+		result.addAll(extractKeywords(t, 20, "advantage", "weakness"));// 优先
+		result.addAll(extractKeywords(t, 100, "method", "advantage", "weakness"));
+		if (!result.isEmpty()) {
+			t.append("keyword", result);
+		}
+		return updateThen(t, lang, "d8Exp", "card".equals(render) ? new ProblemCardRenderer()::renderD8Exp : null);
 	}
 
 	@Override
@@ -769,6 +775,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD8Experience(Document t, String lang, String render) {
 		t.append("_id", new ObjectId());
+		List<String> result = extractKeywords(t, 10, "name");// 确保
+		result.addAll(extractKeywords(t, 20, "advantage", "weakness"));// 优先
+		result.addAll(extractKeywords(t, 100, "method", "advantage", "weakness"));
+		if (!result.isEmpty()) {
+			t.append("keyword", result);
+		}
 		c("d8Exp").insertOne(t);
 		if ("card".equals(render))
 			return new ProblemCardRenderer().renderD8Exp(t, lang);
@@ -1337,7 +1349,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listProblemAnlysisRoot(ObjectId problem_id) {
-		return c("problem").aggregate(new JQ("查询-问题-根分类").set("problem_id", problem_id).array()).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+		return c("problem").aggregate(new JQ("查询-问题-根分类").set("problem_id", problem_id).array()).map(CatalogMapper::classifyProblem)
+				.into(new ArrayList<>());
 	}
 
 	@Override

@@ -40,6 +40,7 @@ import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.hankcs.hanlp.RestrictTextRankKeyword;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
@@ -65,7 +66,7 @@ public class BasicServiceImpl {
 	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME, CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	protected Document findAndUpdate(BasicDBObject fu, String col) {
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
 		BasicDBObject update = (BasicDBObject) fu.get("update");
@@ -158,7 +159,7 @@ public class BasicServiceImpl {
 	protected long deleteOne(ObjectId _id, String cname) {
 		return c(cname).deleteOne(new Document("_id", _id)).getDeletedCount();
 	}
-	
+
 	protected Document findAndDeleteOne(ObjectId _id, String cname) {
 		return c(cname).findOneAndDelete(new Document("_id", _id));
 	}
@@ -215,7 +216,7 @@ public class BasicServiceImpl {
 	}
 
 	final protected long count(String col, BasicDBObject filter, List<Bson> prefixPipelines) {
-		ArrayList<Bson> pipeline = combinateCountPipeline(prefixPipelines,filter);
+		ArrayList<Bson> pipeline = combinateCountPipeline(prefixPipelines, filter);
 		return Optional.ofNullable(c(col).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue()).orElse(0l);
 	}
 
@@ -226,17 +227,17 @@ public class BasicServiceImpl {
 		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
 		return pipeline;
 	}
-	
+
 	protected ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		appendConditionToPipeline(pipeline,condition);
+		appendConditionToPipeline(pipeline, condition);
 		if (appendPipelines != null) {
 			pipeline.addAll(appendPipelines);
 		}
 		return pipeline;
 	}
 
-	protected ArrayList<Bson> combinateCountPipeline(List<Bson> prefixPipeline,BasicDBObject filter) {
+	protected ArrayList<Bson> combinateCountPipeline(List<Bson> prefixPipeline, BasicDBObject filter) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 		if (prefixPipeline != null)
 			pipeline.addAll(prefixPipeline);
@@ -1083,5 +1084,27 @@ public class BasicServiceImpl {
 
 	public Document blankChart() {
 		return new JQ("图表-无数据").doc();
+	}
+
+	/**
+	 * 提取文本关键字，写入到关键字字段
+	 * 
+	 * @param t,
+	 *            待处理的对象
+	 * @param keywordField,
+	 *            保存关键字的字段名
+	 * @param fields，提取文本的字段名
+	 */
+	protected  List<String> extractKeywords(Document t, int size, String... fields) {
+		StringBuffer text = new StringBuffer();
+		for (String f : fields) {
+			Optional.ofNullable(t.get(f)).ifPresent(text::append);
+		}
+		String document = text.toString();
+		document = Formatter.removeHtmlTag(document);
+		if (document.length() == 0)
+			return new ArrayList<>();
+		RestrictTextRankKeyword trk = new RestrictTextRankKeyword();
+		return trk.getKeywords(document, size);
 	}
 }
