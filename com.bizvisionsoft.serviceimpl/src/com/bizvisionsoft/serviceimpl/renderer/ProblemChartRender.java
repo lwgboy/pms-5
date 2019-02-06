@@ -114,8 +114,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 				.append("category", cata)//
 				.append("symbolSize", 80)//
 				.append("symbol", "circle")//
-				.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10));//
+				.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 20));//
 		categories.add(new Document("name", cata));
+
 		nodes.add(node);
 
 		// 0. 分解关键词
@@ -154,27 +155,27 @@ public class ProblemChartRender extends BasicServiceImpl {
 			}
 		});
 		// 【3】. 根据相似的问题查找ERA,ICA,PCA
-		String[] stage = {"era","ica","pca"};
-		String[] name = {"ERA","ICA","PCA"};
+		String[] stage = { "era", "ica", "pca" };
+		String[] name = { "ERA", "ICA", "PCA" };
 		for (int i = 0; i < name.length; i++) {
 			ArrayList<Document> actions = c("problemAction").aggregate(Arrays.asList(
-					Aggregates.match(new Document("stage",stage[i]).append("problem_id", new Document("$in",similarProblems))),
-					Aggregates.sort(new Document("problem_id",1).append("index", 1))
-					)).into(new ArrayList<>());
-			if(!actions.isEmpty()) {
+					Aggregates.match(new Document("stage", stage[i]).append("problem_id", new Document("$in", similarProblems))),
+					Aggregates.sort(new Document("problem_id", 1).append("index", 1)))).into(new ArrayList<>());
+			if (!actions.isEmpty()) {
 				String actionCata = name[i];
 				categories.add(new Document("name", actionCata));
-				//【3.1】创建行动类别节点
+				// 【3.1】创建行动类别节点
 				String stageId = new ObjectId().toHexString();
 				Document subnode = new Document("name", name[i]).append("id", stageId)//
-						.append("label", new Document("position","inside")).append("draggable", true).append("category", actionCata).append("symbolSize", 36);//
+						.append("label", new Document("position", "inside")).append("draggable", true).append("category", actionCata)
+						.append("symbolSize", 36);//
 				nodes.add(subnode);
 
 				Document sublink = new Document("source", stageId).append("target", rootId)//
 						.append("emphasis", new Document("label", new Document("show", false)));
 				links.add(sublink);
-				//【3.2】创建行动节点的下级节点
-				actions.forEach(d->{
+				// 【3.2】创建行动节点的下级节点
+				actions.forEach(d -> {
 					String actionId = d.getObjectId("_id").toHexString();
 					Document action = new Document("name", d.getString("action")).append("id", actionId)//
 							.append("draggable", true).append("category", actionCata).append("symbolSize", 10);//
@@ -186,19 +187,18 @@ public class ProblemChartRender extends BasicServiceImpl {
 				});
 			}
 		}
-		
-		
-		
+
 		// 【4】. 根据关键词 查找经验库
 		categories.add(new Document("name", "经验"));
 		c("d8Exp").aggregate(Arrays.asList(// TODO 保存时写keyword
 				Aggregates.match(new Document("keyword", new Document("$in", keyword))))).forEach((Document exp) -> {
 					String id = exp.getObjectId("_id").toHexString();
 					Document subnode = new Document("name", exp.getString("name")).append("id", id)//
-							.append("symbol", "path://M165,30c-2.762,0-5,2.239-5,5v150c0,2.762-2.238,5-5,5H45c-8.27,0-15-6.73-15-15s6.73-15,15-15h90\r\n" + 
-									"		c8.27,0,15-6.73,15-15V25c0-8.27-6.73-15-15-15H35c-8.27,0-15,6.73-15,15v150c0,13.779,11.22,25,25,25h110c8.27,0,15-6.73,15-15V35\r\n" + 
-									"		C170,32.239,167.762,30,165,30z")
-							.append("draggable", true).append("category", "经验").append("symbolSize", 16);//
+							.append("symbol",
+									"path://M165,30c-2.762,0-5,2.239-5,5v150c0,2.762-2.238,5-5,5H45c-8.27,0-15-6.73-15-15s6.73-15,15-15h90\r\n"
+											+ "c8.27,0,15-6.73,15-15V25c0-8.27-6.73-15-15-15H35c-8.27,0-15,6.73-15,15v150c0,13.779,11.22,25,25,25h110c8.27,0,15-6.73,15-15V35\r\n"
+											+ "C170,32.239,167.762,30,165,30z")
+							.append("draggable", true).append("category", "经验").append("symbolSize",  Arrays.asList(20,23));//
 					nodes.add(subnode);
 
 					Document sublink = new Document("source", id).append("target", rootId)//
@@ -207,8 +207,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 					links.add(sublink);
 
 				});
-		
-		if(nodes.size()==1) {
+
+		if (nodes.size() == 1) {
 			return blankChart();
 		}
 		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
@@ -220,12 +220,14 @@ public class ProblemChartRender extends BasicServiceImpl {
 	private void appendCauseNodesLinks(List<Document> nodes, List<Document> links, ObjectId sProb_id, String name, String type,
 			String cata) {
 		String makeId = new ObjectId().toHexString();
-		Document node = new Document("name", "?").append("id", makeId)//
-				.append("label", new Document("position","inside"))
-				.append("draggable", true).append("category", cata).append("symbolSize", 36);//
+		Document node = new Document("name", "").append("id", makeId)//
+				.append("symbol",
+						"path://M100.097,199.785l-86.416-49.893V50.108l86.416-49.893l86.417,49.893v99.785L100.097,199.785z")
+				.append("label", new Document("position", "inside")).append("draggable", true).append("category", cata)
+				.append("symbolSize", Arrays.asList(20,23));//
 		nodes.add(node);
 		Document link = new Document("source", makeId).append("target", sProb_id.toHexString())//
-				.append("label", new Document("show", true).append("formatter", "function(d){return '"+name+"';}"))//
+				.append("label", new Document("show", true).append("formatter", "function(d){return '" + name + "';}"))//
 				.append("emphasis", new Document("label", new Document("show", false)));
 		links.add(link);
 
