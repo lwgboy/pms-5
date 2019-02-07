@@ -110,7 +110,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		String cata = rootTitle;
 		Document node = new Document("name", rootTitle)//
 				.append("id", rootId)//
-				.append("mType", "problem")//
+				.append("mType", "root")//
 				.append("draggable", true)//
 				.append("category", cata)//
 				.append("symbolSize", 80)//
@@ -198,7 +198,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					String id = exp.getObjectId("_id").toHexString();
 					Document subnode = new Document("name", exp.getString("name"))//
 							.append("id", id)//
-							.append("mType", "d8Exp")//
+							.append("mType", "d8EXP")//
 							.append("symbol",
 									"path://M165,30c-2.762,0-5,2.239-5,5v150c0,2.762-2.238,5-5,5H45c-8.27,0-15-6.73-15-15s6.73-15,15-15h90\r\nc8.27,0,15-6.73,15-15V25c0-8.27-6.73-15-15-15H35c-8.27,0-15,6.73-15,15v150c0,13.779,11.22,25,25,25h110c8.27,0,15-6.73,15-15V35\r\nC170,32.239,167.762,30,165,30z")
 							.append("draggable", true)//
