@@ -180,7 +180,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					String actionId = d.getObjectId("_id").toHexString();
 					Document action = new Document("name", d.getString("action"))//
 							.append("id", actionId)//
-							.append("mType", "action")//
+							.append("mType", "problemAction")//
 							.append("draggable", true)//
 							.append("category", actionCata)//
 							.append("symbolSize", 10);//
