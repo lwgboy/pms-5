@@ -384,9 +384,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		Project project = get(_id);
 		// 获取项目启动设置
-		Document systemSetting = Optional.ofNullable(getSystemSetting(START_SETTING_NAME)).orElse(new Document());
+		Document systemSetting = getScopeSetting(_id, START_SETTING_NAME);
 		// 从项目启动设置中获取项目预算配置
-		Object setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_BUDGET)).orElse(START_SETTING_VALUE_WARNING);
+		
+		Object setting;
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_BUDGET, START_SETTING_VALUE_WARNING);
 		// 设置为忽略时，不进行检查，
 		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 根据项目的cbs_id获取当前项目的所有CBS节点Id。
@@ -409,7 +411,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 获取项目团队设置
-		setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_OBS)).orElse(START_SETTING_VALUE_WARNING);
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_OBS, START_SETTING_VALUE_WARNING);
+
 		// 设置为忽略时，不进行检查，
 		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获取项目团队中非根节点，并且该节点没有担任者和成员的记录数，记录数为0时，则添加返回信息。
@@ -424,7 +427,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 获取项目风险设置
-		setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_RBS)).orElse(START_SETTING_VALUE_WARNING);
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_RBS, START_SETTING_VALUE_WARNING);
 		// 设置为忽略时，不进行检查，
 		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获取项目风险项中的记录数，记录数为0时，则添加返回信息。
@@ -437,7 +440,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					results.add(Result.error("项目尚未创建风险项。"));
 		}
 		// 获取项目资源设置
-		setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_RESOURCE)).orElse(START_SETTING_VALUE_WARNING);
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_RESOURCE, START_SETTING_VALUE_WARNING);
+
 		// 设置为忽略时，不进行检查，
 		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获得所有非里程碑的叶子节点的id
@@ -469,7 +473,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		}
 		// 获取项目计划设置
-		setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_PLAN)).orElse(START_SETTING_VALUE_WARNING);
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_PLAN, START_SETTING_VALUE_WARNING);
 		// 设置为忽略时，不进行检查，
 		if (!START_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获取项目进度计划中的任务记录数，记录数为0时，则添加返回信息。
@@ -482,7 +486,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					results.add(Result.error("项目尚未创建进度计划。"));
 
 			// 获取非监控节点设置
-			setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_CHARGER_ALL)).orElse(START_SETTING_VALUE_WARNING);
+			setting = getSettingValue(systemSetting, START_SETTING_FIELD_CHARGER_ALL, START_SETTING_VALUE_WARNING);
+
 			// 获取未设置负责人和参与者的节点名称
 			List<Document> work = c("work")
 					.find(new Document("project_id", _id).append("milestone", false).append("assignerId", null).append("chargerId", null))
@@ -501,17 +506,20 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				List<String> error = new ArrayList<String>();
 
 				// 获取一级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_CHARGER_L1)).orElse(START_SETTING_VALUE_WARNING);
+				setting = getSettingValue(systemSetting, START_SETTING_FIELD_CHARGER_L1, START_SETTING_VALUE_WARNING);
+
 				if (!START_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("1", setting.toString());
 
 				// 获取二级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_CHARGER_L2)).orElse(START_SETTING_VALUE_WARNING);
+				setting = getSettingValue(systemSetting, START_SETTING_FIELD_CHARGER_L2, START_SETTING_VALUE_WARNING);
+
 				if (!START_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("2", setting.toString());
 
 				// 获取三级监控节点设置
-				setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_CHARGER_L3)).orElse(START_SETTING_VALUE_WARNING);
+				setting = getSettingValue(systemSetting, START_SETTING_FIELD_CHARGER_L3, START_SETTING_VALUE_WARNING);
+
 				if (!START_SETTING_VALUE_IGNORE.equals(setting))
 					manageLevels.put("3", setting.toString());
 
@@ -534,7 +542,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 获取启动批准设置
-		setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_APPROVEONSTART)).orElse(false);
+		setting = getSettingValue(systemSetting, START_SETTING_FIELD_APPROVEONSTART, false);
+
 		// 如果需要批准启动，并且项目没有批准启动，则返回错误
 		if (Boolean.TRUE.equals(setting) && !Boolean.TRUE.equals(project.getStartApproved())) {
 			results.add(Result.error("项目尚未获得启动批准。"));
@@ -1128,18 +1137,18 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	 * 忽略、删除、完成、确认、关闭
 	 */
 	private static String CLOSE_SETTING_VALUE_IGNORE = "3";
-
+	
 	private List<Result> closeProjectCheck(ObjectId _id, Date date, String userId) {
 		List<Result> results = new ArrayList<Result>();
 
 		Project project = get(_id);
 
-		Document systemSetting = Optional.ofNullable(getSystemSetting(CLOSE_SETTING_NAME)).orElse(new Document());
-		Object setting;
+		Document systemSetting = getScopeSetting(_id, CLOSE_SETTING_NAME);
+		String setting;
 
 		// 未开始工作判断及操作
 		// 获取所有工作的设置，默认为删除
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_START_ALL)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_ALL, CLOSE_SETTING_VALUE_IGNORE);
 		// 获取未开始工作数，排出里程碑
 
 		List<Document> start = c("work").find(new Document("project_id", _id).append("actualStart", null).append("milestone", false))
@@ -1149,12 +1158,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					+ Formatter.getString(start.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())) + " 未开始，不允许完工项目"));
 		} else if (start.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, String> manageLevels = new HashMap<String, String>();
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_START_L1)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("1", setting.toString());
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_START_L2)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("2", setting.toString());
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_START_L3)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("3", setting.toString());
+			manageLevels.put("1", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L1, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("2", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L2, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("3", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L3, CLOSE_SETTING_VALUE_IGNORE));
 
 			List<ObjectId> delete = new ArrayList<ObjectId>();
 			List<String> notallow = new ArrayList<String>();
@@ -1177,7 +1183,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 未完工工作判断及操作、默认为完成
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_ALL)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_ALL, CLOSE_SETTING_VALUE_IGNORE);
+
 		// 获取未完工工作数
 		List<Document> finish = c("work")
 				.find(new Document("project_id", _id).append("actualFinish", null).append("actualStart", new Document("$ne", null)))
@@ -1189,14 +1196,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					+ " 未完工，不允许完工项目"));
 		} else if (finish.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, Object> manageLevels = new HashMap<String, Object>();
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L1)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("1", setting);
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L2)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("2", setting);
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_L3)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("3", setting);
-			setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_FINISH_MILESTONE)).orElse(CLOSE_SETTING_VALUE_IGNORE);
-			manageLevels.put("milestone", setting);
+			manageLevels.put("1", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L1, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("2", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L2, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("3", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L3, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("milestone", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_MILESTONE, CLOSE_SETTING_VALUE_IGNORE));
 
 			List<ObjectId> close = new ArrayList<ObjectId>();
 			List<String> notallow = new ArrayList<String>();
@@ -1226,7 +1229,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 项目变更，默认为确认
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_CHANGE)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_CHANGE, CLOSE_SETTING_VALUE_IGNORE);
+
 		// 获取未关闭项目变更数
 		long l = c("projectChange")
 				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)));
@@ -1237,7 +1241,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 项目报告，默认为关闭
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_REPORT)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_REPORT, CLOSE_SETTING_VALUE_IGNORE);
 		// 获取未确认的项目报告数
 		l = c("workReport")
 				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", WorkReport.STATUS_CONFIRM)));
@@ -1248,7 +1252,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 项目成本，默认为忽略
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_COST)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_COST, CLOSE_SETTING_VALUE_IGNORE);
 		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获取成本项id
 			List<ObjectId> cbsIds = new ArrayList<>();
@@ -1268,7 +1272,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 资源用量，默认为忽略
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_RESOURCE)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_RESOURCE, CLOSE_SETTING_VALUE_IGNORE);
 		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获得所有非里程碑的叶子节点的id
 			List<ObjectId> workIds = c("work")
@@ -1299,7 +1303,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// TODO 成品物料，默认为忽略
-		setting = Optional.ofNullable(systemSetting.get(CLOSE_SETTING_FIELD_MATERIAL)).orElse(CLOSE_SETTING_VALUE_IGNORE);
+		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_MATERIAL, CLOSE_SETTING_VALUE_IGNORE);
 		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
 
 		}

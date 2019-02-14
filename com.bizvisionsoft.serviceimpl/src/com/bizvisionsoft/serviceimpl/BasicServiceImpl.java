@@ -870,6 +870,15 @@ public class BasicServiceImpl {
 	public Object getSystemSetting(String name, String parameter) {
 		return Optional.ofNullable(getSystemSetting(name)).map(d -> d.get(parameter)).orElse(null);
 	}
+	
+	protected Document getScopeSetting(ObjectId _id,String settingName) {
+		return getSystemSetting(settingName+"@"+_id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected static <T> T getSettingValue(Document setting,String key,T defaultValue) {
+		return (T) Optional.ofNullable(setting).map(s->s.get(key)).orElse(defaultValue);
+	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
 		Service.run(() -> {
