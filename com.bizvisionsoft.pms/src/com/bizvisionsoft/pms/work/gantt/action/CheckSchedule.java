@@ -6,6 +6,7 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.model.IWBSScope;
@@ -18,29 +19,32 @@ public class CheckSchedule {
 	private IBruiService brui;
 
 	@Execute
-	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput) {
-		// TODO 使用CommandHandler进行处理
-		if (rootInput != null) {
-			Workspace workspace = rootInput.getWorkspace();
-			if (workspace != null) {
-				List<Result> result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace);
-				if (!result.isEmpty()) {
-					StringBuffer sb = new StringBuffer();
-					result.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> {
-						return "<span class='layui-badge'>错误</span> " + r.message + "<br>";
-					}).forEach(sb::append);
-					result.stream().filter(r -> r.type == Result.TYPE_WARNING).map(r -> {
-						return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
-					}).forEach(sb::append);
-					result.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
-						return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
-					}).forEach(sb::append);
+	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput,
+			@MethodParam(Execute.CONTEXT_CONTENT) GanttPart ganttPart) {
+		if (ganttPart.isDirty()) {
+			ganttPart.save((t, l) -> check(rootInput));
+		} else {
+			check(rootInput);
+		}
+	}
 
-					Layer.alert("项目计划检查", sb.toString(), 600, 400, false);
-				} else {
-					Layer.message("已通过检查。");
-				}
+	private void check(IWBSScope rootInput) {
+		Workspace workspace = rootInput.getWorkspace();
+		List<Result> result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true);
+		String content = result.stream().map(r -> {
+			switch (r.type) {
+			case Result.TYPE_ERROR:
+				return "<span class='layui-badge'>错误</span> " + r.message + "<br>";
+			case Result.TYPE_WARNING:
+				return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
+			default:
+				return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
 			}
+		}).reduce(String::concat).orElse(null);
+		if (content != null) {
+			Layer.alert("项目计划检查", content, 600, 400, false);
+		} else {
+			Layer.message("已通过检查。");
 		}
 	}
 }

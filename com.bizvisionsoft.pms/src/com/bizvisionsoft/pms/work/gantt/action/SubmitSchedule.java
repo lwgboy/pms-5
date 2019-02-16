@@ -2,9 +2,6 @@ package com.bizvisionsoft.pms.work.gantt.action;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -24,41 +21,39 @@ public class SubmitSchedule {
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput,
 			@MethodParam(Execute.CONTEXT_CONTENT) GanttPart ganttPart) {
-		if (rootInput != null) {
-			if (ganttPart.isDirty()) {
-				ganttPart.save((t, l) -> submit(rootInput));
-			} else {
-				submit(rootInput);
-			}
+		if (ganttPart.isDirty()) {
+			ganttPart.save((t, l) -> submit(rootInput));
+		} else {
+			submit(rootInput);
 		}
 	}
 
 	private void submit(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
-		Assert.isNotNull(workspace, "当前的工作区不能为空");
-		if (!MessageDialog.openConfirm(brui.getCurrentShell(), "提交项目计划", "请确认提交项目进度计划。")) {
+		if (!brui.confirm("提交项目计划", "请确认提交项目进度计划。")) {
 			return;
 		}
-		List<Result> results = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace);
-		if (!results.isEmpty()) {
-			StringBuffer sb = new StringBuffer();
-			results.stream().filter(r -> r.type == Result.TYPE_ERROR).map(r -> {
-				return "<span class='layui-badge'>错误</span> " + r.message + "<br>";
-			}).forEach(sb::append);
-			results.stream().filter(r -> r.type == Result.TYPE_WARNING).map(r -> {
+		List<Result> results = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false);
+		// 如果有错误，提示并返回
+		String msg = results.stream().filter(r -> r.type == Result.TYPE_ERROR)
+				.map(r -> "<span class='layui-badge'>错误</span> " + r.message + "<br>").reduce(String::concat).orElse(null);
+
+		if (msg != null) {
+			Layer.alert("项目计划存在一些问题", msg, 600, 400, false);
+			return;
+		}
+
+		msg = results.stream().filter(r -> r.type == Result.TYPE_WARNING || r.type == Result.TYPE_INFO).map(r -> {
+			if (r.type == Result.TYPE_WARNING)
 				return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
-			}).forEach(sb::append);
-			results.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
-				return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
-			}).forEach(sb::append);
-			Layer.alert("项目计划检查", sb.toString(), 600, 400, false);
-		} else {
+			return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
+		}).reduce(String::concat).orElse(null);
+		if (msg == null || brui.confirm("提交项目计划", msg + "<br>请确认提交项目计划")) {
 			Result result = Services.get(WorkSpaceService.class).checkin(workspace);
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				Layer.message(result.message);
 				brui.switchContent("项目甘特图", null);
 			}
-
 		}
 	}
 }
