@@ -2,8 +2,6 @@ package com.bizvisionsoft.pms.work.gantt.action;
 
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -37,8 +35,8 @@ public class CheckSchedule {
 					result.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
 						return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
 					}).forEach(sb::append);
-					MessageDialog.openInformation(brui.getCurrentShell(), "项目计划检查", sb.toString());
-					//TODO 显示多行的问题
+
+					Layer.alert("项目计划检查", sb.toString(), 600, 400, false);
 				} else {
 					Layer.message("已通过检查。");
 				}

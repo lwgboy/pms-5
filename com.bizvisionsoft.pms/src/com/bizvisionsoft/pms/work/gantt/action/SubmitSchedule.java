@@ -51,7 +51,7 @@ public class SubmitSchedule {
 			results.stream().filter(r -> r.type == Result.TYPE_QUESTION).map(r -> {
 				return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
 			}).forEach(sb::append);
-			MessageDialog.openInformation(brui.getCurrentShell(), "提交项目计划", sb.toString());
+			Layer.alert("项目计划检查", sb.toString(), 600, 400, false);
 		} else {
 			Result result = Services.get(WorkSpaceService.class).checkin(workspace);
 			if (Result.CODE_WORK_SUCCESS == result.code) {

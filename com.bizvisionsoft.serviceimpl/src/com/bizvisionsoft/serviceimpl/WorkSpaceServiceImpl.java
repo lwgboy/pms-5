@@ -298,6 +298,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		Document setting = getScopeSetting(project_id, CHECKIN_SETTING_NAME);
 		String settingValue;
 		Map<String, Object> mLvlSetting;
+		Document prj = getDocument(project_id, "project");
 
 		// 【2.1】检查人员指派
 		// 获取所有工作设置，默认为：警告
@@ -310,14 +311,17 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		checkAssignment(settingValue, mLvlSetting, space_id, results);
 
 		// 【2.2】检查工作计划
-		settingValue = getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_ALL, CHECKIN_SETTING_VALUE_ALLOW);
-		mLvlSetting = new HashMap<String, Object>();
-		// 获取各级监控节点设置
-		mLvlSetting.put("1", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L1, CHECKIN_SETTING_VALUE_ALLOW));
-		mLvlSetting.put("2", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L2, CHECKIN_SETTING_VALUE_ALLOW));
-		mLvlSetting.put("3", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L3, CHECKIN_SETTING_VALUE_ALLOW));
-		String milestoneSetting = getSettingValue(setting, CHECKIN_SETTING_FIELD_MILESTONE, CHECKIN_SETTING_VALUE_ALLOW);
-		checkWorkSchedule(settingValue, mLvlSetting, milestoneSetting, space_id, results);
+		// 允许变更中的计划更改
+		if (!"变更中".equals(prj.get("changeStatus"))) {
+			settingValue = getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_ALL, CHECKIN_SETTING_VALUE_ALLOW);
+			mLvlSetting = new HashMap<String, Object>();
+			// 获取各级监控节点设置
+			mLvlSetting.put("1", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L1, CHECKIN_SETTING_VALUE_ALLOW));
+			mLvlSetting.put("2", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L2, CHECKIN_SETTING_VALUE_ALLOW));
+			mLvlSetting.put("3", getSettingValue(setting, CHECKIN_SETTING_FIELD_SCHEDULE_L3, CHECKIN_SETTING_VALUE_ALLOW));
+			String milestoneSetting = getSettingValue(setting, CHECKIN_SETTING_FIELD_MILESTONE, CHECKIN_SETTING_VALUE_ALLOW);
+			checkWorkSchedule(settingValue, mLvlSetting, milestoneSetting, space_id, results);
+		}
 
 		// 【2.3】检查与项目计划开始和计划完成时间的不一致
 		// 获取工作最早计划开始时间和最晚计划完成时间
@@ -328,26 +332,23 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 						.append("start", new Document("$min", "$planStart")))))
 				.first();
 		if (doc != null) {
-			Document prj = getDocument(project_id, "project");
 			Date earliestStart = doc.getDate("start");
 			if (prj.getDate("planStart").after(earliestStart)) {
 				// 获取早于项目计划开始的设置，默认为禁止
 				settingValue = getSettingValue(setting, CHECKIN_SETTING_FIELD_PROJECT_START, CHECKIN_SETTING_VALUE_REQUIREMENT);
-				if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(settingValue)) {
+				if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(settingValue))
 					results.add(Result.error("工作最早计划开始时间早于项目计划开始时间。"));
-				} else if (CHECKIN_SETTING_VALUE_WARNING.equals(settingValue)) {
+				else if (CHECKIN_SETTING_VALUE_WARNING.equals(settingValue))
 					results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
-				}
 			}
 			Date latestFinish = doc.getDate("finish");
 			if (prj.getDate("planFinish").before(latestFinish)) {
 				// 获取晚于项目计划完成的设置，默认为禁止
 				settingValue = getSettingValue(setting, CHECKIN_SETTING_FIELD_PROJECT_FINISH, CHECKIN_SETTING_VALUE_REQUIREMENT);
-				if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(settingValue)) {
+				if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(settingValue))
 					results.add(Result.error("工作最完计划完成时间晚于项目计划完成时间。"));
-				} else if (CHECKIN_SETTING_VALUE_WARNING.equals(settingValue)) {
+				else if (CHECKIN_SETTING_VALUE_WARNING.equals(settingValue))
 					results.add(Result.question("工作最完计划完成时间晚于项目计划完成时间。"));
-				}
 			}
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -398,9 +399,9 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 					// 设置值
 					Object setting = Optional.ofNullable(d.getString("manageLevel")).map(mLvlSetting::get).orElse(defaultSetting);
 					if (CHECKIN_SETTING_VALUE_WARNING.equals(setting))// 添加警告提示
-						results.add(Result.warning("工作：" + d.getString("fullName") + "，没有指定负责人和指派者。"));
+						results.add(Result.warning(d.getString("fullName") + "，没有指定负责人或指派者。"));
 					else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting))// 添加错误提示
-						results.add(Result.error("工作：" + d.getString("fullName") + "，没有指定负责人和指派者。"));
+						results.add(Result.error(d.getString("fullName") + "，没有指定负责人或指派者。"));
 				});
 
 	}
