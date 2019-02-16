@@ -288,11 +288,12 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 
 		Project project = new ProjectServiceImpl().get(workspace.getProject_id());
 
-		Document systemSetting = Optional.ofNullable(getSystemSetting(CHECKIN_SETTING_NAME)).orElse(new Document());
+		Document systemSetting = Optional.ofNullable(getSystemSetting(CHECKIN_SETTING_NAME + "@" + workspace.getProject_id().toString()))
+				.orElse(new Document());
 
 		Object setting;
 		// 增加项目如果不批准，则可随意修改进度计划
-		if (checkManageItem && project.isStageEnable()) {
+		if (checkManageItem && project.getStartApproved()) {
 			// 获取所有工作设置，默认为：警告
 			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_CHARGER_ALL)).orElse(CHECKIN_SETTING_VALUE_WARNING);
 			// 获取未设置负责人和参与者的节点名称
@@ -406,47 +407,49 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 				new Document("$group", new Document("_id", null).append("finish", new Document("$max", "$planFinish")).append("start",
 						new Document("$min", "$planStart")))))
 				.first();
-		Date planFinish;
-		Date planStart;
-		if (workspace.getWork_id() != null) {
-			Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
-			planFinish = work.getPlanFinish();
-			planStart = work.getPlanStart();
-		} else {
-			planFinish = project.getPlanFinish();
-			planStart = project.getPlanStart();
-		}
-		// 获取早于项目计划开始的设置，默认为禁止
-		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
-		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
+		if (doc != null) {
+			Date planFinish;
+			Date planStart;
 			if (workspace.getWork_id() != null) {
-				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
-						new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
+				Work work = new WorkServiceImpl().getWork(workspace.getWork_id());
+				planFinish = work.getPlanFinish();
+				planStart = work.getPlanStart();
 			} else {
-				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
-						new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
+				planFinish = project.getPlanFinish();
+				planStart = project.getPlanStart();
 			}
-		} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planStart.after(doc.getDate("start"))) {
-			results.add(Result.error("工作最早计划开始时间早于项目计划开始时间。"));
-		} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planStart.after(doc.getDate("start"))) {
-			results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
-		}
-		// 获取晚于项目计划完成的设置，默认为禁止
-		setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
-		if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
-			if (workspace.getWork_id() != null) {
-				c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
-						new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
-			} else {
-				c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
-						new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
+			// 获取早于项目计划开始的设置，默认为禁止
+			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_START)).orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
+			if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planStart.after(doc.getDate("start"))) {
+				if (workspace.getWork_id() != null) {
+					c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
+							new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
+				} else {
+					c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
+							new BasicDBObject("$set", new BasicDBObject("planStart", doc.getDate("start"))));
+				}
+			} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planStart.after(doc.getDate("start"))) {
+				results.add(Result.error("工作最早计划开始时间早于项目计划开始时间。"));
+			} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planStart.after(doc.getDate("start"))) {
+				results.add(Result.question("工作最早计划开始时间早于项目计划开始时间。"));
 			}
-		} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planFinish.before(doc.getDate("finish"))) {
-			results.add(Result.error("工作最完计划完成时间晚于项目计划完成时间。"));
-		} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planFinish.before(doc.getDate("finish"))) {
-			results.add(Result.question("工作最完计划完成时间晚于项目计划完成时间。"));
+			// 获取晚于项目计划完成的设置，默认为禁止
+			setting = Optional.ofNullable(systemSetting.get(CHECKIN_SETTING_FIELD_PROJECT_FINISH))
+					.orElse(CHECKIN_SETTING_VALUE_REQUIREMENT);
+			if (CHECKIN_SETTING_VALUE_AUTO.equals(setting) && planFinish.before(doc.getDate("finish"))) {
+				if (workspace.getWork_id() != null) {
+					c("work").updateOne(new BasicDBObject("_id", workspace.getWork_id()),
+							new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
+				} else {
+					c("project").updateOne(new BasicDBObject("_id", workspace.getProject_id()),
+							new BasicDBObject("$set", new BasicDBObject("planFinish", doc.getDate("finish"))));
+				}
+			} else if (CHECKIN_SETTING_VALUE_REQUIREMENT.equals(setting) && planFinish.before(doc.getDate("finish"))) {
+				results.add(Result.error("工作最完计划完成时间晚于项目计划完成时间。"));
+			} else if (CHECKIN_SETTING_VALUE_WARNING.equals(setting) && planFinish.before(doc.getDate("finish"))) {
+				results.add(Result.question("工作最完计划完成时间晚于项目计划完成时间。"));
+			}
 		}
-
 		return results;
 	}
 

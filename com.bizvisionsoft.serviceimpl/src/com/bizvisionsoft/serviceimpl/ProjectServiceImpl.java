@@ -384,7 +384,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		Project project = get(_id);
 		// 获取项目启动设置
-		Document systemSetting = Optional.ofNullable(getSystemSetting(START_SETTING_NAME)).orElse(new Document());
+		Document systemSetting = Optional.ofNullable(getSystemSetting(START_SETTING_NAME + "@" + _id.toString())).orElse(new Document());
 		// 从项目启动设置中获取项目预算配置
 		Object setting = Optional.ofNullable(systemSetting.get(START_SETTING_FIELD_BUDGET)).orElse(START_SETTING_VALUE_WARNING);
 		// 设置为忽略时，不进行检查，
@@ -1134,7 +1134,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		Project project = get(_id);
 
-		Document systemSetting = Optional.ofNullable(getSystemSetting(CLOSE_SETTING_NAME)).orElse(new Document());
+		Document systemSetting = Optional.ofNullable(getSystemSetting(CLOSE_SETTING_NAME + "@" + _id.toString())).orElse(new Document());
 		Object setting;
 
 		// 未开始工作判断及操作

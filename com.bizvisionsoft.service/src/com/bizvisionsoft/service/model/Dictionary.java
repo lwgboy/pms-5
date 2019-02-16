@@ -42,6 +42,10 @@ public class Dictionary {
 	@WriteValue
 	private String description;
 
+	@ReadValue
+	@WriteValue
+	private String type;
+
 	@Override
 	@Label
 	public String toString() {
