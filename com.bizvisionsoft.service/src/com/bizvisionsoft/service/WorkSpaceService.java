@@ -94,11 +94,10 @@ public interface WorkSpaceService {
 			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
 
 	@POST
-	@Path("/check/{checkManageItem}")
+	@Path("/check/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,
-			@PathParam("checkManageItem") Boolean checkManageItem);
+	public List<Result> schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace);
 
 	@PUT
 	@Path("/checkin/")

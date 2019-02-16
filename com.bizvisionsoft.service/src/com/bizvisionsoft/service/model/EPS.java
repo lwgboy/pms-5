@@ -11,8 +11,10 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -89,7 +91,7 @@ public class EPS implements Comparable<EPS> {
 		return ServicesLoader.get(EPSService.class).getSubEPS(_id);
 	}
 
-	@Structure({"EPS管理/count", "EPS选择/"})
+	@Structure({"EPS管理/count", "EPS选择/count"})
 	public long countSubEPS() {
 		return ServicesLoader.get(EPSService.class).countSubEPS(_id);
 	}
@@ -135,7 +137,7 @@ public class EPS implements Comparable<EPS> {
 				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
 		return cnt;
 	}
-
+	
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "EPS";
