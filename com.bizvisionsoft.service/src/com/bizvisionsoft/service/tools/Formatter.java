@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,22 +105,22 @@ public class Formatter {
 		if (value instanceof String) {
 			return getInt((String) value);
 		}
-		if(value instanceof Number) {
+		if (value instanceof Number) {
 			return ((Number) value).intValue();
 		}
-		throw new RuntimeException(value+" 不是合法的int类型");
+		throw new RuntimeException(value + " 不是合法的int类型");
 	}
-	
+
 	public static double getDoubleValue(Object value) {
 		if (value == null)
 			return 0;
 		if (value instanceof String) {
 			return getInt((String) value);
 		}
-		if(value instanceof Number) {
+		if (value instanceof Number) {
 			return ((Number) value).doubleValue();
 		}
-		throw new RuntimeException(value+" 不是合法的double类型");
+		throw new RuntimeException(value + " 不是合法的double类型");
 	}
 
 	/**
@@ -489,6 +490,41 @@ public class Formatter {
 			result[i] = Optional.ofNullable(list.get(i)).orElse(0d);
 		}
 		return result;
+	}
+
+	/**
+	 * 删除Html标签
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public static String removeHtmlTag(String input) {
+		if (input == null)
+			return "";
+
+		try {
+
+			// 定义script的正则表达式{或<script[^>]*?>[\\s\\S]*?<\\/script>
+			String reg = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>";
+			String result = Pattern.compile(reg, Pattern.CASE_INSENSITIVE).matcher(input).replaceAll(""); // 过滤script标签
+
+			// 定义style的正则表达式{或<style[^>]*?>[\\s\\S]*?<\\/style>
+			reg = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>";
+			result = Pattern.compile(reg, Pattern.CASE_INSENSITIVE).matcher(result).replaceAll(""); // 过滤style标签
+
+			// 定义HTML标签的正则表达式
+			reg = "<[^>]+>";
+			result = Pattern.compile(reg, Pattern.CASE_INSENSITIVE).matcher(result).replaceAll(""); // 过滤html标签
+
+			// 定义一些特殊字符的正则表达式 如：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			reg = "\\&[a-zA-Z]{1,10};";
+			result = Pattern.compile(reg, Pattern.CASE_INSENSITIVE).matcher(result).replaceAll(""); // 过滤特殊标签
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 }

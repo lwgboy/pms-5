@@ -21,6 +21,8 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
+import com.hankcs.hanlp.HanLP;
+import com.mongodb.client.model.Aggregates;
 
 public class ProblemChartRender extends BasicServiceImpl {
 
@@ -70,6 +72,10 @@ public class ProblemChartRender extends BasicServiceImpl {
 		return new ProblemChartRender(condition).renderClassifyDept();
 	}
 
+	public static Document renderAnlysisChart(Document condition) {
+		return new ProblemChartRender()._renderAnlysisChart(condition);
+	}
+
 	public static Document renderCostClassifyByProblemChart() {
 		return new ProblemChartRender()._renderCostClassifyByProblemChart();
 	}
@@ -90,6 +96,170 @@ public class ProblemChartRender extends BasicServiceImpl {
 		return new ProblemChartRender()._renderCauseProblemChart();
 	}
 
+	@SuppressWarnings("unchecked")
+	private Document _renderAnlysisChart(Document condition) {
+		List<Document> categories = new ArrayList<>();
+		List<Document> nodes = new ArrayList<>();
+		List<Document> links = new ArrayList<>();
+
+		Document option = (Document) condition.get("option");
+		String rootId = option.getObjectId("problem_id").toHexString();
+		String rootTitle = option.getString("keyword");
+
+		// 【1】加入根节点
+		String cata = rootTitle;
+		Document node = new Document("name", rootTitle)//
+				.append("id", rootId)//
+				.append("mType", "root")//
+				.append("draggable", true)//
+				.append("category", cata)//
+				.append("symbolSize", 80)//
+				.append("symbol", "circle")//
+				.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 20));//
+		categories.add(new Document("name", cata));
+
+		nodes.add(node);
+
+		// 0. 分解关键词
+		List<String> keyword = HanLP.extractKeyword(rootTitle, 15);
+
+		// 限定问题的类别
+		List<ObjectId> catalog_ids = ((List<Document>) condition.get("input")).stream().map(d -> d.getObjectId("_id"))
+				.collect(Collectors.toList());
+
+		// 1. 查找相似的问题; TODO 使用语义分析
+		List<ObjectId> similarProblems = new ArrayList<>();
+		c("problem").aggregate(Arrays.asList(//
+				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", new Document("$in", catalog_ids)))//
+		)).forEach((Document d) -> {
+			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)) {
+				// 【2】加入相似问题目录
+				String probCata = d.getString("name");
+				categories.add(new Document("name", probCata));
+
+				ObjectId parentId = d.getObjectId("_id");
+				String subid = parentId.toHexString();
+				Document subnode = new Document("name", probCata)//
+						.append("id", subid)//
+						.append("mType", "problem")//
+						.append("draggable", true)//
+						.append("category", probCata)//
+						.append("symbolSize", 50);//
+				nodes.add(subnode);
+
+				links.add(createGraphicLink(subid, rootId, "相似"));
+
+				// 2. 根据相似的问题查找原因
+				appendCauseNodesLinks(nodes, links, parentId, "产生", "因果分析-制造", probCata);
+				appendCauseNodesLinks(nodes, links, parentId, "流出", "因果分析-流出", probCata);
+
+				similarProblems.add(d.getObjectId("_id"));
+			}
+		});
+		// 【3】. 根据相似的问题查找ERA,ICA,PCA
+		String[] stage = { "era", "ica", "pca" };
+		String[] name = { "ERA", "ICA", "PCA" };
+		for (int i = 0; i < name.length; i++) {
+			ArrayList<Document> actions = c("problemAction").aggregate(Arrays.asList(
+					Aggregates.match(new Document("stage", stage[i]).append("problem_id", new Document("$in", similarProblems))),
+					Aggregates.sort(new Document("problem_id", 1).append("index", 1)))).into(new ArrayList<>());
+			if (!actions.isEmpty()) {
+				String actionCata = name[i];
+				categories.add(new Document("name", actionCata));
+				// 【3.1】创建行动类别节点
+				String stageId = new ObjectId().toHexString();
+				Document subnode = new Document("name", name[i])//
+						.append("id", stageId)//
+						.append("label", new Document("position", "inside")).append("draggable", true).append("category", actionCata)
+						.append("symbolSize", 36);//
+				nodes.add(subnode);
+
+				links.add(createGraphicLink(stageId, rootId,"行动"));
+				// 【3.2】创建行动节点的下级节点
+				actions.forEach(d -> {
+					String actionId = d.getObjectId("_id").toHexString();
+					Document action = new Document("name", d.getString("action"))//
+							.append("id", actionId)//
+							.append("mType", "problemAction")//
+							.append("draggable", true)//
+							.append("category", actionCata)//
+							.append("symbolSize", 10);//
+					nodes.add(action);
+
+					links.add(createGraphicLink(actionId, stageId));
+				});
+			}
+		}
+
+		// 【4】. 根据关键词 查找经验库
+		categories.add(new Document("name", "经验"));
+		c("d8Exp").aggregate(Arrays.asList(// TODO 保存时写keyword
+				Aggregates.match(new Document("keyword", new Document("$in", keyword))))).forEach((Document exp) -> {
+					String id = exp.getObjectId("_id").toHexString();
+					Document subnode = new Document("name", exp.getString("name"))//
+							.append("id", id)//
+							.append("mType", "d8EXP")//
+							.append("symbol",
+									"path://M165,30c-2.762,0-5,2.239-5,5v150c0,2.762-2.238,5-5,5H45c-8.27,0-15-6.73-15-15s6.73-15,15-15h90\r\nc8.27,0,15-6.73,15-15V25c0-8.27-6.73-15-15-15H35c-8.27,0-15,6.73-15,15v150c0,13.779,11.22,25,25,25h110c8.27,0,15-6.73,15-15V35\r\nC170,32.239,167.762,30,165,30z")
+							.append("draggable", true)//
+							.append("category", "经验")//
+							.append("symbolSize", Arrays.asList(20, 23));//
+					nodes.add(subnode);
+
+					links.add(createGraphicLink(id, rootId, "经验"));
+				});
+
+		if (nodes.size() == 1) {
+			return blankChart();
+		}
+		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
+				.doc();
+		debugDocument(chart);
+		return chart;
+	}
+
+	private void appendCauseNodesLinks(List<Document> nodes, List<Document> links, ObjectId sProb_id, String name, String type,
+			String cata) {
+		String makeId = new ObjectId().toHexString();
+		nodes.add(new Document("name", "")//
+				.append("id", makeId)//
+				.append("symbol", "path://M100.097,199.785l-86.416-49.893V50.108l86.416-49.893l86.417,49.893v99.785L100.097,199.785z")
+				.append("label", new Document("position", "inside")).append("draggable", true).append("category", cata)
+				.append("symbolSize", Arrays.asList(20, 23)));//
+		links.add(createGraphicLink(makeId, sProb_id.toHexString(), name));
+
+		c("causeRelation").find(new Document("problem_id", sProb_id).append("type", type)).forEach((Document doc) -> {
+			String id = doc.getObjectId("_id").toHexString();
+			nodes.add(new Document("id", id)//
+					.append("name", doc.get("name"))//
+					.append("draggable", true)//
+					.append("mType", "causeRelation")//
+					.append("category", cata)//
+					.append("symbolSize", 5 * doc.getInteger("weight", 1))//
+					.append("value", 100 * doc.getDouble("probability")));
+
+			ObjectId parentId = doc.getObjectId("parent_id");
+			if (parentId == null) {
+				links.add(createGraphicLink(id, makeId, doc.getString("subject")));
+			} else {
+				links.add(createGraphicLink(id, parentId.toHexString()));
+			}
+		});
+	}
+
+	private Document createGraphicLink(String src, String tgt, String text) {
+		return new Document("source", src)//
+				.append("target", tgt)//
+				.append("label", new Document("show", true)//
+						.append("formatter", "function(d){return '" + text + "';}"))//
+				.append("emphasis", new Document("label", new Document("show", false)));
+	}
+
+	private Document createGraphicLink(String src, String tgt) {
+		return new Document("source", src).append("target", tgt)//
+				.append("emphasis", new Document("label", new Document("show", false)));
+	}
+
 	private Document _renderCauseProblemChart() {
 		List<Document> categories = new ArrayList<>();
 		List<Document> nodes = c("problem").aggregate(new JQ("查询-问题权重").array()).map((Document d) -> {
@@ -103,7 +273,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("category", cata)//
 					.append("symbolSize", 100 * value)//
 					.append("symbol", "circle")//
-					.append("itemStyle", new Document("opacity",0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10))//
+					.append("itemStyle", new Document("opacity", 0.8).append("shadowColor", "rgba(0, 0, 0, 0.5)").append("shadowBlur", 10))//
 					.append("value", 100 * value);
 		}).into(new ArrayList<>());
 
@@ -121,10 +291,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		}).into(nodes);
 
 		List<Document> links = c("problem").aggregate(new JQ("查询-问题因果关系").array())
-				.map((Document d) -> 
-				new Document("source", d.getObjectId("_id").toHexString())
-						.append("target", d.getObjectId("pid").toHexString())
-						.append("emphasis", new Document("label", new Document("show", false))))
+				.map((Document d) -> createGraphicLink(d.getObjectId("_id").toHexString(), d.getObjectId("pid").toHexString()))
 				.into(new ArrayList<>());
 
 		Document chart = new JQ("图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links).set("categories", categories)

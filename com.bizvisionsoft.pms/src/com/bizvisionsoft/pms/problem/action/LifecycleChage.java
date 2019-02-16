@@ -17,6 +17,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -40,15 +41,28 @@ public class LifecycleChage {
 		Problem pb = context.getRootInput(Problem.class, false);
 		ObjectId _id = pb.get_id();
 		pb = service.get(_id);
+		User user = br.getCurrentUserInfo();
 
 		if ("icaConfirmed".equals(stage)) {
+			if (!service.hasPrivate(_id, ProblemService.ACTION_ICA_CONFIRM, user.getUserId())) {
+				Layer.error("临时控制行动有效性确认需由团队组长或顾客代表执行");
+				return;
+			}
+
 			// 如果ICA已经确认，提示
 			if (pb.getIcaConfirmed() != null) {
 				Layer.message("临时控制行动的有效性已确认");
 			} else {
+				// 如果没有ICA 跳过
+				BasicDBObject filter = new BasicDBObject("problem_id", _id);
+				boolean noICA = service.countActions(filter, "ica") == 0;
+				if (noICA) {
+					Layer.error("没有临时控制行动");
+					return;
+				}
 				// 如果ICA未经验证，需要提示
-				BasicDBObject filter = new BasicDBObject("problem_id", _id).append("$or", Arrays.asList(
-						new BasicDBObject("verification", null), new BasicDBObject("verification.title", new BasicDBObject("$ne", "已验证"))));
+				filter = new BasicDBObject("problem_id", _id).append("$or", Arrays.asList(new BasicDBObject("verification", null),
+						new BasicDBObject("verification.title", new BasicDBObject("$ne", "已验证"))));
 				boolean verified = service.countActions(filter, "ica") == 0;
 				filter = new BasicDBObject("problem_id", _id).append("finish", new BasicDBObject("$ne", true));
 				boolean finished = service.countActions(filter, "ica") == 0;
@@ -62,13 +76,18 @@ public class LifecycleChage {
 				if (br.confirm("确认临时控制行动有效", msg)) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("临时控制行动的有效性已确认");
 				} else {
 					Layer.message("临时控制行动的有效性确认已取消");
 				}
 			}
 		} else if ("pcaApproved".equals(stage)) {
+			if (!service.hasPrivate(_id, ProblemService.ACTION_PCA_APPROVE, user.getUserId())) {
+				Layer.error("永久纠正措施的批准需由团队组长执行");
+				return;
+			}
+
 			List<Document> selected = service.listD5(new BasicDBObject("selected", true), _id, RWT.getLocale().getLanguage());
 			if (selected.size() == 0) {
 				Layer.error("尚未选定将要实施的永久纠正措施");
@@ -80,13 +99,18 @@ public class LifecycleChage {
 				if (br.confirm("批准永久纠正措施", "请确认：批准实施永久纠正措施？")) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施已批准");
 				} else {
 					Layer.message("永久纠正措施批准已取消");
 				}
 			}
 		} else if ("pcaValidated".equals(stage)) {
+			if (!service.hasPrivate(_id, ProblemService.ACTION_PCA_VALIDATE, user.getUserId())) {
+				Layer.error("永久纠正措施的实施效果验证需由团队组长执行");
+				return;
+			}
+
 			if (pb.getPcaApproved() == null) {
 				Layer.error("永久纠正措施尚未得到批准");
 				return;
@@ -97,13 +121,18 @@ public class LifecycleChage {
 				if (br.confirm("验证永久纠正措施实施效果", "请确认：永久纠正措施的实施效果已通过验证")) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施的实施效果已通过验证");
 				} else {
 					Layer.message("永久纠正措施的实施效果验证已取消");
 				}
 			}
 		} else if ("pcaConfirmed".equals(stage)) {
+			if (!service.hasPrivate(_id, ProblemService.ACTION_PCA_CONFIRM, user.getUserId())) {
+				Layer.error("永久纠正措施的有效性确认由团队组长或顾客代表执行");
+				return;
+			}
+
 			if (pb.getPcaValidated() == null) {
 				Layer.error("永久纠正措施的实施效果尚未获得验证");
 				return;
@@ -128,7 +157,7 @@ public class LifecycleChage {
 				if (br.confirm("确认永久纠正措施有效", msg)) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 							.set(new BasicDBObject(stage, br.operationInfo().encodeBson())).bson();
-					Services.get(ProblemService.class).updateProblems(fu);
+					Services.get(ProblemService.class).updateProblemsLifecycle(fu,stage);
 					Layer.message("永久纠正措施的有效性已确认");
 				} else {
 					Layer.message("永久纠正措施的有效性确认已取消");

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -15,10 +16,6 @@ import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCardRenderer extends BasicServiceImpl {
-
-	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
-
-	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量" };
 
 	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
 
@@ -49,7 +46,8 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			// 【指标表】
 			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
-			appendProblemCostInfo(doc, sb);
+			// appendProblemCostInfo(doc, sb);//避免显示损失，防止泄露到外部用户
+			chart = createProblemInstuctors(doc);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
@@ -60,7 +58,9 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		// 【按钮块】
 		if (control)
-			appendProblemButtons(doc, sb);
+			appendProblemOpenButtons(doc, sb);
+		else
+			appendProblemEditButtons(doc, sb);
 
 		// 【卡片背景】
 		RenderTools.appendCardBg(sb);
@@ -71,6 +71,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return result;
 	}
 
+	@SuppressWarnings("unused")
 	private void appendProblemCostInfo(Document doc, StringBuffer sb) {
 		Optional.ofNullable((Document) doc.get("cost")).map(c -> c.getDouble("summary")).map(c -> Formatter.getString(c, "￥#,###.00"))
 				.ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "损失：", "<span class='layui-badge'>" + s + "</span>"));
@@ -162,7 +163,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return "level4";
 	}
 
-	private void appendProblemButtons(Document doc, StringBuffer sb) {
+	private void appendProblemOpenButtons(Document doc, StringBuffer sb) {
 		// 添加【按钮】
 		if ("解决中".equals(doc.get("status"))) {
 			RenderTools.appendButton(sb, "layui-icon-right", 12, 12, "进入T.O.P.S.", "open8D");
@@ -175,14 +176,24 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		}
 	}
 
+	private void appendProblemEditButtons(Document doc, StringBuffer sb) {
+		// 添加【按钮】
+		if ("解决中".equals(doc.get("status"))) {
+			RenderTools.appendButton(sb, "layui-icon-edit", 12, 12, "编辑问题初始记录和指标", "edit");
+		} else if ("已创建".equals(doc.get("status"))) {
+		} else if ("已关闭".equals(doc.get("status"))) {
+		} else if ("已取消".equals(doc.get("status"))) {
+		}
+	}
+
 	private void appendProblemScheduleBar(Document doc, StringBuffer sb) {
 		/////////////////////////////////////////////////////////////////
 		// 进度栏
 		// 【状态字段】icaConfirmed, pcaApproved,pcaValidated,pcaConfirmed
-		String[] msgs = new String[] { "已确认临时控制措施有效。", //
-				"已批准永久纠正措施的方案开始执行。", //
-				"通过长期监控永久纠正措施能够长期有效。", //
-				"通过实施和验证，永久纠正措施能够解决问题，达到预期目标。" //
+		String[] msgs = new String[] { "临时控制行动是否能有效保护顾客（包括内部顾客）不受问题影响", //
+				"批准永久纠正措施的方案开始执行", //
+				"通过验证和长期监控，永久纠正措施能够长期有效", //
+				"顾客（包括内部顾客）已经确认永久纠正措施能够解决问题" //
 		};
 		String[] titles = new String[] { "ICA确认", "PCA批准", "PCA验证", "PCA确认" };
 		String[] fields = new String[] { "icaConfirmed", "pcaApproved", "pcaValidated", "pcaConfirmed" };
@@ -191,12 +202,12 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		int max = 0;
 		for (int i = 0; i < fields.length; i++) {
 			if ((Document) doc.get(fields[i]) != null) {
-				max = Math.max(max, i)+1;
+				max = Math.max(max, i) + 1;
 			}
 			label += MetaInfoWarpper.warpper(titles[i], msgs[i]);
 		}
 		sb.append("<div class='layui-progress layui-progress-big' style='margin:8px 8px 0px 8px;'>");
-		sb.append("<div class='layui-progress-bar' style='width:" + 100 * max  /  fields.length + "%'></div>");
+		sb.append("<div class='layui-progress-bar' style='width:" + 100 * max / fields.length + "%'></div>");
 		sb.append("<div class='label_caption brui_ly_hline brui_line_padding' style='color:#fff;position: absolute;padding-top:0px;'>");
 		sb.append(label);
 		sb.append("</div>");
@@ -224,7 +235,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		// 头像
 		String name = doc.getString("name");
-		String role = cftRoleText[Integer.parseInt(doc.getString("role"))];
+		String role = ProblemService.cftRoleText[Integer.parseInt(doc.getString("role"))];
 		String mobile = Optional.ofNullable(doc.getString("mobile")).map(e -> "<a href='tel:" + e + "'>" + e + "</a>").orElse("");
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
@@ -477,7 +488,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 	public Document renderD7Similar(Document t, String lang) {
 		StringBuffer sb = new StringBuffer();
 
-		String label = similarDegreeText[Integer.parseInt(t.getString("degree"))];
+		String label = ProblemService.similarDegreeText[Integer.parseInt(t.getString("degree"))];
 
 		String type = t.getString("similar");
 

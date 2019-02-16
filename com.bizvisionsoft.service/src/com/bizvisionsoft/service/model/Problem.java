@@ -382,7 +382,9 @@ public class Problem {
 	private String readCancelBy() {
 		return Optional.ofNullable(cancelInfo).map(c -> c.userName).orElse(null);
 	}
-
-
+	
+	public OperationInfo getCreationInfo() {
+		return creationInfo;
+	}
 
 }

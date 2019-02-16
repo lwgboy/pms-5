@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -54,7 +53,7 @@ import com.mongodb.client.model.ReturnDocument;
 public class ProblemServiceImpl extends BasicServiceImpl implements ProblemService {
 
 	private Document appendRoleText(Document doc, String lang) {
-		return doc.append("roleName", ProblemCardRenderer.cftRoleText[Integer.parseInt(doc.getString("role"))]);
+		return doc.append("roleName", cftRoleText[Integer.parseInt(doc.getString("role"))]);
 	}
 
 	private Document appendActionText(Document d, String lang) {
@@ -78,10 +77,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition, List<Bson> pipeline) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
-		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
-		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+		appendConditionToPipeline(pipeline, condition);
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
 		pipeline.addAll(new JQ("追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
 				.set("urgencyIndField", "urgencyInd").array());
@@ -134,6 +130,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Problem insertProblem(Problem p) {
 		p.setStatus(Problem.StatusCreated);
+
 		p = insert(p);
 		List<Bson> pipe = appendBasicQueryPipeline(new Query().filter(new BasicDBObject("_id", p.get_id())).bson(), new ArrayList<>());
 		return c(Problem.class).aggregate(pipe).first();
@@ -143,6 +140,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Problem> listProblems(BasicDBObject condition, String status, String userid) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
+		pipeline.addAll(new JQ("追加-问题查询权限").set("userId", userid).array());
 		ArrayList<Problem> result = c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 		return result;
 	}
@@ -151,12 +149,27 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
-		return c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true)).into(new ArrayList<>());
+		pipeline.addAll(new JQ("追加-问题查询权限").set("userId", userid).array());
+		ArrayList<Document> result = c("problem").aggregate(pipeline).map(d -> new ProblemCardRenderer().renderProblem(d, lang, true))
+				.into(new ArrayList<>());
+		if ("已创建".equals(status) && result.isEmpty()) {
+			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+		}
+		return result;
 	}
 
 	@Override
 	public long updateProblems(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, Problem.class);
+		long result = update(filterAndUpdate, Problem.class);
+		sendMessageOfProblemUpdate(filterAndUpdate, "updated");
+		return result;
+	}
+
+	@Override
+	public long updateProblemsLifecycle(BasicDBObject filterAndUpdate, String msgCode) {
+		long result = update(filterAndUpdate, Problem.class);
+		sendMessageOfProblemUpdate(filterAndUpdate, msgCode);
+		return result;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,18 +182,125 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteAction(ObjectId _id) {
-		return deleteOne(_id, "problemAction");
+		Document doc = findAndDeleteOne(_id, "problemAction");
+		if (doc != null) {
+			// 通知团队 已创建Action
+			sendMessageOfProblemAction(doc, "deleted");
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override
 	public Document insertAction(Document t, ObjectId problem_id, String stage, String lang, String render) {
 		c("problemAction").insertOne(t.append("problem_id", problem_id).append("stage", stage));
+		// 判断该成员是否在项目团队中，如果不在，自动加入
+		String charger = t.getString("charger");
+		long cnt = c("d1CFT").countDocuments(new Document("member", charger).append("problem_id", problem_id));
+		if (cnt == 0) {
+			int roleId = Arrays.asList(cftRoleText).indexOf(stage.toUpperCase());
+			if (roleId != -1) {
+				Document charger_meta = (Document) t.get("charger_meta");
+				Document d1 = new Document("member_meta", charger_meta).append("member", charger).append("role", "" + roleId)
+						.append("problem_id", problem_id);
+				insertD1Item(d1, lang, null);
+			}
+		}
+		// 通知团队 已创建Action
+		sendMessageOfProblemAction(t, "created");
 		if ("card".equals(render)) {
 			t = new ProblemCardRenderer().renderAction(t, lang, true);
 		} else if ("gridrow".equals(render)) {
 			appendActionText(t, lang);
 		}
 		return t;
+	}
+
+	private void sendMessageOfProblemAction(Document action, String msgCode) {
+		String stage = action.getString("stage");
+		String subject = getStageName(stage);
+		if ("created".equals(msgCode)) {
+			subject = subject + "已创建";
+		} else if ("deleted".equals(msgCode)) {
+			subject = subject + "已删除";
+		} else if ("updated".equals(msgCode)) {
+			subject = subject + "已更新";
+			return;// 更新不必提示
+		} else if ("verified".equals(msgCode)) {
+			subject = subject + "验证结果已提交";
+		} else if ("finished".equals(msgCode)) {
+			subject = subject + "已完成";
+		} else {
+			return;
+		}
+
+		ObjectId problem_id = action.getObjectId("problem_id");
+		Problem problem = get(problem_id);
+		String sender = problem.getCreationInfo().userId;
+		String actionName = action.getString("action");
+		String content = "问题：" + problem + "<br>" + "行动：" + actionName;
+		ArrayList<String> receivers = c("d1CFT").find(new Document("problem_id", problem_id)).map(d -> d.getString("member"))
+				.into(new ArrayList<>());
+		receivers.add(sender);
+		sendMessage(subject, content, null, receivers, null);
+	}
+
+	private void sendMessageOfProblemTeamUpdate(Document cftData, String msgCode) {
+		String member = cftData.getString("name");
+		String content;
+		if ("deleted".equals(msgCode)) {
+			content = member + "已从团队中移去";
+		} else if ("created".equals(msgCode)) {
+			content = member + "已加入到团队";
+		} else {
+			return;
+		}
+
+		ObjectId problem_id = cftData.getObjectId("problem_id");
+		Problem problem = get(problem_id);
+		content = "问题：" + problem + "<br>" + content;
+		String sender = problem.getCreationInfo().userId;
+		String subject = "问题解决团队更新";
+		ArrayList<String> receivers = c("d1CFT").find(new Document("problem_id", problem_id)).map(d -> d.getString("member"))
+				.into(new ArrayList<>());
+		receivers.add(sender);
+		sendMessage(subject, content, null, receivers, null);
+	}
+
+	private void sendMessageOfProblemUpdate(BasicDBObject filterAndUpdate, String msgCode) {
+		String subject;
+		if ("updated".equals(msgCode)) {
+			subject = "问题已更新";
+			return;// 更新不必提示
+		} else if ("canceled".equals(msgCode)) {
+			subject = "问题已取消";
+		} else if ("closed".equals(msgCode)) {
+			subject = "问题已关闭";
+		} else if ("started".equals(msgCode)) {
+			subject = "问题已启动";
+		} else if ("icaConfirmed".equals(msgCode)) {
+			subject = "问题临时控制行动的有效性已确认";
+		} else if ("pcaApproved".equals(msgCode)) {
+			subject = "问题永久纠正措施已批准";
+		} else if ("pcaValidated".equals(msgCode)) {
+			subject = "问题永久纠正措施的实施效果已通过验证";
+		} else if ("pcaConfirmed".equals(msgCode)) {
+			subject = "问题永久纠正措施的有效性已确认";
+		} else {
+			return;
+		}
+
+		Problem problem = c(Problem.class).find((BasicDBObject) filterAndUpdate.get("filter")).first();
+		if (problem == null) {
+			logger.warn("无法获取更新的问题记录");
+		}
+		String sender = problem.getCreationInfo().userId;
+		String content = "问题：" + problem;
+		ArrayList<String> receivers = c("d1CFT").find(new Document("problem_id", problem.get_id())).map(d -> d.getString("member"))
+				.into(new ArrayList<>());
+		receivers.add(sender);
+		sendMessage(subject, content, null, receivers, null);
+
 	}
 
 	@Override
@@ -212,15 +332,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document updateAction(Document doc, String lang, String render) {
-		BiFunction<Document, String, Document> func;
-		if ("card".equals(render)) {
-			func = (d, l) -> new ProblemCardRenderer().renderAction(d, l, true);
+	public Document updateAction(Document doc, String lang, String render, String msgCode) {
+		Document updated = update(doc, "problemAction");
+		if (updated != null) {
+			Document result;
+			if ("card".equals(render)) {
+				result = new ProblemCardRenderer().renderAction(updated, lang, true);
+			} else {
+				result = this.appendActionText(updated, lang);
+			}
+			sendMessageOfProblemAction(updated, msgCode);
+			return result;
 		} else {
-			func = this::appendActionText;
+			return null;
 		}
-		return updateThen(doc, lang, "problemAction", func);
 	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -234,7 +361,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	//
 	@Override
 	public long deleteD1CFT(ObjectId _id) {
-		return deleteOne(_id, "d1CFT");
+		Document doc = findAndDeleteOne(_id, "d1CFT");
+		if (doc != null) {
+			sendMessageOfProblemTeamUpdate(doc, "deleted");
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
@@ -268,20 +401,26 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// TODO 唯一索引，多国语言提示传lang参数
 		doc.append("dept", dept);
 		c("d1CFT").insertOne(doc);
+
+		// 发送消息
+		sendMessageOfProblemTeamUpdate(doc, "created");
+
 		// 渲染卡片
 		if ("card".equals(render))
 			return new ProblemCardRenderer().renderD1CFTMember(doc, lang, true);
-		else
+		else if ("gridrow".equals(render))
 			return appendRoleText(doc, lang);
+		else
+			return null;
 	}
 
 	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String lang, String render) {
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String userId, String lang, String render) {
 		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
 		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			boolean editable = isProblemEditable(problem_id);
+			boolean editable = isProblemEditable(problem_id) && new ProblemActionControl().hasPrivate(problem_id, ACTION_EDIT_TEAM, userId);
 			f = d -> new ProblemCardRenderer().renderD1CFTMember(d, lang, editable);
 		} else {
 			f = d -> appendRoleText(d, lang);
@@ -596,15 +735,21 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	private Document appendDegreeText(Document d, String lang) {
-		return d.append("dgreeText", ProblemCardRenderer.similarDegreeText[Integer.parseInt(d.getString("degree"))]);
+		return d.append("dgreeText", similarDegreeText[Integer.parseInt(d.getString("degree"))]);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// D8 关闭
 	//
 	@Override
-	public Document updateD8Exp(Document d, String lang, String render) {
-		return updateThen(d, lang, "d8Exp", "card".equals(render) ? new ProblemCardRenderer()::renderD8Exp : null);
+	public Document updateD8Exp(Document t, String lang, String render) {
+		List<String> result = extractKeywords(t, 10, "name");// 确保
+		result.addAll(extractKeywords(t, 20, "advantage", "weakness"));// 优先
+		result.addAll(extractKeywords(t, 100, "method", "advantage", "weakness"));
+		if (!result.isEmpty()) {
+			t.append("keyword", result);
+		}
+		return updateThen(t, lang, "d8Exp", "card".equals(render) ? new ProblemCardRenderer()::renderD8Exp : null);
 	}
 
 	@Override
@@ -630,6 +775,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document insertD8Experience(Document t, String lang, String render) {
 		t.append("_id", new ObjectId());
+		List<String> result = extractKeywords(t, 10, "name");// 确保
+		result.addAll(extractKeywords(t, 20, "advantage", "weakness"));// 优先
+		result.addAll(extractKeywords(t, 100, "method", "advantage", "weakness"));
+		if (!result.isEmpty()) {
+			t.append("keyword", result);
+		}
 		c("d8Exp").insertOne(t);
 		if ("card".equals(render))
 			return new ProblemCardRenderer().renderD8Exp(t, lang);
@@ -948,9 +1099,12 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	private List<Bson> createAdvisePipeline(ObjectId problem_id, String stage) {
-		String[] stageNames = new String[] { "紧急反应", "临时控制", "永久纠正", "系统预防", "善后措施" };
-		String stageName = stageNames[Arrays.asList("era", "ica", "pca", "spa", "lra").indexOf(stage)];
+		String stageName = getStageName(stage);
 		return new JQ("查询-行动预案-匹配问题").set("problem_id", problem_id).set("in", Arrays.asList(stageName, "$stage")).array();
+	}
+
+	private String getStageName(String stage) {
+		return actionName[Arrays.asList(actionType).indexOf(stage)];
 	}
 
 	@Override
@@ -1008,8 +1162,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listClassifyProblemStructure(Catalog parent) {
-		return c("classifyProblem").find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
-				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+		return c("classifyProblem").find(new Document("parent_id", Optional.ofNullable(parent).map(p -> p._id).orElse(null)))
+				.sort(new Document("index", 1)).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
 
 	@Override
@@ -1095,10 +1249,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipeline.add(Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"));//
 		pipeline.add(Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
 				.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
-		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
-		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
+		appendConditionToPipeline(pipeline, condition);
 
 		return c("problemAction").aggregate(pipeline).into(new ArrayList<>());
 	}
@@ -1110,6 +1261,25 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
 				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
 						.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+	}
+
+	@Override
+	public List<Document> listExp(BasicDBObject condition) {
+		List<Bson> pipe = new ArrayList<>();
+		pipe.add(new Document("$lookup",
+				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
+		pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		appendConditionToPipeline(pipe, condition);
+		return c("d8Exp").aggregate(pipe).into(new ArrayList<>());
+	}
+
+	@Override
+	public long countExp(BasicDBObject filter) {
+		List<Bson> prefixPipelines = new ArrayList<>();
+		prefixPipelines.add(new Document("$lookup",
+				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
+		prefixPipelines.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		return count("d8Exp", filter, prefixPipelines);
 	}
 
 	@Override
@@ -1163,12 +1333,34 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<ProblemActionLinkInfo> listGanttActionLinks(ObjectId _id) {
+		// TODO
 		return new ArrayList<>();
 	}
 
 	@Override
 	public void insertActions(List<Document> actions) {
 		c("problemAction").insertMany(actions);
+	}
+
+	@Override
+	public boolean hasPrivate(ObjectId problem_id, String action, String userId) {
+		return new ProblemActionControl().hasPrivate(problem_id, action, userId);
+	}
+
+	@Override
+	public List<Catalog> listProblemAnlysisRoot(ObjectId problem_id) {
+		return c("problem").aggregate(new JQ("查询-问题-根分类").set("problem_id", problem_id).array()).map(CatalogMapper::classifyProblem)
+				.into(new ArrayList<>());
+	}
+
+	@Override
+	public Document defaultProblemAnlysisOption(ObjectId problem_id) {
+		return new Document("keyword", getString("problem", "name", problem_id)).append("problem_id", problem_id);
+	}
+
+	@Override
+	public Document createProblemAnlysisChart(Document condition) {
+		return ProblemChartRender.renderAnlysisChart(condition);
 	}
 
 }

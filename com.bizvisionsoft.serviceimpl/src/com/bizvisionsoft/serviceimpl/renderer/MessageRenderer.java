@@ -15,7 +15,7 @@ public class MessageRenderer {
 
 		RenderTools.appendText(sb, msg.getContent(), RenderTools.STYLE_3LINE);
 
-		RenderTools.appendUserAndText(sb, msg.getSenderHeadImageURL(), msg.getSenderInfo(), Formatter.getString(msg.getSendDate()));
+		RenderTools.appendUserAndText(sb, msg.getSenderHeadImageURL(), msg.getSenderInfo(), Formatter.getString(msg.getSendDate(),"yyyy-MM-dd HH:mm:ss"));
 
 		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "ря╤а", "read");
 
