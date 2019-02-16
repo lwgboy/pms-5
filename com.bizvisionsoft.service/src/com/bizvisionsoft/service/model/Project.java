@@ -19,6 +19,7 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.RoleBased;
+import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -413,7 +414,6 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
 	}
 
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@ReadValue
@@ -492,6 +492,10 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	@ReadValue("approveByConsignerInfo")
 	private String readApproveByConsigner() {
 		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
+	}
+	
+	public OperationInfo getApproveInfo() {
+		return approveInfo;
 	}
 
 	@Persistence
@@ -1012,6 +1016,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	@Behavior("从项目集移除项目")
 	private boolean behaviourRemoveFromProgram() {
 		return true;
+	}
+
+	@SelectionValidation("eps")
+	private boolean epsSelectable(@MethodParam(MethodParam.OBJECT) EPS eps) {
+		return eps.countSubEPS() == 0;
 	}
 
 	public Boolean getStartApproved() {
