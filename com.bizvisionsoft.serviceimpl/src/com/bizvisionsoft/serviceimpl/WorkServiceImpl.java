@@ -2027,12 +2027,13 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 		List<Document> indicator = new ArrayList<>();
 		List<Double> avg = new ArrayList<>();
 
-		c("work").aggregate(
-				new JQ("查询-评分-工作按期率").set("match", new Document("actualStart", new Document("$ne", null))).set("now", new Date()).array())
-				.forEach((Document d) -> {
-					indicator.add(new Document("name", d.getString("_id")).append("max", 100));
-					avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
-				});
+		List<Bson> pipe = new JQ("查询-评分-工作按期率").set("match", new Document("actualStart", new Document("$ne", null))).set("now", new Date())
+				.array();
+		debugPipeline(pipe);
+		c("work").aggregate(pipe).forEach((Document d) -> {
+			indicator.add(new Document("name", d.getString("_id")).append("max", 100));
+			avg.add((double) Math.round(1000 * ((Number) d.get("score")).doubleValue()) / 10);
+		});
 
 		Double[] value = new Double[avg.size()];
 
