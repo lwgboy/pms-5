@@ -43,7 +43,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		ProjectTemplate pt = insert(prjt);
 		// 添加默认全局项目设置
 		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
-			Document setting = getSystemSetting(name);
+			Document setting = Optional.ofNullable(getSystemSetting(name)).orElse(new Document());
 			setting.put("name", name + "@" + pt.getScope_id());
 			setting.remove("_id");
 			return setting;
@@ -509,7 +509,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 		// 添加项目设置
 		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
-			Document setting = getSystemSetting(name + "@" + template_id.toString());
+			Document setting = Optional.ofNullable(getSystemSetting(name + "@" + template_id.toString())).orElse(new Document());
 			setting.put("name", name + "@" + project_id.toString());
 			setting.remove("_id");
 			return setting;
