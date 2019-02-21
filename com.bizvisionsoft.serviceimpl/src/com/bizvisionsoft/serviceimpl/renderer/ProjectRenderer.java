@@ -182,7 +182,7 @@ public class ProjectRenderer {
 	}
 
 	private void renderTimeline(StringBuffer sb) {
-		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 5);
+		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 3);
 		RenderTools.appendList(sb, list, theme.lightText, n -> n.getSummary());
 	}
 
