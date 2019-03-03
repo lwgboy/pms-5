@@ -163,7 +163,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs);
-	
+
 	@DELETE
 	@Path("/valueRuleSegment/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")

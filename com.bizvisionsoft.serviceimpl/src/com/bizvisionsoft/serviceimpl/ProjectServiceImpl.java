@@ -372,6 +372,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = get(_id);
 		// 获取项目启动设置
 		Document systemSetting = getScopeSetting(_id, START_SETTING_NAME);
+		// 从项目启动设置中获取项目预算配置
+
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// 【1】 预算 ，从项目启动设置中获取项目预算配置
 		Object setting;
@@ -427,7 +429,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				else if ("要求".equals(setting))
 					results.add(Result.error("项目尚未创建风险项。"));
 		}
-		
+
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// 【4】 资源 获取项目资源设置
 		setting = getSettingValue(systemSetting, START_SETTING_FIELD_RESOURCE, "警告");
@@ -448,7 +450,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				} else {
 					workIds.removeAll(resourceWorkIds);
 					if (workIds.size() > 0) {
-						message = "部分工作未指定资源：<br>"+ Formatter
+						message = "部分工作未指定资源：<br>" + Formatter
 								.getString(c("work").distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
 										.into(new ArrayList<>()));
 					}

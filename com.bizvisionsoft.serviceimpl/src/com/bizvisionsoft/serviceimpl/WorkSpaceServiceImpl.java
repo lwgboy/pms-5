@@ -261,8 +261,6 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 			results.add(Result.error("里程碑:" + d.getString("fullName") + " 必须存在工作关联关系."));
 		});
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 【2】按设置进行检查
 		Document setting = getScopeSetting(project_id, CHECKIN_SETTING_NAME);
@@ -360,6 +358,7 @@ public class WorkSpaceServiceImpl extends BasicServiceImpl implements WorkSpaceS
 		});
 
 		return results;
+
 	}
 
 	/**
