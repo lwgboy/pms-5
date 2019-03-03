@@ -10,6 +10,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.model.News;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
@@ -161,7 +162,9 @@ public class ProjectRenderer {
 
 	private void renderProjectStage(StringBuffer sb) {
 		sb.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:inline-flex;'>");
-		ServicesLoader.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
+		List<Work> stages = ServicesLoader.get(ProjectService.class).listStage(pj.get_id());
+		double pc = (double) Math.round(100d / stages.size() * 100) / 100;
+		stages.forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
 				style = "layui-btn layui-btn-sm";
@@ -170,13 +173,16 @@ public class ProjectRenderer {
 			} else {
 				style = "layui-btn layui-btn-primary layui-btn-sm";
 			}
-			sb.append("<div class='" + style + "' style='width: 100%;'>" + work.getText() + "</div>");
+			String text = work.getText();
+			sb.append("<div class='" + style + "' style='width:" + pc
+					+ "%;text-overflow:ellipsis;overflow:hidden;padding:0 2px;' onclick='layer.tips(\"" + text
+					+ "\", this, {tips: 1,time:2000})'>" + text + "</div>");
 		});
 		sb.append("</div>");
 	}
 
 	private void renderTimeline(StringBuffer sb) {
-		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 5);
+		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 3);
 		RenderTools.appendList(sb, list, theme.lightText, n -> n.getSummary());
 	}
 

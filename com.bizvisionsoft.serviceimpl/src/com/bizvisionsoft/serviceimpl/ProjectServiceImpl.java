@@ -128,7 +128,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 添加默认全局项目设置
 		ObjectId scope_id = project.getScope_id();
 		List<Document> list = PROJECT_SETTING_NAMES.stream().map(name -> {
-			Document setting = getSystemSetting(name);
+			Document setting = Optional.ofNullable(getSystemSetting(name)).orElse(new Document());
 			setting.put("name", name + "@" + scope_id.toString());
 			setting.remove("_id");
 			return setting;
