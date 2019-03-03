@@ -59,8 +59,8 @@ public class ServicesLoader implements BundleActivator {
 				configuration.update(properties);
 				bundleContext.ungetService(reference);
 				is.close();
-				logger.info("swagger host:"+props.getProperty("host"));
-				logger.info("swagger basePath:"+props.getProperty("basePath"));
+				logger.info("swagger url:"+props.getProperty("host")+props.getProperty("basePath"));
+				logger.info("swagger ui:http://"+props.getProperty("host")+"/swagger-ui/index.html");
 			}
 		} catch (Exception e) {
 			logger.error("swagger≈‰÷√¥ÌŒÛ", e);

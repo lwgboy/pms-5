@@ -27,7 +27,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/list" })
-	@ApiOperation(value = "获取根组织", response = Catalog.class, responseContainer = "List")
+	@ApiOperation(value = "获取根组织目录", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listOrgRoot(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
@@ -35,6 +35,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS资源图表/list", "EPS预算成本图表/list" })
+	@ApiOperation(value = "获取根EPS目录", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listEPSRoot();
 
 	@POST
@@ -42,6 +43,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/slist", "EPS资源图表/slist", "项目资源图表/slist" })
+	@ApiOperation(value = "获取资源目录的下级目录", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listResStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -49,6 +51,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/scount", "EPS资源图表/scount", "项目资源图表/scount" })
+	@ApiOperation(value = "获取资源目录的下级目录的数量", response = Long.class)
 	public long countResStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -56,6 +59,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/chart", "EPS资源图表/chart", "项目资源图表/chart" })
+	@ApiOperation(value = "根据条件创建资源图表配置", response = Document.class)
 	public Document createResChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
 	@POST
@@ -63,6 +67,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS预算成本图表/chart", "项目预算成本图表/chart" })
+	@ApiOperation(value = "根据条件创建预算成本图表配置", response = Document.class)
 	public Document createBudgetNCostChart(@MethodParam(MethodParam.CONDITION) Document condition);
 
 	@POST
@@ -70,6 +75,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS预算成本图表/slist", "项目预算成本图表/slist" })
+	@ApiOperation(value = "获取预算成本目录的下级目录", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listBudgetNCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -77,6 +83,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS预算成本图表/scount", "项目预算成本图表/scount" })
+	@ApiOperation(value = "获取预算成本目录的下级目录数量", response = Long.class)
 	public long countBudgetNCostStructure(@MethodParam(MethodParam.OBJECT) Catalog parent);
 
 	@POST
@@ -84,6 +91,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS预算成本图表/default", "项目预算成本图表/default" })
+	@ApiOperation(value = "返回默认的预算成本图表配置条件", response = Document.class)
 	public Document createDefaultBudgetNCostOption();
 
 	@POST
@@ -91,6 +99,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/default", "EPS资源图表/default", "项目资源图表/default" })
+	@ApiOperation(value = "返回默认的资源图表配置条件", response = Document.class)
 	public Document createDefaultResOption();
 
 	@POST
@@ -98,6 +107,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目资源图表/list", "项目预算成本图表/list" })
+	@ApiOperation(value = "获取项目作为根目录", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listResProjectRoot(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
 
 }
