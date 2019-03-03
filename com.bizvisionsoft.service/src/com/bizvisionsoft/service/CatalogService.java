@@ -15,7 +15,11 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Catalog;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Path("/catalog")
+@Api(value = "/catalog")
 public interface CatalogService {
 
 	@POST
@@ -23,6 +27,7 @@ public interface CatalogService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织资源图表/list" })
+	@ApiOperation(value = "获取根组织", response = Catalog.class, responseContainer = "List")
 	public List<Catalog> listOrgRoot(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
