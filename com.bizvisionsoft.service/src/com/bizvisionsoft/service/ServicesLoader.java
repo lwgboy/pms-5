@@ -53,7 +53,7 @@ public class ServicesLoader implements BundleActivator {
 				Dictionary<String, Object> properties = new Hashtable<>();
 				props.forEach((k,v)->properties.put("swagger."+k, v));
 				
-				ServiceReference<?> reference = bundleContext.getServiceReference(ConfigurationAdmin.class.getName());
+				ServiceReference<?> reference = bundleContext.getServiceReference(ConfigurationAdmin.class);
 				ConfigurationAdmin configAdmin = (ConfigurationAdmin) bundleContext.getService(reference);
 				Configuration configuration = configAdmin.getConfiguration("com.eclipsesource.jaxrs.swagger.config", null);
 				configuration.update(properties);
