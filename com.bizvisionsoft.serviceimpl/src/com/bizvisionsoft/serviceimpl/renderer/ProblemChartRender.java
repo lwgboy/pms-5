@@ -132,7 +132,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 		c("problem").aggregate(Arrays.asList(//
 				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", new Document("$in", catalog_ids)))//
 		)).forEach((Document d) -> {
-			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)) {
+			// Modify by zjc 20190318 将问题自身排除出相似问题中，否则会因为连线指向自身导致异常
+			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)
+					&& !d.getObjectId("_id").toHexString().equals(rootId)) {
 				// 【2】加入相似问题目录
 				String probCata = d.getString("name");
 				categories.add(new Document("name", probCata));
@@ -215,6 +217,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
 				.doc();
 		debugDocument(chart);
+		System.out.println(chart.toJson());
 		return chart;
 	}
 
