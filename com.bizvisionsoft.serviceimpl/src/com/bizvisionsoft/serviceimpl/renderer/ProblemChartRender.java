@@ -138,7 +138,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 				// 【2】加入相似问题目录
 				String probCata = d.getString("name");
 				categories.add(new Document("name", probCata));
-
+				
 				ObjectId parentId = d.getObjectId("_id");
 				String subid = parentId.toHexString();
 				Document subnode = new Document("name", probCata)//
@@ -217,7 +217,6 @@ public class ProblemChartRender extends BasicServiceImpl {
 		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
 				.doc();
 		debugDocument(chart);
-		System.out.println(chart.toJson());
 		return chart;
 	}
 
