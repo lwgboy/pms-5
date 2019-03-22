@@ -5,20 +5,18 @@ Bundle-SymbolicName: com.bizvisionsoft.serviceimpl
 Bundle-Version: 5.2.0.qualifier
 Bundle-Vendor: BIZVISIONSOFT
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.osgi.framework
 Require-Bundle: com.bizvisionsoft.mongocodex,
  org.mongodb.mongo-java-driver,
- com.eclipsesource.jaxrs.jersey-all,
  com.bizvisionsoft.service,
  com.bizvisionsoft.annotations,
  com.google.gson,
  slf4j.api,
  org.eclipse.osgi,
- com.hankcs.hanlp
+ com.hankcs.hanlp,
+ com.eclipsesource.jaxrs.jersey-all;bundle-version="2.22.2",
+ org.apache.commons.email;bundle-version="1.4.0",
+ javax.mail;bundle-version="1.4.5"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
 Export-Package: com.bizvisionsoft.serviceimpl,
  com.bizvisionsoft.serviceimpl.scheduling
-Bundle-ClassPath: lib/commons-email-1.4.jar,
- lib/javax.mail-1.5.5.jar,
- .
