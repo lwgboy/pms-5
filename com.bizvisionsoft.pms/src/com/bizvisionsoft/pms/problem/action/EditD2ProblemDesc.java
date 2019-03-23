@@ -28,7 +28,7 @@ public class EditD2ProblemDesc {
 		Document d = service.getD2ProblemDesc(problem.get_id());
 		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d, true).ok((r, t) -> {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
-			if(context.getContent().getClass().isInstance(InfopadPart.class)) {
+			if(context.getContent().getClass().isInstance(new InfopadPart(null))) {
 				InfopadPart content = (InfopadPart) context.getContent();
 				content.reload();
 			}else {
