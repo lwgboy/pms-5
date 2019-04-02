@@ -22,6 +22,13 @@ import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 
 public abstract class CBSGrid extends GridPart {
 
+	protected Color color;
+
+	public void init() {
+		color = BruiColors.getColor(BruiColor.Grey_50);
+		super.init();
+	}
+
 	@Override
 	protected GridTreeViewer createGridViewer(Composite parent) {
 		viewer = new GridTreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -60,9 +67,9 @@ public abstract class CBSGrid extends GridPart {
 		c.setMoveable(false);
 		c.setResizeable(true);
 		createColumn(grid, c);
-		
+
 		createExtendColumns(grid);
-		
+
 		//////////////////////////////////////////////////////////////////////////////
 
 		// Note: 这个范围意义不大
@@ -92,7 +99,7 @@ public abstract class CBSGrid extends GridPart {
 
 			@Override
 			public Color getBackground(Object element) {
-				return BruiColors.getColor(BruiColor.Grey_50);
+				return color;
 			}
 
 		});
@@ -106,7 +113,7 @@ public abstract class CBSGrid extends GridPart {
 		start.set(Calendar.SECOND, 0);
 
 		Calendar end = Calendar.getInstance();
-		String nowYear = "" +end.get(Calendar.YEAR);
+		String nowYear = "" + end.get(Calendar.YEAR);
 		end.setTime(range[1]);
 
 		String year = null;
@@ -159,14 +166,16 @@ public abstract class CBSGrid extends GridPart {
 
 	/**
 	 * 子类覆盖 增加列
+	 * 
 	 * @param grid
 	 */
 	protected void createExtendColumns(Grid grid) {
-		
+
 	}
 
 	/**
 	 * 子类覆盖 编辑各月预算
+	 * 
 	 * @param vcol
 	 * @return
 	 */
@@ -194,7 +203,7 @@ public abstract class CBSGrid extends GridPart {
 
 			@Override
 			public Color getBackground(Object element) {
-				return BruiColors.getColor(BruiColor.Grey_50);
+				return color;
 			}
 		});
 	}

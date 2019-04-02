@@ -180,8 +180,8 @@ public class CBSItem implements ICBSAmount {
 
 	@SetValue("children")
 	private void setChildren(List<ObjectId> childrenId) {
-		children = ServicesLoader.get(CBSService.class)
-				.createDataSet(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
+		children = ServicesLoader.get(CBSService.class).createDataSet(
+				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
 	}
 
 	@Exclude
@@ -217,34 +217,16 @@ public class CBSItem implements ICBSAmount {
 
 	@Structure({ "项目成本管理/list", "项目成本管理（查看）/list", "项目预算成本对比分析/list" })
 	public List<Object> listSubCBSItemsAndSubjects() {
-		children.forEach(c -> {
-			c.parent = this;
-			c.settlementDate = getNextSettlementDate();
+		List<Object> cbsSubjects = new ArrayList<Object>();
+		listSubjects().forEach(s -> {
+			cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
 		});
-		List<Object> result = new ArrayList<Object>(children);
-
-		if (result.size() == 0) {
-			List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
-			listSubjects().forEach(s -> {
-				cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
-
-			});
-			result.addAll(cbsSubjects);
-		}
-		return result;
+		return cbsSubjects;
 	}
 
 	@Structure({ "项目成本管理/count", "项目成本管理（查看）/count", "项目预算成本对比分析/count" })
 	public long countSubCBSItemsAndSubjects() {
-		long result = children.size();
-		if (result == 0) {
-			if (subjects == null) {
-				result += ServicesLoader.get(CommonService.class).countAccoutItemRoot();
-			} else {
-				result += subjects.size();
-			}
-		}
-		return result;
+		return ServicesLoader.get(CommonService.class).countAccoutItemRoot();
 	}
 
 	@Structure({ "预算成本对比分析/list" })
@@ -395,7 +377,8 @@ public class CBSItem implements ICBSAmount {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
 					}
 				}
@@ -403,7 +386,8 @@ public class CBSItem implements ICBSAmount {
 				List<CBSPeriod> cbsPeriods = listCBSPeriods();
 				if (cbsPeriods.size() > 0) {
 					for (CBSPeriod cbsPeriod : cbsPeriods) {
-						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0
+								&& endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
 							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
 						}
 					}
@@ -521,7 +505,8 @@ public class CBSItem implements ICBSAmount {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
+							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
 					}
 				}

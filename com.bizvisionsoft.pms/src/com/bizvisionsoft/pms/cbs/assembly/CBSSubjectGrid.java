@@ -2,10 +2,12 @@ package com.bizvisionsoft.pms.cbs.assembly;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
@@ -27,6 +29,7 @@ import com.bizvisionsoft.bruiengine.service.PermissionUtil;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.CBSService;
+import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.CBSSubject;
@@ -54,7 +57,10 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 
 	protected ICBSScope scope;
 
-	protected List<CBSSubject> cbsSubjects;
+	protected List<Document> accoutItems;
+
+	private Map<String, Double> cbsItemAmount;
+	private Map<String, Map<String, Double>> accountItemAmount;
 
 	public void init() {
 		scope = (ICBSScope) getContext().getRootInput();
@@ -69,9 +75,93 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 			}
 		}
 		if (cbsItem != null) {
-			cbsSubjects = Services.get(CBSService.class).getCBSSubject(cbsItem.get_id());
+			List<CBSSubject> cbsSubjects = Services.get(CBSService.class).getCBSSubject(cbsItem.get_id());
+			accoutItems = Services.get(CommonService.class).getAllAccoutItemsHasParentIds();
+
+			// 按照科目、月份计算合计值
+			cbsItemAmount = new HashMap<String, Double>();
+			accountItemAmount = new HashMap<String, Map<String, Double>>();
+			cbsSubjects.forEach(c -> {
+				String period = c.getId();
+				String subjectNumber = c.getSubjectNumber();
+				Double amount = getAmount(c);
+				changeAmountData(period, subjectNumber, amount);
+			});
 		}
 		super.init();
+	}
+
+	/**
+	 * 修改金额数据 <br/>
+	 * 修改CBSItem和AccountItem中对应的期间、费用科目的金额
+	 * 
+	 * @param period
+	 *            期间
+	 * @param subjectNumber
+	 *            费用科目
+	 * @param amount
+	 *            金额（差额，与当前金额数据的差值）
+	 */
+	private void changeAmountData(String period, String subjectNumber, Double amount) {
+		// 计算CBSItem的金额
+		calculationAmount(cbsItemAmount, period, amount);
+
+		// 计算各叶子节点费用科目的金额
+		Map<String, Double> monthAmount = accountItemAmount.get(subjectNumber);
+		if (monthAmount == null) {
+			monthAmount = new HashMap<String, Double>();
+			accountItemAmount.put(subjectNumber, monthAmount);
+		}
+		calculationAmount(monthAmount, period, amount);
+
+		// 计算各摘要节点费用科目的金额
+		accoutItems.stream().filter(d -> {
+			return d.getString("id").equals(subjectNumber);
+		}).forEach(d -> {
+			List<String> parentIds = (List<String>) d.get("parentIds");
+			parentIds.forEach(parentId -> {
+				Map<String, Double> parentMonthAmount = accountItemAmount.get(parentId);
+				if (parentMonthAmount == null) {
+					parentMonthAmount = new HashMap<String, Double>();
+					accountItemAmount.put(parentId, parentMonthAmount);
+				}
+				calculationAmount(parentMonthAmount, period, amount);
+			});
+		});
+	}
+
+	/**
+	 * 计算金额
+	 * 
+	 * @param amountMap
+	 * @param period
+	 * @param amount
+	 */
+	private void calculationAmount(Map<String, Double> amountMap, String period, Double amount) {
+		// 月份合计
+		Double d = amountMap.get(period);
+		if (d == null && amount != null)
+			d = amount;
+		else if (d != null && amount != null)
+			d += amount;
+		amountMap.put(period, d);
+
+		// 年合计
+		String year = period.substring(0, 4);
+		d = amountMap.get(year);
+		if (d == null && amount != null)
+			d = amount;
+		else if (d != null && amount != null)
+			d += amount;
+		amountMap.put(year, d);
+
+		// 总合计
+		d = amountMap.get("total");
+		if (d == null && amount != null)
+			d = amount;
+		else if (d != null && amount != null)
+			d += amount;
+		amountMap.put("total", d);
 	}
 
 	@CreateUI
@@ -88,125 +178,54 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 
 	@Override
 	protected String getMonthlyAmountText(Object element, String period) {
-		Double value = null;
-		if (element instanceof CBSItem) {
-			value = getMonthlyAmount((CBSItem) element, period);
-		} else if (element instanceof AccountItem) {
-			value = getMonthlyAmount((AccountItem) element, period);
-		}
-		return Optional.ofNullable(value).map(v -> Formatter.getMoneyFormatString(v)).orElse("");
+		return Optional.ofNullable(getMonthlyAmount(element, period)).map(v -> Formatter.getMoneyFormatString(v))
+				.orElse("");
 	}
 
 	@Override
 	protected String getTotalAmountText(Object element) {
-		Double value = null;
-		if (element instanceof CBSItem) {
-			value = getTotalAmount((CBSItem) element);
-		} else if (element instanceof AccountItem) {
-			value = getTotalAmount((AccountItem) element);
-		}
-		return Optional.ofNullable(value).map(v -> Formatter.getMoneyFormatString(v)).orElse("");
+		return Optional.ofNullable(getTotalAmount(element)).map(v -> Formatter.getMoneyFormatString(v)).orElse("");
 	}
 
 	@Override
 	protected String getYearlyAmountSummaryText(Object element, String year) {
-		Double value = null;
-		if (element instanceof CBSItem) {
-			value = getYearlyAmountSummary((CBSItem) element, year);
-		} else if (element instanceof AccountItem) {
-			value = getYearlyAmountSummary((AccountItem) element, year);
-		}
-		return Optional.ofNullable(value).map(v -> Formatter.getMoneyFormatString(v)).orElse("");
+		return Optional.ofNullable(getYearlyAmountSummary(element, year)).map(v -> Formatter.getMoneyFormatString(v))
+				.orElse("");
 	}
 
 	private Double getMonthlyAmount(Object item, String period) {
-		if (cbsSubjects.stream().noneMatch(s -> s.getId().equals(period))) {
-			return 0d;
+		Double value = null;
+		if (item instanceof CBSItem) {
+			value = cbsItemAmount.get(period);
+		} else if (item instanceof AccountItem) {
+			value = Optional.ofNullable(accountItemAmount.get(((AccountItem) item).getId())).map(m -> m.get(period))
+					.orElse(null);
 		}
-
-		List<AccountItem> children = null;
-		if (item instanceof AccountItem) {
-			children = ((AccountItem) item).listSubAccountItems();
-		} else {
-			children = ((CBSItem) item).listSubjects();
-		}
-		Double summary = 0d;
-		if (children.isEmpty()) {
-			String id = ((AccountItem) item).getId();
-			summary = cbsSubjects.stream().filter(s -> {
-				return s.getSubjectNumber().equals(id) && s.getId().equals(period);
-			}).findFirst().map(u -> getAmount(u)).orElse(0d);
-		} else {
-			for (Iterator<AccountItem> iterator = children.iterator(); iterator.hasNext();) {
-				AccountItem child = (AccountItem) iterator.next();
-				summary += getMonthlyAmount(child, period);
-			}
-		}
-
-		return summary;
+		return value;
 	}
 
 	protected abstract Double getAmount(CBSSubject u);
 
 	private Double getYearlyAmountSummary(Object item, String year) {
-		if (cbsSubjects.stream().noneMatch(s -> s.getId().startsWith(year))) {
-			return 0d;
+		Double value = null;
+		if (item instanceof CBSItem) {
+			value = cbsItemAmount.get(year);
+		} else if (item instanceof AccountItem) {
+			value = Optional.ofNullable(accountItemAmount.get(((AccountItem) item).getId())).map(m -> m.get(year))
+					.orElse(null);
 		}
-
-		List<AccountItem> children = null;
-		if (item instanceof AccountItem) {
-			children = ((AccountItem) item).listSubAccountItems();
-		} else {
-			children = ((CBSItem) item).listSubjects();
-		}
-		Double summary = 0d;
-		if (children.isEmpty()) {
-
-			List<Double> summarys = new ArrayList<Double>();
-			String id = ((AccountItem) item).getId();
-			cbsSubjects.stream().filter(s -> {
-				return s.getSubjectNumber().equals(id) && s.getId().startsWith(year);
-			}).forEach(c -> summarys.add(getAmount(c)));
-			for (Double d : summarys) {
-				if (d != null) {
-					summary += d.doubleValue();
-				}
-			}
-		} else {
-			for (Iterator<AccountItem> iterator = children.iterator(); iterator.hasNext();) {
-				AccountItem child = (AccountItem) iterator.next();
-				summary += getYearlyAmountSummary(child, year);
-			}
-		}
-		return summary;
+		return value;
 	}
 
 	private Double getTotalAmount(Object item) {
-		List<AccountItem> children = null;
-		if (item instanceof AccountItem) {
-			children = ((AccountItem) item).listSubAccountItems();
-		} else {
-			children = ((CBSItem) item).listSubjects();
+		Double value = null;
+		if (item instanceof CBSItem) {
+			value = cbsItemAmount.get("total");
+		} else if (item instanceof AccountItem) {
+			value = Optional.ofNullable(accountItemAmount.get(((AccountItem) item).getId())).map(m -> m.get("total"))
+					.orElse(null);
 		}
-		Double summary = 0d;
-		if (children.isEmpty()) {
-			String id = ((AccountItem) item).getId();
-			List<Double> summarys = new ArrayList<Double>();
-			cbsSubjects.stream().filter(s -> {
-				return s.getSubjectNumber().equals(id);
-			}).forEach(c -> summarys.add(getAmount(c)));
-			for (Double d : summarys) {
-				if (d != null) {
-					summary += d.doubleValue();
-				}
-			}
-		} else {
-			for (Iterator<AccountItem> iterator = children.iterator(); iterator.hasNext();) {
-				AccountItem child = (AccountItem) iterator.next();
-				summary += getTotalAmount(child);
-			}
-		}
-		return summary;
+		return value;
 	}
 
 	@Override
@@ -219,22 +238,36 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		if (item instanceof AccountItem && ((AccountItem) item).countSubAccountItems() == 0) {
 			return null;
 		} else if (item instanceof CBSItem) {
-			return BruiColors.getColor(BruiColor.Grey_50);
+			return color;
 		}
-		return BruiColors.getColor(BruiColor.Grey_50);
+		return color;
 	}
 
 	public void updateCBSSubjectAmount(CBSSubject subject) {
-		CBSSubject newSubject = getUpsertedCBSSubject(subject);
-		cbsSubjects.remove(subject);
-		cbsSubjects.add(newSubject);
+		getUpsertedCBSSubject(subject);
 
-		// 获取修改的年份和月份
+		// TODO 测试, 造成修改记录后反应慢。refresh时调用默认调用所有的计算,预计要用7秒+。
+		// long start = System.currentTimeMillis();
+		// viewer.refresh();
+		// long end = System.currentTimeMillis();
+		// logger.debug("updateCBSSubjectAmount refresh:" + (end - start));
+
+		// 获取修改的年份、月份和费用科目
 		String period = subject.getId();
 		String year = period.substring(0, 4);
+		String subjectNumber = subject.getSubjectNumber();
 
-		// 造成修改记录后反应慢。refresh时调用默认调用所有的计算,预计要用7秒+。
-		// viewer.refresh();
+		// 更新金额数据
+		Double amount = getAmount(subject);
+		// 获取当前金额数据中的值
+
+		Double oldAmount = Optional.ofNullable(accountItemAmount.get(subjectNumber))
+				.map(m -> Optional.ofNullable(m.get(period)).orElse(null)).orElse(null);
+		if (oldAmount != null && amount != null) {
+			amount = amount - oldAmount;
+		}
+
+		changeAmountData(period, subjectNumber, amount);
 
 		// 获取修改列的index、年合计列的index和总合计的index
 		// 修改列的index
@@ -263,7 +296,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		// 刷新修改行所在的行及其上级行
 		for (GridItem item : grid.getItems()) {
 			Object data = item.getData();
-			if (data instanceof AccountItem && subject.getSubjectNumber().equals(((AccountItem) data).getId())) {
+			if (data instanceof AccountItem && subjectNumber.equals(((AccountItem) data).getId())) {
 				refreshGridItemAndParent(item, period, periodIndex, year, yearIndex, totalIndex);
 				break;
 			}
@@ -294,18 +327,22 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 			refreshGridItemAndParent(parentItem, period, periodIndex, year, yearIndex, totalIndex);
 		}
 		Object data = item.getData();
-		// TODO 缺少index为-1时的处理
 		// 计算并设置当前列
-		String periodText = getMonthlyAmountText(data, period);
-		item.setText(periodIndex, periodText);
+		if (periodIndex >= 0) {
+			String periodText = getMonthlyAmountText(data, period);
+			item.setText(periodIndex, periodText);
+		}
 
 		// 计算并设置年合计
-		String yearText = getYearlyAmountSummaryText(data, year);
-		item.setText(yearIndex, yearText);
-
+		if (yearIndex >= 0) {
+			String yearText = getYearlyAmountSummaryText(data, year);
+			item.setText(yearIndex, yearText);
+		}
 		// 计算并设置各月合计
-		String totalText = getTotalAmountText(data);
-		item.setText(totalIndex, totalText);
+		if (totalIndex >= 0) {
+			String totalText = getTotalAmountText(data);
+			item.setText(totalIndex, totalText);
+		}
 	}
 
 	protected abstract CBSSubject getUpsertedCBSSubject(CBSSubject subject);
@@ -335,7 +372,6 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 
 			@Override
 			protected Object getValue(Object element) {
-				// TODO 调整为直接从cell中获取值
 				Double value = getMonthlyAmount((AccountItem) element, id);
 				return value == null ? "" : value.toString();
 			}
