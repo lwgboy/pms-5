@@ -28,8 +28,13 @@ public class EditD2ProblemDesc {
 		Document d = service.getD2ProblemDesc(problem.get_id());
 		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d, true).ok((r, t) -> {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
-			InfopadPart content = (InfopadPart) context.getContent();
-			content.reload();
+			if(context.getContent().getClass().isInstance(new InfopadPart(null))) {
+				InfopadPart content = (InfopadPart) context.getContent();
+				content.reload();
+			}else {
+				IQueryEnable content = (IQueryEnable) context.getContent();
+				content.doRefresh();
+			}
 		});
 	}
 	
