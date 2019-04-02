@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.message;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -39,6 +40,8 @@ public class MsgCardACT {
 			service.updateMessage(fu);
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 			viewer.remove(element);
+			// 删除input中存储的对象
+			((List<?>) viewer.getInput()).remove(element);
 			return;
 		}
 

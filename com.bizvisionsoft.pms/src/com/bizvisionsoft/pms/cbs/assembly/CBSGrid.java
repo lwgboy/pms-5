@@ -106,6 +106,7 @@ public abstract class CBSGrid extends GridPart {
 		start.set(Calendar.SECOND, 0);
 
 		Calendar end = Calendar.getInstance();
+		String nowYear = "" +end.get(Calendar.YEAR);
 		end.setTime(range[1]);
 
 		String year = null;
@@ -116,13 +117,12 @@ public abstract class CBSGrid extends GridPart {
 				// 创建合计列
 				if (grp != null) {
 					createYearTotal("" + (start.get(Calendar.YEAR) - 1), grp);
-
 				}
 
 				// 创建gruop
 				grp = new GridColumnGroup(grid, SWT.TOGGLE);
 				grp.setText(nYear);
-				grp.setExpanded(true);
+				grp.setExpanded(nowYear.equals(nYear));
 				year = nYear;
 			}
 			int i = start.get(Calendar.MONTH) + 1;
