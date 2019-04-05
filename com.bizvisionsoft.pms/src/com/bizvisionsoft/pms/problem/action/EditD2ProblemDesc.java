@@ -8,6 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
+import com.bizvisionsoft.bruiengine.assembly.InfopadPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -27,7 +28,13 @@ public class EditD2ProblemDesc {
 		Document d = service.getD2ProblemDesc(problem.get_id());
 		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d, true).ok((r, t) -> {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
-			((IQueryEnable)context.getContent()).doRefresh();
+			if(context.getContent().getClass().isInstance(new InfopadPart(null))) {
+				InfopadPart content = (InfopadPart) context.getContent();
+				content.reload();
+			}else {
+				IQueryEnable content = (IQueryEnable) context.getContent();
+				content.doRefresh();
+			}
 		});
 	}
 	

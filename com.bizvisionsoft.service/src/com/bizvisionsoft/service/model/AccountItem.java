@@ -70,7 +70,7 @@ public class AccountItem implements Comparable<AccountItem> {
 	}
 
 	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })
-	private boolean behavior() {
+	public boolean behavior() {
 		return countSubAccountItems() == 0;
 	}
 

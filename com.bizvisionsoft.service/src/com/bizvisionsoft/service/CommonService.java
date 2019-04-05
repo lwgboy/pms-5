@@ -438,6 +438,12 @@ public interface CommonService {
 	public long updateAccountIncome(BasicDBObject filterAndUpdate);
 
 	@POST
+	@Path("/accoutItem/hasParentIds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> getAllAccoutItemsHasParentIds();
+
+	@POST
 	@Path("/gencode/{name}/{key}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -553,7 +559,8 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的工作/budget")
-	public boolean hasSomethingNewOfMyWork(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+	public boolean hasSomethingNewOfMyWork(
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
 
 	@POST
 	@Path("/tools/syncOrgFullName")
