@@ -14,6 +14,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.EPSService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
@@ -21,7 +22,6 @@ import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 

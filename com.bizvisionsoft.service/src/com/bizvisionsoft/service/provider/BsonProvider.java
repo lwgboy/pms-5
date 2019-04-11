@@ -105,12 +105,13 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 	private T readFromResult(InputStreamReader reader) {
 		UniversalResult ur = getGson().fromJson(reader, UniversalResult.class);
 		String className = ur.getTargetClassName();
-		if (className == null) {
+		String bundleName = ur.getTargetBundleName();
+		Class<?> clazz = ServicesLoader.getClass(className, bundleName);
+		if (clazz == null) {
 			ur.setValue(Document.parse(ur.getResult()));
 			return (T) ur;
 		}
 		try {
-			Class<?> clazz = (Class<?>) ServicesLoader.getBundleContext().getBundle().loadClass(className);
 			if (ur.isList()) {
 				ParameterizedType rpt = new ParameterizedType() {
 					@Override

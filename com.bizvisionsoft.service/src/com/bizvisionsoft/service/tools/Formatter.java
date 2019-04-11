@@ -15,11 +15,14 @@ import java.util.Stack;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.model.RemoteFile;
+import com.mongodb.BasicDBObject;
 
 public class Formatter {
 
@@ -200,7 +203,18 @@ public class Formatter {
 		} else if (value instanceof RemoteFile) {
 			text = ((RemoteFile) value).name;
 		} else if (value instanceof Object) {
-			text = Optional.ofNullable(AUtil.readLabel(value)).orElse("");
+			text = AUtil.readLabel(value);
+			if (text == null) {
+				if (value instanceof JsonExternalizable) {
+					text = ((JsonExternalizable) value).encodeJson();
+				} else if(value instanceof Document) {	
+					text = ((Document) value).toJson();
+				} else if(value instanceof BasicDBObject) {	
+					text = ((BasicDBObject) value).toJson();
+				} else {
+					text = value.toString();
+				}
+			}
 		} else {
 			text = defaultValue;
 		}

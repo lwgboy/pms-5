@@ -11,13 +11,13 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkReportSummary;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.ReportRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;

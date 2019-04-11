@@ -9,9 +9,9 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RevenueService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class RevenueServiceImpl extends BasicServiceImpl implements RevenueService {
 

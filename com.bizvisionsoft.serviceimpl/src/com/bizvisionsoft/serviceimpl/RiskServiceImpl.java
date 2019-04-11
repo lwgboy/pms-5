@@ -13,6 +13,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RiskService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;
@@ -22,7 +23,6 @@ import com.bizvisionsoft.service.model.RiskEffect;
 import com.bizvisionsoft.service.model.RiskResponse;
 import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.scheduling.MonteCarloSimulate;
 import com.bizvisionsoft.serviceimpl.scheduling.Risk;
 import com.bizvisionsoft.serviceimpl.scheduling.Route;

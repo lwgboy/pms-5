@@ -9,10 +9,10 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.ProductService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.Product;
 import com.bizvisionsoft.service.model.ProductBenchmark;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 
 public class ProductServiceImpl extends BasicServiceImpl implements ProductService {

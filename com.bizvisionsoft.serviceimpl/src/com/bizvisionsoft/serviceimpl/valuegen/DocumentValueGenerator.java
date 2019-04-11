@@ -17,12 +17,12 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.serviceimpl.SystemServiceImpl;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 

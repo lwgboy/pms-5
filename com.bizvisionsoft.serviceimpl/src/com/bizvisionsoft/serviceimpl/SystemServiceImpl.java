@@ -10,6 +10,7 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import com.bizvisionsoft.service.common.Service;
 
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.ValueRule;

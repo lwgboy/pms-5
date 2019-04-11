@@ -15,12 +15,12 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.OBSService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.OBSItemWarpper;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 

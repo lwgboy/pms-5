@@ -8,12 +8,12 @@ import java.util.Optional;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.ProblemService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 
 public class ProblemCardRenderer extends BasicServiceImpl {
 

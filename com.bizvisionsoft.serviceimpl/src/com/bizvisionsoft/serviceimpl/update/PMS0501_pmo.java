@@ -1,4 +1,5 @@
 package com.bizvisionsoft.serviceimpl.update;
+import com.bizvisionsoft.service.common.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.service.model.OBSItem;
-import com.bizvisionsoft.serviceimpl.Service;
 import com.bizvisionsoft.serviceimpl.SystemServiceImpl;
 import com.mongodb.client.MongoCollection;
 

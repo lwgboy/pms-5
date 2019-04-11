@@ -52,8 +52,9 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 			pipeline.add(Aggregates.limit(limit));
 
 		String className = command.getTargetClassName();
+		String bundleName = command.getTargetBundleName();
 		ArrayList<Document> result = col(command).aggregate(pipeline).into(new ArrayList<>());
-		return listResult(className, getGson().toJson(result));
+		return listResult(className, bundleName, getGson().toJson(result));
 	}
 
 	private MongoCollection<Document> col(UniversalCommand command) {
@@ -62,17 +63,12 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 			return c(colName);
 
 		String className = command.getTargetClassName();
-		Class<?> clazz = getClass(className);
+		String bundleName = command.getTargetBundleName();
+		Class<?> clazz = ServicesLoader.getClass(className, bundleName);
+		if (clazz == null)
+			throw new ServiceException("无法加载类"+className);
 		String col = clazz.getAnnotation(PersistenceCollection.class).value();
 		return c(col);
-	}
-
-	private Class<?> getClass(String className) {
-		try {
-			return ServicesLoader.getBundleContext().getBundle().loadClass(className);
-		} catch (ClassNotFoundException e) {
-			throw new ServiceException(e.getMessage());
-		}
 	}
 
 	@Override
@@ -88,23 +84,26 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	public UniversalResult insert(UniversalCommand command) {
 		Document document = command.ignoreNull(true).getParameter("object", Document.class);
 		String className = command.getTargetClassName();
+		String bundleName = command.getTargetBundleName();
 		String colName = command.getTargetCollection();
 		if (colName != null) {
-			return insertDocument(document, colName, className);
+			return insertDocument(document, colName, className, bundleName);
 		} else {
-			return insertObject(document, className);
+			return insertObject(document, className, bundleName);
 		}
 	}
 
-	private UniversalResult insertDocument(Document document, String colName, String className) {
+	private UniversalResult insertDocument(Document document, String colName, String className, String bundleName) {
 		// 去掉null
 		c(colName).insertOne(document);
-		return elementResult(className, document.toJson());
+		return elementResult(className, bundleName, document.toJson());
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> UniversalResult insertObject(Document document, String className) {
-		Class<T> clazz = (Class<T>) getClass(className);
+	private <T> UniversalResult insertObject(Document document, String className, String bundleName) {
+		Class<T> clazz = (Class<T>) ServicesLoader.getClass(className, bundleName);
+		if (clazz == null)
+			throw new ServiceException("无法加载类"+className);
 		Codec<T> codec = CodexProvider.getRegistry().get(clazz);
 		if (codec instanceof Codex) {
 			Codex<T> codex = (Codex<T>) codec;
@@ -112,7 +111,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 				T obj = clazz.newInstance();
 				codex.decode(obj, new JsonReader(document.toJson()), DecoderContext.builder().build());
 				c(clazz).insertOne(obj);
-				return elementResult(className, getGson().toJson(obj));
+				return elementResult(className, bundleName, getGson().toJson(obj));
 			} catch (InstantiationException | IllegalAccessException e) {
 				logger.error(e.getMessage(), e);
 				throw new ServiceException(e.getMessage());
@@ -122,6 +121,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 			logger.error(msg);
 			throw new ServiceException(msg);
 		}
+
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		String sid = command.getParameter("_id.$oid", String.class);
 		if (sid != null) {
 			Document document = col(command).find(new Document("_id", new ObjectId(sid))).first();
-			return elementResult(command.getTargetClassName(), getGson().toJson(document));
+			return elementResult(command.getTargetClassName(), command.getTargetBundleName(), getGson().toJson(document));
 		}
 		String msg = "缺少唯一关键字";
 		logger.error(msg);
@@ -167,18 +167,20 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 				.create();
 	}
 
-	private UniversalResult elementResult(String className, String json) {
+	private UniversalResult elementResult(String className, String bundleName, String json) {
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult(json);
 		uResult.setTargetClassName(className);
+		uResult.setTargetBundleName(bundleName);
 		uResult.setList(false);
 		return uResult;
 	}
 
-	private UniversalResult listResult(String className, String json) {
+	private UniversalResult listResult(String className, String bundleName, String json) {
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult(json);
 		uResult.setTargetClassName(className);
+		uResult.setTargetBundleName(bundleName);
 		uResult.setList(true);
 		return uResult;
 	}

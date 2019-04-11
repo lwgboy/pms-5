@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.CatalogService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.AccountItem;
 import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.EPS;
@@ -19,7 +20,6 @@ import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.Work;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.renderer.BudgetNCostChartRenderer;
 //github.com/sgewuhan/pms.git
 import com.bizvisionsoft.serviceimpl.renderer.ResourceChartRenderer;

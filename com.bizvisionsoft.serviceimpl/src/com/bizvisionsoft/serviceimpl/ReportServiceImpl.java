@@ -17,15 +17,16 @@ import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import com.bizvisionsoft.service.common.Service;
 
 import com.bizvisionsoft.service.ReportService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.dps.ReportCreator;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
 import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 

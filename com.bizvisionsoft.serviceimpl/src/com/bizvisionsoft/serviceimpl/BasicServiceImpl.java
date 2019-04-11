@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
+import com.bizvisionsoft.service.common.Service;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ProjectStatus;
@@ -33,7 +35,6 @@ import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
-import com.bizvisionsoft.serviceimpl.query.JQ;
 import com.bizvisionsoft.serviceimpl.scheduling.Consequence;
 import com.bizvisionsoft.serviceimpl.scheduling.Graphic;
 import com.bizvisionsoft.serviceimpl.scheduling.Relation;
