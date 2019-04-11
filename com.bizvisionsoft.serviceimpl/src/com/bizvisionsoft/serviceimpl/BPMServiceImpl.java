@@ -18,8 +18,8 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	@Override
 	public List<Document> listResources() {
 		List<Document> result = BPM.getKieBase().getProcesses().stream().map(p -> {
-			Document meta = new Document();
-			meta.putAll(p.getMetaData());
+//			Document meta = new Document();
+//			meta.putAll(p.getMetaData());
 			Document resource = new Document();
 			Resource res = p.getResource();
 			resource.append("sourcePath", res.getSourcePath())//
@@ -32,7 +32,8 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 					.append("knowledgeType", p.getKnowledgeType().name())//
 					.append("type", p.getType())//
 					.append("packageName", p.getPackageName())//
-					.append("meta", meta).append("resource", resource);//
+//					.append("meta", meta)//
+					.append("resource", resource);//
 		}).collect(Collectors.toList());
 		return result;
 	}
