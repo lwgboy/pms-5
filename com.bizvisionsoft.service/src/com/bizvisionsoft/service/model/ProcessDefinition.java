@@ -37,6 +37,10 @@ public class ProcessDefinition {
 
 	@ReadValue
 	@WriteValue
+	private String type;
+	
+	@ReadValue
+	@WriteValue
 	private Boolean enabled;
 
 	private Document constants;
@@ -87,6 +91,10 @@ public class ProcessDefinition {
 
 	@WriteValue
 	private List<String> users;
+	
+	@ReadValue
+	@WriteValue
+	private Boolean allUser;
 
 	@ReadValue("users")
 	private List<User> readUsersByEditor() {
@@ -130,5 +138,95 @@ public class ProcessDefinition {
 	public String toString() {
 		return "" + name + "/" + bpmnId;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBpmnId() {
+		return bpmnId;
+	}
+
+	public void setBpmnId(String bpmnId) {
+		this.bpmnId = bpmnId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Document getConstants() {
+		return constants;
+	}
+
+	public void setConstants(Document constants) {
+		this.constants = constants;
+	}
+
+	public List<String> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(List<String> parameters) {
+		this.parameters = parameters;
+	}
+
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
+	}
+
+	public Boolean getAllUser() {
+		return allUser;
+	}
+
+	public void setAllUser(Boolean allUser) {
+		this.allUser = allUser;
+	}
+
+	public List<ObjectId> getOrganizations() {
+		return organizations;
+	}
+
+	public void setOrganizations(List<ObjectId> organizations) {
+		this.organizations = organizations;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+	
+	
 
 }
