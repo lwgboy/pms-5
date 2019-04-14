@@ -579,5 +579,24 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting);
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@POST
+	@Path("/funcrole/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "功能角色选择器/" + DataSet.LIST})
+	public List<Dictionary> listFunctionRoles(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/funcrole/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "功能角色选择器/" + DataSet.COUNT })
+	public long countFunctionRoles(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

@@ -80,12 +80,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public long deleteResourceType(ObjectId _id) {
 		// TODO 考虑资源类型被使用的状况
 		if (count(new BasicDBObject("_id", _id), "equipment") > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-					.set(new BasicDBObject("resourceType_id", null)).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
 			return updateEquipment(fu);
 		} else if (count(new BasicDBObject("_id", _id), "user") > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-					.set(new BasicDBObject("resourceType_id", null)).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
 			return new UserServiceImpl().update(fu);
 		} else {
 			String id = c("resourceType").distinct("id", new BasicDBObject("_id", _id), String.class).first();
@@ -201,8 +201,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public void addCalendarWorktime(BasicDBObject r, ObjectId _cal_id) {
-		c(Calendar.class).updateOne(new BasicDBObject("_id", _cal_id),
-				new BasicDBObject("$addToSet", new BasicDBObject("workTime", r)));
+		c(Calendar.class).updateOne(new BasicDBObject("_id", _cal_id), new BasicDBObject("$addToSet", new BasicDBObject("workTime", r)));
 	}
 
 	/**
@@ -269,8 +268,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public Map<String, String> getDictionary(String type) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterable<Document> itr = c("dictionary").find(new BasicDBObject("type", type));
-		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]",
-				d.getString("id") + "#" + d.getString("name")));
+		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]", d.getString("id") + "#" + d.getString("name")));
 		return result;
 	}
 
@@ -284,8 +282,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<String> listDictionary(String type, String valueField) {
-		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class)
-				.into(new ArrayList<>());
+		return c("dictionary").distinct(valueField, (new BasicDBObject("type", type)), String.class).into(new ArrayList<>());
 	}
 
 	@Override
@@ -333,8 +330,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountItem").updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -346,8 +342,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountIncome").updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -394,8 +389,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("revenueForecastItem")
-					.countDocuments(new Document("subject", new Document("$in", toDelete)));
+			long refCnt = c("revenueForecastItem").countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益预测正在使用的科目。");
 			}
@@ -561,8 +555,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public Date getCurrentCBSPeriod() {
 		Document doc = c("project")
-				.find(new Document("status",
-						new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
+				.find(new Document("status", new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
 				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.add(java.util.Calendar.MONTH, -1);
@@ -717,8 +710,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public void syncOrgFullName() {
 		c("organization").find().into(new ArrayList<>()).forEach((Document d) -> {
-			c("organization").updateOne(new Document("_id", d.get("_id")),
-					new Document("$set", new Document("fullName", d.get("name"))));
+			c("organization").updateOne(new Document("_id", d.get("_id")), new Document("$set", new Document("fullName", d.get("name"))));
 		});
 	}
 
@@ -746,6 +738,22 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		pipeline.add(Aggregates.project(new BasicDBObject("parentIds", "$parentIds.id").append("id", true)));
 		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
 		return c("accountItem").aggregate(pipeline).into(new ArrayList<Document>());
+	}
+
+	@Override
+	public List<Dictionary> listFunctionRoles(BasicDBObject condition) {
+		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("type",
+				"功能角色");
+		condition.append("filter", filter);
+		return createDataSet(condition, Dictionary.class);
+	}
+
+	@Override
+	public long countFunctionRoles(BasicDBObject filter) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter.put("type", "功能角色");
+		return c("dictionary").countDocuments(filter);
 	}
 
 }

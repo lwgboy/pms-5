@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
@@ -92,11 +93,11 @@ public class ProcessDefinition {
 		if (users != null) {
 			Query q = new Query().filter(new BasicDBObject("userId", new BasicDBObject("$in", users)));
 			return ServicesLoader.get(UserService.class).createDataSet(q.bson());
-		}else {
+		} else {
 			return new ArrayList<>();
 		}
 	}
-	
+
 	@WriteValue
 	private List<ObjectId> organizations;
 
@@ -105,9 +106,20 @@ public class ProcessDefinition {
 		if (organizations != null) {
 			Query q = new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", organizations)));
 			return ServicesLoader.get(OrganizationService.class).createDataSet(q.bson());
-		}else {
+		} else {
 			return new ArrayList<>();
 		}
+	}
+
+	@WriteValue
+	private List<String> roles;
+
+	@ReadValue("roles")
+	private List<Dictionary> readRoles() {
+		if (roles == null)
+			return new ArrayList<>();
+		return ServicesLoader.get(CommonService.class)
+				.listFunctionRoles(new BasicDBObject("filter", new BasicDBObject("id", new BasicDBObject("$in", roles))));
 	}
 
 	@ReadValue(ReadValue.TYPE)

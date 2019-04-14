@@ -1,6 +1,7 @@
 package com.bizvisionsoft.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -19,7 +20,8 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	public List<Document> listResources() {
 		List<Document> result = BPM.getKieBase().getProcesses().stream().map(p -> {
 //			Document meta = new Document();
-//			meta.putAll(p.getMetaData());
+//			meta.putAll(				);
+//			Map<String, Object> meta = p.getMetaData();
 			Document resource = new Document();
 			Resource res = p.getResource();
 			resource.append("sourcePath", res.getSourcePath())//
