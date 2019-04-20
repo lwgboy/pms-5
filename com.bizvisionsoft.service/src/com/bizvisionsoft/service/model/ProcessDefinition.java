@@ -43,47 +43,26 @@ public class ProcessDefinition {
 	@WriteValue
 	private Boolean enabled;
 
-	private Document constants;
+	private Document properties;
 
 	/**
 	 * @param input
 	 *             ‰»Îµƒ «name,value
 	 */
-	@WriteValue("constants")
-	private void writeConstantsByEditor(List<Document> input) {
-		constants = new Document();
+	@WriteValue("properties")
+	private void writepropertiesByEditor(List<Document> input) {
+		properties = new Document();
 		if (input != null) {
-			input.forEach(d -> constants.append(d.getString("name"), d.get("value")));
+			input.forEach(d -> properties.append(d.getString("name"), d.get("value")));
 		}
 	}
 
-	@ReadValue("constants")
-	private List<Document> readConstantsByEditor() {
+	@ReadValue("properties")
+	private List<Document> readpropertiesByEditor() {
 		List<Document> result = new ArrayList<>();
-		if (constants != null) {
-			constants.entrySet().forEach(e -> {
+		if (properties != null) {
+			properties.entrySet().forEach(e -> {
 				result.add(new Document("name", e.getKey()).append("value", e.getValue()));
-			});
-		}
-		return result;
-	}
-
-	private List<String> parameters;
-
-	@WriteValue("parameters")
-	private void writeParameters(List<Document> input) {
-		parameters = new ArrayList<>();
-		if (input != null) {
-			input.forEach(d -> parameters.add(d.getString("name")));
-		}
-	}
-
-	@ReadValue("parameters")
-	private List<Document> readParameters() {
-		List<Document> result = new ArrayList<>();
-		if (parameters != null) {
-			parameters.forEach(e -> {
-				result.add(new Document("name", e));
 			});
 		}
 		return result;
@@ -179,20 +158,12 @@ public class ProcessDefinition {
 		this.enabled = enabled;
 	}
 
-	public Document getConstants() {
-		return constants;
+	public Document getProperties() {
+		return properties;
 	}
 
-	public void setConstants(Document constants) {
-		this.constants = constants;
-	}
-
-	public List<String> getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(List<String> parameters) {
-		this.parameters = parameters;
+	public void setProperties(Document properties) {
+		this.properties = properties;
 	}
 
 	public List<String> getUsers() {

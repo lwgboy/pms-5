@@ -271,3 +271,17 @@ BPM-1.0 完成基本的BPM OGM封装
 BPM-1.1 完成基本测试
 BPM-2.0 流程定义
 BPM-2.1 流程表单
+BPM-2.2 传入流程的变量、常量和表达式
+
+方案一
+流程表单的输入document,是否可以是任何对象？
+可以定义document的构造器，document构造器可以访问上下文的对象
+流程表单的输出也是document
+可以定义输出document的如何转换为流程参数
+
+方案二(否决)
+发起一个流程是一个action
+这个action可以是通用的action,也可以是一个自定义的action
+通用的action
+
+
