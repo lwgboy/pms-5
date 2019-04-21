@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 import org.kie.api.internal.utils.BPM;
 import org.kie.api.io.Resource;
+import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +52,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		List<Bson> pipeline = new ArrayList<>();
 		new JQ("查询授权用户的流程定义").set("userId", userId).appendTo(pipeline);
 		appendConditionToPipeline(pipeline, condition);
-		List<?> ids = c("processDefinition").aggregate(pipeline).map((Document d)->d.getObjectId("_id")).into(new ArrayList<>());
+		List<?> ids = c("processDefinition").aggregate(pipeline).map((Document d) -> d.getObjectId("_id")).into(new ArrayList<>());
 		ArrayList<ProcessDefinition> result = c(ProcessDefinition.class).find(new Document("_id", new Document("$in", ids)))
 				.into(new ArrayList<>());
 		return result;
@@ -64,6 +64,18 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		new JQ("查询授权用户的流程定义").appendTo(pipeline);
 		Optional.ofNullable(filter).map(Aggregates::match).ifPresent(pipeline::add);
 		return c("processDefinition").aggregate(pipeline).into(new ArrayList<>()).size();
+	}
+
+	@Override
+	public Long startProcess(Document parameters, String processId) {
+		try {
+			ProcessInstance pi = BPM.getDefaultRuntimeEngine().getKieSession().startProcess(processId, parameters);
+			logger.info("启动流程：{}", pi);
+			return pi.getId();
+		} catch (Exception e) {
+			logger.error("启动流程失败：{}{}", parameters, processId);
+			return null;
+		}
 	}
 
 }

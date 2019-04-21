@@ -50,4 +50,10 @@ public interface BPMService {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@POST
+	@Path("/process/start/{processId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Long startProcess(Document parameter, @PathParam("processId") String processId);
+
 }

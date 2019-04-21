@@ -38,12 +38,24 @@ public class ProcessDefinition {
 	@ReadValue
 	@WriteValue
 	private String type;
-	
+
 	@ReadValue
 	@WriteValue
 	private Boolean enabled;
 
 	private Document properties;
+
+	@ReadValue
+	@WriteValue
+	private String editor;
+
+	@ReadValue
+	@WriteValue
+	private String script;
+
+	@ReadValue
+	@WriteValue
+	private String function;
 
 	/**
 	 * @param input
@@ -70,7 +82,7 @@ public class ProcessDefinition {
 
 	@WriteValue
 	private List<String> users;
-	
+
 	@ReadValue
 	@WriteValue
 	private Boolean allUser;
@@ -122,72 +134,81 @@ public class ProcessDefinition {
 		return name;
 	}
 
-	public void setName(String name) {
+	public ProcessDefinition setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public String getBpmnId() {
 		return bpmnId;
 	}
 
-	public void setBpmnId(String bpmnId) {
+	public ProcessDefinition setBpmnId(String bpmnId) {
 		this.bpmnId = bpmnId;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public ProcessDefinition setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public ProcessDefinition setType(String type) {
 		this.type = type;
+		return this;
 	}
 
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
+	public ProcessDefinition setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+		return this;
 	}
 
 	public Document getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Document properties) {
+	public ProcessDefinition setProperties(Document properties) {
 		this.properties = properties;
+		return this;
 	}
 
 	public List<String> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<String> users) {
+	public ProcessDefinition setUsers(List<String> users) {
 		this.users = users;
+		return this;
 	}
 
 	public Boolean getAllUser() {
 		return allUser;
 	}
 
-	public void setAllUser(Boolean allUser) {
+	public ProcessDefinition setAllUser(Boolean allUser) {
 		this.allUser = allUser;
+		return this;
 	}
 
 	public List<ObjectId> getOrganizations() {
 		return organizations;
 	}
 
-	public void setOrganizations(List<ObjectId> organizations) {
+	public ProcessDefinition setOrganizations(List<ObjectId> organizations) {
 		this.organizations = organizations;
+		return this;
 	}
 
 	public List<String> getRoles() {
@@ -197,7 +218,33 @@ public class ProcessDefinition {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-	
-	
+
+	public String getEditor() {
+		return editor;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public String getScript() {
+		return script;
+	}
+
+	public ProcessDefinition setEditor(String editor) {
+		this.editor = editor;
+		return this;
+
+	}
+
+	public ProcessDefinition setFunction(String function) {
+		this.function = function;
+		return this;
+	}
+
+	public ProcessDefinition setScript(String script) {
+		this.script = script;
+		return this;
+	}
 
 }
