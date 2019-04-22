@@ -9,6 +9,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.kie.api.internal.utils.BPM;
 import org.kie.api.io.Resource;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,14 +69,43 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public Long startProcess(Document parameters, String processId) {
-		try {
-			ProcessInstance pi = BPM.getDefaultRuntimeEngine().getKieSession().startProcess(processId, parameters);
-			logger.info("启动流程：{}", pi);
-			return pi.getId();
-		} catch (Exception e) {
-			logger.error("启动流程失败：{}{}", parameters, processId);
-			return null;
-		}
+		// 获取流程传入参数
+		Document input = (Document) parameters.get("input");
+		// 获取流程附加数据
+		Document meta = (Document) parameters.get("meta");
+		Document creationInfo = (Document) parameters.get("creationInfo");
+
+//		CorrelationKeyInfo ck = new CorrelationKeyInfo();
+//		ck.setName("meta");
+//		ck.addProperty(new CorrelationPropertyInfo("name",meta.getString("name")));
+//		ck.addProperty(new CorrelationPropertyInfo("type",meta.getString("type")));
+//		ck.addProperty(new CorrelationPropertyInfo("userId",creationInfo.getString("userId")));
+//		ck.addProperty(new CorrelationPropertyInfo("consignerId",creationInfo.getString("consignerId")));
+//		// 启动流程
+//		CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime) BPM.getDefaultRuntimeEngine().getKieSession();
+//		ProcessInstance pi = kies.startProcess(processId,ck,  input);
+		
+		KieSession kies = BPM.getDefaultRuntimeEngine().getKieSession();
+		ProcessInstance pi = kies.startProcess(processId,  input);
+
+		long id = pi.getId();
+		// 更新流程附加信息
+		c("bpm_ProcessInstanceInfo").updateOne(new Document("_id", id),
+				new Document("$set", new Document("meta", meta).append("creationInfo", creationInfo)));
+		logger.info("启动流程：{}", pi);
+		return id;
+	}
+
+	@Override
+	public List<Document> listTaskCard(BasicDBObject condition, String userId, String lang) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countTaskCard(BasicDBObject filter, String userId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

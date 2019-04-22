@@ -75,7 +75,9 @@ public class SelectAndLaunchProcess {
 					new ServiceHelper());
 			JSTools.invoke(script, function, "input", binding, input, context.getContextParameterData());
 		}
-		Long id = Services.get(BPMService.class).startProcess(input, pd.getBpmnId());
+		Document parameter = new Document().append("input", input).append("meta", pd.getMetaInfo()).append("creationInfo",
+				br.operationInfo().encodeDocument());
+		Long id = Services.get(BPMService.class).startProcess(parameter, pd.getBpmnId());
 		if (id != null)
 			Layer.message("启动流程完成<br>" + processFullName, Layer.ICON_INFO);
 		else

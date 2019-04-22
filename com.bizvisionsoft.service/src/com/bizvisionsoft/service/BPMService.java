@@ -55,5 +55,24 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Long startProcess(Document parameter, @PathParam("processId") String processId);
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@POST
+	@Path("/userId/{userId}/planned/card/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的流程任务（已分配）/list")
+	public List<Document> listTaskCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userId,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/userId/{userId}/planned/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("我的流程任务（已分配）/count")
+	public long countTaskCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 }

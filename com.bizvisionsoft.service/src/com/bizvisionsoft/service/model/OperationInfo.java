@@ -24,5 +24,5 @@ public class OperationInfo implements JsonExternalizable{
 	public String toString() {
 		return userName + " " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATETIME).format(date);
 	}
-
+	
 }

@@ -247,4 +247,8 @@ public class ProcessDefinition {
 		return this;
 	}
 
+	public Document getMetaInfo() {
+		return new Document("name",name).append("type",type);
+	}
+
 }
