@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
+import com.bizvisionsoft.service.common.Service;
 
 public class TOPSReportServiceImpl extends BasicServiceImpl implements TOPSReportService {
 
