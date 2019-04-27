@@ -28,8 +28,16 @@ public interface BPMService {
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "查询工作流定义", response = Document.class, responseContainer = "List")
 	@DataSet("BPMN资源列表/" + DataSet.LIST)
-	public List<Document> listResources();
+	public List<Document> listResources(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
+	@POST
+	@Path("/resource/bpmn/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义数量", response = Document.class, responseContainer = "List")
+	@DataSet({ "BPMN资源列表/" + DataSet.COUNT })
+	public long countResources(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.ProcessDefinition;
+import com.bizvisionsoft.service.tools.StreamToolkit;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 
@@ -25,8 +27,13 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	private static Logger logger = LoggerFactory.getLogger(BPMServiceImpl.class);
 
 	@Override
-	public List<Document> listResources() {
-		List<Document> result = BPM.getKieBase().getProcesses().stream().map(p -> {
+	public List<Document> listResources(BasicDBObject condition) {
+		Stream<Document> stream = createResourceStream();
+		return StreamToolkit.appendCondition(stream, condition).collect(Collectors.toList());
+	}
+
+	private Stream<Document> createResourceStream() {
+		Stream<Document> stream = BPM.getKieBase().getProcesses().stream().map(p -> {
 			// Document meta = new Document();
 			// meta.putAll( );
 			// Map<String, Object> meta = p.getMetaData();
@@ -44,8 +51,14 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 					.append("packageName", p.getPackageName())//
 					// .append("meta", meta)//
 					.append("resource", resource);//
-		}).collect(Collectors.toList());
-		return result;
+		});
+		return stream;
+	}
+
+	@Override
+	public long countResources(BasicDBObject filter) {
+		Stream<Document> stream = createResourceStream();
+		return StreamToolkit.appendFilter(stream, filter).count();
 	}
 
 	@Override
@@ -75,18 +88,21 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		Document meta = (Document) parameters.get("meta");
 		Document creationInfo = (Document) parameters.get("creationInfo");
 
-//		CorrelationKeyInfo ck = new CorrelationKeyInfo();
-//		ck.setName("meta");
-//		ck.addProperty(new CorrelationPropertyInfo("name",meta.getString("name")));
-//		ck.addProperty(new CorrelationPropertyInfo("type",meta.getString("type")));
-//		ck.addProperty(new CorrelationPropertyInfo("userId",creationInfo.getString("userId")));
-//		ck.addProperty(new CorrelationPropertyInfo("consignerId",creationInfo.getString("consignerId")));
-//		// 启动流程
-//		CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime) BPM.getDefaultRuntimeEngine().getKieSession();
-//		ProcessInstance pi = kies.startProcess(processId,ck,  input);
-		
+		// CorrelationKeyInfo ck = new CorrelationKeyInfo();
+		// ck.setName("meta");
+		// ck.addProperty(new CorrelationPropertyInfo("name",meta.getString("name")));
+		// ck.addProperty(new CorrelationPropertyInfo("type",meta.getString("type")));
+		// ck.addProperty(new
+		// CorrelationPropertyInfo("userId",creationInfo.getString("userId")));
+		// ck.addProperty(new
+		// CorrelationPropertyInfo("consignerId",creationInfo.getString("consignerId")));
+		// // 启动流程
+		// CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime)
+		// BPM.getDefaultRuntimeEngine().getKieSession();
+		// ProcessInstance pi = kies.startProcess(processId,ck, input);
+
 		KieSession kies = BPM.getDefaultRuntimeEngine().getKieSession();
-		ProcessInstance pi = kies.startProcess(processId,  input);
+		ProcessInstance pi = kies.startProcess(processId, input);
 
 		long id = pi.getId();
 		// 更新流程附加信息
