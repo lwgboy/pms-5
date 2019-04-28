@@ -127,6 +127,12 @@ public interface BPMService {
 	@ApiOperation(value = "查询工作流定义下的人工任务", response = TaskDefinition.class, responseContainer = "List")
 	public List<TaskDefinition> listTaskDefinitions(@PathParam("_id") ObjectId _id);
 	
+	@POST
+	@Path("/taskDef/taskId/{taskId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "根据任务id查询任务定义", response = TaskDefinition.class)
+	public TaskDefinition getTaskDefinitionByTaskId(@PathParam("taskId") long taskId);
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -301,7 +307,7 @@ public interface BPMService {
 			@PathParam("targetUserId") String targetUserId);
 
 	@PUT
-	@Path("/task/{taskId}/complete/{userId}/{targetUserId}/")
+	@Path("/task/{taskId}/complete/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "完成任务", response = Boolean.class)
@@ -314,6 +320,18 @@ public interface BPMService {
 	@ApiOperation(value = "指派任务", response = Boolean.class)
 	public boolean nominateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, List<String> potentialOwnersUserId);
 
+	@GET
+	@Path("/task/{taskId}/processInstance/vars/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得流程实例的变量", response = Document.class)
+	public Document getProcessInstanceVariablesByTaskId(@PathParam("taskId") long taskId);
 
+	@GET
+	@Path("/processInstance/{processInstanceId}/vars/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得流程实例的变量", response = Document.class)
+	public Document getProcessInstanceVariables(@PathParam("processInstanceId") long processInstanceId);
 
 }

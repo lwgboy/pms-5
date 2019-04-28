@@ -52,7 +52,12 @@ public class TaskDefinition {
 
 	@ReadValue
 	@WriteValue
-	private String script;
+	private String iScript;
+	
+	@ReadValue
+	@WriteValue
+	private String oScript;
+
 
 	@ReadValue
 	@WriteValue
@@ -110,7 +115,8 @@ public class TaskDefinition {
 				.setNodeId(data.getString("nodeId"))//
 				.setFunction(data.getString("function"))//
 				.setProperties((Document) data.get("properties"))//
-				.setScript(data.getString("script"))//
+				.setiScript(data.getString("iScript"))//
+				.setoScript(data.getString("oScript"))//
 				.setNodeId(data.getString("nodeId"))//
 				.setProcessDefinitionId(data.getObjectId("processDefinitionId"))//
 				.setType(data.getString("type"))//
@@ -138,11 +144,16 @@ public class TaskDefinition {
 		return this;
 	}
 
-	private TaskDefinition setScript(String script) {
-		this.script = script;
+	private TaskDefinition setiScript(String iScript) {
+		this.iScript = iScript;
 		return this;
 	}
-
+	
+	private TaskDefinition setoScript(String oScript) {
+		this.oScript = oScript;
+		return this;
+	}
+	
 	private TaskDefinition setType(String type) {
 		this.type = type;
 		return this;
@@ -167,5 +178,26 @@ public class TaskDefinition {
 	public String toString() {
 		return "" + name + "/" + taskName;
 	}
+	
+	public Document getProperties() {
+		return properties;
+	}
+	
+	public String getiScript() {
+		return iScript;
+	}
+	
+	public String getoScript() {
+		return oScript;
+	}
+	
+	public String getEditor() {
+		return editor;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	
 }

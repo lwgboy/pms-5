@@ -3,6 +3,7 @@ package com.bizvisionsoft.serviceimpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,12 +12,15 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.jbpm.ruleflow.core.RuleFlowProcess;
+import org.jbpm.ruleflow.instance.RuleFlowProcessInstance;
 import org.jbpm.workflow.core.node.HumanTaskNode;
 import org.kie.api.internal.utils.BPM;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.TaskService;
 import org.kie.api.task.model.OrganizationalEntity;
+import org.kie.api.task.model.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,8 +144,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		// BPM.getDefaultRuntimeEngine().getKieSession();
 		// ProcessInstance pi = kies.startProcess(processId,ck, input);
 
-		KieSession kies = BPM.getDefaultRuntimeEngine().getKieSession();
-		ProcessInstance pi = kies.startProcess(processId, input);
+		ProcessInstance pi = kieSession().startProcess(processId, input);
 
 		long id = pi.getId();
 		// 更新流程附加信息
@@ -226,68 +229,76 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public boolean resumeTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().resume(taskId, userId);
+		taskService().resume(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean stopTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().stop(taskId, userId);
+		taskService().stop(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean suspendTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().suspend(taskId, userId);
+		taskService().suspend(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean forwardTask(long taskId, String userId, String targetUserId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().forward(taskId, userId, targetUserId);
+		taskService().forward(taskId, userId, targetUserId);
 		return true;
 	}
 
 	@Override
 	public boolean startTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().start(taskId, userId);
+		taskService().start(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean claimTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().claim(taskId, userId);
+		taskService().claim(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean exitTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().exit(taskId, userId);
+		taskService().exit(taskId, userId);
 		return true;
 	}
 
 	@Override
 	public boolean skipTask(long taskId, String userId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().skip(taskId, userId);
+		taskService().skip(taskId, userId);
 		return true;
+	}
+
+	private TaskService taskService() {
+		return BPM.getDefaultRuntimeEngine().getTaskService();
+	}
+
+	private KieSession kieSession() {
+		return BPM.getDefaultRuntimeEngine().getKieSession();
 	}
 
 	@Override
 	public boolean delegateTask(long taskId, String userId, String targetUserId) {
-		BPM.getDefaultRuntimeEngine().getTaskService().delegate(taskId, userId, targetUserId);
+		taskService().delegate(taskId, userId, targetUserId);
 		return true;
 	}
 
 	@Override
 	public boolean completeTask(long taskId, String userId, Document parameters) {
-		BPM.getDefaultRuntimeEngine().getTaskService().complete(taskId, userId, parameters);
+		taskService().complete(taskId, userId, parameters);
 		return true;
 	}
 
 	@Override
 	public boolean nominateTask(long taskId, String userId, List<String> potentialOwnersUserId) {
 		List<OrganizationalEntity> potentialOwners = null;// TODO
-		BPM.getDefaultRuntimeEngine().getTaskService().nominate(taskId, userId, potentialOwners);
+		taskService().nominate(taskId, userId, potentialOwners);
 		return true;
 	}
 
@@ -310,7 +321,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	public long updateProcessDefinitions(BasicDBObject fu) {
 		return update(fu, ProcessDefinition.class);
 	}
-	
+
 	@Override
 	public long updateTaskDefinitions(BasicDBObject fu) {
 		return update(fu, TaskDefinition.class);
@@ -320,7 +331,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	public ProcessDefinition insertProcessDefinition(ProcessDefinition p) {
 		return insert(p);
 	}
-	
+
 	@Override
 	public TaskDefinition insertTaskDefinition(TaskDefinition td) {
 		return insert(td);
@@ -328,13 +339,35 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public long deleteProcessDefinition(ObjectId _id) {
-		c("taskDefinition").deleteMany(new Document("processDefinitionId",_id));
+		c("taskDefinition").deleteMany(new Document("processDefinitionId", _id));
 		return delete(_id, ProcessDefinition.class);
 	}
 
 	@Override
 	public long deleteTaskDefinition(ObjectId _id) {
 		return delete(_id, TaskDefinition.class);
+	}
+
+	@Override
+	public TaskDefinition getTaskDefinitionByTaskId(long taskId) {
+		List<Bson> pipe = new JQ("bpm/查询-任务-任务定义").set("taskId", taskId).array();
+		return c("bpm_Task").aggregate(pipe, TaskDefinition.class).first();
+	}
+
+	@Override
+	public Document getProcessInstanceVariablesByTaskId(long taskId) {
+		Task task = taskService().getTaskById(taskId);
+		long pid = task.getTaskData().getProcessInstanceId();
+		return getProcessInstanceVariables(pid);
+	}
+
+	@Override
+	public Document getProcessInstanceVariables(long pid) {
+		RuleFlowProcessInstance pi = (RuleFlowProcessInstance) kieSession().getProcessInstance(pid);
+		Map<String, Object> v = pi.getVariables();
+		Document doc = new Document();
+		doc.putAll(v);
+		return doc;
 	}
 
 }

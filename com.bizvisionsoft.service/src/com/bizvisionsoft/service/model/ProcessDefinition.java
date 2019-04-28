@@ -83,17 +83,17 @@ public class ProcessDefinition {
 		}
 		return result;
 	}
-	
+
 	@ReadValue("工作流定义列表/properties")
 	private String readpropertiesByGrid() {
 		StringBuffer sb = new StringBuffer();
 		if (properties != null) {
 			properties.entrySet().forEach(e -> {
-				sb.append(e.getKey()+"="+e.getValue()+"; ");
+				sb.append(e.getKey() + "=" + e.getValue() + "; ");
 			});
 		}
 		return sb.toString();
-		
+
 	}
 
 	@WriteValue
@@ -265,14 +265,14 @@ public class ProcessDefinition {
 	}
 
 	public Document getMetaInfo() {
-		return new Document("name",name).append("type",type);
+		return new Document("name", name).append("type", type).append("_id", _id);
 	}
-	
+
 	@Structure("工作流定义列表 /list")
-	public List<TaskDefinition> listTaskDefinitions(){
+	public List<TaskDefinition> listTaskDefinitions() {
 		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id);
 	}
-	
+
 	@Structure("工作流定义列表 /count")
 	public long countTaskDefinitions() {
 		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id);
@@ -281,7 +281,5 @@ public class ProcessDefinition {
 	public ObjectId get_id() {
 		return _id;
 	}
-	
-	
 
 }

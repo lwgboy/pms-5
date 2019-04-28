@@ -48,7 +48,7 @@ public class SelectAndLaunchProcess {
 		Optional.ofNullable(properties).ifPresent(input::putAll);
 		// 2.是否有表单，如有，打开
 		String editorName = pd.getEditor();
-		if (editorName != null) {
+		if (Check.isAssigned(editorName)) {
 			Assembly assembly = ModelLoader.site.getAssemblyByName(editorName);
 			if (assembly == null) {
 				Layer.error("无法获得流程表单：" + editorName);
