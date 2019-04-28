@@ -79,9 +79,9 @@ public class SelectAndLaunchProcess {
 				br.operationInfo().encodeDocument());
 		Long id = Services.get(BPMService.class).startProcess(parameter, pd.getBpmnId());
 		if (id != null)
-			Layer.message("启动流程完成<br>" + processFullName, Layer.ICON_INFO);
+			Layer.message("流程已启动<br>" + processFullName, Layer.ICON_INFO);
 		else
-			Layer.message("启动流程失败<br>" + processFullName, Layer.ICON_ERROR);
+			Layer.message("流程启动失败<br>" + processFullName, Layer.ICON_ERROR);
 	}
 
 }
