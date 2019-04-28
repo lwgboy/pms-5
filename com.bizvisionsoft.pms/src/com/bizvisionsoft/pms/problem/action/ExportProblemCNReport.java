@@ -38,8 +38,8 @@ public class ExportProblemCNReport {
 						+ "{ '$unwind' : {'path' : '$org', 'preserveNullAndEmptyArrays' : true}}, "
 						+ "{ '$lookup' : {'from' : 'd5PCA', 'let' : {'problem_id' : '$_id'}, 'pipeline' : [{'$match' : {'$expr' : {'$and' : [{'$eq' : ['$$problem_id', '$problem_id']}, '$selected']}}}], 'as' : 'd5PCA'}}, "
 						+ "{ '$unwind' : {'path' : '$d5PCA', 'preserveNullAndEmptyArrays' : true}}, "
-						+ "{ '$addFields' : {'how' : '$d2ProblemDesc.how', 'howmany' : '$d2ProblemDesc.howmany', 'what' : '$d2ProblemDesc.what', 'why' : '$d2ProblemDesc.why', 'when' : '$d2ProblemDesc.when', 'where' : '$d2ProblemDesc.where', 'who' : '$d2ProblemDesc.who','rootCauseDesc' : '$d4RootCauseDesc.rootCauseDesc', 'escapePoint' : '$d4RootCauseDesc.escapePoint', 'evidenceData' : '$d4RootCauseDesc.evidenceData','deptName' : '$org.name','icaConfirmedOn':'$icaConfirmed.date','icaConfirmedBy':'$icaConfirmed.userName','pcaApprovedOn':'$pcaApproved.date','pcaApprovedBy':'$pcaApproved.userName','icaConfirmedOn':'$icaConfirmed.date','pcaValidatedBy':'$pcaValidated.userName','pcaValidatedOn':'$pcaValidated.date','pcaConfirmedBy':'$pcaConfirmed.userName','pcaConfirmedOn':'$pcaConfirmed.date','closeDate' : '$closeInfo.date','closeBy' : '$closeInfo.userName','severityIndText': {'$concat':[{'$toString':'$severityInd.index'},'.','$severityInd.value','(','$severityInd.desc',')']},'freqIndText': {'$concat':[{'$toString':'$freqInd.index'},'.','$freqInd.value','(','$freqInd.text',')']},'detectionIndText': {'$concat':[{'$toString':'$detectionInd.index'},'.','$detectionInd.value','(','$detectionInd.desc',')']},'lostIndText': {'$concat':[{'$toString':'$lostInd.index'},'.','$lostInd.value','(','$lostInd.desc',')']}, 'incidenceIndText': {'$concat':[{'$toString':'$incidenceInd.index'},'.','$incidenceInd.value','(','$incidenceInd.desc',')']},'d5pcaCharger1name' : '$d5PCA.charger1_meta.name', 'd5pcaPlanStart1' : '$d5PCA.planStart1', 'd5pcaPlanFinish1' : '$d5PCA.planFinish1', 'd5pcaCharger2name' : '$d5PCA.charger2_meta.name', 'd5pcaPlanStart2' : '$d5PCA.planStart2', 'd5pcaPlanFinish2' : '$d5PCA.planFinish2', 'd5pca1' : '$d5PCA.pca1', 'd5pca2' : '$d5PCA.pca2'}}, "
-						+ "{ '$project' : {'d2ProblemDesc' : false, 'd4RootCauseDesc' : false,'org' : false,'d5PCA' : false,}}]")
+						+ "{ '$addFields' : {'how' : '$d2ProblemDesc.how', 'howmany' : '$d2ProblemDesc.howmany', 'what' : '$d2ProblemDesc.what', 'why' : '$d2ProblemDesc.why', 'when' : '$d2ProblemDesc.when', 'where' : '$d2ProblemDesc.where', 'who' : '$d2ProblemDesc.who','rootCauseDesc' : '$d4RootCauseDesc.rootCauseDesc', 'escapePoint' : '$d4RootCauseDesc.escapePoint', 'evidenceData' : '$d4RootCauseDesc.evidenceData','deptName' : '$org.name','icaConfirmedOn':'$icaConfirmed.date','icaConfirmedBy':'$icaConfirmed.userName','pcaApprovedOn':'$pcaApproved.date','pcaApprovedBy':'$pcaApproved.userName','icaConfirmedOn':'$icaConfirmed.date','pcaValidatedBy':'$pcaValidated.userName','pcaValidatedOn':'$pcaValidated.date','pcaConfirmedBy':'$pcaConfirmed.userName','pcaConfirmedOn':'$pcaConfirmed.date','closeDate' : '$closeInfo.date','closeBy' : '$closeInfo.userName','severityIndText': {'$concat':[{'$toString':'$severityInd.index'},'.','$severityInd.value','(','$severityInd.desc',')']},'freqIndText': {'$concat':[{'$toString':'$freqInd.index'},'.','$freqInd.value','(','$freqInd.text',')']},'detectionIndText': {'$concat':[{'$toString':'$detectionInd.index'},'.','$detectionInd.value','(','$detectionInd.desc',')']},'lostIndText': {'$concat':[{'$toString':'$lostInd.index'},'.','$lostInd.value','(','$lostInd.desc',')']}, 'incidenceIndText': {'$concat':[{'$toString':'$incidenceInd.index'},'.','$incidenceInd.value','(','$incidenceInd.desc',')']},'d5pcaCharger1name' : '$d5PCA.charger1_meta.name', 'd5pcaPlanStart1' : '$d5PCA.planStart1', 'd5pcaPlanFinish1' : '$d5PCA.planFinish1', 'd5pcaCharger2name' : '$d5PCA.charger2_meta.name', 'd5pcaPlanStart2' : '$d5PCA.planStart2', 'd5pcaPlanFinish2' : '$d5PCA.planFinish2', 'd5pca1' : '$d5PCA.pca1', 'd5pca2' : '$d5PCA.pca2','d5pca1' : '$d5PCA.pca1.name', 'd5pca2' : '$d5PCA.pca2.name','idrrept' : '$idrrept.name','attarchments' : '$attarchments.name'}}, "
+						+ "{ '$project' : {'d2ProblemDesc' : false, 'd4RootCauseDesc' : false,'org' : false,'d5PCA' : false}}]")
 				//
 				.append("pipeline-d1cft",
 						"[ { '$match' :{ 'problem_id' : { '$oid' : '" + _id + "'}} }, "
@@ -53,29 +53,28 @@ public class ExportProblemCNReport {
 				.append("pipeline-d7Similar", "[{ '$match' : {'problem_id':{'$oid':'" + _id + "'}}}]")
 				//
 				.append("pipeline-ai-era", "[{$match:{'stage':'era','problem_id':{'$oid':'" + _id + "'}}},"
-						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']}}}]")
+						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
 				.append("pipeline-ai-ica", "[{$match:{'stage':'ica','problem_id':{'$oid':'" + _id + "'}}},"
-						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']}}}]")
+						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
 				.append("pipeline-ai-pca-make", "[{$match:{'stage':'pca', 'actionType':'make', 'problem_id':{'$oid':'"
 						+ _id + "'}}},"
-						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']}}}]")
+						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
 				.append("pipeline-ai-pca-out", "[{$match:{'stage':'pca', 'actionType':'out','problem_id':{'$oid':'"
 						+ _id + "'}}},"
-						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']}}}]")
+						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
 				.append("pipeline-ai-spa", "[{$match:{'stage':'spa','problem_id':{'$oid':'" + _id + "'}}},"
-						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']}}}]")
+						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
 				.append("pipeline-causeRelation-make",
 						"[{ '$match' : {'type' : '因果分析-制造', 'problem_id' : {'$oid':'" + _id
 								+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
 				//
-				.append("pipeline-causeRelation-out",
-						"[{ '$match' : {'type' : '因果分析-流出', 'problem_id' : {'$oid':'" + _id
-								+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
+				.append("pipeline-causeRelation-out", "[{ '$match' : {'type' : '因果分析-流出', 'problem_id' : {'$oid':'"
+						+ _id + "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
 		//
 		;
 
