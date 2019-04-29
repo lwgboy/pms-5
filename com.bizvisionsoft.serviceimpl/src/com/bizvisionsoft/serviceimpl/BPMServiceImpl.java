@@ -34,6 +34,7 @@ import com.bizvisionsoft.service.tools.StreamToolkit;
 import com.bizvisionsoft.serviceimpl.renderer.ProcessTaskCardRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 
 public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
@@ -138,22 +139,15 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		ck.addProperty("name", meta.get("name"));
 		ck.addProperty("type", meta.get("type"));
 		ck.addProperty("_id", meta.get("_id"));
+		ck.addProperty("userId", creationInfo.get("userId"));
+		ck.addProperty("consignerId", creationInfo.get("consignerId"));
+		ck.addProperty("_id", meta.get("_id"));
 
-		// ck.setName("meta");
-		// ck.addProperty(new
-		// CorrelationPropertyInfo("userId",creationInfo.getString("userId")));
-		// ck.addProperty(new
-		// CorrelationPropertyInfo("consignerId",creationInfo.getString("consignerId")));
 		// // 启动流程
 		CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime) kie();
 		ProcessInstance pi = kies.startProcess(processId, ck, input);
 
-		// ProcessInstance pi = kieSession().startProcess(processId, input);
-
 		long id = pi.getId();
-		// 更新流程附加信息
-		c("bpm_ProcessInstanceInfo").updateOne(new Document("_id", id),
-				new Document("$set", new Document("meta", meta).append("creationInfo", creationInfo)));
 		logger.info("启动流程：{}", pi);
 
 		return id;
@@ -219,13 +213,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	private List<Bson> pipelineTasksAssignedAsPotentialOwner(List<Bson> pipe, BasicDBObject filter, String userId, List<String> status) {
 		if (pipe == null)
 			pipe = new ArrayList<>();
-		pipe.add(Aggregates.match(new Document("archived", 0)//
-				.append("taskData.status", new Document("$in", status))//
-				.append("peopleAssignments.potentialOwners", userId)//
-				.append("peopleAssignments.excludedOwners", new Document("$ne", userId))//
-		));
-		pipe.add(Aggregates.lookup("bpm_ProcessInstanceInfo", "taskData.processInstanceId", "_id", "processInstance"));
-		pipe.add(Aggregates.unwind("$processInstance"));
+		new JQ("bpm/查询-用户和状态-任务").set("status", status).set("userId", userId).appendTo(pipe);
 		if (filter != null && !filter.isEmpty())
 			pipe.add(Aggregates.match(filter));
 		return pipe;

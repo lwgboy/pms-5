@@ -23,7 +23,6 @@ public class ProcessTaskCardRenderer {
 
 	private Document taskData;
 
-	private Document creationInfo;
 
 	public ProcessTaskCardRenderer(Document data, String lang) {
 		this.data = data;
@@ -31,7 +30,6 @@ public class ProcessTaskCardRenderer {
 		processInstance = (Document) data.get("processInstance");
 		processMeta = (Document) processInstance.get("meta");
 		taskData = (Document) data.get("taskData");
-		creationInfo = (Document) processInstance.get("creationInfo");
 	}
 
 	public static Document renderTasksAssignedAsPotentialOwner(Document data, String lang) {
