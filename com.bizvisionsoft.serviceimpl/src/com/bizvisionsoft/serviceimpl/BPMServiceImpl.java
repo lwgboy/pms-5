@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.jbpm.persistence.correlation.CorrelationKeyInfo;
 import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.ruleflow.instance.RuleFlowProcessInstance;
 import org.jbpm.workflow.core.node.HumanTaskNode;
@@ -21,6 +22,7 @@ import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.OrganizationalEntity;
 import org.kie.api.task.model.Task;
+import org.kie.internal.process.CorrelationAwareProcessRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,20 +133,22 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		Document meta = (Document) parameters.get("meta");
 		Document creationInfo = (Document) parameters.get("creationInfo");
 
-		// CorrelationKeyInfo ck = new CorrelationKeyInfo();
+		CorrelationKeyInfo ck = new CorrelationKeyInfo();
+		ck.setName("meta");
+		ck.addProperty("name", meta.get("name"));
+		ck.addProperty("type", meta.get("type"));
+		ck.addProperty("_id", meta.get("_id"));
+
 		// ck.setName("meta");
-		// ck.addProperty(new CorrelationPropertyInfo("name",meta.getString("name")));
-		// ck.addProperty(new CorrelationPropertyInfo("type",meta.getString("type")));
 		// ck.addProperty(new
 		// CorrelationPropertyInfo("userId",creationInfo.getString("userId")));
 		// ck.addProperty(new
 		// CorrelationPropertyInfo("consignerId",creationInfo.getString("consignerId")));
 		// // 启动流程
-		// CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime)
-		// BPM.getDefaultRuntimeEngine().getKieSession();
-		// ProcessInstance pi = kies.startProcess(processId,ck, input);
+		CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime) kie();
+		ProcessInstance pi = kies.startProcess(processId, ck, input);
 
-		ProcessInstance pi = kieSession().startProcess(processId, input);
+		// ProcessInstance pi = kieSession().startProcess(processId, input);
 
 		long id = pi.getId();
 		// 更新流程附加信息
@@ -279,7 +283,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		return BPM.getDefaultRuntimeEngine().getTaskService();
 	}
 
-	private KieSession kieSession() {
+	private KieSession kie() {
 		return BPM.getDefaultRuntimeEngine().getKieSession();
 	}
 
@@ -363,7 +367,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public Document getProcessInstanceVariables(long pid) {
-		RuleFlowProcessInstance pi = (RuleFlowProcessInstance) kieSession().getProcessInstance(pid);
+		RuleFlowProcessInstance pi = (RuleFlowProcessInstance) kie().getProcessInstance(pid);
 		Map<String, Object> v = pi.getVariables();
 		Document doc = new Document();
 		doc.putAll(v);
