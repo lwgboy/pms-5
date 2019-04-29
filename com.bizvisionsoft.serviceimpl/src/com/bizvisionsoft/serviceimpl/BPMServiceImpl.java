@@ -34,7 +34,6 @@ import com.bizvisionsoft.service.tools.StreamToolkit;
 import com.bizvisionsoft.serviceimpl.renderer.ProcessTaskCardRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Field;
 
 public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
