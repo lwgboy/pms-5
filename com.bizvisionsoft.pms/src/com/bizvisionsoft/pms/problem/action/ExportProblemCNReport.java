@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.problem.action;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.eclipse.rap.json.JsonObject;
 import org.eclipse.rap.rwt.RWT;
 import org.slf4j.Logger;
@@ -22,11 +21,9 @@ public class ExportProblemCNReport {
 		Problem problem = context.search_sele_root(Problem.class);
 
 		if (problem == null)
-			// TODO 提示
 			return;
 
 		String _id = problem.get_id().toString();
-		// TODO 使用JQ读取
 		Document rptParam = new Document()
 				//
 				.append("pipeline-problem", "[{ '$match' : { '_id' : { '$oid' : '" + _id + "'}}}, "
