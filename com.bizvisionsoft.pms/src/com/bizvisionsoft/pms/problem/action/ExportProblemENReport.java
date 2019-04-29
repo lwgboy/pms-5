@@ -68,10 +68,10 @@ public class ExportProblemENReport {
 				//
 				.append("pipeline-causeRelation-make",
 						"[{ '$match' : {'type' : '因果分析-制造', 'problem_id' : {'$oid':'" + _id
-								+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
+								+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}},{ '$addFields' : { 'classifyCausePath' : '$classifyCause.path' } }]")
 				//
 				.append("pipeline-causeRelation-out", "[{ '$match' : {'type' : '因果分析-流出', 'problem_id' : {'$oid':'"
-						+ _id + "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
+						+ _id + "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}},{ '$addFields' : { 'classifyCausePath' : '$classifyCause.path' } }]")
 		//
 		;
 

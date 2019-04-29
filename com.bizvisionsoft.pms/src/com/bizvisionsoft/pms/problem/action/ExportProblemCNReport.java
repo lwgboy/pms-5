@@ -66,12 +66,13 @@ public class ExportProblemCNReport {
 				.append("pipeline-ai-spa", "[{$match:{'stage':'spa','problem_id':{'$oid':'" + _id + "'}}},"
 						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','是','否']},'verificationAttachment':'$verification.attachment.name'}}]")
 				//
-				.append("pipeline-causeRelation-make",
-						"[{ '$match' : {'type' : '因果分析-制造', 'problem_id' : {'$oid':'" + _id
-								+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
+				.append("pipeline-causeRelation-make", "[{ '$match' : {'type' : '因果分析-制造', 'problem_id' : {'$oid':'"
+						+ _id
+						+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}},{ '$addFields' : { 'classifyCausePath' : '$classifyCause.path' } }]")
 				//
 				.append("pipeline-causeRelation-out", "[{ '$match' : {'type' : '因果分析-流出', 'problem_id' : {'$oid':'"
-						+ _id + "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}}]")
+						+ _id
+						+ "'}}},{'$sort':{'subject':1,'classifyCause.id':1,'_id':1}},{ '$addFields' : { 'classifyCausePath' : '$classifyCause.path' } }]")
 		//
 		;
 
