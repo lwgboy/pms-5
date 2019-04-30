@@ -334,4 +334,11 @@ public interface BPMService {
 	@ApiOperation(value = "获得流程实例的变量", response = Document.class)
 	public Document getProcessInstanceVariables(@PathParam("processInstanceId") long processInstanceId);
 
+	@GET
+	@Path("/task/{taskId}/nodeInfo/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得任务的输入和输出数据", response = Document.class)
+	public Document getTaskNodeInfo(@PathParam("taskId") long taskId);
+
 }

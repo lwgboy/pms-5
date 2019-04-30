@@ -15,6 +15,7 @@ import org.jbpm.persistence.correlation.CorrelationKeyInfo;
 import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.ruleflow.instance.RuleFlowProcessInstance;
 import org.jbpm.workflow.core.node.HumanTaskNode;
+import org.kie.api.definition.process.Node;
 import org.kie.api.internal.utils.BPM;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieSession;
@@ -26,6 +27,7 @@ import org.kie.internal.process.CorrelationAwareProcessRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.ProcessDefinition;
@@ -100,6 +102,24 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		return Arrays.asList(process.getNodes()).stream().filter(n -> HumanTaskNode.class.isInstance(n)).count();
 	}
 
+	public Document getTaskNodeInfo(long taskId) {
+		Task task = taskService().getTaskById(taskId);
+		String taskName = task.getFormName();
+		RuleFlowProcess process = (RuleFlowProcess) BPM.getKieBase().getProcess(task.getTaskData().getProcessId());
+		return Arrays.asList(process.getNodes()).stream()
+				.filter(n -> HumanTaskNode.class.isInstance(n) && taskName.equals(((HumanTaskNode) n).getWork().getParameter("TaskName")))
+				.findFirst().map(this::getNodeInfo).orElse(null);
+	}
+
+	private Document getNodeInfo(Node n) {
+		HumanTaskNode node = (HumanTaskNode) n;
+		Document nodeData = new Document();
+		nodeData.append("name", n.getName()).append("taskName", node.getWork().getParameter("TaskName"));
+		Map<String, Object> meta = node.getMetaData();
+		nodeData.append("meta", meta);
+		return nodeData;
+	}
+
 	@Override
 	public List<TaskDefinition> listTaskDefinitions(ObjectId _id) {
 		String processId = getString("processDefinition", "bpmnId", _id);
@@ -122,7 +142,6 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 			td.setData(data);
 			return td;
 		}).collect(Collectors.toList());
-
 	}
 
 	@Override
@@ -130,17 +149,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		// 获取流程传入参数
 		Document input = (Document) parameters.get("input");
 		// 获取流程附加数据
-		Document meta = (Document) parameters.get("meta");
-		Document creationInfo = (Document) parameters.get("creationInfo");
-
-		CorrelationKeyInfo ck = new CorrelationKeyInfo();
-		ck.setName("meta");
-		ck.addProperty("name", meta.get("name"));
-		ck.addProperty("type", meta.get("type"));
-		ck.addProperty("_id", meta.get("_id"));
-		ck.addProperty("userId", creationInfo.get("userId"));
-		ck.addProperty("consignerId", creationInfo.get("consignerId"));
-		ck.addProperty("_id", meta.get("_id"));
+		CorrelationKeyInfo ck = new CorrelationKeyInfo("meta", (Document) parameters.get("meta"));
 
 		// // 启动流程
 		CorrelationAwareProcessRuntime kies = (CorrelationAwareProcessRuntime) kie();
@@ -347,8 +356,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public Document getProcessInstanceVariablesByTaskId(long taskId) {
-		Task task = taskService().getTaskById(taskId);
-		long pid = task.getTaskData().getProcessInstanceId();
+		long pid = getValue("bpm_Task", "taskData.processInstanceId", taskId, Long.class);
 		return getProcessInstanceVariables(pid);
 	}
 

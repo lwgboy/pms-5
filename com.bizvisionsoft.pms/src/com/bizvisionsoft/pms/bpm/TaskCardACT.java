@@ -84,77 +84,11 @@ public class TaskCardACT {
 	}
 
 	private boolean complete(Document doc) {
-		long taskId = doc.getLong("_id");
-		// 1. 接受流程参数
-		Document input = new Document();
-		Document processVariables = service.getProcessInstanceVariablesByTaskId(taskId);
-		if (processVariables != null)
-			input.putAll(processVariables);
-
-		// 2. 处理任务属性
-		TaskDefinition td = service.getTaskDefinitionByTaskId(taskId);
-		if (td != null) {
-			Document properties = td.getProperties();
-			if (properties != null)
-				input.putAll(properties);
-
-			// 3. 前处理
-			if (!executeJS(input, td.getiScript()))
-				return false;
-
-			// 4. 打开编辑器表单
-			if (!editInput(properties, td.getEditor(), td.getName(), input))
-				return false;
-
-			// 5. 后处理
-			if (!executeJS(input, td.getoScript()))
-				return false;
-		}
-
-		service.completeTask(taskId, br.getCurrentUserId(), input);
-		return true;
-	}
-
-	private boolean editInput(Document properties, String editorName, String title, Document input) {
-		if (Check.isAssigned(editorName)) {
-			Assembly assembly = ModelLoader.site.getAssemblyByName(editorName);
-			if (assembly == null) {
-				Layer.error("无法获得任务表单：" + editorName);
-				return false;
-			} else {
-				Set<String> editorFields = assembly.getFields().stream().map(fi -> fi.getName()).collect(Collectors.toSet());
-				Editor<Document> editor = new Editor<Document>(assembly, context).setInput(true, input).setTitle(title).setEditable(true);
-				if (Window.OK != editor.open()) {
-					return false;
-				} else {
-					// 去除多余的字段
-					Set<String> toRemove = input.keySet().stream()
-							.filter(s -> ((properties == null) || !properties.containsKey(s)) && !editorFields.contains(s))
-							.collect(Collectors.toSet());
-					toRemove.forEach(s -> input.remove(s));
-					return true;
-				}
-			}
-		} else {
+		if (!br.confirm("完成任务", "请确认。"))
 			return false;
-		}
-	}
-
-	private boolean executeJS(Document input, String script) {
-		if (Check.isAssigned(script)) {
-			try {
-				Document binding = new Document("input", input).append("context", context.getContextParameterData()).append("ServiceHelper",
-						new ServiceHelper());
-				JSTools.invoke(script, null, "input", binding, input, context.getContextParameterData());
-				return true;
-			} catch (Exception e) {
-				logger.error("执行脚本出错", e);
-				Layer.error("执行脚本出错");
-				return false;
-			}
-		} else {
-			return true;
-		}
+		long taskId = doc.getLong("_id");
+		BPMClient.completeTask(context, taskId, br.getCurrentUserId());
+		return true;
 	}
 
 	private boolean delegate(Document doc) {

@@ -568,7 +568,7 @@ public class BasicServiceImpl {
 		return c(cName).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
 	}
 
-	protected <T> T getValue(String cName, String fName, ObjectId _id, Class<T> c) {
+	protected <T> T getValue(String cName, String fName, Object _id, Class<T> c) {
 		return c(cName).distinct(fName, new BasicDBObject("_id", _id), c).first();
 	}
 
