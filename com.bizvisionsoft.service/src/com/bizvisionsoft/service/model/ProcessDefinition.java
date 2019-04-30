@@ -8,8 +8,11 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
+import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -25,6 +28,7 @@ public class ProcessDefinition {
 
 	@ReadValue
 	@WriteValue
+	@Label(Label.NAME_LABEL)
 	private String name;
 
 	@ReadValue
@@ -69,7 +73,7 @@ public class ProcessDefinition {
 		}
 	}
 
-	@ReadValue("properties")
+	@ReadValue("工作流定义编辑器/properties")
 	private List<Document> readpropertiesByEditor() {
 		List<Document> result = new ArrayList<>();
 		if (properties != null) {
@@ -78,6 +82,18 @@ public class ProcessDefinition {
 			});
 		}
 		return result;
+	}
+
+	@ReadValue("工作流定义列表/properties")
+	private String readpropertiesByGrid() {
+		StringBuffer sb = new StringBuffer();
+		if (properties != null) {
+			properties.entrySet().forEach(e -> {
+				sb.append(e.getKey() + "=" + e.getValue() + "; ");
+			});
+		}
+		return sb.toString();
+
 	}
 
 	@WriteValue
@@ -126,6 +142,7 @@ public class ProcessDefinition {
 	public static final String typeName = "流程定义";
 
 	@Override
+	@Label
 	public String toString() {
 		return "" + name + "/" + bpmnId;
 	}
@@ -248,7 +265,21 @@ public class ProcessDefinition {
 	}
 
 	public Document getMetaInfo() {
-		return new Document("name",name).append("type",type);
+		return new Document("name", name).append("type", type).append("_id", _id);
+	}
+
+	@Structure("工作流定义列表 /list")
+	public List<TaskDefinition> listTaskDefinitions() {
+		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id);
+	}
+
+	@Structure("工作流定义列表 /count")
+	public long countTaskDefinitions() {
+		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id);
+	}
+
+	public ObjectId get_id() {
+		return _id;
 	}
 
 }

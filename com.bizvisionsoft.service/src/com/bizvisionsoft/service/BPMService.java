@@ -3,16 +3,21 @@ package com.bizvisionsoft.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.ProcessDefinition;
+import com.bizvisionsoft.service.model.TaskDefinition;
 import com.mongodb.BasicDBObject;
 
 import io.swagger.annotations.Api;
@@ -28,24 +33,125 @@ public interface BPMService {
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "查询工作流定义", response = Document.class, responseContainer = "List")
 	@DataSet("BPMN资源列表/" + DataSet.LIST)
-	public List<Document> listResources();
+	public List<Document> listResources(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
 
+	@POST
+	@Path("/resource/bpmn/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义数量", response = Long.class)
+	@DataSet({ "BPMN资源列表/" + DataSet.COUNT })
+	public long countResources(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@GET
+	@Path("/processDef/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得工作流定义", response = ProcessDefinition.class)
+	@DataSet(DataSet.INPUT)
+	public ProcessDefinition getProcessDefinition(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/processDef/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义", response = ProcessDefinition.class, responseContainer = "List")
+	@DataSet({ "工作流定义列表/list" })
+	public List<ProcessDefinition> listProcessDefinitions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/processDef/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义数量", response = Long.class)
+	@DataSet({ "工作流定义列表/count" })
+	public long countProcessDefinitions(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@PUT
+	@Path("/processDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "更新工作流定义", response = Long.class)
+	@DataSet({ "工作流定义列表/update" })
+	public long updateProcessDefinitions(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+	
+	@PUT
+	@Path("/taskDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "更新任务定义", response = Long.class)
+	public long updateTaskDefinitions(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu);
+	
+	@POST
+	@Path("/processDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "插入工作流定义", response = Long.class)
+	@DataSet("工作流定义列表/insert")
+	public ProcessDefinition insertProcessDefinition(@MethodParam(MethodParam.OBJECT) ProcessDefinition p);
+	
+	@POST
+	@Path("/taskDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "插入任务定义", response = Long.class)
+	public TaskDefinition insertTaskDefinition(TaskDefinition td);
+
+	@DELETE
+	@Path("/processDef/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "删除工作流定义", response = Long.class)
+	@DataSet("工作流定义列表/delete")
+	public long deleteProcessDefinition(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	
+	@DELETE
+	@Path("/taskDef/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "删除任务定义", response = Long.class)
+	public long deleteTaskDefinition(@PathParam("_id") ObjectId _id);
+	
+	@POST
+	@Path("/processDef/{_id}/taskDef/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义下的人工任务数量", response = Long.class)
+	public long countTaskDefinitions(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/processDef/{_id}/taskDef/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询工作流定义下的人工任务", response = TaskDefinition.class, responseContainer = "List")
+	public List<TaskDefinition> listTaskDefinitions(@PathParam("_id") ObjectId _id);
+	
+	@POST
+	@Path("/taskDef/taskId/{taskId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "根据任务id查询任务定义", response = TaskDefinition.class)
+	public TaskDefinition getTaskDefinitionByTaskId(@PathParam("taskId") long taskId);
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
-	@Path("/resource/bpmn/authorized/{userId}/ds/")
+	@Path("/processDef/authorized/{userId}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "用户工作流定义列表/" + DataSet.LIST })
-	public List<ProcessDefinition> listFunctionRoles(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	@ApiOperation(value = "查询该用户有权启动的工作流定义", response = ProcessDefinition.class, responseContainer = "List")
+	@DataSet("用户工作流定义列表/list")
+	public List<ProcessDefinition> listProcessDefinitionByFunctionRoles(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@POST
-	@Path("/resource/bpmn/authorized/{userId}/count/")
+	@Path("/processDef/authorized/{userId}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "用户工作流定义列表/" + DataSet.COUNT })
-	public long countFunctionRoles(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+	@ApiOperation(value = "查询该用户有权启动的工作流定义数量", response = Long.class)
+	@DataSet("用户工作流定义列表/count")
+	public long countProcessDefinitionByFunctionRoles(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,25 +160,185 @@ public interface BPMService {
 	@Path("/process/start/{processId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "启动工作流", response = Long.class)
 	public Long startProcess(Document parameter, @PathParam("processId") String processId);
-	
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
-	@Path("/userId/{userId}/planned/card/ds/{lang}")
+	@Path("/task/assigned/{userId}/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的流程任务（已分配）/list")
-	public List<Document> listTaskCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userId,
+	@ApiOperation(value = "查询用户的流程任务(已创建、准备中和已持有)", response = Document.class, responseContainer = "List")
+	@DataSet("我的流程任务（待处理）/list")
+	public List<Document> listTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
 
 	@POST
-	@Path("/userId/{userId}/planned/count")
+	@Path("/task/assigned/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("我的流程任务（已分配）/count")
-	public long countTaskCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+	@ApiOperation(value = "查询用户的流程任务数量(已创建、准备中和已持有)", response = Long.class)
+	@DataSet("我的流程任务（待处理）/count")
+	public long countTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/task/wip/{userId}/card/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务(进行中)", response = Document.class, responseContainer = "List")
+	@DataSet("我的流程任务（进行中）/list")
+	public List<Document> listTasksInProgressCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/task/wip/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务数量(进行中)", response = Long.class)
+	@DataSet("我的流程任务（进行中）/count")
+	public long countTasksInProgressCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/task/closed/{userId}/card/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务(已关闭：完成、失败、错误、退出、废弃)", response = Document.class, responseContainer = "List")
+	@DataSet("我的流程任务（已关闭）/list")
+	public List<Document> listTasksClosedCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/task/closed/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务数量(已关闭：完成、失败、错误、退出、废弃)", response = Long.class)
+	@DataSet("我的流程任务（已关闭）/count")
+	public long countTasksClosedCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/task/suspended/{userId}/card/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务(已暂停)", response = Document.class, responseContainer = "List")
+	@DataSet("我的流程任务（已暂停）/list")
+	public List<Document> listTasksSuspendedCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang);
+
+	@POST
+	@Path("/task/suspended/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "查询用户的流程任务数量(已暂停)", response = Long.class)
+	@DataSet("我的流程任务（已暂停）/count")
+	public long countTasksSuspendedCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/resume/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "继续暂停的任务", response = Boolean.class)
+	public boolean resumeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/stop/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "停止任务", response = Boolean.class)
+	public boolean stopTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/suspend/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "暂停任务", response = Boolean.class)
+	public boolean suspendTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/forward/{userId}/{targetUserId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "退回任务", response = Boolean.class)
+	public boolean forwardTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+			@PathParam("targetUserId") String targetUserId);
+
+	@PUT
+	@Path("/task/{taskId}/start/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "开始任务", response = Boolean.class)
+	public boolean startTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/claim/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "认领任务", response = Boolean.class)
+	public boolean claimTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/exit/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "退出任务", response = Boolean.class)
+	public boolean exitTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/skip/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "跳过任务", response = Boolean.class)
+	public boolean skipTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId);
+
+	@PUT
+	@Path("/task/{taskId}/delegate/{userId}/{targetUserId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "委托任务", response = Boolean.class)
+	public boolean delegateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+			@PathParam("targetUserId") String targetUserId);
+
+	@PUT
+	@Path("/task/{taskId}/complete/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "完成任务", response = Boolean.class)
+	public boolean completeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, Document parameters);
+
+	@PUT
+	@Path("/task/{taskId}/nominate/{userId}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "指派任务", response = Boolean.class)
+	public boolean nominateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, List<String> potentialOwnersUserId);
+
+	@GET
+	@Path("/task/{taskId}/processInstance/vars/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得流程实例的变量", response = Document.class)
+	public Document getProcessInstanceVariablesByTaskId(@PathParam("taskId") long taskId);
+
+	@GET
+	@Path("/processInstance/{processInstanceId}/vars/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得流程实例的变量", response = Document.class)
+	public Document getProcessInstanceVariables(@PathParam("processInstanceId") long processInstanceId);
+
+	@GET
+	@Path("/task/{taskId}/nodeInfo/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@ApiOperation(value = "获得任务的输入和输出数据", response = Document.class)
+	public Document getTaskNodeInfo(@PathParam("taskId") long taskId);
+
 }
