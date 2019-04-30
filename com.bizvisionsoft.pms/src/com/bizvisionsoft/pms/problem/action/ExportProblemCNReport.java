@@ -47,7 +47,12 @@ public class ExportProblemCNReport {
 						+ "{ '$addFields' : { 'img' : { '$concat' : [\"<img alt='' src='/bvs/fs?id=\" , { '$toString' : '$problemImg._id'},"
 						+ "'&namespace=','$problemImg.namepace','&name=','$problemImg.name',\"&sid=rwt' style='width:200px' />\"]}}}]")
 				//
-				.append("pipeline-d7Similar", "[{ '$match' : {'problem_id':{'$oid':'" + _id + "'}}}]")
+				.append("pipeline-d7Similar", "[{ '$match' : {'problem_id':{'$oid':'" + _id
+						+ "'}}},{ '$unwind' : { 'path' : '$id', 'preserveNullAndEmptyArrays' : true } }, "
+						+ "{ '$addFields' : { 'ids' : { '$concat' : [ '$id.id', ' ', '$id.keyword' ] } } }, "
+						+ "{ '$group' : { '_id' : '$_id', 'problem_id' : { '$first' : '$problem_id' }, 'similar' : { '$first' : '$similar' }, "
+						+ "'desc' : { '$first' : '$desc' }, 'degree' : { '$first' : '$degree' }, 'prob' : { '$first' : '$prob' }, "
+						+ "'id' : { '$addToSet' : '$ids' } } }]")
 				//
 				.append("pipeline-ai-era", "[{$match:{'stage':'era','problem_id':{'$oid':'" + _id + "'}}},"
 						+ "{ '$addFields' : {'title' : '$verification.title', 'comment' : '$verification.comment', 'verificationuser' : '$verification.user_meta.name', 'verificationdate' : '$verification.date', 'chargername' : '$charger_meta.name','finish': {$cond:['$finish','ÊÇ','·ñ']},'verificationAttachment':'$verification.attachment.name'}}]")

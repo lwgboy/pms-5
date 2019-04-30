@@ -387,4 +387,8 @@ public class Problem {
 		return creationInfo;
 	}
 
+	
+	public boolean isSolving() {
+		return Problem.StatusSolving.equals(status);
+	}
 }

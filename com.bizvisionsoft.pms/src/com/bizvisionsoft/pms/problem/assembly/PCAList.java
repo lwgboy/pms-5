@@ -75,9 +75,11 @@ public class PCAList {
 			if (decisionCriteria == null || decisionCriteria.isEmpty())
 				return new Object[0];
 			if (((Integer) index) == 1)
-				return Optional.ofNullable((List<?>) decisionCriteria.get("givens")).map(d -> d.toArray()).orElse(new Object[0]);
+				return Optional.ofNullable((List<?>) decisionCriteria.get("givens")).map(d -> d.toArray())
+						.orElse(new Object[0]);
 			if (((Integer) index) == 2)
-				return Optional.ofNullable((List<?>) decisionCriteria.get("wants")).map(d -> d.toArray()).orElse(new Object[0]);
+				return Optional.ofNullable((List<?>) decisionCriteria.get("wants")).map(d -> d.toArray())
+						.orElse(new Object[0]);
 			return new Object[0];
 		}
 
@@ -134,13 +136,19 @@ public class PCAList {
 		}
 	}
 
+	private boolean canCreateAction() {
+		return problem.isSolving();
+	}
+
 	@CreateUI
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
-		Action action1 = new ActionFactory().normalStyle().forceText("目标和准则").name("editCriteria").get();
-		Action action2 = new ActionFactory().normalStyle().forceText("创建方案").name("createSolution").get();
-
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(action1, action2));
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null);
+		if (canCreateAction()) {
+			Action action1 = new ActionFactory().normalStyle().forceText("目标和准则").name("editCriteria").get();
+			Action action2 = new ActionFactory().normalStyle().forceText("创建方案").name("createSolution").get();
+			bar.setActions(Arrays.asList(action1, action2));
+		}
 		Controls.handle(bar).setText("选择永久纠正措施方案").height(48).left().top().right().select(e -> {
 			if ("createSolution".equals(((Action) e.data).getName())) {
 				handleCreatePCA();
@@ -160,7 +168,8 @@ public class PCAList {
 		Controls.handle(grid).markup();
 
 		Columns.create(viewer).setWidth(320).setText("目标/决策项").setLabelProvider(this.labelTitleColumn());
-		Columns.create(viewer).setWidth(48).setText("权重").setAlignment(SWT.CENTER).setLabelProvider(this::labelWeightColumn);
+		Columns.create(viewer).setWidth(48).setText("权重").setAlignment(SWT.CENTER)
+				.setLabelProvider(this::labelWeightColumn);
 
 		for (int i = 0; i < pcaList.size(); i++) {
 			Document pca = pcaList.get(i);
@@ -173,8 +182,10 @@ public class PCAList {
 	}
 
 	private void createPCAColumn(Document pca) {
-		GridColumn col = Columns.create(viewer).setWidth(420).setEditingSupport(this.editingSupport(pca))
-				.setLabelProvider(labelPCAColumn(pca)).getColumn();
+		Columns columns = Columns.create(viewer).setWidth(420).setLabelProvider(labelPCAColumn(pca));
+		if (canCreateAction())
+			columns.setEditingSupport(this.editingSupport(pca));
+		GridColumn col = columns.getColumn();
 		col.setWordWrap(true);
 		UserSession.bruiToolkit().enableMarkup(col);
 		col.setData("pca", pca);
@@ -184,33 +195,35 @@ public class PCAList {
 		} else {
 			col.setText(getPCAColumnHeaderText(name));
 		}
-		col.addListener(SWT.Selection, event -> {
-			Document p = (Document) ((GridColumn) event.widget).getData("pca");
-			ActionMenu m = new ActionMenu(br);
-			List<Action> actions = new ArrayList<>();
-			actions.add(new ActionFactory().img("/img/finish_w.svg").text("选择方案").normalStyle().exec((r, t) -> {
-				if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + p.getString("name"))) {
-					handleSelectPCA(p);
-				}
-			}).get());
+		if (canCreateAction()) {
+			col.addListener(SWT.Selection, event -> {
+				Document p = (Document) ((GridColumn) event.widget).getData("pca");
+				ActionMenu m = new ActionMenu(br);
+				List<Action> actions = new ArrayList<>();
+				actions.add(new ActionFactory().img("/img/finish_w.svg").text("选择方案").normalStyle().exec((r, t) -> {
+					if (br.confirm("选择PCA", "请确认选择以下方案作为永久纠正措施。<br>" + p.getString("name"))) {
+						handleSelectPCA(p);
+					}
+				}).get());
 
-			actions.add(new ActionFactory().img("/img/edit_w.svg").text("编辑方案").normalStyle().exec((r, t) -> {
-				handleEditPCA(p);
-			}).get());
+				actions.add(new ActionFactory().img("/img/edit_w.svg").text("编辑方案").normalStyle().exec((r, t) -> {
+					handleEditPCA(p);
+				}).get());
 
-			actions.add(new ActionFactory().img("/img/delete_w.svg").text("删除方案").warningStyle().exec((r, t) -> {
-				if (br.confirm("删除PCA", "请确认删除以下方案。<br>" + p.getString("name"))) {
-					handleDeletePCA(p);
-				}
-			}).get());
+				actions.add(new ActionFactory().img("/img/delete_w.svg").text("删除方案").warningStyle().exec((r, t) -> {
+					if (br.confirm("删除PCA", "请确认删除以下方案。<br>" + p.getString("name"))) {
+						handleDeletePCA(p);
+					}
+				}).get());
 
-			m.setActions(actions).open();
-		});
+				m.setActions(actions).open();
+			});
+		}
 	}
 
 	private String getPCAColumnHeaderText(String name) {
-		return "<div style='display:flex;justify-content:space-between;'><div class='brui_text_line' style='flex-shrink:1'>" + name
-				+ "</div><i class='layui-icon layui-icon-triangle-d' style='flex-shrink:0'></i></div>";
+		return "<div style='display:flex;justify-content:space-between;'><div class='brui_text_line' style='flex-shrink:1'>"
+				+ name + "</div><i class='layui-icon layui-icon-triangle-d' style='flex-shrink:0'></i></div>";
 	}
 
 	private EditingSupport editingSupport(Document pca) {
@@ -242,8 +255,8 @@ public class PCAList {
 				if (param.get("weight") == null) {// 强制的
 					return new CheckboxCellEditor(viewer.getGrid());
 				} else {
-					return new SpinnerCellEditor(viewer.getGrid()).setMaximum(10).setMinimum(0).setIncrement(1).setPageIncrement(2)
-							.setDigits(0);
+					return new SpinnerCellEditor(viewer.getGrid()).setMaximum(10).setMinimum(0).setIncrement(1)
+							.setPageIncrement(2).setDigits(0);
 				}
 			}
 
@@ -281,7 +294,7 @@ public class PCAList {
 				}
 				return "";
 			}
-			
+
 			@Override
 			public Color getBackground(Object element) {
 				return super.getBackground(element);
@@ -324,7 +337,8 @@ public class PCAList {
 		String name = nameParameter.getString("name");
 		List<?> list = (List<?>) pca.get("givens");
 		if (list != null) {
-			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name"))).findFirst().orElse(null);
+			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name")))
+					.findFirst().orElse(null);
 			if (first != null) {
 				return first.getBoolean("value");
 			}
@@ -336,7 +350,8 @@ public class PCAList {
 		String name = nameParameter.getString("name");
 		List<?> list = (List<?>) pca.get("wants");
 		if (list != null) {
-			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name"))).findFirst().orElse(null);
+			Document first = (Document) list.stream().filter(d -> name.equals(((Document) d).getString("name")))
+					.findFirst().orElse(null);
 			if (first != null) {
 				return first.getInteger("value");
 			}
@@ -398,7 +413,8 @@ public class PCAList {
 				service.insertD5DecisionCriteria(t, language);
 			} else {
 				r.remove("_id");
-				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r)
+						.bson();
 				service.updateD5DecisionCriteria(fu, language);
 			}
 			loadDecisionCriteria();
@@ -420,7 +436,8 @@ public class PCAList {
 
 	private void handleDeletePCA(Document pca) {
 		service.deleteD5PCA(pca.getObjectId("_id"), language);
-		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> pca == c.getData("pca")).findFirst().ifPresent(c -> c.dispose());
+		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> pca == c.getData("pca")).findFirst()
+				.ifPresent(c -> c.dispose());
 	}
 
 	@SuppressWarnings({ "unchecked" })
@@ -457,9 +474,11 @@ public class PCAList {
 
 	private void handleSelectPCA(Document pca) {
 		Object _id = pca.get("_id");
-		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("selected", true));
+		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+				.set(new BasicDBObject("selected", true));
 		service.updateD5PCA(fu.bson(), language);
-		fu = new FilterAndUpdate().filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
+		fu = new FilterAndUpdate()
+				.filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
 				.set(new BasicDBObject("selected", false));
 		service.updateD5PCA(fu.bson(), language);
 
