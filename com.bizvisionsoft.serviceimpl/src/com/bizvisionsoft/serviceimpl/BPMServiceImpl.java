@@ -27,7 +27,6 @@ import org.kie.internal.process.CorrelationAwareProcessRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.ProcessDefinition;
