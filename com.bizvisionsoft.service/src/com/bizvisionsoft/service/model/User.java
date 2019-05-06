@@ -292,4 +292,5 @@ public class User implements IResourceAssignment {
 		this.changePSW = changePSW;
 	}
 
+
 }

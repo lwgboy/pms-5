@@ -29,13 +29,13 @@ public class ProcessDefinitionDeleteACT {
 		if (!br.confirm("É¾³ý", "É¾³ý" + elem + "£¬ÇëÈ·ÈÏ"))
 			return;
 		if (elem instanceof ProcessDefinition) {
-			Services.get(BPMService.class).deleteProcessDefinition(((ProcessDefinition) elem).get_id());
+			Services.get(BPMService.class).deleteProcessDefinition(((ProcessDefinition) elem).get_id(),br.getDomain());
 			GridPart grid = (GridPart) context.getContent();
 			grid.remove(elem);
 		} else if (elem instanceof TaskDefinition) {
 			ObjectId _id = ((TaskDefinition) elem).get_id();
 			if (_id != null) {
-				Services.get(BPMService.class).deleteTaskDefinition(((TaskDefinition) elem).get_id());
+				Services.get(BPMService.class).deleteTaskDefinition(((TaskDefinition) elem).get_id(),br.getDomain());
 				GridPart grid = (GridPart) context.getContent();
 				GridTreeViewer viewer = grid.getViewer();
 				GridItem item = (GridItem) viewer.testFindItem(elem);

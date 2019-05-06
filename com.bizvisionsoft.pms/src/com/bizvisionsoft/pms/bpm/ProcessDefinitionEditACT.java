@@ -47,7 +47,7 @@ public class ProcessDefinitionEditACT {
 			Object _id = r.get("_id");
 			r.removeField("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(r).bson();
-			Services.get(BPMService.class).updateTaskDefinitions(fu);
+			Services.get(BPMService.class).updateTaskDefinitions(fu,br.getDomain());
 			grid.replaceItem(td, o);
 		});
 	}
@@ -55,7 +55,7 @@ public class ProcessDefinitionEditACT {
 	private void createTaskDefinition(TaskDefinition td) {
 		GridPart grid = (GridPart) context.getContent();
 		Editor.create("任务定义编辑器", context, td, false).setEditable(true).setTitle("创建任务定义"+td.toString()).ok((r,o)->{
-			Services.get(BPMService.class).insertTaskDefinition(o);
+			Services.get(BPMService.class).insertTaskDefinition(o,br.getDomain());
 			GridTreeViewer viewer = grid.getViewer();
 			GridItem item = (GridItem) viewer.testFindItem(td);
 			Object parentItem = item.getParentItem().getData();

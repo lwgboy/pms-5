@@ -269,13 +269,13 @@ public class ProcessDefinition {
 	}
 
 	@Structure("工作流定义列表 /list")
-	public List<TaskDefinition> listTaskDefinitions() {
-		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id);
+	public List<TaskDefinition> listTaskDefinitions(String domain) {
+		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id,domain);
 	}
 
 	@Structure("工作流定义列表 /count")
-	public long countTaskDefinitions() {
-		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id);
+	public long countTaskDefinitions(String domain) {
+		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id,domain);
 	}
 
 	public ObjectId get_id() {

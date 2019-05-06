@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.bpm;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -28,9 +27,15 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class BPMClient {
 
+	private String domain;
+
 	// private static Logger logger = LoggerFactory.getLogger(BPMClient.class);
 
-	public static Long startProcess(IBruiContext context, ProcessDefinition pd, String userId) {
+	public BPMClient(String domain) {
+		this.domain = domain;
+	}
+
+	public Long startProcess(IBruiContext context, ProcessDefinition pd, String userId) {
 		Document input = new Document();
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 0.设置默认参数
@@ -58,20 +63,20 @@ public class BPMClient {
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 5. 启动流程
-		return Services.get(BPMService.class).startProcess(parameter, pd.getBpmnId());
+		return Services.get(BPMService.class).startProcess(parameter, pd.getBpmnId(),domain);
 
 	}
 
-	public static void completeTask(IBruiContext context, long taskId, String userId) {
+	public void completeTask(IBruiContext context, long taskId, String userId) {
 		BPMService service = Services.get(BPMService.class);
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 1. 接受流程参数
 		Document input = new Document();
-		Optional.ofNullable(service.getProcessInstanceVariablesByTaskId(taskId)).ifPresent(input::putAll);
+		Optional.ofNullable(service.getProcessInstanceVariablesByTaskId(taskId,domain)).ifPresent(input::putAll);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 2. 处理任务属性
-		TaskDefinition td = service.getTaskDefinitionByTaskId(taskId);
+		TaskDefinition td = service.getTaskDefinitionByTaskId(taskId,domain);
 		if (td != null)
 			Optional.ofNullable(td.getProperties()).ifPresent(input::putAll);
 
@@ -87,7 +92,7 @@ public class BPMClient {
 			if (!editInput(context, editor, td.getName(), input))
 				return;
 		} else {// 没有定义编辑器
-			Document node = service.getTaskNodeInfo(taskId);
+			Document node = service.getTaskNodeInfo(taskId,domain);
 			if (node != null) {
 				Document meta = (Document) node.get("meta");
 				Document taskOutput = (Document) meta.get("DataOutputs");
@@ -112,7 +117,7 @@ public class BPMClient {
 		if (td != null)
 			executeJS(input, context.getContextParameterData(), td.getoScript());
 		System.out.println();
-		service.completeTask(taskId, userId, input);
+		service.completeTask(taskId, userId, input,domain);
 	}
 
 	private static FormField createField(Entry<String, Object> t) {

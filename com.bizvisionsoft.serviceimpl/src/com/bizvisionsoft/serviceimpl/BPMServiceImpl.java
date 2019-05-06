@@ -41,7 +41,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	private static Logger logger = LoggerFactory.getLogger(BPMServiceImpl.class);
 
 	@Override
-	public List<Document> listResources(BasicDBObject condition) {
+	public List<Document> listResources(BasicDBObject condition, String domain) {
 		Stream<Document> stream = createResourceStream();
 		return StreamToolkit.appendCondition(stream, condition).collect(Collectors.toList());
 	}
@@ -70,13 +70,13 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public long countResources(BasicDBObject filter) {
+	public long countResources(BasicDBObject filter, String domain) {
 		Stream<Document> stream = createResourceStream();
 		return StreamToolkit.appendFilter(stream, filter).count();
 	}
 
 	@Override
-	public List<ProcessDefinition> listProcessDefinitionByFunctionRoles(BasicDBObject condition, String userId) {
+	public List<ProcessDefinition> listProcessDefinitionByFunctionRoles(BasicDBObject condition, String userId, String domain) {
 		List<Bson> pipeline = new ArrayList<>();
 		new JQ("查询授权用户的流程定义").set("userId", userId).appendTo(pipeline);
 		appendConditionToPipeline(pipeline, condition);
@@ -87,7 +87,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public long countProcessDefinitionByFunctionRoles(BasicDBObject filter, String userId) {
+	public long countProcessDefinitionByFunctionRoles(BasicDBObject filter, String userId, String domain) {
 		List<Bson> pipeline = new ArrayList<>();
 		new JQ("查询授权用户的流程定义").appendTo(pipeline);
 		Optional.ofNullable(filter).map(Aggregates::match).ifPresent(pipeline::add);
@@ -95,13 +95,13 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public long countTaskDefinitions(ObjectId _id) {
-		ProcessDefinition pd = getProcessDefinition(_id);
+	public long countTaskDefinitions(ObjectId _id, String domain) {
+		ProcessDefinition pd = getProcessDefinition(_id, domain);
 		RuleFlowProcess process = (RuleFlowProcess) BPM.getKieBase().getProcess(pd.getBpmnId());
 		return Arrays.asList(process.getNodes()).stream().filter(n -> HumanTaskNode.class.isInstance(n)).count();
 	}
 
-	public Document getTaskNodeInfo(long taskId) {
+	public Document getTaskNodeInfo(long taskId, String domain) {
 		Task task = taskService().getTaskById(taskId);
 		String taskName = task.getFormName();
 		RuleFlowProcess process = (RuleFlowProcess) BPM.getKieBase().getProcess(task.getTaskData().getProcessId());
@@ -120,7 +120,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public List<TaskDefinition> listTaskDefinitions(ObjectId _id) {
+	public List<TaskDefinition> listTaskDefinitions(ObjectId _id, String domain) {
 		String processId = getString("processDefinition", "bpmnId", _id);
 		RuleFlowProcess process = (RuleFlowProcess) BPM.getKieBase().getProcess(processId);
 		List<String> ids = new ArrayList<>();
@@ -144,7 +144,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public Long startProcess(Document parameters, String processId) {
+	public Long startProcess(Document parameters, String processId, String domain) {
 		// 获取流程传入参数
 		Document input = (Document) parameters.get("input");
 		// 获取流程附加数据
@@ -178,42 +178,42 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public List<Document> listTasksAssignedAsPotentialOwnerCard(BasicDBObject condition, String userId, String lang) {
+	public List<Document> listTasksAssignedAsPotentialOwnerCard(BasicDBObject condition, String userId, String lang, String domain) {
 		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Created", "Ready", "Reserved"));
 	}
 
 	@Override
-	public long countTasksAssignedAsPotentialOwnerCard(BasicDBObject filter, String userId) {
+	public long countTasksAssignedAsPotentialOwnerCard(BasicDBObject filter, String userId, String domain) {
 		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList("Created", "Ready", "Reserved"));
 	}
 
 	@Override
-	public List<Document> listTasksInProgressCard(BasicDBObject condition, String userId, String lang) {
+	public List<Document> listTasksInProgressCard(BasicDBObject condition, String userId, String lang, String domain) {
 		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("InProgress"));
 	}
 
 	@Override
-	public long countTasksInProgressCard(BasicDBObject filter, String userId) {
+	public long countTasksInProgressCard(BasicDBObject filter, String userId, String domain) {
 		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList("InProgress"));
 	}
 
 	@Override
-	public List<Document> listTasksSuspendedCard(BasicDBObject condition, String userId, String lang) {
+	public List<Document> listTasksSuspendedCard(BasicDBObject condition, String userId, String lang, String domain) {
 		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Suspended"));
 	}
 
 	@Override
-	public long countTasksSuspendedCard(BasicDBObject filter, String userId) {
+	public long countTasksSuspendedCard(BasicDBObject filter, String userId, String domain) {
 		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList("Suspended"));
 	}
 
 	@Override
-	public List<Document> listTasksClosedCard(BasicDBObject condition, String userId, String lang) {
+	public List<Document> listTasksClosedCard(BasicDBObject condition, String userId, String lang, String domain) {
 		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Completed", "Failed", "Error", "Exited", "Obsolete"));
 	}
 
 	@Override
-	public long countTasksClosedCard(BasicDBObject filter, String userId) {
+	public long countTasksClosedCard(BasicDBObject filter, String userId, String domain) {
 		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList("Completed", "Failed", "Error", "Exited", "Obsolete"));
 	}
 
@@ -227,49 +227,49 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public boolean resumeTask(long taskId, String userId) {
+	public boolean resumeTask(long taskId, String userId, String domain) {
 		taskService().resume(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean stopTask(long taskId, String userId) {
+	public boolean stopTask(long taskId, String userId, String domain) {
 		taskService().stop(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean suspendTask(long taskId, String userId) {
+	public boolean suspendTask(long taskId, String userId, String domain) {
 		taskService().suspend(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean forwardTask(long taskId, String userId, String targetUserId) {
+	public boolean forwardTask(long taskId, String userId, String targetUserId, String domain) {
 		taskService().forward(taskId, userId, targetUserId);
 		return true;
 	}
 
 	@Override
-	public boolean startTask(long taskId, String userId) {
+	public boolean startTask(long taskId, String userId, String domain) {
 		taskService().start(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean claimTask(long taskId, String userId) {
+	public boolean claimTask(long taskId, String userId, String domain) {
 		taskService().claim(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean exitTask(long taskId, String userId) {
+	public boolean exitTask(long taskId, String userId, String domain) {
 		taskService().exit(taskId, userId);
 		return true;
 	}
 
 	@Override
-	public boolean skipTask(long taskId, String userId) {
+	public boolean skipTask(long taskId, String userId, String domain) {
 		taskService().skip(taskId, userId);
 		return true;
 	}
@@ -283,84 +283,84 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 	}
 
 	@Override
-	public boolean delegateTask(long taskId, String userId, String targetUserId) {
+	public boolean delegateTask(long taskId, String userId, String targetUserId, String domain) {
 		taskService().delegate(taskId, userId, targetUserId);
 		return true;
 	}
 
 	@Override
-	public boolean completeTask(long taskId, String userId, Document parameters) {
+	public boolean completeTask(long taskId, String userId, Document parameters, String domain) {
 		taskService().complete(taskId, userId, parameters);
 		return true;
 	}
 
 	@Override
-	public boolean nominateTask(long taskId, String userId, List<String> potentialOwnersUserId) {
+	public boolean nominateTask(long taskId, String userId, List<String> potentialOwnersUserId, String domain) {
 		List<OrganizationalEntity> potentialOwners = null;// TODO
 		taskService().nominate(taskId, userId, potentialOwners);
 		return true;
 	}
 
 	@Override
-	public ProcessDefinition getProcessDefinition(ObjectId _id) {
+	public ProcessDefinition getProcessDefinition(ObjectId _id, String domain) {
 		return get(_id, ProcessDefinition.class);
 	}
 
 	@Override
-	public List<ProcessDefinition> listProcessDefinitions(BasicDBObject condition) {
+	public List<ProcessDefinition> listProcessDefinitions(BasicDBObject condition, String domain) {
 		return createDataSet(condition, ProcessDefinition.class);
 	}
 
 	@Override
-	public long countProcessDefinitions(BasicDBObject filter) {
+	public long countProcessDefinitions(BasicDBObject filter, String domain) {
 		return count(filter, ProcessDefinition.class);
 	}
 
 	@Override
-	public long updateProcessDefinitions(BasicDBObject fu) {
+	public long updateProcessDefinitions(BasicDBObject fu, String domain) {
 		return update(fu, ProcessDefinition.class);
 	}
 
 	@Override
-	public long updateTaskDefinitions(BasicDBObject fu) {
+	public long updateTaskDefinitions(BasicDBObject fu, String domain) {
 		return update(fu, TaskDefinition.class);
 	}
 
 	@Override
-	public ProcessDefinition insertProcessDefinition(ProcessDefinition p) {
+	public ProcessDefinition insertProcessDefinition(ProcessDefinition p, String domain) {
 		return insert(p);
 	}
 
 	@Override
-	public TaskDefinition insertTaskDefinition(TaskDefinition td) {
+	public TaskDefinition insertTaskDefinition(TaskDefinition td, String domain) {
 		return insert(td);
 	}
 
 	@Override
-	public long deleteProcessDefinition(ObjectId _id) {
+	public long deleteProcessDefinition(ObjectId _id, String domain) {
 		c("taskDefinition").deleteMany(new Document("processDefinitionId", _id));
 		return delete(_id, ProcessDefinition.class);
 	}
 
 	@Override
-	public long deleteTaskDefinition(ObjectId _id) {
+	public long deleteTaskDefinition(ObjectId _id, String domain) {
 		return delete(_id, TaskDefinition.class);
 	}
 
 	@Override
-	public TaskDefinition getTaskDefinitionByTaskId(long taskId) {
+	public TaskDefinition getTaskDefinitionByTaskId(long taskId, String domain) {
 		List<Bson> pipe = new JQ("bpm/查询-任务-任务定义").set("taskId", taskId).array();
 		return c("bpm_Task").aggregate(pipe, TaskDefinition.class).first();
 	}
 
 	@Override
-	public Document getProcessInstanceVariablesByTaskId(long taskId) {
+	public Document getProcessInstanceVariablesByTaskId(long taskId, String domain) {
 		long pid = getValue("bpm_Task", "taskData.processInstanceId", taskId, Long.class);
-		return getProcessInstanceVariables(pid);
+		return getProcessInstanceVariables(pid, domain);
 	}
 
 	@Override
-	public Document getProcessInstanceVariables(long pid) {
+	public Document getProcessInstanceVariables(long pid, String domain) {
 		RuleFlowProcessInstance pi = (RuleFlowProcessInstance) kie().getProcessInstance(pid);
 		Map<String, Object> v = pi.getVariables();
 		Document doc = new Document();
