@@ -207,9 +207,9 @@ public class Formatter {
 			if (text == null) {
 				if (value instanceof JsonExternalizable) {
 					text = ((JsonExternalizable) value).encodeJson();
-				} else if(value instanceof Document) {	
+				} else if (value instanceof Document) {
 					text = ((Document) value).toJson();
-				} else if(value instanceof BasicDBObject) {	
+				} else if (value instanceof BasicDBObject) {
 					text = ((BasicDBObject) value).toJson();
 				} else {
 					text = value.toString();
@@ -539,6 +539,16 @@ public class Formatter {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public static String concat(String... str) {
+		StringBuffer sb = new StringBuffer();
+		if (str != null)
+			Arrays.asList(str).forEach(s -> {
+				if (s != null)
+					sb.append(s);
+			});
+		return sb.toString();
 	}
 
 }
