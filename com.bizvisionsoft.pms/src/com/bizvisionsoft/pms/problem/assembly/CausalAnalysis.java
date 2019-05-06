@@ -47,7 +47,7 @@ public class CausalAnalysis {
 
 	@Inject
 	private String type;
-	
+
 	@Inject
 	private String title;
 
@@ -79,13 +79,15 @@ public class CausalAnalysis {
 				// 在容器右边画一根分割线
 				.addRight(() -> Controls.label(content, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP | SWT.BOTTOM, 1))
 				// 在线的右边做图表容器（右）
-				.addRight(() -> Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).formLayout().put(this::rightPane));
+				.addRight(() -> Controls.comp(content).loc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).formLayout()
+						.put(this::rightPane));
 
 	}
 
 	private void leftPane(Composite parent) {
 		parent.setLayout(new FormLayout());
-		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
+		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null))
+				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 48).get();
 		bar.setText(title);
 		tree = new GridTreeViewer(parent, SWT.V_SCROLL);
 		tree.getGrid().setLinesVisible(false);
@@ -98,30 +100,33 @@ public class CausalAnalysis {
 		btnColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof String) {
-					return "<a target='_rwt' href='add' style='margin:6px;' class='layui-icon layui-icon-add-1 layui-btn layui-btn-primary layui-btn-xs'></a>";
-				} else {
-					StringBuffer s = new StringBuffer();
-					s.append(
-							"<div style='height:96px;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;'>");
-					s.append(
-							"<div><a target='_rwt' href='add'  class='layui-icon layui-icon-add-1 layui-btn layui-btn-primary layui-btn-xs'/></div>");
-					s.append(
-							"<div><a target='_rwt' href='edit'  class='layui-icon layui-icon-edit layui-btn layui-btn-primary layui-btn-xs'/></div>");
-					s.append(
-							"<div><a target='_rwt' href='del'  class='layui-icon layui-icon-close layui-btn layui-btn-primary layui-btn-xs'/></div>");
-					s.append("</div>");
-					return s.toString();
-				}
+				if (problem.isSolving())
+					if (element instanceof String) {
+						return "<a target='_rwt' href='add' style='margin:6px;' class='layui-icon layui-icon-add-1 layui-btn layui-btn-primary layui-btn-xs'></a>";
+					} else {
+						StringBuffer s = new StringBuffer();
+						s.append(
+								"<div style='height:96px;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;'>");
+						s.append(
+								"<div><a target='_rwt' href='add'  class='layui-icon layui-icon-add-1 layui-btn layui-btn-primary layui-btn-xs'/></div>");
+						s.append(
+								"<div><a target='_rwt' href='edit'  class='layui-icon layui-icon-edit layui-btn layui-btn-primary layui-btn-xs'/></div>");
+						s.append(
+								"<div><a target='_rwt' href='del'  class='layui-icon layui-icon-close layui-btn layui-btn-primary layui-btn-xs'/></div>");
+						s.append("</div>");
+						return s.toString();
+					}
+				else
+					return "";
 			}
 		});
 
 		tree.setContentProvider(new CauseContentProvider(problem, type));
-		List<ClassifyCause> classifyCause = service.listClassifyCause(new BasicDBObject("parent_id",null));
-		if(Check.isNotAssigned(classifyCause)) {
+		List<ClassifyCause> classifyCause = service.listClassifyCause(new BasicDBObject("parent_id", null));
+		if (Check.isNotAssigned(classifyCause)) {
 			Layer.message("请先设置原因分类");
 			tree.setInput(new ArrayList<>());
-		}else {
+		} else {
 			tree.setInput(classifyCause);
 		}
 		Controls.handle(tree.getControl()).markup().loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(bar)
@@ -130,18 +135,20 @@ public class CausalAnalysis {
 	}
 
 	public void showTreeMemu(Event event) {
-		Object element = event.item.getData();
-		if ("add".equals(event.text)) {
-			if (element instanceof ClassifyCause) {// 类别
-				createCauseItem( (ClassifyCause)element);
-			} else if (element instanceof CauseConsequence) {
-				createCauseItem((CauseConsequence) element);
+		if (problem.isSolving()) {
+			Object element = event.item.getData();
+			if ("add".equals(event.text)) {
+				if (element instanceof ClassifyCause) {// 类别
+					createCauseItem((ClassifyCause) element);
+				} else if (element instanceof CauseConsequence) {
+					createCauseItem((CauseConsequence) element);
+				}
+			} else if ("edit".equals(event.text)) {
+				editCauseItem((CauseConsequence) element);
+			} else if ("del".equals(event.text)) {
+				Object parent = ((GridItem) event.item).getParentItem().getData();
+				delCauseItem(parent, (CauseConsequence) element);
 			}
-		} else if ("edit".equals(event.text)) {
-			editCauseItem((CauseConsequence) element);
-		} else if ("del".equals(event.text)) {
-			Object parent = ((GridItem) event.item).getParentItem().getData();
-			delCauseItem(parent, (CauseConsequence) element);
 		}
 	}
 
@@ -154,8 +161,8 @@ public class CausalAnalysis {
 	}
 
 	private void createCauseItem(CauseConsequence parent) {
-		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type).setSubject(parent.getSubject())
-				.setParent_id(parent.get_id());
+		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
+				.setSubject(parent.getSubject()).setParent_id(parent.get_id());
 		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
 			t = service.insertCauseConsequence(t);
 			tree.refresh(parent, false);
@@ -165,7 +172,8 @@ public class CausalAnalysis {
 	}
 
 	private void createCauseItem(ClassifyCause element) {
-		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type).setSubject(element.name);
+		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
+				.setSubject(element.name);
 		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
 			t = service.insertCauseConsequence(t);
 			tree.refresh(element, false);

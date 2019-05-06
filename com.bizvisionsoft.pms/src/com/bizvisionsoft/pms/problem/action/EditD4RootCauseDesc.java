@@ -29,13 +29,14 @@ public class EditD4RootCauseDesc {
 		if (insert) {
 			d = new Document();
 		}
-		Editor.create("D4-根本原因描述-编辑器", context, d, true).ok((r, t) -> {
+		Editor.create("D4-根本原因描述-编辑器", context, d, true).setEditable(problem.isSolving()).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
 				service.insertD4RootCauseDesc(t, RWT.getLocale().getLanguage());
 			} else {
 				r.remove("_id");
-				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r)
+						.bson();
 				service.updateD4RootCauseDesc(fu, RWT.getLocale().getLanguage());
 			}
 		});
