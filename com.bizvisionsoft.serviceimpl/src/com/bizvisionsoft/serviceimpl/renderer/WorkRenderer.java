@@ -292,12 +292,12 @@ public class WorkRenderer {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-around;align-items:center;'>");
 		btns.forEach(e -> {
-			sb.append("<a class='label_subhead' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
+			sb.append("<a class='' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
 		});
 		if (canAction) {
 			sb.append("<div style='display:inline-flex;align-items:center;'>");
 			sb.append(
-					"<a class='label_subhead' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+					"<a class='' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 			if (Check.isAssigned(badge)) {
 				sb.append(" " + badge);
 			}

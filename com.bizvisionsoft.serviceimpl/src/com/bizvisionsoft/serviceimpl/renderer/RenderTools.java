@@ -39,6 +39,10 @@ public class RenderTools {
 	public static String shortDate(Date date) {
 		return Formatter.getString(date, "yyyy/MM/dd");
 	}
+	
+	public static String shortDateTime(Date date) {
+		return Formatter.getString(date, "M/d H:mm");
+	}
 
 	public static String getFirstFileURL(Document doc, String imgField) {
 		List<?> headPics = (List<?>) doc.get(imgField);
@@ -151,6 +155,20 @@ public class RenderTools {
 				+ "</div>");
 	}
 
+	public static String appendHeadof2LineWithStatus(StringBuffer sb, String titleLine1, String titleLine2, String status,
+			CardTheme theme) {
+		String content = "<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
+				+ ";padding:8px'>" //
+				+ "<div>"//
+				+ "<a class='label_subhead' href='openItem/' target='_rwt' style='color:#" + theme.headFgColor + "';>" + titleLine1 + "</a>"//
+				+ "<div class='label_caption'>" + titleLine2 + "</div>"//
+				+ "</div>" //
+				+ "<div class='label_title'>" + status + "</div>"//
+				+ "</div>";
+		sb.append(content);
+		return content;
+	}
+
 	public static void appendIconLabelAndTextLine(StringBuffer sb, String iconUrl, String label, String text) {
 		appendIconLabelAndTextLine(sb, iconUrl, 16, label, CardTheme.TEXT_LINE[0], text, CardTheme.TEXT_LINE[1]);
 	}
@@ -219,5 +237,6 @@ public class RenderTools {
 				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor=" + indColor[1]
 				+ "' width=72 height=72/></div>");
 	}
+
 
 }

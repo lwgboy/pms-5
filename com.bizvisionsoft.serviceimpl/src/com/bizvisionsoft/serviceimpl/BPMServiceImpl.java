@@ -160,7 +160,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 		return id;
 	}
 
-	private List<Document> listTasksByUserIdAndStatus(BasicDBObject condition, String userId, String lang, List<String> status) {
+	private List<Document> listTasksByPotentialOwnerUserIdAndStatus(BasicDBObject condition, String userId, String lang, List<String> status) {
 		List<Bson> pipe = new ArrayList<>();
 		pipe = pipelineTasksAssignedAsPotentialOwner(pipe, (BasicDBObject) condition.get("filter"), userId, status);
 		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", -1));
@@ -179,17 +179,17 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public List<Document> listTasksAssignedAsPotentialOwnerCard(BasicDBObject condition, String userId, String lang, String domain) {
-		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Created", "Ready", "Reserved"));
+		return listTasksByPotentialOwnerUserIdAndStatus(condition, userId, lang, Arrays.asList( "Ready", "Reserved"));
 	}
 
 	@Override
 	public long countTasksAssignedAsPotentialOwnerCard(BasicDBObject filter, String userId, String domain) {
-		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList("Created", "Ready", "Reserved"));
+		return countTasksByUserIdAndStatus(filter, userId, Arrays.asList( "Ready", "Reserved"));
 	}
 
 	@Override
 	public List<Document> listTasksInProgressCard(BasicDBObject condition, String userId, String lang, String domain) {
-		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("InProgress"));
+		return listTasksByPotentialOwnerUserIdAndStatus(condition, userId, lang, Arrays.asList("InProgress"));
 	}
 
 	@Override
@@ -199,7 +199,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public List<Document> listTasksSuspendedCard(BasicDBObject condition, String userId, String lang, String domain) {
-		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Suspended"));
+		return listTasksByPotentialOwnerUserIdAndStatus(condition, userId, lang, Arrays.asList("Suspended"));
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class BPMServiceImpl extends BasicServiceImpl implements BPMService {
 
 	@Override
 	public List<Document> listTasksClosedCard(BasicDBObject condition, String userId, String lang, String domain) {
-		return listTasksByUserIdAndStatus(condition, userId, lang, Arrays.asList("Completed", "Failed", "Error", "Exited", "Obsolete"));
+		return listTasksByPotentialOwnerUserIdAndStatus(condition, userId, lang, Arrays.asList("Completed", "Failed", "Error", "Exited", "Obsolete"));
 	}
 
 	@Override

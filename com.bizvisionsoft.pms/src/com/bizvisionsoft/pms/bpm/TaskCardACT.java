@@ -44,27 +44,27 @@ public class TaskCardACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document doc, @MethodParam(Execute.EVENT) Event e) {
-		if ("nominate".equals(e.text)) {
+		if ("nominate".equals(e.text)) {// 指派
 			nominate(doc);
-		} else if ("skip".equals(e.text)) {
+		} else if ("skip".equals(e.text)) {// 跳过
 			skip(doc);
-		} else if ("exit".equals(e.text)) {
+		} else if ("exit".equals(e.text)) {// 退出
 			exit(doc);
-		} else if ("claim".equals(e.text)) {
+		} else if ("claim".equals(e.text)) {// 签收
 			claim(doc);
-		} else if ("start".equals(e.text)) {
+		} else if ("start".equals(e.text)) {// 签收
 			start(doc);
-		} else if ("forward".equals(e.text)) {
+		} else if ("forward".equals(e.text)) {// 退回，撤回
 			forward(doc);
-		} else if ("suspend".equals(e.text)) {
+		} else if ("suspend".equals(e.text)) {// 暂停
 			suspend(doc);
-		} else if ("delegate".equals(e.text)) {
+		} else if ("delegate".equals(e.text)) {// 代办
 			delegate(doc);
-		} else if ("complete".equals(e.text)) {
+		} else if ("complete".equals(e.text)) {// 提交
 			complete(doc);
-		} else if ("stop".equals(e.text)) {
+		} else if ("stop".equals(e.text)) {// 停止
 			stop(doc);
-		} else if ("resume".equals(e.text)) {
+		} else if ("resume".equals(e.text)) {// 继续
 			resume(doc);
 		}
 	}
@@ -73,19 +73,17 @@ public class TaskCardACT {
 		if (!br.confirm("继续任务", "继续执行任务，请确认。"))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.resumeTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.resumeTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean stop(Document doc) {
-		if (!br.confirm("停止执行", "停止执行后任务将被置于预留状态，请确认。"))
+		if (!br.confirm("停办任务", "请确认停办以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.stopTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.stopTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean complete(Document doc) {
-		if (!br.confirm("完成任务", "请确认。"))
-			return false;
 		long taskId = doc.getLong("_id");
 		new BPMClient(br.getDomain()).completeTask(context, taskId, br.getCurrentUserId());
 		return true;
@@ -94,56 +92,60 @@ public class TaskCardACT {
 	private boolean delegate(Document doc) {
 		String userId = br.getCurrentUserId();
 		String targetUserId = null;// TODO
-		return service.delegateTask(doc.getLong("_id"), userId, targetUserId,br.getDomain());
+		return service.delegateTask(doc.getLong("_id"), userId, targetUserId, br.getDomain());
 	}
 
 	private boolean suspend(Document doc) {
-		if (!br.confirm("暂停任务", "请确认暂停任务。"))
+		if (!br.confirm("暂停任务", "请确认暂停以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.suspendTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.suspendTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean forward(Document doc) {
 		String userId = br.getCurrentUserId();
 		String targetUserId = null;// TODO
-		return service.forwardTask(doc.getLong("_id"), userId, targetUserId,br.getDomain());
+		return service.forwardTask(doc.getLong("_id"), userId, targetUserId, br.getDomain());
 	}
 
 	private boolean start(Document doc) {
-		if (!br.confirm("开始任务", "请确认开始任务。"))
+		if (!br.confirm("签收任务", "请确认签收并开始以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		service.startTask(doc.getLong("_id"), userId,br.getDomain());
+		service.startTask(doc.getLong("_id"), userId, br.getDomain());
 		context.getParentContext().refresh(true);
 		return true;
 	}
 
+	private String getTaskDetailMsg(Document doc) {
+		return "流程：" + doc.getString("process") + "<br>" + "任务：" + doc.getString("task");
+	}
+
 	private boolean claim(Document doc) {
-		if (!br.confirm("认领任务", "请确认认领任务。"))
+		if (!br.confirm("签收任务", "请确认签收以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.claimTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.claimTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean exit(Document doc) {
-		if (!br.confirm("退出任务", "退出任务后，该将关闭任务不再执行，本操作不可回退，请确认。"))
+		if (!br.confirm("退出任务", "退出任务后，该将关闭任务不再执行，本操作不可回退，请确认退出以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.exitTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.exitTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean skip(Document doc) {
-		if (!br.confirm("跳过任务", "跳过任务后，该将废弃任务不再执行，本操作不可回退，请确认。"))
+		if (!br.confirm("跳过任务", "跳过任务后，该将废弃任务不再执行，本操作不可回退，请确认跳过以下任务：<br>" + getTaskDetailMsg(doc)))
 			return false;
 		String userId = br.getCurrentUserId();
-		return service.skipTask(doc.getLong("_id"), userId,br.getDomain());
+		return service.skipTask(doc.getLong("_id"), userId, br.getDomain());
 	}
 
 	private boolean nominate(Document doc) {
 		String userId = br.getCurrentUserId();
 		List<String> potentialOwnersUserId = null;// TODO
-		return service.nominateTask(doc.getLong("_id"), userId, potentialOwnersUserId,br.getDomain());
+		return service.nominateTask(doc.getLong("_id"), userId, potentialOwnersUserId, br.getDomain());
 	}
 
 }

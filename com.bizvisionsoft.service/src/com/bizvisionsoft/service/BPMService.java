@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @Path("/bpm/")
 @Api("/bpm/")
 public interface BPMService {
-
+	
 	@POST
 	@Path("/{domain}/resource/bpmn/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -183,7 +183,7 @@ public interface BPMService {
 	@Path("/{domain}/task/assigned/{userId}/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务(已创建、准备中和已持有)", response = Document.class, responseContainer = "List")
+	@ApiOperation(value = "查询用户的流程任务(准备中和已分配)", response = Document.class, responseContainer = "List")
 	@DataSet("我的流程任务（待处理）/list")
 	public List<Document> listTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
@@ -194,7 +194,7 @@ public interface BPMService {
 	@Path("/{domain}/task/assigned/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务数量(已创建、准备中和已持有)", response = Long.class)
+	@ApiOperation(value = "查询用户的流程任务数量(准备中和已分配)", response = Long.class)
 	@DataSet("我的流程任务（待处理）/count")
 	public long countTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
@@ -373,5 +373,5 @@ public interface BPMService {
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "获得任务的输入和输出数据", response = Document.class)
 	public Document getTaskNodeInfo(@PathParam("taskId") long taskId, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
+	
 }

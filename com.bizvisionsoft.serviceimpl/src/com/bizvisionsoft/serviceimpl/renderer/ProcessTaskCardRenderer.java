@@ -23,7 +23,6 @@ public class ProcessTaskCardRenderer {
 
 	private Document taskData;
 
-
 	public ProcessTaskCardRenderer(Document data, String lang) {
 		this.data = data;
 		this.lang = lang;
@@ -39,79 +38,72 @@ public class ProcessTaskCardRenderer {
 	private Document renderTasksAssignedAsPotentialOwner() {
 
 		StringBuffer sb = new StringBuffer();
-		RenderTools.appendSingleLineHeader(sb, indigo, data.getString("name"), 36);
-
-		RenderTools.appendLabelAndTextLine(sb, "流程：", processMeta.getString("name"));
-		// Date date = processInstance.getDate("startDate");
-		// String userName = creationInfo.getString("userName");
-		// RenderTools.appendLabelAndTextLine(sb, "开始：", Formatter.getString(date) + " "
-		// + userName);
-
-		Optional.ofNullable(data.getString("subject"))
-				.ifPresent(s -> RenderTools.appendLabelAndMultiLine(sb, "说明：", "deep_orange", s, CardTheme.TEXT_LINE));
+		String title = data.getString("name");
+		String processName = processMeta.getString("name");
 		String status = taskData.getString("status");
-		renderStatusAndActions(sb, status);
+		String statusText = Formatter.getStatusText(status, lang);
+		RenderTools.appendHeadof2LineWithStatus(sb, title, processName, statusText, indigo);
+
+		Optional.ofNullable(data.getString("subject")).ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "说明：", s));
+		RenderTools.appendLabelAndTextLine(sb, "流程：", RenderTools.shortDateTime(processInstance.getDate("startDate")));
+		RenderTools.appendLabelAndTextLine(sb, "签发：", RenderTools.shortDateTime(taskData.getDate("createdOn")));
+
+		renderActions(sb, status);
 
 		RenderTools.appendCardBg(sb);
-		return new Document("_id", data.get("_id")).append("html", sb.toString());
+		String content = sb.toString();
+		return getData(content);
 	}
 
-	private void renderStatusAndActions(StringBuffer sb, String status) {
+	private Document getData(String content) {
+		return new Document("_id", data.get("_id")).append("html", content).append("task", data.getString("name")).append("process",
+				processMeta.getString("name"));
+	}
 
-		String text;
+	private void renderActions(StringBuffer sb, String status) {
+
 		List<String[]> action = new ArrayList<>();
-		if ("Created".equals(status)) {
-			text = "创建 " + Formatter.getString(taskData.getDate("createdOn"));
+		if ("Created".equals(status)) {//任务创建，但没有指定owner的情况
 			action.add(new String[] { "nominate", "指派" });
-			if(Boolean.TRUE.equals(taskData.getBoolean("skipable"))) 
+			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
 				action.add(new String[] { "skip", "跳过" });//
-			action.add(new String[] { "exit", "退出" });//
-		} else if ("Ready".equals(status)) {
-			text = "准备";
-			action.add(new String[] { "claim", "认领" });
-			action.add(new String[] { "delegate", "委托" });
-			action.add(new String[] { "start", "开始" });
-			action.add(new String[] { "forward", "退回" });
-//			action.add(new String[] { "suspend", "暂停" });
-			if(Boolean.TRUE.equals(taskData.getBoolean("skipable"))) 
+//			action.add(new String[] { "exit", "退出" });//
+		} else if ("Ready".equals(status)) {//当一个任务存在多potential owner的时候
+//			action.add(new String[] { "claim", "签收" });//start==claim
+			action.add(new String[] { "start", "签收" });//在多人的情况下，当前用户可以主动签收
+			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
+//			action.add(new String[] { "forward", "转发" });//退回仍然还是Ready状态，这个没有意义
+			// action.add(new String[] { "suspend", "暂停" });
+			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
 				action.add(new String[] { "skip", "跳过" });//
-			action.add(new String[] { "exit", "退出" });//
+//			action.add(new String[] { "exit", "退出" });//
 		} else if ("Reserved".equals(status)) {
-			text = "预留";
-			action.add(new String[] { "start", "开始" });
-			action.add(new String[] { "forward", "退回" });
-			action.add(new String[] { "delegate", "委托" });
-//			action.add(new String[] { "suspend", "暂停" });
-			if(Boolean.TRUE.equals(taskData.getBoolean("skipable"))) 
+			action.add(new String[] { "start", "签收" });
+			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
+//			action.add(new String[] { "forward", "转发" });//退回到Ready状态没有意义
+			// action.add(new String[] { "suspend", "暂停" });
+			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
 				action.add(new String[] { "skip", "跳过" });//
-			action.add(new String[] { "exit", "退出" });//
+			// action.add(new String[] { "exit", "退出" });//
 		} else if ("InProgress".equals(status)) {
-			text = "进行";
-			action.add(new String[] { "complete", "完成" });
-			action.add(new String[] { "stop", "停止" });
-			action.add(new String[] { "delegate", "委托" });
-//			action.add(new String[] { "suspend", "暂停" });
-			if(Boolean.TRUE.equals(taskData.getBoolean("skipable"))) 
+			action.add(new String[] { "complete", "提交" });
+//			 action.add(new String[] { "stop", "停办" });//停办只能将InProgress的任务转为Reserved，没有实际意义。
+			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
+			// action.add(new String[] { "suspend", "暂停" });
+			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
 				action.add(new String[] { "skip", "跳过" });//
-			action.add(new String[] { "exit", "退出" });//
+//			action.add(new String[] { "exit", "退出" });//
 		} else if ("Suspended".equals(status)) {
-			text = "暂停";
-			action.add(new String[] { "resume", "继续" });
+//			action.add(new String[] { "resume", "继续" });
 		} else if ("Completed".equals(status)) {
-			text = "完成";
 		} else if ("Failed".equals(status)) {
-			text = "失败";
 		} else if ("Error".equals(status)) {
-			text = "错误";
 		} else if ("Exited".equals(status)) {
-			text = "退出";
 		} else if ("Obsolete".equals(status)) {
-			text = "废弃";
 		} else {
 			return;
 		}
 
-		RenderTools.appendLabelAndTextLine(sb, "状态：", text);
 		if (action.isEmpty())
 			return;
 

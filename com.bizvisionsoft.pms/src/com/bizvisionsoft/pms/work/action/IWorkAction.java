@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -127,6 +128,9 @@ public interface IWorkAction {
 	 * @param callback
 	 */
 	public default void checkWork(Work work, IBruiContext context, Consumer<Work> callback) {
+		if (work.getChecklist() == null)
+			return;
+
 		Document input = new Document();
 		final Map<String, CheckItem> checklistMap = new LinkedHashMap<String, CheckItem>();
 

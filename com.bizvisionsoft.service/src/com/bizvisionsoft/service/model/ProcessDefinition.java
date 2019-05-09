@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
@@ -269,12 +270,12 @@ public class ProcessDefinition {
 	}
 
 	@Structure("工作流定义列表 /list")
-	public List<TaskDefinition> listTaskDefinitions(String domain) {
+	public List<TaskDefinition> listTaskDefinitions(@MethodParam(MethodParam.DOMAIN) String domain) {
 		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id,domain);
 	}
 
 	@Structure("工作流定义列表 /count")
-	public long countTaskDefinitions(String domain) {
+	public long countTaskDefinitions(@MethodParam(MethodParam.DOMAIN) String domain) {
 		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id,domain);
 	}
 
