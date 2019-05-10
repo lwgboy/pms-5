@@ -157,6 +157,20 @@ public interface ProblemService {
 			@MethodParam("status") @PathParam("status") String status);
 
 	@POST
+	@Path("/uncancelitem/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（问题数据库）/list" })
+	public List<Problem> listUnCancelProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/uncancelitem/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "问题清单（问题数据库）/" + DataSet.COUNT })
+	public long countUnCancelProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
 	@Path("/cc/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -1089,5 +1103,11 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action,
 			@PathParam("userId") String userId);
+
+	@POST
+	@Path("/_id/{_id}/loadcauseanalysis")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document loadCauseAnalysis(@PathParam("_id") ObjectId _id);
 
 }
