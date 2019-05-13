@@ -65,8 +65,9 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	}
 
+	@Deprecated
 	private void updateRole(User user) {
-		// 获得user所在的各级组织
+		// 获得user所在的各级组织 TODO 取组织的方法有待优化
 		ObjectId org_id = user.getOrganizationId();
 		List<String> orgIds = new ArrayList<String>();
 		if (org_id != null) {
@@ -249,6 +250,54 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public void requestAllChangePassword() {
 		c("user").updateMany(new Document(), new Document("$set", new Document("changePSW", true)));
+	}
+
+	@Override
+	public List<User> listDelegatableUsers(BasicDBObject condition, String userId) {
+		// 先查询需要显示成员的组织。
+		// 根据用户作为管理者的组织
+		List<ObjectId> orgIds = c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
+				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
+		// 如果用户具有 部门经理 和委派者角色，查询用户所在的直接部门
+		boolean hasRolePermission = c("funcPermission").countDocuments(
+				new Document("id", userId).append("type", "用户").append("role", new Document("$in", Arrays.asList("部门经理", "委托者")))) > 0;
+		if (hasRolePermission) {
+			ObjectId org_id = c("user").find(new Document("userId", userId)).projection(new Document("org_id", true)).first()
+					.getObjectId("org_id");
+			if (org_id != null) {
+				orgIds.add(org_id);
+			}
+		}
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if(filter==null) {
+			filter = new BasicDBObject();
+			condition.append("filter", filter);
+		}
+		filter.append("org_id", new BasicDBObject("$in", orgIds));
+		
+		return createDataSet(condition);
+	}
+
+	@Override
+	public long countDelegatableUsers(BasicDBObject filter, String userId) {
+		List<ObjectId> orgIds = c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
+				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
+		// 如果用户具有 部门经理 和委派者角色，查询用户所在的直接部门
+		boolean hasRolePermission = c("funcPermission").countDocuments(
+				new Document("id", userId).append("type", "用户").append("role", new Document("$in", Arrays.asList("部门经理", "委托者")))) > 0;
+		if (hasRolePermission) {
+			ObjectId org_id = c("user").find(new Document("userId", userId)).projection(new Document("org_id", true)).first()
+					.getObjectId("org_id");
+			if (org_id != null) {
+				orgIds.add(org_id);
+			}
+		}
+		if (filter == null) {
+			filter = new BasicDBObject();
+		}
+		filter.append("org_id", new Document("$in", orgIds));
+		return c("user").countDocuments(filter);
+
 	}
 
 }

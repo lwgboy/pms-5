@@ -12,31 +12,17 @@ public class Result {
 
 	public static final int TYPE_QUESTION = 3;
 
-	public static final int CODE_NO_WORK_DISTRIBUTE = 10000;
-
-	public static final int CODE_WORK_SUCCESS = 600;
-
-	public static final int CODE_HASCHECKOUTSUB = 601;
-
-	public static final int CODE_UNAUTHORIZED = 602;
-
-	public static final int CODE_UPDATEMANAGEITEM = 603;
-
-	public static final int CODE_UPDATESTAGE = 604;
-
-	public static final int CODE_UPDATEPROJECT = 605;
-
 	public static final int CODE_ERROR = 699;
-
-	public static final int CODE_CBS_DEFF_BUDGET = 901;
 
 	public static final int CODE_SUCCESS = 900;
 
+	public static final int CODE_USER_TERMINATE = 901;
+
+	public static final int CODE_CBS_DEFF_BUDGET = 903;
+
 	public static final int CODE_CBS_REPEATSUBMIT = 902;
 
-	public static final int CODE_WORKREPORT_HASNOSTATEMENTWORK = 610;
-
-	public static final int CODE_PROJECTCHANGE_NOTASKUSER = 300;
+	public static final int CODE_FINISH_ERROR = 100;
 
 	public static final int CODE_PROJECT_START_NOTAPPROVED = 101;
 
@@ -50,6 +36,28 @@ public class Result {
 
 	public static final int CODE_PROJECT_NOCBS = 106;
 
+	public static final int CODE_PROJECTCHANGE_NOTASKUSER = 300;
+
+	public static final int CODE_WORK_SUCCESS = 600;
+
+	public static final int CODE_HASCHECKOUTSUB = 601;
+
+	public static final int CODE_UNAUTHORIZED = 602;
+
+	public static final int CODE_UPDATEMANAGEITEM = 603;
+
+	public static final int CODE_UPDATESTAGE = 604;
+
+	public static final int CODE_UPDATEPROJECT = 605;
+
+	public static final int CODE_WORKREPORT_HASNOSTATEMENTWORK = 610;
+
+	public static final int CODE_UPDATE_FAILURE = 0x9001;
+
+	public static final int CODE_NOTFOUND = 0x9002;
+
+	public static final int CODE_NOT_ALLOWED = 0x9003;
+
 	public int code;
 
 	public String message;
@@ -60,7 +68,7 @@ public class Result {
 
 	public static final Result updateFailure(String message) {
 		Result e = new Result();
-		e.code = 0x9001;
+		e.code = CODE_UPDATE_FAILURE;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
@@ -68,7 +76,7 @@ public class Result {
 
 	public static Result notFoundError(String message) {
 		Result e = new Result();
-		e.code = 0x9002;
+		e.code = CODE_NOTFOUND;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
@@ -76,7 +84,7 @@ public class Result {
 
 	public static Result notAllowedError(String message) {
 		Result e = new Result();
-		e.code = 0x9003;
+		e.code = CODE_NOT_ALLOWED;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
@@ -105,7 +113,7 @@ public class Result {
 
 	public static Result finishError(String message) {
 		Result e = new Result();
-		e.code = 100;
+		e.code = CODE_FINISH_ERROR;
 		e.message = message;
 		e.type = Result.TYPE_ERROR;
 		return e;
@@ -195,6 +203,16 @@ public class Result {
 		e.message = message;
 		e.type = Result.TYPE_QUESTION;
 		return e;
+	}
+
+	public static Result success() {
+		return success("");
+	}
+
+	public static Result terminated() {
+		Result result = info("”√ªß÷’÷π");
+		result.code = CODE_USER_TERMINATE;
+		return result;
 	}
 
 }

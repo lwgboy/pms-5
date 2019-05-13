@@ -1,17 +1,20 @@
 package com.bizvisionsoft.serviceimpl.renderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
 
 import com.bizvisionsoft.service.tools.CardTheme;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 
-public class ProcessTaskCardRenderer {
+public class ProcessTaskCardRenderer extends BasicServiceImpl {
 
-	private static final CardTheme indigo = new CardTheme(CardTheme.INDIGO);
+	private static final CardTheme theme = new CardTheme(CardTheme.INDIGO);
 
 	private Document data;
 
@@ -23,29 +26,40 @@ public class ProcessTaskCardRenderer {
 
 	private Document taskData;
 
-	public ProcessTaskCardRenderer(Document data, String lang) {
+	private String userId;
+
+	public ProcessTaskCardRenderer(Document data, String userId, String lang) {
 		this.data = data;
+		this.userId = userId;
 		this.lang = lang;
 		processInstance = (Document) data.get("processInstance");
 		processMeta = (Document) processInstance.get("meta");
 		taskData = (Document) data.get("taskData");
 	}
 
-	public static Document renderTasksAssignedAsPotentialOwner(Document data, String lang) {
-		return new ProcessTaskCardRenderer(data, lang).renderTasksAssignedAsPotentialOwner();
+	public static Document renderTasksAssignedAsPotentialOwner(Document data, String userId, String lang) {
+		return new ProcessTaskCardRenderer(data, userId, lang).renderTasksAssignedAsPotentialOwner();
 	}
 
 	private Document renderTasksAssignedAsPotentialOwner() {
 
 		StringBuffer sb = new StringBuffer();
 		String title = data.getString("name");
+
+		String processSubject = processMeta.getString("proc_subject");
 		String processName = processMeta.getString("name");
+		String processDesc = processMeta.getString("proc_desc");
+		String processTitle = Arrays.asList(processSubject, processName, processDesc).stream().filter(Check::isAssigned).findFirst()
+				.orElse("");
+
 		String status = taskData.getString("status");
 		String statusText = Formatter.getStatusText(status, lang);
-		RenderTools.appendHeadof2LineWithStatus(sb, title, processName, statusText, indigo);
+		RenderTools.appendHeadof2LineWithStatus(sb, title, processTitle, statusText, theme);
 
-		Optional.ofNullable(data.getString("subject")).ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "说明：", s));
-		RenderTools.appendLabelAndTextLine(sb, "流程：", RenderTools.shortDateTime(processInstance.getDate("startDate")));
+		Optional.ofNullable(data.getString("description")).ifPresent(s -> RenderTools.appendLabelAndTextLine(sb, "描述：", s));
+
+		RenderTools.appendLabelAndTextLine(sb, "流程：", RenderTools.shortDateTime(processInstance.getDate("startDate")) + " S/N："
+				+ String.format("%08d", taskData.getLong("processInstanceId")));
 		RenderTools.appendLabelAndTextLine(sb, "签发：", RenderTools.shortDateTime(taskData.getDate("createdOn")));
 
 		renderActions(sb, status);
@@ -63,38 +77,28 @@ public class ProcessTaskCardRenderer {
 	private void renderActions(StringBuffer sb, String status) {
 
 		List<String[]> action = new ArrayList<>();
-		if ("Created".equals(status)) {//任务创建，但没有指定owner的情况
-			action.add(new String[] { "nominate", "指派" });
-			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
-				action.add(new String[] { "skip", "跳过" });//
-//			action.add(new String[] { "exit", "退出" });//
-		} else if ("Ready".equals(status)) {//当一个任务存在多potential owner的时候
-//			action.add(new String[] { "claim", "签收" });//start==claim
-			action.add(new String[] { "start", "签收" });//在多人的情况下，当前用户可以主动签收
-			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
-//			action.add(new String[] { "forward", "转发" });//退回仍然还是Ready状态，这个没有意义
-			// action.add(new String[] { "suspend", "暂停" });
-			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
-				action.add(new String[] { "skip", "跳过" });//
-//			action.add(new String[] { "exit", "退出" });//
+		if ("Created".equals(status)) {// 任务创建，但没有指定owner的情况
+			appendNominateAction(action);
+			appendSkipAction(action);
+		} else if ("Ready".equals(status)) {// 当一个任务存在多potential owner的时候
+			appendStartAction(action);
+			appendDelegateAction(action);
+			appendSkipAction(action);
 		} else if ("Reserved".equals(status)) {
-			action.add(new String[] { "start", "签收" });
-			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
-//			action.add(new String[] { "forward", "转发" });//退回到Ready状态没有意义
-			// action.add(new String[] { "suspend", "暂停" });
-			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
-				action.add(new String[] { "skip", "跳过" });//
-			// action.add(new String[] { "exit", "退出" });//
+			appendStartAction(action);
+			appendDelegateAction(action);
+			appendSkipAction(action);
 		} else if ("InProgress".equals(status)) {
-			action.add(new String[] { "complete", "提交" });
-//			 action.add(new String[] { "stop", "停办" });//停办只能将InProgress的任务转为Reserved，没有实际意义。
-			action.add(new String[] { "delegate", "委派" });//多人的情况可交由其他人处理，但是谁具有这个权限?TODO
+			appendCompleteAction(action);
+			// action.add(new String[] { "stop", "停办"
+			// });//停办只能将InProgress的任务转为Reserved，没有实际意义。
+			// 如果有多个潜在执行者
+			appendDelegateAction(action);
 			// action.add(new String[] { "suspend", "暂停" });
-			if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
-				action.add(new String[] { "skip", "跳过" });//
-//			action.add(new String[] { "exit", "退出" });//
+			appendSkipAction(action);
+			// action.add(new String[] { "exit", "退出" });//
 		} else if ("Suspended".equals(status)) {
-//			action.add(new String[] { "resume", "继续" });
+			// action.add(new String[] { "resume", "继续" });
 		} else if ("Completed".equals(status)) {
 		} else if ("Failed".equals(status)) {
 		} else if ("Error".equals(status)) {
@@ -113,6 +117,36 @@ public class ProcessTaskCardRenderer {
 		});
 		sb.append("</div>");
 
+	}
+
+	private void appendNominateAction(List<String[]> action) {
+		action.add(new String[] { "nominate", "指派" });
+	}
+
+	private void appendCompleteAction(List<String[]> action) {
+		action.add(new String[] { "complete", "提交" });
+	}
+
+	private void appendStartAction(List<String[]> action) {
+		action.add(new String[] { "start", "签收" });
+	}
+
+	private void appendSkipAction(List<String[]> action) {
+		if (Boolean.TRUE.equals(taskData.getBoolean("skipable")))
+			action.add(new String[] { "skip", "跳过" });//
+	}
+
+	private void appendDelegateAction(List<String[]> action) {
+		// 多人的情况可交由其他人处理，但是谁具有这个权限:
+		// 1. 考虑部门经理可以委派该部门的成员
+		// 2. 考虑部门的管理者可以委派至该部门的成员
+		// 3. 考虑一个委派者权限
+		boolean isManager = c("organization").countDocuments(new Document("managerId", userId)) == 1;
+		if (!isManager)
+			isManager = c("funcPermission").countDocuments(
+					new Document("id", userId).append("role", new Document("$in", Arrays.asList("部门经理", "委派者"))).append("type", "用户")) == 1;
+		if (isManager)
+			action.add(new String[] { "delegate", "委派" });
 	}
 
 }

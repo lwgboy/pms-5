@@ -605,5 +605,42 @@ public class ProblemChartRender extends BasicServiceImpl {
 		Date to = date.getDate("to");
 		return getXAxisData("month", from, to);
 	}
+	
+	private ArrayList<String> getXAxisData(String xAxis, Date from, Date to) {
+		ArrayList<String> xAxisData = new ArrayList<String>();
+		SimpleDateFormat sdf;
+		if ("date".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfDay(from);
+			to = Formatter.getEndOfDay(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM-dd");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+			}
+		} else if ("month".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfMonth(from);
+			to = Formatter.getEndOfMonth(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.MONTH, 1);
+			}
+		} else if ("year".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfYear(from);
+			to = Formatter.getEndOfYear(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.YEAR, 1);
+			}
+		}
+		return xAxisData;
+	}
 
 }

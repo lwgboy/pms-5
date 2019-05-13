@@ -4,13 +4,15 @@ import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.model.ProcessDefinition;
+import com.bizvisionsoft.service.tools.Check;
 
 public class SelectAndLaunchProcess {
-	
+
 	@Inject
 	private IBruiService br;
 
@@ -20,10 +22,12 @@ public class SelectAndLaunchProcess {
 			if (list != null && list.size() > 0) {
 				ProcessDefinition pd = (ProcessDefinition) list.get(0);
 				Long id = new BPMClient(br.getDomain()).startProcess(context, pd, userId);
-				if (id != null)
-					Layer.message("启动流程：<br>" + pd.getName());
-				else
-					Layer.message("启动流程已取消：<br>" + pd.getName());
+				if (id != null) {
+					Check.instanceThen(context.getContent(), IQueryEnable.class, s -> s.doRefresh());
+					Layer.message("启动流程：" + pd.getName());
+				} else {
+					Layer.message("启动流程已取消：" + pd.getName());
+				}
 			}
 		});
 	}

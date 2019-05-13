@@ -48,6 +48,12 @@ public interface OrganizationService {
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	public Role getRole(@PathParam("_id") ObjectId _id);
+	
+	@GET
+	@Path("/managerId/{userId}/")
+	@Consumes("application/json")
+	@Produces("application/json; charset=UTF-8")
+	public List<ObjectId> getManagedOrganizationsId(@PathParam("userId") String userId);
 
 	@PUT
 	@Path("/")
@@ -167,4 +173,5 @@ public interface OrganizationService {
 	@DataSet("×éÖ¯½ÇÉ«/" + DataSet.DELETE)
 	public long deleteRole(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
 
+	
 }

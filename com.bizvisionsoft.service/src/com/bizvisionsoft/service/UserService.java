@@ -44,7 +44,7 @@ public interface UserService {
 	@Path("/trace/userId/{userId}/trace/{trace}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void trace(@PathParam("userId") String userId,@PathParam("trace") boolean trace);
+	public void trace(@PathParam("userId") String userId, @PathParam("trace") boolean trace);
 
 	@POST
 	@Path("/")
@@ -65,6 +65,22 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "用户管理/" + DataSet.COUNT, "用户选择列表/" + DataSet.COUNT, "账户管理/" + DataSet.COUNT })
 	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
+	@Path("/delegatable/{userId}/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "任务委托人选择列表/" + DataSet.LIST })
+	public List<User> listDelegatableUsers(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+
+	@POST
+	@Path("/delegatable/{userId}/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "任务委托人选择列表/" + DataSet.COUNT })
+	public long countDelegatableUsers(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
 
 	@GET
 	@Path("/check/{userId}/{password}")
@@ -111,7 +127,7 @@ public interface UserService {
 	@Path("/traceInfo/")
 	@Consumes("application/json; charset=UTF-8")
 	public void insertTraceInfo(TraceInfo traceInfo);
-	
+
 	@POST
 	@Path("/traceInfo/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -125,7 +141,7 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("用户操作审计/" + DataSet.COUNT)
 	public long countTraceInfo(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
-	
+
 	@POST
 	@Path("/reqChgPsw/")
 	@Consumes("application/json; charset=UTF-8")
@@ -135,11 +151,11 @@ public interface UserService {
 	@Path("/reqAllChgPsw/")
 	@Consumes("application/json; charset=UTF-8")
 	public void requestAllChangePassword();
-	
+
 	@PUT
 	@Path("/updatePsw/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updatePassword(@PathParam("userId") String userId,@PathParam("newPassword") String newPassword);
+	public long updatePassword(@PathParam("userId") String userId, @PathParam("newPassword") String newPassword);
 
 }

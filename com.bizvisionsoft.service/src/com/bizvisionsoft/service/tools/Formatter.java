@@ -556,7 +556,7 @@ public class Formatter {
 				.asList("Created", "Ready", "Reserved", "InProgress", "Suspended", "Completed", "Failed", "Error", "Exited", "Obsolete")
 				.indexOf(status);
 		if (idx != -1) {
-			return new String[] { "创建", "就绪", "保留", "进行", "暂停", "完成", "失败", "错误", "退出", "作废" }[idx];
+			return new String[] { "创建", "就绪", "预约", "执行", "暂停", "完成", "失败", "错误", "退出", "作废" }[idx];
 		} else {
 			return null;
 		}

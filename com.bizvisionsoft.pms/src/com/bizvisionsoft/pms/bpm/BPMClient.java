@@ -1,12 +1,15 @@
 package com.bizvisionsoft.pms.bpm;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.eclipse.jface.window.Window;
 
 import com.bizvisionsoft.bruicommons.ModelLoader;
@@ -17,22 +20,34 @@ import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.BPMService;
+import com.bizvisionsoft.service.CommonService;
+import com.bizvisionsoft.service.OrganizationService;
+import com.bizvisionsoft.service.PermissionService;
+import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ProcessDefinition;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TaskDefinition;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.service.tools.ServiceHelper;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public class BPMClient {
 
 	private String domain;
+	private BPMService service;
 
 	// private static Logger logger = LoggerFactory.getLogger(BPMClient.class);
 
 	public BPMClient(String domain) {
 		this.domain = domain;
+		service = Services.get(BPMService.class);
 	}
 
 	public Long startProcess(IBruiContext context, ProcessDefinition pd, String userId) {
@@ -48,8 +63,21 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 2.是否有表单，如有，打开
 		String editor = pd.getEditor();
-		if (Check.isAssigned(editor) && !editInput(context, editor, pd.getName(), input))
-			return null;
+		if (Check.isAssigned(editor)) {
+			Assembly assembly = ModelLoader.site.getAssemblyByName(editor);
+			if (assembly == null)
+				throw new RuntimeException("无法获得表单：" + editor);
+			assembly.getFields().forEach(f -> {
+				String fieldName = f.getName();// 如果定义了流程表单，流程表单中包含了该字段，给出默认值
+				if ("proc_subject".equals(fieldName))
+					input.put("proc_subject", pd.getName());// 流程名称
+				if ("proc_desc".equals(fieldName))
+					input.put("proc_desc", pd.getDescription());// 流程描述
+			});
+
+			if (!editInput(context, assembly, pd.getName(), input))
+				return null;
+		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 3.如有脚本，运行脚本
@@ -58,25 +86,38 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 4.构造启动参数
 		Document meta = new Document("userId", userId);
+		// 添加流程附加属性
 		meta.putAll(pd.getMetaInfo());
+		// 添加编辑器录入的流程属性
+		Arrays.asList("proc_subject", "proc_desc").forEach(keyword -> {
+			String value = input.getString(keyword);
+			if (value != null) {
+				input.remove(keyword);
+				meta.append(keyword, value);
+			}
+		});
+
 		Document parameter = new Document().append("input", input).append("meta", meta);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 5. 启动流程
-		return Services.get(BPMService.class).startProcess(parameter, pd.getBpmnId(),domain);
+		return service.startProcess(parameter, pd.getBpmnId(), domain);
 
 	}
 
-	public void completeTask(IBruiContext context, long taskId, String userId) {
-		BPMService service = Services.get(BPMService.class);
+	public Result startTask(long taskId, String userId) {
+		return service.startTask(taskId, userId, domain);
+	}
+
+	public Result completeTask(IBruiContext context, long taskId, String userId) {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 1. 接受流程参数
 		Document input = new Document();
-		Optional.ofNullable(service.getProcessInstanceVariablesByTaskId(taskId,domain)).ifPresent(input::putAll);
+		Optional.ofNullable(service.getProcessInstanceVariablesByTaskId(taskId, domain)).ifPresent(input::putAll);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 2. 处理任务属性
-		TaskDefinition td = service.getTaskDefinitionByTaskId(taskId,domain);
+		TaskDefinition td = service.getTaskDefinitionByTaskId(taskId, domain);
 		if (td != null)
 			Optional.ofNullable(td.getProperties()).ifPresent(input::putAll);
 
@@ -89,25 +130,23 @@ public class BPMClient {
 		// 4. 打开编辑器表单
 		String editor = td == null ? null : td.getEditor();
 		if (Check.isAssigned(editor)) {// 如果定义了编辑器
-			if (!editInput(context, editor, td.getName(), input))
-				return;
+			Assembly assembly = ModelLoader.site.getAssemblyByName(editor);
+			if (assembly == null)
+				return Result.error("无法获得表单：" + editor);
+			if (!editInput(context, assembly, td.getName(), input))
+				return Result.terminated();
 		} else {// 没有定义编辑器
-			Document node = service.getTaskNodeInfo(taskId,domain);
+			Document node = service.getTaskNodeInfo(taskId, domain);
 			if (node != null) {
 				Document meta = (Document) node.get("meta");
 				Document taskOutput = (Document) meta.get("DataOutputs");
 				if (!taskOutput.isEmpty()) {// 没有输出的时候，无需表单
 					String title = node.getString("name");
 					String name = node.getString("taskName");
-					EditorFactory e = new EditorFactory().name(name).title(title).size(EditorFactory.HARROW|EditorFactory.SHORT);
-//					Document taskInput = (Document) meta.get("DataInputs");
-//					taskInput.entrySet().stream().map(BPMClient::createField).forEach(f -> {
-//						f.setReadOnly(true);
-//						e.appendField(f);
-//					});
+					EditorFactory e = new EditorFactory().name(name).title(title).size(EditorFactory.HARROW | EditorFactory.SHORT);
 					taskOutput.entrySet().stream().map(BPMClient::createField).forEach(e::appendField);
 					if (!editInput(context, e.get(), title, input))
-						return;
+						return Result.terminated();
 				}
 			}
 		}
@@ -116,8 +155,28 @@ public class BPMClient {
 		// 5. 后处理
 		if (td != null)
 			executeJS(input, context.getContextParameterData(), td.getoScript());
-		System.out.println();
-		service.completeTask(taskId, userId, input,domain);
+
+		return service.completeTask(taskId, userId, input, domain);
+	}
+
+	public Result delegateTask(IBruiContext context, long taskId, String userId) {
+		Assembly config = ModelLoader.site.getAssemblyByName("任务委托人选择器");
+		Selector selector = new Selector(config, context).setTitle("请选择委托本任务的执行人");
+		if (Window.OK != selector.open()) {
+			return Result.terminated();
+		} else {
+			List<?> ret = (List<?>) selector.getResult();
+			if (Check.isAssigned(ret)) {
+				User user = (User) ret.get(0);
+				String targetUserId = user.getUserId();
+				if (userId.equals(targetUserId)) {
+					return Result.terminated();
+				}
+				return service.delegateTask(taskId, userId, targetUserId, domain);
+			} else {
+				return Result.terminated();
+			}
+		}
 	}
 
 	private static FormField createField(Entry<String, Object> t) {
@@ -148,15 +207,6 @@ public class BPMClient {
 			Document binding = new Document("input", input).append("context", contextParameterData).append("ServiceHelper",
 					new ServiceHelper());
 			JSTools.invoke(script, null, "input", binding, input, contextParameterData);
-		}
-	}
-
-	private static boolean editInput(IBruiContext context, String editorName, String title, Document input) {
-		Assembly assembly = ModelLoader.site.getAssemblyByName(editorName);
-		if (assembly == null) {
-			throw new RuntimeException("无法获得表单：" + editorName);
-		} else {
-			return editInput(context, assembly, title, input);
 		}
 	}
 

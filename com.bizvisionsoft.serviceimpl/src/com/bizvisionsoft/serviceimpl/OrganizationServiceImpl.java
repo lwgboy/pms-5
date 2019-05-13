@@ -222,4 +222,10 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 		return count(filter, Organization.class);
 	}
 
+	@Override
+	public List<ObjectId> getManagedOrganizationsId(String userId) {
+		return c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
+				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
+	}
+
 }

@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.ProcessDefinition;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TaskDefinition;
 import com.mongodb.BasicDBObject;
 
@@ -26,6 +27,9 @@ import io.swagger.annotations.ApiOperation;
 @Path("/bpm/")
 @Api("/bpm/")
 public interface BPMService {
+	
+	public enum TaskAction{
+		resume, start, stop, suspend, forward, claim, exit, skip, delegate, complete, nominate}
 	
 	@POST
 	@Path("/{domain}/resource/bpmn/ds")
@@ -183,7 +187,7 @@ public interface BPMService {
 	@Path("/{domain}/task/assigned/{userId}/card/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务(准备中和已分配)", response = Document.class, responseContainer = "List")
+	@ApiOperation(value = "查询用户的流程任务(准备中、已分配、进行中)", response = Document.class, responseContainer = "List")
 	@DataSet("我的流程任务（待处理）/list")
 	public List<Document> listTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
@@ -194,30 +198,9 @@ public interface BPMService {
 	@Path("/{domain}/task/assigned/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务数量(准备中和已分配)", response = Long.class)
+	@ApiOperation(value = "查询用户的流程任务(准备中、已分配、进行中)", response = Long.class)
 	@DataSet("我的流程任务（待处理）/count")
 	public long countTasksAssignedAsPotentialOwnerCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
-	@Path("/{domain}/task/wip/{userId}/card/ds/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务(进行中)", response = Document.class, responseContainer = "List")
-	@DataSet("我的流程任务（进行中）/list")
-	public List<Document> listTasksInProgressCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
-	@Path("/{domain}/task/wip/{userId}/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务数量(进行中)", response = Long.class)
-	@DataSet("我的流程任务（进行中）/count")
-	public long countTasksInProgressCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -242,33 +225,12 @@ public interface BPMService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	@POST
-	@Path("/{domain}/task/suspended/{userId}/card/ds/{lang}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务(已暂停)", response = Document.class, responseContainer = "List")
-	@DataSet("我的流程任务（已暂停）/list")
-	public List<Document> listTasksSuspendedCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
-	@Path("/{domain}/task/suspended/{userId}/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@ApiOperation(value = "查询用户的流程任务数量(已暂停)", response = Long.class)
-	@DataSet("我的流程任务（已暂停）/count")
-	public long countTasksSuspendedCard(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
 	@PUT
 	@Path("/{domain}/task/{taskId}/resume/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "继续暂停的任务", response = Boolean.class)
-	public boolean resumeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result resumeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -276,7 +238,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "停止任务", response = Boolean.class)
-	public boolean stopTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result stopTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -284,7 +246,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "暂停任务", response = Boolean.class)
-	public boolean suspendTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result suspendTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -292,7 +254,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "退回任务", response = Boolean.class)
-	public boolean forwardTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result forwardTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@PathParam("targetUserId") String targetUserId, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -300,7 +262,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "开始任务", response = Boolean.class)
-	public boolean startTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result startTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -308,7 +270,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "认领任务", response = Boolean.class)
-	public boolean claimTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result claimTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -316,7 +278,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "退出任务", response = Boolean.class)
-	public boolean exitTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result exitTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -324,7 +286,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "跳过任务", response = Boolean.class)
-	public boolean skipTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result skipTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -332,7 +294,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "委托任务", response = Boolean.class)
-	public boolean delegateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
+	public Result delegateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId,
 			@PathParam("targetUserId") String targetUserId, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -340,7 +302,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "完成任务", response = Boolean.class)
-	public boolean completeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, Document parameters,
+	public Result completeTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, Document parameters,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -348,7 +310,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "指派任务", response = Boolean.class)
-	public boolean nominateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, List<String> potentialOwnersUserId,
+	public Result nominateTask(@PathParam("taskId") long taskId, @PathParam("userId") String userId, List<String> potentialOwnersUserId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
