@@ -1,5 +1,11 @@
 package com.bizvisionsoft.serviceimpl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,9 +27,11 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.service.ProblemService;
+import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.dps.Dispatcher;
 import com.bizvisionsoft.service.model.Catalog;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.ClassifyCause;
@@ -38,10 +46,15 @@ import com.bizvisionsoft.service.model.ProblemActionLinkInfo;
 import com.bizvisionsoft.service.model.ProblemCostItem;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
+import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
+import com.bizvisionsoft.service.provider.DateAdapter;
+import com.bizvisionsoft.service.provider.DocumentAdapter;
+import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemChartRender;
+import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Function;
 import com.mongodb.client.FindIterable;
@@ -1459,6 +1472,97 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			f.append("status", new BasicDBObject("$ne", "已取消"));
 		}
 		return count(f, "problem");
+	}
+
+	@Override
+	public InputStream createReportAndGetDownloadPath(Document rptParam, ObjectId _id, String template, String fileName,
+			String serverName, int serverPath) {
+		String path = "";
+		try {
+			// 获取JQ中的查询语句
+
+			Map<String, String> param = new HashMap<String, String>();
+			for (String key : rptParam.keySet()) {
+				String queryName = (String) rptParam.get(key);
+				String json = new GsonBuilder()//
+						.serializeNulls().registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
+						.registerTypeAdapter(Date.class, new DateAdapter())//
+						.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
+						.registerTypeAdapter(Document.class, new DocumentAdapter())//
+						.create().toJson(new JQ(queryName).set("id", _id).list());
+				param.put(key, json);
+			}
+			List<Map<String, Object>> processors = new ArrayList<Map<String, Object>>();
+
+			// 构建第一个处理器及其参数
+			Map<String, Object> processor = new HashMap<String, Object>();
+			processor.put("processorTypeId", "com.bizvpm.dps.processor.report:birtreport");
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			String filePath = Service.rptDesignFolder.getPath() + "/" + template;
+			FileInputStream fis = new FileInputStream(filePath);
+			parameter.put("design", fis);
+			parameter.put("output", "html");
+			parameter.put("output_html_string", false);
+			parameter.put("task_parameter", param);
+			processor.put("parameter", parameter);
+			processors.add(processor);
+
+			// 构建第二个处理器及其参数
+			processor = new HashMap<String, Object>();
+			processor.put("processorTypeId", "com.bizvpm.dps.processor.topsreport:topsreport");
+			parameter = new HashMap<String, Object>();
+			parameter.put("serverPath", "http://" + serverName + ":" + serverPath);
+			List<Object> medList = new ArrayList<Object>();
+			List<Object> medItem = new ArrayList<Object>();
+			medItem.add(0);
+			medItem.add("result");
+			medItem.add("file");
+			medList.add(medItem);
+			processor.put("intermediate", medList);
+			processor.put("parameter", parameter);
+			processors.add(processor);
+
+			// 构建第三个处理器及其参数
+			processor = new HashMap<String, Object>();
+			processor.put("processorTypeId", "com.bizvpm.dps.processor.msoffice:msoffice.msofficeconverter");
+			parameter = new HashMap<String, Object>();
+			parameter.put("sourceType", "html");
+			parameter.put("targetType", "docx");
+			parameter.put("targetName", fileName);
+			parameter.put("returnZIP", true);
+			parameter.put("hasAtt", true);
+			parameter.put("hasImage", true);
+			medList = new ArrayList<Object>();
+			medItem = new ArrayList<Object>();
+			medItem.add(1);
+			medItem.add("result");
+			medItem.add("file");
+			medList.add(medItem);
+			medItem = new ArrayList<Object>();
+			medItem.add(1);
+			medItem.add("template");
+			medItem.add("template");
+			medList.add(medItem);
+			medItem = new ArrayList<Object>();
+			medItem.add(1);
+			medItem.add("serverPath");
+			medItem.add("serverPath");
+			medList.add(medItem);
+			processor.put("intermediate", medList);
+			processor.put("parameter", parameter);
+			processors.add(processor);
+
+			Dispatcher dispatcher = Service.get(Dispatcher.class);
+			try {
+				Map<String, Object> result = dispatcher.run(processors);
+				return (InputStream) result.get("file");
+			} catch (Exception e) {
+				logger.error("DPS 转换出错。", e);
+			}
+		} catch (Exception e) {
+			logger.error("转换参数有误。", e);
+		}
+		return null;
 	}
 
 }

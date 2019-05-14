@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -28,6 +29,7 @@ import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.service.model.ProblemActionInfo;
 import com.bizvisionsoft.service.model.ProblemActionLinkInfo;
 import com.bizvisionsoft.service.model.ProblemCostItem;
+import com.bizvisionsoft.service.model.RemoteFile;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.mongodb.BasicDBObject;
@@ -1109,5 +1111,13 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document loadCauseAnalysis(@PathParam("_id") ObjectId _id);
+
+	@POST
+	@Path("/_id/{_id}/createreport/{template}/{fileName}/{serverName}/{serverPath}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public InputStream createReportAndGetDownloadPath(Document rptParam, @PathParam("_id") ObjectId _id,
+			@PathParam("template") String template, @PathParam("fileName") String fileName,
+			@PathParam("serverName") String serverName, @PathParam("serverPath") int serverPath);
 
 }

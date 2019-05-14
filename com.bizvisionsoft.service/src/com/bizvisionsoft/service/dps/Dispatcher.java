@@ -1,20 +1,10 @@
 package com.bizvisionsoft.service.dps;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public interface TOPSReportCreator {
+public interface Dispatcher {
 
-	public default void createReportFromXML(String dataURL, File templateFile, OutputStream os, String serverPath,
-			String fileName) throws Exception {
-		HashMap<String, String> parameter = new HashMap<String, String>();
-		parameter.put("FILELIST", dataURL);
-		createReport(parameter, templateFile, os, serverPath, fileName);
-	}
-
-	public void createReport(Map<String, String> parameter, Object templateFile, OutputStream os, String serverPath,
-			String fileName) throws Exception;
+	public Map<String, Object> run(List<Map<String, Object>> processors) throws Exception;
 
 }
