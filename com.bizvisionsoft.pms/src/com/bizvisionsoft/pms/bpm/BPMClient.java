@@ -17,6 +17,7 @@ import com.bizvisionsoft.bruicommons.factory.fields.SpinnerFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
+import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
@@ -169,6 +170,39 @@ public class BPMClient {
 				return Result.terminated();
 			}
 		}
+	}
+	
+	public Result resumeTask(BruiAssemblyContext context, long taskId, String userId) {
+		 return service.resumeTask(taskId, userId, domain);
+	}
+
+	public Result suspendTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.suspendTask(taskId, userId, domain);
+	}
+	
+	public Result stopTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.stopTask(taskId, userId, domain);
+	}
+
+	public Result forwardTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.forwardTask(taskId, userId,"", domain);//TODO
+	}
+
+	public Result skipTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.skipTask(taskId, userId, domain);
+	}
+
+	public Result nominateTask(BruiAssemblyContext context, long taskId, String userId) {
+		throw new RuntimeException("不支持的操作：nominateTask");
+//		return service.nominateTask(taskId, userId, null,domain);//TODO
+	}
+
+	public Result exitTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.exitTask(taskId, userId, domain);
+	}
+
+	public Result claimTask(BruiAssemblyContext context, long taskId, String userId) {
+		return service.claimTask(taskId, userId, domain);
 	}
 
 	private static FormField createField(Entry<String, Object> t) {
