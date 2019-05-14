@@ -17,6 +17,8 @@ public class Result {
 	public static final int CODE_SUCCESS = 900;
 
 	public static final int CODE_USER_TERMINATE = 901;
+	
+	public static final int CODE_USER_IGNORED = 904;
 
 	public static final int CODE_CBS_DEFF_BUDGET = 903;
 
@@ -212,6 +214,12 @@ public class Result {
 	public static Result terminated() {
 		Result result = info("”√ªß÷’÷π");
 		result.code = CODE_USER_TERMINATE;
+		return result;
+	}
+
+	public static Result ignored() {
+		Result result = info("∫ˆ¬‘");
+		result.code = CODE_USER_IGNORED;
 		return result;
 	}
 

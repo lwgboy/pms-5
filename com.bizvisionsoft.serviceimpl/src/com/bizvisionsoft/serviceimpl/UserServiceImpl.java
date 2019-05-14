@@ -10,6 +10,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.UserService;
+import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.model.OBSItem;
 import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ResourceActual;
@@ -20,6 +21,7 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.result.UpdateResult;
 
 public class UserServiceImpl extends BasicServiceImpl implements UserService {
@@ -112,36 +114,8 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		return query(skip, limit, filter);
-	}
-
-	/**
-	 * db.getCollection('account').aggregate([ {$lookup:{
-	 * "from":"organization","localField":"org_id","foreignField":"_id","as":"org"}},
-	 * {$unwind:{"path":"$org",preserveNullAndEmptyArrays:true}},
-	 * {$addFields:{"orgFullName":"$org.fullName"}}, {$project:{"org":0}} ])
-	 * 
-	 * @param skip
-	 * @param limit
-	 * @param filter
-	 * @return
-	 */
-
-	private List<User> query(Integer skip, Integer limit, BasicDBObject filter) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		appendOrgFullName(pipeline, "org_id", "orgFullName");
-
-		return c(User.class).aggregate(pipeline).into(new ArrayList<>());
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		return query(null, skip, limit, filter, sort, pipeline -> appendOrgFullName(pipeline, "org_id", "orgFullName"), User.class);
 	}
 
 	@Override
@@ -190,7 +164,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 		if (orgIds.size() > 0) {
 			filter.append("org_id", new BasicDBObject("$in", orgIds));
-			return query(null, null, filter);
+			return query(null, null, null, filter, User.class);
 		} else
 			return new ArrayList<User>();
 	}
@@ -256,6 +230,13 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	public List<User> listDelegatableUsers(BasicDBObject condition, String userId) {
 		// 先查询需要显示成员的组织。
 		// 根据用户作为管理者的组织
+		List<ObjectId> orgIds = getDelegateableOrgIds(userId);
+		List<Bson> pipeline = new JQ("查询-成员-组织含下级").set("ids", orgIds).array();
+		appendConditionToPipeline(pipeline, condition);
+		return c("organization").aggregate(pipeline, User.class).into(new ArrayList<>());
+	}
+
+	private List<ObjectId> getDelegateableOrgIds(String userId) {
 		List<ObjectId> orgIds = c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
 				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
 		// 如果用户具有 部门经理 和委派者角色，查询用户所在的直接部门
@@ -268,36 +249,20 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				orgIds.add(org_id);
 			}
 		}
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if(filter==null) {
-			filter = new BasicDBObject();
-			condition.append("filter", filter);
-		}
-		filter.append("org_id", new BasicDBObject("$in", orgIds));
-		
-		return createDataSet(condition);
+		return orgIds;
 	}
 
 	@Override
 	public long countDelegatableUsers(BasicDBObject filter, String userId) {
-		List<ObjectId> orgIds = c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
-				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
-		// 如果用户具有 部门经理 和委派者角色，查询用户所在的直接部门
-		boolean hasRolePermission = c("funcPermission").countDocuments(
-				new Document("id", userId).append("type", "用户").append("role", new Document("$in", Arrays.asList("部门经理", "委托者")))) > 0;
-		if (hasRolePermission) {
-			ObjectId org_id = c("user").find(new Document("userId", userId)).projection(new Document("org_id", true)).first()
-					.getObjectId("org_id");
-			if (org_id != null) {
-				orgIds.add(org_id);
-			}
-		}
-		if (filter == null) {
-			filter = new BasicDBObject();
-		}
-		filter.append("org_id", new Document("$in", orgIds));
-		return c("user").countDocuments(filter);
-
+		List<ObjectId> orgIds = getDelegateableOrgIds(userId);
+		List<Bson> pipeline = new JQ("查询-成员-组织含下级").set("ids", orgIds).array();
+		if (filter != null)
+			pipeline.add(new BasicDBObject("$match", filter));
+		pipeline.add(Aggregates.count("count"));
+		Document d = c("organization").aggregate(pipeline).first();
+		if (d == null)
+			return 0;
+		return ((Number) d.get("count")).longValue();
 	}
 
 }

@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.eclipse.jface.window.Window;
 
 import com.bizvisionsoft.bruicommons.ModelLoader;
@@ -22,12 +21,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.BPMService;
-import com.bizvisionsoft.service.CommonService;
-import com.bizvisionsoft.service.OrganizationService;
-import com.bizvisionsoft.service.PermissionService;
-import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.model.Organization;
 import com.bizvisionsoft.service.model.ProcessDefinition;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.TaskDefinition;
@@ -36,7 +29,6 @@ import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.service.tools.ServiceHelper;
 import com.bizvisionsoft.serviceconsumer.Services;
-import com.mongodb.BasicDBObject;
 
 public class BPMClient {
 
@@ -170,7 +162,7 @@ public class BPMClient {
 				User user = (User) ret.get(0);
 				String targetUserId = user.getUserId();
 				if (userId.equals(targetUserId)) {
-					return Result.terminated();
+					return Result.ignored();
 				}
 				return service.delegateTask(taskId, userId, targetUserId, domain);
 			} else {

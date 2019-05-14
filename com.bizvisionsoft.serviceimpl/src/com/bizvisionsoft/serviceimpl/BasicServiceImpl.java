@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 import org.bson.Document;
 import org.bson.codecs.Codec;
@@ -260,7 +261,15 @@ public class BasicServiceImpl {
 	}
 
 	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, Class<T> clazz) {
+		return query(null, skip, limit, filter, sort, null, clazz);
+	}
+
+	<T> List<T> query(Consumer<List<Bson>> input, Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
+			Consumer<List<Bson>> output, Class<T> clazz) {
+
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+		Optional.ofNullable(input).ifPresent(c -> c.accept(pipeline));
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -274,16 +283,24 @@ public class BasicServiceImpl {
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
+		Optional.ofNullable(output).ifPresent(c -> c.accept(pipeline));
+
 		debugPipeline(pipeline);
 
 		return c(clazz).aggregate(pipeline).into(new ArrayList<T>());
 	}
 
 	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField) {
+		appendLookupAndUnwind(pipeline, from, field, newField, true);
+	}
+
+	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField,
+			boolean preserveNullAndEmptyArrays) {
 		pipeline.add(new Document("$lookup",
 				new Document("from", from).append("localField", field).append("foreignField", "_id").append("as", newField)));
 
-		pipeline.add(new Document("$unwind", new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", true)));
+		pipeline.add(new Document("$unwind",
+				new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", preserveNullAndEmptyArrays)));
 	}
 
 	protected void appendOrgFullName(List<Bson> pipeline, String inputField, String outputField) {
@@ -870,14 +887,14 @@ public class BasicServiceImpl {
 	public Object getSystemSetting(String name, String parameter) {
 		return Optional.ofNullable(getSystemSetting(name)).map(d -> d.get(parameter)).orElse(null);
 	}
-	
-	protected Document getScopeSetting(ObjectId _id,String settingName) {
-		return getSystemSetting(settingName+"@"+_id);
+
+	protected Document getScopeSetting(ObjectId _id, String settingName) {
+		return getSystemSetting(settingName + "@" + _id);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected static <T> T getSettingValue(Document setting,String key,T defaultValue) {
-		return (T) Optional.ofNullable(setting).map(s->s.get(key)).orElse(defaultValue);
+	protected static <T> T getSettingValue(Document setting, String key, T defaultValue) {
+		return (T) Optional.ofNullable(setting).map(s -> s.get(key)).orElse(defaultValue);
 	}
 
 	private boolean sendEmail(Message m, String from, Document setting) {
@@ -972,7 +989,7 @@ public class BasicServiceImpl {
 			logger.debug("Document: \n" + json);
 		}
 	}
-	
+
 	/**
 	 * 检查当前用户是否具有某些角色
 	 * 
@@ -1054,8 +1071,6 @@ public class BasicServiceImpl {
 		return doc;
 	}
 
-
-
 	public Document blankChart() {
 		return new JQ("图表-无数据").doc();
 	}
@@ -1069,7 +1084,7 @@ public class BasicServiceImpl {
 	 *            保存关键字的字段名
 	 * @param fields，提取文本的字段名
 	 */
-	protected  List<String> extractKeywords(Document t, int size, String... fields) {
+	protected List<String> extractKeywords(Document t, int size, String... fields) {
 		StringBuffer text = new StringBuffer();
 		for (String f : fields) {
 			Optional.ofNullable(t.get(f)).ifPresent(text::append);
