@@ -57,7 +57,7 @@ public class ExportProblemReport {
 					os.write(bytes, 0, c);
 				}
 			} catch (IOException e) {
-				logger.error("DPS 存储文件失败。", e);
+				logger.error("报表存储文件失败。", e);
 			} finally {
 				if (os != null) {
 					os.close();
