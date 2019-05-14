@@ -10,7 +10,9 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ExportProblemCNReport {
 
@@ -85,5 +87,9 @@ public class ExportProblemCNReport {
 				.set("fileName", "问题报告").set("serverPath",
 						"http://" + RWT.getRequest().getServerName() + ":" + RWT.getRequest().getServerPort());
 		UserSession.bruiToolkit().downloadServerFile("topsreport", jo);
+//		String serverFilePath = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam,
+//				problem.get_id(), "8DReport_cn.rptdesign", "问题报告",
+//				"http://" + RWT.getRequest().getServerName() + ":" + RWT.getRequest().getServerPort());
+//		UserSession.bruiToolkit().downloadServerFile("bvs/fs", new JsonObject().set("id", serverFilePath));
 	}
 }
