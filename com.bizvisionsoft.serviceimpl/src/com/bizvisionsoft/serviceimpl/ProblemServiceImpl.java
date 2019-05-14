@@ -1389,7 +1389,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Problem> listAllProblems(BasicDBObject condition, String status) {
-		ensureGet(condition, "filter").append("status", status);
+		BasicDBObject filter = ensureGet(condition, "filter");
+		if (filter.get("status") == null) {
+			filter.append("status", status);
+		}
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
 		ArrayList<Problem> result = c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
 		return result;
@@ -1399,7 +1402,62 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public long countAllProblems(BasicDBObject filter, String status) {
 		BasicDBObject f = new BasicDBObject();
 		Check.isAssigned(filter, s -> f.putAll(s));
-		Check.isAssigned(status, s -> f.append("status", status));
+		if (filter == null || filter.get("status") == null) {
+			f.append("status", status);
+		}
+		return count(f, "problem");
+	}
+
+	@Override
+	public Document loadCauseAnalysis(ObjectId problem_id) {
+		Document result = new Document();
+
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(new Document("$match", new Document("problem_id", problem_id)));
+		pipeline.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
+				.append("foreignField", "parent_id").append("as", "child")));
+		pipeline.add(new Document("$match",
+				new Document("$expr", new Document("$eq", Arrays.asList(new Document("$size", "$child"), 0)))));
+		pipeline.add(new Document("$project", new Document("child", false)));
+
+		c("causeRelation").aggregate(pipeline).forEach((Document d) -> {
+			if ("因果分析-制造".equals(d.get("type"))) {
+				Object r = result.get("rootCauseDesc");
+				if (r != null) {
+					result.append("rootCauseDesc", r + "\n" + d.getString("name"));
+				} else {
+					result.append("rootCauseDesc", d.getString("name"));
+				}
+			} else if ("因果分析-流出".equals(d.get("type"))) {
+				Object r = result.get("escapePoint");
+				if (r != null) {
+					result.append("escapePoint", r + "\n" + d.getString("name"));
+				} else {
+					result.append("escapePoint", d.getString("name"));
+				}
+			}
+		});
+		return result;
+	}
+
+	@Override
+	public List<Problem> listUnCancelProblems(BasicDBObject condition) {
+		BasicDBObject filter = ensureGet(condition, "filter");
+		if (filter.get("status") == null) {
+			filter.append("status", new BasicDBObject("$ne", "已取消"));
+		}
+		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>());
+		ArrayList<Problem> result = c(Problem.class).aggregate(pipeline).into(new ArrayList<>());
+		return result;
+	}
+
+	@Override
+	public long countUnCancelProblems(BasicDBObject filter) {
+		BasicDBObject f = new BasicDBObject();
+		Check.isAssigned(filter, s -> f.putAll(s));
+		if (filter == null || filter.get("status") == null) {
+			f.append("status", new BasicDBObject("$ne", "已取消"));
+		}
 		return count(f, "problem");
 	}
 

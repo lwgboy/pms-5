@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.problem.action;
 import org.bson.Document;
 import org.eclipse.rap.rwt.RWT;
 
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -30,6 +31,15 @@ public class CreateD7Similar {
 			IQueryEnable content = (IQueryEnable) context.getContent();
 			content.doRefresh();
 		});
+	}
+	
+	@Behavior(ProblemService.ACTION_CREATE)
+	private boolean enableCreate(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
+		if (!"½â¾öÖÐ".equals(problem.getStatus()))
+			return false;
+		return true;
+		// TODO
 	}
 
 }

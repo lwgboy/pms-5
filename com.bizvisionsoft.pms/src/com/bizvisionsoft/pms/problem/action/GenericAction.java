@@ -46,7 +46,7 @@ public class GenericAction {
 
 	@Inject
 	private String verifyEditor;
-	
+
 	@Inject
 	private BruiAssemblyContext context;
 
@@ -54,7 +54,7 @@ public class GenericAction {
 
 	public GenericAction() {
 	}
-	
+
 	@Init
 	private void init() {
 		service = Services.get(ProblemService.class);
@@ -64,8 +64,8 @@ public class GenericAction {
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
-			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, 
-			@MethodParam(Execute.EVENT) Event e, @MethodParam(Execute.ACTION) Action a) {
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, @MethodParam(Execute.EVENT) Event e,
+			@MethodParam(Execute.ACTION) Action a) {
 		if (ProblemService.ACTION_EDIT.equals(a.getName()) || ProblemService.ACTION_EDIT.equals(e.text)) {
 			doEdit(element);
 		} else if (ProblemService.ACTION_READ.equals(a.getName()) || ProblemService.ACTION_READ.equals(e.text)) {
@@ -78,14 +78,16 @@ public class GenericAction {
 			doFinish(element);
 		} else if (ProblemService.ACTION_CREATE.equals(a.getName()) || ProblemService.ACTION_CREATE.equals(e.text)) {
 			doCreate(problem);
-		} else if (ProblemService.ACTION_EDIT_SIMILAR.equals(a.getName()) || ProblemService.ACTION_EDIT_SIMILAR.equals(e.text)) {
-			editSimilar(element,render);
-		} else if (ProblemService.ACTION_DELETE_SIMILAR.equals(a.getName()) || ProblemService.ACTION_DELETE_SIMILAR.equals(e.text)) {
+		} else if (ProblemService.ACTION_EDIT_SIMILAR.equals(a.getName())
+				|| ProblemService.ACTION_EDIT_SIMILAR.equals(e.text)) {
+			editSimilar(element, render);
+		} else if (ProblemService.ACTION_DELETE_SIMILAR.equals(a.getName())
+				|| ProblemService.ACTION_DELETE_SIMILAR.equals(e.text)) {
 			deleteSimilar(element);
 		}
 	}
 
-	private void editSimilar(Document doc,  String render) {
+	private void editSimilar(Document doc, String render) {
 		Document ivpca = service.getD7Similar(doc.getObjectId("_id"));
 		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
 			Document d = service.updateD7Similar(t, lang, render);
@@ -106,7 +108,8 @@ public class GenericAction {
 		String editorName = getEditorName();
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, new Document(), true).setTitle(getItemTypeName()).ok((r, t) -> {
-			t = Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(), render);
+			t = Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(),
+					render);
 			((IQueryEnable) context.getContent()).doRefresh();
 		});
 	}
@@ -120,7 +123,7 @@ public class GenericAction {
 			String editorName = getEditorName();
 			String title = getItemTypeName();
 			Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-				Document d = service.updateAction(t, lang, render,"updated");
+				Document d = service.updateAction(t, lang, render, "updated");
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		}
@@ -149,9 +152,11 @@ public class GenericAction {
 		String title = "验证" + getItemTypeName();
 		String editorName = getVerfiyEditorName();
 		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render,"verified");
+			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render,
+					"verified");
 			if ("已验证".equals(t.get("title")) && br.confirm("验证", "验证通过，是否立即完成本项行动？")) {
-				d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render,"finished");
+				d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang,
+						render, "finished");
 			}
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		});
@@ -160,7 +165,8 @@ public class GenericAction {
 	protected void doFinish(Document element) {
 		if (br.confirm("完成", "请确认完成选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
-			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang, render,"finished");
+			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang,
+					render, "finished");
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		}
 	}
@@ -181,7 +187,7 @@ public class GenericAction {
 		return ProblemService.actionName[Arrays.asList(ProblemService.actionType).indexOf(stage)];
 	}
 
-	@Behavior(ProblemService.ACTION_EDIT)
+	@Behavior({ ProblemService.ACTION_EDIT, ProblemService.ACTION_EDIT_SIMILAR })
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
 		if (!"解决中".equals(problem.getStatus()))
@@ -199,7 +205,7 @@ public class GenericAction {
 		// TODO
 	}
 
-	@Behavior(ProblemService.ACTION_DELETE)
+	@Behavior({ ProblemService.ACTION_DELETE, ProblemService.ACTION_DELETE_SIMILAR })
 	private boolean enableDelete(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
 		if (!"解决中".equals(problem.getStatus()))
@@ -235,7 +241,8 @@ public class GenericAction {
 	}
 
 	private boolean isVerified(Document element) {
-		return Optional.ofNullable((Document) element.get("verification")).map(d -> "已验证".equals(d.getString("title"))).orElse(false);
+		return Optional.ofNullable((Document) element.get("verification")).map(d -> "已验证".equals(d.getString("title")))
+				.orElse(false);
 	}
 
 	private boolean isFinished(Document element) {
