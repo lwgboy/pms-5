@@ -22,7 +22,7 @@ import com.bizvisionsoft.service.model.WorkPackage;
 
 public class AddDocuToPackageACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -40,7 +40,7 @@ public class AddDocuToPackageACT {
 												new Document("$addToSet",
 														new Document("workPackage_id",
 																new Document("$each", Arrays.asList(wp.get_id())))))
-										.bson());
+										.bson(), br.getDomain());
 
 				GridPart viewr = (GridPart) context.getContent();
 				viewr.setViewerInput();

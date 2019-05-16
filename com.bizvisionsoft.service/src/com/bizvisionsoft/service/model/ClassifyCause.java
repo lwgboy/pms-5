@@ -37,6 +37,9 @@ public class ClassifyCause {
 	@ReadValue
 	@WriteValue
 	public ObjectId parent_id;
+	
+	@Exclude
+	public String domain;
 
 	@Structure("new")
 	public ClassifyCause newSubItem() {
@@ -47,12 +50,12 @@ public class ClassifyCause {
 
 	@Structure("list")
 	public List<ClassifyCause> listSubItems() {
-		return ServicesLoader.get(ProblemService.class).listClassifyCause(new BasicDBObject("parent_id", _id));
+		return ServicesLoader.get(ProblemService.class).listClassifyCause(new BasicDBObject("parent_id", _id), domain);
 	}
 
 	@Structure("count")
 	public long countSubItems() {
-		return ServicesLoader.get(ProblemService.class).countClassifyCause(_id);
+		return ServicesLoader.get(ProblemService.class).countClassifyCause(_id, domain);
 	}
 
 	@ReadValue

@@ -12,11 +12,11 @@ import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 public class DocumentValueGeneratorFactory extends BasicServiceImpl implements IValueGenerateServiceFactory {
 
 	@Override
-	public IValueGenerateService getService(String className, String fieldName) {
+	public IValueGenerateService getService(String className, String fieldName, String domain) {
 		return Optional
-				.ofNullable(c(ValueRule.class)
+				.ofNullable(c(ValueRule.class, domain)
 						.find(new Document("className", className).append("fieldName", fieldName).append("enable", true)).first())
-				.map(DocumentValueGenerator::new).orElse(null);
+				.map(d->new DocumentValueGenerator(d,domain)).orElse(null);
 	}
 
 }

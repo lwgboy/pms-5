@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class StartStage {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -25,8 +25,8 @@ public class StartStage {
 		CommandHandler.run(ICommand.Start_Stage, //
 				"请确认启动阶段：" + stage + "。", "阶段启动完成", "阶段启动失败", //
 				() -> Services.get(WorkService.class)
-						.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage)), //
-				code -> brui.switchPage("阶段首页（执行）", ((Work) stage).get_id().toHexString()));
+						.startStage(br.command(stage.get_id(), new Date(), ICommand.Start_Stage), br.getDomain()), //
+				code -> br.switchPage("阶段首页（执行）", ((Work) stage).get_id().toHexString()));
 	}
 
 }

@@ -15,7 +15,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class AddRiskResponseTypeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -24,7 +24,7 @@ public class AddRiskResponseTypeACT {
 			Editor.create("项目风险应对计划编辑器-" + type, context,
 					new RiskResponse().setType(type).setRBSItem_id(((RiskResponseType) c).get_id()), false)
 					.setTitle("创建 " + type).ok((r, o) -> {
-						Services.get(RiskService.class).insertRiskResponse(o);
+						Services.get(RiskService.class).insertRiskResponse(o, br.getDomain());
 						GridPart viewer = (GridPart) context.getContent();
 						viewer.insert(r);
 					});

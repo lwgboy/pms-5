@@ -14,7 +14,7 @@ public class QueryDummyOADatabase {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute() {

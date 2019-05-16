@@ -22,7 +22,7 @@ import com.mongodb.BasicDBObject;
 public class AddResource {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -35,13 +35,13 @@ public class AddResource {
 	}
 
 	private void addDR(ResourceType rt, IBruiContext context) {
-		new Selector(bruiService.getAssembly("设备设施选择器"), context).setTitle("添加设备设施资源").open(r -> {
+		new Selector(br.getAssembly("设备设施选择器"), context).setTitle("添加设备设施资源").open(r -> {
 			final Set<Object> ids = new HashSet<Object>();
 			r.forEach(a -> ids.add(((Equipment) a).get_id()));
 			if (!ids.isEmpty()) {
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", new BasicDBObject("$in", ids)))
 						.set(new BasicDBObject("resourceType_id", rt.get_id())).bson();
-				Services.get(CommonService.class).updateEquipment(fu);
+				Services.get(CommonService.class).updateEquipment(fu, br.getDomain());
 				GridPart grid = (GridPart) context.getContent();
 				grid.refresh(rt);
 			}
@@ -49,14 +49,14 @@ public class AddResource {
 	}
 
 	private void addHR(ResourceType rt, IBruiContext context) {
-		new Selector(bruiService.getAssembly("用户选择器"), context).setTitle("添加人力资源").open(r -> {
+		new Selector(br.getAssembly("用户选择器"), context).setTitle("添加人力资源").open(r -> {
 			final Set<String> ids = new HashSet<String>();
 			r.forEach(a -> ids.add(((User) a).getUserId()));
 			if (!ids.isEmpty()) {
 				BasicDBObject fu = new FilterAndUpdate()
 						.filter(new BasicDBObject("userId", new BasicDBObject("$in", ids)))
 						.set(new BasicDBObject("resourceType_id", rt.get_id())).bson();
-				Services.get(UserService.class).update(fu);
+				Services.get(UserService.class).update(fu, br.getDomain());
 				GridPart grid = (GridPart) context.getContent();
 				grid.refresh(rt);
 			}

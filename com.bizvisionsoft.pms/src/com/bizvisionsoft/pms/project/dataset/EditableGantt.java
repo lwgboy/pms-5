@@ -41,7 +41,7 @@ public class EditableGantt {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private WorkSpaceService workSpaceService;
 
@@ -56,12 +56,12 @@ public class EditableGantt {
 	@DataSet("data")
 	public List<WorkInfo> dataInSpace() {
 		return workSpaceService.createTaskDataSet(
-				new BasicDBObject("space_id", workspace.getSpace_id()).append("_id", new BasicDBObject("$ne", workspace.getWork_id())));
+				new BasicDBObject("space_id", workspace.getSpace_id()).append("_id", new BasicDBObject("$ne", workspace.getWork_id())), br.getDomain());
 	}
 
 	@DataSet("links")
 	public List<WorkLinkInfo> linksInSpace() {
-		return workSpaceService.createLinkDataSet(new BasicDBObject("space_id", workspace.getSpace_id()));
+		return workSpaceService.createLinkDataSet(new BasicDBObject("space_id", workspace.getSpace_id()), br.getDomain());
 	}
 
 	// @DataSet({ "项目甘特图（编辑）/initDateRange" })
@@ -137,7 +137,7 @@ public class EditableGantt {
 		WorkspaceGanttData ganttData = new WorkspaceGanttData().setWorkspaceId(space_id).setWorks(tasks).setLinks(links)
 				.setWork_id(workspace.getWork_id()).setProject_id(workspace.getProject_id());
 		try {
-			Result result = workSpaceService.updateGanttData(ganttData);
+			Result result = workSpaceService.updateGanttData(ganttData, br.getDomain());
 			// TODO 错误处理
 			if (result.type != Result.TYPE_ERROR) {
 				Layer.message("计划数据已保存");
@@ -161,7 +161,7 @@ public class EditableGantt {
 		}
 
 		ObjectId pj_id = workspace.getProject_id();
-		String name = Services.get(ProjectService.class).get(pj_id).getProjectName();
+		String name = Services.get(ProjectService.class).get(pj_id, br.getDomain()).getProjectName();
 		try {
 			new MPPExporter<WorkInfo, WorkLinkInfo>().setTasks(dataInSpace()).setLinks(linksInSpace()).setProjectName(name)
 					.setTaskConvertor((w, p, m) -> {

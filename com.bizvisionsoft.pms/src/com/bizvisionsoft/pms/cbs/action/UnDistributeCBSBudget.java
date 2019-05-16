@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class UnDistributeCBSBudget {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -25,7 +25,7 @@ public class UnDistributeCBSBudget {
 			CBSItem item = (CBSItem) c;
 			ObjectId parentItemId = item.getParent_id();
 			if (item.isScopeRoot()) {
-				CBSItem cbsItem = Services.get(CBSService.class).unallocateBudget(item.get_id(), parentItemId);
+				CBSItem cbsItem = Services.get(CBSService.class).unallocateBudget(item.get_id(), parentItemId, br.getDomain());
 				BudgetCBS grid = (BudgetCBS) context.getContent();
 				CBSItem parent = item.getParent();
 				grid.replaceItem(item, cbsItem);

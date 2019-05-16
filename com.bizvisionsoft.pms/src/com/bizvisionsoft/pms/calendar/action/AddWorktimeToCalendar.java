@@ -9,6 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.Calendar;
@@ -27,6 +28,9 @@ public class AddWorktimeToCalendar {
 
 	@Inject
 	private String editor;
+	
+	@Inject
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -67,7 +71,7 @@ public class AddWorktimeToCalendar {
 			r.append("date", date);
 		}
 		r.append("_id", new ObjectId()).append("name", name);
-		Services.get(CommonService.class).addCalendarWorktime(r, ((Calendar) cal).get_id());
+		Services.get(CommonService.class).addCalendarWorktime(r, ((Calendar) cal).get_id(), br.getDomain());
 		cal.addWorkTime((WorkTime) new WorkTime().decodeBson(r));
 	}
 

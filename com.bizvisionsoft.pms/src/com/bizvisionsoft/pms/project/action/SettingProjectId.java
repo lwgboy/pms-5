@@ -31,7 +31,7 @@ public class SettingProjectId {
 			InputDialog id = new InputDialog(br.getCurrentShell(), "设置项目编号", "请输入项目编号", "",
 					txt -> txt.trim().isEmpty() ? "项目编号不可为空" : null);
 			if (id.open() == Window.OK) {
-				Services.get(ProjectService.class).updateProjectId(project.get_id(), id.getValue());
+				Services.get(ProjectService.class).updateProjectId(project.get_id(), id.getValue(), br.getDomain());
 				project.setId(id.getValue());
 				Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.update(se));
 

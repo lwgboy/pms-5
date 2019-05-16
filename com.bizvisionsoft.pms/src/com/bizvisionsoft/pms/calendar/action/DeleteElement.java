@@ -25,18 +25,18 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class DeleteElement {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Object elem = context.getFirstElement();
 		if (elem instanceof Calendar) {
-			DeleteSelected.deleteElementInGrid(bruiService, context, elem);
+			DeleteSelected.deleteElementInGrid(br, context, elem);
 		} else if (elem instanceof WorkTime) {
 			String message = Optional.ofNullable(AUtil.readTypeAndLabel(elem)).map(m -> "请确认将要删除 " + m)
 					.orElse("请确认将要删除选择的记录。");
-			if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", message)) {
-				Services.get(CommonService.class).deleteCalendarWorkTime(((WorkTime) elem).get_id());
+			if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", message)) {
+				Services.get(CommonService.class).deleteCalendarWorkTime(((WorkTime) elem).get_id(), br.getDomain());
 				GridPart grid = ((GridPart) context.getContent());
 				grid.remove(grid.getParentElement(elem), elem);
 			}

@@ -28,17 +28,20 @@ public class ProcessTaskCardRenderer extends BasicServiceImpl {
 
 	private String userId;
 
-	public ProcessTaskCardRenderer(Document data, String userId, String lang) {
+	private String domain;
+
+	public ProcessTaskCardRenderer(Document data, String userId, String lang,String domain) {
 		this.data = data;
 		this.userId = userId;
 		this.lang = lang;
+		this.domain = domain;
 		processInstance = (Document) data.get("processInstance");
 		processMeta = (Document) processInstance.get("meta");
 		taskData = (Document) data.get("taskData");
 	}
 
-	public static Document renderTasksAssignedAsPotentialOwner(Document data, String userId, String lang) {
-		return new ProcessTaskCardRenderer(data, userId, lang).renderTasksAssignedAsPotentialOwner();
+	public static Document renderTasksAssignedAsPotentialOwner(Document data, String userId, String lang,String domain) {
+		return new ProcessTaskCardRenderer(data, userId, lang,domain).renderTasksAssignedAsPotentialOwner();
 	}
 
 	private Document renderTasksAssignedAsPotentialOwner() {
@@ -141,9 +144,9 @@ public class ProcessTaskCardRenderer extends BasicServiceImpl {
 		// 1. 考虑部门经理可以委派该部门的成员
 		// 2. 考虑部门的管理者可以委派至该部门的成员
 		// 3. 考虑一个委派者权限
-		boolean isManager = c("organization").countDocuments(new Document("managerId", userId)) == 1;
+		boolean isManager = c("organization",domain).countDocuments(new Document("managerId", userId)) == 1;
 		if (!isManager)
-			isManager = c("funcPermission").countDocuments(
+			isManager = c("funcPermission",domain).countDocuments(
 					new Document("id", userId).append("role", new Document("$in", Arrays.asList("部门经理", "委派者"))).append("type", "用户")) == 1;
 		if (isManager)
 			action.add(new String[] { "delegate", "委派" });

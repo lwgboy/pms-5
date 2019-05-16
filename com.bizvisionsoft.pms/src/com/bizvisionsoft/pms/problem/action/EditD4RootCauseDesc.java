@@ -24,7 +24,7 @@ public class EditD4RootCauseDesc {
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		ProblemService service = Services.get(ProblemService.class);
-		Document d = service.getD4RootCauseDesc(problem.get_id());
+		Document d = service.getD4RootCauseDesc(problem.get_id(), br.getDomain());
 		boolean insert = d == null;
 		if (insert) {
 			d = new Document();
@@ -32,12 +32,12 @@ public class EditD4RootCauseDesc {
 		Editor.create("D4-根本原因描述-编辑器", context, d, true).setEditable(problem.isSolving()).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
-				service.insertD4RootCauseDesc(t, RWT.getLocale().getLanguage());
+				service.insertD4RootCauseDesc(t, RWT.getLocale().getLanguage(), br.getDomain());
 			} else {
 				r.remove("_id");
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r)
 						.bson();
-				service.updateD4RootCauseDesc(fu, RWT.getLocale().getLanguage());
+				service.updateD4RootCauseDesc(fu, RWT.getLocale().getLanguage(), br.getDomain());
 			}
 		});
 	}

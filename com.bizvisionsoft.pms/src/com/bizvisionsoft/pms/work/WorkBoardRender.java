@@ -39,7 +39,7 @@ public class WorkBoardRender implements IWorkAction {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -76,10 +76,10 @@ public class WorkBoardRender implements IWorkAction {
 	private void openWorkPackage(WorkBoardInfo workInfo, String idx) {
 		Work work = workInfo.getWork();
 		if ("default".equals(idx)) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, null });
 		} else {
 			List<TrackView> wps = work.getWorkPackageSetting();
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
 		}
 	}
 
@@ -94,7 +94,7 @@ public class WorkBoardRender implements IWorkAction {
 		finishWork(work, w -> {
 			viewer.update(work, null);
 			viewer.remove(work);
-			brui.updateSidebarActionBudget("处理工作");
+			br.updateSidebarActionBudget("处理工作");
 		});
 	}
 
@@ -214,7 +214,7 @@ public class WorkBoardRender implements IWorkAction {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 指派按钮
-		if (brui.getCurrentUserId().equals(work.getAssignerId())) {
+		if (br.getCurrentUserId().equals(work.getAssignerId())) {
 			sb.append(
 					"<a class='layui-btn layui-btn-sm layui-btn-normal' style='float:right; width:60px;margin-top:8px;margin-right:4px;' href='assignWork/"
 							+ work.get_id() + "' target='_rwt'>指派</a>");
@@ -226,7 +226,7 @@ public class WorkBoardRender implements IWorkAction {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 }

@@ -31,7 +31,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 public class ProjecBasicIndicatorsWidgetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;

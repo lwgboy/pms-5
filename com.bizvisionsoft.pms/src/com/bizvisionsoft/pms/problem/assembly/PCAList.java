@@ -123,11 +123,11 @@ public class PCAList {
 		problem = context.getRootInput(Problem.class, false);
 		service = Services.get(ProblemService.class);
 		loadDecisionCriteria();
-		pcaList = service.listD5PCA(problem.get_id(), language);
+		pcaList = service.listD5PCA(problem.get_id(), language, br.getDomain());
 	}
 
 	private void loadDecisionCriteria() {
-		decisionCriteria = service.getD5DecisionCriteria(problem.get_id());
+		decisionCriteria = service.getD5DecisionCriteria(problem.get_id(), br.getDomain());
 		if (decisionCriteria != null) {
 			items = new String[] { decisionCriteria.getString("endResult"), "强制要求", "期望目标" };
 		} else {
@@ -394,7 +394,7 @@ public class PCAList {
 	private void handleCreatePCA() {
 		Editor.open("D5-PCA方案-编辑器", context, new Document(), (r, t) -> {
 			t.append("problem_id", problem.get_id()).append("_id", new ObjectId());
-			service.insertD5PCA(t, language);
+			service.insertD5PCA(t, language, br.getDomain());
 			pcaList.add(t);
 			createPCAColumn(t);
 			viewer.refresh();
@@ -402,7 +402,7 @@ public class PCAList {
 	}
 
 	private void handleEditCriteria() {
-		Document d = service.getD5DecisionCriteria(problem.get_id());
+		Document d = service.getD5DecisionCriteria(problem.get_id(), br.getDomain());
 		boolean insert = d == null;
 		if (insert) {
 			d = new Document();
@@ -410,12 +410,12 @@ public class PCAList {
 		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
-				service.insertD5DecisionCriteria(t, language);
+				service.insertD5DecisionCriteria(t, language, br.getDomain());
 			} else {
 				r.remove("_id");
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r)
 						.bson();
-				service.updateD5DecisionCriteria(fu, language);
+				service.updateD5DecisionCriteria(fu, language, br.getDomain());
 			}
 			loadDecisionCriteria();
 			viewer.refresh();
@@ -426,7 +426,7 @@ public class PCAList {
 		Editor.open("D5-PCA方案-编辑器", context, pca, (r, t) -> {
 			r.remove("_id");
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(r);
-			service.updateD5PCA(fu.bson(), language);
+			service.updateD5PCA(fu.bson(), language, br.getDomain());
 			pca.clear();
 			pca.putAll(t);
 			viewer.refresh();
@@ -435,7 +435,7 @@ public class PCAList {
 	}
 
 	private void handleDeletePCA(Document pca) {
-		service.deleteD5PCA(pca.getObjectId("_id"), language);
+		service.deleteD5PCA(pca.getObjectId("_id"), language, br.getDomain());
 		Arrays.asList(viewer.getGrid().getColumns()).stream().filter(c -> pca == c.getData("pca")).findFirst()
 				.ifPresent(c -> c.dispose());
 	}
@@ -468,7 +468,7 @@ public class PCAList {
 		set.putAll(pca);
 		set.remove("_id");
 		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(set);
-		service.updateD5PCA(fu.bson(), language);
+		service.updateD5PCA(fu.bson(), language, br.getDomain());
 		viewer.update(param, null);
 	}
 
@@ -476,11 +476,11 @@ public class PCAList {
 		Object _id = pca.get("_id");
 		FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 				.set(new BasicDBObject("selected", true));
-		service.updateD5PCA(fu.bson(), language);
+		service.updateD5PCA(fu.bson(), language, br.getDomain());
 		fu = new FilterAndUpdate()
 				.filter(new BasicDBObject("problem_id", problem.get_id()).append("_id", new BasicDBObject("$ne", _id)))
 				.set(new BasicDBObject("selected", false));
-		service.updateD5PCA(fu.bson(), language);
+		service.updateD5PCA(fu.bson(), language, br.getDomain());
 
 		updateColumnText(_id);
 	}

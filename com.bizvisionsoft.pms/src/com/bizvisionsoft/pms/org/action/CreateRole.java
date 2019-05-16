@@ -17,19 +17,19 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateRole {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ObjectId org_id = ((Organization) context.getInput()).get_id();
 		Role role = new Role().setOrg_id(org_id);
 
-		new Editor<Role>(bruiService.getAssembly("角色编辑器"), context).setTitle("创建角色")
+		new Editor<Role>(br.getAssembly("角色编辑器"), context).setTitle("创建角色")
 
 				.setInput(role)
 
 				.ok((r, t) -> {
-					Role newRole = Services.get(OrganizationService.class).insertRole(t);
+					Role newRole = Services.get(OrganizationService.class).insertRole(t, br.getDomain());
 					GridPart grid = (GridPart) context.getContent();
 					grid.insert(newRole);
 				});

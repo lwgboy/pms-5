@@ -9,7 +9,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 public class AddForecastPeriodACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {

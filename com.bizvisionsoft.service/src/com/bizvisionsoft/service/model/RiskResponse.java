@@ -38,6 +38,9 @@ public class RiskResponse {
 	@ReadValue
 	@WriteValue
 	private String chargerId;
+	
+	@Exclude
+	public String domain;
 
 	@WriteValue("charger")
 	private void setCharger(User charger) {
@@ -46,7 +49,7 @@ public class RiskResponse {
 
 	@ReadValue({ "charger", "项目风险应对计划/timeInf", "项目风险应对计划（查看）/timeInf" })
 	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	/**
@@ -69,7 +72,7 @@ public class RiskResponse {
 
 	@ReadValue({ "impUnit", "项目风险应对计划/costInf", "项目风险应对计划（查看）/costInf" }) // 编辑器用
 	public Organization getOrganization() {
-		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
+		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain))
 				.orElse(null);
 	}
 

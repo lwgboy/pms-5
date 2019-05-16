@@ -865,23 +865,6 @@
             "forceText": false,
             "children": [
               {
-                "id": "1641a8b2e02",
-                "name": "º”‘ÿ≤‚ ‘ ˝æ›",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.LoadDemoData",
-                "openContent": false,
-                "propagate": false,
-                "forceText": false,
-                "editorAssemblyEditable": false,
-                "objectBehavier": false,
-                "actionBehavier": false,
-                "type": "customized",
-                "role": "",
-                "horizontalSpan": 0,
-                "verticalSpan": 0,
-                "debug": false
-              },
-              {
                 "id": "16555431524",
                 "name": "≤‚ ‘±‡º≠∆˜",
                 "bundleId": "com.bizvisionsoft.onlinedesigner",

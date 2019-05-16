@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class StartProject {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Project project) {
@@ -28,9 +28,9 @@ public class StartProject {
 
 		CommandHandler.run(ICommand.Start_Project, //
 				"请确认启动项目：" + project + "。<br/>已启动的项目将无法删除。", "项目启动完成", "项目启动失败", //
-				() -> service.startProject(brui.command(id, new Date(), ICommand.Start_Project)), //
-				() -> service.startProject(brui.command(id, new Date(), ICommand.Start_Project_Ignore_Warrning)), //
-				code -> brui.switchPage("项目首页（执行）", id.toHexString()));
+				() -> service.startProject(br.command(id, new Date(), ICommand.Start_Project), br.getDomain()), //
+				() -> service.startProject(br.command(id, new Date(), ICommand.Start_Project_Ignore_Warrning), br.getDomain()), //
+				code -> br.switchPage("项目首页（执行）", id.toHexString()));
 
 	}
 

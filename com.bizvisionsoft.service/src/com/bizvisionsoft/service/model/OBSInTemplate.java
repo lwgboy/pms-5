@@ -87,6 +87,9 @@ public class OBSInTemplate {
 	@ReadValue
 	private Integer seq;
 
+	@Exclude
+	public String domain;
+
 	/**
 	 * 生成本层的顺序号
 	 * 
@@ -96,7 +99,7 @@ public class OBSInTemplate {
 	 */
 	public OBSInTemplate generateSeq() {
 		seq = ServicesLoader.get(ProjectTemplateService.class)
-				.nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
+				.nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id), domain);
 		return this;
 	}
 
@@ -129,7 +132,7 @@ public class OBSInTemplate {
 	private User getManager() {
 		return Optional.ofNullable(managerId).map(id -> {
 			try {
-				return ServicesLoader.get(UserService.class).get(id);
+				return ServicesLoader.get(UserService.class).get(id, domain);
 			} catch (Exception e) {
 				return null;
 			}
@@ -210,7 +213,7 @@ public class OBSInTemplate {
 
 	@ReadOptions("selectedRole")
 	public Map<String, String> getSystemOBSRole() {
-		return ServicesLoader.get(CommonService.class).getDictionary("角色名称");
+		return ServicesLoader.get(CommonService.class).getDictionary("角色名称", domain);
 	}
 
 	@WriteValue("selectedRole")
@@ -273,7 +276,7 @@ public class OBSInTemplate {
 	@ReadValue
 	@WriteValue
 	private String dir;
-	
+
 	@ReadValue({ "项目模板组织结构图/css", "OBS模板组织结构图/css" })
 	private String getOrgChartItemCSS() {
 		return "brui_org1";
@@ -371,8 +374,8 @@ public class OBSInTemplate {
 	 *            是否根节点
 	 * @return
 	 */
-	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId,
-			String roleName, boolean scopeRoot) {
+	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId, String roleName,
+			boolean scopeRoot) {
 		return new OBSInTemplate()// 创建本项目的OBS根节点
 				.set_id(new ObjectId()).setScope_id(scope_id)// 设置scope_id表明该组织节点的范围
 				.setParent_id(parent_id)// 设置上级的id

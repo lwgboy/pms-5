@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
@@ -35,9 +36,12 @@ public class ChangeProcess {
 
 	private String projectOBSName;
 
+	@Exclude
+	public String domain;
+	
 	@ReadOptions("projectOBS")
 	public Map<String, String> getSystemOBSRole() {
-		return ServicesLoader.get(CommonService.class).getDictionary("角色名称");
+		return ServicesLoader.get(CommonService.class).getDictionary("角色名称", domain);
 	}
 
 	@WriteValue("projectOBS")

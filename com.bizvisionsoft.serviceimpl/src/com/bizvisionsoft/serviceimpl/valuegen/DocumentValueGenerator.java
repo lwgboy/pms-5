@@ -17,7 +17,8 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
-import com.bizvisionsoft.service.common.query.JQ;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;
@@ -31,20 +32,21 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 
 	private List<ValueRuleSegment> segments;
 
-	public DocumentValueGenerator(ValueRule rule) {
-		segments = listValueRuleSegment(new BasicDBObject(), rule._id);
+	public DocumentValueGenerator(ValueRule rule, String domain) {
+		segments = listValueRuleSegment(new BasicDBObject(), rule._id, domain);
 	}
 
 	@Override
-	public String getValue(Object input) {
+	public String getValue(Object input, String domain) {
 		Map<ValueRuleSegment, String> stage = new HashMap<ValueRuleSegment, String>();
 		return segments.stream().sorted((s1, s2) -> s1.executeSequance - s2.executeSequance)// 按执行顺序排序
-				.map(s -> this.getSegmentValue(input, s, stage))// 计算值
+				.map(s -> this.getSegmentValue(input, s, stage, domain))// 计算值
 				.sorted((s1, s2) -> s1.getKey().index - s2.getKey().index)// 按段号排序
 				.reduce("", (s, e) -> e.getKey().disableOutput ? s : (s + e.getValue()), (s1, s2) -> s1);
 	}
 
-	private Entry<ValueRuleSegment, String> getSegmentValue(Object input, ValueRuleSegment seg, Map<ValueRuleSegment, String> stage) {
+	private Entry<ValueRuleSegment, String> getSegmentValue(Object input, ValueRuleSegment seg, Map<ValueRuleSegment, String> stage,
+			String domain) {
 		Object value = null;
 		// 类型1.常量字符串
 		if ("常量".equals(seg.type)) {
@@ -58,9 +60,9 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 		} else if ("JavaScript".equals(seg.type)) {// 类型5.脚本
 			value = getJSValue(input, seg);
 		} else if ("查询".equals(seg.type)) {// 类型6.查询
-			value = getQueryValue(input, seg);
+			value = getQueryValue(input, seg, domain);
 		} else if ("流水号".equals(seg.type)) {
-			value = getSNValue(seg, stage);
+			value = getSNValue(seg, stage, domain);
 		}
 
 		String text = format(seg, value);
@@ -107,7 +109,7 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 		}
 	}
 
-	private Object getSNValue(ValueRuleSegment seg, Map<ValueRuleSegment, String> stage) {
+	private Object getSNValue(ValueRuleSegment seg, Map<ValueRuleSegment, String> stage, String domain) {
 		// 取流水号Id
 		if (Check.isAssigned(seg.snId)) {
 			StringBuffer sb = new StringBuffer();
@@ -120,13 +122,13 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 			});
 			String key = sb.toString();
 			if (!key.isEmpty()) {
-				return generateCode("globalCodeGen", key);
+				return generateCode("globalCodeGen", key, domain);
 			}
 		}
 		return null;
 	}
 
-	private Object getQueryValue(Object input, ValueRuleSegment seg) {
+	private Object getQueryValue(Object input, ValueRuleSegment seg, String domain) {
 		if (!Check.isAssigned(seg.collection)) {
 			logger.warn("查询类型缺少集合名的定义，取值被忽略。");
 			return null;
@@ -138,10 +140,10 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 
 		JQ jq;
 		if (Check.isAssigned(seg.pipelineJson)) {
-			jq = new JQ();
+			jq = Domain.getJQ(domain, null);
 		} else {
 			// 根据JQ文件取数
-			jq = new JQ(seg.query);
+			jq = Domain.getJQ(domain, seg.query);
 		}
 
 		if (seg.params != null) {
@@ -178,7 +180,7 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 			pipe = jq.array();
 		}
 
-		Document doc = c(seg.collection).aggregate(pipe).first();
+		Document doc = c(seg.collection, domain).aggregate(pipe).first();
 		if (doc != null) {
 			return Check.isAssignedThen(seg.returnField, doc::get).orElse(doc);
 		} else {

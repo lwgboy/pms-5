@@ -6,13 +6,18 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
+import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
 public class ResourceDataset {
+
+	@Inject
+	private IBruiService br;
 
 	@DataSet(DataSet.LIST)
 	private List<ResourcePlan> listResourcePlan() {
@@ -26,7 +31,7 @@ public class ResourceDataset {
 
 	@DataSet(DataSet.UPDATE)
 	private long updateResourcePlan(BasicDBObject filterAndUpdate) {
-		return Services.get(WorkService.class).updateResourcePlan(filterAndUpdate);
+		return Services.get(WorkService.class).updateResourcePlan(filterAndUpdate, br.getDomain());
 	}
 
 	@DataSet(DataSet.DELETE)
@@ -34,15 +39,15 @@ public class ResourceDataset {
 		ObjectId work_id = rp.getWork_id();
 		String resId = rp.getUsedHumanResId();
 		if (resId != null) {
-			return Services.get(WorkService.class).deleteHumanResourcePlan(work_id, resId);
+			return Services.get(WorkService.class).deleteHumanResourcePlan(work_id, resId, br.getDomain());
 		}
 		resId = rp.getUsedEquipResId();
 		if (resId != null) {
-			return Services.get(WorkService.class).deleteEquipmentResourcePlan(work_id, resId);
+			return Services.get(WorkService.class).deleteEquipmentResourcePlan(work_id, resId, br.getDomain());
 		}
 		resId = rp.getUsedTypedResId();
 		if (resId != null) {
-			return Services.get(WorkService.class).deleteTypedResourcePlan(work_id, resId);
+			return Services.get(WorkService.class).deleteTypedResourcePlan(work_id, resId, br.getDomain());
 		}
 
 		return 0;

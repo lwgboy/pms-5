@@ -117,13 +117,14 @@ public class OBSItem implements JsonExternalizable {
 
 	/**
 	 * 生成本层的顺序号
+	 * @param domain 
 	 * 
 	 * @param scope_id
 	 * @param parent_id
 	 * @return
 	 */
-	public OBSItem generateSeq() {
-		seq = ServicesLoader.get(OBSService.class).nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id));
+	public OBSItem generateSeq(String domain) {
+		seq = ServicesLoader.get(OBSService.class).nextOBSSeq(new BasicDBObject("scope_id", scope_id).append("parent_id", parent_id), domain);
 		return this;
 	}
 
@@ -136,7 +137,7 @@ public class OBSItem implements JsonExternalizable {
 
 	@ReadValue("organization ")
 	public Organization getOrganization() {
-		return Optional.ofNullable(org_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
+		return Optional.ofNullable(org_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 
 	@Persistence
@@ -168,7 +169,7 @@ public class OBSItem implements JsonExternalizable {
 	private User getManager() {
 		return Optional.ofNullable(managerId).map(id -> {
 			try {
-				return ServicesLoader.get(UserService.class).get(id);
+				return ServicesLoader.get(UserService.class).get(id, domain);
 			} catch (Exception e) {
 				return null;
 			}
@@ -205,12 +206,15 @@ public class OBSItem implements JsonExternalizable {
 	private boolean scopeRoot;
 
 	private boolean isRole;
+	
+	@Exclude
+	public String domain;
 
 	@Structure("项目团队/list")
 	public List<Object> listSubOBSItem() {
 		List<Object> result = new ArrayList<Object>();
-		result.addAll(ServicesLoader.get(OBSService.class).getMember(new Query().bson(), _id));
-		result.addAll(ServicesLoader.get(OBSService.class).getSubOBSItem(_id));
+		result.addAll(ServicesLoader.get(OBSService.class).getMember(new Query().bson(), _id, domain));
+		result.addAll(ServicesLoader.get(OBSService.class).getSubOBSItem(_id, domain));
 		User manager = getManager();
 		if (manager != null && !result.contains(manager))
 			result.add(manager);
@@ -219,8 +223,8 @@ public class OBSItem implements JsonExternalizable {
 
 	@Structure("项目团队/count")
 	public long countSubOBSItem() {
-		long l = ServicesLoader.get(OBSService.class).countMember((BasicDBObject) new Query().bson().get("filter"), _id);
-		l += ServicesLoader.get(OBSService.class).countSubOBSItem(_id);
+		long l = ServicesLoader.get(OBSService.class).countMember((BasicDBObject) new Query().bson().get("filter"), _id,domain);
+		l += ServicesLoader.get(OBSService.class).countSubOBSItem(_id,domain);
 		User manager = getManager();
 		if (manager != null)
 			l += 1;
@@ -238,12 +242,12 @@ public class OBSItem implements JsonExternalizable {
 
 	@ReadValue("role")
 	private Dictionary readRole() {
-		return Optional.ofNullable(roleId).map(id -> ServicesLoader.get(CommonService.class).getProjectRole(id)).orElse(null);
+		return Optional.ofNullable(roleId).map(id -> ServicesLoader.get(CommonService.class).getProjectRole(id,domain)).orElse(null);
 	}
 
 	@ReadOptions("selectedRole")
 	public Map<String, String> getSystemOBSRole() {
-		return ServicesLoader.get(CommonService.class).getDictionary("角色名称");
+		return ServicesLoader.get(CommonService.class).getDictionary("角色名称",domain);
 	}
 
 	@WriteValue("selectedRole")

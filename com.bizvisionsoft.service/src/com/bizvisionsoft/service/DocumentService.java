@@ -28,204 +28,224 @@ public interface DocumentService {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 文件夹
 	@POST
-	@Path("/folder/")
+	@Path("/{domain}/folder/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Folder createFolder(Folder folder);
+	public Folder createFolder(Folder folder, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folder/project_id/{project_id}/ds")
+	@Path("/{domain}/folder/project_id/{project_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目文件夹选择列表/list")
 	public List<Folder> listProjectRootFolder(
-			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folder/project_id/{project_id}/count")
+	@Path("/{domain}/folder/project_id/{project_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countProjectRootFolder(@PathParam("project_id") ObjectId project_id);
+	public long countProjectRootFolder(@PathParam("project_id") ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folder/parent_id/{parent_id}/ds")
+	@Path("/{domain}/folder/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Folder> listChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	public List<Folder> listChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folder/parent_id/{parent_id}/count")
+	@Path("/{domain}/folder/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id);
+	public long countChildrenProjectFolder(@PathParam("parent_id") ObjectId parentFolder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/folder/_id/{_id}")
+	@Path("/{domain}/folder/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean deleteProjectFolder(@PathParam("_id") ObjectId folder_id);
+	public boolean deleteProjectFolder(@PathParam("_id") ObjectId folder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/folder/_id/{_id}/{name}")
+	@Path("/{domain}/folder/_id/{_id}/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean renameProjectFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
+	public boolean renameProjectFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folderTemplate/")
+	@Path("/{domain}/folderTemplate/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder);
+	public FolderInTemplate createFolderInTemplate(FolderInTemplate folder,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folderTemplate/template_id/{template_id}/ds")
+	@Path("/{domain}/folderTemplate/template_id/{template_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目模板文件夹选择列表/list")
 	public List<FolderInTemplate> listProjectTemplateRootFolder(
-			@PathParam("template_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id);
+			@PathParam("template_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId template_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folderTemplate/parent_id/{parent_id}/ds")
+	@Path("/{domain}/folderTemplate/parent_id/{parent_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<FolderInTemplate> listChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
+	public List<FolderInTemplate> listChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/folderTemplate/parent_id/{parent_id}/count")
+	@Path("/{domain}/folderTemplate/parent_id/{parent_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id);
+	public long countChildrenFolderTemplate(@PathParam("parent_id") ObjectId parentFolder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/folderTemplate/_id/{_id}")
+	@Path("/{domain}/folderTemplate/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean deleteProjectTemplateFolder(@PathParam("_id") ObjectId folder_id);
+	public boolean deleteProjectTemplateFolder(@PathParam("_id") ObjectId folder_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/folderTemplate/_id/{_id}/{name}")
+	@Path("/{domain}/folderTemplate/_id/{_id}/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean renameProjectTemplateFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name);
+	public boolean renameProjectTemplateFolder(@PathParam("_id") ObjectId folder_id, @PathParam("name") String name,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/")
+	@Path("/{domain}/docu/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Docu createDocument(Docu doc);
+	public Docu createDocument(Docu doc, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/docu/_id/{_id}")
+	@Path("/{domain}/docu/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.DELETE)
-	public long deleteDocument(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteDocument(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/docu/")
+	@Path("/{domain}/docu/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.UPDATE)
-	public long updateDocument(BasicDBObject filterAndUpdate);
+	public long updateDocument(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/ds")
+	@Path("/{domain}/docu/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.LIST)
-	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Docu> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/{_id}/ds")
+	@Path("/{domain}/docu/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Docu> listProjectDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") ObjectId project_id);
+			@PathParam("_id") ObjectId project_id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/{_id}/count")
+	@Path("/{domain}/docu/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") ObjectId project_id);
+	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @PathParam("_id") ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/wp_id/{wp_id}/ds")
+	@Path("/{domain}/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(
-			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
+	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docu/count")
+	@Path("/{domain}/docu/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.COUNT)
-	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/docuT/ds")
+	@Path("/{domain}/docuT/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.LIST)
-	public List<DocuTemplate> listDocumentTemplates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
-	
+	public List<DocuTemplate> listDocumentTemplates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@GET
-	@Path("/docuT/_id/{_id}")
+	@Path("/{domain}/docuT/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public DocuTemplate getDocumentTemplate(@PathParam("_id")  ObjectId _id);
-	
+	public DocuTemplate getDocumentTemplate(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@POST
-	@Path("/docuT/")
+	@Path("/{domain}/docuT/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.INSERT)
-	public DocuTemplate insertDocumentTemplate(@MethodParam(MethodParam.OBJECT) DocuTemplate docuT);
+	public DocuTemplate insertDocumentTemplate(@MethodParam(MethodParam.OBJECT) DocuTemplate docuT,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/docuT/_id/{_id}")
+	@Path("/{domain}/docuT/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.DELETE)
-	public long deleteDocumentTemplate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteDocumentTemplate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/docuT/")
+	@Path("/{domain}/docuT/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.UPDATE)
-	public long updateDocumentTemplate(BasicDBObject fu);
+	public long updateDocumentTemplate(BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docuSetting/")
+	@Path("/{domain}/docuSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public DocuSetting createDocumentSetting(DocuSetting doc);
+	public DocuSetting createDocumentSetting(DocuSetting doc, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/docuSetting/wp_id/{wp_id}/ds")
+	@Path("/{domain}/docuSetting/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.LIST)
-	public List<DocuSetting> listDocumentSetting(
-			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
+	public List<DocuSetting> listDocumentSetting(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/docuSetting/")
+	@Path("/{domain}/docuSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.UPDATE)
-	public long updateDocumentSetting(BasicDBObject filterAndUpdate);
+	public long updateDocumentSetting(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/docuSetting/_id/{_id}")
+	@Path("/{domain}/docuSetting/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.DELETE)
-	public long deleteDocumentSetting(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteDocumentSetting(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 }

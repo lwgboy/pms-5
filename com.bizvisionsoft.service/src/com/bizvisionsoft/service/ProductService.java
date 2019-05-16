@@ -24,76 +24,76 @@ import com.mongodb.BasicDBObject;
 public interface ProductService {
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.INSERT)
-	public Product insert(@MethodParam(MethodParam.OBJECT) Product product);
+	public Product insert(@MethodParam(MethodParam.OBJECT) Product product,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.UPDATE)
-	public long update(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.INPUT)
-	public Product get(@PathParam("_id") @MethodParam("_id") ObjectId _id);
+	public Product get(@PathParam("_id") @MethodParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/count/")
+	@Path("/{domain}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品选择列表/count")
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/ds/")
+	@Path("/{domain}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品选择列表/list")
-	public List<Product> listProduct(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Product> listProduct(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/project_id/{project_id}/ds/")
+	@Path("/{domain}/project_id/{project_id}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.LIST)
 	public List<Product> listProjectProduct(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/series/")
+	@Path("/{domain}/series/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品系列选择/list")
-	public List<String> listProductSeries();
+	public List<String> listProductSeries(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/id/{_id}")
+	@Path("/{domain}/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/project_id/{project_id}/skubenchmarking/")
+	@Path("/{domain}/project_id/{project_id}/skubenchmarking/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品SKU对标分析评估/list")
 	public List<ProductBenchmark> projectProductBenchmarking(
-			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id);
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/product_id/{product_id}/benchmarking/income/chart")
+	@Path("/{domain}/product_id/{product_id}/benchmarking/income/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("单一产品销售分析/list")
 	public Document productIncomeBenchMarkingChartData(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id);
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

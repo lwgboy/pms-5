@@ -30,7 +30,7 @@ public class AddProjectToProgram {
 				Selector.open("ÏîÄ¿Ñ¡ÔñÆ÷", context, null, s -> {
 					List<ObjectId> pjIds = new ArrayList<ObjectId>();
 					s.forEach(pj -> pjIds.add(((Project) pj).get_id()));
-					Services.get(ProgramService.class).addProjects(pjIds, ((Program) em).get_id());
+					Services.get(ProgramService.class).addProjects(pjIds, ((Program) em).get_id(), br.getDomain());
 					Check.instanceThen(context.getContent(), GridPart.class, c -> c.refreshAndExpand(em));
 				});
 			}

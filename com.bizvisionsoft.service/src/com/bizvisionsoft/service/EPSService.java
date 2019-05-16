@@ -25,100 +25,106 @@ import com.mongodb.BasicDBObject;
 public interface EPSService {
 
 	@GET
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public EPS get(@PathParam("_id") ObjectId _id);
+	public EPS get(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/_id/{_id}/eps")
+	@Path("/{domain}/_id/{_id}/eps")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<EPS> getSubEPS(@PathParam("_id") ObjectId _id);
+	public List<EPS> getSubEPS(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/root")
+	@Path("/{domain}/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS管理/list", "EPS浏览/list", "EPS选择/list" })
-	public List<EPS> getRootEPS();
+	public List<EPS> getRootEPS(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/count/")
+	@Path("/{domain}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "EPS管理/count", "EPS浏览/count",  "EPS选择/count"})
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	@DataSet({ "EPS管理/count", "EPS浏览/count", "EPS选择/count" })
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/_id/{_id}/count/eps")
+	@Path("/{domain}/_id/{_id}/count/eps")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countSubEPS(@PathParam("_id") ObjectId _id);
+	public long countSubEPS(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.UPDATE)
-	public long update(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("EPS管理/" + DataSet.INSERT)
-	public EPS insert(@MethodParam(MethodParam.OBJECT) EPS eps);
+	public EPS insert(@MethodParam(MethodParam.OBJECT) EPS eps, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/info/root/ds")
+	@Path("/{domain}/info/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS浏览-投资分析/list" })
-	public List<EPSInfo> listRootEPSInfo();
+	public List<EPSInfo> listRootEPSInfo(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/info/root/count")
+	@Path("/{domain}/info/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "EPS浏览-投资分析/count" })
-	public long countRootEPSInfo();
+	public long countRootEPSInfo(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/info/{_id}/ds")
+	@Path("/{domain}/info/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<EPSInfo> listSubEPSInfo(@PathParam("_id") ObjectId _id);
+	public List<EPSInfo> listSubEPSInfo(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/info/{_id}/count")
+	@Path("/{domain}/info/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countSubEPSInfo(@PathParam("_id") ObjectId _id);
+	public long countSubEPSInfo(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/profitanalysis/{year}/")
+	@Path("/{domain}/profitanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthProfitIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year);
+	public Document getMonthProfitIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/costanalysis/{year}/")
+	@Path("/{domain}/costanalysis/{year}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMonthCostIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year);
+	public Document getMonthCostIA(List<EPSInvestmentAnalysis> epsIAs, @PathParam("year") String year,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/project/{_id}/")
+	@Path("/{domain}/project/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ObjectId> getSubProjectId(@PathParam("_id") ObjectId _id);
+	public List<ObjectId> getSubProjectId(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

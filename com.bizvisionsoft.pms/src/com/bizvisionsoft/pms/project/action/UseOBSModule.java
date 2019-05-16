@@ -14,15 +14,14 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class UseOBSModule {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
-		if (brui.confirm("套用组织模板", "套用组织模板将<span class='layui-badge'>替换</span>项目团队，请确认套用组织模板。")) {
+		if (br.confirm("套用组织模板", "套用组织模板将<span class='layui-badge'>替换</span>项目团队，请确认套用组织模板。")) {
 			Selector.open("组织模板选择器", context, project, l -> {
-				Services.get(ProjectTemplateService.class).useOBSModule(((OBSModule) l.get(0)).get_id(),
-						project.get_id());
+				Services.get(ProjectTemplateService.class).useOBSModule(((OBSModule) l.get(0)).get_id(), project.get_id(), br.getDomain());
 				Layer.message("组织模板已套用到本项目，");
 			});
 

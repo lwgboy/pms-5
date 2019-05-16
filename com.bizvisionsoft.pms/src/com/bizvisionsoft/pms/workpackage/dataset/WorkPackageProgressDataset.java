@@ -9,6 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.WorkPackage;
 import com.bizvisionsoft.service.model.WorkPackageProgress;
@@ -21,6 +22,9 @@ public class WorkPackageProgressDataset {
 	private BruiAssemblyContext context;
 
 	private WorkPackage workPackage;
+	
+	@Inject
+	private IBruiService br;
 
 	@Init
 	private void init() {
@@ -29,17 +33,17 @@ public class WorkPackageProgressDataset {
 
 	@DataSet(DataSet.INSERT)
 	private WorkPackageProgress insert(@MethodParam(MethodParam.OBJECT) WorkPackageProgress wp) {
-		return Services.get(WorkService.class).insertWorkPackageProgress(wp.setPackage_id(workPackage.get_id()));
+		return Services.get(WorkService.class).insertWorkPackageProgress(wp.setPackage_id(workPackage.get_id()), br.getDomain());
 	}
 
 	@DataSet(DataSet.DELETE)
 	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
-		return Services.get(WorkService.class).deleteWorkPackageProgress(_id);
+		return Services.get(WorkService.class).deleteWorkPackageProgress(_id, br.getDomain());
 	}
 
 	@DataSet(DataSet.UPDATE)
 	private long update(BasicDBObject filterAndUpdate) {
-		return Services.get(WorkService.class).updateWorkPackageProgress(filterAndUpdate);
+		return Services.get(WorkService.class).updateWorkPackageProgress(filterAndUpdate, br.getDomain());
 	}
 
 	@DataSet(DataSet.LIST)
@@ -58,7 +62,7 @@ public class WorkPackageProgressDataset {
 			condition.put("sort", sort);
 		}
 
-		return Services.get(WorkService.class).listWorkPackageProgress(condition);
+		return Services.get(WorkService.class).listWorkPackageProgress(condition, br.getDomain());
 	}
 
 	private void appendFilter(BasicDBObject filter) {
@@ -71,7 +75,7 @@ public class WorkPackageProgressDataset {
 			filter = new BasicDBObject();
 		}
 		appendFilter(filter);
-		return Services.get(WorkService.class).countWorkPackageProgress(filter);
+		return Services.get(WorkService.class).countWorkPackageProgress(filter, br.getDomain());
 	}
 
 }

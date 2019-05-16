@@ -19,7 +19,7 @@ public class ComparableBaselineGantt {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private List<ObjectId> projectIds;
 
@@ -35,7 +35,7 @@ public class ComparableBaselineGantt {
 
 	@DataSet("data")
 	public List<?> data() {
-		return ServicesLoader.get(ProjectService.class).getBaselineComparable(projectIds);
+		return ServicesLoader.get(ProjectService.class).getBaselineComparable(projectIds,br.getDomain());
 	}
 
 	@DataSet("links")

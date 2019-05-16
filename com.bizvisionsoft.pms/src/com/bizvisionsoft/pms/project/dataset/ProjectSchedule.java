@@ -23,7 +23,7 @@ public class ProjectSchedule {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Init
 	private void init() {
@@ -31,20 +31,20 @@ public class ProjectSchedule {
 
 	@DataSet("阶段选择器列表/list")
 	private List<Work> listStage(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id) {
-		return Services.get(ProjectService.class).listStage(parent_id);
+		return Services.get(ProjectService.class).listStage(parent_id, br.getDomain());
 	}
 
 	@DataSet("阶段选择器列表/count")
 	private long countStage(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id) {
-		return Services.get(ProjectService.class).countStage(parent_id);
+		return Services.get(ProjectService.class).countStage(parent_id, br.getDomain());
 	}
 
 	@DataSet({ "项目WBS/list", "进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
 	private List<Work> listRootTask(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
-			return Services.get(WorkService.class).listProjectRootTask(((Project) input).get_id());
+			return Services.get(WorkService.class).listProjectRootTask(((Project) input).get_id(), br.getDomain());
 		} else if (input instanceof Work) {
-			return Services.get(WorkService.class).listChildren(((Work) input).get_id());
+			return Services.get(WorkService.class).listChildren(((Work) input).get_id(), br.getDomain());
 		} else {
 			// TODO 其他类型
 			return new ArrayList<Work>();
@@ -54,9 +54,9 @@ public class ProjectSchedule {
 	@DataSet({ "项目WBS/count", "进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
 	private long countRootTask(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object input) {
 		if (input instanceof Project) {
-			return Services.get(WorkService.class).countProjectRootTask(((Project) input).get_id());
+			return Services.get(WorkService.class).countProjectRootTask(((Project) input).get_id(), br.getDomain());
 		} else if (input instanceof Work) {
-			return Services.get(WorkService.class).countChildren(((Work) input).get_id());
+			return Services.get(WorkService.class).countChildren(((Work) input).get_id(), br.getDomain());
 		} else {
 			// TODO 其他类型
 			return 0l;
@@ -66,12 +66,12 @@ public class ProjectSchedule {
 
 	@DataSet({ "我负责的项目阶段/list" })
 	private List<Work> listMyStage(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
-		return Services.get(ProjectService.class).listMyStage(userId);
+		return Services.get(ProjectService.class).listMyStage(userId, br.getDomain());
 	}
 
 	@DataSet({ "我负责的项目阶段/count" })
 	private long countMyStage(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
-		return Services.get(ProjectService.class).countMyStage(userId);
+		return Services.get(ProjectService.class).countMyStage(userId, br.getDomain());
 
 	}
 

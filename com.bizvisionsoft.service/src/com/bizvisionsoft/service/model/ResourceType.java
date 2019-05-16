@@ -23,7 +23,7 @@ public class ResourceType implements IResourceAssignment {
 
 	@Exclude
 	public static final String TYPE_HR = "人力资源";
-	
+
 	@Exclude
 	public static final String TYPE_ER = "设备设施";
 
@@ -63,6 +63,9 @@ public class ResourceType implements IResourceAssignment {
 	/** 加班费率(元) Y **/
 	@ReadValue
 	private double overtimeRate;
+	
+	@Exclude
+	public String domain;
 
 	@WriteValue("资源类型编辑器/basicRate")
 	private void set_basicRate(String _basicRate) {
@@ -99,19 +102,19 @@ public class ResourceType implements IResourceAssignment {
 	@Structure("list")
 	public List<?> getResource() {
 		if (TYPE_HR.equals(type))
-			return ServicesLoader.get(UserService.class)
-					.createDataSet(new Query().filter(new BasicDBObject("resourceType_id", _id)).bson());
+			return ServicesLoader.get(UserService.class).createDataSet(new Query().filter(new BasicDBObject("resourceType_id", _id)).bson(),
+					domain);
 		else
-			return ServicesLoader.get(CommonService.class).getERResources(_id);
+			return ServicesLoader.get(CommonService.class).getERResources(_id, domain);
 
 	}
 
 	@Structure("count")
 	public long countResource() {
 		if (TYPE_HR.equals(type))
-			return ServicesLoader.get(UserService.class).count(new BasicDBObject("resourceType_id", _id));
+			return ServicesLoader.get(UserService.class).count(new BasicDBObject("resourceType_id", _id), domain);
 		else
-			return ServicesLoader.get(CommonService.class).countERResources(_id);
+			return ServicesLoader.get(CommonService.class).countERResources(_id, domain);
 
 	}
 
@@ -143,8 +146,7 @@ public class ResourceType implements IResourceAssignment {
 
 	@ReadValue("calendar")
 	public Calendar getCalendar() {
-		return Optional.ofNullable(cal_id).map(_id -> ServicesLoader.get(CommonService.class).getCalendar(_id))
-				.orElse(null);
+		return Optional.ofNullable(cal_id).map(_id -> ServicesLoader.get(CommonService.class).getCalendar(_id, domain)).orElse(null);
 	}
 
 	@WriteValue("calendar")

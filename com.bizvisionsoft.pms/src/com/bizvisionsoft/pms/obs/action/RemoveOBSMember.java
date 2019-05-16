@@ -32,7 +32,7 @@ public class RemoveOBSMember {
 			if (check(obsItem, (User) em)) {
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", obsItem.get_id()))
 						.update(new BasicDBObject("$pull", new BasicDBObject("member", ((User) em).getUserId()))).bson();
-				Services.get(OBSService.class).update(fu);
+				Services.get(OBSService.class).update(fu, br.getDomain());
 				GridPart grid = (GridPart) context.getContent();
 				grid.remove(em);
 			}
@@ -41,7 +41,7 @@ public class RemoveOBSMember {
 
 	private boolean check(OBSItem obsItem, User user) {
 		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(obsItem.get_id(),
-				"removeobsitemmember@" + user.getUserId());
+				"removeobsitemmember@" + user.getUserId(), br.getDomain());
 		boolean hasError = false;
 		boolean hasWarning = false;
 		String message = "";
@@ -66,7 +66,7 @@ public class RemoveOBSMember {
 					return false;
 				else
 					Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(user.getUserId()), obsItem.getScope_id(),
-							br.getCurrentUserId());
+							br.getCurrentUserId(), br.getDomain());
 
 			}
 		}

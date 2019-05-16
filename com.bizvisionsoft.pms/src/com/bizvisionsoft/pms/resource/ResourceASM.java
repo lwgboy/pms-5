@@ -35,7 +35,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ResourceASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -78,7 +78,7 @@ public class ResourceASM {
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly(ganttAssemblyName)).setServices(brui)
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly(ganttAssemblyName)).setServices(br)
 				.create().getContext().getContent();
 
 		gantt.setExportActionText("甘特图");
@@ -103,8 +103,8 @@ public class ResourceASM {
 		}
 
 		// 修改控件title，以便在导出按钮进行显示
-		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("编辑资源情况")).setInput(rt)
-				.setServices(brui).create().getContext().getContent();
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(br.getAssembly("编辑资源情况")).setInput(rt)
+				.setServices(br).create().getContext().getContent();
 		grid.setExportActionText(gridExportActionText);
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
@@ -126,7 +126,7 @@ public class ResourceASM {
 				if (Boolean.TRUE.equals(editable))
 					allocateResource();
 			} else {
-				UserSession.bruiToolkit().runAction(action, l, brui, context);
+				UserSession.bruiToolkit().runAction(action, l, br, context);
 			}
 		});
 		if (Boolean.TRUE.equals(editable)) {
@@ -161,7 +161,7 @@ public class ResourceASM {
 		typedRes.setStyle("info");
 
 		// 弹出menu
-		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
 			addResource("人力资源选择器");
 			return false;
 		}).handleActionExecute("eq", a -> {
@@ -197,17 +197,17 @@ public class ResourceASM {
 			});
 			if ("plan".equals(this.type))
 				// 资源计划
-				Services.get(WorkService.class).addResourcePlan(resa);
+				Services.get(WorkService.class).addResourcePlan(resa, br.getDomain());
 			else
 				// 资源用量
-				Services.get(WorkService.class).addResourceActual(resa);
+				Services.get(WorkService.class).addResourceActual(resa, br.getDomain());
 			grid.doRefresh();
 		});
 
 	}
 
 	private int inputQty() {
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源数量", "1", t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "编辑资源数量", "请输入资源数量", "1", t -> {
 			if (t.trim().isEmpty())
 				return "请输入资源数量";
 			try {

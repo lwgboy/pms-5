@@ -15,11 +15,11 @@ import com.bizvisionsoft.service.model.WorkInTemplate;
 public class CreateRootTaskACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Assembly editor = bruiService.getAssembly("项目模板工作编辑器");
+		Assembly editor = br.getAssembly("项目模板工作编辑器");
 
 		WorkInTemplate workInT = createWork(context);
 

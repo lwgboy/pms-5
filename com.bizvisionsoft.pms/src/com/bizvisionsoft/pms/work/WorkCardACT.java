@@ -38,7 +38,7 @@ public class WorkCardACT implements IWorkAction {
 		if (e.text == null)
 			return;
 		ObjectId _id = element.getObjectId("_id");
-		Work work = service.getWork(_id);
+		Work work = service.getWork(_id, br.getDomain());
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if (e.text.startsWith("startWork/")) {
 			startWork(work, element, viewer, context);
@@ -61,7 +61,7 @@ public class WorkCardACT implements IWorkAction {
 	private void checkWork(final Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		checkWork(work, context, w -> {
 			List<Document> list = service.listMyExecutingWorkCard(new BasicDBObject("_id", work.get_id()), br.getCurrentUserId(),
-					RWT.getLocale().getLanguage());
+					RWT.getLocale().getLanguage(), br.getDomain());
 			if (list.size() > 0) {
 				doc.put("html", list.get(0).get("html"));
 				viewer.update(doc, null);

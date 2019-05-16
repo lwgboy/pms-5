@@ -18,20 +18,21 @@ import com.bizvisionsoft.service.model.Result;
 public class CancelProjectChangeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input,
 			@MethodParam(Execute.CURRENT_USER_ID) String userid) {
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "否决", "请填写否决意见", null, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "否决", "请填写否决意见", null, t -> {
 			return t.trim().isEmpty() ? "请填写否决意见" : null;
 		}).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class).cancelProjectChange(
-					ProjectChangeTask.getCancelInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()));
+					ProjectChangeTask.getCancelInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()),
+					br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已否决");
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			}
 		}
 	}

@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.model.Work;
 public class FinishWork implements IWorkAction {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -19,14 +19,14 @@ public class FinishWork implements IWorkAction {
 			finishWork((Work) e, w -> {
 				GridPart grid = (GridPart) context.getContent();
 				grid.remove(e);
-				brui.updateSidebarActionBudget("处理工作");
+				br.updateSidebarActionBudget("处理工作");
 			});
 		});
 	}
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 }

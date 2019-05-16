@@ -31,14 +31,14 @@ public class GeneratePCA {
 		ObjectId problem_id = problem.get_id();
 
 		ProblemService service = Services.get(ProblemService.class);
-		Document d5 = service.listD5PCA(problem_id, lang).stream().filter(d -> d.getBoolean("selected", false)).findFirst().orElse(null);
+		Document d5 = service.listD5PCA(problem_id, lang, br.getDomain()).stream().filter(d -> d.getBoolean("selected", false)).findFirst()
+				.orElse(null);
 		if (d5 == null) {
 			Layer.error("没有可供选择的永久纠正措施方案");
 			return;
 		}
 		List<Document> actions = new ArrayList<>();
 
-		
 		// pca1
 		List<?> pcaList = (List<?>) d5.get("pca1");
 		Document charger_meta = (Document) d5.get("charger1_meta");
@@ -56,11 +56,10 @@ public class GeneratePCA {
 					.append("stage", "pca")//
 					.append("objective", "")//
 					.append("problem_id", problem_id)//
-					.append("index", actions.size())
-					.append("actionType", actionType);
+					.append("index", actions.size()).append("actionType", actionType);
 			actions.add(action);
 		}
-		
+
 		pcaList = (List<?>) d5.get("pca2");
 		charger_meta = (Document) d5.get("charger2_meta");
 		charger = d5.getString("charger2");
@@ -77,21 +76,19 @@ public class GeneratePCA {
 					.append("stage", "pca")//
 					.append("objective", "")//
 					.append("problem_id", problem_id)//
-					.append("index", actions.size())
-					.append("actionType", actionType);
+					.append("index", actions.size()).append("actionType", actionType);
 			actions.add(action);
 		}
-		service.insertActions(actions);
+		service.insertActions(actions, br.getDomain());
 		grid.doRefresh();
 	}
-	
-	@Behavior({"generate"})
+
+	@Behavior({ "generate" })
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if(!"解决中".equals(problem.getStatus()))
+		if (!"解决中".equals(problem.getStatus()))
 			return false;
 		return true;
 	}
-
 
 }

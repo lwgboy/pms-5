@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.model.WorkReportItem;
 
 public class OpenResourceActualACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -26,7 +26,7 @@ public class OpenResourceActualACT {
 				resourceAssignment.to = workReport.getPeriodTo();
 			}
 			if (resourceAssignment != null) {
-				brui.openContent(brui.getAssembly("编辑资源用量"), resourceAssignment);
+				br.openContent(br.getAssembly("编辑资源用量"), resourceAssignment);
 			}
 		});
 	}

@@ -13,14 +13,14 @@ import com.bizvisionsoft.service.model.RBSItem;
 public class CreateSubRBSItemACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(c -> {
 			Project project = (Project) context.getRootInput();
 			Editor.open("·çÏÕÏî±à¼­Æ÷", context, new RBSItem().setProject_id(project.get_id())
-					.setParent_id(((RBSItem) c).get_id()).setCreationInfo(brui.operationInfo()), (r, o) -> {
+					.setParent_id(((RBSItem) c).get_id()).setCreationInfo(br.operationInfo()), (r, o) -> {
 						GridPart grid = (GridPart) context.getContent();
 						grid.doCreateSubItem(c, o);
 					});

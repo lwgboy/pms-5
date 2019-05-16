@@ -22,7 +22,7 @@ import com.mongodb.BasicDBObject;
 public class WorkpackageBatchSettingACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -45,7 +45,7 @@ public class WorkpackageBatchSettingACT {
 		Editor.create(editor, context, workinfo, false).setTitle("设置工作包").ok((r, wi) -> {
 		BasicDBObject set = new BasicDBObject("workPackageSetting",r.get("workPackageSetting"));
 			Services.get(ProjectTemplateService.class).updateWork(new FilterAndUpdate()
-					.filter(new BasicDBObject("_id", new BasicDBObject("$in", ids))).set(set).bson());
+					.filter(new BasicDBObject("_id", new BasicDBObject("$in", ids))).set(set).bson(), br.getDomain());
 			part.refreshAll();
 		});
 

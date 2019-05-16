@@ -46,7 +46,7 @@ public class ResourceChartASM {
 	private String type;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -135,7 +135,7 @@ public class ResourceChartASM {
 	}
 
 	private Composite createResourceSelector(Composite parent) {
-		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("资源目录")).setServices(brui).create();
+		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("资源目录")).setServices(br).create();
 		part = (GridPart) ac.getContext().getContent();
 		// 控制树的选择
 		Grid grid = part.getViewer().getGrid();
@@ -171,7 +171,7 @@ public class ResourceChartASM {
 				"<div class='label_title' style='height: 1px;width:100%;line-height:1px;padding-left:16px;border-bottom:solid 1px rgb(230,230,230);'></div>")
 				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 1).add(() -> Controls.comp(pane).loc()).get();//
 
-		Assembly assembly = brui.getAssembly("资源图表选项");
+		Assembly assembly = br.getAssembly("资源图表选项");
 		BruiAssemblyEngine engine = BruiAssemblyEngine.newInstance(assembly);
 		BruiEditorContext optionContext = UserSession.newEditorContext();
 		context.add(optionContext);
@@ -179,7 +179,7 @@ public class ResourceChartASM {
 		optionContext.setEmbeded(true);
 		optionContext.setEngine(engine);
 		optionContext.setInput(option);
-		engine.init(new IServiceWithId[] { brui, optionContext });
+		engine.init(new IServiceWithId[] { br, optionContext });
 		final EditorPart editor = (EditorPart) engine.getTarget();
 		editor.addToolItem(new ToolItemDescriptor("查询", BruiToolkit.CSS_INFO, e -> query()));
 		engine.createUI(optionPane);
@@ -203,7 +203,7 @@ public class ResourceChartASM {
 			Layer.error("请选择要查询的时间范围");
 			return;
 		}
-		Document chartData = service.createResChart(new Document("input", input).append("option", option));
+		Document chartData = service.createResChart(new Document("input", input).append("option", option), br.getDomain());
 		JsonObject chartOption = JsonObject.readFrom(((Document) chartData).toJson());
 		chart.setOption(chartOption);
 	}

@@ -11,12 +11,11 @@ import com.bizvisionsoft.service.model.ICBSScope;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 
-
 @Deprecated
 public class SubminBudgetSubject {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) Object input,
@@ -27,18 +26,18 @@ public class SubminBudgetSubject {
 
 		if (cbsItem == null) {
 			ICBSScope rootInput = (ICBSScope) root;
-			cbsItem = Services.get(CBSService.class).get(rootInput.getCBS_id());
+			cbsItem = Services.get(CBSService.class).get(rootInput.getCBS_id(), br.getDomain());
 		}
-		boolean ok = brui.confirm("提交项目预算", "请确认提交预算" + cbsItem + "。");
+		boolean ok = br.confirm("提交项目预算", "请确认提交预算" + cbsItem + "。");
 		if (!ok) {
 			return;
 		}
 
-		Result result = Services.get(CBSService.class).calculationBudget(cbsItem.get_id(), brui.getCurrentUserId());
+		Result result = Services.get(CBSService.class).calculationBudget(cbsItem.get_id(), br.getCurrentUserId(), br.getDomain());
 		if (result.code == Result.CODE_SUCCESS) {
 			Layer.message("科目预算已提交");
 		} else {
-			brui.error( "提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");
+			br.error("提交科目预算", "科目预算总额与分配的预算总额不一致，无法提交科目预算。");
 		}
 		// BudgetSubject grid = (BudgetSubject)
 		// context.getChildContextByName("cbssubject").getContent();

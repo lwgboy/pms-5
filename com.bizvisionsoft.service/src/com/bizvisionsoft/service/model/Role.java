@@ -73,6 +73,9 @@ public class Role {
 	@ReadValue
 	@WriteValue
 	private ObjectId org_id;
+	
+	@Exclude
+	public String domain;
 
 	public ObjectId get_id() {
 		return _id;
@@ -95,12 +98,12 @@ public class Role {
 
 	@Structure("组织角色/list")
 	public List<User> getUser() {
-		return ServicesLoader.get(OrganizationService.class).queryUsersOfRole(_id);
+		return ServicesLoader.get(OrganizationService.class).queryUsersOfRole(_id, domain);
 	}
 
 	@Structure("组织角色/count")
 	public long countUser() {
-		return ServicesLoader.get(OrganizationService.class).countUsersOfRole(_id);
+		return ServicesLoader.get(OrganizationService.class).countUsersOfRole(_id, domain);
 	}
 
 	@Behavior({ "组织角色/添加用户", "组织角色/编辑角色" }) // 控制action

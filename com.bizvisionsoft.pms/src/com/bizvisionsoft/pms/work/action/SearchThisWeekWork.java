@@ -12,7 +12,7 @@ import com.mongodb.BasicDBObject;
 public class SearchThisWeekWork {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GridPart gridPart) {

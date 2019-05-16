@@ -25,7 +25,7 @@ public class ProjectDocuDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private ObjectId project_id;
 
@@ -34,7 +34,7 @@ public class ProjectDocuDS {
 		WorkPackage rootInput = (WorkPackage) context.getRootInput();
 		if (rootInput != null) {
 			ObjectId work_id = rootInput.getWork_id();
-			Work work = ServicesLoader.get(WorkService.class).getWork(work_id);
+			Work work = ServicesLoader.get(WorkService.class).getWork(work_id, br.getDomain());
 			if (work != null)
 				project_id = work.getProject_id();
 		}
@@ -43,7 +43,7 @@ public class ProjectDocuDS {
 	@DataSet("list")
 	private List<Docu> listProjectDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		if (project_id != null)
-			return ServicesLoader.get(DocumentService.class).listProjectDocument(condition, project_id);
+			return ServicesLoader.get(DocumentService.class).listProjectDocument(condition, project_id, br.getDomain());
 		else
 			return new ArrayList<Docu>();
 	}
@@ -51,7 +51,7 @@ public class ProjectDocuDS {
 	@DataSet("count")
 	private long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		if (project_id != null)
-			return ServicesLoader.get(DocumentService.class).countProjectDocument(filter, project_id);
+			return ServicesLoader.get(DocumentService.class).countProjectDocument(filter, project_id, br.getDomain());
 		else
 			return 0;
 	}

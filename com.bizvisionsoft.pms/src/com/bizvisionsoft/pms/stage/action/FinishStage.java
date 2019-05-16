@@ -25,13 +25,13 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class FinishStage {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) Event event) {
 		Work stage = (Work) context.getRootInput();
-		Shell shell = brui.getCurrentShell();
+		Shell shell = br.getCurrentShell();
 
 		Project project = stage.getProject();
 		if (project != null && ProjectStatus.Processing.equals(project.getStatus())) {
@@ -42,7 +42,7 @@ public class FinishStage {
 				return;
 			}
 			List<Result> result = Services.get(WorkService.class)
-					.finishStage(brui.command(stage.get_id(), new Date(), ICommand.Finish_Stage));
+					.finishStage(br.command(stage.get_id(), new Date(), ICommand.Finish_Stage), br.getDomain());
 			boolean b = true;
 			String message = "";
 			if (!result.isEmpty()) {
@@ -58,11 +58,11 @@ public class FinishStage {
 			if (b) {
 				message = "阶段已完工<br>" + message;
 				Layer.message(message);
-				brui.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());
+				br.switchPage("阶段首页（收尾）", ((Work) stage).get_id().toHexString());
 			}
 			// TODO 显示多条错误信息的通用方法
 		} else {
-			brui.error( "完工阶段", "阶段所在项目未启动，无法完工阶段。");
+			br.error( "完工阶段", "阶段所在项目未启动，无法完工阶段。");
 		}
 	}
 

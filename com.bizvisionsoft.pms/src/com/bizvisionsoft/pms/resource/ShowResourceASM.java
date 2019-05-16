@@ -46,7 +46,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ShowResourceASM extends GridPart {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -76,7 +76,7 @@ public class ShowResourceASM extends GridPart {
 	}
 
 	public ShowResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
-		this.brui = brui;
+		this.br = brui;
 		this.context = context;
 		this.content = parent;
 	}
@@ -88,7 +88,7 @@ public class ShowResourceASM extends GridPart {
 
 	@Init
 	protected void init() {
-		userId = brui.getCurrentUserId();
+		userId = br.getCurrentUserId();
 
 		rootInput = context.getRootInput();
 
@@ -151,9 +151,8 @@ public class ShowResourceASM extends GridPart {
 	}
 
 	private void setDate() {
-		DateTimeInputDialog dtid = new DateTimeInputDialog(brui.getCurrentShell(), "设置期间", "请设置查看期间",
-				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)
-						.setDateSetting(DateTimeSetting.month().setRange(true));
+		DateTimeInputDialog dtid = new DateTimeInputDialog(br.getCurrentShell(), "设置期间", "请设置查看期间",
+				(a, b) -> (a == null || b == null) ? "必须选择时间" : null).setDateSetting(DateTimeSetting.month().setRange(true));
 		if (dtid.open() == DateTimeInputDialog.OK) {
 			Date[] range = dtid.getValues();
 
@@ -179,8 +178,7 @@ public class ShowResourceASM extends GridPart {
 		GridColumnGroup[] columnGroups = grid.getColumnGroups();
 		for (GridColumnGroup gridColumnGroup : columnGroups) {
 			String name = (String) gridColumnGroup.getData("name");
-			if (!"plan".equals(name) && !"actual".equals(name) && gridColumnGroup != null
-					&& !gridColumnGroup.isDisposed()) {
+			if (!"plan".equals(name) && !"actual".equals(name) && gridColumnGroup != null && !gridColumnGroup.isDisposed()) {
 				for (GridColumn gridColumn : gridColumnGroup.getColumns()) {
 					footerDateCols.remove(gridColumn);
 				}
@@ -203,12 +201,12 @@ public class ShowResourceASM extends GridPart {
 	public void doRefresh() {
 		if ("project".equals(type)) {
 			Check.instanceThen(rootInput, Project.class, p -> {
-				resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id());
+				resource = Services.get(WorkService.class).getProjectResource(((Project) rootInput).get_id(), br.getDomain());
 			});
 		} else {
 			Check.isAssigned(userId, u -> {
-				resource = Services.get(WorkService.class)
-						.getResourceOfChargedDept(new Period(start.getTime(), end.getTime()), u);
+				resource = Services.get(WorkService.class).getResourceOfChargedDept(new Period(start.getTime(), end.getTime()), u,
+						br.getDomain());
 			});
 		}
 

@@ -17,16 +17,19 @@ import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 public class ProjectRenderer {
 
-	public static Document render(Project pj) {
-		return new ProjectRenderer(pj).render();
+	public static Document render(Project pj,String domain) {
+		return new ProjectRenderer(pj, domain).render();
 	}
 
 	private CardTheme theme;
 
 	private Project pj;
 
-	public ProjectRenderer(Project pj) {
+	private String domain;
+
+	public ProjectRenderer(Project pj,String domain) {
 		this.pj = pj;
+		this.domain = domain;
 		theme = new CardTheme(pj);
 	}
 
@@ -162,7 +165,7 @@ public class ProjectRenderer {
 
 	private void renderProjectStage(StringBuffer sb) {
 		sb.append("<div class='brui_ly_hline layui-btn-group brui_line_padding' style='display:inline-flex;'>");
-		List<Work> stages = ServicesLoader.get(ProjectService.class).listStage(pj.get_id());
+		List<Work> stages = ServicesLoader.get(ProjectService.class).listStage(pj.get_id(), domain);
 		double pc = (double) Math.round(100d / stages.size() * 100) / 100;
 		stages.forEach(work -> {
 			String style;
@@ -182,7 +185,7 @@ public class ProjectRenderer {
 	}
 
 	private void renderTimeline(StringBuffer sb) {
-		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 3);
+		List<News> list = ServicesLoader.get(ProjectService.class).getRecentNews(pj.get_id(), 3, domain);
 		RenderTools.appendList(sb, list, theme.lightText, n -> n.getSummary());
 	}
 

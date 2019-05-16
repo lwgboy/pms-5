@@ -29,7 +29,7 @@ import com.mongodb.BasicDBObject;
 public class SetWorkPackage {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
@@ -39,21 +39,21 @@ public class SetWorkPackage {
 			WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;
 			Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 				Services.get(WorkSpaceService.class)
-						.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", workinfo.get_id())).set(r).bson());
+						.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", workinfo.get_id())).set(r).bson(), br.getDomain());
 				List<TrackView> wps = wi.getWorkPackageSetting();
 				workinfo.setWorkPackageSetting(wps);
 			});
 		} else {
 			context.selected(t -> {
 				if (t instanceof Work) {
-					Work work = Services.get(WorkService.class).getWork(((Work) t).get_id());
+					Work work = Services.get(WorkService.class).getWork(((Work) t).get_id(), br.getDomain());
 					List<TrackView> oldSetting = new ArrayList<TrackView>();
 					if (work.getWorkPackageSetting() != null)
 						oldSetting.addAll(work.getWorkPackageSetting());
 					Editor.create(editor, context, work, true).setTitle(t.toString()).ok((r, wi) -> {
 						if (checkAndRemoveWorkPackage(oldSetting, wi.getWorkPackageSetting(), work.get_id())) {
 							Services.get(WorkService.class)
-									.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) t).get_id())).set(r).bson());
+									.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", ((Work) t).get_id())).set(r).bson(), br.getDomain());
 
 							// List<TrackView> wps = wi.getWorkPackageSetting();
 							// ((Work) t).setWorkPackageSetting(wps);
@@ -88,7 +88,7 @@ public class SetWorkPackage {
 				if (!b) {
 					// 检查该工作包是否存在工作包计划，存在工作包计划时进行提示.
 					if (service.countWorkPackage(
-							new BasicDBObject("work_id", work_id).append("catagory", t1.getCatagory()).append("name", t1.getName())) > 0) {
+							new BasicDBObject("work_id", work_id).append("catagory", t1.getCatagory()).append("name", t1.getName()), br.getDomain()) > 0) {
 						uwps.add(new UpdateWorkPackages().setWork_id(work_id).setCatagory(t1.getCatagory()).setName(t1.getName()));
 						message = "<span class='layui-badge layui-bg-orange'>警告</span> 修改工作包设定将删除工作包计划<br>";
 					}
@@ -96,8 +96,8 @@ public class SetWorkPackage {
 			}
 		}
 		if (!message.isEmpty()) {
-			if (MessageDialog.openQuestion(bruiService.getCurrentShell(), "修改工作包设定", message + "<br>是否继续？")) {
-				service.removeWorkPackage(uwps);
+			if (MessageDialog.openQuestion(br.getCurrentShell(), "修改工作包设定", message + "<br>是否继续？")) {
+				service.removeWorkPackage(uwps, br.getDomain());
 			} else
 				return false;
 		}

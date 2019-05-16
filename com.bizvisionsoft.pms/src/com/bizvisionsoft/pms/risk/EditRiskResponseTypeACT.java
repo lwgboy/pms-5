@@ -17,7 +17,7 @@ import com.mongodb.BasicDBObject;
 public class EditRiskResponseTypeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -27,7 +27,7 @@ public class EditRiskResponseTypeACT {
 				Editor.create("项目风险应对计划编辑器-" + type, context, ((RiskResponse) c), false).setTitle("创建 " + type)
 						.ok((r, o) -> {
 							Services.get(RiskService.class).updateRiskResponse(
-									new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id())).set(r).bson());
+									new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id())).set(r).bson(), br.getDomain());
 							GridPart viewer = (GridPart) context.getContent();
 							AUtil.simpleCopy(o, c);
 							viewer.update(c);

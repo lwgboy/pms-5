@@ -27,7 +27,7 @@ public class ProjectChangeRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -40,8 +40,8 @@ public class ProjectChangeRender extends GridPartDefaultRender {
 				if (e.text.startsWith("userInfo/")) {
 					Selector.open("用户选择器—单选", context, null, l -> {
 						item.user = ((User) l.get(0)).getUserId();
-						ServicesLoader.get(ProjectService.class).updateProjectChange(item,
-								((ProjectChange) context.getInput()).get_id());
+						ServicesLoader.get(ProjectService.class).updateProjectChange(item, ((ProjectChange) context.getInput()).get_id(),
+								br.getDomain());
 						viewer.refresh();
 					});
 				} else if (e.text.split("/").length > 1) {
@@ -53,8 +53,7 @@ public class ProjectChangeRender extends GridPartDefaultRender {
 	@Override
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
-			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
+			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column, @MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
 			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
 		ProjectChangeTask task = (ProjectChangeTask) cell.getElement();
 		if ("userInfo".equals(column.getName())) {

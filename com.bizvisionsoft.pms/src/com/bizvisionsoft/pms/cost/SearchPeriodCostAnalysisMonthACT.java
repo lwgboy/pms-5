@@ -15,12 +15,12 @@ import com.bizvisionsoft.bruiengine.ui.DateTimeInputDialog;
 public class SearchPeriodCostAnalysisMonthACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
-		DateTimeInputDialog dtid = new DateTimeInputDialog(bruiService.getCurrentShell(), "设置期间", "请设置成本组成分析期间",
+		DateTimeInputDialog dtid = new DateTimeInputDialog(br.getCurrentShell(), "设置期间", "请设置成本组成分析期间",
 				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)
 						.setDateSetting(DateTimeSetting.month().setRange(true));
 		if (dtid.open() == DateTimeInputDialog.OK) {

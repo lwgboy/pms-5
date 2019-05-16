@@ -93,18 +93,22 @@ public class EPSInfo implements Comparable<EPSInfo> {
 	public int compareTo(EPSInfo o) {
 		return id.compareTo(o.id);
 	}
-
+	
+	@Exclude
+	public String domain;
+	
+	
 	@Structure("EPS浏览-投资分析 /list")
 	public List<EPSInfo> listSub() {
 		if (children == null) {
-			children = ServicesLoader.get(EPSService.class).listSubEPSInfo(_id);
+			children = ServicesLoader.get(EPSService.class).listSubEPSInfo(_id, domain);
 		}
 		return children;
 	}
 
 	@Structure("EPS浏览-投资分析/count")
 	public long countSub() {
-		return ServicesLoader.get(EPSService.class).countSubEPSInfo(_id);
+		return ServicesLoader.get(EPSService.class).countSubEPSInfo(_id, domain);
 	}
 
 	@ReadValue(ReadValue.TYPE)
@@ -264,7 +268,7 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return null;
 	}
 
-	public double getCost(String period) {
+	public double getPeriodCost(String period) {
 		Double summary = 0d;
 		List<CBSSubject> cbsSubjects = getCbsSubjects();
 		if (cbsSubjects != null && cbsSubjects.size() > 0) {
@@ -277,7 +281,7 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return summary;
 	}
 
-	public double getCost(String startPeriod, String endPeriod) {
+	public double getDurationCost(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		List<CBSSubject> cbsSubjects = getCbsSubjects();
 		if (cbsSubjects != null && cbsSubjects.size() > 0) {
@@ -290,7 +294,7 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return summary;
 	}
 
-	public double getProfit(String period) {
+	public double getPeriodProfit(String period) {
 		Double summary = 0d;
 		List<SalesItem> salesItems = getSalesItems();
 		if (salesItems != null && salesItems.size() > 0) {
@@ -303,7 +307,7 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return summary;
 	}
 
-	public double getProfit(String startPeriod, String endPeriod) {
+	public double getDurationProfit(String startPeriod, String endPeriod) {
 		Double summary = 0d;
 		List<SalesItem> salesItems = getSalesItems();
 		if (salesItems != null && salesItems.size() > 0) {

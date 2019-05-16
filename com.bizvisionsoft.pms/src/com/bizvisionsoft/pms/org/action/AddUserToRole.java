@@ -20,14 +20,14 @@ import com.mongodb.BasicDBObject;
 public class AddUserToRole {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		context.selected(em -> {
 			if (em instanceof Role) {
-				new Selector(bruiService.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织角色").open(r -> {
+				new Selector(br.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织角色").open(r -> {
 					final List<String> ids = new ArrayList<String>();
 					final List<User> users = new ArrayList<User>();
 					GridPart grid = (GridPart) context.getContent();
@@ -43,7 +43,7 @@ public class AddUserToRole {
 								.update(new BasicDBObject("$addToSet",
 										new BasicDBObject("users", new BasicDBObject("$each", ids))))
 								.bson();
-						Services.get(OrganizationService.class).updateRole(fu);
+						Services.get(OrganizationService.class).updateRole(fu, br.getDomain());
 						grid.refresh(em);
 					}
 				});

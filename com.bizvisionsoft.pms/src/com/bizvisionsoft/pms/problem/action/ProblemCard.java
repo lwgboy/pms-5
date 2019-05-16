@@ -34,14 +34,14 @@ public class ProblemCard {
 			if (br.confirm("启动问题解决", "请确认启动问题解决程序。")) {
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("status", "解决中"))
 						.bson();
-				if (Services.get(ProblemService.class).updateProblems(fu) > 0) {
+				if (Services.get(ProblemService.class).updateProblems(fu, br.getDomain()) > 0) {
 					Layer.message("问题解决程序已启动");
 					br.switchPage("问题解决-TOPS过程", _id.toHexString());
 				}
 			}
 		} else if ("create".equals(e.text)) {
 			Editor.create("问题编辑器（创建）", context, new Problem().setCreationInfo(br.operationInfo()), true).ok((d,t)->{
-				Services.get(ProblemService.class).insertProblem(t);
+				Services.get(ProblemService.class).insertProblem(t, br.getDomain());
 				((IQueryEnable)context.getContent()).doRefresh();
 			});
 		}

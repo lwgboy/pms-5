@@ -62,7 +62,7 @@ public class AddWBSModuleACT {
 			}
 		});
 		
-		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id());
+		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id(), br.getDomain());
 		Map<ObjectId, WorkInTemplate> idMap = new HashMap<ObjectId, WorkInTemplate>();
 		for (int i = 0; i < works.size(); i++) {
 			WorkInTemplate work = works.get(i);
@@ -93,7 +93,7 @@ public class AddWBSModuleACT {
 			gantt.addTask(work);
 		}
 
-		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id());
+		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id(), br.getDomain());
 		for (int i = 0; i < links.size(); i++) {
 			WorkLinkInTemplate link = links.get(i);
 			link.set_id(new ObjectId());

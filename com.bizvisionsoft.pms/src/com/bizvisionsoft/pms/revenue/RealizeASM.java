@@ -76,7 +76,7 @@ public class RealizeASM extends GridPart {
 		setConfig(context.getAssembly());
 		setBruiService(br);
 		scope = context.getRootInput(IRevenueScope.class, false);
-		data = service.groupRevenueRealizeAmountByPeriod(scope.getScope_id());
+		data = service.groupRevenueRealizeAmountByPeriod(scope.getScope_id(), br.getDomain());
 		super.init();
 	}
 
@@ -174,7 +174,7 @@ public class RealizeASM extends GridPart {
 	}
 
 	private void createAmountColumns() {
-		service.getRevenueRealizePeriod(scope.getScope_id()).forEach(id -> {
+		service.getRevenueRealizePeriod(scope.getScope_id(), br.getDomain()).forEach(id -> {
 			Calendar cal = Calendar.getInstance();
 			try {
 				cal.setTime(new SimpleDateFormat("yyyyMM").parse(id));
@@ -317,7 +317,7 @@ public class RealizeASM extends GridPart {
 		Calendar cal = (Calendar) col.getData("date");
 		String index = getIndex(cal);
 		if (br.confirm("删除", "请确认删除期间" + index)) {
-			service.deleteRevenueRealize(scope.getScope_id(), index);
+			service.deleteRevenueRealize(scope.getScope_id(), index, br.getDomain());
 			col.dispose();
 
 			// 清除缓存
@@ -340,7 +340,7 @@ public class RealizeASM extends GridPart {
 				.setId(index)//
 				.setAmount(amount)//
 				.setSubject(subject);
-		service.updateRevenueRealizeItem(item);
+		service.updateRevenueRealizeItem(item, br.getDomain());
 
 		// 更新缓存
 		Document row = data.stream().filter(d -> d.get("_id").equals(subject)).findFirst().orElse(null);
@@ -372,7 +372,7 @@ public class RealizeASM extends GridPart {
 	}
 
 	private double readAmount(String subject, String index) {
-		return service.getRevenueRealizeAmount(scope.getScope_id(), subject, index);
+		return service.getRevenueRealizeAmount(scope.getScope_id(), subject, index, br.getDomain());
 	}
 
 	private double getAmount(Object account, String index) {

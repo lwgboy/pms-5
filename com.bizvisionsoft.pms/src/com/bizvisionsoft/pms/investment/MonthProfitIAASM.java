@@ -20,7 +20,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class MonthProfitIAASM extends AbstractChartASM {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -32,7 +32,7 @@ public class MonthProfitIAASM extends AbstractChartASM {
 	@Init
 	public void init() {
 		setContext(context);
-		setBruiService(bruiService);
+		setBruiService(br);
 	}
 
 	@CreateUI
@@ -46,7 +46,7 @@ public class MonthProfitIAASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
-		return Services.get(EPSService.class).getMonthProfitIA(epsIAs, year);
+		return Services.get(EPSService.class).getMonthProfitIA(epsIAs, year,br.getDomain());
 	}
 
 	public void setEpsIAs(List<EPSInvestmentAnalysis> epsIAs) {

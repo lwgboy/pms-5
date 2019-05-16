@@ -16,24 +16,24 @@ import com.bizvisionsoft.service.model.WBSModule;
 public class OpenProjectTemplateACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof WBSModule) {
-				brui.openContent(brui.getAssembly("项目模板甘特图"), em);
+				br.openContent(br.getAssembly("项目模板甘特图"), em);
 			} else if (em instanceof OBSModule) {
 				// 当前选择为组织模板时，打开OBS模板组织结构图进行组织模板的编辑
-				brui.openContent(brui.getAssembly("OBS模板组织结构图"), em, e -> {
+				br.openContent(br.getAssembly("OBS模板组织结构图"), em, e -> {
 					OBSModule obs = ServicesLoader.get(ProjectTemplateService.class)
-							.getOBSModule(((OBSModule) em).get_id());
+							.getOBSModule(((OBSModule) em).get_id(), br.getDomain());
 					GridPart viewer = (GridPart) context.getContent();
 					AUtil.simpleCopy(obs, em);
 					viewer.refresh(em);
 				});
 			} else {
-				brui.switchPage("项目模板", ((ProjectTemplate) em).get_id().toHexString());
+				br.switchPage("项目模板", ((ProjectTemplate) em).get_id().toHexString());
 			}
 		});
 	}

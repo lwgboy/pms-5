@@ -26,7 +26,7 @@ public class ProjectRiskDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private ObjectId project_id;
 
@@ -51,7 +51,7 @@ public class ProjectRiskDS {
 		}
 		condition.append("sort", new BasicDBObject("rbsType.id", 1).append("index", 1));
 		filter.append("project_id", project_id).append("parent_id", null);
-		return Services.get(RiskService.class).listRBSItem(condition);
+		return Services.get(RiskService.class).listRBSItem(condition, br.getDomain());
 	}
 
 	@DataSet(DataSet.COUNT)
@@ -60,22 +60,22 @@ public class ProjectRiskDS {
 			filter = new BasicDBObject();
 		}
 		filter.append("project_id", project_id).append("parent_id", null);
-		return Services.get(RiskService.class).countRBSItem(filter);
+		return Services.get(RiskService.class).countRBSItem(filter, br.getDomain());
 	}
 
 	@DataSet({ "项目风险登记簿/" + DataSet.INSERT })
 	public RBSItem insertRBSItem(@MethodParam(MethodParam.OBJECT) RBSItem item) {
-		return Services.get(RiskService.class).insertRBSItem(item);
+		return Services.get(RiskService.class).insertRBSItem(item, br.getDomain());
 	}
 
 	@DataSet(DataSet.DELETE)
 	private long delete(@MethodParam(MethodParam._ID) ObjectId _id, @MethodParam(MethodParam.OBJECT) Object selected) {
 		if (selected instanceof RBSItem) {
-			return Services.get(RiskService.class).deleteRBSItem(_id);
+			return Services.get(RiskService.class).deleteRBSItem(_id, br.getDomain());
 		} else if (selected instanceof RiskEffect) {
-			return Services.get(RiskService.class).deleteRiskEffect(_id);
+			return Services.get(RiskService.class).deleteRiskEffect(_id, br.getDomain());
 		} else if (selected instanceof RiskResponse) {
-			return Services.get(RiskService.class).deleteRiskResponse(_id);
+			return Services.get(RiskService.class).deleteRiskResponse(_id, br.getDomain());
 		}
 		return 0l;
 	}
@@ -84,18 +84,18 @@ public class ProjectRiskDS {
 	public RiskResponse insertRiskResponse(@MethodParam(MethodParam.PARENT_OBJECT) RiskResponseType type,
 			@MethodParam(MethodParam.OBJECT) RiskResponse response) {
 		return Services.get(RiskService.class)
-				.insertRiskResponse(response.setType(type.getType()).setRBSItem_id(type.get_id()));
+				.insertRiskResponse(response.setType(type.getType()).setRBSItem_id(type.get_id()), br.getDomain());
 	}
 
 	@DataSet(DataSet.UPDATE)
 	private long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
 			@MethodParam(MethodParam.OBJECT) Object selected) {
 		if (selected instanceof RBSItem)
-			return Services.get(RiskService.class).updateRBSItem(filterAndUpdate);
+			return Services.get(RiskService.class).updateRBSItem(filterAndUpdate, br.getDomain());
 		else if (selected instanceof RiskEffect)
-			return Services.get(RiskService.class).updateRiskEffect(filterAndUpdate);
+			return Services.get(RiskService.class).updateRiskEffect(filterAndUpdate, br.getDomain());
 		else if (selected instanceof RiskResponse)
-			return Services.get(RiskService.class).updateRiskResponse(filterAndUpdate);
+			return Services.get(RiskService.class).updateRiskResponse(filterAndUpdate, br.getDomain());
 		return 0l;
 	}
 

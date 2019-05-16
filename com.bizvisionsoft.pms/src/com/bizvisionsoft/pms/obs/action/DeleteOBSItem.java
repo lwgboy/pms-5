@@ -31,7 +31,7 @@ public class DeleteOBSItem {
 	}
 
 	private boolean check(OBSItem obsItem) {
-		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(obsItem.get_id(), "deleteobsitem");
+		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(obsItem.get_id(), "deleteobsitem", br.getDomain());
 		boolean hasError = false;
 		boolean hasWarning = false;
 		if (!result.isEmpty()) {
@@ -54,7 +54,7 @@ public class DeleteOBSItem {
 					"<span class='layui-badge layui-bg-orange'>警告</span> 从项目组中移除: " + obsItem + " 。将取消该" + type + "所有成员的工作任命。 <br>是否继续？"))
 				return false;
 			else {
-				Services.get(OBSService.class).removeUnStartWorkUser(obsItem, br.getCurrentUserId());
+				Services.get(OBSService.class).removeUnStartWorkUser(obsItem, br.getCurrentUserId(), br.getDomain());
 			}
 
 		}

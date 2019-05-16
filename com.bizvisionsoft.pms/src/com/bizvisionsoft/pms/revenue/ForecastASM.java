@@ -86,8 +86,7 @@ public class ForecastASM extends GridPart {
 		setBruiService(br);
 		scope = context.getRootInput(IRevenueScope.class, false);
 		// 记录计算列
-		calColumns = AccountIncome.collect(scope.getRootAccountIncome(),
-				item -> Check.isAssigned(item.getFormula()));
+		calColumns = AccountIncome.collect(scope.getRootAccountIncome(), item -> Check.isAssigned(item.getFormula()));
 
 		type = scope.getRevenueForecastType();
 		if (type.isEmpty()) {// 第一次编辑收益预测
@@ -103,7 +102,7 @@ public class ForecastASM extends GridPart {
 	}
 
 	private void loadData() {
-		service.listRevenueForecast(scope.getScope_id()).forEach(rfi -> {
+		service.listRevenueForecast(scope.getScope_id(), br.getDomain()).forEach(rfi -> {
 			Map<Integer, Double> row = data.get(rfi.getSubject());
 			if (row == null) {
 				row = new HashMap<Integer, Double>();
@@ -130,7 +129,7 @@ public class ForecastASM extends GridPart {
 
 	private void setType(String type) {
 		if (!this.type.isEmpty() && !this.type.equals(type) && br.confirm("收益预测方式", "设定新的收益预测方式，将清除目前的预测数据，请确认。")) {
-			service.clearRevenueForecast(scope.getScope_id());
+			service.clearRevenueForecast(scope.getScope_id(), br.getDomain());
 			this.data.clear();
 			Layer.message("收益预测方式已设定为：" + type);
 		}
@@ -236,7 +235,7 @@ public class ForecastASM extends GridPart {
 	}
 
 	private void createAmountColumns() {
-		int count = service.getForwardRevenueForecastIndex(scope.getScope_id()) + 1;
+		int count = service.getForwardRevenueForecastIndex(scope.getScope_id(), br.getDomain()) + 1;
 		while (index < count) {
 			appendAmountColumn();
 		}
@@ -289,7 +288,7 @@ public class ForecastASM extends GridPart {
 		final int index = Integer.parseInt((String) column.getData("name"));
 		String text = column.getText();
 		if (br.confirm("清除", "请确认清除期间数据：" + text)) {
-			service.deleteRevenueForecast(scope.getScope_id(), index);
+			service.deleteRevenueForecast(scope.getScope_id(), index, br.getDomain());
 
 			// 清除缓存
 			Iterator<String> iter = data.keySet().iterator();
@@ -359,7 +358,7 @@ public class ForecastASM extends GridPart {
 				.setAmount(amount)//
 				.setType(type)//
 				.setSubject(account.getId());
-		service.updateRevenueForecastItem(item);
+		service.updateRevenueForecastItem(item, br.getDomain());
 
 		// 更新缓存
 		Map<Integer, Double> row = data.get(account.getId());
@@ -375,7 +374,7 @@ public class ForecastASM extends GridPart {
 
 		ArrayList<Object> dirty = new ArrayList<>();
 		dirty.addAll(calColumns);
-		
+
 		dirty.add(account);
 		GridItem treeItem = (GridItem) viewer.testFindItem(account);
 		GridItem parentItem = treeItem.getParentItem();
@@ -392,7 +391,7 @@ public class ForecastASM extends GridPart {
 	}
 
 	private double readAmount(String subject, int index) {
-		return service.getRevenueForecastAmount(scope.getScope_id(), subject, type, index);
+		return service.getRevenueForecastAmount(scope.getScope_id(), subject, type, index, br.getDomain());
 	}
 
 	private double getAmount(Object account, int index) {
@@ -408,8 +407,7 @@ public class ForecastASM extends GridPart {
 			} else if (Check.isAssigned(ai.getFormula())) {
 				return calculate(ai, index);
 			} else {
-				return Optional.ofNullable(data.get(ai.getId())).map(row -> row.get(index)).map(d -> d.doubleValue())
-						.orElse(0d);
+				return Optional.ofNullable(data.get(ai.getId())).map(row -> row.get(index)).map(d -> d.doubleValue()).orElse(0d);
 			}
 		}
 		return 0d;

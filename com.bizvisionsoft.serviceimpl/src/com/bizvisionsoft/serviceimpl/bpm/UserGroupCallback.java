@@ -7,12 +7,11 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.common.Service;
 
-
 public class UserGroupCallback implements org.kie.api.task.UserGroupCallback {
 
 	@Override
 	public boolean existsUser(String userId) {
-		return Service.db().getCollection("user").countDocuments(new Document("userId", userId)) == 1;
+		return Service.database.getCollection("user").countDocuments(new Document("userId", userId)) == 1;
 	}
 
 	@Override

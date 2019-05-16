@@ -22,30 +22,28 @@ import com.mongodb.BasicDBObject;
 public class OpenProjectInfo {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
-		
-		ObjectId project_id = context.getRootInput(Project.class,false).get_id();
-		Project project = Services.get(ProjectService.class).get(project_id);
-		
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
+
+		ObjectId project_id = context.getRootInput(Project.class, false).get_id();
+		Project project = Services.get(ProjectService.class).get(project_id, br.getDomain());
+
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
-		new Editor<Project>(bruiService.getAssembly("项目编辑器"), context).setInput(project).setTitle(title)
-				.setEditable(false).ok((r, proj) -> {
-					try {
-						Services.get(ProjectService.class).update(
-								new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
-						AUtil.simpleCopy(proj, project);
-					} catch (Exception e) {
-						String message = e.getMessage();
-						if (message.indexOf("index") >= 0) {
-							Layer.message("请勿录入相同的项目编号", Layer.ICON_ERROR);
-						}
-					}
-				});
+		new Editor<Project>(br.getAssembly("项目编辑器"), context).setInput(project).setTitle(title).setEditable(false).ok((r, proj) -> {
+			try {
+				Services.get(ProjectService.class)
+						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson(), br.getDomain());
+				AUtil.simpleCopy(proj, project);
+			} catch (Exception e) {
+				String message = e.getMessage();
+				if (message.indexOf("index") >= 0) {
+					Layer.message("请勿录入相同的项目编号", Layer.ICON_ERROR);
+				}
+			}
+		});
 
 	}
 

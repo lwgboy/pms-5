@@ -24,13 +24,12 @@ import com.bizvisionsoft.service.tools.Formatter;
 public class SearchInvestmentAnalysisYearACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) Event event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
 		// 打开查询成本期间编辑器
-		DateTimeInputDialog dt = new DateTimeInputDialog(bruiService.getCurrentShell(), "设置期间", "请设置投资回报分析期间", null,
+		DateTimeInputDialog dt = new DateTimeInputDialog(br.getCurrentShell(), "设置期间", "请设置投资回报分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());
 		if (dt.open() == DateTimeInputDialog.OK) {
 			// 获取查询的成本期间
@@ -53,15 +52,15 @@ public class SearchInvestmentAnalysisYearACT {
 				if ("cost".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "cost"));
-				}else if ("profit".equals(name)) {
+				} else if ("profit".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "profit"));
 				} else if ("roi".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + "01", startPeriod + "12", "roi"));
-				} else if ("01".equals(name) || "02".equals(name) || "03".equals(name) || "04".equals(name)
-						|| "05".equals(name) || "06".equals(name) || "07".equals(name) || "08".equals(name)
-						|| "09".equals(name) || "10".equals(name) || "11".equals(name) || "12".equals(name)) {
+				} else if ("01".equals(name) || "02".equals(name) || "03".equals(name) || "04".equals(name) || "05".equals(name)
+						|| "06".equals(name) || "07".equals(name) || "08".equals(name) || "09".equals(name) || "10".equals(name)
+						|| "11".equals(name) || "12".equals(name)) {
 					vcol = new GridViewerColumn(viewer, column);
 					vcol.setLabelProvider(getLabelProvider(startPeriod + name, null, "profit"));
 				}
@@ -79,7 +78,7 @@ public class SearchInvestmentAnalysisYearACT {
 			public String getText(Object element) {
 				if (element instanceof EPSInfo) {
 					if ("cost".equals(type)) {
-						double cost = ((EPSInfo) element).getCost(startPeriod, endPeriod);
+						double cost = ((EPSInfo) element).getDurationCost(startPeriod, endPeriod);
 						if (cost != 0)
 							return Formatter.getString(cost);
 					} else if ("roi".equals(type)) {
@@ -89,9 +88,9 @@ public class SearchInvestmentAnalysisYearACT {
 					} else if ("profit".equals(type)) {
 						double profit;
 						if (endPeriod != null) {
-							profit = ((EPSInfo) element).getProfit(startPeriod, endPeriod);
+							profit = ((EPSInfo) element).getDurationProfit(startPeriod, endPeriod);
 						} else {
-							profit = ((EPSInfo) element).getProfit(startPeriod);
+							profit = ((EPSInfo) element).getPeriodProfit(startPeriod);
 						}
 						if (profit != 0)
 							return Formatter.getString(profit);

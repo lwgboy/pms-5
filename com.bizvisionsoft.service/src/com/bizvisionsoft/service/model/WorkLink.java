@@ -77,6 +77,9 @@ import com.bizvisionsoft.service.WorkService;
 @PersistenceCollection("worklinks")
 @Strict
 public class WorkLink {
+	
+	@Exclude
+	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -138,7 +141,7 @@ public class WorkLink {
 
 	@SetValue("source")
 	public void setSourceId(ObjectId source_id) {
-		source = ServicesLoader.get(WorkService.class).getWork(source_id);
+		source = ServicesLoader.get(WorkService.class).getWork(source_id, domain);
 	}
 
 	@Exclude
@@ -177,7 +180,7 @@ public class WorkLink {
 
 	@SetValue("target")
 	public void setTargetId(ObjectId target_id) {
-		target = ServicesLoader.get(WorkService.class).getWork(target_id);
+		target = ServicesLoader.get(WorkService.class).getWork(target_id, domain);
 	}
 
 	@Exclude

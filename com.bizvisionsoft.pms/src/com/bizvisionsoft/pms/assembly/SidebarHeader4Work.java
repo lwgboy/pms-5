@@ -21,7 +21,7 @@ import com.bizvisionsoft.service.model.Work;
 public class SidebarHeader4Work {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -46,17 +46,16 @@ public class SidebarHeader4Work {
 		fd.height = size;
 		fd.right = new FormAttachment(100);
 
-		String url = bruiService.getResourceURL("/img/left_w.svg");
-		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:8px;' src='" + url + "' width=" + 32
-				+ "px height=" + 32 + "px/>");
+		String url = br.getResourceURL("/img/left_w.svg");
+		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:8px;' src='" + url + "' width=" + 32 + "px height=" + 32 + "px/>");
 
 		Work input = context.getParentContext().getInput(Work.class, false);
 		String pjName = Optional.ofNullable(input.getProject()).map(p -> p.getName()).orElse("");
 		title.setText(
 				"<div style='color:White;margin-left:2px;margin-top:4px;width:180px;'><div style='font-size:16px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
 						+ input.getText() + "</div>"
-						+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>"
-						+ pjName + "</div>" + "</div>");
+						+ "<div style='font-size:14px;overflow:hidden;text-overflow:ellipsis;White-space:nowrap;'>" + pjName + "</div>"
+						+ "</div>");
 		pic.addListener(SWT.MouseDown, e -> {
 			WidgetToolkit.execJS("history.back()");
 		});

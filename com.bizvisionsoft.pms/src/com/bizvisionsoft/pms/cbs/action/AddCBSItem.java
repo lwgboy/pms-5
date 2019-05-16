@@ -19,7 +19,7 @@ import com.bizvisionsoft.service.model.CBSItem;
 public class AddCBSItem {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {

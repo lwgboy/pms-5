@@ -33,7 +33,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private String result;
 
@@ -56,7 +56,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			Object rootInput = context.getRootInput();
 			if (rootInput instanceof ICBSScope) {
 				ICBSScope icbsScope = (ICBSScope) rootInput;
-				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id(), br.getDomain());
 			}
 		}
 		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
@@ -67,44 +67,42 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 				date = cbsItem.getNextSettlementDate();
 				// 如果项目下一结算月份等于当前月份，则日期为当前结算月份
 				currentCBSPeriod.setTime(date);
-				if (currentCBSPeriod.get(Calendar.YEAR) == newYear
-						&& currentCBSPeriod.get(Calendar.MONTH) == newMonth) {
+				if (currentCBSPeriod.get(Calendar.YEAR) == newYear && currentCBSPeriod.get(Calendar.MONTH) == newMonth) {
 					currentCBSPeriod.add(Calendar.MONTH, -1);
 				}
 			}
 		}
 		// 从首页打开成本管理，结算月份为当前系统整体结算期间
 		if (date == null) {
-			date = Services.get(CommonService.class).getCurrentCBSPeriod();
+			date = Services.get(CommonService.class).getCurrentCBSPeriod(br.getDomain());
 			currentCBSPeriod.setTime(date);
 		}
 
 		result = "" + currentCBSPeriod.get(Calendar.YEAR);
 		result += String.format("%02d", currentCBSPeriod.get(java.util.Calendar.MONTH) + 1);
 
-		String userId = bruiService.getCurrentUserId();
+		String userId = br.getCurrentUserId();
 		if (scope_id != null)
-			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result, userId);
+			doc = Services.get(CBSService.class).getCBSSummary(scope_id, result, result, userId, br.getDomain());
 		else
-			doc = Services.get(CBSService.class).getCBSSummary(result, result, userId);
+			doc = Services.get(CBSService.class).getCBSSummary(result, result, userId, br.getDomain());
 	}
 
 	@Override
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
-			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
+			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column, @MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
 			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
 		Object element = cell.getElement();
 		if ("periodCost".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的当前期间成本
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result);
+				value = cbsItem.getPeriodCost(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的当前期间成本
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result);
+				value = cbsSubjectCost.getPeriodCost(result);
 			}
 		} else if ("totalCost".equals(column.getName())) {
 			if (element instanceof CBSItem) {
@@ -160,51 +158,51 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间成本
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result);
+				value = cbsItem.getPeriodCost(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间成本
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result);
+				value = cbsSubjectCost.getPeriodCost(result);
 			}
 		} else if ("budget".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间预算
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudget(result);
+				value = cbsItem.getPeriodBudget(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间预算
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudget(result);
+				value = cbsSubjectCost.getPeriodBudget(result);
 			}
 		} else if ("overspend".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的总预算
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getOverspend(result);
+				value = cbsItem.getPeriodOverspend(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的总预算
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getOverspend(result);
+				value = cbsSubjectCost.getPeriodOverspend(result);
 			}
 		} else if ("car".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间CAR
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCAR(result);
+				value = cbsItem.getPeriodCAR(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间CAR
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCAR(result);
+				value = cbsSubjectCost.getPeriodCAR(result);
 			}
 		} else if ("bdr".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间预算偏差
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBDR(result);
+				value = cbsItem.getPeriodBDR(result);
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间预算偏差
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBDR(result);
+				value = cbsSubjectCost.getPeriodBDR(result);
 			}
 		}
 
@@ -217,8 +215,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
 		// 修改当期成本显示列名
 		if ("periodCost".equals(column.getName())) {
-			column.setText(
-					"期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
+			column.setText("期间：" + result.substring(0, 4) + "/" + Integer.parseInt(result.substring(4, 6)) + " （单位：万元）");
 		}
 		// TODO 没有修改ColumnGroupHeader的方法
 		// if ("period".equals(column.getName())) {
@@ -264,8 +261,7 @@ public class ManagedProjectsCostRender extends GridPartDefaultRender {
 
 	@Override
 	@GridRenderCompare
-	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col,
-			@MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
+	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
 	}

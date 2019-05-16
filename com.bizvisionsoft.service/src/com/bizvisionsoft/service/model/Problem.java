@@ -110,6 +110,9 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private List<RemoteFile> attarchments;
+	
+	@Exclude
+	public String domain;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
@@ -128,7 +131,7 @@ public class Problem {
 
 	@ReadValue("dept") // ±à¼­Æ÷ÓÃ
 	public Organization getOrganization() {
-		return Optional.ofNullable(dept_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
+		return Optional.ofNullable(dept_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

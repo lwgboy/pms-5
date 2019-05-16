@@ -13,14 +13,14 @@ import com.bizvisionsoft.service.model.WorkReport;
 
 public class OpenWorkReportACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(s -> {
-			brui.openContent(brui.getAssembly("报告详情"), s, e -> {
+			br.openContent(br.getAssembly("报告详情"), s, e -> {
 				if (s instanceof WorkReport) {
-					WorkReport o = ServicesLoader.get(WorkReportService.class).getWorkReport(((WorkReport) s).get_id());
+					WorkReport o = ServicesLoader.get(WorkReportService.class).getWorkReport(((WorkReport) s).get_id(), br.getDomain());
 					GridPart viewer = (GridPart) context.getContent();
 					AUtil.simpleCopy(o, s);
 					viewer.update(s);

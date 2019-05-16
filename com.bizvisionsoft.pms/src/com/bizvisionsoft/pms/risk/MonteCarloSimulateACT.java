@@ -33,7 +33,7 @@ public class MonteCarloSimulateACT {
 		});
 		
 		if (Window.OK == id.open()) {
-			Services.get(RiskService.class).monteCarloSimulate(proj.get_id(), Integer.parseInt(id.getValue()));
+			Services.get(RiskService.class).monteCarloSimulate(proj.get_id(), Integer.parseInt(id.getValue()), br.getDomain());
 			chart.setViewerInput();
 		}
 	}

@@ -21,7 +21,7 @@ import com.bizvisionsoft.service.model.Work;
 public class OpenEPSOrProject {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Listener({ "我管理的项目清单/Selection" })
 	public void openSelected(Event event) {
@@ -35,24 +35,24 @@ public class OpenEPSOrProject {
 
 	private void open(Object em) {
 		if (em instanceof Project) {
-			SwitchProjectPage.loadAndOpenProject(brui, (Project) em);
+			SwitchProjectPage.loadAndOpenProject(br, (Project) em);
 		} else if (em instanceof EPSInfo) {
 			if (((EPSInfo) em).getType().equals(EPSInfo.TYPE_PROJECT)) {
 				if (ProjectStatus.Created.equals(((EPSInfo) em).getStatus())) {
-					brui.switchPage("项目首页（启动）", ((EPSInfo) em).get_id().toHexString());
+					br.switchPage("项目首页（启动）", ((EPSInfo) em).get_id().toHexString());
 				} else if (ProjectStatus.Processing.equals(((EPSInfo) em).getStatus())) {
-					brui.switchPage("项目首页（执行）", ((EPSInfo) em).get_id().toHexString());
+					br.switchPage("项目首页（执行）", ((EPSInfo) em).get_id().toHexString());
 				} else if (ProjectStatus.Closing.equals(((EPSInfo) em).getStatus())) {
-					brui.switchPage("项目首页（收尾）", ((EPSInfo) em).get_id().toHexString());
+					br.switchPage("项目首页（收尾）", ((EPSInfo) em).get_id().toHexString());
 				} else if (ProjectStatus.Closed.equals(((EPSInfo) em).getStatus())) {
-					brui.switchPage("项目首页（关闭）", ((EPSInfo) em).get_id().toHexString());
+					br.switchPage("项目首页（关闭）", ((EPSInfo) em).get_id().toHexString());
 				}
 			}
 		} else if (em instanceof ProjectScheduleInfo) {
 			if (((ProjectScheduleInfo) em).typeEquals(Project.class)) {
-				SwitchProjectPage.loadAndOpenProject(brui, ((ProjectScheduleInfo) em).getProject());
+				SwitchProjectPage.loadAndOpenProject(br, ((ProjectScheduleInfo) em).getProject());
 			} else if (((ProjectScheduleInfo) em).typeEquals(Work.class)) {
-				SwitchWorkPackagePage.openWorkPackage(brui, ((ProjectScheduleInfo) em).getWork());
+				SwitchWorkPackagePage.openWorkPackage(br, ((ProjectScheduleInfo) em).getWork());
 			}
 		}
 	}

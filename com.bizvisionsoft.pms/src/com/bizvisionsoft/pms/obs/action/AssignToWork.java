@@ -24,7 +24,7 @@ public class AssignToWork {
 		if (input instanceof Project) {
 			ObjectId project_id = ((Project) input).get_id();
 			// 检查是否存在需要覆盖原有工作分配的工作
-			if (Services.get(WorkService.class).checkCoverWork(project_id)) {
+			if (Services.get(WorkService.class).checkCoverWork(project_id, br.getDomain())) {
 				// 存在时，则提示询问是否覆盖原有的工作分配
 				IDialogConstants constants = IDialogConstants.get();
 				MessageDialog d = new MessageDialog(br.getCurrentShell(), "分配工作", null,
@@ -45,17 +45,17 @@ public class AssignToWork {
 				}
 
 				// 调用服务,为工作分配人员
-				Services.get(WorkService.class).assignRoleToProject(project_id, cover);
+				Services.get(WorkService.class).assignRoleToProject(project_id, cover, br.getDomain());
 				Layer.message("已完成角色的工作分配");
 			} else if (br.confirm("分配工作", "请确认将角色的担任者分配到工作的负责人和指派者。")) {
 				// 否则，提示询问是否需要分配负责人和指派者
-				Services.get(WorkService.class).assignRoleToProject(project_id, false);
+				Services.get(WorkService.class).assignRoleToProject(project_id, false, br.getDomain());
 				Layer.message("已完成角色的工作分配");
 			}
 		} else if (input instanceof Work) {
 			// TODO 原阶段团队分配工作功能，如不在增加阶段团队功能则去掉。
 			if (br.confirm("分配工作", "请确认将角色的担任者分配到工作的负责人和指派者。")) {
-				Services.get(WorkService.class).assignRoleToStage(((Work) input).get_id());
+				Services.get(WorkService.class).assignRoleToStage(((Work) input).get_id(), br.getDomain());
 				Layer.message("已完成角色的工作分配");
 			}
 		}

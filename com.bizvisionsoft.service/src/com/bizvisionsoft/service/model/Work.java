@@ -41,6 +41,14 @@ import com.mongodb.BasicDBObject;
 @Strict
 public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster {
 
+	@Exclude
+	public String domain;
+
+	@Override
+	public String getDomain() {
+		return domain;
+	}
+
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断
 	 * 
@@ -203,7 +211,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@Persistence
 	private String workType;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// text, 在gantt图text字段，数据库中为name字段
 	@ReadValue({ "进度计划（查看）/name", "进度计划/name", "text" })
@@ -649,7 +657,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("charger")
 	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon", "进度计划/chargerInfoWithDistributeIcon",
@@ -704,7 +712,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("assigner")
 	private User getAssigner() {
-		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	@ReadValue("assignerInfoHtml")
@@ -757,12 +765,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Structure({ "项目WBS/list", "进度计划和监控/list", "进度计划和监控（查看）/list", "进度计划/list", "进度计划（查看）/list" })
 	private List<Work> listChildren() {
-		return ServicesLoader.get(WorkService.class).listChildren(_id);
+		return ServicesLoader.get(WorkService.class).listChildren(_id, domain);
 	}
 
 	@Structure({ "项目WBS/count", "进度计划和监控/count", "进度计划和监控（查看）/count", "进度计划/count", "进度计划（查看）/count" })
 	private long countChildren() {
-		return ServicesLoader.get(WorkService.class).countChildren(_id);
+		return ServicesLoader.get(WorkService.class).countChildren(_id, domain);
 	}
 
 	@Persistence
@@ -886,7 +894,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public Project getProject() {
-		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id)).orElse(null);
+		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id, domain)).orElse(null);
 	}
 
 	@Override
@@ -906,7 +914,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public Date[] getCBSRange() {
-		return ServicesLoader.get(ProjectService.class).getPlanDateRange(project_id).toArray(new Date[0]);
+		return ServicesLoader.get(ProjectService.class).getPlanDateRange(project_id, domain).toArray(new Date[0]);
 	}
 
 	@Override
@@ -933,8 +941,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(WorkService.class)
-				.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson());
+		ServicesLoader.get(WorkService.class).updateWork(
+				new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
 		this.obs_id = obs_id;
 	}
 
@@ -959,7 +967,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public Workspace getWorkspace() {
-		return ServicesLoader.get(WorkService.class).getWorkspace(_id);
+		return ServicesLoader.get(WorkService.class).getWorkspace(_id, domain);
 	}
 
 	public Work setChargerId(String chargerId) {
@@ -969,12 +977,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public List<WorkLink> createGanttLinkDataSet() {
-		return ServicesLoader.get(WorkService.class).createWorkLinkDataSet(_id);
+		return ServicesLoader.get(WorkService.class).createWorkLinkDataSet(_id, domain);
 	}
 
 	@Override
 	public List<Work> createGanttTaskDataSet() {
-		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id);
+		return ServicesLoader.get(WorkService.class).createWorkTaskDataSet(_id, domain);
 	}
 
 	@Exclude
@@ -1205,7 +1213,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	// 获得给定用户在阶段中的角色
 	@RoleBased
 	private List<String> getStageRole(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
-		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
+		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId, domain);
 	}
 
 	@SetValue

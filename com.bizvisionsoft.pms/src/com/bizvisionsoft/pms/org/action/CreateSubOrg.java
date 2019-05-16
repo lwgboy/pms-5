@@ -14,7 +14,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateSubOrg {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -23,12 +23,12 @@ public class CreateSubOrg {
 				Organization org = new Organization();
 				org.setParentId(((Organization) em).get_id());
 
-				new Editor<Organization>(bruiService.getAssembly("组织编辑器"), context).setTitle("创建组织")
+				new Editor<Organization>(br.getAssembly("组织编辑器"), context).setTitle("创建组织")
 
 						.setInput(org)
 
 						.ok((r, t) -> {
-							Organization result = Services.get(OrganizationService.class).insert(t);
+							Organization result = Services.get(OrganizationService.class).insert(t, br.getDomain());
 							GridPart grid = (GridPart) context.getContent();
 							grid.add(em, result);
 						});

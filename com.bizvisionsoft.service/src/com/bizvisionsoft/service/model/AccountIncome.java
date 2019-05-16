@@ -70,6 +70,9 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	private transient AccountIncome parent;
 
 	@Exclude
+	public String domain;
+
+	@Exclude
 	private List<AccountIncome> children;
 
 	@Override
@@ -80,12 +83,12 @@ public class AccountIncome implements Comparable<AccountIncome> {
 
 	@Structure("list")
 	public List<AccountIncome> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parentId", id));
+		return ServicesLoader.get(CommonService.class).queryAccountIncome(new BasicDBObject("parentId", id), domain);
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countAccoutIncome(id);
+		return ServicesLoader.get(CommonService.class).countAccoutIncome(id, domain);
 	}
 
 	@Behavior({ "项目收益预测/编辑收益预测", "项目收益实现/编辑收益实现" })
@@ -196,6 +199,4 @@ public class AccountIncome implements Comparable<AccountIncome> {
 		return true;
 	}
 
-	
-	
 }

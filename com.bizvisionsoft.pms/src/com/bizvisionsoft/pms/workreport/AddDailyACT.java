@@ -18,12 +18,12 @@ import com.bizvisionsoft.service.model.WorkReport;
 public class AddDailyACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Selector.create("日报项目选择器", context, null).setTitle("请选择要填写日报的项目").open(em -> {
-			String reporter = brui.getCurrentUserId();
+			String reporter = br.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR_OF_DAY, 0);
 			cal.set(Calendar.MINUTE, 0);
@@ -34,9 +34,9 @@ public class AddDailyACT {
 					.setType(WorkReport.TYPE_DAILY).setPeriod(cal.getTime()).setReportDate(cal.getTime())
 					.setStatus(WorkReport.STATUS_CREATE);
 			try {
-				report = ServicesLoader.get(WorkReportService.class).insert(report);
+				report = ServicesLoader.get(WorkReportService.class).insert(report, br.getDomain());
 				((GridPart) context.getContent()).insert(report);
-				brui.openContent(brui.getAssembly("报告详情"), report);
+				br.openContent(br.getAssembly("报告详情"), report);
 			} catch (Exception e) {
 				Layer.message("项目:" + ((Project) em.get(0)).getName() + " " + e.getMessage(), Layer.ICON_ERROR);
 			}

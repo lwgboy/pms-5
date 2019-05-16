@@ -30,7 +30,7 @@ public class AppointmentOBSItem {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSItem element = (OBSItem) em;
 		if (element.getManagerId() != null) {
-			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(element.get_id(), "appointmentobsitem");
+			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(element.get_id(), "appointmentobsitem", br.getDomain());
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";
@@ -60,7 +60,7 @@ public class AppointmentOBSItem {
 
 		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
 			Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(element.getManagerId()), element.getScope_id(),
-					br.getCurrentUserId());
+					br.getCurrentUserId(), br.getDomain());
 			element.setManager((User) r.get(0));
 			String userId = ((User) r.get(0)).getUserId();
 			BasicDBObject data = new BasicDBObject("_id", element.get_id()).append("managerId", userId);

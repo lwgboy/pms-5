@@ -18,7 +18,7 @@ import com.mongodb.BasicDBObject;
 public class EditWorkReportInfoACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -26,7 +26,7 @@ public class EditWorkReportInfoACT {
 		WorkReport input = (WorkReport) context.getInput();
 		Editor.open("工作报告编辑器", context, input, (r, i) -> {
 			ServicesLoader.get(WorkReportService.class).update(new FilterAndUpdate()
-					.filter(new BasicDBObject("_id", i.get_id())).set(BsonTools.getBasicDBObject((WorkReport) i, "_id")).bson());
+					.filter(new BasicDBObject("_id", i.get_id())).set(BsonTools.getBasicDBObject((WorkReport) i, "_id")).bson(), br.getDomain());
 			AUtil.simpleCopy(i, input);
 			((InfopadPart) context.getContent()).reload();
 		});

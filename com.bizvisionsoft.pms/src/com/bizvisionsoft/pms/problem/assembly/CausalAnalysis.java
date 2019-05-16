@@ -121,8 +121,8 @@ public class CausalAnalysis {
 			}
 		});
 
-		tree.setContentProvider(new CauseContentProvider(problem, type));
-		List<ClassifyCause> classifyCause = service.listClassifyCause(new BasicDBObject("parent_id", null));
+		tree.setContentProvider(new CauseContentProvider(problem, type,br));
+		List<ClassifyCause> classifyCause = service.listClassifyCause(new BasicDBObject("parent_id", null), br.getDomain());
 		if (Check.isNotAssigned(classifyCause)) {
 			Layer.message("请先设置原因分类");
 			tree.setInput(new ArrayList<>());
@@ -154,7 +154,7 @@ public class CausalAnalysis {
 
 	private void delCauseItem(Object parent, CauseConsequence element) {
 		if (br.confirm("删除", "请确认删除因果关系？" + element)) {
-			service.deleteCauseConsequence(element.get_id());
+			service.deleteCauseConsequence(element.get_id(), br.getDomain());
 			tree.refresh(parent, false);
 			refreshChart();
 		}
@@ -164,7 +164,7 @@ public class CausalAnalysis {
 		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
 				.setSubject(parent.getSubject()).setParent_id(parent.get_id());
 		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
-			t = service.insertCauseConsequence(t);
+			t = service.insertCauseConsequence(t, br.getDomain());
 			tree.refresh(parent, false);
 			refreshChart();
 			tree.expandToLevel(parent, -1);
@@ -175,7 +175,7 @@ public class CausalAnalysis {
 		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
 				.setSubject(element.name);
 		Editor.open("因素编辑器", context, cc, true, (r, t) -> {
-			t = service.insertCauseConsequence(t);
+			t = service.insertCauseConsequence(t, br.getDomain());
 			tree.refresh(element, false);
 			refreshChart();
 			tree.expandAll();
@@ -186,7 +186,7 @@ public class CausalAnalysis {
 		Editor.open("因素编辑器", context, cc, false, (r, t) -> {
 			r.remove("_id");
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id())).set(r);
-			service.updateCauseConsequence(fu.bson());
+			service.updateCauseConsequence(fu.bson(), br.getDomain());
 			tree.update(AUtil.simpleCopy(t, cc), null);
 			refreshChart();
 		});
@@ -199,7 +199,7 @@ public class CausalAnalysis {
 
 	private void refreshChart() {
 		try {
-			Document chartData = service.getCauseConsequence(problem.get_id(), type);
+			Document chartData = service.getCauseConsequence(problem.get_id(), type, br.getDomain());
 			JsonObject option = JsonObject.readFrom(chartData.toJson());
 			chart.setOption(option);
 		} catch (Exception e) {

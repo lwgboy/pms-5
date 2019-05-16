@@ -18,7 +18,7 @@ import com.mongodb.BasicDBObject;
 
 public class SetWorkPackageACT {
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
@@ -27,7 +27,7 @@ public class SetWorkPackageACT {
 		String editor = "¹¤×÷ÊôÐÔ±à¼­Æ÷";
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 			Services.get(ProjectTemplateService.class).updateWork(
-					new FilterAndUpdate().filter(new BasicDBObject("_id", workinfo.get_id())).set(r).bson());
+					new FilterAndUpdate().filter(new BasicDBObject("_id", workinfo.get_id())).set(r).bson(), br.getDomain());
 			List<TrackView> wps = wi.getWorkPackageSetting();
 			workinfo.setWorkPackageSetting(wps);
 		});

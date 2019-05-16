@@ -47,6 +47,14 @@ import com.mongodb.BasicDBObject;
 @PersistenceCollection("project")
 public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, IScope {
 
+	@Exclude
+	public String domain;
+
+	@Override
+	public String getDomain() {
+		return domain;
+	}
+
 	/**
 	 * 控制项目计划是否可以下达，根据项目状态判断
 	 * 
@@ -380,7 +388,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@ReadValue("pm")
 	private User getPM() {
-		return Optional.ofNullable(pmId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(pmId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -411,7 +419,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@ReadValue("impUnit") // 编辑器用
 	public Organization getOrganization() {
-		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
+		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,7 +501,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	private String readApproveByConsigner() {
 		return Optional.ofNullable(approveInfo).map(c -> c.consignerName).orElse(null);
 	}
-	
+
 	public OperationInfo getApproveInfo() {
 		return approveInfo;
 	}
@@ -707,8 +715,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(ProjectService.class)
-				.update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson());
+		ServicesLoader.get(ProjectService.class).update(
+				new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
 		this.obs_id = obs_id;
 	}
 
@@ -720,7 +728,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@Override
 	public Workspace getWorkspace() {
-		return ServicesLoader.get(ProjectService.class).getWorkspace(_id);
+		return ServicesLoader.get(ProjectService.class).getWorkspace(_id, domain);
 	}
 
 	@Override
@@ -735,12 +743,12 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@Override
 	public List<WorkLink> createGanttLinkDataSet() {
-		return ServicesLoader.get(WorkService.class).createProjectLinkDataSet(_id);
+		return ServicesLoader.get(WorkService.class).createProjectLinkDataSet(_id, domain);
 	}
 
 	@Override
 	public List<Work> createGanttTaskDataSet() {
-		return ServicesLoader.get(WorkService.class).createProjectTaskDataSet(_id);
+		return ServicesLoader.get(WorkService.class).createProjectTaskDataSet(_id, domain);
 	}
 
 	public String getPmInfo() {
@@ -810,7 +818,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	@ReadValue("cost")
 	public double getCost() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id, domain);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectCost).orElse(0d);
 	}
@@ -818,7 +826,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	@ReadValue("budget")
 	public double getBudget() {
 		if (cbsItem == null) {
-			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id);
+			cbsItem = ServicesLoader.get(CBSService.class).get(cbs_id, domain);
 		}
 		return Optional.ofNullable(cbsItem.cbsSubjectBudget).orElse(0d);
 	}
@@ -926,7 +934,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	// 获得给定用户在项目中的角色
 	@RoleBased
 	private List<String> getProjectRole(@MethodParam(MethodParam.CURRENT_USER_ID) String userId) {
-		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId);
+		return ServicesLoader.get(OBSService.class).getScopeRoleofUser(_id, userId, domain);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -967,11 +975,11 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@ReadValue("pcp")
 	public Double getDurationProbability() {
-		return ServicesLoader.get(RiskService.class).getDurationProbability(_id);
+		return ServicesLoader.get(RiskService.class).getDurationProbability(_id, domain);
 	}
 
 	public List<List<Double>> getDurationForcast() {
-		return ServicesLoader.get(RiskService.class).getDurationForcast(_id);
+		return ServicesLoader.get(RiskService.class).getDurationForcast(_id, domain);
 	}
 
 	@ReadValue
@@ -1034,7 +1042,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@Override
 	public String getRevenueForecastType() {
-		return ServicesLoader.get(RevenueService.class).getRevenueForecastType(_id);
+		return ServicesLoader.get(RevenueService.class).getRevenueForecastType(_id, domain);
 	}
 
 	@Override

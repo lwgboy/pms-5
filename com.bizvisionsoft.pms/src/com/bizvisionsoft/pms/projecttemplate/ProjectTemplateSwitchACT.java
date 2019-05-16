@@ -18,7 +18,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ProjectTemplateSwitchACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private IBruiContext context;
@@ -33,7 +33,7 @@ public class ProjectTemplateSwitchACT {
 	@Execute
 	public void execute(@MethodParam(Execute.EVENT) Event event) {
 		boolean enabled = !projectTemplate.isEnabled();
-		Services.get(ProjectTemplateService.class).setEnabled(projectTemplate.get_id(), enabled);
+		Services.get(ProjectTemplateService.class).setEnabled(projectTemplate.get_id(), enabled, br.getDomain());
 		projectTemplate.setEnabled(enabled);
 		ActionPanelPart ap = (ActionPanelPart) context.getContent();
 		Label btn = (Label) event.widget;

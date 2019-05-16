@@ -18,7 +18,7 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private String userId;
 
@@ -29,7 +29,7 @@ public class ProjectWorkAssignmentCardRender extends WorkAssignmentCardRender {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 	@Init

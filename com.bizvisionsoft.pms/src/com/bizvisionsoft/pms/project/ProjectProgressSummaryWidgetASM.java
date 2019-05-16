@@ -30,7 +30,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ProjectProgressSummaryWidgetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -98,7 +98,7 @@ public class ProjectProgressSummaryWidgetASM {
 		Composite panel = new Composite(content, SWT.NONE);
 		panel.setLayout(new FillLayout());
 
-		List<Work> stage = Services.get(ProjectService.class).listStage(project.get_id());
+		List<Work> stage = Services.get(ProjectService.class).listStage(project.get_id(), br.getDomain());
 		for (int i = 0; i < stage.size(); i++) {
 			Button b = new Button(panel, SWT.PUSH);
 			final Work work = stage.get(i);
@@ -126,7 +126,7 @@ public class ProjectProgressSummaryWidgetASM {
 	private String getTimeHtml() {
 		StringBuffer sb = new StringBuffer();
 		// 添加项目时间线
-		List<News> news = Services.get(ProjectService.class).getRecentNews(project.get_id(), 5);
+		List<News> news = Services.get(ProjectService.class).getRecentNews(project.get_id(), 5, br.getDomain());
 		if (news.size() > 0) {
 			// height += 24;
 			sb.append("<ul class='layui-timeline' style='margin-left:12px;'>");

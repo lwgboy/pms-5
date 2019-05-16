@@ -47,7 +47,7 @@ public class EditProblem {
 		new Editor<Problem>(br.getAssembly("问题编辑器（编辑）"), context).setTitle("问题初始记录").setEditable(editable).setInput(problem).ok((r, t) -> {
 			r.remove("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
-			long l = Services.get(ProblemService.class).updateProblems(fu);
+			long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
 			if (l > 0) {
 				AUtil.simpleCopy(t, problem);// 改写problem
 				Check.instanceThen(context.getContent(), IQueryEnable.class, q -> q.doRefresh());
@@ -58,12 +58,12 @@ public class EditProblem {
 	private void create(IBruiContext context) {
 		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(new Problem().setCreationInfo(br.operationInfo())).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);
-			t = service.insertProblem(t);
+			t = service.insertProblem(t, br.getDomain());
 			if (t != null) {
 				if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题已经创建成功，是否立即开始解决问题？")) {
 					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id()))
 							.set(new BasicDBObject("status", "解决中")).bson();
-					if (service.updateProblems(fu) > 0) {
+					if (service.updateProblems(fu, br.getDomain()) > 0) {
 						Layer.message("问题解决程序已启动");
 						br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
 					}

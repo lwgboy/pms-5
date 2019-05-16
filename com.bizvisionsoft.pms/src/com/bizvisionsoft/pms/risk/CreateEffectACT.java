@@ -17,13 +17,13 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateEffectACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ACTION) Action action) {
 		RiskEffect re = new RiskEffect().setProject_id(((Project) context.getRootInput()).get_id())
-				.setCreationInfo(brui.operationInfo());
+				.setCreationInfo(br.operationInfo());
 		context.selected(c -> {
 			re.setRBSItem_id(((RBSItem) c).get_id());
 			boolean positive = false;
@@ -37,7 +37,7 @@ public class CreateEffectACT {
 			}
 			re.setPositive(positive);
 			Editor.create("·çÏÕÓ°Ïì±à¼­Æ÷", context, re, false).setTitle(title).ok((r, o) -> {
-				o = Services.get(RiskService.class).addRiskEffect(o);
+				o = Services.get(RiskService.class).addRiskEffect(o, br.getDomain());
 				((GridPart) context.getContent()).add(c, o);
 			});
 		});

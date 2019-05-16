@@ -33,11 +33,11 @@ public class MsgCardACT {
 			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e) {
 		ObjectId _id = element.getObjectId("_id");
 		CommonService service = Services.get(CommonService.class);
-		Message msg = service.getMessage(_id);
+		Message msg = service.getMessage(_id, br.getDomain());
 		
 		if ("read".equals(e.text)) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("read", true)).bson();
-			service.updateMessage(fu);
+			service.updateMessage(fu, br.getDomain());
 			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 			viewer.remove(element);
 			// 删除input中存储的对象

@@ -95,9 +95,12 @@ public class ProjectChange {
 	public String getApplicantId() {
 		return applicant;
 	}
+	
+	@Exclude
+	public String domain;
 
 	public User getApplicant() {
-		return ServicesLoader.get(UserService.class).get(applicant);
+		return ServicesLoader.get(UserService.class).get(applicant,domain);
 	}
 
 	public ProjectChange setApplicant(String applicant) {

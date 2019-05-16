@@ -53,22 +53,22 @@ public class D2Action {
 
 	private void createProblemPhoto( Problem problem,IBruiContext context) {
 		Editor.create("D2-ÎÊÌâÕÕÆ¬-±à¼­Æ÷", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render);
+			Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render, br.getDomain());
 			((IQueryEnable)context.getContent()).doRefresh();
 		});		
 	}
 
 	private void deleteProblemPhoto(ObjectId _id, Document doc, BruiAssemblyContext context) {
 		if (br.confirm("É¾³ý", "ÇëÈ·ÈÏÉ¾³ýÑ¡ÔñµÄÍ¼Æ¬×ÊÁÏ¡£")) {
-			service.deleteD2ProblemPhotos(_id);
+			service.deleteD2ProblemPhotos(_id, br.getDomain());
 			((IQueryEnable)context.getContent()).doRefresh();
 		}
 	}
 
 	private void editProblemDesc(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
-		Document d2ProblemDesc = service.getD2ProblemDesc(_id);
+		Document d2ProblemDesc = service.getD2ProblemDesc(_id, br.getDomain());
 		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d2ProblemDesc, true).ok((r, t) -> {
-			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage());
+			t = service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage(), br.getDomain());
 			AUtil.simpleCopy(t, doc);
 			viewer.refresh(doc);
 		});

@@ -8,7 +8,8 @@ import java.util.Optional;
 import org.bson.Document;
 
 import com.bizvisionsoft.service.ProblemService;
-import com.bizvisionsoft.service.common.query.JQ;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -25,7 +26,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
-	public Document renderProblem(Document doc, String lang, boolean control) {
+	public Document renderProblem(Document doc, String lang, boolean control,String domain) {
 		StringBuffer sb = new StringBuffer();
 
 		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
@@ -41,13 +42,13 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		// 【不同状态的内容块】
 		if ("解决中".equals(doc.get("status"))) {
 			// 【指标表】
-			chart = createProblemInstuctors(doc);
+			chart = createProblemInstuctors(doc, domain);
 		} else if ("已创建".equals(doc.get("status"))) {
 			// 【指标表】
-			chart = createProblemInstuctors(doc);
+			chart = createProblemInstuctors(doc, domain);
 		} else if ("已关闭".equals(doc.get("status"))) {
 			// appendProblemCostInfo(doc, sb);//避免显示损失，防止泄露到外部用户
-			chart = createProblemInstuctors(doc);
+			chart = createProblemInstuctors(doc, domain);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
@@ -110,7 +111,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 	}
 
-	private Document createProblemInstuctors(Document doc) {
+	private Document createProblemInstuctors(Document doc, String domain) {
 		Object _id = doc.get("_id");
 		/////////////////////////////////////////////////////////////////
 		// 指标
@@ -136,7 +137,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		if (severityInd + incidenceInd + lostInd > 0) {
 			Document chart = new Document();
 			chart.append("renderTo", "" + _id);
-			chart.append("option", new JQ("图表-通用-小型三联排仪表")//
+			chart.append("option", Domain.getJQ(domain, "图表-通用-小型三联排仪表")//
 					.set("name1", "").set("value1", severityInd)
 					.set("title1", "{" + level(severityInd) + "|" + severityInd / 10 + "}\n\n严重度")//
 					.set("name2", "").set("value2", incidenceInd)

@@ -113,6 +113,9 @@ public class CBSItem implements ICBSAmount {
 	@ReadValue
 	@SetValue
 	public String scopeStatus;
+	
+	@Exclude
+	public String domain;
 
 	@Behavior({ "CBS/编辑和设定" })
 	private boolean behaviourAdd(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id) {
@@ -179,9 +182,9 @@ public class CBSItem implements ICBSAmount {
 	private transient CBSItem parent;
 
 	@SetValue("children")
-	private void setChildren(List<ObjectId> childrenId) {
-		children = ServicesLoader.get(CBSService.class).createDataSet(
-				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson());
+	private void setChildren(List<ObjectId> childrenId ) {
+		children = ServicesLoader.get(CBSService.class)
+				.createDataSet(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", childrenId))).bson(), domain);
 	}
 
 	@Exclude
@@ -190,7 +193,7 @@ public class CBSItem implements ICBSAmount {
 	@Structure({ "项目科目资金计划/list", "项目科目资金计划（查看）/list", "项目科目实际成本/list", "项目科目实际成本（查看）/list" })
 	public List<AccountItem> listSubjects() {
 		if (subjects == null) {
-			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
+			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot(domain);
 		}
 		return subjects;
 	}
@@ -198,7 +201,7 @@ public class CBSItem implements ICBSAmount {
 	@Structure({ "项目科目资金计划/count", "项目科目资金计划（查看）/count", "项目科目实际成本/count", "项目科目实际成本（查看）/count" })
 	public long countSubjects() {
 		if (subjects == null) {
-			return ServicesLoader.get(CommonService.class).countAccoutItemRoot();
+			return ServicesLoader.get(CommonService.class).countAccoutItemRoot(domain);
 		} else {
 			return subjects.size();
 		}
@@ -226,7 +229,7 @@ public class CBSItem implements ICBSAmount {
 
 	@Structure({ "项目成本管理/count", "项目成本管理（查看）/count", "项目预算成本对比分析/count" })
 	public long countSubCBSItemsAndSubjects() {
-		return ServicesLoader.get(CommonService.class).countAccoutItemRoot();
+		return ServicesLoader.get(CommonService.class).countAccoutItemRoot(domain);
 	}
 
 	@Structure({ "预算成本对比分析/list" })
@@ -234,7 +237,7 @@ public class CBSItem implements ICBSAmount {
 		List<Object> result = new ArrayList<Object>();
 
 		if (subjects == null) {
-			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot();
+			subjects = ServicesLoader.get(CommonService.class).getAccoutItemRoot(domain);
 		}
 		List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
 		subjects.forEach(s -> {
@@ -249,7 +252,7 @@ public class CBSItem implements ICBSAmount {
 	public long countSubCBSSubjects() {
 		long result = 0;
 		if (subjects == null) {
-			result += ServicesLoader.get(CommonService.class).countAccoutItemRoot();
+			result += ServicesLoader.get(CommonService.class).countAccoutItemRoot(domain);
 		} else {
 			result += subjects.size();
 		}
@@ -331,7 +334,7 @@ public class CBSItem implements ICBSAmount {
 		return summary;
 	}
 
-	public double getBudget(String period) {
+	public double getPeriodBudget(String period) {
 		//////////////////////////////////////////////////////////////////////
 		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
 		//////////////////////////////////////////////////////////////////////
@@ -339,7 +342,7 @@ public class CBSItem implements ICBSAmount {
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
-				summary += iter.next().getBudget(period);
+				summary += iter.next().getPeriodBudget(period);
 			}
 		} else {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
@@ -363,7 +366,7 @@ public class CBSItem implements ICBSAmount {
 		return summary;
 	}
 
-	public double getBudget(String startPeriod, String endPeriod) {
+	public double getDurationBudget(String startPeriod, String endPeriod) {
 		//////////////////////////////////////////////////////////////////////
 		//// BUG: 预算成本有子项时显示错误的问题。 如果有子项，取子项合计
 		//////////////////////////////////////////////////////////////////////
@@ -371,14 +374,13 @@ public class CBSItem implements ICBSAmount {
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
-				summary += iter.next().getBudget(startPeriod, endPeriod);
+				summary += iter.next().getDurationBudget(startPeriod, endPeriod);
 			}
 		} else {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
-							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getBudget()).orElse(0d);
 					}
 				}
@@ -386,8 +388,7 @@ public class CBSItem implements ICBSAmount {
 				List<CBSPeriod> cbsPeriods = listCBSPeriods();
 				if (cbsPeriods.size() > 0) {
 					for (CBSPeriod cbsPeriod : cbsPeriods) {
-						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0
-								&& endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
+						if (startPeriod.compareTo(cbsPeriod.getId()) <= 0 && endPeriod.compareTo(cbsPeriod.getId()) >= 0) {
 							summary += Optional.ofNullable(cbsPeriod.getBudget()).orElse(0d);
 						}
 					}
@@ -462,24 +463,24 @@ public class CBSItem implements ICBSAmount {
 
 	public List<CBSSubject> listCBSSubjects() {
 		if (cbsSubjects == null) {
-			cbsSubjects = ServicesLoader.get(CBSService.class).getCBSSubject(_id);
+			cbsSubjects = ServicesLoader.get(CBSService.class).getCBSSubject(_id, domain);
 		}
 		return cbsSubjects;
 	}
 
 	public List<CBSPeriod> listCBSPeriods() {
 		if (cbsPeriods == null) {
-			cbsPeriods = ServicesLoader.get(CBSService.class).getCBSPeriod(_id);
+			cbsPeriods = ServicesLoader.get(CBSService.class).getCBSPeriod(_id, domain);
 		}
 		return cbsPeriods;
 	}
 
-	public double getCost(String period) {
+	public double getPeriodCost(String period) {
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
-				summary += iter.next().getCost(period);
+				summary += iter.next().getPeriodCost(period);
 			}
 		} else {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
@@ -494,19 +495,18 @@ public class CBSItem implements ICBSAmount {
 		return summary;
 	}
 
-	public double getCost(String startPeriod, String endPeriod) {
+	public double getDurationCost(String startPeriod, String endPeriod) {
 		double summary = 0d;
 		if (countSubCBSItems() > 0) {
 			Iterator<CBSItem> iter = children.iterator();
 			while (iter.hasNext()) {
-				summary += iter.next().getCost(startPeriod, endPeriod);
+				summary += iter.next().getDurationCost(startPeriod, endPeriod);
 			}
 		} else {
 			List<CBSSubject> cbsSubjects = listCBSSubjects();
 			if (cbsSubjects.size() > 0) {
 				for (CBSSubject cbsSubject : cbsSubjects) {
-					if (startPeriod.compareTo(cbsSubject.getId()) <= 0
-							&& endPeriod.compareTo(cbsSubject.getId()) >= 0) {
+					if (startPeriod.compareTo(cbsSubject.getId()) <= 0 && endPeriod.compareTo(cbsSubject.getId()) >= 0) {
 						summary += Optional.ofNullable(cbsSubject.getCost()).orElse(0d);
 					}
 				}
@@ -575,7 +575,7 @@ public class CBSItem implements ICBSAmount {
 
 	public Date getNextSettlementDate() {
 		if (settlementDate == null) {
-			settlementDate = ServicesLoader.get(CBSService.class).getNextSettlementDate(scope_id);
+			settlementDate = ServicesLoader.get(CBSService.class).getNextSettlementDate(scope_id, domain);
 		}
 		return settlementDate;
 	}
@@ -605,18 +605,18 @@ public class CBSItem implements ICBSAmount {
 		return null;
 	}
 
-	public Double getCAR(String period) {
-		double budget = getBudget(period);
+	public Double getPeriodCAR(String period) {
+		double budget = getPeriodBudget(period);
 		if (budget != 0d) {
-			return getCost(period) / budget;
+			return getPeriodCost(period) / budget;
 		}
 		return null;
 	}
 
-	public Double getCAR(String startPeriod, String endPeriod) {
-		double budget = getBudget(startPeriod, endPeriod);
+	public Double getDurationCAR(String startPeriod, String endPeriod) {
+		double budget = getDurationBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
-			return 1d * getCost(startPeriod, endPeriod) / budget;
+			return 1d * getDurationCost(startPeriod, endPeriod) / budget;
 		}
 		return null;
 	}
@@ -629,18 +629,18 @@ public class CBSItem implements ICBSAmount {
 		return null;
 	}
 
-	public Double getBDR(String period) {
-		double budget = getBudget(period);
+	public Double getPeriodBDR(String period) {
+		double budget = getPeriodBudget(period);
 		if (budget != 0d) {
-			return 1d * (getCost(period) - budget) / budget;
+			return 1d * (getPeriodCost(period) - budget) / budget;
 		}
 		return null;
 	}
 
-	public Double getBDR(String startPeriod, String endPeriod) {
-		double budget = getBudget(startPeriod, endPeriod);
+	public Double getDurationBDR(String startPeriod, String endPeriod) {
+		double budget = getDurationBudget(startPeriod, endPeriod);
 		if (budget != 0d) {
-			return 1d * (getCost(startPeriod, endPeriod) - budget) / budget;
+			return 1d * (getDurationCost(startPeriod, endPeriod) - budget) / budget;
 		}
 		return null;
 	}
@@ -651,12 +651,12 @@ public class CBSItem implements ICBSAmount {
 	@SetValue
 	public Double cbsSubjectCost;
 
-	public double getOverspend(String period) {
-		return getCost(period) - getBudget(period);
+	public double getPeriodOverspend(String period) {
+		return getPeriodCost(period) - getPeriodBudget(period);
 	}
 
-	public double getOverspend(String startPeriod, String endPeriod) {
-		return getCost(startPeriod, endPeriod) - getBudget(startPeriod, endPeriod);
+	public double getDurationOverspend(String startPeriod, String endPeriod) {
+		return getDurationCost(startPeriod, endPeriod) - getDurationBudget(startPeriod, endPeriod);
 	}
 
 	public double getOverspendSummary() {
@@ -668,9 +668,9 @@ public class CBSItem implements ICBSAmount {
 
 	public ICBSScope getScopeRootObject() {
 		if (scopeRootObject == null) {
-			scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootWork(scope_id);
+			scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootWork(scope_id, domain);
 			if (scopeRootObject == null) {
-				scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootProject(scope_id);
+				scopeRootObject = ServicesLoader.get(CBSService.class).getICBSScopeRootProject(scope_id, domain);
 			}
 		}
 		return scopeRootObject;

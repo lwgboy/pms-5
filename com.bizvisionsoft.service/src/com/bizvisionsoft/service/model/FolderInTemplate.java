@@ -91,15 +91,18 @@ public class FolderInTemplate implements IFolder {
 				+ "<div style='flex:auto;'>" + name + "</div>" + "</div>";
 		return html;
 	}
+	
+	@Exclude
+	public String domain;
 
 	@Structure(DataSet.LIST)
 	private List<FolderInTemplate> listChildren() {
-		return ServicesLoader.get(DocumentService.class).listChildrenFolderTemplate(_id);
+		return ServicesLoader.get(DocumentService.class).listChildrenFolderTemplate(_id, domain);
 	}
 
 	@Structure(DataSet.COUNT)
 	private long countChildren() {
-		return ServicesLoader.get(DocumentService.class).countChildrenFolderTemplate(_id);
+		return ServicesLoader.get(DocumentService.class).countChildrenFolderTemplate(_id, domain);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

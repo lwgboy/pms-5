@@ -24,7 +24,7 @@ public class TransferOBSMember {
 			// 弹出项目团队成员选择器，选择被移交人员
 			new Selector(br.getAssembly("项目团队选择器"), context).setInput(rootInput).setTitle("选择工作移交人").open(l -> {
 				Services.get(WorkService.class).transferWorkUser(((OBSItem) input).getScope_id(), ((User) em).getUserId(),
-						((OBSItemWarpper) l.get(0)).getUserId(), br.getCurrentUserId());
+						((OBSItemWarpper) l.get(0)).getUserId(), br.getCurrentUserId(), br.getDomain());
 			});
 		}
 	}

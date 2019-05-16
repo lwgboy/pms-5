@@ -22,7 +22,7 @@ import com.mongodb.BasicDBObject;
 public class EditProjectInfo {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -36,11 +36,11 @@ public class EditProjectInfo {
 
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
-		Project pjForEdit = Services.get(ProjectService.class).get(project.get_id());
-		new Editor<Project>(bruiService.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(true, pjForEdit).setTitle("±à¼­ " + title).ok((r, proj) -> {
+		Project pjForEdit = Services.get(ProjectService.class).get(project.get_id(), br.getDomain());
+		new Editor<Project>(br.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(true, pjForEdit).setTitle("±à¼­ " + title).ok((r, proj) -> {
 			try {
 				Services.get(ProjectService.class)
-						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson());
+						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson(), br.getDomain());
 				AUtil.simpleCopy(proj, project);
 				if (ps != null)
 					Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.update(ps));

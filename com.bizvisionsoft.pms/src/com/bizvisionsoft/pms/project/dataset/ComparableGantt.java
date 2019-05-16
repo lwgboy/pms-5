@@ -14,7 +14,7 @@ public class ComparableGantt {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private List<?> workSet;
 

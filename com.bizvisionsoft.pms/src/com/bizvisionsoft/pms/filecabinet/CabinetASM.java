@@ -31,7 +31,7 @@ import com.mongodb.BasicDBObject;
 
 public abstract class CabinetASM {
 
-	private IBruiService brui;
+	private IBruiService br;
 
 	private BruiAssemblyContext context;
 
@@ -45,7 +45,7 @@ public abstract class CabinetASM {
 	}
 
 	public CabinetASM setBruiService(IBruiService brui) {
-		this.brui = brui;
+		this.br = brui;
 		return this;
 	}
 
@@ -93,8 +93,8 @@ public abstract class CabinetASM {
 	}
 
 	private Composite createFilePane(Composite parent) {
-		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件列表"))
-				.setServices(brui).create();
+		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件列表"))
+				.setServices(br).create();
 
 		filePane = (GridPart) right.getContext().getContent();
 		select(null);
@@ -113,7 +113,7 @@ public abstract class CabinetASM {
 
 	private Composite createFolderPane(Composite parent) {
 		AssemblyContainer left;
-		left = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("项目档案库文件夹")).setServices(brui)
+		left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件夹")).setServices(br)
 				.create();
 
 		folderPane = (GridPart) left.getContext().getContent();
@@ -166,10 +166,10 @@ public abstract class CabinetASM {
 		a4.setStyle("warning");
 
 		// 弹出menu
-		new ActionMenu(brui).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
-			Docu docu = new Docu().setFolder_id(folder.get_id()).setCreationInfo(brui.operationInfo());
+		new ActionMenu(br).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
+			Docu docu = new Docu().setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
 			Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
-				filePane.insert(Services.get(DocumentService.class).createDocument(t));
+				filePane.insert(Services.get(DocumentService.class).createDocument(t,br.getDomain()));
 			});
 			return false;
 		}).handleActionExecute("renameFolder", a -> {
@@ -222,7 +222,7 @@ public abstract class CabinetASM {
 	}
 
 	private boolean createFolder(IFolder parentFolder) {
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "创建文件夹", "文件夹名称", null, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "创建文件夹", "文件夹名称", null, t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
@@ -232,7 +232,7 @@ public abstract class CabinetASM {
 	}
 
 	private boolean deleteFolder(IFolder folder) {
-		if (brui.confirm("删除文件夹", "请确认删除文件夹<span style='color:red;font-weight:bold;'>" + folder
+		if (br.confirm("删除文件夹", "请确认删除文件夹<span style='color:red;font-weight:bold;'>" + folder
 				+ "</span>，文件夹以及下级文档都将被删除。该操作<span style='color:red;font-weight:bold;'>不可恢复</span>。")) {
 			return doDeleteFolder(folder);
 		}
@@ -240,7 +240,7 @@ public abstract class CabinetASM {
 	}
 
 	private boolean renameFolder(IFolder folder) {
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {

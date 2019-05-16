@@ -12,7 +12,6 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.BPMService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
@@ -108,7 +107,7 @@ public class ProcessDefinition {
 	private List<User> readUsersByEditor() {
 		if (users != null) {
 			Query q = new Query().filter(new BasicDBObject("userId", new BasicDBObject("$in", users)));
-			return ServicesLoader.get(UserService.class).createDataSet(q.bson());
+			return ServicesLoader.get(UserService.class).createDataSet(q.bson(), domain);
 		} else {
 			return new ArrayList<>();
 		}
@@ -121,7 +120,7 @@ public class ProcessDefinition {
 	private List<Organization> readOrganizationsByEditor() {
 		if (organizations != null) {
 			Query q = new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", organizations)));
-			return ServicesLoader.get(OrganizationService.class).createDataSet(q.bson());
+			return ServicesLoader.get(OrganizationService.class).createDataSet(q.bson(), domain);
 		} else {
 			return new ArrayList<>();
 		}
@@ -135,7 +134,7 @@ public class ProcessDefinition {
 		if (roles == null)
 			return new ArrayList<>();
 		return ServicesLoader.get(CommonService.class)
-				.listFunctionRoles(new BasicDBObject("filter", new BasicDBObject("id", new BasicDBObject("$in", roles))));
+				.listFunctionRoles(new BasicDBObject("filter", new BasicDBObject("id", new BasicDBObject("$in", roles))), domain);
 	}
 
 	@ReadValue(ReadValue.TYPE)
@@ -269,14 +268,17 @@ public class ProcessDefinition {
 		return new Document("name", name).append("type", type).append("_id", _id);
 	}
 
+	@Exclude
+	public String domain;
+	
 	@Structure("工作流定义列表 /list")
-	public List<TaskDefinition> listTaskDefinitions(@MethodParam(MethodParam.DOMAIN) String domain) {
-		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id,domain);
+	public List<TaskDefinition> listTaskDefinitions() {
+		return ServicesLoader.get(BPMService.class).listTaskDefinitions(_id, domain);
 	}
 
 	@Structure("工作流定义列表 /count")
-	public long countTaskDefinitions(@MethodParam(MethodParam.DOMAIN) String domain) {
-		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id,domain);
+	public long countTaskDefinitions() {
+		return ServicesLoader.get(BPMService.class).countTaskDefinitions(_id, domain);
 	}
 
 	public ObjectId get_id() {

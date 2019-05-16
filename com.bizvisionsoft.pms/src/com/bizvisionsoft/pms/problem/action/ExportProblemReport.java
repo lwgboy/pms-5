@@ -16,6 +16,7 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
@@ -35,6 +36,9 @@ public class ExportProblemReport {
 	@Inject
 	private Document rptParam;
 
+	@Inject
+	private IBruiService br;
+
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Problem problem = context.search_sele_root(Problem.class);
@@ -43,9 +47,8 @@ public class ExportProblemReport {
 			return;
 
 		try {
-			InputStream is = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam,
-					problem.get_id(), template, fileName, RWT.getRequest().getServerName(),
-					RWT.getRequest().getServerPort());
+			InputStream is = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam, problem.get_id(), template,
+					fileName, RWT.getRequest().getServerName(), RWT.getRequest().getServerPort(), br.getDomain());
 			File folder = FileTools.createTempDirectory(RWT.getRequest().getSession().getId().toUpperCase());
 			String filePath = folder.getPath() + "/" + fileName + ".zip";
 			OutputStream os = null;

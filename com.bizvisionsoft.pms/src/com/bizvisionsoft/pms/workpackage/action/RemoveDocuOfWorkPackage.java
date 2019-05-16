@@ -35,10 +35,10 @@ public class RemoveDocuOfWorkPackage {
 		if (1 == open) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", docu.get_id()))
 					.update(new BasicDBObject("$pull", new BasicDBObject("workPackage_id", wp.get_id()))).bson();
-			Services.get(DocumentService.class).updateDocument(fu);
+			Services.get(DocumentService.class).updateDocument(fu, br.getDomain());
 			grid.remove(docu);
 		} else if (2 == open) {
-			Services.get(DocumentService.class).deleteDocument(docu.get_id());
+			Services.get(DocumentService.class).deleteDocument(docu.get_id(), br.getDomain());
 			grid.remove(docu);
 		}
 	}

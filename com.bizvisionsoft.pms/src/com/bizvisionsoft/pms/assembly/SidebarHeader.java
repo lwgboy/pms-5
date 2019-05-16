@@ -42,7 +42,7 @@ public class SidebarHeader {
 		if (!uid.equals(cid)) {
 			name += " (" + br.getCurrentConsignerInfo().getName() + " ´ú¹Ü)";
 		}
-		String logoUrl = Check.option(ModelLoader.site.getHeadLogo()).map(BruiToolkit::getResourceURL).orElse("resource/image/logo_w.svg");
+		String logoUrl = Check.option(br.site().getHeadLogo()).map(BruiToolkit::getResourceURL).orElse("resource/image/logo_w.svg");
 		return "<div style='margin-top:4px;width:144px'><img src='"+logoUrl+"' height=22px><div style='margin-left:2px;margin-top:2px;color:White;font-size:13px;'>"
 				+ name + "</div></div>";
 	}

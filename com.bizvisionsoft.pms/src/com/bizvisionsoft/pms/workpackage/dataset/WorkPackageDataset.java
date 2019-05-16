@@ -9,6 +9,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.IWorkPackageMaster;
 import com.bizvisionsoft.service.model.TrackView;
@@ -20,6 +21,9 @@ public class WorkPackageDataset {
 
 	@Inject
 	private BruiAssemblyContext context;
+	
+	@Inject
+	private IBruiService br;
 
 	private IWorkPackageMaster master;
 
@@ -34,17 +38,17 @@ public class WorkPackageDataset {
 
 	@DataSet(DataSet.INSERT)
 	private WorkPackage insert(@MethodParam(MethodParam.OBJECT) WorkPackage wp) {
-		return Services.get(WorkService.class).insertWorkPackage(wp);
+		return Services.get(WorkService.class).insertWorkPackage(wp, br.getDomain());
 	}
 
 	@DataSet(DataSet.DELETE)
 	private long delete(@MethodParam(MethodParam._ID) ObjectId _id) {
-		return Services.get(WorkService.class).deleteWorkPackage(_id);
+		return Services.get(WorkService.class).deleteWorkPackage(_id, br.getDomain());
 	}
 
 	@DataSet(DataSet.UPDATE)
 	private long update(BasicDBObject filterAndUpdate) {
-		return Services.get(WorkService.class).updateWorkPackage(filterAndUpdate);
+		return Services.get(WorkService.class).updateWorkPackage(filterAndUpdate, br.getDomain());
 	}
 
 	@DataSet(DataSet.LIST)
@@ -56,9 +60,9 @@ public class WorkPackageDataset {
 		}
 		appendFilter(filter);
 		if(master.isTemplate()) {
-			return Services.get(WorkService.class).listWorkInTemplatePackage(condition);
+			return Services.get(WorkService.class).listWorkInTemplatePackage(condition, br.getDomain());
 		}else {
-			return Services.get(WorkService.class).listWorkPackage(condition);
+			return Services.get(WorkService.class).listWorkPackage(condition, br.getDomain());
 		}
 	}
 
@@ -77,7 +81,7 @@ public class WorkPackageDataset {
 			filter = new BasicDBObject();
 		}
 		appendFilter(filter);
-		return Services.get(WorkService.class).countWorkPackage(filter);
+		return Services.get(WorkService.class).countWorkPackage(filter, br.getDomain());
 	}
 
 }

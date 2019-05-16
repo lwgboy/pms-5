@@ -33,7 +33,7 @@ public class ProjectChangeCardACT {
 		if (e.text == null)
 			return;
 		ObjectId _id = element.getObjectId("_id");
-		ProjectChange pc = Services.get(ProjectService.class).getProjectChange(_id);
+		ProjectChange pc = Services.get(ProjectService.class).getProjectChange(_id, br.getDomain());
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if (e.text.startsWith("pass")) {
 			passProjectChange(pc, userid, element, viewer);
@@ -48,7 +48,7 @@ public class ProjectChangeCardACT {
 		}).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class)
-					.cancelProjectChange(ProjectChangeTask.getCancelInstance(userid, pc.get_id(), pc.getConfimName(userid), id.getValue()));
+					.cancelProjectChange(ProjectChangeTask.getCancelInstance(userid, pc.get_id(), pc.getConfimName(userid), id.getValue()), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已否决");
 				((List<?>) viewer.getInput()).remove(doc);
@@ -61,7 +61,7 @@ public class ProjectChangeCardACT {
 		InputDialog id = new InputDialog(br.getCurrentShell(), "批准", "请填写批准意见", null, null).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class)
-					.passProjectChange(ProjectChangeTask.getPassInstance(userid, pc.get_id(), pc.getConfimName(userid), id.getValue()));
+					.passProjectChange(ProjectChangeTask.getPassInstance(userid, pc.get_id(), pc.getConfimName(userid), id.getValue()), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已确认");
 				((List<?>) viewer.getInput()).remove(doc);

@@ -13,7 +13,8 @@ import java.util.Optional;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.bizvisionsoft.service.common.query.JQ;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.ColorTheme.BruiColor;
@@ -94,8 +95,11 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 	private String gridTop;
 	private List<Document> yAxis;
 
+	private String domain;
+
 	@SuppressWarnings("unchecked")
-	public BudgetNCostChartRenderer(Document condition) {
+	public BudgetNCostChartRenderer(Document condition, String domain) {
+		this.domain = domain;
 		checkResChartOption(condition);
 		Document option = (Document) condition.get("option");
 		List<?> dateRange = (List<?>) option.get("dateRange");
@@ -125,7 +129,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 		// 根据系列类型构建series
 		appendSeries();
 
-		JQ jq = new JQ(Chart).set("xAxisData", xAxisData).set("rightTitle", rightTitle).set("leftTitle", leftTitle)
+		JQ jq = Domain.getJQ(domain, Chart).set("xAxisData", xAxisData).set("rightTitle", rightTitle).set("leftTitle", leftTitle)
 				.set("legendData", legendData).set("series", series).set("yAxis", yAxis).set("gridTop", gridTop);
 		return jq.doc();
 	}
@@ -204,7 +208,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 	private void appendSummary(String seriesJQ, String postfix, double[] ds, BruiColor color) {
 		List<Double> data = Formatter.toList(ds);
-		Document doc = new JQ(seriesJQ).set("name", "累计" + postfix).set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff)))
+		Document doc = Domain.getJQ(domain,seriesJQ).set("name", "累计" + postfix).set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff)))
 				.set("color2", ColorTheme.getHtmlColor(color.getRgba(0x66))).set("color3", ColorTheme.getHtmlColor(color.getRgba(0)))
 				.set("stack", "累计").set("data", data).doc();
 		series.add(doc);
@@ -212,7 +216,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 	}
 
 	private void appendPie(String chartString, String key, List<Document> ds) {
-		series.add(new JQ(chartString).set("name", key).set("data", ds).doc());
+		series.add(Domain.getJQ(domain,chartString).set("name", key).set("data", ds).doc());
 	}
 
 	private void appendPie(List<Document> pie, String key, double value) {
@@ -222,7 +226,7 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 	private void appendCatalog(String chartString, String key, String stack, double[] ds) {
 		List<Double> data = Formatter.toList(ds);
-		series.add(new JQ(chartString).set("name", key + stack).set("stack", key + stack).set("data", data).doc());
+		series.add(Domain.getJQ(domain,chartString).set("name", key + stack).set("stack", key + stack).set("data", data).doc());
 		legendData.add(key + stack);
 	}
 
@@ -260,10 +264,10 @@ public class BudgetNCostChartRenderer extends BasicServiceImpl {
 
 	private BudgetNCostData query(Document inputMatch) {
 		BudgetNCostData budgetNCostData = new BudgetNCostData(xAxisData.size());
-		List<Bson> pipeline = new JQ("视图-预算和成本").array();
+		List<Bson> pipeline = Domain.getJQ(domain, "视图-预算和成本").array();
 		pipeline.add(new Document("$match", inputMatch));
 		pipeline.add(new Document("$group", group));
-		c("accountItem").aggregate(pipeline).forEach((Document d) -> {
+		c("accountItem", domain).aggregate(pipeline).forEach((Document d) -> {
 			budgetNCostData.build(d);
 		});
 		return budgetNCostData;

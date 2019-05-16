@@ -27,7 +27,7 @@ public class ProjectRiskRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Override
 	@GridRenderUpdateCell

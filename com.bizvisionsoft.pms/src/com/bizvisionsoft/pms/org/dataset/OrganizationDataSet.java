@@ -24,7 +24,7 @@ public class OrganizationDataSet {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private Organization org;
 
@@ -38,22 +38,22 @@ public class OrganizationDataSet {
 
 	@DataSet({"组织成员/" + DataSet.LIST,"组织成员（浏览）/"+ DataSet.LIST})
 	public List<User> listMember(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
-		return service.getMember(condition, org.get_id());
+		return service.getMember(condition, org.get_id(), br.getDomain());
 	}
 
 	@DataSet({"组织成员/" + DataSet.COUNT,"组织成员（浏览）/"+ DataSet.COUNT})
 	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		return service.countMember(filter, org.get_id());
+		return service.countMember(filter, org.get_id(), br.getDomain());
 	}
 
 	@DataSet("组织角色/" + DataSet.LIST)
 	public List<Role> listRole(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
-		return service.getRoles(condition, org.get_id());
+		return service.getRoles(condition, org.get_id(), br.getDomain());
 	}
 
 	@DataSet("组织角色/" + DataSet.COUNT)
 	public long countRole(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		return service.countRoles(filter, org.get_id());
+		return service.countRoles(filter, org.get_id(), br.getDomain());
 	}
 
 	@DataSet("组织角色/" + DataSet.DELETE)
@@ -61,12 +61,12 @@ public class OrganizationDataSet {
 			@MethodParam(MethodParam.PARENT_ID) ObjectId parent_id,
 			@MethodParam(MethodParam.OBJECT) Object target) {
 		if (target instanceof Role) {
-			return service.deleteRole(_id);
+			return service.deleteRole(_id, br.getDomain());
 		} else if (target instanceof User) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", parent_id))
 					.update(new BasicDBObject("$pull", new BasicDBObject("users", ((User) target).getUserId())))
 					.bson();
-			return service.updateRole(fu);
+			return service.updateRole(fu, br.getDomain());
 		} else {
 			return 0;
 		}

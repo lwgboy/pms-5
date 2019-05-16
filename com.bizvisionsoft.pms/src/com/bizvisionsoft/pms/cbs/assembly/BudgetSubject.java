@@ -17,13 +17,13 @@ public class BudgetSubject extends CBSSubjectGrid {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Init
 	public void init() {
 		setContext(context);
 		setConfig(context.getAssembly());
-		setBruiService(bruiService);
+		setBruiService(br);
 		super.init();
 	}
 
@@ -39,7 +39,7 @@ public class BudgetSubject extends CBSSubjectGrid {
 
 	@Override
 	protected CBSSubject getUpsertedCBSSubject(CBSSubject subject) {
-		return Services.get(CBSService.class).upsertCBSSubjectBudget(subject);
+		return Services.get(CBSService.class).upsertCBSSubjectBudget(subject, br.getDomain());
 	}
 
 	@Override

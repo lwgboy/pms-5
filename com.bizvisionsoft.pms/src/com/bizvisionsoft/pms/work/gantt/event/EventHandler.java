@@ -23,7 +23,7 @@ public class EventHandler {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private IWBSScope wbsspace;
 
@@ -68,7 +68,7 @@ public class EventHandler {
 		actions.add(deleteAction);
 
 		// µ¯³ömenu
-		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
+		new ActionMenu(br).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
 				.setActions(actions).setEvent(event).open();
 
 	}

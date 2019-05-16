@@ -17,10 +17,12 @@ import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 
 import com.bizvisionsoft.service.ReportService;
-import com.bizvisionsoft.service.common.query.JQ;
 import com.bizvisionsoft.service.dps.ReportCreator;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
@@ -68,8 +70,8 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	@Override
-	public Response generateReport(String rptParam, String templateName, String outputType, String fileName) {
-		String filePath = Service.rptDesignFolder.getPath() + "/" + templateName;
+	public Response generateReport(String rptParam, String templateName, String outputType, String fileName, String domain) {
+		String filePath = Domain.getReportTemplateFile(domain, templateName);
 		try {
 			FileInputStream is = new FileInputStream(filePath);
 			return generateReport(is, Document.parse(rptParam), outputType, fileName);
@@ -81,17 +83,17 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	@Override
-	public Response commandReport(String commandParam) {
+	public Response commandReport(String commandParam, String domain) {
 		Document cmd = Document.parse(commandParam);
 		String outputType = cmd.getString("outputType");
 		String template = cmd.getString("template");
 		String fileName = cmd.getString("fileName");
 
-		JQ jq = new JQ(cmd.getString("jq"));
+		JQ jq = Domain.getJQ(domain, cmd.getString("jq"));
 		Arrays.asList("input_obj_id", "selected_id", "page_input_id", "root_input_id")
 				.forEach(s -> Check.isAssigned(cmd.getString(s), i -> jq.set(s, new ObjectId(i))));
 
-		String filePath = Service.rptDesignFolder.getPath() + "/" + template;
+		String filePath = Domain.getReportTemplateFile(domain, template);
 		try {
 			FileInputStream is = new FileInputStream(filePath);
 			// TODO

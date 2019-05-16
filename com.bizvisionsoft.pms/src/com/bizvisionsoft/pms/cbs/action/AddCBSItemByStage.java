@@ -13,8 +13,10 @@ import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.model.CBSItem;
 import com.bizvisionsoft.service.model.Project;
 import com.bizvisionsoft.serviceconsumer.Services;
+
 /**
  * 取消了CBS可分解功能，该操作无效
+ * 
  * @author gdiyang
  * @date 2018/10/27
  *
@@ -23,7 +25,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class AddCBSItemByStage {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -31,8 +33,8 @@ public class AddCBSItemByStage {
 		if (rootInput instanceof Project) {
 			Project project = (Project) rootInput;
 			try {
-				List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(),
-						project.get_id());
+				List<CBSItem> cbsItems = Services.get(CBSService.class).addCBSItemByStage(project.getCBS_id(), project.get_id(),
+						br.getDomain());
 				BudgetCBS budgetCBS = (BudgetCBS) context.getChildContextByName("cbs").getContent();
 				CBSItem cbsRoot = (CBSItem) budgetCBS.getViewerInput().get(0);
 				cbsRoot.addChild(cbsItems);

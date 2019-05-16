@@ -14,7 +14,12 @@ import com.bizvisionsoft.service.ServicesLoader;
 public class ServiceHelper {
 
 	private static Logger logger = LoggerFactory.getLogger(ServiceHelper.class);
+	private String domain;
 
+	public ServiceHelper(String domain) {
+		this.domain = domain;
+	}
+	
 	/**
 	 * 获取组织的经理
 	 * 
@@ -26,7 +31,8 @@ public class ServiceHelper {
 			logger.error("getOrganizationManager, 参数 _id为null");
 			return null;
 		}
-		return Optional.ofNullable(ServicesLoader.get(OrganizationService.class).get(_id)).map(org -> org.getManagerId()).orElse(null);
+		return Optional.ofNullable(ServicesLoader.get(OrganizationService.class).get(_id, domain)).map(org -> org.getManagerId())
+				.orElse(null);
 	}
 
 	public String getMultiActorId(Object input) {

@@ -19,7 +19,7 @@ import com.mongodb.BasicDBObject;
 public class CompareSchedule {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_CONTENT) GanttPart ganttPart,
@@ -28,10 +28,10 @@ public class CompareSchedule {
 			Layer.message("当前的项目计划还未保存", Layer.ICON_ERROR);
 		} else {
 			Workspace ws = root.getWorkspace();
-			List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(ws.getSpace_id());
+			List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(ws.getSpace_id(), br.getDomain());
 			List<WorkLinkInfo> linkSet = Services.get(WorkSpaceService.class)
-					.createLinkDataSet(new BasicDBObject("space_id", ws.getSpace_id()));
-			brui.openContent(brui.getAssembly("比较甘特图"), new Object[] { workSet, linkSet });
+					.createLinkDataSet(new BasicDBObject("space_id", ws.getSpace_id()), br.getDomain());
+			br.openContent(br.getAssembly("比较甘特图"), new Object[] { workSet, linkSet });
 		}
 	}
 }

@@ -20,7 +20,7 @@ import com.bizvisionsoft.sqldb.SqlDB;
 public class CreateDummySAPDatabase {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute() {
@@ -119,7 +119,7 @@ public class CreateDummySAPDatabase {
 			SqlDB.s.freeConnection("oa", conn);
 			Layer.message("测试数据库创建完成");
 		} catch (Exception e) {
-			MessageDialog.openError(brui.getCurrentShell(), "测试数据库创建错误", e.getMessage());
+			MessageDialog.openError(br.getCurrentShell(), "测试数据库创建错误", e.getMessage());
 		}
 	}
 

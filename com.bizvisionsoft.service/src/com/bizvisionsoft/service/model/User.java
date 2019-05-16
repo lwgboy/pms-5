@@ -131,7 +131,7 @@ public class User implements IResourceAssignment {
 
 	@ReadValue("organization ")
 	public Organization getOrganization() {
-		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id)).orElse(null);
+		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 
 	public ObjectId getOrganizationId() {
@@ -145,7 +145,8 @@ public class User implements IResourceAssignment {
 
 	@ReadValue("resourceType ")
 	public ResourceType getResourceType() {
-		return Optional.ofNullable(resourceType_id).map(_id -> ServicesLoader.get(CommonService.class).getResourceType(_id)).orElse(null);
+		return Optional.ofNullable(resourceType_id).map(_id -> ServicesLoader.get(CommonService.class).getResourceType(_id, domain))
+				.orElse(null);
 	}
 
 	@Override
@@ -221,6 +222,12 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	private Boolean trace;
 
+	@Exclude
+	private String domain;
+
+	@Exclude
+	private transient String site;
+
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -292,5 +299,20 @@ public class User implements IResourceAssignment {
 		this.changePSW = changePSW;
 	}
 
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
+	}
+	
+	public String getSite() {
+		return site;
+	}
 
 }

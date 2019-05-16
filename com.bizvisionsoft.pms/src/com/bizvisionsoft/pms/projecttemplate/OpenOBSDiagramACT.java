@@ -13,20 +13,20 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class OpenOBSDiagramACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) ProjectTemplate projectTemplate) {
 
 		ObjectId pjtId = projectTemplate.get_id();
 
-		if (!Services.get(ProjectTemplateService.class).hasOBS(pjtId)) {
-			if (!brui.confirm("组织结构模板", "尚未建立组织结构模板，是否建立？")) {
+		if (!Services.get(ProjectTemplateService.class).hasOBS(pjtId, br.getDomain())) {
+			if (!br.confirm("组织结构模板", "尚未建立组织结构模板，是否建立？")) {
 				return;
 			}
-			Services.get(ProjectTemplateService.class).createRootOBS(pjtId);
+			Services.get(ProjectTemplateService.class).createRootOBS(pjtId, br.getDomain());
 		}
-		brui.switchContent(brui.getAssembly("项目模板组织结构图"), projectTemplate);
+		br.switchContent(br.getAssembly("项目模板组织结构图"), projectTemplate);
 //		brui.openContent(brui.getAssembly("项目模板组织结构图"), projectTemplate);
 	}
 

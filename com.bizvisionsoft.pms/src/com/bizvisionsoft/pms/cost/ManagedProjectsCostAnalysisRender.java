@@ -26,7 +26,7 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private String result;
 
@@ -42,8 +42,7 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
 			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
 			@MethodParam(GridRenderUpdateCell.PARAM_INPUT_ELEMENT) Object element,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
-			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
+			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value, @MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
 			@MethodParam(GridRenderUpdateCell.PARAM_CALLBACK) BiConsumer<String, Object> callback) {
 		element = cell == null ? element : cell.getElement();
 		if ("totalCost".equals(column.getName())) {
@@ -100,21 +99,21 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间成本
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result + "01", result + "12");
+				value = cbsItem.getDurationCost(result + "01", result + "12");
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间成本
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result + "01", result + "12");
+				value = cbsSubjectCost.getDurationCost(result + "01", result + "12");
 			}
 		} else if ("budget".equals(column.getName())) {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间预算
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getBudget(result + "01", result + "12");
+				value = cbsItem.getDurationBudget(result + "01", result + "12");
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间预算
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getBudget(result + "01", result + "12");
+				value = cbsSubjectCost.getDurationBudget(result + "01", result + "12");
 			}
 		} else if ("01".equals(column.getName()) || "02".equals(column.getName()) || "03".equals(column.getName())
 				|| "04".equals(column.getName()) || "05".equals(column.getName()) || "06".equals(column.getName())
@@ -123,11 +122,11 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 			if (element instanceof CBSItem) {
 				// 获取成本管理的期间CAR
 				CBSItem cbsItem = (CBSItem) element;
-				value = cbsItem.getCost(result + column.getName());
+				value = cbsItem.getPeriodCost(result + column.getName());
 			} else if (element instanceof CBSSubjectCost) {
 				// 获取项目成本管理的期间CAR
 				CBSSubjectCost cbsSubjectCost = (CBSSubjectCost) element;
-				value = cbsSubjectCost.getCost(result + column.getName());
+				value = cbsSubjectCost.getPeriodCost(result + column.getName());
 			}
 		}
 		super.renderCell(cell, column, element, value, image, callback);
@@ -153,8 +152,7 @@ public class ManagedProjectsCostAnalysisRender extends GridPartDefaultRender {
 
 	@Override
 	@GridRenderCompare
-	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col,
-			@MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
+	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
 	}

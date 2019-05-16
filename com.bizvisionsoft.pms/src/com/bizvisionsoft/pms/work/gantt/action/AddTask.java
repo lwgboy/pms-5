@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 public class AddTask {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
@@ -21,7 +21,7 @@ public class AddTask {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// ÏÔÊ¾±à¼­Æ÷
 
-		new Editor<WorkInfo>(bruiService.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷"), context)
+		new Editor<WorkInfo>(br.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷"), context)
 				.setInput(WorkInfo.newInstance((WorkInfo) event.task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi);

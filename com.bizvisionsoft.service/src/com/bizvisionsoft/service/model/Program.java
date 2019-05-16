@@ -17,8 +17,8 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ProgramService;
+import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.datatools.Query;
@@ -114,7 +114,7 @@ public class Program {
 
 	@ReadValue("pgm")
 	private User getPGM() {
-		return Optional.ofNullable(pgmId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(pgmId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,17 +147,19 @@ public class Program {
 	public List<Object> getSubProgramsAndProjects() {
 		ArrayList<Object> children = new ArrayList<Object>();
 
-		children.addAll(ServicesLoader.get(ProgramService.class).list(new Query().filter(new BasicDBObject("parent_id", _id)).bson()));
+		children.addAll(
+				ServicesLoader.get(ProgramService.class).list(new Query().filter(new BasicDBObject("parent_id", _id)).bson(), domain));
 
-		children.addAll(ServicesLoader.get(ProjectService.class).list(new Query().filter(new BasicDBObject("program_id", _id)).bson()));
+		children.addAll(
+				ServicesLoader.get(ProjectService.class).list(new Query().filter(new BasicDBObject("program_id", _id)).bson(), domain));
 		return children;
 	}
 
 	@Structure("项目集管理/count")
 	public long countSubProgramsAndProjects() {
 		// 查下级
-		long cnt = ServicesLoader.get(ProjectService.class).count(new BasicDBObject("program_id", _id));
-		cnt += ServicesLoader.get(ProgramService.class).count(new BasicDBObject("parent_id", _id));
+		long cnt = ServicesLoader.get(ProjectService.class).count(new BasicDBObject("program_id", _id), domain);
+		cnt += ServicesLoader.get(ProgramService.class).count(new BasicDBObject("parent_id", _id), domain);
 		return cnt;
 	}
 
@@ -183,5 +185,8 @@ public class Program {
 	@Exclude
 	@Behavior({ "项目集操作", "打开项目集" })
 	private boolean editableBehavior = true;
+	
+	@Exclude
+	public String domain;
 
 }

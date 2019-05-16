@@ -34,7 +34,7 @@ import com.mongodb.client.result.UpdateResult;
 public class UniversalDataServiceImpl extends BasicServiceImpl implements UniversalDataService {
 
 	@Override
-	public UniversalResult list(UniversalCommand command) {
+	public UniversalResult list(UniversalCommand command,String domain){
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		Integer skip = command.getParameter("condition.skip", Integer.class);
@@ -53,14 +53,14 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 
 		String className = command.getTargetClassName();
 		String bundleName = command.getTargetBundleName();
-		ArrayList<Document> result = col(command).aggregate(pipeline).into(new ArrayList<>());
+		ArrayList<Document> result = col(command,domain).aggregate(pipeline).into(new ArrayList<>());
 		return listResult(className, bundleName, getGson().toJson(result));
 	}
 
-	private MongoCollection<Document> col(UniversalCommand command) {
+	private MongoCollection<Document> col(UniversalCommand command,String domain){
 		String colName = command.getTargetCollection();
 		if (colName != null)
-			return c(colName);
+			return c(colName,domain);
 
 		String className = command.getTargetClassName();
 		String bundleName = command.getTargetBundleName();
@@ -68,51 +68,51 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		if (clazz == null)
 			throw new ServiceException("无法加载类"+className);
 		String col = clazz.getAnnotation(PersistenceCollection.class).value();
-		return c(col);
+		return c(col,domain);
 	}
 
 	@Override
-	public UniversalResult count(UniversalCommand command) {
-		MongoCollection<Document> col = col(command);
+	public UniversalResult count(UniversalCommand command,String domain){
+		MongoCollection<Document> col = col(command,domain);
 		long result = Optional.ofNullable(command.getParameter("filter", Document.class)).map(f -> {
 			return col.countDocuments(f);
-		}).orElse(col(command).countDocuments());
+		}).orElse(col(command,domain).countDocuments());
 		return countResult(result);
 	}
 
 	@Override
-	public UniversalResult insert(UniversalCommand command) {
+	public UniversalResult insert(UniversalCommand command,String domain){
 		Document document = command.ignoreNull(true).getParameter("object", Document.class);
 		String className = command.getTargetClassName();
 		String bundleName = command.getTargetBundleName();
 		String colName = command.getTargetCollection();
-		if (colName != null) {
-			return insertDocument(document, colName, className, bundleName);
+		if (colName != null){
+			return insertDocument(document, colName, className, bundleName, domain);
 		} else {
-			return insertObject(document, className, bundleName);
+			return insertObject(document, className, bundleName,domain);
 		}
 	}
 
-	private UniversalResult insertDocument(Document document, String colName, String className, String bundleName) {
+	private UniversalResult insertDocument(Document document, String colName, String className, String bundleName,String domain){
 		// 去掉null
-		c(colName).insertOne(document);
+		c(colName,domain).insertOne(document);
 		return elementResult(className, bundleName, document.toJson());
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> UniversalResult insertObject(Document document, String className, String bundleName) {
+	private <T> UniversalResult insertObject(Document document, String className, String bundleName,String domain){
 		Class<T> clazz = (Class<T>) ServicesLoader.getClass(className, bundleName);
 		if (clazz == null)
 			throw new ServiceException("无法加载类"+className);
 		Codec<T> codec = CodexProvider.getRegistry().get(clazz);
-		if (codec instanceof Codex) {
+		if (codec instanceof Codex){
 			Codex<T> codex = (Codex<T>) codec;
 			try {
 				T obj = clazz.newInstance();
 				codex.decode(obj, new JsonReader(document.toJson()), DecoderContext.builder().build());
-				c(clazz).insertOne(obj);
+				c(clazz,domain).insertOne(obj);
 				return elementResult(className, bundleName, getGson().toJson(obj));
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (InstantiationException | IllegalAccessException e){
 				logger.error(e.getMessage(), e);
 				throw new ServiceException(e.getMessage());
 			}
@@ -125,11 +125,11 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	}
 
 	@Override
-	public UniversalResult delete(UniversalCommand command) {
+	public UniversalResult delete(UniversalCommand command,String domain){
 		String sid = command.getParameter("_id.$oid", String.class);
-		if (sid != null) {
+		if (sid != null){
 			ObjectId _id = new ObjectId(sid);
-			DeleteResult r = col(command).deleteOne(new Document("_id", _id));
+			DeleteResult r = col(command,domain).deleteOne(new Document("_id", _id));
 			return countResult(r.getDeletedCount());
 		}
 		String msg = "缺少唯一关键字";
@@ -138,19 +138,19 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	}
 
 	@Override
-	public UniversalResult update(UniversalCommand command) {
+	public UniversalResult update(UniversalCommand command,String domain){
 		Document filter = command.getParameter("filter_and_update.filter", Document.class);
 		Document update = command.getParameter("filter_and_update.update", Document.class);
-		UpdateResult r = col(command).updateMany(filter, update);
+		UpdateResult r = col(command,domain).updateMany(filter, update);
 		long modifiedCount = r.getModifiedCount();
 		return countResult(modifiedCount);
 	}
 
 	@Override
-	public UniversalResult get(UniversalCommand command) {
+	public UniversalResult get(UniversalCommand command,String domain){
 		String sid = command.getParameter("_id.$oid", String.class);
-		if (sid != null) {
-			Document document = col(command).find(new Document("_id", new ObjectId(sid))).first();
+		if (sid != null){
+			Document document = col(command,domain).find(new Document("_id", new ObjectId(sid))).first();
 			return elementResult(command.getTargetClassName(), command.getTargetBundleName(), getGson().toJson(document));
 		}
 		String msg = "缺少唯一关键字";
@@ -158,7 +158,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		throw new ServiceException(msg);
 	}
 
-	public Gson getGson() {
+	public Gson getGson(){
 		return new GsonBuilder()//
 				.serializeNulls().registerTypeAdapter(ObjectId.class, new ObjectIdAdapter())//
 				.registerTypeAdapter(Date.class, new DateAdapter())//
@@ -167,7 +167,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 				.create();
 	}
 
-	private UniversalResult elementResult(String className, String bundleName, String json) {
+	private UniversalResult elementResult(String className, String bundleName, String json){
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult(json);
 		uResult.setTargetClassName(className);
@@ -176,7 +176,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		return uResult;
 	}
 
-	private UniversalResult listResult(String className, String bundleName, String json) {
+	private UniversalResult listResult(String className, String bundleName, String json){
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult(json);
 		uResult.setTargetClassName(className);
@@ -185,7 +185,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		return uResult;
 	}
 
-	private UniversalResult countResult(long result) {
+	private UniversalResult countResult(long result){
 		UniversalResult uResult = new UniversalResult();
 		uResult.setResult("" + result);
 		uResult.setTargetClassName(Long.class.getName());

@@ -42,7 +42,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SingleResourceConflictSolutionASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -63,7 +63,7 @@ public class SingleResourceConflictSolutionASM {
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);
 			if ("close".equals(action.getName())) {
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			}
 		});
 
@@ -77,7 +77,7 @@ public class SingleResourceConflictSolutionASM {
 		// 取出开始和完成时间
 
 		WorkService service = Services.get(WorkService.class);
-		Work work = service.getWork(rp.getWork_id());
+		Work work = service.getWork(rp.getWork_id(), br.getDomain());
 		start = Calendar.getInstance();
 		start.setTime(Optional.ofNullable(work.getActualStart()).orElse(work.getPlanStart()));
 		end = Calendar.getInstance();
@@ -86,7 +86,7 @@ public class SingleResourceConflictSolutionASM {
 		createViewer(content);
 
 		// TODO 封装成方法
-		works = service.listConflictWorks(rp);
+		works = service.listConflictWorks(rp, br.getDomain());
 		viewer.setInput(works);
 	}
 

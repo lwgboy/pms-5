@@ -24,7 +24,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -38,7 +38,7 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 	@Init
 	public void init() {
 		setContext(context);
-		setBruiService(bruiService);
+		setBruiService(br);
 	}
 
 	@CreateUI
@@ -62,7 +62,7 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 			Object rootInput = context.getRootInput();
 			if (rootInput instanceof ICBSScope) {
 				ICBSScope icbsScope = (ICBSScope) rootInput;
-				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id(), br.getDomain());
 			}
 		}
 		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
@@ -81,7 +81,7 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 		}
 		// 从首页打开成本管理，结算月份为当前系统整体结算期间
 		if (date == null) {
-			date = Services.get(CommonService.class).getCurrentCBSPeriod();
+			date = Services.get(CommonService.class).getCurrentCBSPeriod(br.getDomain());
 			currentCBSPeriod.setTime(date);
 		}
 		startPeriod = "" + currentCBSPeriod.get(Calendar.YEAR);
@@ -91,13 +91,13 @@ public class PeriodCostCompositionAnalysisASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
-		String userId = bruiService.getCurrentUserId();
+		String userId = br.getCurrentUserId();
 		if (cbsScope_id != null) {
-			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod, userId);
+			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(cbsScope_id, startPeriod, endPeriod, userId, br.getDomain());
 		} else {
 			// TODO 增加用户角色判断
 			return Services.get(CBSService.class).getPeriodCostCompositionAnalysis(startPeriod, endPeriod,
-					userId);
+					userId, br.getDomain());
 		}
 	}
 

@@ -17,7 +17,7 @@ public class AOGDataset {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet(DataSet.LIST)
 	private List<Document> list() {

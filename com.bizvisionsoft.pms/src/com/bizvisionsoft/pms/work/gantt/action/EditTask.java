@@ -13,7 +13,7 @@ import com.bizvisionsoft.service.model.WorkInfo;
 public class EditTask {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,

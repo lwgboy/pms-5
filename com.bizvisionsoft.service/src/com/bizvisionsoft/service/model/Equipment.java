@@ -53,6 +53,9 @@ public class Equipment implements IResourceAssignment {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "设备设施";
+	
+	@Exclude
+	public String domain;
 
 	@WriteValue("organization ")
 	public void writeOrganization(Organization org) {
@@ -61,7 +64,7 @@ public class Equipment implements IResourceAssignment {
 
 	@ReadValue("organization ")
 	public Organization readOrganization() {
-		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
+		return Optional.ofNullable(organizationId).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain))
 				.orElse(null);
 	}
 

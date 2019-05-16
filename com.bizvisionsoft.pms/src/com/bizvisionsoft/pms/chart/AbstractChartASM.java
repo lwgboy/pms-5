@@ -19,7 +19,7 @@ import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 public abstract class AbstractChartASM {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@GetContainer
 	@GetContent("chart")
@@ -29,7 +29,7 @@ public abstract class AbstractChartASM {
 	private BruiAssemblyContext context;
 	
 	protected void setBruiService(IBruiService bruiService) {
-		this.bruiService = bruiService;
+		this.br = bruiService;
 	}
 
 	protected void setContext(BruiAssemblyContext context) {

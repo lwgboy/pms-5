@@ -19,7 +19,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -29,7 +29,7 @@ public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 	@Init
 	public void init() {
 		setContext(context);
-		setBruiService(bruiService);
+		setBruiService(br);
 	}
 
 	@CreateUI
@@ -45,7 +45,7 @@ public class DeptResourceAllAnalysisASM extends AbstractChartASM {
 	public Document getOptionDocument() {
 		Document option;
 		// if (project_id != null) {
-		option = Services.get(WorkService.class).getResourceAllAnalysisByDept(year, bruiService.getCurrentUserId());
+		option = Services.get(WorkService.class).getResourceAllAnalysisByDept(year, br.getCurrentUserId(), br.getDomain());
 		// } else {
 		// option = Services.get(WorkService.class).getResourcePlanAnalysis(year);
 		// }

@@ -22,7 +22,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class FileCabinetASM extends CabinetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -34,7 +34,7 @@ public class FileCabinetASM extends CabinetASM {
 	@Init
 	private void init() {
 		setContext(context);
-		setBruiService(brui);
+		setBruiService(br);
 		input = context.getRootInput();
 		if (input instanceof Project) {
 			this.host_id = ((Project) input).get_id();
@@ -53,9 +53,9 @@ public class FileCabinetASM extends CabinetASM {
 	@Override
 	protected List<?> getInput() {
 		if (input instanceof Project) {
-			return Services.get(DocumentService.class).listProjectRootFolder(host_id);
+			return Services.get(DocumentService.class).listProjectRootFolder(host_id, br.getDomain());
 		} else if (input instanceof ProjectTemplate) {
-			return Services.get(DocumentService.class).listProjectTemplateRootFolder(host_id);
+			return Services.get(DocumentService.class).listProjectTemplateRootFolder(host_id, br.getDomain());
 		}
 		return new ArrayList<>();
 	}
@@ -77,7 +77,7 @@ public class FileCabinetASM extends CabinetASM {
 			folder.setParent_id(parentFolder.get_id());
 		}
 		folder.setTempalte_id(host_id);
-		folder = Services.get(DocumentService.class).createFolderInTemplate(folder);
+		folder = Services.get(DocumentService.class).createFolderInTemplate(folder, br.getDomain());
 		return true;
 	}
 
@@ -88,7 +88,7 @@ public class FileCabinetASM extends CabinetASM {
 			folder.setParent_id(parentFolder.get_id());
 		}
 		folder.setProject_id(host_id);
-		folder = Services.get(DocumentService.class).createFolder(folder);
+		folder = Services.get(DocumentService.class).createFolder(folder, br.getDomain());
 		return true;
 	}
 
@@ -96,9 +96,9 @@ public class FileCabinetASM extends CabinetASM {
 	protected boolean doRenameFolder(IFolder folder, String name) {
 		folder.setName(name);
 		if (input instanceof Project) {
-			return Services.get(DocumentService.class).renameProjectFolder(folder.get_id(), name);
+			return Services.get(DocumentService.class).renameProjectFolder(folder.get_id(), name, br.getDomain());
 		} else if (input instanceof ProjectTemplate) {
-			return Services.get(DocumentService.class).renameProjectTemplateFolder(folder.get_id(), name);
+			return Services.get(DocumentService.class).renameProjectTemplateFolder(folder.get_id(), name, br.getDomain());
 		}
 		return false;
 	}
@@ -106,9 +106,9 @@ public class FileCabinetASM extends CabinetASM {
 	@Override
 	protected boolean doDeleteFolder(IFolder folder) {
 		if (input instanceof Project) {
-			Services.get(DocumentService.class).deleteProjectFolder(folder.get_id());
+			Services.get(DocumentService.class).deleteProjectFolder(folder.get_id(), br.getDomain());
 		} else if (input instanceof ProjectTemplate) {
-			Services.get(DocumentService.class).deleteProjectTemplateFolder(folder.get_id());
+			Services.get(DocumentService.class).deleteProjectTemplateFolder(folder.get_id(), br.getDomain());
 		}
 		return false;
 	}

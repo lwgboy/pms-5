@@ -26,108 +26,108 @@ import com.mongodb.BasicDBObject;
 public interface OBSService {
 
 	@POST
-	@Path("/nextobsseq")
+	@Path("/{domain}/nextobsseq")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public int nextOBSSeq(BasicDBObject condition);
+	public int nextOBSSeq(BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public OBSItem insert(OBSItem item);
+	public OBSItem insert(OBSItem item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/scope/root/{_id}")
+	@Path("/{domain}/scope/root/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目团队/list")
-	public List<OBSItem> getScopeRootOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	public List<OBSItem> getScopeRootOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/scope/id/{_id}")
+	@Path("/{domain}/scope/id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织结构图/list", "组织结构图（查看）/list" })
-	public List<OBSItem> getScopeOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id);
+	public List<OBSItem> getScopeOBS(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId scope_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/{_id}")
+	@Path("/{domain}/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public OBSItem get(@PathParam("_id") ObjectId _id);
+	public OBSItem get(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目团队/" + DataSet.DELETE, "组织结构图/" + DataSet.DELETE })
-	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public void delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{_id}/sub")
+	@Path("/{domain}/{_id}/sub")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<OBSItem> getSubOBSItem(@PathParam("_id") ObjectId _id);
+	public List<OBSItem> getSubOBSItem(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{_id}/count")
+	@Path("/{domain}/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countSubOBSItem(@PathParam("_id") ObjectId _id);
+	public long countSubOBSItem(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目团队/" + DataSet.UPDATE, "组织结构图/" + DataSet.UPDATE })
-	public long update(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/member/{_id}/")
+	@Path("/{domain}/member/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "团队成员/" + DataSet.LIST, "团队成员（查看）/" + DataSet.LIST })
 	public List<User> getMember(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/member/count/{_id}/")
+	@Path("/{domain}/member/count/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "团队成员/" + DataSet.COUNT, "团队成员（查看）/" + DataSet.COUNT })
 	public long countMember(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id);
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/member/AllSubOBSItem/{_id}/")
+	@Path("/{domain}/member/AllSubOBSItem/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<String> getAllSubOBSItemMember(@PathParam("_id") ObjectId parent_id);
+	public List<String> getAllSubOBSItemMember(@PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/scope/id/{_id}/userId/{userId}")
+	@Path("/{domain}/scope/id/{_id}/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<String> getScopeRoleofUser(@PathParam("_id") ObjectId scope_id, @PathParam("userId") String userId);
+	public List<String> getScopeRoleofUser(@PathParam("_id") ObjectId scope_id, @PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/scope/id/{_id}/{roleId}")
+	@Path("/{domain}/scope/id/{_id}/{roleId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<OBSItem> getScopeRoleofRoleId(@PathParam("_id") ObjectId scope_id, @PathParam("roleId") String roleId);
+	public List<OBSItem> getScopeRoleofRoleId(@PathParam("_id") ObjectId scope_id, @PathParam("roleId") String roleId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/obsitemwarpper/{_id}")
+	@Path("/{domain}/obsitemwarpper/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, @PathParam("_id") ObjectId scope_id);
+	public List<OBSItemWarpper> getOBSItemWarpper(BasicDBObject condition, @PathParam("_id") ObjectId scope_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/obsitemwarpper/{_id}/count")
+	@Path("/{domain}/obsitemwarpper/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countOBSItemWarpper(BasicDBObject filter, @PathParam("_id") ObjectId scope_id);
+	public long countOBSItemWarpper(BasicDBObject filter, @PathParam("_id") ObjectId scope_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/**
 	 * 检查是否具有某个Scope下的角色
@@ -136,33 +136,33 @@ public interface OBSService {
 	 * @return
 	 */
 	@POST
-	@Path("/scopeRole/check/")
+	@Path("/{domain}/scopeRole/check/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean checkScopeRole(ScopeRoleParameter param);
+	public boolean checkScopeRole(ScopeRoleParameter param,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/addOBSModule/{module_id}/{parent_id}/{cover}")
+	@Path("/{domain}/addOBSModule/{module_id}/{parent_id}/{cover}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<OBSItem> addOBSModule(@PathParam("module_id") ObjectId module_id, @PathParam("parent_id") ObjectId parent_id,
-			@PathParam("cover") boolean cover);
+			@PathParam("cover") boolean cover,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/isRoleNumberDuplicated /{module_id}/{scope_id}")
+	@Path("/{domain}/isRoleNumberDuplicated /{module_id}/{scope_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean isRoleNumberDuplicated(@PathParam("module_id") ObjectId module_id, @PathParam("scope_id") ObjectId scope_id);
+	public boolean isRoleNumberDuplicated(@PathParam("module_id") ObjectId module_id, @PathParam("scope_id") ObjectId scope_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/_id/{_id}/deleteProjectMemberCheck/{type}")
+	@Path("/{domain}/_id/{_id}/deleteProjectMemberCheck/{type}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> deleteProjectMemberCheck(@PathParam("_id") ObjectId _id, @PathParam("type") String type);
+	public List<Result> deleteProjectMemberCheck(@PathParam("_id") ObjectId _id, @PathParam("type") String type,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/removeUnStartWorkUser/{currentId}")
+	@Path("/{domain}/removeUnStartWorkUser/{currentId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void removeUnStartWorkUser(OBSItem obsItem, @PathParam("currentId") String currentId);
+	public void removeUnStartWorkUser(OBSItem obsItem, @PathParam("currentId") String currentId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 }

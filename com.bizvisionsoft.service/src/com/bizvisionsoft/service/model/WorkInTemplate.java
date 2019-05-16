@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -24,6 +25,9 @@ import com.bizvisionsoft.service.tools.Formatter;
 @PersistenceCollection("workInTemplate")
 @Strict
 public class WorkInTemplate implements IWorkPackageMaster {
+	
+	@Exclude
+	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// id, 在gantt图中 使用String 类型传递，因此 ReadValue和WriteValue需要用方法重写
@@ -366,12 +370,12 @@ public class WorkInTemplate implements IWorkPackageMaster {
 
 	@Structure({ "项目模板WBS/list", "项目模板WBS（分配角色）/list" })
 	private List<WorkInTemplate> listChildren() {
-		return ServicesLoader.get(ProjectTemplateService.class).listWBSChildren(_id);
+		return ServicesLoader.get(ProjectTemplateService.class).listWBSChildren(_id, domain);
 	}
 
 	@Structure({ "项目模板WBS/count", "项目模板WBS（分配角色）/count" })
 	private long countChildren() {
-		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id);
+		return ServicesLoader.get(ProjectTemplateService.class).countWBSChildren(_id, domain);
 	}
 
 	@Behavior("设定工作包类型")

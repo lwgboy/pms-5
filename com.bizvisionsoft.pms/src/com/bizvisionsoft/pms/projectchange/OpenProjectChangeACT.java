@@ -13,15 +13,15 @@ import com.bizvisionsoft.service.model.ProjectChange;
 
 public class OpenProjectChangeACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(s -> {
-			brui.openContent(brui.getAssembly("变更详情"), s, e -> {
+			br.openContent(br.getAssembly("变更详情"), s, e -> {
 				if (s instanceof ProjectChange) {
-					ProjectChange o = ServicesLoader.get(ProjectService.class)
-							.getProjectChange(((ProjectChange) s).get_id());
+					ProjectChange o = ServicesLoader.get(ProjectService.class).getProjectChange(((ProjectChange) s).get_id(),
+							br.getDomain());
 					GridPart viewer = (GridPart) context.getContent();
 					AUtil.simpleCopy(o, s);
 					viewer.update(s);

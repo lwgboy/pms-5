@@ -25,9 +25,8 @@ import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.Brui;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.PermissionUtil;
-import com.bizvisionsoft.bruiengine.util.BruiColors;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.service.CBSService;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.model.AccountItem;
@@ -63,6 +62,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 	private Map<String, Map<String, Double>> accountItemAmount;
 
 	public void init() {
+		IBruiService br = getBruiService();
 		scope = (ICBSScope) getContext().getRootInput();
 		Object parentInput = getContext().getParentContext().getInput();
 		if (parentInput instanceof CBSItem)
@@ -71,12 +71,12 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 		if (cbsItem == null) {
 			ObjectId cbs_id = scope.getCBS_id();
 			if (cbs_id != null) {
-				cbsItem = Services.get(CBSService.class).get(cbs_id);
+				cbsItem = Services.get(CBSService.class).get(cbs_id, br.getDomain());
 			}
 		}
 		if (cbsItem != null) {
-			List<CBSSubject> cbsSubjects = Services.get(CBSService.class).getCBSSubject(cbsItem.get_id());
-			accoutItems = Services.get(CommonService.class).getAllAccoutItemsHasParentIds();
+			List<CBSSubject> cbsSubjects = Services.get(CBSService.class).getCBSSubject(cbsItem.get_id(), br.getDomain());
+			accoutItems = Services.get(CommonService.class).getAllAccoutItemsHasParentIds(br.getDomain());
 
 			// 按照科目、月份计算合计值
 			cbsItemAmount = new HashMap<String, Double>();

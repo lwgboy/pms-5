@@ -55,7 +55,7 @@ public class SetAcceptedQty {
 				Document info = new Document("pr_num", pr_num).append("pr_idx", pr_idx).append("completeQty", qty)
 						.append("work_id", work_id).append("catagory", catagory).append("name", name)
 						.append("_id", _id);
-				_id = Services.get(WorkService.class).updateWorkPackageInfo(info);
+				_id = Services.get(WorkService.class).updateWorkPackageInfo(info, br.getDomain());
 				prItem.put("_id", _id);
 				prItem.put("completeQty", qty);
 				GridPart grid = (GridPart) context.getContent();

@@ -23,7 +23,7 @@ public class OBSItemDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private ObjectId obsScope_id;
 
@@ -35,13 +35,13 @@ public class OBSItemDS {
 
 	@DataSet(DataSet.LIST)
 	public List<OBSItemWarpper> listOBSItem(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
-		return ServicesLoader.get(OBSService.class).getOBSItemWarpper(condition, obsScope_id);
+		return ServicesLoader.get(OBSService.class).getOBSItemWarpper(condition, obsScope_id, br.getDomain());
 	}
 	
 
 	@DataSet(DataSet.COUNT)
 	public long countOBSItem(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		return ServicesLoader.get(OBSService.class).countOBSItemWarpper(filter, obsScope_id);
+		return ServicesLoader.get(OBSService.class).countOBSItemWarpper(filter, obsScope_id, br.getDomain());
 	}
 
 }

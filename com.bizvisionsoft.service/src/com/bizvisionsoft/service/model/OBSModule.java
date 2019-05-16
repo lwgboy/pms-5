@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -81,6 +82,9 @@ public class OBSModule {
 	@SetValue
 	@ReadValue
 	private List<String> obsTeam;
+	
+	@Exclude
+	public String domain;
 
 	public ObjectId get_id() {
 		return _id;
@@ -119,7 +123,7 @@ public class OBSModule {
 	@ReadValue("epsInfos")
 	public List<EPS> getEPSInfos() {
 		EPSService epsService = ServicesLoader.get(EPSService.class);
-		return Optional.ofNullable(eps_id).orElse(new ArrayList<>()).stream().map(epsService::get)
+		return Optional.ofNullable(eps_id).orElse(new ArrayList<>()).stream().map(id->epsService.get(id, domain))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 

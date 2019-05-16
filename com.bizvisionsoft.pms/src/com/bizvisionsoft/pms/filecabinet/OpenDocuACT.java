@@ -20,7 +20,7 @@ import com.mongodb.BasicDBObject;
 public class OpenDocuACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	// 已经把模板和项目的分开，没有必要用Behavior设置，所以注释以下代码
 	// @Behavior("输出文档/创建工作包文档模板设置")
@@ -34,7 +34,7 @@ public class OpenDocuACT {
 			@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.CONTEXT_CONTENT) GridPart part) {
 		UniversalCommand getCmd = new UniversalCommand().setTargetCollection("docu").addParameter(MethodParam._ID,
 				docu.get_id());
-		UniversalResult ur1 = Services.get(UniversalDataService.class).get(getCmd);
+		UniversalResult ur1 = Services.get(UniversalDataService.class).get(getCmd, br.getDomain());
 		Document doc = (Document) ur1.getValue();
 		// 注意此处必须是使用传入doc, 不做编辑clone
 		// TODO 需要修改deepClone的方法解决该问题。
@@ -44,7 +44,7 @@ public class OpenDocuACT {
 					.bson();
 			UniversalCommand updCmd = new UniversalCommand().setTargetClassName(Docu.class.getName())
 					.setTargetCollection("docu").addParameter(MethodParam.FILTER_N_UPDATE, fu);
-			UniversalResult ur2 = Services.get(UniversalDataService.class).update(updCmd);
+			UniversalResult ur2 = Services.get(UniversalDataService.class).update(updCmd, br.getDomain());
 			Object newValue = ur2.getValue();
 			part.replaceItem(docu, newValue);
 		});

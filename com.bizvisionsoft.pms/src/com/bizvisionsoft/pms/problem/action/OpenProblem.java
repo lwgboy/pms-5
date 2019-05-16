@@ -10,13 +10,13 @@ import com.bizvisionsoft.service.model.Problem;
 public class OpenProblem {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			//TODO 不一定都是使用TOPS
-			brui.switchPage("问题解决-TOPS过程", ((Problem) em).get_id().toHexString());
+			br.switchPage("问题解决-TOPS过程", ((Problem) em).get_id().toHexString());
 		});
 	}
 

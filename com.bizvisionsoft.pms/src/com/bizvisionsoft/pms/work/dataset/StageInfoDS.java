@@ -20,7 +20,7 @@ public class StageInfoDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private WorkService service;
 
@@ -34,7 +34,7 @@ public class StageInfoDS {
 
 	@DataSet("list")
 	public List<Work> data() {
-		return Arrays.asList(service.getWork(work_id));
+		return Arrays.asList(service.getWork(work_id, br.getDomain()));
 	}
 
 }

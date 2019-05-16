@@ -63,8 +63,8 @@ public class Workspace {
 		return new Workspace().setProject_id(project_id).setSpace_id(space_id).setCheckoutBy(checkoutBy);
 	}
 
-	public User getCheckoutUser() {
-		return Optional.ofNullable(this.checkoutBy).map(_id -> ServicesLoader.get(UserService.class).get(checkoutBy))
+	public User getCheckoutUser(String domain) {
+		return Optional.ofNullable(this.checkoutBy).map(_id -> ServicesLoader.get(UserService.class).get(checkoutBy, domain))
 				.orElse(null);
 	}
 }

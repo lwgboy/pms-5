@@ -180,7 +180,7 @@ public class RBSItem {
 	@ReadValue("urgency")
 	private String getUrgency() {
 		long l = (forecast.getTime() - Calendar.getInstance().getTimeInMillis()) / (24 * 60 * 60 * 1000);
-		return ServicesLoader.get(RiskService.class).getUrgencyText(l);
+		return ServicesLoader.get(RiskService.class).getUrgencyText(l, domain);
 	}
 
 	/**
@@ -201,6 +201,9 @@ public class RBSItem {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "风险项";
+	
+	@Exclude
+	public String domain;
 
 	@Override
 	@Label
@@ -213,10 +216,10 @@ public class RBSItem {
 		ArrayList<Object> items = new ArrayList<Object>();
 		List<RiskEffect> effects = ServicesLoader.get(RiskService.class).listRiskEffect(
 				new Query().filter(new BasicDBObject("project_id", project_id).append("rbsItem_id", _id)).bson(),
-				project_id);
+				project_id, domain);
 		items.addAll(effects);
 		List<RBSItem> sndRisks = ServicesLoader.get(RiskService.class).listRBSItem(
-				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson());
+				new Query().filter(new BasicDBObject("project_id", project_id).append("parent_id", _id)).bson(), domain);
 		items.addAll(sndRisks);
 		return items;
 	}
@@ -224,10 +227,10 @@ public class RBSItem {
 	@Structure({ "项目风险登记簿/count", "项目风险登记簿（查看）/count" })
 	private long countSecondryRisksNEffect() {
 		long cnt = ServicesLoader.get(RiskService.class).countRiskEffect(new BasicDBObject("rbsItem_id", _id),
-				project_id);
+				project_id, domain);
 
 		cnt += ServicesLoader.get(RiskService.class)
-				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id));
+				.countRBSItem(new BasicDBObject("project_id", project_id).append("parent_id", _id), domain);
 
 		return cnt;
 	}
@@ -246,7 +249,7 @@ public class RBSItem {
 	@ReadOptions("qtyInf")
 	private Map<String, Object> getQuanlityInfIndOption() {
 		Map<String, Object> res = new LinkedHashMap<String, Object>();
-		ServicesLoader.get(RiskService.class).listRiskQuanlityInfInd().forEach(qii -> res.put(qii.text, qii.value));
+		ServicesLoader.get(RiskService.class).listRiskQuanlityInfInd(domain).forEach(qii -> res.put(qii.text, qii.value));
 		return res;
 	}
 

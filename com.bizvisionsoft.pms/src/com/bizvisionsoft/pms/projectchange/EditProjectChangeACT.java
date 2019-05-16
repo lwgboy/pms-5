@@ -18,14 +18,14 @@ import com.mongodb.BasicDBObject;
 public class EditProjectChangeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ProjectChange input = (ProjectChange) context.getInput();
 		Editor.open("项目变更编辑器", context, input, (r, o) -> {
-			ServicesLoader.get(ProjectService.class).updateProjectChange(new FilterAndUpdate()
-					.filter(new BasicDBObject("_id", o.get_id())).set(BsonTools.getBasicDBObject((ProjectChange) o, "_id")).bson());
+			ServicesLoader.get(ProjectService.class).updateProjectChange(new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id()))
+					.set(BsonTools.getBasicDBObject((ProjectChange) o, "_id")).bson(), br.getDomain());
 			AUtil.simpleCopy(o, input);
 			((InfopadPart) context.getContent()).reload();
 		});

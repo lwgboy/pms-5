@@ -29,7 +29,7 @@ public class AppointmentProjectMangerACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) em;
-		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(project.getOBS_id(), "appointmentobsitem");
+		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(project.getOBS_id(), "appointmentobsitem", br.getDomain());
 		boolean hasError = false;
 		boolean hasWarning = false;
 		String message = "";
@@ -59,7 +59,7 @@ public class AppointmentProjectMangerACT {
 		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定项目经理").open(r -> {
 			User user = (User) r.get(0);
 			Project p = Services.get(ProjectService.class).appointmentProjectManger(project.get_id(), user.getUserId(),
-					br.getCurrentUserId());
+					br.getCurrentUserId(), br.getDomain());
 			AUtil.simpleCopy(p, em);
 			Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.update(em));
 			Layer.message("已完成项目经理的指定");

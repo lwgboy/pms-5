@@ -744,15 +744,6 @@
             "name": "≤‚ ‘",
             "children": [
               {
-                "id": "1641a8b2e02",
-                "name": "º”‘ÿ≤‚ ‘ ˝æ›",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.LoadDemoData",
-                "type": "customized",
-                "role": "",
-                "verticalSpan": 0
-              },
-              {
                 "id": "16555431524",
                 "name": "≤‚ ‘±‡º≠∆˜",
                 "bundleId": "com.bizvisionsoft.onlinedesigner",

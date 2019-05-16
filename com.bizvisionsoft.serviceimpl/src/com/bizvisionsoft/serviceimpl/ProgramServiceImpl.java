@@ -17,50 +17,50 @@ import com.mongodb.client.result.UpdateResult;
 public class ProgramServiceImpl extends BasicServiceImpl implements ProgramService {
 
 	@Override
-	public Program insert(Program program) {
-		Program ps = insert(program, Program.class);
-		return get(ps.get_id());
+	public Program insert(Program program, String domain) {
+		Program ps = insert(program, Program.class, domain);
+		return get(ps.get_id(), domain);
 	}
 
 	@Override
-	public Program get(ObjectId _id) {
-		return query(null, null, new BasicDBObject("_id", _id)).get(0);
+	public Program get(ObjectId _id, String domain) {
+		return query(null, null, new BasicDBObject("_id", _id), domain).get(0);
 	}
 
 	@Override
-	public long count(BasicDBObject filter) {
-		return count(filter, Program.class);
+	public long count(BasicDBObject filter, String domain) {
+		return count(filter, Program.class, domain);
 	}
 
 	@Override
-	public List<Program> list(BasicDBObject condition) {
+	public List<Program> list(BasicDBObject condition, String domain) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		return query(skip, limit, filter);
+		return query(skip, limit, filter, domain);
 	}
 
 	@Override
-	public long countRoot(BasicDBObject filter) {
-		if (filter == null) {
+	public long countRoot(BasicDBObject filter,String domain){
+		if (filter == null){
 			filter = new BasicDBObject();
 		}
 		filter.append("parent_id", null);
-		return count(filter);
+		return count(filter, domain);
 	}
 
 	@Override
-	public List<Program> listRoot(BasicDBObject condition) {
+	public List<Program> listRoot(BasicDBObject condition,String domain){
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
+		if (filter == null){
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		filter.append("parent_id", null);
-		return list(condition);
+		return list(condition, domain);
 	}
 
-	private List<Program> query(Integer skip, Integer limit, BasicDBObject filter) {
+	private List<Program> query(Integer skip, Integer limit, BasicDBObject filter, String domain) {
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		if (filter != null)
@@ -72,56 +72,57 @@ public class ProgramServiceImpl extends BasicServiceImpl implements ProgramServi
 		if (limit != null)
 			pipeline.add(Aggregates.limit(limit));
 
-		appendUserInfo(pipeline, "pgmId", "pgmInfo");
+		appendUserInfo(pipeline, "pgmId", "pgmInfo", domain);
 
 		List<Program> result = new ArrayList<Program>();
-		c(Program.class).aggregate(pipeline).into(result);
+		c(Program.class, domain).aggregate(pipeline).into(result);
 		return result;
 
 	}
 
 	@Override
-	public long delete(ObjectId _id) {
+	public long delete(ObjectId _id, String domain) {
 		// 如果有下级项目集不可被删除
-		if (c("program").countDocuments(new Document("parent_id", _id)) > 0)
+		if (c("program", domain).countDocuments(new Document("parent_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目集的项目集记录");
 
 		// 如果有项目引用了该项目集，不可删除
-		if (c("project").countDocuments(new Document("program_id", _id)) > 0)
+		if (c("project", domain).countDocuments(new Document("program_id", _id)) > 0)
 			throw new ServiceException("不允许删除有下级项目的项目集记录");
 
-		return delete(_id, Program.class);
+		return delete(_id, Program.class, domain);
 	}
 
 	@Override
-	public long update(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, Program.class);
+	public long update(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, Program.class, domain);
 	}
 
 	@Override
-	public void addProjects(List<ObjectId> pjIds, ObjectId _id) {
+	public void addProjects(List<ObjectId> pjIds, ObjectId _id, String domain) {
 		if (pjIds.isEmpty())
 			throw new ServiceException("没有指定项目");
 		if (_id == null)
 			throw new ServiceException("没有指定项目集");
-		if (count(new BasicDBObject("_id", _id)) == 0)
+		if (count(new BasicDBObject("_id", _id), domain) == 0)
 			throw new ServiceException("指定的项目集不存在");
-		UpdateResult ur = c("project").updateMany(new Document("_id", new Document("$in", pjIds)),
+		UpdateResult ur = c("project", domain).updateMany(new Document("_id", new Document("$in", pjIds)),
 				new Document("$set", new Document("program_id", _id)));
 		if (ur.getModifiedCount() == 0)
 			throw new ServiceException("没有更新");
 	}
 
 	@Override
-	public void unsetProgram(ObjectId project_id) {
-		UpdateResult ur = c("project").updateOne(new Document("_id", project_id),
+	public void unsetProgram(ObjectId project_id, String domain) {
+		UpdateResult ur = c("project", domain).updateOne(new Document("_id", project_id),
 				new Document("$set", new Document("program_id", null)));
-		if(ur.getModifiedCount()==0)
+		if (ur.getModifiedCount() == 0)
 			throw new ServiceException("没有更新");
 	}
 
 	// @Override
-	// public List<Program> listFinishProgram(BasicDBObject condition) {
+	// public List<Program> listFinishProgram(BasicDBObject condition,String
+	// domain){
 	// Integer skip = (Integer) condition.get("skip");
 	// Integer limit = (Integer) condition.get("limit");
 	// BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -163,7 +164,7 @@ public class ProgramServiceImpl extends BasicServiceImpl implements ProgramServi
 	// if (limit != null)
 	// pipeline.add(new BasicDBObject("$limit", limit));
 	//
-	// return c(Program.class).aggregate(pipeline).into(new
+	// return c(Program.class,domain).aggregate(pipeline).into(new
 	// ArrayList<Program>());
 	// }
 

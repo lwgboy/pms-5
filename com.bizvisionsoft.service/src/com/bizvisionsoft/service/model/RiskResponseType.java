@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -30,6 +31,9 @@ public class RiskResponseType {
 
 	@Behavior("项目风险应对计划/添加")
 	private boolean action = true;
+	
+	@Exclude
+	public String domain;
 
 	@ReadValue("title")
 	private String getTitle() {
@@ -72,13 +76,13 @@ public class RiskResponseType {
 	@Structure({ "项目风险应对计划/list", "项目风险应对计划（查看）/list" })
 	private List<RiskResponse> listRiskResponse() {
 		return ServicesLoader.get(RiskService.class)
-				.listRiskResponse(new Query().filter(new BasicDBObject("rbsItem_id", _id).append("type", type)).bson());
+				.listRiskResponse(new Query().filter(new BasicDBObject("rbsItem_id", _id).append("type", type)).bson(), domain);
 	}
 
 	@Structure({ "项目风险应对计划/count", "项目风险应对计划（查看）/count" })
 	private long countRiskResponse() {
 		return ServicesLoader.get(RiskService.class)
-				.countRiskResponse(new BasicDBObject("rbsItem_id", _id).append("type", type));
+				.countRiskResponse(new BasicDBObject("rbsItem_id", _id).append("type", type), domain);
 	}
 
 	@ReadValue({ "项目风险应对计划/costInf", "项目风险应对计划（查看）/costInf" })

@@ -28,7 +28,7 @@ public class WeeklyProjectReportSummaryRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -62,7 +62,7 @@ public class WeeklyProjectReportSummaryRender extends GridPartDefaultRender {
 	private void editTag(WorkReportSummary item) {
 		Editor.open("工作报告标签编辑器", context, item, (r, t) -> {
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id())).set(new BasicDBObject("tags",t.getTags()));
-			Services.get(WorkReportService.class).updateWorkReportItem(fu.bson());
+			Services.get(WorkReportService.class).updateWorkReportItem(fu.bson(), br.getDomain());
 			item.setTags(t.getTags());
 			viewer.update(item, null);
 		});

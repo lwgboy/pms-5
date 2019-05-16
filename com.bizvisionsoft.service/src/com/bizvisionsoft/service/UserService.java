@@ -23,64 +23,64 @@ import com.mongodb.BasicDBObject;
 public interface UserService {
 
 	@PUT
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long update(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/consign/userId/{userId}/consignerId/{consignerId}")
+	@Path("/{domain}/consign/userId/{userId}/consignerId/{consignerId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void consign(@PathParam("userId") String userId, @PathParam("consignerId") String consignerId);
+	public void consign(@PathParam("userId") String userId, @PathParam("consignerId") String consignerId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/consign/userId/{userId}")
+	@Path("/{domain}/consign/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void disconsign(@PathParam("userId") String userId);
+	public void disconsign(@PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/trace/userId/{userId}/trace/{trace}")
+	@Path("/{domain}/trace/userId/{userId}/trace/{trace}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void trace(@PathParam("userId") String userId, @PathParam("trace") boolean trace);
+	public void trace(@PathParam("userId") String userId, @PathParam("trace") boolean trace,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public User insert(User user);
+	public User insert(User user,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/ds/")
+	@Path("/{domain}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "用户管理/" + DataSet.LIST, "用户选择列表/" + DataSet.LIST, "账户管理/" + DataSet.LIST })
-	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/count/")
+	@Path("/{domain}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "用户管理/" + DataSet.COUNT, "用户选择列表/" + DataSet.COUNT, "账户管理/" + DataSet.COUNT })
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/delegatable/{userId}/ds/")
+	@Path("/{domain}/delegatable/{userId}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "任务委托人选择列表/" + DataSet.LIST })
 	public List<User> listDelegatableUsers(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/delegatable/{userId}/count/")
+	@Path("/{domain}/delegatable/{userId}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "任务委托人选择列表/" + DataSet.COUNT })
 	public long countDelegatableUsers(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/check/{userId}/{password}")
@@ -89,68 +89,68 @@ public interface UserService {
 	public User check(@PathParam("userId") String userId, @PathParam("password") String password);
 
 	@GET
-	@Path("/userId/{userId}")
+	@Path("/{domain}/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public User get(@PathParam("userId") String userId);
+	public User get(@PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.DELETE)
-	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId get_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dept/{userId}/ds/")
+	@Path("/{domain}/dept/{userId}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("指派用户选择列表/" + DataSet.LIST)
 	public List<User> createDeptUserDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dept/{userId}/count/")
+	@Path("/{domain}/dept/{userId}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("指派用户选择列表/" + DataSet.COUNT)
 	public long countDeptUser(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/consigned/{userId}/ds")
+	@Path("/{domain}/consigned/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<User> listConsigned(@PathParam("userId") String userId);
+	public List<User> listConsigned(@PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/traceInfo/")
+	@Path("/{domain}/traceInfo/")
 	@Consumes("application/json; charset=UTF-8")
-	public void insertTraceInfo(TraceInfo traceInfo);
+	public void insertTraceInfo(TraceInfo traceInfo,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/traceInfo/ds")
+	@Path("/{domain}/traceInfo/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("用户操作审计/" + DataSet.LIST)
-	public List<TraceInfo> listTraceInfo(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<TraceInfo> listTraceInfo(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/traceInfo/count")
+	@Path("/{domain}/traceInfo/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("用户操作审计/" + DataSet.COUNT)
-	public long countTraceInfo(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countTraceInfo(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/reqChgPsw/")
+	@Path("/{domain}/reqChgPsw/")
 	@Consumes("application/json; charset=UTF-8")
-	public void requestChangePassword(List<String> userids);
+	public void requestChangePassword(List<String> userids,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/reqAllChgPsw/")
+	@Path("/{domain}/reqAllChgPsw/")
 	@Consumes("application/json; charset=UTF-8")
-	public void requestAllChangePassword();
+	public void requestAllChangePassword(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/updatePsw/{userId}/")

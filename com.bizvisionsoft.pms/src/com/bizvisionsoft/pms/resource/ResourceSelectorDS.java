@@ -18,7 +18,7 @@ public class ResourceSelectorDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet("选择人力资源/" + DataSet.LIST)
 	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
@@ -28,7 +28,7 @@ public class ResourceSelectorDS {
 			condition.append("filter", filter);
 		}
 		filter.append("resourceType_id", new BasicDBObject("$ne", null));
-		return Services.get(UserService.class).createDataSet(condition);
+		return Services.get(UserService.class).createDataSet(condition, br.getDomain());
 	}
 
 	@DataSet("选择人力资源/" + DataSet.COUNT)
@@ -37,7 +37,7 @@ public class ResourceSelectorDS {
 			filter = new BasicDBObject();
 		}
 		filter.append("resourceType_id", new BasicDBObject("$ne", null));
-		return Services.get(UserService.class).count(filter);
+		return Services.get(UserService.class).count(filter, br.getDomain());
 	}
 	//TODO
 

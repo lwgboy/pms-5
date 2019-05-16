@@ -12,7 +12,8 @@ import java.util.Optional;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.bizvisionsoft.service.common.query.JQ;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.ColorTheme;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.ColorTheme.BruiColor;
@@ -163,8 +164,11 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	private double[] extraActualAggTime;
 	private double[] extraActualAggAmount;
 
+	private String domain;
+
 	@SuppressWarnings("unchecked")
-	public ResourceChartRenderer(Document condition) {
+	public ResourceChartRenderer(Document condition, String domain) {
+		this.domain = domain;
 		checkResChartOption(condition);
 		Document option = (Document) condition.get("option");
 		List<?> dateRange = (List<?>) option.get("dateRange");
@@ -195,7 +199,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 		appendSeries();
 
 		// 生成资源图表
-		JQ jq = new JQ(Chart).set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("yAxis", yAxis).set("series",
+		JQ jq = Domain.getJQ(domain, Chart).set("title", "").set("legendData", legendData).set("xAxisData", xAxisData).set("yAxis", yAxis).set("series",
 				series);
 		return jq.doc();
 	}
@@ -411,7 +415,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 
 	private void appendSummary(String seriesJQ, String postfix, String stack, double[] ds, BruiColor color) {
 		List<Double> data = Formatter.toList(ds);
-		Document doc = new JQ(seriesJQ).set("name", Prefix_Sum + stack + postfix)
+		Document doc = Domain.getJQ(domain, seriesJQ).set("name", Prefix_Sum + stack + postfix)
 				.set("color1", ColorTheme.getHtmlColor(color.getRgba(0xff))).set("color2", ColorTheme.getHtmlColor(color.getRgba(0x66)))
 				.set("color3", ColorTheme.getHtmlColor(color.getRgba(0))).set("stack", Prefix_Sum + stack).set("data", data).doc();
 		series.add(doc);
@@ -429,7 +433,7 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 	 */
 	private void appendCatalog(String timeChart, String seriesName, String postfix, String stack, double[] ds) {
 		List<Double> data = Formatter.toList(ds);
-		series.add(new JQ(timeChart).set("name", seriesName + stack + postfix).set("stack", seriesName + stack).set("data", data).doc());
+		series.add(Domain.getJQ(domain, timeChart).set("name", seriesName + stack + postfix).set("stack", seriesName + stack).set("data", data).doc());
 		legendData.add(stack + postfix);
 	}
 
@@ -455,11 +459,11 @@ public class ResourceChartRenderer extends BasicServiceImpl {
 
 	private ResourceData query(Document match) {
 		ResourceData resData = new ResourceData(xAxisData.size());
-		List<Bson> pipeline = new JQ("视图-资源计划和实际用量").array();
+		List<Bson> pipeline = Domain.getJQ(domain, "视图-资源计划和实际用量").array();
 		pipeline.add(new Document("$match", match));
 		pipeline.add(new Document("$group", group));
 		pipeline.add(new Document("$sort", new Document("_id.resName", 1).append("_id.id", 1).append("_id.type", 1)));
-		c("resourceType").aggregate(pipeline).forEach((Document d) -> {
+		c("resourceType", domain).aggregate(pipeline).forEach((Document d) -> {
 			resData.build(d);
 		});
 		return resData;

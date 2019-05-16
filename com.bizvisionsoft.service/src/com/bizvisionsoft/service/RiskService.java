@@ -33,293 +33,293 @@ public interface RiskService {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/type/ds")
+	@Path("/{domain}/type/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.LIST)
-	public List<RBSType> listRBSType();
+	public List<RBSType> listRBSType(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/type/")
+	@Path("/{domain}/type/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.INSERT)
-	public RBSType insertRBSType(@MethodParam(MethodParam.OBJECT) RBSType item);
+	public RBSType insertRBSType(@MethodParam(MethodParam.OBJECT) RBSType item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/type/_id/{_id}")
+	@Path("/{domain}/type/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.DELETE)
-	public long deleteRBSType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRBSType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/type/")
+	@Path("/{domain}/type/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("RBS类别/" + DataSet.UPDATE)
-	public long updateRBSType(BasicDBObject filterAndUpdate);
+	public long updateRBSType(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/rbs/ds")
+	@Path("/{domain}/rbs/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<RBSItem> listRBSItem(BasicDBObject condition);
+	public List<RBSItem> listRBSItem(BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/rbs/count")
+	@Path("/{domain}/rbs/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countRBSItem(BasicDBObject filter);
+	public long countRBSItem(BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/rbs/")
+	@Path("/{domain}/rbs/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public RBSItem insertRBSItem(RBSItem item);
+	public RBSItem insertRBSItem(RBSItem item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/rbs/_id/{_id}")
+	@Path("/{domain}/rbs/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteRBSItem(@PathParam("_id") ObjectId _id);
+	public long deleteRBSItem(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/rbs/")
+	@Path("/{domain}/rbs/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateRBSItem(BasicDBObject filterAndUpdate);
+	public long updateRBSItem(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/effect/")
+	@Path("/{domain}/effect/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public RiskEffect addRiskEffect(RiskEffect re);
+	public RiskEffect addRiskEffect(RiskEffect re,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/effect/{_id}/ds")
+	@Path("/{domain}/effect/{_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/list")
 	public List<RiskEffect> listRiskEffect(@MethodParam(MethodParam.CONDITION) BasicDBObject bson,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/effect/{_id}/count")
+	@Path("/{domain}/effect/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目风险量化评估/count")
 	public long countRiskEffect(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id);
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/effect/_id/{_id}")
+	@Path("/{domain}/effect/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteRiskEffect(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRiskEffect(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/effect/")
+	@Path("/{domain}/effect/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateRiskEffect(BasicDBObject filterAndUpdate);
+	public long updateRiskEffect(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/urgInds/ds")
+	@Path("/{domain}/urgInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("临近性指标设置/" + DataSet.LIST)
-	public List<RiskUrgencyInd> listRiskUrgencyInd();
+	public List<RiskUrgencyInd> listRiskUrgencyInd(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/urgInds/")
+	@Path("/{domain}/urgInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("临近性指标设置/" + DataSet.INSERT)
-	public RiskUrgencyInd insertRiskUrgencyInd(@MethodParam(MethodParam.OBJECT) RiskUrgencyInd item);
+	public RiskUrgencyInd insertRiskUrgencyInd(@MethodParam(MethodParam.OBJECT) RiskUrgencyInd item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/urgInds/_id/{_id}")
+	@Path("/{domain}/urgInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("临近性指标设置/" + DataSet.DELETE)
-	public long deleteRiskUrgencyInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRiskUrgencyInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/urgInds/")
+	@Path("/{domain}/urgInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("临近性指标设置/" + DataSet.UPDATE)
-	public long updateRiskUrgencyInd(BasicDBObject filterAndUpdate);
+	public long updateRiskUrgencyInd(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/urgInds/{days}")
+	@Path("/{domain}/urgInds/{days}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public String getUrgencyText(@PathParam("days") long days);
+	public String getUrgencyText(@PathParam("days") long days,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/qltyInfInds/ds")
+	@Path("/{domain}/qltyInfInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "质量影响级别/" + DataSet.LIST })
-	public List<QuanlityInfInd> listRiskQuanlityInfInd();
+	public List<QuanlityInfInd> listRiskQuanlityInfInd(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/qltyInfInds/")
+	@Path("/{domain}/qltyInfInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.INSERT)
-	public QuanlityInfInd insertRiskQuanlityInfInd(@MethodParam(MethodParam.OBJECT) QuanlityInfInd item);
+	public QuanlityInfInd insertRiskQuanlityInfInd(@MethodParam(MethodParam.OBJECT) QuanlityInfInd item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/qltyInfInds/_id/{_id}")
+	@Path("/{domain}/qltyInfInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.DELETE)
-	public long deleteRiskQuanlityInfInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRiskQuanlityInfInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/qltyInfInds/")
+	@Path("/{domain}/qltyInfInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("质量影响级别/" + DataSet.UPDATE)
-	public long updateRiskQuanlityInfInd(BasicDBObject filterAndUpdate);
+	public long updateRiskQuanlityInfInd(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/detectInds/ds")
+	@Path("/{domain}/detectInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.LIST)
-	public List<DetectionInd> listRiskDetectionInd();
+	public List<DetectionInd> listRiskDetectionInd(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/detectInds/")
+	@Path("/{domain}/detectInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.INSERT)
-	public DetectionInd insertRiskDetectionInd(@MethodParam(MethodParam.OBJECT) DetectionInd item);
+	public DetectionInd insertRiskDetectionInd(@MethodParam(MethodParam.OBJECT) DetectionInd item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/detectInds/_id/{_id}")
+	@Path("/{domain}/detectInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.DELETE)
-	public long deleteRiskDetectionInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRiskDetectionInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/detectInds/")
+	@Path("/{domain}/detectInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("可探测性级别/" + DataSet.UPDATE)
-	public long updateRiskDetectionInd(BasicDBObject filterAndUpdate);
+	public long updateRiskDetectionInd(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/scoreInds/ds")
+	@Path("/{domain}/scoreInds/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.LIST)
-	public List<RiskScore> listRiskScoreInd();
+	public List<RiskScore> listRiskScoreInd(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/scoreInds/")
+	@Path("/{domain}/scoreInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.INSERT)
-	public RiskScore insertRiskScoreInd(@MethodParam(MethodParam.OBJECT) RiskScore item);
+	public RiskScore insertRiskScoreInd(@MethodParam(MethodParam.OBJECT) RiskScore item,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/scoreInds/_id/{_id}")
+	@Path("/{domain}/scoreInds/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.DELETE)
-	public long deleteRiskScoreInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRiskScoreInd(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/scoreInds/")
+	@Path("/{domain}/scoreInds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("风险评分标准/" + DataSet.UPDATE)
-	public long updateRiskScoreInd(BasicDBObject filterAndUpdate);
+	public long updateRiskScoreInd(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/mcs/project_id/{project_id}/times/{times}")
+	@Path("/{domain}/mcs/project_id/{project_id}/times/{times}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> monteCarloSimulate(@PathParam("project_id") ObjectId project_id, @PathParam("times") int times);
+	public List<Result> monteCarloSimulate(@PathParam("project_id") ObjectId project_id, @PathParam("times") int times,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/mcs/project_id/{project_id}/chart")
+	@Path("/{domain}/mcs/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "蒙特卡洛分析展示/list", "蒙特卡洛分析展示（查看）/list" })
 	public Document monteCarloSimulateChartData(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/prox/project_id/{project_id}/chart")
+	@Path("/{domain}/prox/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "临近、监测和影响分析（小组件）/list", "临近、监测和影响分析/list" })
 	public Document getRiskProximityChart(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/prox2/project_id/{project_id}/chart")
+	@Path("/{domain}/prox2/project_id/{project_id}/chart")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "临近、监测和影响分析（大图表）/list" })
 	public Document getRiskProximityChart2(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id);
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/mcs/project_id/{project_id}/durProb")
+	@Path("/{domain}/mcs/project_id/{project_id}/durProb")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Double getDurationProbability(@PathParam("project_id") ObjectId project_id);
+	public Double getDurationProbability(@PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/mcs/project_id/{project_id}/durForcast")
+	@Path("/{domain}/mcs/project_id/{project_id}/durForcast")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<List<Double>> getDurationForcast(@PathParam("project_id") ObjectId project_id);
+	public List<List<Double>> getDurationForcast(@PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/riskresp/")
+	@Path("/{domain}/riskresp/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public RiskResponse insertRiskResponse(RiskResponse resp);
+	public RiskResponse insertRiskResponse(RiskResponse resp,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/riskresp/_id/{_id}")
+	@Path("/{domain}/riskresp/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteRiskResponse(@PathParam("_id") ObjectId _id);
+	public long deleteRiskResponse(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/riskresp/")
+	@Path("/{domain}/riskresp/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateRiskResponse(BasicDBObject filterAndUpdate);
+	public long updateRiskResponse(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/riskresp/ds")
+	@Path("/{domain}/riskresp/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<RiskResponse> listRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject cond);
+	public List<RiskResponse> listRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject cond,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/riskresp/count")
+	@Path("/{domain}/riskresp/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject filter);
+	public long countRiskResponse(@MethodParam(MethodParam.CONDITION) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

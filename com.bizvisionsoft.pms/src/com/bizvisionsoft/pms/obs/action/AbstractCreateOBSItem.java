@@ -9,12 +9,12 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public abstract class AbstractCreateOBSItem {
 
-	protected void open(IBruiContext context, Object em, String message, String editor,boolean isRole) {
-		OBSItem input = new OBSItem().setParent_id(((OBSItem) em).get_id())
-				.setScope_id(((OBSItem) em).getScope_id()).setIsRole(isRole).generateSeq();
+	protected void open(IBruiContext context, Object em, String message, String editor, boolean isRole, String domain) {
+		OBSItem input = new OBSItem().setParent_id(((OBSItem) em).get_id()).setScope_id(((OBSItem) em).getScope_id()).setIsRole(isRole)
+				.generateSeq(domain);
 
 		Editor.create(editor, context, input, true).setTitle(message).ok((r, t) -> {
-			OBSItem item = Services.get(OBSService.class).insert(t);
+			OBSItem item = Services.get(OBSService.class).insert(t, domain);
 			Object part = context.getContent();
 			if (part instanceof IStructuredDataPart) {
 				((IStructuredDataPart) part).add(em, item);

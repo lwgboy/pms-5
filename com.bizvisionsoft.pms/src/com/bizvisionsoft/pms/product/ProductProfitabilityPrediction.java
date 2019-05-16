@@ -106,7 +106,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private Project project;
 
@@ -120,7 +120,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 	public void init() {
 		setContext(context);
 		setConfig(context.getAssembly());
-		setBruiService(bruiService);
+		setBruiService(br);
 
 		project = context.getRootInput(Project.class, false);
 
@@ -171,7 +171,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 	@Override
 	public void setViewerInput() {
 		input = Services.get(CommonService.class)
-				.listStructuredData(new BasicDBObject("host_id", project.get_id()).append("type", type));
+				.listStructuredData(new BasicDBObject("host_id", project.get_id()).append("type", type), br.getDomain());
 		if (input.isEmpty()) {
 			input = initStructuredData();
 		}
@@ -198,7 +198,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 				createRowData("减去固定投入的毛利率%", "17")//
 		);
 
-		Services.get(CommonService.class).insertStructuredData(result);
+		Services.get(CommonService.class).insertStructuredData(result, br.getDomain());
 		return result;
 	}
 
@@ -500,7 +500,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 
 	private double search(String index, String... cols) {
 		List<Document> refRows = Services.get(CommonService.class).listStructuredData(
-				new BasicDBObject("host_id", project.get_id()).append("type", "项目盈利预测分析").append("index", index));
+				new BasicDBObject("host_id", project.get_id()).append("type", "项目盈利预测分析").append("index", index), br.getDomain());
 		if (!refRows.isEmpty()) {
 			Document ref = refRows.get(0);
 			double sum = 0d;
@@ -534,7 +534,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 		grp.setData("name", "产品SKU");
 		grp.setText("产品SKU");
 		grp.setExpanded(true);
-		Services.get(ProductService.class).listProjectProduct(project.get_id())
+		Services.get(ProductService.class).listProjectProduct(project.get_id(), br.getDomain())
 				.forEach(p -> createProductColumn(grp, p));
 	}
 
@@ -648,7 +648,7 @@ public class ProductProfitabilityPrediction extends GridPart {
 		matrix.clear();
 		BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", row.get("_id")))
 				.set(new BasicDBObject(col, v)).bson();
-		Services.get(CommonService.class).updateStructuredData(fu);
+		Services.get(CommonService.class).updateStructuredData(fu, br.getDomain());
 	}
 
 	private Document createRowData(String name, String index) {

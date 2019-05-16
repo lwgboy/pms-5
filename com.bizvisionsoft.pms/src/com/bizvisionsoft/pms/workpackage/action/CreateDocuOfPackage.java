@@ -33,7 +33,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateDocuOfPackage {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	// 已经把模板和项目的分开，没有必要用Behavior设置，所以注释以下代码
 	// @Behavior("输出文档/创建文档")
@@ -46,11 +46,11 @@ public class CreateDocuOfPackage {
 	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 检查是否存在文档设置
 		WorkPackage wp = (WorkPackage) context.getInput();
-		List<DocuSetting> setting = Services.get(DocumentService.class).listDocumentSetting(wp.get_id());
+		List<DocuSetting> setting = Services.get(DocumentService.class).listDocumentSetting(wp.get_id(), br.getDomain());
 		if (setting.isEmpty()) {
 			createGenaricDocument(context);
 		} else {
-			ActionMenu am = new ActionMenu(brui);
+			ActionMenu am = new ActionMenu(br);
 			List<Action> actions = new ArrayList<>();
 
 			appendGeneriDocument(am, actions, context);
@@ -91,11 +91,11 @@ public class CreateDocuOfPackage {
 		WorkPackage wp = (WorkPackage) context.getInput();
 		GridPart gridPart = (GridPart) context.getContent();
 		ObjectId dt_id = ds.getDocuTemplate_id();
-		DocuTemplate dt = Services.get(DocumentService.class).getDocumentTemplate(dt_id);
+		DocuTemplate dt = Services.get(DocumentService.class).getDocumentTemplate(dt_id, br.getDomain());
 		if (dt == null)
 			throw new RuntimeException("无法获得文档模板，文档设置为：" + ds.getName());
 		Docu docu = new Docu()//
-				.setCreationInfo(brui.operationInfo())//
+				.setCreationInfo(br.operationInfo())//
 				.addWorkPackageId(wp.get_id())//
 				.setFolder_id(ds.getFolder_id())//
 				.setName(wp.description)//
@@ -113,7 +113,7 @@ public class CreateDocuOfPackage {
 			});
 		} else {
 			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
-				gridPart.insert(Services.get(DocumentService.class).createDocument(t));
+				gridPart.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
 			});
 		}
 
@@ -122,24 +122,24 @@ public class CreateDocuOfPackage {
 	private void insert(GridPart gridPart, Document t) {
 		UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())
 				.addParameter(MethodParam.OBJECT, t).setTargetCollection("docu");
-		UniversalResult ur = Services.get(UniversalDataService.class).insert(command);
+		UniversalResult ur = Services.get(UniversalDataService.class).insert(command, br.getDomain());
 		gridPart.insert(ur.getValue());
 	}
 
 	private void createGenaricDocument(final IBruiContext context) {
 		WorkPackage wp = (WorkPackage) context.getInput();
 		GridPart gridPart = (GridPart) context.getContent();
-		ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id());
+		ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id(), br.getDomain());
 		// 选择文件夹
 		Selector.open("项目文件夹选择", context, new Project().set_id(project_id), em -> {
 			Docu docu = new Docu()//
-					.setCreationInfo(brui.operationInfo())//
+					.setCreationInfo(br.operationInfo())//
 					.addWorkPackageId(wp.get_id())//
 					.setFolder_id(((Folder) em.get(0)).get_id())//
 					.setName(wp.description);
 
 			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
-				gridPart.insert(Services.get(DocumentService.class).createDocument(t));
+				gridPart.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
 			});
 		});
 	}

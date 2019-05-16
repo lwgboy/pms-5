@@ -48,7 +48,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@GridRenderInput
 	private List<Document> input;
@@ -58,7 +58,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 	@DataSet("list")
 	public List<Document> data() {
 		List<Document> result = Services.get(CommonService.class)
-				.listStructuredData(new BasicDBObject("host_id", host_id).append("type", type));
+				.listStructuredData(new BasicDBObject("host_id", host_id).append("type", type), br.getDomain());
 		if (result.isEmpty()) {
 			result = initStructuredData();
 		}
@@ -159,7 +159,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 
 				createRowData("净现金流", "8.1"), createRowData("PV（净现金流现值）", "8.2"), createRowData("投资回收期(月)", "8.3"));
 
-		Services.get(CommonService.class).insertStructuredData(result);
+		Services.get(CommonService.class).insertStructuredData(result,br.getDomain());
 		return result;
 	}
 
@@ -676,7 +676,7 @@ public class ProjectProfitabilityPrediction extends GridPartDefaultRender {
 		row.put(key, v);
 		BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", row.get("_id")))
 				.set(new BasicDBObject(key, v)).bson();
-		Services.get(CommonService.class).updateStructuredData(fu);
+		Services.get(CommonService.class).updateStructuredData(fu,br.getDomain());
 
 	}
 

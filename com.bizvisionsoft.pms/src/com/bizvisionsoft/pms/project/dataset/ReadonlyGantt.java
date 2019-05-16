@@ -28,7 +28,7 @@ public class ReadonlyGantt {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private IWBSScope workScope;
 

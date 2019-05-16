@@ -80,14 +80,17 @@ public class Folder implements IFolder{
 		return name;
 	}
 
+	@Exclude
+	public String domain;
+	
 	@Structure(DataSet.LIST)
 	private List<Folder> listChildren() {
-		return ServicesLoader.get(DocumentService.class).listChildrenProjectFolder(_id);
+		return ServicesLoader.get(DocumentService.class).listChildrenProjectFolder(_id, domain);
 	}
 
 	@Structure(DataSet.COUNT)
 	private long countChildren() {
-		return ServicesLoader.get(DocumentService.class).countChildrenProjectFolder(_id);
+		return ServicesLoader.get(DocumentService.class).countChildrenProjectFolder(_id, domain);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,14 +13,14 @@ import com.bizvisionsoft.service.model.WorkInTemplate;
 public class AddMilestoneACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
-		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板里程碑工作编辑器"), context).setInput(WorkInTemplate
+		new Editor<WorkInTemplate>(br.getAssembly("项目模板里程碑工作编辑器"), context).setInput(WorkInTemplate
 				.newInstance((WorkInTemplate) event.task).setMilestone(true).setManageLevel("1"))
 				.ok((r, wi) -> {
 					wi.setPlanFinish(wi.getPlanStart());

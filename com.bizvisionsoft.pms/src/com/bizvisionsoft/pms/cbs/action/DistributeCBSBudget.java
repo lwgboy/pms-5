@@ -23,12 +23,12 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class DistributeCBSBudget {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
-			new Selector(brui.getAssembly("阶段选择器"), context).setInput(context.getRootInput()).setTitle("分配预算到指定阶段")
+			new Selector(br.getAssembly("阶段选择器"), context).setInput(context.getRootInput()).setTitle("分配预算到指定阶段")
 					.open(r -> {
 						// TODO 在CBS节点上显示分配到哪个阶段
 						// TODO 阶段选择器上显示分配情况
@@ -37,10 +37,10 @@ public class DistributeCBSBudget {
 						Work workInfo = (Work) r.get(0);
 						ObjectId cbs_id = workInfo.getCBS_id();
 						if (cbs_id != null) {
-							brui.error( "错误", "已经为该阶段分配预算，无法再次分配。");
+							br.error( "错误", "已经为该阶段分配预算，无法再次分配。");
 						} else {
 							CBSItem cbsItem = Services.get(CBSService.class).allocateBudget(((CBSItem) parent).get_id(),
-									workInfo.get_id(), workInfo.toString());
+									workInfo.get_id(), workInfo.toString(), br.getDomain());
 							// TODO 错误返回
 							// TODO 成功提示
 							BudgetCBS grid = (BudgetCBS) context.getContent();

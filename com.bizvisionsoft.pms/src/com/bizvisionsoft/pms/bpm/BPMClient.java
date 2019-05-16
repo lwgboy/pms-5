@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.bson.Document;
 import org.eclipse.jface.window.Window;
 
-import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.factory.assembly.EditorFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.SpinnerFieldFactory;
 import com.bizvisionsoft.bruicommons.factory.fields.TextFieldFactory;
@@ -19,6 +18,7 @@ import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.BPMService;
@@ -34,6 +34,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class BPMClient {
 
 	private String domain;
+	
 	private BPMService service;
 
 	// private static Logger logger = LoggerFactory.getLogger(BPMClient.class);
@@ -57,7 +58,7 @@ public class BPMClient {
 		// 2.是否有表单，如有，打开
 		String editor = pd.getEditor();
 		if (Check.isAssigned(editor)) {
-			Assembly assembly = ModelLoader.site.getAssemblyByName(editor);
+			Assembly assembly = UserSession.site().getAssemblyByName(editor);
 			if (assembly == null)
 				throw new RuntimeException("无法获得表单：" + editor);
 			assembly.getFields().forEach(f -> {
@@ -74,7 +75,7 @@ public class BPMClient {
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 3.如有脚本，运行脚本
-		executeJS(input, context.getContextParameterData(), pd.getScript());
+		executeJS(input, context.getContextParameterData(), pd.getScript(),domain);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 4.构造启动参数
@@ -117,13 +118,13 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 3. 前处理
 		if (td != null)
-			executeJS(input, context.getContextParameterData(), td.getiScript());
+			executeJS(input, context.getContextParameterData(), td.getiScript(),domain);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 4. 打开编辑器表单
 		String editor = td == null ? null : td.getEditor();
 		if (Check.isAssigned(editor)) {// 如果定义了编辑器
-			Assembly assembly = ModelLoader.site.getAssemblyByName(editor);
+			Assembly assembly = UserSession.site().getAssemblyByName(editor);
 			if (assembly == null)
 				return Result.error("无法获得表单：" + editor);
 			if (!editInput(context, assembly, td.getName(), input))
@@ -147,13 +148,13 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 5. 后处理
 		if (td != null)
-			executeJS(input, context.getContextParameterData(), td.getoScript());
+			executeJS(input, context.getContextParameterData(), td.getoScript(),domain);
 
 		return service.completeTask(taskId, userId, input, domain);
 	}
 
 	public Result delegateTask(IBruiContext context, long taskId, String userId) {
-		Assembly config = ModelLoader.site.getAssemblyByName("任务委托人选择器");
+		Assembly config = UserSession.site().getAssemblyByName("任务委托人选择器");
 		Selector selector = new Selector(config, context).setTitle("请选择委托本任务的执行人");
 		if (Window.OK != selector.open()) {
 			return Result.terminated();
@@ -228,10 +229,10 @@ public class BPMClient {
 		return field;
 	}
 
-	private static void executeJS(Document input, Document contextParameterData, String script) {
+	private static void executeJS(Document input, Document contextParameterData, String script,String domain) {
 		if (Check.isAssigned(script)) {
 			Document binding = new Document("input", input).append("context", contextParameterData).append("ServiceHelper",
-					new ServiceHelper());
+					new ServiceHelper(domain));
 			JSTools.invoke(script, null, "input", binding, input, contextParameterData);
 		}
 	}

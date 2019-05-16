@@ -8,8 +8,8 @@ import com.bizvisionsoft.service.model.Project;
 public class ProjectGenerator implements IAutoGenerator<Project> {
 
 	@Override
-	public Object generate(Project project, String name, String key, Class<?> t) {
-		int index = ServicesLoader.get(CommonService.class).generateCode(name, key);
+	public Object generate(Project project, String name, String key, Class<?> t,String domain) {
+		int index = ServicesLoader.get(CommonService.class).generateCode(name, key, domain);
 		return String.format("%05d", index);
 	}
 

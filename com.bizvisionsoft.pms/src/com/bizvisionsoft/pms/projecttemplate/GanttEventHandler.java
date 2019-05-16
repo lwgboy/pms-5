@@ -27,7 +27,7 @@ public class GanttEventHandler {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private ObjectId template_id;
 
@@ -77,13 +77,13 @@ public class GanttEventHandler {
 		actions.add(deleteAction);
 
 		// 弹出menu
-		new ActionMenu(bruiService).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
+		new ActionMenu(br).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
 				.setActions(actions).setEvent(event).handleActionExecute("编辑link", t -> {
 					Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link,
 							(r, wi) -> ganttPart.updateLink(wi));
 					return false;
 				}).handleActionExecute("删除link", t -> {
-					if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
+					if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
 						WorkLinkInTemplate link = (WorkLinkInTemplate) ((GanttEvent) event).link;
 						ganttPart.deleteLink(link.getId());
 					}

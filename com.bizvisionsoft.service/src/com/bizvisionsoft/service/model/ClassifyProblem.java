@@ -44,15 +44,18 @@ public class ClassifyProblem {
 		ci.parent_id = _id;
 		return ci;
 	}
+	
+	@Exclude
+	public String domain;
 
 	@Structure("list")
 	public List<ClassifyProblem> listSubItems() {
-		return ServicesLoader.get(ProblemService.class).listClassifyProblem(new BasicDBObject("parent_id", _id));
+		return ServicesLoader.get(ProblemService.class).listClassifyProblem(new BasicDBObject("parent_id", _id), domain);
 	}
 
 	@Structure("count")
 	public long countSubItems() {
-		return ServicesLoader.get(ProblemService.class).countClassifyProblem(_id);
+		return ServicesLoader.get(ProblemService.class).countClassifyProblem(_id, domain);
 	}
 
 

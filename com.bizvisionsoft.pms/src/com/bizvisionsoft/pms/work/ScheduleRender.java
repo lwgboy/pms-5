@@ -37,7 +37,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -64,30 +64,31 @@ public class ScheduleRender extends GridPartDefaultRender {
 	}
 
 	private boolean checkPermission(Work stage) {
-		String currentUserId = brui.getCurrentUserId();
+		String currentUserId = br.getCurrentUserId();
 		if (currentUserId.equals(stage.getChargerId()))
 			return true;
-		return ServicesLoader.get(OBSService.class).checkScopeRole(new ScopeRoleParameter(currentUserId)
-				.setRoles("PM", "PPM", "WM").setScopes(stage.get_id(), stage.getProject_id()));
+		return ServicesLoader.get(OBSService.class).checkScopeRole(
+				new ScopeRoleParameter(currentUserId).setRoles("PM", "PPM", "WM").setScopes(stage.get_id(), stage.getProject_id()),
+				br.getDomain());
 	}
 
 	private void close(Work stage) {
 		CommandHandler.run(ICommand.Close_Stage, //
 				"ÇëÈ·ÈÏ½×¶Î¹Ø±Õ£º" + stage + "¡£", "½×¶ÎÒÑ¹Ø±Õ", "½×¶Î¹Ø±ÕÊ§°Ü", //
+				() -> Services.get(WorkService.class).closeStage(br.command(stage.get_id(), new Date(), ICommand.Close_Stage),
+						br.getDomain()),
 				() -> Services.get(WorkService.class)
-						.closeStage(brui.command(stage.get_id(), new Date(), ICommand.Close_Stage)),
-				() -> Services.get(WorkService.class)
-						.closeStage(brui.command(stage.get_id(), new Date(), ICommand.Close_Stage_Ignore_Warrning)),
+						.closeStage(br.command(stage.get_id(), new Date(), ICommand.Close_Stage_Ignore_Warrning), br.getDomain()),
 				code -> refreshGrid());
 	}
 
 	private void finish(Work stage) {
 		CommandHandler.run(ICommand.Finish_Stage, //
 				"ÇëÈ·ÈÏ½×¶ÎÊÕÎ²£º" + stage + "¡£", "ÒÑ¿ªÊ¼½×¶ÎÊÕÎ²", "½×¶ÎÊÕÎ²Ê§°Ü", //
+				() -> Services.get(WorkService.class).finishStage(br.command(stage.get_id(), new Date(), ICommand.Finish_Stage),
+						br.getDomain()),
 				() -> Services.get(WorkService.class)
-						.finishStage(brui.command(stage.get_id(), new Date(), ICommand.Finish_Stage)),
-				() -> Services.get(WorkService.class)
-						.finishStage(brui.command(stage.get_id(), new Date(), ICommand.Finish_Stage_Ignore_Warrning)),
+						.finishStage(br.command(stage.get_id(), new Date(), ICommand.Finish_Stage_Ignore_Warrning), br.getDomain()),
 				code -> refreshGrid());
 	}
 
@@ -99,8 +100,8 @@ public class ScheduleRender extends GridPartDefaultRender {
 	private void start(Work stage) {
 		CommandHandler.run(ICommand.Start_Stage, //
 				"ÇëÈ·ÈÏÆô¶¯½×¶Î£º" + stage + "¡£", "½×¶ÎÆô¶¯Íê³É", "½×¶ÎÆô¶¯Ê§°Ü", //
-				() -> Services.get(WorkService.class)
-						.startStage(brui.command(stage.get_id(), new Date(), ICommand.Start_Stage)), //
+				() -> Services.get(WorkService.class).startStage(br.command(stage.get_id(), new Date(), ICommand.Start_Stage),
+						br.getDomain()), //
 				code -> refreshGrid());
 	}
 
@@ -109,8 +110,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
 			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
 			@MethodParam(GridRenderUpdateCell.PARAM_INPUT_ELEMENT) Object element,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
-			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
+			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value, @MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image,
 			@MethodParam(GridRenderUpdateCell.PARAM_CALLBACK) BiConsumer<String, Object> callback) {
 		super.renderCell(cell, column, element, value, image, callback);
 	}
@@ -131,8 +131,7 @@ public class ScheduleRender extends GridPartDefaultRender {
 
 	@Override
 	@GridRenderCompare
-	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col,
-			@MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
+	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
 	}

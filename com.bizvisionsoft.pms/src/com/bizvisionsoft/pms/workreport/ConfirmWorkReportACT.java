@@ -21,13 +21,13 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ConfirmWorkReportACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		WorkReport input = (WorkReport) context.getInput();
-		Shell shell = brui.getCurrentShell();
+		Shell shell = br.getCurrentShell();
 		boolean ok = MessageDialog.openConfirm(shell, "确认" + input.getType(),
 				"请确认报告：" + input.getLabel() + "。\n系统将记录现在时刻为报告确认时间。");
 		if (!ok) {
@@ -35,13 +35,13 @@ public class ConfirmWorkReportACT {
 		}
 
 		List<Result> result = Services.get(WorkReportService.class).confirmWorkReport(Arrays.asList(input.get_id()),
-				brui.getCurrentUserId());
+				br.getCurrentUserId(), br.getDomain());
 		if (result.isEmpty()) {
 			Layer.message("报告已确认");
 			InfopadPart ip = (InfopadPart) context.getChildContextByAssemblyName("工作报告基本信息面板").getContent();
 			ip.reload();
-			brui.closeCurrentContent();
-			brui.updateSidebarActionBudget("确认报告");
+			br.closeCurrentContent();
+			br.updateSidebarActionBudget("确认报告");
 		}
 	}
 }

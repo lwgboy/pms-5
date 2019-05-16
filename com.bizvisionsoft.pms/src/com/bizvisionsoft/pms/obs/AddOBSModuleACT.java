@@ -18,7 +18,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class AddOBSModuleACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -28,14 +28,13 @@ public class AddOBSModuleACT {
 				boolean overide = false;
 				// 检查重复的角色
 				OBSService obsService = Services.get(OBSService.class);
-				boolean duplicated = obsService.isRoleNumberDuplicated(((OBSModule) l.get(0)).get_id(),
-						project.get_id());
-				if (duplicated && brui.confirm("添加组织模块", "存在编号相同的角色，请确认是否创建编号重复的角色。")) {
+				boolean duplicated = obsService.isRoleNumberDuplicated(((OBSModule) l.get(0)).get_id(), project.get_id(), br.getDomain());
+				if (duplicated && br.confirm("添加组织模块", "存在编号相同的角色，请确认是否创建编号重复的角色。")) {
 					overide = true;
 				}
 				// 添加模块
-				List<OBSItem> obsModules = obsService.addOBSModule(((OBSModule) l.get(0)).get_id(),
-						((OBSItem) o).get_id(), overide);
+				List<OBSItem> obsModules = obsService.addOBSModule(((OBSModule) l.get(0)).get_id(), ((OBSItem) o).get_id(), overide,
+						br.getDomain());
 				TreePart tree = (TreePart) context.getContent();
 				tree.addAll(o, obsModules);
 				Layer.message("组织模块已添加到本项目团队。");

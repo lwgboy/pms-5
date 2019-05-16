@@ -22,7 +22,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CostCompositionAnalysisASM extends AbstractChartASM {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -34,7 +34,7 @@ public class CostCompositionAnalysisASM extends AbstractChartASM {
 	@Init
 	public void init() {
 		setContext(context);
-		setBruiService(bruiService);
+		setBruiService(br);
 	}
 
 	@CreateUI
@@ -53,7 +53,7 @@ public class CostCompositionAnalysisASM extends AbstractChartASM {
 			Object rootInput = context.getRootInput();
 			if (rootInput instanceof ICBSScope) {
 				ICBSScope icbsScope = (ICBSScope) rootInput;
-				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id(), br.getDomain());
 			}
 		}
 		// input不为空时，为打开项目成本管理，这时当前期间从项目中获取，并为项目下一结算月份
@@ -69,12 +69,12 @@ public class CostCompositionAnalysisASM extends AbstractChartASM {
 
 	public Document getOptionDocument() {
 		Document option;
-		String userId = bruiService.getCurrentUserId();
+		String userId = br.getCurrentUserId();
 		if (cbsScope_id != null) {
-			option = Services.get(CBSService.class).getCostCompositionAnalysis(cbsScope_id, year, userId);
+			option = Services.get(CBSService.class).getCostCompositionAnalysis(cbsScope_id, year, userId, br.getDomain());
 		} else {
 			// 增加用户角色判断
-			option = Services.get(CBSService.class).getCostCompositionAnalysis(year, userId);
+			option = Services.get(CBSService.class).getCostCompositionAnalysis(year, userId,  br.getDomain());
 		}
 		return option;
 	}

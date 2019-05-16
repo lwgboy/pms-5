@@ -18,23 +18,23 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class OpenOBSScopeRootDiagram extends AbstractCreateOBSItem {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object scope, @MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Shell s = brui.getCurrentShell();
+		Shell s = br.getCurrentShell();
 		if (scope instanceof IOBSScope) {
 			ObjectId obsRoot_id = ((IOBSScope) scope).getOBS_id();
 			String label = AUtil.readLabel(scope);
 			if (obsRoot_id == null) {// 还未建立根组织
 				if (MessageDialog.openQuestion(s, "组织结构图", label + "尚未建立团队，是否建立？")) {
 					OBSItem item = ((IOBSScope) scope).newOBSScopeRoot();
-					item = Services.get(OBSService.class).insert(item);
+					item = Services.get(OBSService.class).insert(item, br.getDomain());
 					((IOBSScope) scope).updateOBSRootId(item.get_id());
 					// TODO 错误处理
 				}
 			}
-			brui.switchContent("组织结构图", null);
+			br.switchContent("组织结构图", null);
 		}
 	}
 

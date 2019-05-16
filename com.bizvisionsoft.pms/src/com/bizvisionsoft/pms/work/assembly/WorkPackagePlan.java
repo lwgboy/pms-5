@@ -26,7 +26,7 @@ import com.bizvisionsoft.service.model.WorkPackage;
 public class WorkPackagePlan {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -55,11 +55,11 @@ public class WorkPackagePlan {
 		String title = Optional.ofNullable(view).map(v -> v.toString() + ": " + work).orElse("工作包: " + work);
 		bar.setText(title);
 
-		targetAssembly = Optional.ofNullable(view).map(v -> v.getPackageAssembly()).map(a -> brui.getAssembly(a))
-				.orElse(brui.getAssembly("工作包-基本"));
+		targetAssembly = Optional.ofNullable(view).map(v -> v.getPackageAssembly()).map(a -> br.getAssembly(a))
+				.orElse(br.getAssembly("工作包-基本"));
 
 		bar.setActions(
-				UserSession.bruiToolkit().getAcceptedActions(targetAssembly, brui.getCurrentUserInfo(), context));
+				UserSession.bruiToolkit().getAcceptedActions(targetAssembly, br.getCurrentUserInfo(), context));
 
 		Controls.handle(bar).height(48).left().top().right();
 
@@ -68,14 +68,14 @@ public class WorkPackagePlan {
 		bar.addListener(SWT.Selection, e -> {
 			Action action = ((Action) e.data);
 			if ("close".equals(action.getName())) {
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			} else {
-				UserSession.bruiToolkit().runAction(action, e, brui, context);
+				UserSession.bruiToolkit().runAction(action, e, br, context);
 			}
 		});
 
 		grid = (GridPart) new AssemblyContainer(content, context).setInput(view).setAssembly(targetAssembly)
-				.setServices(brui).create().getContext().getContent();
+				.setServices(br).create().getContext().getContent();
 	}
 
 	public void doCreate() {

@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class EditCBSSubjectCostACT {
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -38,7 +38,7 @@ public class EditCBSSubjectCostACT {
 				}
 				Editor.create("期间成本编辑器", context, cbsSubject, true).setTitle("科目:" + cbsSubjectCost.getName() + " 期间 :"
 						+ cal.get(Calendar.YEAR) + "年" + (cal.get(java.util.Calendar.MONTH) + 1) + "月").ok((r, o) -> {
-							CBSSubject newSubjectCost = Services.get(CBSService.class).upsertCBSSubjectCost(o);
+							CBSSubject newSubjectCost = Services.get(CBSService.class).upsertCBSSubjectCost(o, br.getDomain());
 							// 更新CBSSubjectCost存储的CBSSubject
 							cbsSubjectCost.updateCBSSubjects(newSubjectCost);
 							GridPart grid = (GridPart) context.getContent();

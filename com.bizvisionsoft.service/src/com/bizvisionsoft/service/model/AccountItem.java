@@ -46,6 +46,9 @@ public class AccountItem implements Comparable<AccountItem> {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "财务科目";
+	
+	@Exclude
+	public String domain;
 
 	/**
 	 * 客户端对象
@@ -61,12 +64,12 @@ public class AccountItem implements Comparable<AccountItem> {
 
 	@Structure("list")
 	public List<AccountItem> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).queryAccountItem(new BasicDBObject("parentId", id));
+		return ServicesLoader.get(CommonService.class).queryAccountItem(new BasicDBObject("parentId", id),domain);
 	}
 
 	@Structure("count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countAccoutItem(id);
+		return ServicesLoader.get(CommonService.class).countAccoutItem(id,domain);
 	}
 
 	@Behavior({ "项目科目资金计划/编辑", "项目科目实际成本/编辑" })

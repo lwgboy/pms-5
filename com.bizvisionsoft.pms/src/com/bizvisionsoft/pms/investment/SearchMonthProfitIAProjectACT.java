@@ -20,7 +20,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SearchMonthProfitIAProjectACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
@@ -39,7 +39,7 @@ public class SearchMonthProfitIAProjectACT {
 				if (a instanceof EPS) {
 					EPSInvestmentAnalysis epsIA = new EPSInvestmentAnalysis();
 					epsIA.name = ((EPS) a).getName();
-					epsIA.project_ids = Services.get(EPSService.class).getSubProjectId(((EPS) a).get_id());
+					epsIA.project_ids = Services.get(EPSService.class).getSubProjectId(((EPS) a).get_id(), br.getDomain());
 					epsIAs.add(epsIA);
 				}
 			});

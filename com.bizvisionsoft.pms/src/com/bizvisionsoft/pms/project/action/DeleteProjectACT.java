@@ -33,7 +33,7 @@ public class DeleteProjectACT {
 				project = (Project) se;
 			String message = Optional.ofNullable(AUtil.readTypeAndLabel(project)).map(m -> "请确认将要删除 " + m).orElse("请确认将要删除选择的记录。");
 			if (br.confirm("删除", message)) {
-				Services.get(ProjectService.class).delete(project.get_id());
+				Services.get(ProjectService.class).delete(project.get_id(), br.getDomain());
 				Check.instanceThen(context.getContent(), GridPart.class, grid -> grid.remove(se));
 				Layer.message(Optional.ofNullable(AUtil.readLabel(project)).map(m -> "已删除 " + m).orElse("已删除"));
 			}

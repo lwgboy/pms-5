@@ -22,7 +22,7 @@ public class ProblemActionGantt {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private Problem problem;
 
@@ -37,12 +37,12 @@ public class ProblemActionGantt {
 
 	@DataSet("data")
 	public List<ProblemActionInfo> listActions() {
-		return service.listGanttActions(problem.get_id());
+		return service.listGanttActions(problem.get_id(), br.getDomain());
 	}
 
 	@DataSet("links")
 	public List<ProblemActionLinkInfo> listLinks() {
-		return service.listGanttActionLinks(problem.get_id());
+		return service.listGanttActionLinks(problem.get_id(), br.getDomain());
 	}
 
 

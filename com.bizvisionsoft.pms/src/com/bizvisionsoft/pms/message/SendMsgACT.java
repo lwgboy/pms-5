@@ -21,7 +21,7 @@ public class SendMsgACT {
 		Editor.create("新消息", context, new NewMessage(), false).ok((r, o) -> {
 			o.sender = br.getCurrentConsignerInfo();
 			br.sendMessage(o.sender,o.receiver,o.subject,o.content);
-			Services.get(CommonService.class).sendMessage(o);
+			Services.get(CommonService.class).sendMessage(o, br.getDomain());
 			Layer.message("消息已发送");
 		});
 	}

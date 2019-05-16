@@ -16,7 +16,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class EstimateSchedule {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object rootInput,
@@ -29,7 +29,7 @@ public class EstimateSchedule {
 		}
 
 		if (project_id != null) {
-			Integer result = Services.get(ProjectService.class).schedule(project_id);
+			Integer result = Services.get(ProjectService.class).schedule(project_id, br.getDomain());
 			// TODO 刷新
 			// TODO 避免客户端狂点估算按钮，应考虑每天只运行一次
 			// TODO 后台自动刷新

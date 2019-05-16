@@ -25,163 +25,163 @@ import com.mongodb.BasicDBObject;
 public interface SystemService {
 
 	@GET
-	@Path("/{req}")
+	@Path("/{domain}/{req}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public ServerInfo getServerInfo(@PathParam("req") String req);
 
 	@POST
-	@Path("/dump/notes/{note}")
+	@Path("/{domain}/dump/notes/{note}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public String mongodbDump(@PathParam("note") String note);
+	public String mongodbDump(@PathParam("note") String note,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/backup/ds")
+	@Path("/{domain}/backup/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("管理备份/" + DataSet.LIST)
-	public List<Backup> getBackups();
+	public List<Backup> getBackups(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/backup/note/id/{id}/note/{note}")
+	@Path("/{domain}/backup/note/id/{id}/note/{note}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateBackupNote(@PathParam("id") String id, @PathParam("note") String note);
+	public void updateBackupNote(@PathParam("id") String id, @PathParam("note") String note,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/backup/id/{id}")
+	@Path("/{domain}/backup/id/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean deleteBackup(@PathParam("id") String id);
+	public boolean deleteBackup(@PathParam("id") String id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/restore/id/{id}")
+	@Path("/{domain}/restore/id/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean restoreFromBackup(@PathParam("id") String id);
+	public boolean restoreFromBackup(@PathParam("id") String id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/clientSetting/{clientId}/{name}/{userId}")
+	@Path("/{domain}/clientSetting/{clientId}/{name}/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
-			@PathParam("name") String name);
+			@PathParam("name") String name,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/clientSetting/")
+	@Path("/{domain}/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateClientSetting(Document setting);
+	public void updateClientSetting(Document setting,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/clientSetting/{clientId}/{name}")
+	@Path("/{domain}/clientSetting/{clientId}/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void deleteClientSetting(@PathParam("clientId") String clientId, @PathParam("name") String name);
+	public void deleteClientSetting(@PathParam("clientId") String clientId, @PathParam("name") String name,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/clientSetting/{clientId}")
+	@Path("/{domain}/clientSetting/{clientId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void deleteClientSetting(@PathParam("clientId") String clientId);
+	public void deleteClientSetting(@PathParam("clientId") String clientId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/clientSetting/{clientId}/{name}/{userId}")
+	@Path("/{domain}/clientSetting/{clientId}/{name}/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void deleteClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
-			@PathParam("name") String name);
+			@PathParam("name") String name,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/updateSystem/{versionNumber}/{packageCode}")
+	@Path("/{domain}/updateSystem/{versionNumber}/{packageCode}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateSystem(@PathParam("versionNumber") String versionNumber, @PathParam("packageCode") String packageCode);
+	public void updateSystem(@PathParam("versionNumber") String versionNumber, @PathParam("packageCode") String packageCode,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/createindex/")
+	@Path("/{domain}/createindex/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void createIndex();
+	public void createIndex(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@POST
-	@Path("/valueRule/ds")
+	@Path("/{domain}/valueRule/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.LIST)
-	public List<ValueRule> listValueRule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<ValueRule> listValueRule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/valueRule/count")
+	@Path("/{domain}/valueRule/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.COUNT)
-	public long countValueRule(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countValueRule(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/valueRule/")
+	@Path("/{domain}/valueRule/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.INSERT)
-	public ValueRule insertValueRule(@MethodParam(MethodParam.OBJECT) ValueRule valueRule);
+	public ValueRule insertValueRule(@MethodParam(MethodParam.OBJECT) ValueRule valueRule,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/valueRule/_id/{_id}")
+	@Path("/{domain}/valueRule/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.DELETE)
-	public long deleteValueRule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteValueRule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/valueRule/")
+	@Path("/{domain}/valueRule/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.UPDATE)
-	public long updateValueRule(BasicDBObject filterAndUpdate);
+	public long updateValueRule(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
-	@Path("/valueRule/{_id}/segment/ds")
+	@Path("/{domain}/valueRule/{_id}/segment/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值规则段/" + DataSet.LIST)
 	public List<ValueRuleSegment> listValueRuleSegment(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id);
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/valueRule/{_id}/segment/count")
+	@Path("/{domain}/valueRule/{_id}/segment/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值规则段/" + DataSet.COUNT)
 	public long countValueRuleSegment(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id);
+			@PathParam("_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId rule_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/valueRuleSegment/")
+	@Path("/{domain}/valueRuleSegment/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs);
+	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/valueRuleSegment/_id/{_id}")
+	@Path("/{domain}/valueRuleSegment/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值规则段/" + DataSet.DELETE)
-	public long deleteValueRuleSegment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteValueRuleSegment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/valueRuleSegment/")
+	@Path("/{domain}/valueRuleSegment/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值规则段/" + DataSet.UPDATE)
-	public long updateValueRuleSegment(BasicDBObject filterAndUpdate);
+	public long updateValueRuleSegment(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/valueRuleSegment/maxIndex/")
+	@Path("/{domain}/valueRuleSegment/maxIndex/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getMaxSegmentIndex(ObjectId rule_id);
+	public Document getMaxSegmentIndex(ObjectId rule_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

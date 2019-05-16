@@ -18,141 +18,141 @@ import com.mongodb.client.model.Aggregates;
 public class OrganizationServiceImpl extends BasicServiceImpl implements OrganizationService {
 
 	@Override
-	public Organization insert(Organization orgInfo) {
-		return insert(orgInfo, Organization.class);
+	public Organization insert(Organization orgInfo,String domain){
+		return insert(orgInfo, Organization.class,domain);
 	}
 
 	@Override
-	public Organization get(ObjectId _id) {
-		return get(_id, Organization.class);
+	public Organization get(ObjectId _id,String domain){
+		return get(_id, Organization.class,domain);
 	}
 
 	@Override
-	public List<Organization> createDataSet(BasicDBObject condition) {
-		return createDataSet(condition, Organization.class);
+	public List<Organization> createDataSet(BasicDBObject condition,String domain){
+		return createDataSet(condition, Organization.class,domain);
 	}
 
 	@Override
-	public long count(BasicDBObject filter) {
-		return count(filter, Organization.class);
+	public long count(BasicDBObject filter,String domain){
+		return count(filter, Organization.class,domain);
 	}
 
 	@Override
-	public long update(BasicDBObject fu) {
-		return update(fu, Organization.class);
+	public long update(BasicDBObject fu,String domain){
+		return update(fu, Organization.class,domain);
 	}
 
 	@Override
-	public List<Organization> getRoot() {
-		return getOrganizations(new BasicDBObject("parent_id", null).append("project_id", null));
+	public List<Organization> getRoot(String domain){
+		return getOrganizations(new BasicDBObject("parent_id", null).append("project_id", null), domain);
 	}
 
 	@Override
-	public long countRoot() {
-		return countOrganizations(new BasicDBObject("parent_id", null).append("project_id", null));
+	public long countRoot(String domain){
+		return countOrganizations(new BasicDBObject("parent_id", null).append("project_id", null), domain);
 	}
 
 	@Override
-	public List<Organization> getSub(ObjectId parent_id) {
-		return getOrganizations(new BasicDBObject("parent_id", parent_id));
+	public List<Organization> getSub(ObjectId parent_id,String domain){
+		return getOrganizations(new BasicDBObject("parent_id", parent_id), domain);
 	}
 
-	private List<Organization> getOrganizations(BasicDBObject match) {
+	private List<Organization> getOrganizations(BasicDBObject match,String domain){
 		ArrayList<Bson> pipeline = new ArrayList<Bson>();
 
 		pipeline.add(Aggregates.match(match));
 
-		appendUserInfo(pipeline, "managerId", "managerInfo");
+		appendUserInfo(pipeline, "managerId", "managerInfo", domain);
 
 		List<Organization> result = new ArrayList<Organization>();
-		c(Organization.class).aggregate(pipeline).into(result);
+		c(Organization.class,domain).aggregate(pipeline).into(result);
 		return result;
 	}
 
 	@Override
-	public long countSub(ObjectId parent_id) {
-		return countOrganizations(new BasicDBObject("parent_id", parent_id));
+	public long countSub(ObjectId parent_id,String domain){
+		return countOrganizations(new BasicDBObject("parent_id", parent_id), domain);
 	}
 
-	private long countOrganizations(BasicDBObject match) {
-		return c(Organization.class).countDocuments(match);
+	private long countOrganizations(BasicDBObject match,String domain){
+		return c(Organization.class,domain).countDocuments(match);
 	}
 
-	public long countMember(ObjectId _id) {
-		return c(User.class).countDocuments(new BasicDBObject("org_id", _id));
+	public long countMember(ObjectId _id,String domain){
+		return c(User.class,domain).countDocuments(new BasicDBObject("org_id", _id));
 	}
 
 	@Override
-	public long delete(ObjectId _id) {
+	public long delete(ObjectId _id,String domain){
 		// 检查
-		if (countSub(_id) > 0)
+		if (countSub(_id, domain) > 0)
 			throw new ServiceException("不允许删除有下级的组织");
 
-		if (countMember(_id) > 0)
+		if (countMember(_id, domain) > 0)
 			throw new ServiceException("不允许删除有成员的组织");
 
 		// TODO 完整性问题
-		return delete(_id, Organization.class);
+		return delete(_id, Organization.class,domain);
 	}
 
 	@Override
-	public List<User> getMember(BasicDBObject condition, ObjectId org_id) {
+	public List<User> getMember(BasicDBObject condition, ObjectId org_id,String domain){
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
+		if (filter == null){
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		filter.put("org_id", org_id);
-		return createDataSet(condition, User.class);
+		return createDataSet(condition, User.class,domain);
 	}
 
 	@Override
-	public long countMember(BasicDBObject filter, ObjectId org_id) {
-		if (filter == null) {
+	public long countMember(BasicDBObject filter, ObjectId org_id,String domain){
+		if (filter == null){
 			filter = new BasicDBObject();
 		}
 		filter.put("org_id", org_id);
-		return count(filter, User.class);
+		return count(filter, User.class,domain);
 	}
 
 	@Override
-	public List<Role> getRoles(BasicDBObject condition, ObjectId org_id) {
+	public List<Role> getRoles(BasicDBObject condition, ObjectId org_id,String domain){
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
+		if (filter == null){
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		filter.put("org_id", org_id);
-		return createDataSet(condition, Role.class);
+		return createDataSet(condition, Role.class,domain);
 	}
 
 	@Override
-	public long countRoles(BasicDBObject filter, ObjectId org_id) {
-		if (filter == null) {
+	public long countRoles(BasicDBObject filter, ObjectId org_id,String domain){
+		if (filter == null){
 			filter = new BasicDBObject();
 		}
 		filter.put("org_id", org_id);
-		return count(filter, Role.class);
+		return count(filter, Role.class,domain);
 	}
 
 	@Override
-	public Role insertRole(Role role) {
-		return insert(role, Role.class);
+	public Role insertRole(Role role,String domain){
+		return insert(role, Role.class,domain);
 	}
 
 	@Override
-	public Role getRole(ObjectId _id) {
-		return get(_id, Role.class);
+	public Role getRole(ObjectId _id,String domain){
+		return get(_id, Role.class,domain);
 	}
 
 	@Override
-	public long updateRole(BasicDBObject fu) {
-		return update(fu, Role.class);
+	public long updateRole(BasicDBObject fu,String domain){
+		return update(fu, Role.class,domain);
 	}
 
 	@Override
-	public long deleteRole(ObjectId _id) {
-		return delete(_id, Role.class);
+	public long deleteRole(ObjectId _id,String domain){
+		return delete(_id, Role.class,domain);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	 * {$project:{"user":0}} ] )
 	 */
 	@Override
-	public List<User> queryUsersOfRole(ObjectId _id) {
+	public List<User> queryUsersOfRole(ObjectId _id,String domain){
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.add(Aggregates.match(new BasicDBObject("_id", _id)));
@@ -187,14 +187,14 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 		pipeline.add(Aggregates.sort(new BasicDBObject("userId", 1)));
 
 		List<User> result = new ArrayList<User>();
-		c(Role.class).aggregate(pipeline, User.class).into(result);
+		c(Role.class,domain).aggregate(pipeline, User.class).into(result);
 		return result;
 	}
 
 	@Override
-	public long countUsersOfRole(ObjectId _id) {
-		Document doc = c("role").find(new BasicDBObject("_id", _id)).first();
-		if (doc == null) {
+	public long countUsersOfRole(ObjectId _id,String domain){
+		Document doc = c("role",domain).find(new BasicDBObject("_id", _id)).first();
+		if (doc == null){
 			throw new ServiceException("没有指定id的角色");
 		}
 		Object users = doc.get("users");
@@ -204,27 +204,27 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 	}
 
 	@Override
-	public List<Organization> listQualifiedContractor(BasicDBObject condition) {
+	public List<Organization> listQualifiedContractor(BasicDBObject condition,String domain){
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null) {
+		if (filter == null){
 			filter = new BasicDBObject();
 			condition.put("filter", filter);
 		}
 		filter.append("qualifiedContractor", true);
-		return createDataSet(condition, Organization.class);
+		return createDataSet(condition, Organization.class,domain);
 	}
 
 	@Override
-	public long countQualifiedContractor(BasicDBObject filter) {
+	public long countQualifiedContractor(BasicDBObject filter,String domain){
 		if (filter == null)
 			filter = new BasicDBObject();
 		filter.append("qualifiedContractor", true);
-		return count(filter, Organization.class);
+		return count(filter, Organization.class,domain);
 	}
 
 	@Override
-	public List<ObjectId> getManagedOrganizationsId(String userId) {
-		return c("organization").find(new Document("managerId", userId)).projection(new Document("_id", true))
+	public List<ObjectId> getManagedOrganizationsId(String userId,String domain){
+		return c("organization",domain).find(new Document("managerId", userId)).projection(new Document("_id", true))
 				.map(d -> d.getObjectId("_id")).into(new ArrayList<>());
 	}
 

@@ -27,7 +27,7 @@ public class ProblemCostGridRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Override
 	@GridRenderUpdateCell
@@ -50,7 +50,8 @@ public class ProblemCostGridRender extends GridPartDefaultRender {
 	@GridRenderColumnFooter
 	public void renderColumnFooter(@MethodParam(GridRenderColumnHeader.PARAM_COLUMN_WIDGET) GridColumn col,
 			@MethodParam(GridRenderColumnHeader.PARAM_COLUMN) Column column) {
-		Document summary = Services.get(ProblemService.class).getSummaryCost(context.getRootInput(Problem.class, false).get_id());
+		Document summary = Services.get(ProblemService.class).getSummaryCost(context.getRootInput(Problem.class, false).get_id(),
+				br.getDomain());
 		Optional.ofNullable(summary).map(s -> s.getDouble(column.getName())).map(v -> Formatter.getString(v, column.getFormat()))
 				.ifPresent(col::setFooterText);
 	}

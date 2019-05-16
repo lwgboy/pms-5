@@ -16,7 +16,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SubmitSchedule {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput,
@@ -30,10 +30,10 @@ public class SubmitSchedule {
 
 	private void submit(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
-		if (!brui.confirm("提交项目计划", "请确认提交项目进度计划。")) {
+		if (!br.confirm("提交项目计划", "请确认提交项目进度计划。")) {
 			return;
 		}
-		List<Result> results = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false);
+		List<Result> results = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, false, br.getDomain());
 		// 如果有错误，提示并返回
 		String msg = results.stream().filter(r -> r.type == Result.TYPE_ERROR)
 				.map(r -> "<span class='layui-badge'>错误</span> " + r.message + "<br>").reduce(String::concat).orElse(null);
@@ -48,11 +48,11 @@ public class SubmitSchedule {
 				return "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
 			return "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
 		}).reduce(String::concat).orElse(null);
-		if (msg == null || brui.confirm("提交项目计划", msg + "<br>请确认提交项目计划")) {
-			Result result = Services.get(WorkSpaceService.class).checkin(workspace);
+		if (msg == null || br.confirm("提交项目计划", msg + "<br>请确认提交项目计划")) {
+			Result result = Services.get(WorkSpaceService.class).checkin(workspace, br.getDomain());
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				Layer.message(result.message);
-				brui.switchContent("项目甘特图", null);
+				br.switchContent("项目甘特图", null);
 			}
 		}
 	}

@@ -19,7 +19,7 @@ import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 public class SidebarHeaderL2Page {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -44,7 +44,7 @@ public class SidebarHeaderL2Page {
 		fd.height = size;
 		fd.right = new FormAttachment(100);
 
-		String url = bruiService.getResourceURL("/img/left_w.svg");
+		String url = br.getResourceURL("/img/left_w.svg");
 		pic.setText("<img alt='headpic' style='cursor:pointer;margin-top:12px;margin-left:8px;' src='" + url + "' width=" + 24
 				+ "px height=" + 24 + "px/>");
 

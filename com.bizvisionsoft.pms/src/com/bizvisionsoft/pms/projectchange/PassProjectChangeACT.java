@@ -18,18 +18,18 @@ import com.bizvisionsoft.service.model.Result;
 public class PassProjectChangeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input,
 			@MethodParam(Execute.CURRENT_USER_ID) String userid) {
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "批准", "请填写批准意见", null, null).setTextMultiline(true);
+		InputDialog id = new InputDialog(br.getCurrentShell(), "批准", "请填写批准意见", null, null).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class).passProjectChange(
-					ProjectChangeTask.getPassInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()));
+					ProjectChangeTask.getPassInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已确认");
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			}
 		}
 	}

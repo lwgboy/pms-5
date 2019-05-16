@@ -51,7 +51,7 @@ public class AnlysisActions {
 	}
 
 	private void handleAdd(Document data, String stage, ObjectId _id) {
-		Document action = service.getAction(_id);
+		Document action = service.getAction(_id, br.getDomain());
 		boolean b = br.confirm("复制行动计划", "请确认复制行动计划到当前的问题：<br>" + action.getString("action"));
 		if (!b)
 			return;
@@ -61,7 +61,7 @@ public class AnlysisActions {
 		String editorName = getEditorName(stage);
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, doc, true).setTitle(getItemTypeName(stage)).ok((r, t) -> {
-			Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(), "gridrow");
+			Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(), "gridrow", br.getDomain());
 			Layer.message("行动计划已创建");
 		});
 	}
@@ -80,13 +80,13 @@ public class AnlysisActions {
 
 	private void handleDetail(Document data, String mType, ObjectId _id) {
 		if ("d8EXP".equals(mType)) {
-			Document doc = service.getD8Exp(_id);
+			Document doc = service.getD8Exp(_id, br.getDomain());
 			Editor.create("D8-经验总结-编辑器", context, doc, true).setEditable(false).open();
 		} else if ("causeRelation".equals(mType)) {
-			CauseConsequence cc = service.listCauseConsequences(new BasicDBObject("_id", _id)).get(0);
+			CauseConsequence cc = service.listCauseConsequences(new BasicDBObject("_id", _id), br.getDomain()).get(0);
 			Editor.create("因素编辑器", context, cc, true).setEditable(false).open();
 		} else if ("problemAction".equals(mType)) {
-			Document doc = service.getAction(_id);
+			Document doc = service.getAction(_id, br.getDomain());
 			Editor.create("Dx-行动计划-编辑器（查看）", context, doc, true).setEditable(false).open();
 		}
 	}

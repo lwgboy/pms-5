@@ -19,7 +19,7 @@ public class ProjectWorkCardRender extends WorkCardRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private String userId;
 
@@ -30,7 +30,7 @@ public class ProjectWorkCardRender extends WorkCardRender {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 	@Init

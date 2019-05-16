@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.FileService;
 import com.bizvisionsoft.service.model.RemoteFile;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.Service;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
@@ -23,9 +24,9 @@ import com.mongodb.client.model.Filters;
 
 public class FileServiceImpl extends BasicServiceImpl implements FileService {
 
-	public Response get(String namespace, String id, String fileName) {
+	public Response get(String namespace, String id, String fileName,String domain) {
 		ObjectId _id = new ObjectId(id);
-		GridFSBucket bucket = GridFSBuckets.create(Service.db(), namespace);
+		GridFSBucket bucket = GridFSBuckets.create(Domain.getDatabase(domain), namespace);
 		GridFSFile file = bucket.find(Filters.eq("_id", _id)).first();
 		if (file == null) {
 			return Response.status(404).build();
@@ -52,10 +53,10 @@ public class FileServiceImpl extends BasicServiceImpl implements FileService {
 	}
 
 	@Override
-	public RemoteFile upload(InputStream fileInputStream, String fileName, String namespace, String contentType, String uploadBy) {
+	public RemoteFile upload(InputStream fileInputStream, String fileName, String namespace, String contentType, String uploadBy, String domain) {
 		GridFSUploadOptions option = new GridFSUploadOptions();
 		option.metadata(new Document().append("contentType", contentType).append("uploadBy", uploadBy));
-		ObjectId id = GridFSBuckets.create(Service.db(), namespace).uploadFromStream(fileName, fileInputStream, option);
+		ObjectId id = GridFSBuckets.create(Domain.getDatabase(domain), namespace).uploadFromStream(fileName, fileInputStream, option);
 		id.toString();
 		RemoteFile rf = new RemoteFile();
 		rf._id = id;
@@ -66,8 +67,8 @@ public class FileServiceImpl extends BasicServiceImpl implements FileService {
 	}
 
 	@Override
-	public void delete(String namespace, String id) {
-		deleteFile(new Document("namepace", namespace).append("_id", new ObjectId(id)));
+	public void delete(String namespace, String id,String domain) {
+		deleteFile(new Document("namepace", namespace).append("_id", new ObjectId(id)), domain);
 	}
 
 }

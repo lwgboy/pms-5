@@ -32,7 +32,7 @@ public class OADataset {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet("工作包-OA流程/" +DataSet.LIST)
 	private List<Document> list() {
@@ -71,7 +71,7 @@ public class OADataset {
 							view.get_id()))
 					.set(new BasicDBObject("workPackageSetting.$.parameter",
 							new BasicDBObject("WF_INSTS", instList)))
-					.bson());
+					.bson(), br.getDomain());
 			//////////////////////////////////////////////////
 			// 刷新表格
 			view.setParameter("WF_INSTS", instList);

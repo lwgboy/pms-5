@@ -31,7 +31,7 @@ public class GanttDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private ProjectTemplateService service;
 
@@ -51,48 +51,48 @@ public class GanttDS {
 
 	@DataSet("data")
 	public List<WorkInTemplate> listWorks() {
-		return service.listWorks(template_id);
+		return service.listWorks(template_id, br.getDomain());
 	}
 
 	@DataSet("links")
 	public List<WorkLinkInTemplate> listLinks() {
-		return service.listLinks(template_id);
+		return service.listLinks(template_id, br.getDomain());
 	}
 
 	@Listener("onAfterTaskAdd")
 	public void onAfterTaskAdd(GanttEvent e) {
 		WorkInTemplate work = (WorkInTemplate) e.task;
 		work.setTemplate_id(template_id);
-		service.insertWork(work);
+		service.insertWork(work, br.getDomain());
 	}
 
 	@Listener({ "onAfterTaskUpdate", "onAfterTaskMove", "onAfterTaskResize", "onAfterTaskProgress" })
 	public void onAfterTaskUpdate(GanttEvent e) {
 		service.updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(BsonTools.getBasicDBObject((WorkInTemplate) e.task, "_id")).bson());
+				.set(BsonTools.getBasicDBObject((WorkInTemplate) e.task, "_id")).bson(), br.getDomain());
 	}
 
 	@Listener("onAfterTaskDelete")
 	public void onAfterTaskDelete(GanttEvent e) {
-		service.deleteWork(new ObjectId(e.id));
+		service.deleteWork(new ObjectId(e.id), br.getDomain());
 	}
 
 	@Listener("onAfterLinkAdd")
 	public void onAfterLinkAddInSpace(GanttEvent e) {
 		WorkLinkInTemplate link = (WorkLinkInTemplate) e.link;
 		link.setTemplate_id(template_id);
-		service.insertLink(link);
+		service.insertLink(link, br.getDomain());
 	}
 
 	@Listener("onAfterLinkUpdate")
 	public void onAfterLinkUpdateInSpace(GanttEvent e) {
 		service.updateLink(new FilterAndUpdate().filter(new BasicDBObject("_id", new ObjectId(e.id)))
-				.set(BsonTools.getBasicDBObject((WorkLinkInTemplate) e.link, "_id")).bson());
+				.set(BsonTools.getBasicDBObject((WorkLinkInTemplate) e.link, "_id")).bson(), br.getDomain());
 	}
 
 	@Listener("onAfterLinkDelete")
 	public void onAfterLinkDeleteInSpace(GanttEvent e) {
-		service.deleteLink(new ObjectId(e.id));
+		service.deleteLink(new ObjectId(e.id), br.getDomain());
 	}
 
 	@Listener("save")
@@ -112,7 +112,7 @@ public class GanttDS {
 
 		WorkspaceGanttData ganttData = new WorkspaceGanttData().setTemplateId(template_id).setWorkInTemplates(tasks)
 				.setLinkInTemplates(links);
-		Result result = service.updateGanttData(ganttData);
+		Result result = service.updateGanttData(ganttData, br.getDomain());
 		// TODO 错误处理
 		if (result.type != Result.TYPE_ERROR) {
 			Layer.message("计划数据已保存");

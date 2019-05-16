@@ -26,101 +26,101 @@ import com.mongodb.BasicDBObject;
 public interface WorkSpaceService {
 
 	@POST
-	@Path("/nextwbsidx")
+	@Path("/{domain}/nextwbsidx")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public int nextWBSIndex(BasicDBObject condition);
+	public int nextWBSIndex(BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet(DataSet.INPUT)
-	public WorkInfo getWorkInfo(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public WorkInfo getWorkInfo(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/gantt/works")
+	@Path("/{domain}/gantt/works")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> createTaskDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
+	public List<WorkInfo> createTaskDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/gantt/links")
+	@Path("/{domain}/gantt/links")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkLinkInfo> createLinkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition);
+	public List<WorkLinkInfo> createLinkDataSet(@MethodParam(MethodParam.FILTER) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/work/")
+	@Path("/{domain}/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public WorkInfo insertWork(WorkInfo work);
+	public WorkInfo insertWork(WorkInfo work,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/link/")
+	@Path("/{domain}/link/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public WorkLinkInfo insertLink(WorkLinkInfo link);
+	public WorkLinkInfo insertLink(WorkLinkInfo link,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/work/")
+	@Path("/{domain}/work/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateWork(BasicDBObject filterAndUpdate);
+	public long updateWork(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/link/")
+	@Path("/{domain}/link/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateLink(BasicDBObject filterAndUpdate);
+	public long updateLink(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/work/_id/{_id}")
+	@Path("/{domain}/work/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteWork(@PathParam("_id") ObjectId _id);
+	public long deleteWork(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/link/_id/{_id}")
+	@Path("/{domain}/link/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteLink(@PathParam("_id") ObjectId _id);
+	public long deleteLink(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/checkout/{userId}/{cancelCheckoutSubSchedule}")
+	@Path("/{domain}/checkout/{userId}/{cancelCheckoutSubSchedule}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Result checkout(@MethodParam(MethodParam.OBJECT) Workspace workspace, @PathParam("userId") String userId,
-			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule);
+			@PathParam("cancelCheckoutSubSchedule") Boolean cancelCheckoutSubSchedule,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/check/{onlyCheck}")
+	@Path("/{domain}/check/{onlyCheck}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,@PathParam("onlyCheck") boolean onlyCheck);
+	public List<Result> schedulePlanCheck(@MethodParam(MethodParam.OBJECT) Workspace workspace,@PathParam("onlyCheck") boolean onlyCheck,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/checkin/")
+	@Path("/{domain}/checkin/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result checkin(@MethodParam(MethodParam.OBJECT) Workspace workspace);
+	public Result checkin(@MethodParam(MethodParam.OBJECT) Workspace workspace,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/cancelcheckout/")
+	@Path("/{domain}/cancelcheckout/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result cancelCheckout(@MethodParam(MethodParam.OBJECT) Workspace workspace);
+	public Result cancelCheckout(@MethodParam(MethodParam.OBJECT) Workspace workspace,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/compare/{root_id}")
+	@Path("/{domain}/compare/{root_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id") ObjectId root_id);
+	public List<WorkInfo> createComparableWorkDataSet(@PathParam("root_id") ObjectId root_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/ganttdata/")
+	@Path("/{domain}/ganttdata/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Result updateGanttData(WorkspaceGanttData ganttData);
+	public Result updateGanttData(WorkspaceGanttData ganttData,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

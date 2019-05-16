@@ -20,7 +20,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Init
 	protected void init() {
@@ -170,7 +170,7 @@ public class WorkCardRender extends AbstractWorkCardRender {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 }

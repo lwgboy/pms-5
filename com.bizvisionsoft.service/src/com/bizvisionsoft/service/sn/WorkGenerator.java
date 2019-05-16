@@ -8,8 +8,8 @@ import com.bizvisionsoft.service.model.WorkInfo;
 public class WorkGenerator implements IAutoGenerator<WorkInfo> {
 
 	@Override
-	public Object generate(WorkInfo wi, String name, String key, Class<?> t) {
-		int index = ServicesLoader.get(CommonService.class).generateCode(name, key + wi.getProjectIdInString());
+	public Object generate(WorkInfo wi, String name, String key, Class<?> t,String domain) {
+		int index = ServicesLoader.get(CommonService.class).generateCode(name, key + wi.getProjectIdInString(), domain);
 		return String.format("%06d", index);
 	}
 

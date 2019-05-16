@@ -22,7 +22,7 @@ public class ScheduleMonitoringDateset {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private Work work;
 
@@ -38,7 +38,7 @@ public class ScheduleMonitoringDateset {
 		} else if (rootInput instanceof Work) {
 			work = (Work) rootInput;
 		} else {
-			userid = brui.getCurrentUserId();
+			userid = br.getCurrentUserId();
 		}
 	}
 
@@ -46,10 +46,10 @@ public class ScheduleMonitoringDateset {
 	public List<Work> listDesign() {
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_DEVELOPMENT);
+					TrackView.CATAGORY_DEVELOPMENT, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_DEVELOPMENT);
+					TrackView.CATAGORY_DEVELOPMENT, br.getDomain());
 		} else {
 			return new ArrayList<Work>();
 		}
@@ -59,10 +59,10 @@ public class ScheduleMonitoringDateset {
 	public long countDesign() {
 		if (project != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_DEVELOPMENT);
+					TrackView.CATAGORY_DEVELOPMENT, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_DEVELOPMENT);
+					TrackView.CATAGORY_DEVELOPMENT, br.getDomain());
 		} else {
 			return 0;
 		}
@@ -72,10 +72,10 @@ public class ScheduleMonitoringDateset {
 	public List<Work> listPurchase() {
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_PURCHASE);
+					TrackView.CATAGORY_PURCHASE, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_PURCHASE);
+					TrackView.CATAGORY_PURCHASE, br.getDomain());
 		} else {
 			return new ArrayList<Work>();
 		}
@@ -85,10 +85,10 @@ public class ScheduleMonitoringDateset {
 	public long countPurchase() {
 		if (project != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_PURCHASE);
+					TrackView.CATAGORY_PURCHASE, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_PURCHASE);
+					TrackView.CATAGORY_PURCHASE, br.getDomain());
 		} else {
 			return 0;
 		}
@@ -98,10 +98,10 @@ public class ScheduleMonitoringDateset {
 	public List<Work> listProduce() {
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_PRODUCTION);
+					TrackView.CATAGORY_PRODUCTION, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_PRODUCTION);
+					TrackView.CATAGORY_PRODUCTION, br.getDomain());
 		} else {
 			return new ArrayList<Work>();
 		}
@@ -111,10 +111,10 @@ public class ScheduleMonitoringDateset {
 	public long countProduce() {
 		if (project != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_PRODUCTION);
+					TrackView.CATAGORY_PRODUCTION, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_PRODUCTION);
+					TrackView.CATAGORY_PRODUCTION, br.getDomain());
 		} else {
 			return 0;
 		}
@@ -124,10 +124,10 @@ public class ScheduleMonitoringDateset {
 	public List<Work> listInspection() {
 		if (project != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_QUALITY);
+					TrackView.CATAGORY_QUALITY, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).listWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_QUALITY);
+					TrackView.CATAGORY_QUALITY, br.getDomain());
 		} else {
 			return new ArrayList<Work>();
 		}
@@ -137,10 +137,10 @@ public class ScheduleMonitoringDateset {
 	public long countInspection() {
 		if (project != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInProject(project.get_id(),
-					TrackView.CATAGORY_QUALITY);
+					TrackView.CATAGORY_QUALITY, br.getDomain());
 		} else if (work != null) {
 			return Services.get(WorkService.class).countWorkPackageForScheduleInStage(work.get_id(),
-					TrackView.CATAGORY_QUALITY);
+					TrackView.CATAGORY_QUALITY, br.getDomain());
 		} else {
 			return 0;
 		}
@@ -149,24 +149,24 @@ public class ScheduleMonitoringDateset {
 	@DataSet("采购计划监控（项目管理）/" + DataSet.LIST)
 	public List<Work> listPurchaseForManagement(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		List<Work> listWorkPackageForSchedule = Services.get(WorkService.class).listWorkPackageForSchedule(condition,
-				userid, TrackView.CATAGORY_PURCHASE);
+				userid, TrackView.CATAGORY_PURCHASE, br.getDomain());
 		return listWorkPackageForSchedule;
 	}
 
 	@DataSet("采购计划监控（项目管理）/" + DataSet.COUNT)
 	public long countPurchaseForManagement(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
-		return Services.get(WorkService.class).countWorkPackageForSchedule(filter, userid, TrackView.CATAGORY_PURCHASE);
+		return Services.get(WorkService.class).countWorkPackageForSchedule(filter, userid, TrackView.CATAGORY_PURCHASE, br.getDomain());
 	}
 
 	@DataSet("生产计划监控（项目管理）/" + DataSet.LIST)
 	public List<Work> listProduceForManagement(@MethodParam(MethodParam.CONDITION) BasicDBObject condition) {
 		return Services.get(WorkService.class).listWorkPackageForSchedule(condition, userid,
-				TrackView.CATAGORY_PRODUCTION);
+				TrackView.CATAGORY_PRODUCTION, br.getDomain());
 	}
 
 	@DataSet("生产计划监控（项目管理）/" + DataSet.COUNT)
 	public long countProduceForManagement(@MethodParam(MethodParam.FILTER) BasicDBObject filter) {
 		return Services.get(WorkService.class).countWorkPackageForSchedule(filter, userid,
-				TrackView.CATAGORY_PRODUCTION);
+				TrackView.CATAGORY_PRODUCTION, br.getDomain());
 	}
 }

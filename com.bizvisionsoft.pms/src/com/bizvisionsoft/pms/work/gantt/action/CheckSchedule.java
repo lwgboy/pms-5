@@ -16,7 +16,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CheckSchedule {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput,
@@ -30,7 +30,7 @@ public class CheckSchedule {
 
 	private void check(IWBSScope rootInput) {
 		Workspace workspace = rootInput.getWorkspace();
-		List<Result> result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true);
+		List<Result> result = Services.get(WorkSpaceService.class).schedulePlanCheck(workspace, true, br.getDomain());
 		String content = result.stream().map(r -> {
 			switch (r.type) {
 			case Result.TYPE_ERROR:

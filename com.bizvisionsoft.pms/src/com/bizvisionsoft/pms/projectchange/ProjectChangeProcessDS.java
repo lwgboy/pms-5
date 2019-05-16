@@ -16,7 +16,7 @@ public class ProjectChangeProcessDS {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private ProjectChange pc;
 

@@ -14,19 +14,19 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class AddEPSNode {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 			if (elem instanceof EPS) {
 
-				new Editor<EPS>(bruiService.getAssembly("EPS±à¼­Æ÷"), context)
+				new Editor<EPS>(br.getAssembly("EPS±à¼­Æ÷"), context)
 
 						.setInput(new EPS().setParent_id(((EPS) elem).get_id()))
 
 						.ok((r, t) -> {
-							EPS item = Services.get(EPSService.class).insert(t);
+							EPS item = Services.get(EPSService.class).insert(t, br.getDomain());
 							GridPart grid = (GridPart) context.getContent();
 							grid.add(elem, item);
 						});

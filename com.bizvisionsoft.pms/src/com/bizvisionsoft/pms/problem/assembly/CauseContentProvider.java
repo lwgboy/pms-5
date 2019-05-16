@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.CauseConsequence;
 import com.bizvisionsoft.service.model.ClassifyCause;
@@ -20,9 +21,12 @@ public class CauseContentProvider implements ITreeContentProvider {
 
 	private ProblemService service;
 
-	CauseContentProvider(Problem problem, String type) {
+	private IBruiService br;
+
+	CauseContentProvider(Problem problem, String type, IBruiService br) {
 		this.problem = problem;
 		this.type = type;
+		this.br = br;
 		service = Services.get(ProblemService.class);
 	}
 
@@ -51,7 +55,7 @@ public class CauseContentProvider implements ITreeContentProvider {
 		} else {
 			return new Object[0];
 		}
-		return service.listCauseConsequences(filter).toArray();
+		return service.listCauseConsequences(filter, br.getDomain()).toArray();
 	}
 
 	@Override
@@ -70,7 +74,7 @@ public class CauseContentProvider implements ITreeContentProvider {
 		} else {
 			return false;
 		}
-		return service.countCauseConsequences(filter) > 0;
+		return service.countCauseConsequences(filter, br.getDomain()) > 0;
 	}
 
 }

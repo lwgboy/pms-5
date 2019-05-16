@@ -106,5 +106,14 @@ public class ProjectTemplate implements IScope{
 	public ObjectId getScope_id() {
 		return _id;
 	}
+	
+	
+	@Exclude
+	public String domain;
+	
+	@Override
+	public String getDomain() {
+		return domain;
+	}
 
 }

@@ -49,7 +49,7 @@ public class SelectSO {
 												tv.get_id()))
 										.set(new BasicDBObject("workPackageSetting.$.parameter",
 												new BasicDBObject("so_num", so_num)))
-										.bson());
+										.bson(), br.getDomain());
 						//////////////////////////////////////////////////
 						// Ë¢ÐÂ±í¸ñ
 						tv.setParameter("so_num", so_num);

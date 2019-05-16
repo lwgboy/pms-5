@@ -2,13 +2,13 @@ package com.bizvisionsoft.service.model;
 
 public interface ICBSAmount {
 
-	double getBudget(String startPeriod, String endPeriod);
+	double getDurationBudget(String startPeriod, String endPeriod);
 
-	double getBudget(String period);
+	double getPeriodBudget(String period);
 
-	double getCost(String period);
+	double getPeriodCost(String period);
 
-	double getCost(String startPeriod, String endPeriod);
+	double getDurationCost(String startPeriod, String endPeriod);
 	
 	
 

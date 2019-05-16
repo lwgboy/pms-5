@@ -17,7 +17,8 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.service.common.query.JQ;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
@@ -42,11 +43,15 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 	private String title;
 
-	public ProblemChartRender() {
+	private String domain;
+
+	public ProblemChartRender(String domain) {
+		this.domain = domain;
 	}
 
 	@SuppressWarnings("unchecked")
-	public ProblemChartRender(Document condition) {
+	public ProblemChartRender(Document condition, String domain) {
+		this.domain = domain;
 		Document option = (Document) condition.get("option");
 		List<?> dateRange = (List<?>) option.get("dateRange");
 		from = (Date) dateRange.get(0);
@@ -56,44 +61,44 @@ public class ProblemChartRender extends BasicServiceImpl {
 		initializeXAxis();
 	}
 
-	public static Document renderClassifyCostChart(Document condition) {
-		return new ProblemChartRender(condition).renderClassifyCost();
+	public static Document renderClassifyCostChart(Document condition,String domain) {
+		return new ProblemChartRender(condition,domain).renderClassifyCost();
 	}
 
-	public static Document renderClassifyProblemChart(Document condition) {
-		return new ProblemChartRender(condition).renderClassifyProblem();
+	public static Document renderClassifyProblemChart(Document condition,String domain) {
+		return new ProblemChartRender(condition,domain).renderClassifyProblem();
 	}
 
-	public static Document renderClassifyCauseChart(Document condition) {
-		return new ProblemChartRender(condition).renderClassifyCause();
+	public static Document renderClassifyCauseChart(Document condition,String domain) {
+		return new ProblemChartRender(condition,domain).renderClassifyCause();
 	}
 
-	public static Document renderClassifyDeptChart(Document condition) {
-		return new ProblemChartRender(condition).renderClassifyDept();
+	public static Document renderClassifyDeptChart(Document condition,String domain) {
+		return new ProblemChartRender(condition,domain).renderClassifyDept();
 	}
 
-	public static Document renderAnlysisChart(Document condition) {
-		return new ProblemChartRender()._renderAnlysisChart(condition);
+	public static Document renderAnlysisChart(Document condition,String domain) {
+		return new ProblemChartRender(domain)._renderAnlysisChart(condition);
 	}
 
-	public static Document renderCostClassifyByProblemChart() {
-		return new ProblemChartRender()._renderCostClassifyByProblemChart();
+	public static Document renderCostClassifyByProblemChart(String domain) {
+		return new ProblemChartRender(domain)._renderCostClassifyByProblemChart();
 	}
 
-	public static Document renderCountClassifyByProblemChart() {
-		return new ProblemChartRender()._renderCountClassifyByProblemChart();
+	public static Document renderCountClassifyByProblemChart(String domain) {
+		return new ProblemChartRender(domain)._renderCountClassifyByProblemChart();
 	}
 
-	public static Document renderCostClassifyByCauseChart() {
-		return new ProblemChartRender()._renderCostPie("查询-问题成本-原因权重计算", "问题原因（损失比重）", "causeRelation");
+	public static Document renderCostClassifyByCauseChart(String domain) {
+		return new ProblemChartRender(domain)._renderCostPie("查询-问题成本-原因权重计算", "问题原因（损失比重）", "causeRelation");
 	}
 
-	public static Document renderCostClassifyByDeptChart() {
-		return new ProblemChartRender()._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
+	public static Document renderCostClassifyByDeptChart(String domain) {
+		return new ProblemChartRender(domain)._renderCostPie("查询-问题成本-按责任部门汇总", "责任部门（损失比重）", "problem");
 	}
 
-	public static Document renderCauseProblemChart() {
-		return new ProblemChartRender()._renderCauseProblemChart();
+	public static Document renderCauseProblemChart(String domain) {
+		return new ProblemChartRender(domain)._renderCauseProblemChart();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -129,7 +134,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 		// 1. 查找相似的问题; TODO 使用语义分析
 		List<ObjectId> similarProblems = new ArrayList<>();
-		c("problem").aggregate(Arrays.asList(//
+		c("problem", domain).aggregate(Arrays.asList(//
 				Aggregates.match(new Document("status", "已关闭").append("classifyProblem._ids", new Document("$in", catalog_ids)))//
 		)).forEach((Document d) -> {
 			// Modify by zjc 20190318 将问题自身排除出相似问题中，否则会因为连线指向自身导致异常
@@ -138,7 +143,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 				// 【2】加入相似问题目录
 				String probCata = d.getString("name");
 				categories.add(new Document("name", probCata));
-				
+
 				ObjectId parentId = d.getObjectId("_id");
 				String subid = parentId.toHexString();
 				Document subnode = new Document("name", probCata)//
@@ -162,7 +167,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		String[] stage = { "era", "ica", "pca" };
 		String[] name = { "ERA", "ICA", "PCA" };
 		for (int i = 0; i < name.length; i++) {
-			ArrayList<Document> actions = c("problemAction").aggregate(Arrays.asList(
+			ArrayList<Document> actions = c("problemAction", domain).aggregate(Arrays.asList(
 					Aggregates.match(new Document("stage", stage[i]).append("problem_id", new Document("$in", similarProblems))),
 					Aggregates.sort(new Document("problem_id", 1).append("index", 1)))).into(new ArrayList<>());
 			if (!actions.isEmpty()) {
@@ -176,7 +181,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 						.append("symbolSize", 36);//
 				nodes.add(subnode);
 
-				links.add(createGraphicLink(stageId, rootId,"行动"));
+				links.add(createGraphicLink(stageId, rootId, "行动"));
 				// 【3.2】创建行动节点的下级节点
 				actions.forEach(d -> {
 					String actionId = d.getObjectId("_id").toHexString();
@@ -195,7 +200,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 		// 【4】. 根据关键词 查找经验库
 		categories.add(new Document("name", "经验"));
-		c("d8Exp").aggregate(Arrays.asList(// TODO 保存时写keyword
+		c("d8Exp", domain).aggregate(Arrays.asList(// TODO 保存时写keyword
 				Aggregates.match(new Document("keyword", new Document("$in", keyword))))).forEach((Document exp) -> {
 					String id = exp.getObjectId("_id").toHexString();
 					Document subnode = new Document("name", exp.getString("name"))//
@@ -212,9 +217,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 				});
 
 		if (nodes.size() == 1) {
-			return blankChart();
+			return blankChart(cata);
 		}
-		Document chart = new JQ("图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
+		Document chart = Domain.getJQ(domain, "图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links).set("categories", categories)
 				.doc();
 		debugDocument(chart);
 		return chart;
@@ -230,7 +235,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 				.append("symbolSize", Arrays.asList(20, 23)));//
 		links.add(createGraphicLink(makeId, sProb_id.toHexString(), name));
 
-		c("causeRelation").find(new Document("problem_id", sProb_id).append("type", type)).forEach((Document doc) -> {
+		c("causeRelation",domain).find(new Document("problem_id", sProb_id).append("type", type)).forEach((Document doc) -> {
 			String id = doc.getObjectId("_id").toHexString();
 			nodes.add(new Document("id", id)//
 					.append("name", doc.get("name"))//
@@ -264,7 +269,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 	private Document _renderCauseProblemChart() {
 		List<Document> categories = new ArrayList<>();
-		List<Document> nodes = c("problem").aggregate(new JQ("查询-问题权重").array()).map((Document d) -> {
+		List<Document> nodes = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题权重").array()).map((Document d) -> {
 			String name = d.getString("name");
 			String cata = "问题:" + name.split("/")[0].trim();
 			categories.add(new Document("name", cata));
@@ -279,7 +284,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("value", 100 * value);
 		}).into(new ArrayList<>());
 
-		c("problem").aggregate(new JQ("查询-原因权重").array()).map((Document d) -> {
+		c("problem", domain).aggregate(Domain.getJQ(domain, "查询-原因权重").array()).map((Document d) -> {
 			String name = d.getString("name");
 			String cata = "原因:" + name.split("/")[0].trim();
 			categories.add(new Document("name", cata));
@@ -292,11 +297,11 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("value", value / 100);
 		}).into(nodes);
 
-		List<Document> links = c("problem").aggregate(new JQ("查询-问题因果关系").array())
+		List<Document> links = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题因果关系").array())
 				.map((Document d) -> createGraphicLink(d.getObjectId("_id").toHexString(), d.getObjectId("pid").toHexString()))
 				.into(new ArrayList<>());
 
-		Document chart = new JQ("图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links).set("categories", categories)
+		Document chart = Domain.getJQ(domain, "图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links).set("categories", categories)
 				.doc();
 		debugDocument(chart);
 		return chart;
@@ -305,7 +310,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 	private Document _renderCountClassifyByProblemChart() {
 		List<String> xAxis = getXAxisOfProblem();
 		if (xAxis.isEmpty())
-			return blankChart();
+			return blankChart(domain);
 		String queryName = "查询-问题根分类-各月数量";
 		String title = "问题数量";
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
@@ -314,7 +319,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 	private Document _renderCostClassifyByProblemChart() {
 		List<String> xAxis = getXAxisOfProblemCost();
 		if (xAxis.isEmpty())
-			return blankChart();
+			return blankChart(domain);
 		String queryName = "查询-问题根分类-各月成本";
 		String title = "问题损失";
 		return _renderClassifyProblemBarChart(queryName, title, xAxis);
@@ -324,7 +329,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Document> dataset = new ArrayList<>();
 		List<Document> series = new ArrayList<>();
 
-		ArrayList<Document> result = c("classifyProblem").aggregate(new JQ(queryName).array()).into(new ArrayList<>());
+		ArrayList<Document> result = c("classifyProblem",domain).aggregate(Domain.getJQ(domain,queryName).array()).into(new ArrayList<>());
 		for (int i = 0; i < result.size(); i++) {
 			Document data = result.get(i);
 			dataset.add(data);
@@ -352,7 +357,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 			}
 		}
 
-		return new JQ("图表-通用-带数据集-紧凑布局-2y轴")//
+		return Domain.getJQ(domain, "图表-通用-带数据集-紧凑布局-2y轴")//
 				.set("标题", title)//
 				.set("数据集", dataset)//
 				.set("x轴数据", xAxis)//
@@ -386,16 +391,16 @@ public class ProblemChartRender extends BasicServiceImpl {
 	}
 
 	private Document _renderCostPie(String queryName, String title, String col) {
-		ArrayList<Document> source = c(col).aggregate(new JQ(queryName).array()).into(new ArrayList<>());
+		ArrayList<Document> source = c(col,domain).aggregate(Domain.getJQ(domain,queryName).array()).into(new ArrayList<>());
 		if (source.isEmpty())
-			return blankChart();
+			return blankChart(domain);
 
 		List<Document> series = Arrays.asList(//
 				new Document("type", "pie")//
 						.append("radius", 100)
 						.append("label", new Document("normal", new Document("show", true).append("formatter", "{b}\n{d}%")))
 						.append("encode", new Document("itemName", "_id").append("value", "amount")));//
-		Document doc = new JQ("图表-通用-带数据集-紧凑布局-无轴")//
+		Document doc = Domain.getJQ(domain, "图表-通用-带数据集-紧凑布局-无轴")//
 				.set("标题", title)//
 				.set("数据集", new Document("source", source))//
 				.set("系列", series)//
@@ -407,9 +412,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
-		new JQ("查询-问题成本-责任部门查问题").appendTo(pipe);
-		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-		ArrayList<Document> dataset = c("organization").aggregate(pipe).into(new ArrayList<>());
+		Domain.getJQ(domain, "查询-问题成本-责任部门查问题").appendTo(pipe);
+		Domain.getJQ(domain, "查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("organization",domain).aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
 
@@ -448,15 +453,15 @@ public class ProblemChartRender extends BasicServiceImpl {
 						.append("amount", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
 		pipe.add(new Document("$group", new Document("_id", "$date").append("amount", new Document("$sum", "$amount"))));
 
-		ArrayList<Document> source = c("problemCostItem").aggregate(pipe).into(new ArrayList<>());
+		ArrayList<Document> source = c("problemCostItem",domain).aggregate(pipe).into(new ArrayList<>());
 		if (source.isEmpty())
-			return blankChart();
+			return blankChart(domain);
 
 		List<Document> series = Arrays.asList(new Document("type", "bar")//
 				.append("name", "损失金额").append("label", new Document("normal", new Document("show", true).append("position", "top")))//
 		);
 
-		JQ chart = new JQ("图表-通用-带数据集")//
+		JQ chart = Domain.getJQ(domain, "图表-通用-带数据集")//
 				.set("标题", title)//
 				.set("数据集", new Document("source", source))//
 				.set("x轴名称", "期间")//
@@ -471,8 +476,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
-		new JQ("查询-问题成本-按时间和成本分类").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-		ArrayList<Document> dataset = c("classifyProblemLost").aggregate(pipe).into(new ArrayList<>());
+		Domain.getJQ(domain, "查询-问题成本-按时间和成本分类").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("classifyProblemLost",domain).aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
 
@@ -480,9 +485,9 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
-		new JQ("查询-问题成本-问题分类查问题").appendTo(pipe);
-		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-		ArrayList<Document> dataset = c("classifyProblem").aggregate(pipe).into(new ArrayList<>());
+		Domain.getJQ(domain, "查询-问题成本-问题分类查问题").appendTo(pipe);
+		Domain.getJQ(domain, "查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("classifyProblem",domain).aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 	}
 
@@ -490,16 +495,16 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Bson> pipe = new ArrayList<>();
 		List<ObjectId> ids = input.stream().map(doc -> doc.getObjectId("_id")).collect(Collectors.toList());
 		pipe.add(new Document("$match", new Document("_id", new Document("$in", ids))));
-		new JQ("查询-问题成本-原因分类查问题").appendTo(pipe);
-		new JQ("查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
-		ArrayList<Document> dataset = c("classifyCause").aggregate(pipe).into(new ArrayList<>());
+		Domain.getJQ(domain, "查询-问题成本-原因分类查问题").appendTo(pipe);
+		Domain.getJQ(domain, "查询-问题成本-问题查成本").set("起始时间", from).set("终止时间", to).set("日期分组格式", dateFormat).appendTo(pipe);
+		ArrayList<Document> dataset = c("classifyCause",domain).aggregate(pipe).into(new ArrayList<>());
 		return buildDetailChart(dataset);
 
 	}
 
 	private Document buildDetailChart(ArrayList<Document> dataset) {
 		if (dataset.isEmpty())
-			return blankChart();
+			return blankChart(domain);
 
 		// 构建系列数据集
 		List<Document> summary = new ArrayList<>();
@@ -527,7 +532,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 					.append("label", new Document("normal", new Document("formatter", "{b}\n{d}%"))));
 		}
 
-		JQ jq = new JQ("图表-通用-上下两栏目")//
+		JQ jq = Domain.getJQ(domain, "图表-通用-上下两栏目")//
 				.set("标题", title)//
 				.set("数据集", dataset)//
 				.set("x轴名称", "期间")//
@@ -582,7 +587,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 	}
 
 	private List<String> getXAxisOfProblemCost() {
-		Document date = c("problemCostItem").aggregate(Arrays.asList(new Document("$group",
+		Document date = c("problemCostItem",domain).aggregate(Arrays.asList(new Document("$group",
 				new Document("_id", null).append("from", new Document("$min", "$date")).append("to", new Document("$max", "$date")))))
 				.first();
 
@@ -594,7 +599,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 	}
 
 	private List<String> getXAxisOfProblem() {
-		Document date = c("problem").aggregate(
+		Document date = c("problem", domain).aggregate(
 				Arrays.asList(new Document("$match", new Document("status", new Document("$in", Arrays.asList("已创建", "解决中", "已关闭")))),
 						new Document("$group", new Document("_id", null).append("from", new Document("$min", "$issueDate")).append("to",
 								new Document("$max", "$issueDate")))))
@@ -605,7 +610,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		Date to = date.getDate("to");
 		return getXAxisData("month", from, to);
 	}
-	
+
 	private ArrayList<String> getXAxisData(String xAxis, Date from, Date to) {
 		ArrayList<String> xAxisData = new ArrayList<String>();
 		SimpleDateFormat sdf;

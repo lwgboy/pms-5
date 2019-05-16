@@ -43,8 +43,7 @@ public class Organization {
 
 	@ReadValue("parent")
 	public Organization getParent() {
-		return Optional.ofNullable(this.parent_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(this.parent_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class Organization {
 	@ReadValue
 	@WriteValue
 	private String type;
-	
+
 	/**
 	 * 外部组织类型
 	 */
@@ -88,7 +87,7 @@ public class Organization {
 
 	@Persistence
 	private String managerId;
-	
+
 	public String getManagerId() {
 		return managerId;
 	}
@@ -97,12 +96,15 @@ public class Organization {
 	@WriteValue("managerInfo")
 	@SetValue
 	private String managerInfo;
-	
+
 	@ReadValue
 	@WriteValue
 	@Persistence
 	private boolean qualifiedContractor;
 
+	@Exclude
+	public String domain;
+	
 	@WriteValue("manager")
 	private void setManager(User manager) {
 		if (manager == null) {
@@ -118,7 +120,7 @@ public class Organization {
 	private User getManager() {
 		return Optional.ofNullable(managerId).map(id -> {
 			try {
-				return ServicesLoader.get(UserService.class).get(id);
+				return ServicesLoader.get(UserService.class).get(id, domain);
 			} catch (Exception e) {
 				return null;
 			}
@@ -127,12 +129,12 @@ public class Organization {
 
 	@Structure("组织管理/list")
 	public List<Organization> getSub() {
-		return ServicesLoader.get(OrganizationService.class).getSub(_id);
+		return ServicesLoader.get(OrganizationService.class).getSub(_id, domain);
 	}
 
 	@Structure("组织管理/count")
 	public long countSub() {
-		return ServicesLoader.get(OrganizationService.class).countSub(_id);
+		return ServicesLoader.get(OrganizationService.class).countSub(_id, domain);
 	}
 
 	@Label

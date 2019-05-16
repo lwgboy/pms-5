@@ -32,9 +32,9 @@ public class EditProblemIndicators {
 			Check.instanceThen(context.getContent(), IStructuredDataPart.class, c -> {
 				ProblemService service = Services.get(ProblemService.class);
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(d).bson();
-				if (service.updateProblems(fu) > 0) {
+				if (service.updateProblems(fu, br.getDomain()) > 0) {
 					BasicDBObject cond = new Query().filter(new BasicDBObject("_id", problem.get_id())).bson();
-					List<Problem> result = service.listProblems(cond, problem.getStatus(), userId);
+					List<Problem> result = service.listProblems(cond, problem.getStatus(), userId, br.getDomain());
 					if (result.size() > 0) {
 						c.replaceItem(problem, result.get(0));
 					}

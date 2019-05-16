@@ -33,7 +33,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ResourceReqASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -55,10 +55,10 @@ public class ResourceReqASM {
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板甘特图（用于资源分配）"))
-				.setServices(brui).create().getContext().getContent();
-		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(brui.getAssembly("项目模板资源分配表"))
-				.setServices(brui).create().getContext().getContent();
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板甘特图（用于资源分配）"))
+				.setServices(br).create().getContext().getContent();
+		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板资源分配表"))
+				.setServices(br).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(),
 				l -> select((WorkInTemplate) ((GanttEvent) l).task));
@@ -101,7 +101,7 @@ public class ResourceReqASM {
 		typedRes.setStyle("info");
 
 		// 弹出menu
-		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
 			addResource("人力资源选择器");
 			return false;
 		}).handleActionExecute("eq", a -> {
@@ -117,10 +117,10 @@ public class ResourceReqASM {
 		Selector.open(selectorId, context, null, l -> {
 			List<ResourceAssignment> resa = new ArrayList<ResourceAssignment>();
 			l.forEach(o -> resa.add(new ResourceAssignment().setTypedResource(o).setWork_id(work.get_id())));
-			Services.get(ProjectTemplateService.class).addResourcePlan(resa);
+			Services.get(ProjectTemplateService.class).addResourcePlan(resa, br.getDomain());
 
 			List<ResourcePlanInTemplate> input = Services.get(ProjectTemplateService.class)
-					.listResourcePlan(work.get_id());
+					.listResourcePlan(work.get_id(), br.getDomain());
 			grid.setViewerInput(input);
 		});
 	}
@@ -131,7 +131,7 @@ public class ResourceReqASM {
 		}
 		this.work = work;
 		// 查询
-		List<ResourcePlanInTemplate> input = Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id());
+		List<ResourcePlanInTemplate> input = Services.get(ProjectTemplateService.class).listResourcePlan(work.get_id(), br.getDomain());
 		grid.setViewerInput(input);
 	}
 

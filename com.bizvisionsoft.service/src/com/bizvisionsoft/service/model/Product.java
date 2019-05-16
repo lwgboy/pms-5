@@ -46,16 +46,18 @@ public class Product {
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "²úÆ·";
+	
+	@Exclude
+	public String domain;
 
 	@ReadValue("benchmarking")
 	private Product readBenchmarking() {
-		return Optional.ofNullable(benchmarking_id).map(_id -> ServicesLoader.get(ProductService.class).get(_id))
-				.orElse(null);
+		return Optional.ofNullable(benchmarking_id).map(_id -> ServicesLoader.get(ProductService.class).get(_id, domain)).orElse(null);
 	}
-	
+
 	@WriteValue("benchmarking")
 	private void writeBenchMarking(Product product) {
-		benchmarking_id = Optional.ofNullable(product).map(p->p._id).orElse(null);
+		benchmarking_id = Optional.ofNullable(product).map(p -> p._id).orElse(null);
 	}
 
 	private ObjectId benchmarking_id;

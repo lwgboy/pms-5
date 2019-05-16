@@ -15,16 +15,16 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CancelSchedule {
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) IWBSScope rootInput) {
-		if (MessageDialog.openConfirm(bruiService.getCurrentShell(), "撤销编辑", "请确认撤销当前编辑。")) {
+		if (MessageDialog.openConfirm(br.getCurrentShell(), "撤销编辑", "请确认撤销当前编辑。")) {
 			Workspace workspace = rootInput.getWorkspace();
-			Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace);
+			Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace, br.getDomain());
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				Layer.message("当前计划的修改已撤销。");
-				bruiService.switchContent("项目甘特图", null);
+				br.switchContent("项目甘特图", null);
 			}
 		}
 	}

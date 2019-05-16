@@ -11,10 +11,8 @@ import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.SelectionValidation;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
-import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -85,25 +83,28 @@ public class EPS implements Comparable<EPS> {
 	public int compareTo(EPS o) {
 		return id.compareTo(o.id);
 	}
+	
+	@Exclude
+	public String domain;
 
 	@Structure({"EPS管理/list", "EPS选择/list"})
 	public List<EPS> listSubEPS() {
-		return ServicesLoader.get(EPSService.class).getSubEPS(_id);
+		return ServicesLoader.get(EPSService.class).getSubEPS(_id,domain);
 	}
 
 	@Structure({"EPS管理/count", "EPS选择/count"})
 	public long countSubEPS() {
-		return ServicesLoader.get(EPSService.class).countSubEPS(_id);
+		return ServicesLoader.get(EPSService.class).countSubEPS(_id,domain);
 	}
 
 	@Structure("EPS浏览 /list")
 	public List<Object> listSubNodes() {
 		ArrayList<Object> result = new ArrayList<Object>();
 
-		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
+		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id, domain));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).list(
-				new Query().filter(new BasicDBObject("eps_id", _id)).bson()));
+				new Query().filter(new BasicDBObject("eps_id", _id)).bson(), domain));
 
 		return result;
 	}
@@ -111,8 +112,8 @@ public class EPS implements Comparable<EPS> {
 	@Structure("EPS浏览/count")
 	public long countSubNodes() {
 		// 查下级
-		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
-		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id));
+		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id, domain);
+		cnt += ServicesLoader.get(ProjectService.class).count(new BasicDBObject("eps_id", _id), domain);
 		return cnt;
 	}
 
@@ -120,11 +121,11 @@ public class EPS implements Comparable<EPS> {
 	public List<Object> listFinishSubNodes() {
 		ArrayList<Object> result = new ArrayList<Object>();
 
-		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id));
+		result.addAll(ServicesLoader.get(EPSService.class).getSubEPS(_id, domain));
 
 		result.addAll(ServicesLoader.get(ProjectService.class).list(new Query().filter(
 				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed))
-				.bson()));
+				.bson(), domain));
 
 		return result;
 	}
@@ -132,9 +133,9 @@ public class EPS implements Comparable<EPS> {
 	@Structure("EPS浏览-投资分析/count")
 	public long countFinishSubNodes() {
 		// 查下级
-		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id);
+		long cnt = ServicesLoader.get(EPSService.class).countSubEPS(_id, domain);
 		cnt += ServicesLoader.get(ProjectService.class).count(
-				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed));
+				new BasicDBObject("eps_id", _id).append("status", ProjectStatus.Closed), domain);
 		return cnt;
 	}
 	

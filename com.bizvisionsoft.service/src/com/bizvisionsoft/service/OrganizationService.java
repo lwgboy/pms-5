@@ -24,154 +24,154 @@ import com.mongodb.BasicDBObject;
 public interface OrganizationService {
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.INSERT)
-	public Organization insert(@MethodParam(MethodParam.OBJECT) Organization orgInfo);
+	public Organization insert(@MethodParam(MethodParam.OBJECT) Organization orgInfo,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/role/")
+	@Path("/{domain}/role/")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织角色/" + DataSet.INSERT)
-	public Role insertRole(@MethodParam(MethodParam.OBJECT) Role role);
+	public Role insertRole(@MethodParam(MethodParam.OBJECT) Role role,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/{_id}")
+	@Path("/{domain}/{_id}")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
-	public Organization get(@PathParam("_id") ObjectId _id);
+	public Organization get(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/role/{_id}")
+	@Path("/{domain}/role/{_id}")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
-	public Role getRole(@PathParam("_id") ObjectId _id);
+	public Role getRole(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	
 	@GET
-	@Path("/managerId/{userId}/")
+	@Path("/{domain}/managerId/{userId}/")
 	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
-	public List<ObjectId> getManagedOrganizationsId(@PathParam("userId") String userId);
+	public List<ObjectId> getManagedOrganizationsId(@PathParam("userId") String userId,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.UPDATE)
-	public long update(BasicDBObject filterAndUpdate);
+	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/role/")
+	@Path("/{domain}/role/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织角色/" + DataSet.UPDATE)
-	public long updateRole(BasicDBObject filterAndUpdate);
+	public long updateRole(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/root")
+	@Path("/{domain}/root")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.LIST)
-	public List<Organization> getRoot();
+	public List<Organization> getRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/root/count")
+	@Path("/{domain}/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.COUNT)
-	public long countRoot();
+	public long countRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/sub/{_id}")
+	@Path("/{domain}/sub/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Organization> getSub(@PathParam("_id") ObjectId parent_id);
+	public List<Organization> getSub(@PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/sub/count/{_id}")
+	@Path("/{domain}/sub/count/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countSub(@PathParam("_id") ObjectId parent_id);
+	public long countSub(@PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/member/{_id}/")
+	@Path("/{domain}/member/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<User> getMember(BasicDBObject condition, @PathParam("_id") ObjectId parent_id);
+	public List<User> getMember(BasicDBObject condition, @PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/member/count/{_id}/")
+	@Path("/{domain}/member/count/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countMember(BasicDBObject filter, @PathParam("_id") ObjectId parent_id);
+	public long countMember(BasicDBObject filter, @PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/roles/{_id}/")
+	@Path("/{domain}/roles/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Role> getRoles(BasicDBObject condition, @PathParam("_id") ObjectId parent_id);
+	public List<Role> getRoles(BasicDBObject condition, @PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/roles/count/{_id}/")
+	@Path("/{domain}/roles/count/{_id}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countRoles(BasicDBObject filter, @PathParam("_id") ObjectId parent_id);
+	public long countRoles(BasicDBObject filter, @PathParam("_id") ObjectId parent_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/roles/{_id}/users")
+	@Path("/{domain}/roles/{_id}/users")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<User> queryUsersOfRole(@PathParam("_id") ObjectId _id);
+	public List<User> queryUsersOfRole(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/roles/{_id}/users/count")
+	@Path("/{domain}/roles/{_id}/users/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countUsersOfRole(@PathParam("_id") ObjectId _id);
+	public long countUsersOfRole(@PathParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/ds/")
+	@Path("/{domain}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器/" + DataSet.LIST)
-	public List<Organization> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Organization> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/count/")
+	@Path("/{domain}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器/" + DataSet.COUNT)
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/projectbuilder/ds/")
+	@Path("/{domain}/projectbuilder/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器（项目承担单位）/" + DataSet.LIST)
-	public List<Organization> listQualifiedContractor(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Organization> listQualifiedContractor(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/projectbuilder/count/")
+	@Path("/{domain}/projectbuilder/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织选择器（项目承担单位）/" + DataSet.COUNT)
-	public long countQualifiedContractor(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countQualifiedContractor(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/_id/{_id}")
+	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织管理/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/role/_id/{_id}")
+	@Path("/{domain}/role/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("组织角色/" + DataSet.DELETE)
-	public long deleteRole(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteRole(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	
 }

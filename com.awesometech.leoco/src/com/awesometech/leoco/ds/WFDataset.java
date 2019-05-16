@@ -18,7 +18,7 @@ public class WFDataset {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet("node")
 	private List<Document> nodes() {

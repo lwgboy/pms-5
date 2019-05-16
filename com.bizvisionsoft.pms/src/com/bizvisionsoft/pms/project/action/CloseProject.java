@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CloseProject {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Project project) {
@@ -27,9 +27,9 @@ public class CloseProject {
 		CommandHandler.run(ICommand.Close_Project, //
 				"请确认关闭项目" + project + "。<br/>项目关闭后将禁止所有的项目有关操作，包括项目财务结算，创建或更改项目文档。工作包历史跟踪记录将被清除。", //
 				"项目关闭完成", "项目关闭失败", //
-				() -> service.closeProject(brui.command(id, new Date(), ICommand.Close_Project)), //
-				() -> service.closeProject(brui.command(id, new Date(), ICommand.Close_Project_Ignore_Warrning)), //
-				code -> brui.switchPage("项目首页（关闭）", id.toHexString()));
+				() -> service.closeProject(br.command(id, new Date(), ICommand.Close_Project), br.getDomain()), //
+				() -> service.closeProject(br.command(id, new Date(), ICommand.Close_Project_Ignore_Warrning), br.getDomain()), //
+				code -> br.switchPage("项目首页（关闭）", id.toHexString()));
 
 	}
 

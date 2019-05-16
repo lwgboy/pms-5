@@ -10,11 +10,11 @@ import com.bizvisionsoft.service.model.IWorkPackageMaster;
 public class OpenWorkPackage {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IWorkPackageMaster work) {
-		SwitchWorkPackagePage.openWorkPackage(brui, work);
+		SwitchWorkPackagePage.openWorkPackage(br, work);
 	}
 
 }

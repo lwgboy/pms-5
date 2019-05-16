@@ -11,12 +11,12 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SwitchProjectPage {
 
 	public static void openProject(IBruiService br, ObjectId _id) {
-		Project pj = Services.get(ProjectService.class).get(_id);
+		Project pj = Services.get(ProjectService.class).get(_id, br.getDomain());
 		openProject(br,pj);
 	}
 
 	public static Project loadAndOpenProject(IBruiService br, Project project) {
-		Project pj = Services.get(ProjectService.class).get(project.get_id());
+		Project pj = Services.get(ProjectService.class).get(project.get_id(), br.getDomain());
 		openProject(br,pj);
 		return pj;
 	}

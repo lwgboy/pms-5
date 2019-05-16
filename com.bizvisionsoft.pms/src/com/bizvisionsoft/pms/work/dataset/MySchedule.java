@@ -24,19 +24,19 @@ public class MySchedule {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet({ "部门工作日程表/list" })
 	public List<Work> createDeptUserWork() {
-		String userid = brui.getCurrentUserId();
-		return Services.get(WorkService.class).createDeptUserWorkDataSet(userid);
+		String userid = br.getCurrentUserId();
+		return Services.get(WorkService.class).createDeptUserWorkDataSet(userid, br.getDomain());
 
 	}
 
 	@DataSet({ "部门工作日程表/section" })
 	public List<User> createDeptUser() {
-		String userid = brui.getCurrentUserId();
-		return Services.get(UserService.class).createDeptUserDataSet(new Query().bson(), userid);
+		String userid = br.getCurrentUserId();
+		return Services.get(UserService.class).createDeptUserDataSet(new Query().bson(), userid, br.getDomain());
 	}
 
 	@Execute

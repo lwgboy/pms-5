@@ -53,7 +53,7 @@ public class EditOBSItem {
 
 	private boolean check(OBSItem em, OBSItem o, String title) {
 		if (em.getManagerId() != null && !em.getManagerId().equals(o.getManagerId())) {
-			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(em.get_id(), "editobsitem");
+			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(em.get_id(), "editobsitem", br.getDomain());
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";
@@ -78,7 +78,7 @@ public class EditOBSItem {
 						return false;
 					else
 						Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(em.getManagerId()), em.getScope_id(),
-								br.getCurrentUserId());
+								br.getCurrentUserId(), br.getDomain());
 
 				}
 			}

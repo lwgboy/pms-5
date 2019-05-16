@@ -88,16 +88,16 @@ public class GenericAction {
 	}
 
 	private void editSimilar(Document doc, String render) {
-		Document ivpca = service.getD7Similar(doc.getObjectId("_id"));
+		Document ivpca = service.getD7Similar(doc.getObjectId("_id"), br.getDomain());
 		Editor.create("D7-类似问题-编辑器", context, ivpca, true).ok((r, t) -> {
-			Document d = service.updateD7Similar(t, lang, render);
+			Document d = service.updateD7Similar(t, lang, render, br.getDomain());
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
 	}
 
 	private void deleteSimilar(Document doc) {
 		if (br.confirm("删除", "请确认删除选择的相似项。")) {
-			service.deleteD7Similar(doc.getObjectId("_id"));
+			service.deleteD7Similar(doc.getObjectId("_id"), br.getDomain());
 			List<?> input = (List<?>) viewer.getInput();
 			input.remove(doc);
 			viewer.remove(doc);
@@ -109,7 +109,7 @@ public class GenericAction {
 		ObjectId problem_id = problem.get_id();
 		Editor.create(editorName, context, new Document(), true).setTitle(getItemTypeName()).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertAction(t, problem_id, stage, RWT.getLocale().getLanguage(),
-					render);
+					render, br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
 		});
 	}
@@ -119,11 +119,11 @@ public class GenericAction {
 			doRead(element);
 		} else {
 			ObjectId _id = element.getObjectId("_id");
-			Document input = service.getAction(_id);
+			Document input = service.getAction(_id, br.getDomain());
 			String editorName = getEditorName();
 			String title = getItemTypeName();
 			Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
-				Document d = service.updateAction(t, lang, render, "updated");
+				Document d = service.updateAction(t, lang, render, "updated", br.getDomain());
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		}
@@ -131,7 +131,7 @@ public class GenericAction {
 
 	protected void doRead(Document element) {
 		ObjectId _id = element.getObjectId("_id");
-		Document input = service.getAction(_id);
+		Document input = service.getAction(_id, br.getDomain());
 		String editorName = getEditorNameForRead();
 		String title = getItemTypeName();
 		Editor.create(editorName, context, input, true).setTitle(title).setEditable(false).open();
@@ -140,23 +140,23 @@ public class GenericAction {
 	protected void doDelete(Document element) {
 		if (br.confirm("删除", "请确认删除选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
-			service.deleteAction(_id);
+			service.deleteAction(_id, br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
 		}
 	}
 
 	protected void doVerify(Document element) {
 		ObjectId _id = element.getObjectId("_id");
-		Document document = service.getAction(_id);
+		Document document = service.getAction(_id, br.getDomain());
 		Document input = Optional.ofNullable((Document) document.get("verification")).orElse(new Document());
 		String title = "验证" + getItemTypeName();
 		String editorName = getVerfiyEditorName();
 		Editor.create(editorName, context, input, true).setTitle(title).ok((r, t) -> {
 			Document d = service.updateAction(new Document("_id", _id).append("verification", t), lang, render,
-					"verified");
+					"verified", br.getDomain());
 			if ("已验证".equals(t.get("title")) && br.confirm("验证", "验证通过，是否立即完成本项行动？")) {
 				d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang,
-						render, "finished");
+						render, "finished", br.getDomain());
 			}
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		});
@@ -166,7 +166,7 @@ public class GenericAction {
 		if (br.confirm("完成", "请确认完成选择的" + getItemTypeName())) {
 			ObjectId _id = element.getObjectId("_id");
 			Document d = service.updateAction(new Document("_id", _id).append(ProblemService.ACTION_FINISH, true), lang,
-					render, "finished");
+					render, "finished", br.getDomain());
 			viewer.update(AUtil.simpleCopy(d, element), null);
 		}
 	}

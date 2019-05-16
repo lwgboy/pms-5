@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
@@ -28,6 +29,9 @@ import com.bizvisionsoft.service.tools.Formatter;
 @PersistenceCollection("workspace")
 @Strict
 public class WorkInfo {
+	
+	@Exclude
+	public String domain;
 
 	public static WorkInfo newInstance(Project project) {
 		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id()).setProjectName(project.getProjectName())
@@ -164,7 +168,7 @@ public class WorkInfo {
 	@Generator(name = Generator.DEFAULT_NAME, key = "work", generator = WorkGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String code;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工作类型
 	@ReadValue
@@ -442,7 +446,7 @@ public class WorkInfo {
 
 	@ReadValue("charger")
 	private OBSItemWarpper readCharger() {
-		return Optional.ofNullable(chargerId).map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id)))
+		return Optional.ofNullable(chargerId).map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id, domain)))
 				.orElse(null);
 	}
 
@@ -471,8 +475,8 @@ public class WorkInfo {
 
 	@ReadValue("assigner")
 	private OBSItemWarpper readAssigner() {
-		return Optional.ofNullable(assignerId).map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id)))
-				.orElse(null);
+		return Optional.ofNullable(assignerId)
+				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id, domain))).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -569,8 +573,8 @@ public class WorkInfo {
 		return this;
 	}
 
-	public Project getProject() {
-		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id)).orElse(null);
+	public Project getProject(String domain) {
+		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id, domain)).orElse(null);
 	}
 
 	@Persistence

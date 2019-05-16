@@ -90,7 +90,7 @@ public class AddProjectModuleACT {
 			}
 		});
 
-		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id());
+		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id(), br.getDomain());
 		Map<ObjectId, WorkInfo> idMap = new HashMap<ObjectId, WorkInfo>();
 		for (int i = 0; i < works.size(); i++) {
 			WorkInfo work = new WorkInfo();
@@ -145,7 +145,7 @@ public class AddProjectModuleACT {
 			gantt.addTask(work);
 		}
 
-		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id());
+		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id(), br.getDomain());
 		for (int i = 0; i < links.size(); i++) {
 			WorkLinkInfo link = new WorkLinkInfo();
 			AUtil.simpleCopy(links.get(i), link);

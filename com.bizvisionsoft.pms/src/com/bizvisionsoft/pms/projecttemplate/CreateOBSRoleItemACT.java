@@ -17,7 +17,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateOBSRoleItemACT  {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -37,7 +37,7 @@ public class CreateOBSRoleItemACT  {
 				.setScope_id(((OBSInTemplate) em).getScope_id()).setIsRole(isRole).generateSeq();
 
 		Editor.create(editor, context, input, true).setTitle(message).ok((r, t) -> {
-			OBSInTemplate item = Services.get(ProjectTemplateService.class).insertOBSItem(t);
+			OBSInTemplate item = Services.get(ProjectTemplateService.class).insertOBSItem(t, br.getDomain());
 			Object part = context.getContent();
 			if (part instanceof IStructuredDataPart) {
 				((IStructuredDataPart) part).add(em, item);

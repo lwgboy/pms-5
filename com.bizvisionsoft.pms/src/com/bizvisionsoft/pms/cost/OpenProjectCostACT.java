@@ -9,12 +9,12 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 public class OpenProjectCostACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
-			brui.openContent(brui.getAssembly("项目成本管理"), em);
+			br.openContent(br.getAssembly("项目成本管理"), em);
 		});
 	}
 

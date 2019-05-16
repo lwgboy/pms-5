@@ -27,14 +27,13 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SetSearchCBSPeriodByAnalysisACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
-		DateTimeInputDialog dtid = new DateTimeInputDialog(bruiService.getCurrentShell(), "查询期间", "请选择查询预算成本对比期间",
-				(a, b) -> (a == null || b == null) ? "必须选择时间" : null)
-						.setDateSetting(DateTimeSetting.month().setRange(true));
+		DateTimeInputDialog dtid = new DateTimeInputDialog(br.getCurrentShell(), "查询期间", "请选择查询预算成本对比期间",
+				(a, b) -> (a == null || b == null) ? "必须选择时间" : null).setDateSetting(DateTimeSetting.month().setRange(true));
 		if (dtid.open() == DateTimeInputDialog.OK) {
 			Date[] range = dtid.getValues();
 			// 获取查询的成本期间
@@ -47,18 +46,16 @@ public class SetSearchCBSPeriodByAnalysisACT {
 			for (GridColumnGroup columnGroup : columnGroups) {
 				if ("period".equals(columnGroup.getData("name"))) {
 					if (startPeriod.equals(endPeriod)) {
-						columnGroup.setText("期间：" + startPeriod.substring(0, 4) + "/"
-								+ Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
+						columnGroup.setText(
+								"期间：" + startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "（万元）");
 					} else {
-						columnGroup.setText("期间：" + startPeriod.substring(0, 4) + "/"
-								+ Integer.parseInt(startPeriod.substring(4, 6)) + "-" + endPeriod.substring(0, 4) + "/"
-								+ Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
+						columnGroup.setText("期间：" + startPeriod.substring(0, 4) + "/" + Integer.parseInt(startPeriod.substring(4, 6)) + "-"
+								+ endPeriod.substring(0, 4) + "/" + Integer.parseInt(endPeriod.substring(4, 6)) + "（万元）");
 					}
 				}
 			}
 
-			Document doc = Services.get(CBSService.class).getCBSSummary(startPeriod, endPeriod,
-					bruiService.getCurrentUserId());
+			Document doc = Services.get(CBSService.class).getCBSSummary(startPeriod, endPeriod, br.getCurrentUserId(), br.getDomain());
 
 			GridColumn[] columns = viewer.getGrid().getColumns();
 			GridViewerColumn vcol;
@@ -91,11 +88,8 @@ public class SetSearchCBSPeriodByAnalysisACT {
 				} else if ("totalBudget".equals(name)) {
 					value = doc.get("totalBudget");
 				} else if ("totalOverspend".equals(name)) {
-					double totalCost = doc.get("totalCost") != null ? ((Number) doc.get("totalCost")).doubleValue()
-							: 0d;
-					double totalBudget = doc.get("totalBudget") != null
-							? ((Number) doc.get("totalBudget")).doubleValue()
-							: 0d;
+					double totalCost = doc.get("totalCost") != null ? ((Number) doc.get("totalCost")).doubleValue() : 0d;
+					double totalBudget = doc.get("totalBudget") != null ? ((Number) doc.get("totalBudget")).doubleValue() : 0d;
 					value = totalCost - totalBudget;
 				}
 
@@ -115,11 +109,11 @@ public class SetSearchCBSPeriodByAnalysisACT {
 				if (element instanceof CBSItem) {
 					CBSItem itm = (CBSItem) element;
 					if ("cost".equals(type)) {
-						double cost = itm.getCost(startPeriod, endPeriod);
+						double cost = itm.getDurationCost(startPeriod, endPeriod);
 						if (cost != 0)
 							return Formatter.getString(cost);
 					} else if ("budget".equals(type)) {
-						double budget = itm.getBudget(startPeriod, endPeriod);
+						double budget = itm.getDurationBudget(startPeriod, endPeriod);
 						if (budget != 0)
 							return Formatter.getString(budget);
 					} else if ("car".equals(type)) {
@@ -132,7 +126,7 @@ public class SetSearchCBSPeriodByAnalysisACT {
 						// return new DecimalFormat("#.0%").format(car);
 						// else
 						// return car.toString();
-						Double car = itm.getCAR(startPeriod, endPeriod);
+						Double car = itm.getDurationCAR(startPeriod, endPeriod);
 						if (car != null && car != 0)
 							return Formatter.getPercentageFormatString(car);
 					} else if ("bv".equals(type)) {
@@ -145,22 +139,22 @@ public class SetSearchCBSPeriodByAnalysisACT {
 						// return new DecimalFormat("#.0%").format(bdr);
 						// else
 						// return bdr.toString();
-						Double bdr = itm.getBDR(startPeriod, endPeriod);
+						Double bdr = itm.getDurationBDR(startPeriod, endPeriod);
 						if (bdr != null && bdr != 0)
 							return Formatter.getPercentageFormatString(bdr);
 					} else if ("overspend".equals(type)) {
-						double overspend = itm.getOverspend(startPeriod, endPeriod);
+						double overspend = itm.getDurationOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
 							return Formatter.getString(overspend);
 					}
 				} else if (element instanceof CBSSubjectCost) {
 					CBSSubjectCost itm = (CBSSubjectCost) element;
 					if ("cost".equals(type)) {
-						double cost = itm.getCost(startPeriod, endPeriod);
+						double cost = itm.getDurationCost(startPeriod, endPeriod);
 						if (cost != 0)
 							return Formatter.getString(cost);
 					} else if ("budget".equals(type)) {
-						double budget = itm.getBudget(startPeriod, endPeriod);
+						double budget = itm.getDurationBudget(startPeriod, endPeriod);
 						if (budget != 0)
 							return Formatter.getString(budget);
 						//////////////////////////////////////////////////////////////////////
@@ -181,15 +175,15 @@ public class SetSearchCBSPeriodByAnalysisACT {
 						// else
 						// return bdr.toString();
 					} else if ("car".equals(type)) {
-						Double car = itm.getCAR(startPeriod, endPeriod);
+						Double car = itm.getDurationCAR(startPeriod, endPeriod);
 						if (car != null && car != 0)
 							return Formatter.getPercentageFormatString(car);
 					} else if ("bv".equals(type)) {
-						Double bdr = itm.getBDR(startPeriod, endPeriod);
+						Double bdr = itm.getDurationBDR(startPeriod, endPeriod);
 						if (bdr != null && bdr != 0)
 							return Formatter.getPercentageFormatString(bdr);
 					} else if ("overspend".equals(type)) {
-						double overspend = itm.getOverspend(startPeriod, endPeriod);
+						double overspend = itm.getDurationOverspend(startPeriod, endPeriod);
 						if (overspend != 0)
 							return Formatter.getString(overspend);
 					}

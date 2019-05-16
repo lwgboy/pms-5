@@ -37,6 +37,9 @@ public class ClassifyProblemLost {
 	@ReadValue
 	@WriteValue
 	public ObjectId parent_id;
+	
+	@Exclude
+	public String domain;
 
 	@Structure("new")
 	public ClassifyProblemLost newSubItem() {
@@ -47,12 +50,12 @@ public class ClassifyProblemLost {
 
 	@Structure("list")
 	public List<ClassifyProblemLost> listSubItems() {
-		return ServicesLoader.get(ProblemService.class).listClassifyProblemLost(new BasicDBObject("parent_id", _id));
+		return ServicesLoader.get(ProblemService.class).listClassifyProblemLost(new BasicDBObject("parent_id", _id), domain);
 	}
 
 	@Structure("count")
 	public long countSubItems() {
-		return ServicesLoader.get(ProblemService.class).countClassifyProblemLost(_id);
+		return ServicesLoader.get(ProblemService.class).countClassifyProblemLost(_id, domain);
 	}
 
 

@@ -49,7 +49,7 @@ public class SelectOA {
 									tv.get_id()))
 							.set(new BasicDBObject("workPackageSetting.$.parameter",
 									new BasicDBObject("WF_INSTS", instList)))
-							.bson());
+							.bson(), br.getDomain());
 			//////////////////////////////////////////////////
 			// Ë¢ÐÂ±í¸ñ
 			tv.setParameter("WF_INSTS", instList);

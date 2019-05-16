@@ -25,7 +25,7 @@ import com.bizvisionsoft.service.tools.Check;
 public class EditCBSSubjectCost {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -37,8 +37,7 @@ public class EditCBSSubjectCost {
 				ICBSScope rootInput = (ICBSScope) context.getRootInput();
 				period = new CBSSubject().setCBSItem_id(rootInput.getCBS_id()).setSubjectNumber(account.getId());
 			} else if (cbs instanceof Work || cbs instanceof Project) {
-				period = new CBSSubject().setCBSItem_id(((ICBSScope) cbs).getCBS_id())
-						.setSubjectNumber(account.getId());
+				period = new CBSSubject().setCBSItem_id(((ICBSScope) cbs).getCBS_id()).setSubjectNumber(account.getId());
 			} else {
 				period = new CBSSubject().setCBSItem_id(((CBSItem) cbs).get_id()).setSubjectNumber(account.getId());
 			}

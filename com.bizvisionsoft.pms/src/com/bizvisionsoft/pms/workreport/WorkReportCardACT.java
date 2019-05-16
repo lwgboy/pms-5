@@ -31,7 +31,7 @@ public class WorkReportCardACT {
 		if (e.text == null)
 			return;
 		ObjectId _id = element.getObjectId("_id");
-		WorkReport workReport = Services.get(WorkReportService.class).getWorkReport(_id);
+		WorkReport workReport = Services.get(WorkReportService.class).getWorkReport(_id, br.getDomain());
 		GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
 		if (e.text.startsWith("confirm")) {
 			confirmWorkReport(workReport, userid, element, viewer);
@@ -53,7 +53,7 @@ public class WorkReportCardACT {
 
 	private void confirmWorkReport(WorkReport workReport, String userid, Document doc, GridTreeViewer viewer) {
 		if (br.confirm("确认" + workReport.getType(), "请确认报告：" + workReport.getLabel() + "。\n系统将记录现在时刻为报告确认时间。")) {
-			List<Result> result = Services.get(WorkReportService.class).confirmWorkReport(Arrays.asList(workReport.get_id()), userid);
+			List<Result> result = Services.get(WorkReportService.class).confirmWorkReport(Arrays.asList(workReport.get_id()), userid, br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("报告已确认");
 				((List<?>) viewer.getInput()).remove(doc);

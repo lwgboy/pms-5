@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -15,6 +16,9 @@ import com.bizvisionsoft.service.WorkSpaceService;
 @PersistenceCollection("worklinksspace")
 @Strict
 public class WorkLinkInfo {
+	
+	@Exclude
+	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -71,7 +75,7 @@ public class WorkLinkInfo {
 
 	@SetValue("source")
 	public void setSourceId(ObjectId source_id) {
-		source = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(source_id);
+		source = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(source_id, domain);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +100,7 @@ public class WorkLinkInfo {
 
 	@SetValue("target")
 	public void setTargetId(ObjectId target_id) {
-		target = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(target_id);
+		target = ServicesLoader.get(WorkSpaceService.class).getWorkInfo(target_id, domain);
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -15,7 +15,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateDocuSettingACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	// 已经把模板和项目的分开，没有必要用Behavior设置，所以注释以下代码
 	// @Behavior("输出文档/创建工作包文档模板设置")
@@ -31,7 +31,7 @@ public class CreateDocuSettingACT {
 				.setWorkPackage_id(wp.get_id())//
 				.setName(wp.description);
 		Editor.open("编辑输出文档设置", context, docu, (r, t) -> {
-			((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocumentSetting(t));
+			((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocumentSetting(t, br.getDomain()));
 		});
 
 	}

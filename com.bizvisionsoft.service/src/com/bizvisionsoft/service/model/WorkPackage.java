@@ -22,7 +22,9 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 @PersistenceCollection("workPackage")
 public class WorkPackage {
-
+	
+	@Exclude
+	public String domain;
 
 	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv) {
 		WorkPackage wp = new WorkPackage();
@@ -147,7 +149,7 @@ public class WorkPackage {
 
 	@ReadValue("charger")
 	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id)).orElse(null);
+		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
 	}
 
 	@Persistence

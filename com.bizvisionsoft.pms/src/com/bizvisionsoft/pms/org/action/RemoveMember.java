@@ -23,7 +23,7 @@ public class RemoveMember {
 			try {
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("userId", user.getUserId()))
 						.set(new BasicDBObject("org_id", null)).bson();
-				Services.get(UserService.class).update(fu);
+				Services.get(UserService.class).update(fu, br.getDomain());
 				grid.remove(grid.getParentElement(user), user);
 			} catch (Exception e) {
 				br.error("ÒÆ³ý", e.getMessage());

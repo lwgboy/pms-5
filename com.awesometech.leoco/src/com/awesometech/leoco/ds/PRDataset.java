@@ -24,7 +24,7 @@ public class PRDataset {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@DataSet(DataSet.LIST)
 	private List<Document> list() {
@@ -50,7 +50,7 @@ public class PRDataset {
 			BasicDBObject filter = new BasicDBObject("work_id", work_id).append("catagory", catagory)
 					.append("name", name).append("info.pr_num", pr_num).append("info.pr_idx", pr_idx);
 			List<WorkPackage> wps = Services.get(WorkService.class)
-					.listWorkPackage(new BasicDBObject("filter", filter));
+					.listWorkPackage(new BasicDBObject("filter", filter), br.getDomain());
 			if (!wps.isEmpty()) {
 				d.put("_id", wps.get(0).get_id());
 				d.put("completeQty", wps.get(0).info.get("completeQty"));

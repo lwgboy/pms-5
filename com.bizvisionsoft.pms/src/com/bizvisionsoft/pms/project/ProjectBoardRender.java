@@ -33,7 +33,7 @@ public class ProjectBoardRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -44,7 +44,7 @@ public class ProjectBoardRender {
 		viewer.getGrid().addListener(SWT.Selection, e -> {
 			if (e.text != null) {
 				 if (e.text.startsWith("openProject/")) {
-					SwitchProjectPage.openProject(bruiService, new ObjectId(e.text.split("/")[1]));
+					SwitchProjectPage.openProject(br, new ObjectId(e.text.split("/")[1]));
 				}
 			} else {
 				Object element = ((GridItem) e.item).getData();
@@ -105,7 +105,7 @@ public class ProjectBoardRender {
 		}
 
 		// 添加项目时间线
-		List<News> news = Services.get(ProjectService.class).getRecentNews(pj.get_id(), 5);
+		List<News> news = Services.get(ProjectService.class).getRecentNews(pj.get_id(), 5, br.getDomain());
 		if (news.size() > 0) {
 			// height += 24;
 			sb.append("<ul class='layui-timeline' style='margin-top:24px;margin-right:32px;'>");
@@ -155,7 +155,7 @@ public class ProjectBoardRender {
 		StringBuffer text = new StringBuffer();
 		text.append("<div class='layui-btn-group' "
 				+ "style='margin-top:16px;width: 100%;display:inline-flex;justify-content:space-between;padding-right: 36px;'>");
-		Services.get(ProjectService.class).listStage(pj.get_id()).forEach(work -> {
+		Services.get(ProjectService.class).listStage(pj.get_id(), br.getDomain()).forEach(work -> {
 			String style;
 			if (work.getStartOn() != null && work.getFinishOn() != null) {
 				style = "layui-btn layui-btn-sm";

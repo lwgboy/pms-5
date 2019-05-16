@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -83,9 +84,12 @@ public class FuncPermission {
 		return creationInfo.date;
 	}
 	
+	@Exclude
+	public String domain;
+	
 	@ReadOptions("role")
 	private Map<String,String> getRoleOption(){
-		return ServicesLoader.get(CommonService.class).getDictionaryIdNamePair("功能角色");
+		return ServicesLoader.get(CommonService.class).getDictionaryIdNamePair("功能角色", domain);
 	}
 
 }

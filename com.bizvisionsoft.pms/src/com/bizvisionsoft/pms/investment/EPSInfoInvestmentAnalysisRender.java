@@ -24,7 +24,7 @@ public class EPSInfoInvestmentAnalysisRender extends GridPartDefaultRender {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	private String result;
 
@@ -38,19 +38,18 @@ public class EPSInfoInvestmentAnalysisRender extends GridPartDefaultRender {
 	@Override
 	@GridRenderUpdateCell
 	public void renderCell(@MethodParam(GridRenderUpdateCell.PARAM_CELL) ViewerCell cell,
-			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column,
-			@MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
+			@MethodParam(GridRenderUpdateCell.PARAM_COLUMN) Column column, @MethodParam(GridRenderUpdateCell.PARAM_VALUE) Object value,
 			@MethodParam(GridRenderUpdateCell.PARAM_IMAGE) Object image) {
 		Object element = cell.getElement();
 		if ("cost".equals(column.getName())) {
 			if (element instanceof EPSInfo) {
 				// 获取成本管理的期间成本
 				EPSInfo epsInfo = (EPSInfo) element;
-				value = epsInfo.getCost(result + "01", result + "12");
+				value = epsInfo.getDurationCost(result + "01", result + "12");
 			}
 		} else if ("profit".equals(column.getName())) {
 			EPSInfo epsInfo = (EPSInfo) element;
-			value = epsInfo.getProfit(result + "01", result + "12");
+			value = epsInfo.getDurationProfit(result + "01", result + "12");
 		} else if ("roi".equals(column.getName())) {
 			if (element instanceof EPSInfo) {
 				// 获取成本管理的期间成本
@@ -64,7 +63,7 @@ public class EPSInfoInvestmentAnalysisRender extends GridPartDefaultRender {
 			if (element instanceof EPSInfo) {
 				// 获取成本管理的期间成本
 				EPSInfo epsInfo = (EPSInfo) element;
-				value = epsInfo.getProfit(result + column.getName());
+				value = epsInfo.getPeriodProfit(result + column.getName());
 			}
 		}
 		super.renderCell(cell, column, value, image);
@@ -90,8 +89,7 @@ public class EPSInfoInvestmentAnalysisRender extends GridPartDefaultRender {
 
 	@Override
 	@GridRenderCompare
-	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col,
-			@MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
+	public int compare(@MethodParam(GridRenderCompare.PARAM_COLUMN) Column col, @MethodParam(GridRenderCompare.PARAM_ELEMENT1) Object e1,
 			@MethodParam(GridRenderCompare.PARAM_ELEMENT2) Object e2) {
 		return super.compare(col, e1, e2);
 	}

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
@@ -19,6 +20,9 @@ import com.bizvisionsoft.service.tools.Formatter;
 @PersistenceCollection("workPackageProgress")
 public class WorkPackageProgress {
 
+	@Exclude
+	public String domain;
+
 	public ObjectId _id;
 
 	public ObjectId package_id;
@@ -30,9 +34,9 @@ public class WorkPackageProgress {
 
 	private WorkPackage workPackage;
 
-	public WorkPackage getWorkPackage() {
+	public WorkPackage getWorkPackage(String domain) {
 		if (workPackage == null) {
-			workPackage = ServicesLoader.get(WorkService.class).getWorkPackage(package_id);
+			workPackage = ServicesLoader.get(WorkService.class).getWorkPackage(package_id, domain);
 		}
 		return workPackage;
 	}
@@ -46,7 +50,7 @@ public class WorkPackageProgress {
 
 	@Behavior({ "编辑研发进展", "删除研发进展" })
 	public boolean behaviourAdd(@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT) Object root) {
-		return getWorkPackage().getActualFinish() == null;
+		return getWorkPackage(domain).getActualFinish() == null;
 	}
 
 	@ReadValue

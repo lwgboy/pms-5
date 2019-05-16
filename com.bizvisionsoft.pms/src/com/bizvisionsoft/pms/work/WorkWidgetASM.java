@@ -33,7 +33,7 @@ import com.mongodb.BasicDBObject;
 public class WorkWidgetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -52,7 +52,7 @@ public class WorkWidgetASM {
 				.setActions(context.getAssembly().getActions());
 		bar.addListener(SWT.Selection, l -> {
 			if ("打开".equals(((Action) l.data).getName())) {
-				brui.switchContent(brui.getAssembly("我的工作"), null);
+				br.switchContent(br.getAssembly("我的工作"), null);
 			} else if ("查询".equals(((Action) l.data).getName())) {
 				workPane.openQueryEditor();
 			}
@@ -97,8 +97,8 @@ public class WorkWidgetASM {
 	}
 
 	private Composite createCalendarSelector(Composite parent) {
-		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("我的待处理工作日历选择器"))
-				.setServices(brui).create();
+		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作日历选择器"))
+				.setServices(br).create();
 		calPan = (SchedulerPart) asm.getContext().getContent();
 		calPan.addPostSelectionChangedListener(i -> {
 			String elem = (String) i.getStructuredSelection().getFirstElement();
@@ -125,8 +125,8 @@ public class WorkWidgetASM {
 	}
 
 	private Composite createBottomAsm(Composite parent) {
-		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(brui.getAssembly("我的待处理工作（工作抽屉）"))
-				.setServices(brui).create();
+		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作（工作抽屉）"))
+				.setServices(br).create();
 		asm.getContext().setName("worklist");
 		workPane = (GridPart) asm.getContext().getContent();
 		return asm.getContainer();

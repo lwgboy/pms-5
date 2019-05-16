@@ -26,7 +26,7 @@ public class SPAListAction {
 			
 		} else if ("openProblem".equals(a.getName())) {
 			ObjectId problem_id = spa.getObjectId("problem_id");
-			Problem problem = Services.get(ProblemService.class).get(problem_id);
+			Problem problem = Services.get(ProblemService.class).get(problem_id, br.getDomain());
 			Editor.create("问题编辑器（编辑）", context, problem, true).setEditable(false).open();
 		}else if("TOPS".equals(a.getName())) {
 			br.switchPage("问题解决-TOPS过程", spa.getObjectId("problem_id").toHexString());

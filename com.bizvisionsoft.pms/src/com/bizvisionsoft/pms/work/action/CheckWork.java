@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.model.Work;
 public class CheckWork implements IWorkAction {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -25,7 +25,7 @@ public class CheckWork implements IWorkAction {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 }

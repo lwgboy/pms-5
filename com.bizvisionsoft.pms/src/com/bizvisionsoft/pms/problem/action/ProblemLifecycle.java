@@ -41,7 +41,7 @@ public class ProblemLifecycle {
 		if (br.confirm("取消问题", "请确认取消问题解决。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "已取消").append("cancelInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"canceled") > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"canceled", br.getDomain()) > 0) {
 				Layer.message("问题已取消");
 				refreshContentPart(context);
 			}
@@ -49,14 +49,14 @@ public class ProblemLifecycle {
 	}
 
 	private void doClose(BruiAssemblyContext context, ObjectId _id, String userId) {
-		if (!Services.get(ProblemService.class).hasPrivate(_id, ProblemService.ACTION_PROBLEM_CLOSE, userId)) {
+		if (!Services.get(ProblemService.class).hasPrivate(_id, ProblemService.ACTION_PROBLEM_CLOSE, userId, br.getDomain())) {
 			Layer.error("需要团队组长或问题创建者执行问题关闭");
 			return;
 		}
 		if (br.confirm("关闭问题", "请确认关闭问题。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "已关闭").append("closeInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"closed") > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"closed", br.getDomain()) > 0) {
 				Layer.message("问题已关闭");
 				refreshContentPart(context);
 			}
@@ -67,7 +67,7 @@ public class ProblemLifecycle {
 		if (br.confirm("启动问题解决", "请确认启动问题解决程序。")) {
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
 					.set(new BasicDBObject("status", "解决中").append("initInfo", br.operationInfo().encodeBson())).bson();
-			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"started") > 0) {
+			if (Services.get(ProblemService.class).updateProblemsLifecycle(fu,"started", br.getDomain()) > 0) {
 				Layer.message("问题解决程序已启动");
 				refreshContentPart(context);
 			}
@@ -102,7 +102,7 @@ public class ProblemLifecycle {
 	private boolean enableCancel(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element,
 			@MethodParam(Execute.CURRENT_USER_ID) String userId) {
 		if (element instanceof Problem) {
-			return Services.get(ProblemService.class).hasPrivate(((Problem) element).get_id(), ProblemService.ACTION_PROBLEM_CLOSE, userId);
+			return Services.get(ProblemService.class).hasPrivate(((Problem) element).get_id(), ProblemService.ACTION_PROBLEM_CLOSE, userId, br.getDomain());
 		}
 		return false;
 	}

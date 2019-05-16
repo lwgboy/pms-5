@@ -21,7 +21,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class SubmitCBSSubjectCostACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -31,7 +31,7 @@ public class SubmitCBSSubjectCostACT {
 			input = context.getRootInput();
 			if (input instanceof ICBSScope) {
 				ICBSScope icbsScope = (ICBSScope) input;
-				input = Services.get(CBSService.class).get(icbsScope.getCBS_id());
+				input = Services.get(CBSService.class).get(icbsScope.getCBS_id(), br.getDomain());
 			}
 		}
 
@@ -60,12 +60,12 @@ public class SubmitCBSSubjectCostACT {
 			// cal.set(Calendar.MILLISECOND, 0);
 			// cal.add(Calendar.MILLISECOND, -1);
 
-			if (MessageDialog.openConfirm(brui.getCurrentShell(), "确认期间成本",
+			if (MessageDialog.openConfirm(br.getCurrentShell(), "确认期间成本",
 					"请确认当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月"
 							+ "）的成本。<br>提交后将无法修改该期间的成本数据。")) {
 				List<Result> result = Services.get(CBSService.class).submitCBSSubjectCost(cal.getTime(),
-						cbsItem.getScope_id());
+						cbsItem.getScope_id(), br.getDomain());
 				if (result.isEmpty()) {
 					Layer.message("已完成当前期间（" + cal.get(Calendar.YEAR) + "年"
 							+ String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1) + "月" + "）的成本提交");

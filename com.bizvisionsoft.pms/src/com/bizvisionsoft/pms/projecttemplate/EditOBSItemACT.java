@@ -16,18 +16,18 @@ import com.bizvisionsoft.service.model.OBSInTemplate;
 public class EditOBSItemACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			Assembly assembly;
 			if (((OBSInTemplate) em).isRole()) {
-				assembly = bruiService.getAssembly("OBS模板节点编辑器（角色）");
+				assembly = br.getAssembly("OBS模板节点编辑器（角色）");
 			} else if (((OBSInTemplate) em).isScopeRoot()) {
-				assembly = bruiService.getAssembly("OBS模板节点编辑器（根）");
+				assembly = br.getAssembly("OBS模板节点编辑器（根）");
 			} else {
-				assembly = bruiService.getAssembly("OBS模板节点编辑器（团队）");
+				assembly = br.getAssembly("OBS模板节点编辑器（团队）");
 			}
 			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 

@@ -33,7 +33,7 @@ import com.mongodb.BasicDBObject;
 public class AdministeredProjectProgressWidgetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -51,7 +51,7 @@ public class AdministeredProjectProgressWidgetASM {
 		carousel.setInterval(5000);
 		carousel.setIndicator("none");
 
-		Services.get(ProjectService.class).listAdministratedProjects(new BasicDBObject(), brui.getCurrentUserId())
+		Services.get(ProjectService.class).listAdministratedProjects(new BasicDBObject(), br.getCurrentUserId(), br.getDomain())
 				.forEach(project -> createPage(carousel, project));
 		
 

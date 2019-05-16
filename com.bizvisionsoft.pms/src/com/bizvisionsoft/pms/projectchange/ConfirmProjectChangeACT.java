@@ -16,16 +16,16 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class ConfirmProjectChangeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input) {
-		if (brui.confirm("关闭变更申请", "请确认变更后的项目进度计划已编制完成并提交。")) {
+		if (br.confirm("关闭变更申请", "请确认变更后的项目进度计划已编制完成并提交。")) {
 			List<Result> result = Services.get(ProjectService.class).confirmProjectChange(Arrays.asList(input.get_id()),
-					brui.getCurrentUserId());
+					br.getCurrentUserId(), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更已关闭");
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			}
 		}
 	}

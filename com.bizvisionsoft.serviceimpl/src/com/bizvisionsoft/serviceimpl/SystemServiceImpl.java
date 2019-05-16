@@ -10,18 +10,17 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import com.bizvisionsoft.service.common.Service;
 
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
-import com.bizvisionsoft.serviceimpl.update.PMS0501_pmo;
-import com.bizvisionsoft.serviceimpl.update.PMS0502_accountitem;
 import com.mongodb.BasicDBObject;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.model.Aggregates;
@@ -36,12 +35,13 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public String mongodbDump(String note) {
-		ServerAddress addr = Service.getDatabaseHost();
+	public String mongodbDump(String note, String domain) {
+		ServerAddress addr = Service.getDatabaseServerList().get(0);
 		String host = addr.getHost();
 		int port = addr.getPort();
-		String dbName = Service.db().getName();
-		String dumpPath = Service.dumpFolder.getPath();
+
+		String dbName = domain;
+		String dumpPath = Domain.getDumpFolder(domain);
 		String path = Service.mongoDbBinPath;
 		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
 				.archive(dumpPath + "\\").build().dump();
@@ -55,9 +55,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public List<Backup> getBackups() {
+	public List<Backup> getBackups(String domain) {
 		List<Backup> result = new ArrayList<>();
-		File folder = Service.dumpFolder;
+		File folder = new File(Domain.getDumpFolder(domain));
 		File[] files = folder.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory()) {
@@ -79,8 +79,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public void updateBackupNote(String id, String text) {
-		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
+	public void updateBackupNote(String id, String text, String domain) {
+		File[] files = new File(Domain.getDumpFolder(domain)).listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
 			try {
 				FileTools.writeFile(text, files[0].getPath() + "/notes.txt", "utf-8");
@@ -91,8 +91,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public boolean deleteBackup(String id) {
-		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
+	public boolean deleteBackup(String id, String domain) {
+		File[] files = new File(Domain.getDumpFolder(domain)).listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
 			return FileTools.deleteFolder(files[0].getPath());
 		}
@@ -100,14 +100,14 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public boolean restoreFromBackup(String id) {
-		ServerAddress addr = Service.getDatabaseHost();
+	public boolean restoreFromBackup(String id, String domain) {
+		ServerAddress addr = Service.getDatabaseServerList().get(0);
 		String host = addr.getHost();
 		int port = addr.getPort();
-		String dbName = Service.db().getName();
+		String dbName = domain;
 		String path = Service.mongoDbBinPath;
 		String archive;
-		File[] files = Service.dumpFolder.listFiles(f -> f.isDirectory() && id.equals(f.getName()));
+		File[] files = new File(Domain.getDumpFolder(domain)).listFiles(f -> f.isDirectory() && id.equals(f.getName()));
 		if (files != null && files.length > 0) {
 			archive = files[0].getPath() + "\\" + dbName;
 		} else {
@@ -120,8 +120,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public String getClientSetting(String userId, String clientId, String name) {
-		Document doc = c("clientSetting").find(new Document("userId", userId).append("clientId", clientId).append("name", name)).first();
+	public String getClientSetting(String userId, String clientId, String name, String domain) {
+		Document doc = c("clientSetting", domain).find(new Document("userId", userId).append("clientId", clientId).append("name", name))
+				.first();
 		if (doc != null) {
 			return doc.getString("value");
 		} else {
@@ -130,304 +131,306 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public void updateClientSetting(Document setting) {
+	public void updateClientSetting(Document setting, String domain) {
 		Document query = new Document();
 		query.putAll(setting);
 		query.remove("value");
 
-		long cnt = c("clientSetting").countDocuments(query);
+		long cnt = c("clientSetting", domain).countDocuments(query);
 		if (cnt == 0) {
-			c("clientSetting").insertOne(setting);
+			c("clientSetting", domain).insertOne(setting);
 		} else {
-			c("clientSetting").updateOne(query, new Document("$set", setting));
+			c("clientSetting", domain).updateOne(query, new Document("$set", setting));
 		}
 	}
 
 	@Override
-	public void deleteClientSetting(String clientId, String name) {
-		c("clientSetting").deleteMany(new Document("clientId", clientId).append("name", name));
+	public void deleteClientSetting(String clientId, String name, String domain) {
+		c("clientSetting", domain).deleteMany(new Document("clientId", clientId).append("name", name));
 	}
 
 	@Override
-	public void deleteClientSetting(String clientId) {
-		c("clientSetting").deleteMany(new Document("clientId", clientId));
+	public void deleteClientSetting(String clientId, String domain) {
+		c("clientSetting", domain).deleteMany(new Document("clientId", clientId));
 	}
 
 	@Override
-	public void deleteClientSetting(String userId, String clientId, String name) {
-		c("clientSetting").deleteMany(new Document("userId", userId).append("clientId", clientId).append("name", name));
+	public void deleteClientSetting(String userId, String clientId, String name, String domain) {
+		c("clientSetting", domain).deleteMany(new Document("userId", userId).append("clientId", clientId).append("name", name));
 	}
 
 	@Override
-	public void updateSystem(String versionNumber, String packageCode) {
-		if ("5.1M1".equals(versionNumber) && "PMO".equals(packageCode))
-			new PMS0501_pmo().run();
-		if ("5.1M2".equals(versionNumber) && "accountitem".equals(packageCode))
-			new PMS0502_accountitem().run();
+	public void updateSystem(String versionNumber, String packageCode, String domain) {
 	}
 
 	@Override
-	public void createIndex() {
+	public void createIndex(String domain) {
 		// 移到 systemservice中
-		Service.db().listCollectionNames().forEach((String col) -> {
-			c(col).dropIndexes();
+		Domain.getDatabase(domain).listCollectionNames().forEach((String col) -> {
+			c(col, domain).dropIndexes();
 		});
 
-		createUniqueIndex("accountItem", new Document("id", 1), "id");
-		createIndex("accountItem", new Document("parent_id", 1), "parent");
-		createIndex("accountItem", new Document("subAccounts", 1), "subAccounts");
+		createUniqueIndex("accountItem", new Document("id", 1), "id", domain);
+		createIndex("accountItem", new Document("parent_id", 1), "parent", domain);
+		createIndex("accountItem", new Document("subAccounts", 1), "subAccounts", domain);
 
-		createIndex("baseline", new Document("project_id", 1), "project");
-		createIndex("baseline", new Document("creationDate", -1), "date");// 按时间倒序
+		createIndex("baseline", new Document("project_id", 1), "project", domain);
+		createIndex("baseline", new Document("creationDate", -1), "date", domain);// 按时间倒序
 
-		createIndex("baselineWork", new Document("project_id", 1), "project");
-		createIndex("baselineWork", new Document("wbsCode", 1), "wbs");
-		createIndex("baselineWork", new Document("index", 1), "index");
-		createIndex("baselineWork", new Document("baseline_id", 1), "baseline");
-		createIndex("baselineWork", new Document("parent_id", 1), "parent");
+		createIndex("baselineWork", new Document("project_id", 1), "project", domain);
+		createIndex("baselineWork", new Document("wbsCode", 1), "wbs", domain);
+		createIndex("baselineWork", new Document("index", 1), "index", domain);
+		createIndex("baselineWork", new Document("baseline_id", 1), "baseline", domain);
+		createIndex("baselineWork", new Document("parent_id", 1), "parent", domain);
 
-		createIndex("baselineWorkLinks", new Document("project_id", 1), "project");
-		createIndex("baselineWorkLinks", new Document("source", 1), "source");
-		createIndex("baselineWorkLinks", new Document("target", 1), "target");
-		createIndex("baselineWorkLinks", new Document("baseline_id", 1), "baseline");
+		createIndex("baselineWorkLinks", new Document("project_id", 1), "project", domain);
+		createIndex("baselineWorkLinks", new Document("source", 1), "source", domain);
+		createIndex("baselineWorkLinks", new Document("target", 1), "target", domain);
+		createIndex("baselineWorkLinks", new Document("baseline_id", 1), "baseline", domain);
 
-		createIndex("cbs", new Document("scope_id", 1), "scope");
-		createIndex("cbs", new Document("parent_id", 1), "parent");
-		createUniqueIndex("cbs", new Document("id", 1).append("scope_id", 1), "id_scope");
+		createIndex("cbs", new Document("scope_id", 1), "scope", domain);
+		createIndex("cbs", new Document("parent_id", 1), "parent", domain);
+		createUniqueIndex("cbs", new Document("id", 1).append("scope_id", 1), "id_scope", domain);
 
-		createIndex("cbsPeriod", new Document("cbsItem_id", 1), "item");
-		createIndex("cbsPeriod", new Document("id", 1), "id");
-		createUniqueIndex("cbsPeriod", new Document("cbsItem_id", 1).append("id", 1), "id_cbsitem");
+		createIndex("cbsPeriod", new Document("cbsItem_id", 1), "item", domain);
+		createIndex("cbsPeriod", new Document("id", 1), "id", domain);
+		createUniqueIndex("cbsPeriod", new Document("cbsItem_id", 1).append("id", 1), "id_cbsitem", domain);
 
-		createIndex("cbsSubject", new Document("cbsItem_id", 1), "item");
-		createIndex("cbsSubject", new Document("id", 1), "id");
-		createIndex("cbsSubject", new Document("subjectNumber", 1), "subject");
-		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type");
-		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1), "id_item_subject");
+		createIndex("cbsSubject", new Document("cbsItem_id", 1), "item", domain);
+		createIndex("cbsSubject", new Document("id", 1), "id", domain);
+		createIndex("cbsSubject", new Document("subjectNumber", 1), "subject", domain);
+		createIndex("cbsSubject", new Document("id", 1).append("type", 1), "id_type", domain);
+		createUniqueIndex("cbsSubject", new Document("cbsItem_id", 1).append("id", 1).append("subjectNumber", 1), "id_item_subject",
+				domain);
 
-		createIndex("docu", new Document("folder_id", 1), "folder");
-		createIndex("docu", new Document("tag", 1), "tag");
-		createIndex("docu", new Document("category", 1), "category");
-		createIndex("docu", new Document("name", 1), "name");
-		createIndex("docu", new Document("id", 1), "id");
+		createIndex("docu", new Document("folder_id", 1), "folder", domain);
+		createIndex("docu", new Document("tag", 1), "tag", domain);
+		createIndex("docu", new Document("category", 1), "category", domain);
+		createIndex("docu", new Document("name", 1), "name", domain);
+		createIndex("docu", new Document("id", 1), "id", domain);
 
-		createUniqueIndex("eps", new Document("id", 1), "id");
+		createUniqueIndex("eps", new Document("id", 1), "id", domain);
 
-		createIndex("equipment", new Document("org_id", 1), "org");
-		createIndex("equipment", new Document("id", 1), "id");
-		createIndex("equipment", new Document("resourceType_id", 1), "resourceType");
+		createIndex("equipment", new Document("org_id", 1), "org", domain);
+		createIndex("equipment", new Document("id", 1), "id", domain);
+		createIndex("equipment", new Document("resourceType_id", 1), "resourceType", domain);
 
-		createIndex("folder", new Document("project_id", 1), "project");
-		createIndex("folder", new Document("parent_id", 1), "parent");
-		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1), "name_project");
+		createIndex("folder", new Document("project_id", 1), "project", domain);
+		createIndex("folder", new Document("parent_id", 1), "parent", domain);
+		createUniqueIndex("folder", new Document("name", 1).append("project_id", 1).append("parent_id", 1), "name_project", domain);
 
-		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type");
+		createIndex("funcPermission", new Document("id", 1).append("type", 1), "id_type", domain);
 
-		createIndex("message", new Document("receiver", 1), "receiver");
-		createIndex("message", new Document("sendDate", 1), "sendDate");
-		createIndex("message", new Document("subject", 1), "subject");
+		createIndex("message", new Document("receiver", 1), "receiver", domain);
+		createIndex("message", new Document("sendDate", 1), "sendDate", domain);
+		createIndex("message", new Document("subject", 1), "subject", domain);
 
-		createIndex("monteCarloSimulate", new Document("project_id", 1), "project");
+		createIndex("monteCarloSimulate", new Document("project_id", 1), "project", domain);
 
-		createIndex("obs", new Document("scope_id", 1), "scope");
-		createIndex("obs", new Document("roleId", 1), "role");
-		createIndex("obs", new Document("managerId", 1), "manager");
-		createIndex("obs", new Document("parent_id", 1), "parent");
-		createIndex("obs", new Document("seq", 1), "seq");
+		createIndex("obs", new Document("scope_id", 1), "scope", domain);
+		createIndex("obs", new Document("roleId", 1), "role", domain);
+		createIndex("obs", new Document("managerId", 1), "manager", domain);
+		createIndex("obs", new Document("parent_id", 1), "parent", domain);
+		createIndex("obs", new Document("seq", 1), "seq", domain);
 		// OBS允许出现重复的索引
 		// createUniqueIndex("obs", new Document("roleId", 1).append("scope_id", 1),
-		// "role_scope");
+		// "role_scope",domain);
 
-		createIndex("obsInTemplate", new Document("scope_id", 1), "scope");
-		createIndex("obsInTemplate", new Document("roleId", 1), "role");
-		createIndex("obsInTemplate", new Document("parent_id", 1), "parent");
-		createIndex("obsInTemplate", new Document("seq", 1), "seq");
+		createIndex("obsInTemplate", new Document("scope_id", 1), "scope", domain);
+		createIndex("obsInTemplate", new Document("roleId", 1), "role", domain);
+		createIndex("obsInTemplate", new Document("parent_id", 1), "parent", domain);
+		createIndex("obsInTemplate", new Document("seq", 1), "seq", domain);
 		// OBS允许出现重复的索引
 		// createUniqueIndex("obsInTemplate", new Document("roleId",
-		// 1).append("scope_id", 1), "role_scope");
+		// 1).append("scope_id", 1), "role_scope",domain);
 
-		createUniqueIndex("organization", new Document("id", 1), "id");
-		createIndex("organization", new Document("managerId", 1), "manager");
-		createIndex("organization", new Document("parent_id", 1), "parent");
+		createUniqueIndex("organization", new Document("id", 1), "id", domain);
+		createIndex("organization", new Document("managerId", 1), "manager", domain);
+		createIndex("organization", new Document("parent_id", 1), "parent", domain);
 
-		createIndex("project", new Document("pmId", 1), "pm");
-		createIndex("project", new Document("cbs_id", 1), "cbs");
-		// createIndex("project", new Document("workOrder", 1), "workOrder");
-		createIndex("project", new Document("obs_id", 1), "obs");
-		createIndex("project", new Document("planStart", 1), "planStart");
-		createIndex("project", new Document("planFinish", -1), "planFinish");
-		createIndex("project", new Document("actualStart", 1), "actualStart");
-		createIndex("project", new Document("actualFinish", 1), "actualFinish");
-		createIndex("project", new Document("eps_id", 1), "eps");
-		createUniqueIndex("project", new Document("id", 1), new IndexOptions().name("id").unique(true).sparse(true));
+		createIndex("project", new Document("pmId", 1), "pm", domain);
+		createIndex("project", new Document("cbs_id", 1), "cbs", domain);
+		// createIndex("project", new Document("workOrder", 1), "workOrder",domain);
+		createIndex("project", new Document("obs_id", 1), "obs", domain);
+		createIndex("project", new Document("planStart", 1), "planStart", domain);
+		createIndex("project", new Document("planFinish", -1), "planFinish", domain);
+		createIndex("project", new Document("actualStart", 1), "actualStart", domain);
+		createIndex("project", new Document("actualFinish", 1), "actualFinish", domain);
+		createIndex("project", new Document("eps_id", 1), "eps", domain);
+		createUniqueIndex("project", new Document("id", 1), new IndexOptions().name("id").unique(true).sparse(true), domain);
 
-		createIndex("projectChange", new Document("project_id", 1), "project");
-		createIndex("projectChange", new Document("applicantDate", -1), "date");
+		createIndex("projectChange", new Document("project_id", 1), "project", domain);
+		createIndex("projectChange", new Document("applicantDate", -1), "date", domain);
 
-		// createIndex("program", new Document("workOrder", 1), "workOrder");
-		createIndex("program", new Document("eps_id", 1), "eps");
+		// createIndex("program", new Document("workOrder", 1), "workOrder",domain);
+		createIndex("program", new Document("eps_id", 1), "eps", domain);
 
-		createIndex("rbsItem", new Document("project_id", 1), "project");
-		createIndex("rbsItem", new Document("parent_id", 1), "parent");
-		createIndex("rbsItem", new Document("index", 1), "index");
+		createIndex("rbsItem", new Document("project_id", 1), "project", domain);
+		createIndex("rbsItem", new Document("parent_id", 1), "parent", domain);
+		createIndex("rbsItem", new Document("index", 1), "index", domain);
 
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
-		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
-		createIndex("resourceActual", new Document("id", 1), "id");
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip", domain);
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type", domain);
+		createIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr", domain);
+		createIndex("resourceActual", new Document("id", 1), "id", domain);
 		createUniqueIndex("resourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource", domain);
 
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
-		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
-		createIndex("resourcePlan", new Document("id", 1), "id");
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip", domain);
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type", domain);
+		createIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr", domain);
+		createIndex("resourcePlan", new Document("id", 1), "id", domain);
 		createUniqueIndex("resourcePlan", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource");
+				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("id", 1), "resource", domain);
 
-		createUniqueIndex("resourceType", new Document("id", 1), "id");
+		createUniqueIndex("resourceType", new Document("id", 1), "id", domain);
 
-		createIndex("riskEffect", new Document("project_id", 1), "project");
-		createIndex("riskEffect", new Document("rbsItem_id", 1), "item");
+		createIndex("riskEffect", new Document("project_id", 1), "project", domain);
+		createIndex("riskEffect", new Document("rbsItem_id", 1), "item", domain);
 
-		createIndex("salesItem", new Document("period", 1), "period");
-		createIndex("salesItem", new Document("project_id", 1), "project");
+		createIndex("salesItem", new Document("period", 1), "period", domain);
+		createIndex("salesItem", new Document("project_id", 1), "project", domain);
 
-		createIndex("stockholder", new Document("project_id", 1), "project");
+		createIndex("stockholder", new Document("project_id", 1), "project", domain);
 
-		createUniqueIndex("user", new Document("userId", 1), "user");
-		createIndex("user", new Document("org_id", 1), "org");
-		createIndex("user", new Document("resourceType_id", 1), "resource");
+		createUniqueIndex("user", new Document("userId", 1), "user", domain);
+		createIndex("user", new Document("org_id", 1), "org", domain);
+		createIndex("user", new Document("resourceType_id", 1), "resource", domain);
 
-		createIndex("work", new Document("project_id", 1), "project");
-		createIndex("work", new Document("planStart", 1), "planStart");
-		createIndex("work", new Document("planFinish", 1), "planFinish");
-		createIndex("work", new Document("actualStart", 1), "actualStart");
-		createIndex("work", new Document("actualFinish", 1), "actualFinish");
-		createIndex("work", new Document("wbsCode", 1), "wbs");
-		createIndex("work", new Document("index", 1), "index");
-		createIndex("work", new Document("parent_id", 1), "parent");
-		createIndex("work", new Document("chargerId", 1), "charger");
-		createIndex("work", new Document("assignerId", 1), "assigner");
-		createIndex("work", new Document("manageLevel", 1), "manageLevel");
+		createIndex("work", new Document("project_id", 1), "project", domain);
+		createIndex("work", new Document("planStart", 1), "planStart", domain);
+		createIndex("work", new Document("planFinish", 1), "planFinish", domain);
+		createIndex("work", new Document("actualStart", 1), "actualStart", domain);
+		createIndex("work", new Document("actualFinish", 1), "actualFinish", domain);
+		createIndex("work", new Document("wbsCode", 1), "wbs", domain);
+		createIndex("work", new Document("index", 1), "index", domain);
+		createIndex("work", new Document("parent_id", 1), "parent", domain);
+		createIndex("work", new Document("chargerId", 1), "charger", domain);
+		createIndex("work", new Document("assignerId", 1), "assigner", domain);
+		createIndex("work", new Document("manageLevel", 1), "manageLevel", domain);
 
-		createIndex("workInTemplate", new Document("wbsCode", 1), "wbs");
-		createIndex("workInTemplate", new Document("index", 1), "index");
-		createIndex("workInTemplate", new Document("parent_id", 1), "parent");
-		createIndex("workInTemplate", new Document("template_id", 1), "template");
+		createIndex("workInTemplate", new Document("wbsCode", 1), "wbs", domain);
+		createIndex("workInTemplate", new Document("index", 1), "index", domain);
+		createIndex("workInTemplate", new Document("parent_id", 1), "parent", domain);
+		createIndex("workInTemplate", new Document("template_id", 1), "template", domain);
 
-		createIndex("workPackage", new Document("work_id", 1), "work");
+		createIndex("workPackage", new Document("work_id", 1), "work", domain);
 
-		createIndex("workPackageProgress", new Document("package_id", 1), "package");
-		createIndex("workPackageProgress", new Document("time", -1), "time");
+		createIndex("workPackageProgress", new Document("package_id", 1), "package", domain);
+		createIndex("workPackageProgress", new Document("time", -1), "time", domain);
 
-		createIndex("workReport", new Document("project_id", 1).append("type", 1), "type_project");
-		createIndex("workReport", new Document("period", 1), "period");
-		createIndex("workReport", new Document("reporter", 1).append("type", 1), "type_reporter");
+		createIndex("workReport", new Document("project_id", 1).append("type", 1), "type_project", domain);
+		createIndex("workReport", new Document("period", 1), "period", domain);
+		createIndex("workReport", new Document("reporter", 1).append("type", 1), "type_reporter", domain);
 
-		createIndex("workReportItem", new Document("report_id", 1), "report");
-		createIndex("workReportItem", new Document("project_id", 1), "project");
+		createIndex("workReportItem", new Document("report_id", 1), "report", domain);
+		createIndex("workReportItem", new Document("project_id", 1), "project", domain);
 
 		createIndex("workReportResourceActual",
-				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip");
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedEquipResId", 1), "equip",
+				domain);
 		createIndex("workReportResourceActual",
-				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type");
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedTypedResId", 1), "type",
+				domain);
 		createIndex("workReportResourceActual",
-				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr");
-		createIndex("workReportResourceActual", new Document("id", 1), "id");
-		createUniqueIndex("workReportResourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
-				.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1).append("id", 1), "resource");
+				new Document("workReportItem_id", 1).append("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1), "hr", domain);
+		createIndex("workReportResourceActual", new Document("id", 1), "id", domain);
+		createUniqueIndex(
+				"workReportResourceActual", new Document("work_id", 1).append("resTypeId", 1).append("usedHumanResId", 1)
+						.append("usedEquipResId", 1).append("usedTypedResId", 1).append("workReportItemId", 1).append("id", 1),
+				"resource", domain);
 
 		// createUniqueIndex("resourcePlanInTemplate", new Document("work_id",
 		// 1).append("resTypeId", 1)
 		// .append("usedHumanResId", 1).append("usedEquipResId",
-		// 1).append("usedTypedResId", 1), "resource");
+		// 1).append("usedTypedResId", 1), "resource",domain);
 
-		createIndex("worklinks", new Document("project_id", 1), "project");
-		createIndex("worklinks", new Document("space_id", 1), "space");
+		createIndex("worklinks", new Document("project_id", 1), "project", domain);
+		createIndex("worklinks", new Document("space_id", 1), "space", domain);
 
-		createIndex("workspace", new Document("project_id", 1), "project");
-		createIndex("workspace", new Document("wbsCode", 1), "wbs");
-		createIndex("workspace", new Document("index", 1), "index");
-		createIndex("workspace", new Document("parent_id", 1), "parent");
-		createIndex("workspace", new Document("space_id", 1), "space");
+		createIndex("workspace", new Document("project_id", 1), "project", domain);
+		createIndex("workspace", new Document("wbsCode", 1), "wbs", domain);
+		createIndex("workspace", new Document("index", 1), "index", domain);
+		createIndex("workspace", new Document("parent_id", 1), "parent", domain);
+		createIndex("workspace", new Document("space_id", 1), "space", domain);
 
-		createIndex("traceInfo", new Document("date", -1), "date");
+		createIndex("traceInfo", new Document("date", -1), "date", domain);
 
-		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1), "name_template");
+		createUniqueIndex("folderInTemplate", new Document("name", 1).append("template_id", 1).append("parent_id", 1), "name_template",
+				domain);
 
-		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type");
+		createUniqueIndex("dictionary", new Document("type", 1).append("id", 1), "type", domain);
 
-		createIndex("accountIncome", new Document("parentId", 1), "parentId");
-		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts");
-		createUniqueIndex("accountIncome", new Document("id", 1), "id");
+		createIndex("accountIncome", new Document("parentId", 1), "parentId", domain);
+		createIndex("accountIncome", new Document("subAccounts", 1), "subAccounts", domain);
+		createUniqueIndex("accountIncome", new Document("id", 1), "id", domain);
 
-		createIndex("projectTemplate", new Document("id", 1), "id");
-		createUniqueIndex("projectTemplate", new Document("id", 1).append("module", 1), "module");
+		createIndex("projectTemplate", new Document("id", 1), "id", domain);
+		createUniqueIndex("projectTemplate", new Document("id", 1).append("module", 1), "module", domain);
 
-		createUniqueIndex("obsModule", new Document("id", 1), "id");
+		createUniqueIndex("obsModule", new Document("id", 1), "id", domain);
 		// yangjun 2018/10/26
-		createIndex("setting", new Document("name", 1), "name");
-		createIndex("clientSetting", new Document("userId", 1).append("clientId", 1).append("name", 1), "userClientName");
+		createIndex("setting", new Document("name", 1), "name", domain);
+		createIndex("clientSetting", new Document("userId", 1).append("clientId", 1).append("name", 1), "userClientName", domain);
 
-		createIndex("problem", new Document("id", -1), "id");
+		createIndex("problem", new Document("id", -1), "id", domain);
 
 		// D1CFT
-		createIndex("d1CFT", new Document("problem_id", 1), "problem_id");
-		createUniqueIndex("d1CFT", new Document("problem_id", 1).append("userId", 1), "userId");
+		createIndex("d1CFT", new Document("problem_id", 1), "problem_id", domain);
+		createUniqueIndex("d1CFT", new Document("problem_id", 1).append("userId", 1), "userId", domain);
 	}
 
-	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions) {
+	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions, String domain) {
 		try {
-			c(collectionName).createIndex(keys, indexOptions);
+			c(collectionName, domain).createIndex(keys, indexOptions);
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
 		}
 	}
 
-	private void createIndex(String collectionName, final Document keys, String name) {
+	private void createIndex(String collectionName, final Document keys, String name, String domain) {
 		try {
-			c(collectionName).createIndex(keys, new IndexOptions().name(name));
+			c(collectionName, domain).createIndex(keys, new IndexOptions().name(name));
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建索引错误。" + e.getMessage());
 		}
 	}
 
-	private void createUniqueIndex(String collectionName, final Document keys, String name) {
+	private void createUniqueIndex(String collectionName, final Document keys, String name, String domain) {
 		try {
-			c(collectionName).createIndex(keys, new IndexOptions().name(name).unique(true));
+			c(collectionName, domain).createIndex(keys, new IndexOptions().name(name).unique(true));
 		} catch (Exception e) {
 			throw new ServiceException("集合：" + collectionName + "创建唯一性索引错误。" + e.getMessage());
 		}
 	}
 
 	@Override
-	public List<ValueRule> listValueRule(BasicDBObject condition) {
-		return createDataSet(condition, ValueRule.class);
+	public List<ValueRule> listValueRule(BasicDBObject condition, String domain) {
+		return createDataSet(condition, ValueRule.class, domain);
 	}
 
 	@Override
-	public long countValueRule(BasicDBObject filter) {
-		return count(filter, ValueRule.class);
+	public long countValueRule(BasicDBObject filter, String domain) {
+		return count(filter, ValueRule.class, domain);
 	}
 
 	@Override
-	public ValueRule insertValueRule(ValueRule valueRule) {
-		return insert(valueRule);
+	public ValueRule insertValueRule(ValueRule valueRule, String domain) {
+		return insert(valueRule, domain);
 	}
 
 	@Override
-	public long deleteValueRule(ObjectId _id) {
-		return delete(_id, ValueRule.class);
+	public long deleteValueRule(ObjectId _id, String domain) {
+		return delete(_id, ValueRule.class, domain);
 	}
 
 	@Override
-	public long updateValueRule(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, ValueRule.class);
+	public long updateValueRule(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, ValueRule.class, domain);
 	}
 
 	@Override
-	public List<ValueRuleSegment> listValueRuleSegment(BasicDBObject cond, ObjectId rule_id) {
+	public List<ValueRuleSegment> listValueRuleSegment(BasicDBObject cond, ObjectId rule_id, String domain) {
 		BasicDBObject filter = (BasicDBObject) cond.get("filter");
 		if (filter == null) {
 			filter = new BasicDBObject();
@@ -440,39 +443,39 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			sort = new BasicDBObject("index", 1);
 		}
 
-		return createDataSet(cond, ValueRuleSegment.class);
+		return createDataSet(cond, ValueRuleSegment.class, domain);
 	}
 
 	@Override
-	public long countValueRuleSegment(BasicDBObject filter, ObjectId rule_id) {
+	public long countValueRuleSegment(BasicDBObject filter, ObjectId rule_id, String domain) {
 		if (filter == null) {
 			filter = new BasicDBObject();
 		}
 		filter.put("rule_id", rule_id);
 
-		return count(filter, ValueRuleSegment.class);
+		return count(filter, ValueRuleSegment.class, domain);
 	}
 
 	@Override
-	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs) {
-		return insert(vrs);
+	public ValueRuleSegment insertValueRuleSegment(ValueRuleSegment vrs, String domain) {
+		return insert(vrs, domain);
 	}
 
 	@Override
-	public Document getMaxSegmentIndex(ObjectId rule_id) {
+	public Document getMaxSegmentIndex(ObjectId rule_id, String domain) {
 		List<Bson> pipe = Arrays.asList(Aggregates.match(new Document("rule_id", rule_id)), new Document("$group", new Document("_id", null)
 				.append("index", new Document("$max", "$index")).append("executeSequance", new Document("$max", "$executeSequance"))));
-		return c("valueRuleSegment").aggregate(pipe).first();
+		return c("valueRuleSegment", domain).aggregate(pipe).first();
 	}
 
 	@Override
-	public long deleteValueRuleSegment(ObjectId _id) {
-		return delete(_id, ValueRuleSegment.class);
+	public long deleteValueRuleSegment(ObjectId _id, String domain) {
+		return delete(_id, ValueRuleSegment.class, domain);
 	}
 
 	@Override
-	public long updateValueRuleSegment(BasicDBObject filterAndUpdate) {
-		return update(filterAndUpdate, ValueRuleSegment.class);
+	public long updateValueRuleSegment(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, ValueRuleSegment.class, domain);
 	}
 
 }

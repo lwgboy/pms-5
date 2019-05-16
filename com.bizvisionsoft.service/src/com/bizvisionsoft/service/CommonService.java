@@ -35,567 +35,603 @@ import com.mongodb.BasicDBObject;
 public interface CommonService {
 
 	@GET
-	@Path("/workTag/ds")
+	@Path("/{domain}/workTag/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作标签/" + DataSet.LIST)
-	public List<String> listWorkTag();
+	public List<String> listWorkTag(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/msg/userId/{userId}/ds")
+	@Path("/{domain}/msg/userId/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.LIST)
 	public List<Message> listMessage(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/msg/_id/{_id}")
+	@Path("/{domain}/msg/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Message getMessage(@PathParam("_id") ObjectId _id);
+	public Message getMessage(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/msg/userId/{userId}/count")
+	@Path("/{domain}/msg/userId/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.COUNT)
 	public long countMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/msg/")
+	@Path("/{domain}/msg/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.UPDATE)
-	public long updateMessage(BasicDBObject filterAndUpdate);
+	public long updateMessage(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/unread/msg/userId/{userId}/card/ds")
+	@Path("/{domain}/unread/msg/userId/{userId}/card/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("未读消息/" + DataSet.LIST)
 	public List<Document> listUnreadMessage(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/unread/msg/userId/{userId}/card/count")
+	@Path("/{domain}/unread/msg/userId/{userId}/card/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("未读消息/" + DataSet.COUNT)
 	public long countUnreadMessage(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId);
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cert/ds")
+	@Path("/{domain}/cert/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.LIST)
-	public List<Certificate> getCertificates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<Certificate> getCertificates(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cert/count")
+	@Path("/{domain}/cert/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.COUNT)
-	public long countCertificate(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countCertificate(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cert/names/ds")
+	@Path("/{domain}/cert/names/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格选择器列表/" + DataSet.LIST)
-	public List<String> getCertificateNames();
+	public List<String> getCertificateNames(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cert/")
+	@Path("/{domain}/cert/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.INSERT)
-	public Certificate insertCertificate(@MethodParam(MethodParam.OBJECT) Certificate cert);
+	public Certificate insertCertificate(@MethodParam(MethodParam.OBJECT) Certificate cert,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/cert/_id/{_id}")
+	@Path("/{domain}/cert/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.DELETE)
-	public long deleteCertificate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteCertificate(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/cert/")
+	@Path("/{domain}/cert/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.UPDATE)
-	public long updateCertificate(BasicDBObject filterAndUpdate);
+	public long updateCertificate(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/restype/ds")
+	@Path("/{domain}/restype/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.LIST)
-	public List<ResourceType> getResourceType();
+	public List<ResourceType> getResourceType(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/restype/")
+	@Path("/{domain}/restype/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.INSERT)
-	public ResourceType insertResourceType(@MethodParam(MethodParam.OBJECT) ResourceType resourceType);
+	public ResourceType insertResourceType(@MethodParam(MethodParam.OBJECT) ResourceType resourceType,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/restype/_id/{_id}")
+	@Path("/{domain}/restype/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.DELETE)
-	public long deleteResourceType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteResourceType(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/restype/")
+	@Path("/{domain}/restype/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.UPDATE)
-	public long updateResourceType(BasicDBObject filterAndUpdate);
+	public long updateResourceType(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/restype/{_id}/er")
+	@Path("/{domain}/restype/{_id}/er")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Equipment> getERResources(@PathParam("_id") ObjectId _id);
+	public List<Equipment> getERResources(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/restype/{_id}/er/count")
+	@Path("/{domain}/restype/{_id}/er/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countERResources(@PathParam("_id") ObjectId _id);
+	public long countERResources(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/restype/{_id}")
+	@Path("/{domain}/restype/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public ResourceType getResourceType(@PathParam("_id") ObjectId _id);
+	public ResourceType getResourceType(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/euip/ds")
+	@Path("/{domain}/euip/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "设备设施/" + DataSet.LIST, "设备设施选择表格/" + DataSet.LIST })
-	public List<Equipment> getEquipments();
+	public List<Equipment> getEquipments(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/euip/")
+	@Path("/{domain}/euip/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.INSERT)
-	public Equipment insertEquipment(@MethodParam(MethodParam.OBJECT) Equipment cert);
+	public Equipment insertEquipment(@MethodParam(MethodParam.OBJECT) Equipment cert,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/euip/_id/{_id}")
+	@Path("/{domain}/euip/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.DELETE)
-	public long deleteEquipment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteEquipment(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/euip/")
+	@Path("/{domain}/euip/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.UPDATE)
-	public long updateEquipment(BasicDBObject filterAndUpdate);
+	public long updateEquipment(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/cal/ds")
+	@Path("/{domain}/cal/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "工作日历/" + DataSet.LIST, "工作日历选择表格/" + DataSet.LIST })
-	public List<Calendar> getCalendars();
+	public List<Calendar> getCalendars(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/cal/_id/{_id}")
+	@Path("/{domain}/cal/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Calendar getCalendar(@PathParam("_id") ObjectId _id);
+	public Calendar getCalendar(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cal/")
+	@Path("/{domain}/cal/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.INSERT)
-	public Calendar insertCalendar(@MethodParam(MethodParam.OBJECT) Calendar obj);
+	public Calendar insertCalendar(@MethodParam(MethodParam.OBJECT) Calendar obj,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/cal/_id/{_id}")
+	@Path("/{domain}/cal/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.DELETE)
-	public long deleteCalendar(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteCalendar(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/cal/{_id}/wt/")
+	@Path("/{domain}/cal/{_id}/wt/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void addCalendarWorktime(BasicDBObject r, @PathParam("_id") ObjectId _cal_id);
+	public void addCalendarWorktime(BasicDBObject r, @PathParam("_id") ObjectId _cal_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/cal/wt/")
+	@Path("/{domain}/cal/wt/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateCalendarWorkTime(BasicDBObject r);
+	public void updateCalendarWorkTime(BasicDBObject r, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/cal/")
+	@Path("/{domain}/cal/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.UPDATE)
-	public long updateCalendar(BasicDBObject filterAndUpdate);
+	public long updateCalendar(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/cal/wt/{_id}")
+	@Path("/{domain}/cal/wt/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void deleteCalendarWorkTime(@PathParam("_id") ObjectId _id);
+	public void deleteCalendarWorkTime(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/dict/ds")
+	@Path("/{domain}/dict/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.LIST)
-	public List<Dictionary> getDictionary();
+	public List<Dictionary> getDictionary(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dict/{type}/ds")
+	@Path("/{domain}/dict/{type}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Map<String, String> getDictionary(@PathParam("type") String type);
+	public Map<String, String> getDictionary(@PathParam("type") String type,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dict/idname/{type}/ds")
+	@Path("/{domain}/dict/idname/{type}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Map<String, String> getDictionaryIdNamePair(@PathParam("type") String type);
+	public Map<String, String> getDictionaryIdNamePair(@PathParam("type") String type,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dict/{type}/{valueField}/ds")
+	@Path("/{domain}/dict/{type}/{valueField}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<String> listDictionary(@PathParam("type") String type, @PathParam("valueField") String valueField);
+	public List<String> listDictionary(@PathParam("type") String type, @PathParam("valueField") String valueField,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dict/")
+	@Path("/{domain}/dict/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.INSERT)
-	public Dictionary insertResourceType(@MethodParam(MethodParam.OBJECT) Dictionary resourceType);
+	public Dictionary insertResourceType(@MethodParam(MethodParam.OBJECT) Dictionary resourceType,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/dict/_id/{_id}")
+	@Path("/{domain}/dict/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.DELETE)
-	public long deleteDictionary(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteDictionary(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/dict/")
+	@Path("/{domain}/dict/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.UPDATE)
-	public long updateDictionary(BasicDBObject filterAndUpdate);
+	public long updateDictionary(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/dict/count")
+	@Path("/{domain}/dict/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.COUNT)
-	public long countDictionary();
+	public long countDictionary(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/projectrole/ds")
+	@Path("/{domain}/projectrole/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目角色选择器/" + DataSet.LIST)
-	public List<Dictionary> getProjectRole();
+	public List<Dictionary> getProjectRole(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/projectrole/count")
+	@Path("/{domain}/projectrole/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目角色选择器/" + DataSet.COUNT)
-	public long countProjectRole();
+	public long countProjectRole(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/projectrole/{id}")
+	@Path("/{domain}/projectrole/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Dictionary getProjectRole(@PathParam("id") String id);
+	public Dictionary getProjectRole(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/accountItem/root/ds")
+	@Path("/{domain}/accountItem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.LIST })
-	public List<AccountItem> getAccoutItemRoot();
+	public List<AccountItem> getAccoutItemRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountIncome/root/ds")
+	@Path("/{domain}/accountIncome/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.LIST })
-	public List<AccountIncome> getAccoutIncomeRoot();
+	public List<AccountIncome> getAccoutIncomeRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountItem/root/count")
+	@Path("/{domain}/accountItem/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutItemRoot();
+	public long countAccoutItemRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountIncome/root/count")
+	@Path("/{domain}/accountIncome/root/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutIncomeRoot();
+	public long countAccoutIncomeRoot(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountItem/parent/{id}/ds")
+	@Path("/{domain}/accountItem/parent/{id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> getAccoutItem(@PathParam("id") String id);
+	public List<AccountItem> getAccoutItem(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountItem/parent/{id}/count")
+	@Path("/{domain}/accountItem/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutItem(@PathParam("id") String id);
+	public long countAccoutItem(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountIncome/parent/{id}/count")
+	@Path("/{domain}/accountIncome/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutIncome(@PathParam("id") String id);
+	public long countAccoutIncome(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountItem/ds/")
+	@Path("/{domain}/accountItem/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> queryAccountItem(BasicDBObject filter);
+	public List<AccountItem> queryAccountItem(BasicDBObject filter, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountIncome/ds/")
+	@Path("/{domain}/accountIncome/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountIncome> queryAccountIncome(BasicDBObject filter);
+	public List<AccountIncome> queryAccountIncome(BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountItem/")
+	@Path("/{domain}/accountItem/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.INSERT })
-	public AccountItem insertAccountItem(@MethodParam(MethodParam.OBJECT) AccountItem ai);
+	public AccountItem insertAccountItem(@MethodParam(MethodParam.OBJECT) AccountItem ai,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accountIncome/")
+	@Path("/{domain}/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.INSERT })
-	public AccountIncome insertAccountIncome(@MethodParam(MethodParam.OBJECT) AccountIncome ai);
+	public AccountIncome insertAccountIncome(@MethodParam(MethodParam.OBJECT) AccountIncome ai,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/accountItem/_id/{_id}")
+	@Path("/{domain}/accountItem/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.DELETE })
-	public long deleteAccountItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteAccountItem(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/accountIncome/_id/{_id}")
+	@Path("/{domain}/accountIncome/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.DELETE })
-	public long deleteAccountIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteAccountIncome(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/accountItem/")
+	@Path("/{domain}/accountItem/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.UPDATE })
-	public long updateAccountItem(BasicDBObject filterAndUpdate);
+	public long updateAccountItem(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/accountIncome/")
+	@Path("/{domain}/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.UPDATE })
-	public long updateAccountIncome(BasicDBObject filterAndUpdate);
+	public long updateAccountIncome(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/accoutItem/hasParentIds")
+	@Path("/{domain}/accoutItem/hasParentIds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> getAllAccoutItemsHasParentIds();
+	public List<Document> getAllAccoutItemsHasParentIds(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/gencode/{name}/{key}")
+	@Path("/{domain}/gencode/{name}/{key}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public int generateCode(@PathParam("name") String name, @PathParam("key") String key);
+	public int generateCode(@PathParam("name") String name, @PathParam("key") String key,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
-	@Path("/track/ds")
+	@Path("/{domain}/track/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "视图和工作包列表/" + DataSet.LIST, "视图和工作包选择器/" + DataSet.LIST })
-	public List<TrackView> listTrackView(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	public List<TrackView> listTrackView(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/track/count")
+	@Path("/{domain}/track/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "视图和工作包列表/" + DataSet.COUNT, "视图和工作包选择器/" + DataSet.COUNT })
-	public long countTrackView(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countTrackView(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/track/")
+	@Path("/{domain}/track/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.INSERT)
-	public TrackView insertTrackView(@MethodParam(MethodParam.OBJECT) TrackView trackView);
+	public TrackView insertTrackView(@MethodParam(MethodParam.OBJECT) TrackView trackView,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/track/_id/{_id}")
+	@Path("/{domain}/track/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.DELETE)
-	public long deleteTrackView(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteTrackView(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/track/")
+	@Path("/{domain}/track/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.UPDATE)
-	public long updateTrackView(BasicDBObject filterAndUpdate);
+	public long updateTrackView(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@GET
-	@Path("/currentcbsperiod")
+	@Path("/{domain}/currentcbsperiod")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Date getCurrentCBSPeriod();
+	public Date getCurrentCBSPeriod(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	@POST
-	@Path("/changeprocess/ds")
+	@Path("/{domain}/changeprocess/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.LIST)
-	public List<ChangeProcess> createChangeProcessDataSet();
+	public List<ChangeProcess> createChangeProcessDataSet(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/changeprocess/_id/{_id}")
+	@Path("/{domain}/changeprocess/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.INPUT)
-	public ChangeProcess getChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public ChangeProcess getChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/changeprocess/")
+	@Path("/{domain}/changeprocess/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.INSERT)
-	public ChangeProcess insertChangeProcess(@MethodParam(MethodParam.OBJECT) ChangeProcess changeProcess);
+	public ChangeProcess insertChangeProcess(@MethodParam(MethodParam.OBJECT) ChangeProcess changeProcess,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/changeprocess/_id/{_id}")
+	@Path("/{domain}/changeprocess/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.DELETE)
-	public long deleteChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id);
+	public long deleteChangeProcess(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/changeprocess/")
+	@Path("/{domain}/changeprocess/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.UPDATE)
-	public long updateChangeProcess(BasicDBObject filterAndUpdate);
+	public long updateChangeProcess(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/strudata/ds")
+	@Path("/{domain}/strudata/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> listStructuredData(BasicDBObject query);
+	public List<Document> listStructuredData(BasicDBObject query, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/strudata/")
+	@Path("/{domain}/strudata/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void insertStructuredData(List<Document> result);
+	public void insertStructuredData(List<Document> result, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/strudata/")
+	@Path("/{domain}/strudata/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateStructuredData(BasicDBObject fu);
+	public void updateStructuredData(BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/newMessage/")
+	@Path("/{domain}/newMessage/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void sendMessage(NewMessage msg);
+	public void sendMessage(NewMessage msg, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/userId/{userId}/budget/mywork")
+	@Path("/{domain}/userId/{userId}/budget/mywork")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("我的工作/budget")
-	public boolean hasSomethingNewOfMyWork(
-			@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId);
+	public boolean hasSomethingNewOfMyWork(@PathParam("userId") @MethodParam(MethodParam.CURRENT_USER_ID) String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/tools/syncOrgFullName")
+	@Path("/{domain}/tools/syncOrgFullName")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void syncOrgFullName();
+	public void syncOrgFullName(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
-	@Path("/setting/{name}")
+	@Path("/{domain}/setting/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getSetting(@PathParam("name") String name);
+	public Document getSetting(@PathParam("name") String name, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/setting/")
+	@Path("/{domain}/setting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateSetting(Document setting);
-	
-	
+	public void updateSetting(Document setting, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
-	@Path("/funcrole/ds")
+	@Path("/{domain}/funcrole/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "功能角色选择器/" + DataSet.LIST})
-	public List<Dictionary> listFunctionRoles(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+	@DataSet({ "功能角色选择器/" + DataSet.LIST })
+	public List<Dictionary> listFunctionRoles(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/funcrole/count")
+	@Path("/{domain}/funcrole/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "功能角色选择器/" + DataSet.COUNT })
-	public long countFunctionRoles(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+	public long countFunctionRoles(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

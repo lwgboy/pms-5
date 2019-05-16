@@ -32,7 +32,7 @@ public class MyWorkRender extends GridPartDefaultRender implements IWorkAction {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private GridTreeViewer viewer;
 
@@ -63,10 +63,10 @@ public class MyWorkRender extends GridPartDefaultRender implements IWorkAction {
 
 	private void openWorkPackage(Work work, String idx) {
 		if ("default".equals(idx)) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, null });
 		} else {
 			List<TrackView> wps = work.getWorkPackageSetting();
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
+			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
 		}
 	}
 
@@ -119,7 +119,7 @@ public class MyWorkRender extends GridPartDefaultRender implements IWorkAction {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 
 }

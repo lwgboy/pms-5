@@ -23,12 +23,12 @@ import com.bizvisionsoft.service.tools.Formatter;
 public class SetSearchProjectAnalysisACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 打开查询成本期间编辑器
-		DateTimeInputDialog dt = new DateTimeInputDialog(bruiService.getCurrentShell(), "设置期间", "请设置项目预算成本对比分析期间", null,
+		DateTimeInputDialog dt = new DateTimeInputDialog(br.getCurrentShell(), "设置期间", "请设置项目预算成本对比分析期间", null,
 				d -> d == null ? "必须选择时间" : null).setDateSetting(DateTimeSetting.year());
 		if (dt.open() == DateTimeInputDialog.OK) {
 			// 获取查询的成本期间
@@ -77,15 +77,15 @@ public class SetSearchProjectAnalysisACT {
 				if (element instanceof ICBSAmount) {
 					if ("cost".equals(type))
 						if (endPeriod != null) {
-							value = ((ICBSAmount) element).getCost(startPeriod, endPeriod);
+							value = ((ICBSAmount) element).getDurationCost(startPeriod, endPeriod);
 						} else {
-							value = ((ICBSAmount) element).getCost(startPeriod);
+							value = ((ICBSAmount) element).getPeriodCost(startPeriod);
 						}
 					else if ("budget".equals(type))
 						if (endPeriod != null) {
-							value = ((ICBSAmount) element).getBudget(startPeriod, endPeriod);
+							value = ((ICBSAmount) element).getDurationBudget(startPeriod, endPeriod);
 						} else {
-							value = ((ICBSAmount) element).getBudget(startPeriod);
+							value = ((ICBSAmount) element).getPeriodBudget(startPeriod);
 						}
 				}
 

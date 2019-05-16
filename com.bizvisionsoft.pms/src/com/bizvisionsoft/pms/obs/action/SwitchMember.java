@@ -14,16 +14,16 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SwitchMember {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) OBSItem obs) {
 		ObjectId org_id = obs.getOrg_id();
 		if (org_id == null) {
-			bruiService.openContent("团队成员", obs);
+			br.openContent("团队成员", obs);
 		} else {
-			Organization org = Services.get(OrganizationService.class).get(org_id);
-			bruiService.openContent("组织成员（浏览）", org);
+			Organization org = Services.get(OrganizationService.class).get(org_id, br.getDomain());
+			br.openContent("组织成员（浏览）", org);
 		}
 	}
 

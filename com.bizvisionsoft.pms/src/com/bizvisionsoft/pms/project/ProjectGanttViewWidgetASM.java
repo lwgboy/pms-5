@@ -19,7 +19,7 @@ import com.bizvisionsoft.pms.work.gantt.action.TimeScaleType;
 public class ProjectGanttViewWidgetASM {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;

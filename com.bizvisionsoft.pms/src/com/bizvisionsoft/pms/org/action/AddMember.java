@@ -22,12 +22,12 @@ import com.mongodb.BasicDBObject;
 public class AddMember {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
-		new Selector(bruiService.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织成员").open(r -> {
+		new Selector(br.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织成员").open(r -> {
 			final List<String> ids = new ArrayList<String>();
 			GridPart grid = (GridPart) context.getContent();
 			List<?> input = (List<?>) grid.getViewerInput();
@@ -42,7 +42,7 @@ public class AddMember {
 				BasicDBObject fu = new FilterAndUpdate()
 						.filter(new BasicDBObject("userId", new BasicDBObject("$in", ids)))
 						.set(new BasicDBObject("org_id", orgId)).bson();
-				Services.get(UserService.class).update(fu);
+				Services.get(UserService.class).update(fu, br.getDomain());
 			}
 		});
 	}

@@ -17,18 +17,18 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class CreateProject {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		new Editor<Project>(bruiService.getAssembly("创建项目编辑器"), context)
-				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(bruiService.operationInfo()))
+		new Editor<Project>(br.getAssembly("创建项目编辑器"), context)
+				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(br.operationInfo()))
 				.ok((r, proj) -> {
-					Project pj = Services.get(ProjectService.class).insert(proj);
+					Project pj = Services.get(ProjectService.class).insert(proj, br.getDomain());
 					if (pj != null) {
-						Services.get(WorkSpaceService.class).checkout(pj.getWorkspace(), pj.getPmId(), true);
-						if (MessageDialog.openQuestion(bruiService.getCurrentShell(), "创建项目", "项目创建成功，是否进入项目主页？")) {
-							bruiService.switchPage("项目首页（启动）", pj.get_id().toHexString());
+						Services.get(WorkSpaceService.class).checkout(pj.getWorkspace(), pj.getPmId(), true, br.getDomain());
+						if (MessageDialog.openQuestion(br.getCurrentShell(), "创建项目", "项目创建成功，是否进入项目主页？")) {
+							br.switchPage("项目首页（启动）", pj.get_id().toHexString());
 						}
 					}
 				});

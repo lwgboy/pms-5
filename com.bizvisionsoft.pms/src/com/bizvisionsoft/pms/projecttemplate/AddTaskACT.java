@@ -13,12 +13,12 @@ import com.bizvisionsoft.service.model.WorkInTemplate;
 public class AddTaskACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) GanttEvent event) {
-		new Editor<WorkInTemplate>(bruiService.getAssembly("项目模板工作编辑器"), context)
+		new Editor<WorkInTemplate>(br.getAssembly("项目模板工作编辑器"), context)
 				.setInput(WorkInTemplate.newInstance((WorkInTemplate) event.task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi);

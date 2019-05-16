@@ -16,15 +16,15 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class SubmitProjectChangeACT {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT_INPUT_OBJECT) ProjectChange input) {
-		if (brui.confirm("提交变更申请", "请确认提交变更申请。<br>系统将记录现在时刻为变更申请提交时间，提交后该变更申请将无法进行修改。")) {
-			List<Result> result = Services.get(ProjectService.class).submitProjectChange(Arrays.asList(input.get_id()));
+		if (br.confirm("提交变更申请", "请确认提交变更申请。<br>系统将记录现在时刻为变更申请提交时间，提交后该变更申请将无法进行修改。")) {
+			List<Result> result = Services.get(ProjectService.class).submitProjectChange(Arrays.asList(input.get_id()), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已提交");
-				brui.closeCurrentContent();
+				br.closeCurrentContent();
 			} else {
 				if (result.get(0).code == Result.CODE_PROJECTCHANGE_NOTASKUSER)
 					Layer.message("请为所有审核环节指定审核人员后，再进行提交", Layer.ICON_ERROR);

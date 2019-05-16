@@ -16,12 +16,12 @@ import com.bizvisionsoft.service.model.Work;
 public class OpenBudgetSubjectACT {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Object rootInput) {
 		if (rootInput instanceof Work && ((Work) rootInput).getCBS_id() != null) {
-			bruiService.openContent("项目资金计划", rootInput);
+			br.openContent("项目资金计划", rootInput);
 		} else {
 			Layer.message("无法编制科目预算", Layer.ICON_ERROR);
 		}

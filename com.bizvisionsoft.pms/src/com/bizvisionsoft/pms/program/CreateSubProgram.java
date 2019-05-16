@@ -27,7 +27,7 @@ public class CreateSubProgram {
 						.setInput(pjSet)
 
 						.ok((r, t) -> {
-							Program result = Services.get(ProgramService.class).insert(t);
+							Program result = Services.get(ProgramService.class).insert(t, br.getDomain());
 							GridPart grid = (GridPart) context.getContent();
 							grid.add(em, result);
 						});

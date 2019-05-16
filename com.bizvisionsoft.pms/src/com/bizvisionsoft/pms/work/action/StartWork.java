@@ -11,7 +11,7 @@ import com.bizvisionsoft.service.model.Work;
 public class StartWork implements IWorkAction   {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	// TODO selected作为参数传入到方法中
@@ -27,6 +27,6 @@ public class StartWork implements IWorkAction   {
 
 	@Override
 	public IBruiService getBruiService() {
-		return brui;
+		return br;
 	}
 }

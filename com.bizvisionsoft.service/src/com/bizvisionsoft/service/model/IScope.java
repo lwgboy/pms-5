@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 public interface IScope {
 	
 	public ObjectId getScope_id();
+	
+	public String getDomain();
 
 
 }

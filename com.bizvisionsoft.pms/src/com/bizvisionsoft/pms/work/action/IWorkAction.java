@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -63,11 +62,11 @@ public interface IWorkAction {
 			Date date = getInputDate();
 			if (date == null)
 				return;
-			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), date, ICommand.Start_Work));
+			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), date, ICommand.Start_Work), getBruiService().getDomain());
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				if (callback != null) {
-					Work w = getService().getWork(work.get_id());
+					Work w = getService().getWork(work.get_id(), getBruiService().getDomain());
 					callback.accept(w);
 				}
 			} else {
@@ -89,7 +88,7 @@ public interface IWorkAction {
 			Date date = getInputDate();
 			if (date == null)
 				return;
-			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), date, ICommand.Finish_Work));
+			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), date, ICommand.Finish_Work), getBruiService().getDomain());
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				if (callback != null) {
@@ -113,7 +112,7 @@ public interface IWorkAction {
 	public default void assignWork(Work work, IBruiContext context, Consumer<Work> callback) {
 		Selector.open("指派用户选择器", context, work, l -> {
 			User user = (User) l.get(0);
-			Work w = getService().assignUserToWorkChager(work.get_id(), user.getUserId());
+			Work w = getService().assignUserToWorkChager(work.get_id(), user.getUserId(), getBruiService().getDomain());
 			if (callback != null) {
 				callback.accept(w);
 			}
@@ -174,9 +173,9 @@ public interface IWorkAction {
 			}
 			Object checkItems = BsonTools.encodeBsonValue(new ArrayList<>(checklistMap.values()));
 			FilterAndUpdate fu = new FilterAndUpdate().filter(filter).set(new BasicDBObject("checklist", checkItems));
-			getService().updateWork(fu.bson());
+			getService().updateWork(fu.bson(), getBruiService().getDomain());
 			if (callback != null) {
-				Work w = getService().getWork(work.get_id());
+				Work w = getService().getWork(work.get_id(), getBruiService().getDomain());
 				callback.accept(w);
 			}
 		});

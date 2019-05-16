@@ -20,7 +20,7 @@ public class LoadCauseAnalysis {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Problem pr = context.getRootInput(Problem.class, false);
 		
-		Document d = Services.get(ProblemService.class).loadCauseAnalysis(pr.get_id());
+		Document d = Services.get(ProblemService.class).loadCauseAnalysis(pr.get_id(), br.getDomain());
 
 		Document doc = (Document) context.getInput();
 		doc.putAll(d);

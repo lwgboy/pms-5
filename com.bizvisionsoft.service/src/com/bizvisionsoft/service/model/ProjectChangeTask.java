@@ -16,10 +16,13 @@ public class ProjectChangeTask {
 
 	@Persistence
 	public String user;
+	
+	@Exclude
+	public String domain;
 
 	@ReadValue("userInfo")
 	public String getUser() {
-		return Optional.ofNullable(user).map(id -> ServicesLoader.get(UserService.class).get(id).toString()).orElse("");
+		return Optional.ofNullable(user).map(id -> ServicesLoader.get(UserService.class).get(id, domain).toString()).orElse("");
 	}
 
 	@ReadValue

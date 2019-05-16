@@ -61,7 +61,7 @@ import com.mongodb.BasicDBObject;
 public class EditResourceASM extends GridPart {
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Inject
 	private BruiAssemblyContext context;
@@ -104,7 +104,7 @@ public class EditResourceASM extends GridPart {
 	}
 
 	public EditResourceASM(IBruiService brui, BruiAssemblyContext context, Composite parent) {
-		this.brui = brui;
+		this.br = brui;
 		this.context = context;
 		this.content = parent;
 	}
@@ -188,7 +188,7 @@ public class EditResourceASM extends GridPart {
 			bar.addListener(SWT.Selection, e -> {
 				Action action = ((Action) e.data);
 				if ("close".equals(action.getName())) {
-					brui.closeCurrentContent();
+					br.closeCurrentContent();
 				} else if ("add".equals(action.getName())) {
 					allocateResource();
 				}
@@ -286,7 +286,7 @@ public class EditResourceASM extends GridPart {
 
 	public void doRefresh() {
 		if (rt.getWorkIds() != null || rt.getResTypeId() != null) {
-			resource = workService.getResource(rt);
+			resource = workService.getResource(rt, br.getDomain());
 			viewer.setInput(resource);
 			doRefreshFooterText();
 		}
@@ -319,7 +319,7 @@ public class EditResourceASM extends GridPart {
 		typedRes.setStyle("info");
 
 		// 弹出menu
-		new ActionMenu(brui).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
+		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
 			addResource("人力资源选择器");
 			return false;
 		}).handleActionExecute("eq", a -> {
@@ -338,7 +338,7 @@ public class EditResourceASM extends GridPart {
 				l.forEach(o -> {
 					rt.getWorkIds().forEach(work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
 				});
-				workService.addResourcePlan(resas);
+				workService.addResourcePlan(resas, br.getDomain());
 			} else if (ResourceTransfer.TYPE_ACTUAL == rt.getType()) {
 				l.forEach(o -> {
 					rt.getWorkIds().forEach(work_id -> {
@@ -349,9 +349,9 @@ public class EditResourceASM extends GridPart {
 					});
 				});
 				if (rt.isReport())
-					workService.addWorkReportResourceActual(resas, rt.getWorkReportItemId());
+					workService.addWorkReportResourceActual(resas, rt.getWorkReportItemId(), br.getDomain());
 				else
-					workService.addResourceActual(resas);
+					workService.addResourceActual(resas, br.getDomain());
 			}
 			doRefresh();
 		});
@@ -364,18 +364,18 @@ public class EditResourceASM extends GridPart {
 		rt.getWorkIds().forEach(work_id -> {
 			if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
 				if (doc.get("usedEquipResId") != null)
-					workService.deleteEquipmentResourcePlan(work_id, (String) doc.get("usedEquipResId"));
+					workService.deleteEquipmentResourcePlan(work_id, (String) doc.get("usedEquipResId"), br.getDomain());
 				else if (doc.get("usedHumanResId") != null)
-					workService.deleteHumanResourcePlan(work_id, (String) doc.get("usedHumanResId"));
+					workService.deleteHumanResourcePlan(work_id, (String) doc.get("usedHumanResId"), br.getDomain());
 				else if (doc.get("usedTypedResId") != null)
-					workService.deleteTypedResourcePlan(work_id, (String) doc.get("usedTypedResId"));
+					workService.deleteTypedResourcePlan(work_id, (String) doc.get("usedTypedResId"), br.getDomain());
 			} else if (rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 				if (doc.get("usedEquipResId") != null)
-					workService.deleteEquipmentResourceActual(work_id, (String) doc.get("usedEquipResId"));
+					workService.deleteEquipmentResourceActual(work_id, (String) doc.get("usedEquipResId"), br.getDomain());
 				else if (doc.get("usedHumanResId") != null)
-					workService.deleteHumanResourceActual(work_id, (String) doc.get("usedHumanResId"));
+					workService.deleteHumanResourceActual(work_id, (String) doc.get("usedHumanResId"), br.getDomain());
 				else if (doc.get("usedTypedResId") != null)
-					workService.deleteTypedResourceActual(work_id, (String) doc.get("usedTypedResId"));
+					workService.deleteTypedResourceActual(work_id, (String) doc.get("usedTypedResId"), br.getDomain());
 			}
 		});
 		doRefresh();
@@ -402,7 +402,7 @@ public class EditResourceASM extends GridPart {
 		// 二次测试
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 
-		brui.openContent(brui.getAssembly("编辑资源情况"), newRT, e -> {
+		br.openContent(br.getAssembly("编辑资源情况"), newRT, e -> {
 			// 构建用于刷新的ResourceTransfer
 			ResourceTransfer nRT = new ResourceTransfer();
 			nRT.setType(rt.getType());
@@ -418,7 +418,7 @@ public class EditResourceASM extends GridPart {
 			nRT.setTo(rt.getTo());
 
 			// 获取数据库存储的资源计划
-			List<Document> list = workService.getResource(nRT);
+			List<Document> list = workService.getResource(nRT, br.getDomain());
 
 			// 刷新视图
 			if (list.size() > 0) {
@@ -441,7 +441,7 @@ public class EditResourceASM extends GridPart {
 			qty = doc.getDouble("actualQty").intValue();
 		String name = doc.getString("name");
 		String usedTypedResId = doc.getString("usedTypedResId");
-		InputDialog id = new InputDialog(brui.getCurrentShell(), "编辑资源数量", "请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量",
+		InputDialog id = new InputDialog(br.getCurrentShell(), "编辑资源数量", "请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量",
 				qty.toString(), t -> {
 					if (t.trim().isEmpty())
 						return "请输入资源使用数量";
@@ -457,11 +457,11 @@ public class EditResourceASM extends GridPart {
 			if (ResourceTransfer.TYPE_PLAN == rt.getType())
 				workService.updateResourcePlan(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
 						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
-						.set(new BasicDBObject("qty", userQty)).bson());
+						.set(new BasicDBObject("qty", userQty)).bson(), br.getDomain());
 			else
 				workService.updateResourceActual(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
 						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
-						.set(new BasicDBObject("qty", userQty)).bson());
+						.set(new BasicDBObject("qty", userQty)).bson(), br.getDomain());
 		}
 		doRefresh();
 	}
@@ -488,7 +488,7 @@ public class EditResourceASM extends GridPart {
 		Double overTimeWorks = doc.getDouble("overTimeWorks");
 		String defaultText = "" + (text.startsWith("Basic") ? basicWorks : overTimeWorks);
 
-		InputDialog id = new InputDialog(brui.getCurrentShell(), title, msg, defaultText, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), title, msg, defaultText, t -> {
 			if (t.trim().isEmpty())
 				return "请输入资源用量";
 			double d;
@@ -531,7 +531,7 @@ public class EditResourceASM extends GridPart {
 						} else if (text.startsWith("OverTime")) {
 							rp.setPlanOverTimeQty(userQty);
 						}
-						workService.insertResourcePlan(rp);
+						workService.insertResourcePlan(rp, br.getDomain());
 					} else if (period != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 						ResourceActual ra = new ResourceActual();
 						ra.setWork_id(doc.getObjectId("work_id"));
@@ -547,9 +547,9 @@ public class EditResourceASM extends GridPart {
 						}
 
 						if (rt.isReport())
-							workService.insertWorkReportResourceActual(ra, rt.getWorkReportItemId());
+							workService.insertWorkReportResourceActual(ra, rt.getWorkReportItemId(), br.getDomain());
 						else
-							workService.insertResourceActual(ra);
+							workService.insertResourceActual(ra, br.getDomain());
 					}
 				} catch (ParseException e) {
 				}
@@ -566,14 +566,17 @@ public class EditResourceASM extends GridPart {
 				}
 				if (_id != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
 					workService.updateResourcePlan(
-							new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("plan" + key, userQty)).bson());
+							new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("plan" + key, userQty)).bson(),
+							br.getDomain());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 					if (rt.isReport())
 						workService.updateWorkReportResourceActual(
-								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
+								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson(),
+								br.getDomain());
 					else
 						workService.updateResourceActual(
-								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson());
+								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson(),
+								br.getDomain());
 				}
 
 			}

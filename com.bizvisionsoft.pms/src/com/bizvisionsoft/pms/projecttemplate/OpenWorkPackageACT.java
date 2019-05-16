@@ -15,20 +15,20 @@ import com.bizvisionsoft.service.tools.Check;
 
 public class OpenWorkPackageACT {
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) WorkInTemplate work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (Check.isNotAssigned(wps)) {
-			brui.openContent(brui.getAssembly("模板工作包计划"), new Object[] { work, null });
+			br.openContent(br.getAssembly("模板工作包计划"), new Object[] { work, null });
 		} else {
 			ArrayList<Action> actions = new ArrayList<Action>();
-			ActionMenu menu = new ActionMenu(brui);
+			ActionMenu menu = new ActionMenu(br);
 			wps.forEach(view -> {
 				actions.add(createAction(view));
 				menu.handleActionExecute(view.get_id().toHexString(), f -> {
-					brui.openContent(brui.getAssembly("模板工作包计划"), new Object[] { work, view });
+					br.openContent(br.getAssembly("模板工作包计划"), new Object[] { work, view });
 					return false;
 				});
 			});

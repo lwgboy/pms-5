@@ -41,7 +41,7 @@ public class OrganizationSARASM extends AbstractChartASM {
 	}
 
 	public Document getOptionDocument() {
-		return Services.get(ProjectService.class).getOrganizationSAR(year, userId);
+		return Services.get(ProjectService.class).getOrganizationSAR(year, userId, br.getDomain());
 	}
 
 	public void setYear(String year) {

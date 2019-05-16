@@ -8,8 +8,8 @@ import com.bizvisionsoft.service.model.Docu;
 public class DocNumberGenerator implements IAutoGenerator<Docu> {
 
 	@Override
-	public Object generate(Docu doc, String name, String key, Class<?> t) {
-		int index = ServicesLoader.get(CommonService.class).generateCode(name, key);
+	public Object generate(Docu doc, String name, String key, Class<?> t,String domain) {
+		int index = ServicesLoader.get(CommonService.class).generateCode(name, key, domain);
 		return String.format("%06d", index);
 	}
 

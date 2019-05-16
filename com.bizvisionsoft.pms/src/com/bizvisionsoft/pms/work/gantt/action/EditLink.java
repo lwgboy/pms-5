@@ -12,7 +12,7 @@ import com.bizvisionsoft.bruiengine.ui.Editor;
 public class EditLink {
 
 	@Inject
-	private IBruiService bruiService;
+	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,

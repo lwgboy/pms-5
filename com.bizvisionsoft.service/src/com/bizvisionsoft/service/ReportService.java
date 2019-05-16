@@ -13,28 +13,27 @@ import javax.ws.rs.core.Response;
 public interface ReportService {
 
 	@POST
-	@Path("/")
+	@Path("/{domain}/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response generateReport(@FormParam("rptParam") String rptParam, @FormParam("template") String templateName,
-			@FormParam("outputType") String outputType, @FormParam("fileName") String downloadableFileName);
+			@FormParam("outputType") String outputType, @FormParam("fileName") String downloadableFileName,
+			@FormParam("domain") String domain);
 
 	@OPTIONS
 	@Path("/")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response generateReport();
-	
-	
+
 	@POST
-	@Path("/command/")
+	@Path("/{domain}/command/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response commandReport(@FormParam("command") String rptParam);
-	
+	public Response commandReport(@FormParam("command") String rptParam, @FormParam("domain") String domain);
+
 	@OPTIONS
 	@Path("/command/")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response commandReport();
-	
 
 }

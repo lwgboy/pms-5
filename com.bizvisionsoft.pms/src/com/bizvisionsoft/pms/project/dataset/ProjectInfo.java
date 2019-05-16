@@ -21,7 +21,7 @@ public class ProjectInfo {
 	private BruiAssemblyContext context;
 
 	@Inject
-	private IBruiService brui;
+	private IBruiService br;
 
 	private ProjectService service;
 
@@ -35,7 +35,7 @@ public class ProjectInfo {
 
 	@DataSet("list")
 	public List<Project> data() {
-		return service.list(new Query().filter(new BasicDBObject("_id", project_id)).bson());
+		return service.list(new Query().filter(new BasicDBObject("_id", project_id)).bson(), br.getDomain());
 	}
 
 }
