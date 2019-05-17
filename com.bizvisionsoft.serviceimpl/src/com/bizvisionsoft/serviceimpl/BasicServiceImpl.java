@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
@@ -454,7 +453,7 @@ public class BasicServiceImpl {
 		return c(cName, domain).aggregate(pipe);
 	}
 
-	protected int generateCode(String name, String domain, String key) {
+	protected int generateCode(String name, String key, String domain) {
 		Document doc = c(name, domain).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("value");
