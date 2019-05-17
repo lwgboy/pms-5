@@ -41,7 +41,7 @@ public class AddOBSInTemplateMember {
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", obsId)).update(
 						new BasicDBObject("$addToSet", new BasicDBObject("member", new BasicDBObject("$each", ids))))
 						.bson();
-				Services.get(ProjectTemplateService.class).updateOBSModule(fu);
+				Services.get(ProjectTemplateService.class).updateOBSItem(fu);
 			}
 		});
 	}
