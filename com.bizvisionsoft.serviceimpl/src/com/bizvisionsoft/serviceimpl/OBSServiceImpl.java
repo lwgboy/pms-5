@@ -156,18 +156,17 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 	@Override
 	public int nextOBSSeq(BasicDBObject condition) {
-		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1)).projection(new BasicDBObject("seq", 1)).first();
+		Document doc = c("obs").find(condition).sort(new BasicDBObject("seq", -1))
+				.projection(new BasicDBObject("seq", 1)).first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("seq", 0)).orElse(0) + 1;
 	}
 
 	@Override
 	public List<String> getScopeRoleofUser(ObjectId scope_id, String userId) {
-		ArrayList<String> result = c("obs")
-				.distinct("roleId",
-						new Document("scope_id", scope_id).append("$or",
-								Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
-						String.class)
-				.into(new ArrayList<>());
+		ArrayList<String> result = c("obs").distinct("roleId",
+				new Document("scope_id", scope_id).append("$or",
+						Arrays.asList(new Document("managerId", userId), new Document("member", userId))),
+				String.class).into(new ArrayList<>());
 		if (c("obs").countDocuments(new Document("scope_id", scope_id).append("member", userId)) != 0) {
 			result.add("member");
 		}
@@ -231,8 +230,8 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 	@Override
 	public boolean checkScopeRole(ScopeRoleParameter param) {
-		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes)).append("managerId", param.userId)
-				.append("roleId", new Document("$in", param.roles))) > 0;
+		return c(OBSItem.class).countDocuments(new Document("scope_id", new Document("$in", param.scopes))
+				.append("managerId", param.userId).append("roleId", new Document("$in", param.roles))) > 0;
 	}
 
 	@Override
@@ -249,26 +248,27 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 		List<String> repeatRole = getRepeatRole(module_id, scope_id);
 
 		// 创建组织结构
-		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
-			// 建立项目团队上下级关系
-			ObjectId parent_id = doc.getObjectId("parent_id");
-			if (parent_id == null) {
-				idMap.put(doc.getObjectId("_id"), obsParent_id);
-			} else {
-				ObjectId newParent_id = idMap.get(parent_id);
-				if (newParent_id != null) {
-					ObjectId _id = new ObjectId();
-					idMap.put(doc.getObjectId("_id"), _id);
-					doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
-					String roleId = doc.getString("roleId");
-					if (!cover && repeatRole.contains(roleId)) {
-						return;
+		c("obsInTemplate").find(new Document("scope_id", module_id)).sort(new Document("_id", 1))
+				.forEach((Document doc) -> {
+					// 建立项目团队上下级关系
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id == null) {
+						idMap.put(doc.getObjectId("_id"), obsParent_id);
+					} else {
+						ObjectId newParent_id = idMap.get(parent_id);
+						if (newParent_id != null) {
+							ObjectId _id = new ObjectId();
+							idMap.put(doc.getObjectId("_id"), _id);
+							doc.append("_id", _id).append("scope_id", scope_id).append("parent_id", newParent_id);
+							String roleId = doc.getString("roleId");
+							if (!cover && repeatRole.contains(roleId)) {
+								return;
+							}
+							tobeInsert.add(doc);
+						}
 					}
-					tobeInsert.add(doc);
-				}
-			}
 
-		});
+				});
 		List<OBSItem> result = new ArrayList<OBSItem>();
 		// 插入项目团队
 		if (!tobeInsert.isEmpty()) {
@@ -340,8 +340,11 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			});
 		}
 		// 判断人员是否在都在项目团队中
-		c("obs").find(new Document("scope_id", scope_id).append("_id", new Document("$nin", obs_id)).append("$or", Arrays
-				.asList(new Document("managerId", new Document("$in", userIds)), new Document("member", new Document("$in", userIds)))))
+		c("obs").find(
+				new Document("scope_id", scope_id).append("_id", new Document("$nin", obs_id))
+						.append("$or",
+								Arrays.asList(new Document("managerId", new Document("$in", userIds)),
+										new Document("member", new Document("$in", userIds)))))
 				.forEach((Document d) -> {
 					Object managerId = d.get("managerId");
 					if (managerId != null)
@@ -356,90 +359,75 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 			List<OBSItem> rootOBS = getScopeRootOBS(scope_id);
 			if (rootOBS.size() > 0) {
 				ObjectId project_id = rootOBS.get(0).getScope_id();
-				Map<String, Set<String>> error = new HashMap<String, Set<String>>();
-				Map<String, Set<String>> warning = new HashMap<String, Set<String>>();
+				List<String> errors = new ArrayList<String>();
+				List<String> warnings = new ArrayList<String>();
 				// 检查进行中的工作
-				c("work").find(
-						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
-								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
-										new Document("assignerId", new Document("$in", userIds)))))
+				c("work")
+						.find(new Document("project_id", project_id).append("actualFinish", null)
+								.append("actualStart", new Document("$ne", null)).append("$or",
+										Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+												new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
 							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
-							String userName = getUserName(userid);
-							Set<String> fullname = error.get(userName);
-							if (fullname == null) {
-								fullname = new HashSet<String>();
-								error.put(userName, fullname);
-							}
-							fullname.add(d.getString("fullName"));
-
+							String error = getUserName(userid) + "[" + userid + "]";
+							if (!errors.contains(error))
+								errors.add(error);
 						});
 				// 检查工作区进行中的工作
-				c("workspace").find(
-						new Document("project_id", project_id).append("actualFinish", null).append("actualStart", new Document("$ne", null))
-								.append("$or", Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
-										new Document("assignerId", new Document("$in", userIds)))))
+				c("workspace")
+						.find(new Document("project_id", project_id).append("actualFinish", null)
+								.append("actualStart", new Document("$ne", null)).append("$or",
+										Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+												new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
 							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
 							String userName = getUserName(userid);
-							Set<String> fullname = error.get(userName);
-							if (fullname == null) {
-								fullname = new HashSet<String>();
-								error.put(userName, fullname);
-							}
-							fullname.add(d.getString("fullName"));
+							String error = getUserName(userid) + "[" + userid + "]";
+							if (!errors.contains(error))
+								errors.add(error);
 						});
 
 				// 检查未开始的工作
-				c("work").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
-						new Document("chargerId", new Document("$in", userIds)), new Document("assignerId", new Document("$in", userIds)))))
+				c("work")
+						.find(new Document("project_id", project_id).append("actualStart", null).append("$or",
+								Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+										new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
 							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
-							String userName = getUserName(userid);
-							Set<String> fullname = warning.get(userName);
-							if (fullname == null) {
-								fullname = new HashSet<String>();
-								warning.put(userName, fullname);
-							}
-							fullname.add(d.getString("fullName"));
-
+							String warning = getUserName(userid) + "[" + userid + "]";
+							if (!warnings.contains(warning))
+								warnings.add(warning);
 						});
 
 				// 检查工作区未开始的工作
-				c("workspace").find(new Document("project_id", project_id).append("actualStart", null).append("$or", Arrays.asList(
-						new Document("chargerId", new Document("$in", userIds)), new Document("assignerId", new Document("$in", userIds)))))
+				c("workspace")
+						.find(new Document("project_id", project_id).append("actualStart", null).append("$or",
+								Arrays.asList(new Document("chargerId", new Document("$in", userIds)),
+										new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							String userid;
 							userid = d.getString("chargerId");
 							if (!userIds.contains(userid))
 								userid = d.getString("assignerId");
-							String userName = getUserName(userid);
-							Set<String> fullname = warning.get(userName);
-							if (fullname == null) {
-								fullname = new HashSet<String>();
-								warning.put(userName, fullname);
-							}
-							fullname.add(d.getString("fullName"));
+							String warning = getUserName(userid) + "[" + userid + "]";
+							if (!warnings.contains(warning))
+								warnings.add(warning);
 						});
-				error.forEach((u, f) -> {
-					f.forEach(w -> {
-						results.add(Result.error(u + " 参与的工作：" + w + " 需要移交。"));
-					});
+				errors.forEach((u) -> {
+					results.add(Result.error(u + " 存在参与的工作需要移交。"));
 				});
-				warning.forEach((u, f) -> {
-					f.forEach(w -> {
-						results.add(Result.warning("从项目组中移除:" + u + " ，将取消工作区中他作为工作：" + w + " 参与者的任命。")
-								.setResultDate(new BasicDBObject("userIds", userIds)));
-					});
+				warnings.forEach((u) -> {
+					results.add(Result.warning("从项目组中移除:" + u + " ，将取消他作为工作参与者的任命。")
+							.setResultDate(new BasicDBObject("userIds", userIds)));
 				});
 			}
 		}
