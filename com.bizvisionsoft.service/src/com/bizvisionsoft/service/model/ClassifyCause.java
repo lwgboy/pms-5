@@ -44,6 +44,7 @@ public class ClassifyCause {
 	@Structure("new")
 	public ClassifyCause newSubItem() {
 		ClassifyCause ci = new ClassifyCause();
+		ci.domain = domain;
 		ci.parent_id = _id;
 		return ci;
 	}

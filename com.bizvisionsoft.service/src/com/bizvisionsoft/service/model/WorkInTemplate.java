@@ -459,16 +459,21 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		return this;
 	}
 
+	private WorkInTemplate setDomain(String domain) {
+		this.domain = domain;
+		return this;
+	}
+	
 	public static WorkInTemplate newInstance(ProjectTemplate template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
+		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WBSModule template) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
+		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
-		return new WorkInTemplate().set_id(new ObjectId()).setTemplate_id(parentTask.template_id).setParent_id(parentTask._id)
+		return new WorkInTemplate().setDomain(parentTask.domain).set_id(new ObjectId()).setTemplate_id(parentTask.template_id).setParent_id(parentTask._id)
 				.setManageLevel("3");
 	}
 

@@ -883,8 +883,6 @@
           }
         ]
       },
-      "checkLogin": true,
-      "forceCheckLogin": true,
       "role": ""
     },
     {
@@ -1224,7 +1222,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
       "excludeRole": "系统管理员#业务管理员"
     },
     {
@@ -2771,7 +2768,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
       "role": "系统管理员"
     },
     {
@@ -3080,8 +3076,6 @@
           }
         ]
       },
-      "home": false,
-      "checkLogin": false,
       "role": ""
     }
   ],

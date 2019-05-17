@@ -700,7 +700,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	public OBSItem newOBSScopeRoot() {
 
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-				.set_id(new ObjectId())// 设置_id与项目关联
+				.setDomain(domain)
+			.set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
 				.setParent_id(null)// 设置上级的id
 				.setName(getName() + "项目组")// 设置该组织节点的默认名称

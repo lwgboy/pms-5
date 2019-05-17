@@ -20,7 +20,7 @@ public class CreateSubProgram {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof Program) {
-				Program pjSet = new Program();
+				Program pjSet = br.newInstance(Program.class);
 				pjSet.setParent_id(((Program) em).get_id());
 				pjSet.setCreationInfo(br.operationInfo());
 				new Editor<Program>(br.getAssembly("ÏîÄ¿¼¯±à¼­Æ÷"), context)

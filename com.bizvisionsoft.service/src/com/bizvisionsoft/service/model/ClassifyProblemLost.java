@@ -45,6 +45,7 @@ public class ClassifyProblemLost {
 	public ClassifyProblemLost newSubItem() {
 		ClassifyProblemLost ci = new ClassifyProblemLost();
 		ci.parent_id = _id;
+		ci.domain = domain;
 		return ci;
 	}
 

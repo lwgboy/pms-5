@@ -246,8 +246,13 @@ public class WorkLink {
 		return _id;
 	}
 
-	public static WorkLink newInstance(ObjectId project_id) {
-		return new WorkLink().set_id(new ObjectId()).setProject_id(project_id);
+	public static WorkLink newInstance(ObjectId project_id,String domain) {
+		return new WorkLink().setDomain(domain).set_id(new ObjectId()).setProject_id(project_id);
+	}
+
+	private WorkLink setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 	public WorkLink setSource(Work source) {

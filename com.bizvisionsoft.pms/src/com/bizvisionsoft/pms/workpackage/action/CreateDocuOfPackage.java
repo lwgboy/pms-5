@@ -94,7 +94,7 @@ public class CreateDocuOfPackage {
 		DocuTemplate dt = Services.get(DocumentService.class).getDocumentTemplate(dt_id, br.getDomain());
 		if (dt == null)
 			throw new RuntimeException("无法获得文档模板，文档设置为：" + ds.getName());
-		Docu docu = new Docu()//
+		Docu docu = br.newInstance(Docu.class)//
 				.setCreationInfo(br.operationInfo())//
 				.addWorkPackageId(wp.get_id())//
 				.setFolder_id(ds.getFolder_id())//
@@ -131,8 +131,8 @@ public class CreateDocuOfPackage {
 		GridPart gridPart = (GridPart) context.getContent();
 		ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id(), br.getDomain());
 		// 选择文件夹
-		Selector.open("项目文件夹选择", context, new Project().set_id(project_id), em -> {
-			Docu docu = new Docu()//
+		Selector.open("项目文件夹选择", context, br.newInstance(Project.class).set_id(project_id), em -> {
+			Docu docu = br.newInstance(Docu.class)//
 					.setCreationInfo(br.operationInfo())//
 					.addWorkPackageId(wp.get_id())//
 					.setFolder_id(((Folder) em.get(0)).get_id())//

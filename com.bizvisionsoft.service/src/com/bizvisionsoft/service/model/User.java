@@ -226,7 +226,7 @@ public class User implements IResourceAssignment {
 	private String domain;
 
 	@Exclude
-	private transient String site;
+	private String site;
 
 	public List<String> getRoles() {
 		return roles;

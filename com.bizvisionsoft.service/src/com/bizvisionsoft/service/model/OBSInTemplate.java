@@ -375,14 +375,20 @@ public class OBSInTemplate {
 	 * @return
 	 */
 	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId, String roleName,
-			boolean scopeRoot) {
+			boolean scopeRoot,String domain) {
 		return new OBSInTemplate()// 创建本项目的OBS根节点
+				.setDomain(domain)
 				.set_id(new ObjectId()).setScope_id(scope_id)// 设置scope_id表明该组织节点的范围
 				.setParent_id(parent_id)// 设置上级的id
 				.setName(name)// 设置该组织节点的默认名称
 				.setRoleId(roleId)// 设置该组织节点的角色id
 				.setRoleName(roleName)// 设置该组织节点的名称
 				.setScopeRoot(scopeRoot);// 区分这个节点是范围内的根节点
+	}
+
+	private OBSInTemplate setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 }

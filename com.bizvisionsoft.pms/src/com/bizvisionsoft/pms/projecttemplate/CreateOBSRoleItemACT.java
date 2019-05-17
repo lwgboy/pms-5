@@ -33,7 +33,7 @@ public class CreateOBSRoleItemACT  {
 
 	
 	protected void open(IBruiContext context, Object em, String message, String editor,boolean isRole) {
-		OBSInTemplate input = new OBSInTemplate().setParent_id(((OBSInTemplate) em).get_id())
+		OBSInTemplate input = br.newInstance(OBSInTemplate.class).setParent_id(((OBSInTemplate) em).get_id())
 				.setScope_id(((OBSInTemplate) em).getScope_id()).setIsRole(isRole).generateSeq();
 
 		Editor.create(editor, context, input, true).setTitle(message).ok((r, t) -> {

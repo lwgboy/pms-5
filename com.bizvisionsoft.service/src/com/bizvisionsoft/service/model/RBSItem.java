@@ -237,8 +237,8 @@ public class RBSItem {
 
 	@Structure({ "项目风险应对计划/list", "项目风险应对计划（查看）/list" })
 	private List<RiskResponseType> listRiskResponseType() {
-		return Arrays.asList(RiskResponseType.pervent(_id), RiskResponseType.response(_id),
-				RiskResponseType.emergency(_id));
+		return Arrays.asList(RiskResponseType.pervent(_id,domain), RiskResponseType.response(_id,domain),
+				RiskResponseType.emergency(_id,domain));
 	}
 
 	@Structure({ "项目风险应对计划/count", "项目风险应对计划（查看）/count" })

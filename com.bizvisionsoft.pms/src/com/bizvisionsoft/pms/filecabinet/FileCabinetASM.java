@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.IFolder;
@@ -71,7 +72,7 @@ public class FileCabinetASM extends CabinetASM {
 	}
 
 	private boolean doCreateProjectTemplateFolder(FolderInTemplate parentFolder, String folderName) {
-		FolderInTemplate folder = new FolderInTemplate();
+		FolderInTemplate folder = br.newInstance(FolderInTemplate.class);
 		folder.setName(folderName);
 		if (parentFolder != null) {
 			folder.setParent_id(parentFolder.get_id());
@@ -82,7 +83,7 @@ public class FileCabinetASM extends CabinetASM {
 	}
 
 	private boolean doCreateProjectFolder(Folder parentFolder, String folderName) {
-		Folder folder = new Folder();
+		Folder folder = br.newInstance(Folder.class);
 		folder.setName(folderName);
 		if (parentFolder != null) {
 			folder.setParent_id(parentFolder.get_id());

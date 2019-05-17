@@ -24,6 +24,7 @@ public class RemoteFileAdapter implements JsonDeserializer<RemoteFile>, JsonSeri
 		jo.addProperty("contentType", rf.contentType);
 		jo.addProperty("name", rf.name);
 		jo.addProperty("namepace", rf.namepace);
+		jo.addProperty("domain", rf.domain);
 		return jo;
 	}
 
@@ -49,6 +50,9 @@ public class RemoteFileAdapter implements JsonDeserializer<RemoteFile>, JsonSeri
 		if (jp.isString())
 			rf.namepace = jp.getAsString();
 
+		jp = jo.getAsJsonPrimitive("domain");
+		if (jp.isString())
+			rf.domain = jp.getAsString();
 		return rf;
 	}
 

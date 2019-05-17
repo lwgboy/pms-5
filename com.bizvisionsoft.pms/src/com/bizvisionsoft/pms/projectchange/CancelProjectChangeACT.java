@@ -28,7 +28,7 @@ public class CancelProjectChangeACT {
 		}).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class).cancelProjectChange(
-					ProjectChangeTask.getCancelInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()),
+					ProjectChangeTask.getCancelInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue(),br.getDomain()),
 					br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已否决");

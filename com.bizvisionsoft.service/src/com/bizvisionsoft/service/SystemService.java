@@ -25,7 +25,7 @@ import com.mongodb.BasicDBObject;
 public interface SystemService {
 
 	@GET
-	@Path("/{domain}/{req}")
+	@Path("/{req}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public ServerInfo getServerInfo(@PathParam("req") String req);

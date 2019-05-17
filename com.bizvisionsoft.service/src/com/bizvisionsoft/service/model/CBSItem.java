@@ -222,7 +222,7 @@ public class CBSItem implements ICBSAmount {
 	public List<Object> listSubCBSItemsAndSubjects() {
 		List<Object> cbsSubjects = new ArrayList<Object>();
 		listSubjects().forEach(s -> {
-			cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
+			cbsSubjects.add(new CBSSubjectCost().setDomain(domain).setCBSItem(this).setAccountItem(s));
 		});
 		return cbsSubjects;
 	}
@@ -241,7 +241,7 @@ public class CBSItem implements ICBSAmount {
 		}
 		List<CBSSubjectCost> cbsSubjects = new ArrayList<CBSSubjectCost>();
 		subjects.forEach(s -> {
-			cbsSubjects.add(new CBSSubjectCost().setCBSItem(this).setAccountItem(s));
+			cbsSubjects.add(new CBSSubjectCost().setDomain(domain).setCBSItem(this).setAccountItem(s));
 
 		});
 		result.addAll(cbsSubjects);
@@ -515,8 +515,8 @@ public class CBSItem implements ICBSAmount {
 		return summary;
 	}
 
-	public static CBSItem getInstance(CBSItem parent) {
-		CBSItem cbsItem = getInstance();
+	public static CBSItem getInstance(CBSItem parent,String domain) {
+		CBSItem cbsItem = getInstance(domain);
 
 		cbsItem.setParent_id(parent.get_id());
 		cbsItem.setScope_id(parent.getScope_id());
@@ -526,8 +526,8 @@ public class CBSItem implements ICBSAmount {
 		return cbsItem;
 	}
 
-	public static CBSItem getInstance(ICBSScope cbsScope, boolean scopeRoot) {
-		CBSItem cbsItem = getInstance();
+	public static CBSItem getInstance(ICBSScope cbsScope, boolean scopeRoot,String domain) {
+		CBSItem cbsItem = getInstance(domain);
 		cbsItem.setScope_id(cbsScope.getScope_id());
 		cbsItem.setScopeName(cbsScope.getScopeName());
 		cbsItem.setScopeRoot(scopeRoot);
@@ -535,9 +535,10 @@ public class CBSItem implements ICBSAmount {
 		return cbsItem;
 	}
 
-	public static CBSItem getInstance() {
+	public static CBSItem getInstance(String domain) {
 		CBSItem cbsItem = new CBSItem();
 		cbsItem.set_id(new ObjectId());
+		cbsItem.domain = domain;
 		return cbsItem;
 	}
 

@@ -95,6 +95,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			/////////////////////////////////////////////////////////////////////////////
 			// 1. 项目团队初始化
 			OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
+					.setDomain(domain)
 					.set_id(obsRoot_id)// 设置_id与项目关联
 					.setScope_id(project.get_id())// 设置scope_id表明该组织节点是该项目的组织
 					.setParent_id(obsParent_id)// 设置上级的id
@@ -108,7 +109,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			/////////////////////////////////////////////////////////////////////////////
 			// 2. 财务科目初始化
 			// 创建根
-			CBSItem cbsRoot = CBSItem.getInstance(project, true);//
+			CBSItem cbsRoot = CBSItem.getInstance(project, true, domain);//
 			cbsRoot.set_id(cbsRoot_id);//
 			cbsRoot.setParent_id(cbsParent_id);//
 			cbsRoot.setName(project.getName());
@@ -167,7 +168,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return c(Project.class, domain).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
-	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, List<Bson> pipeline, String domain) {
+	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, List<Bson> pipeline,
+			String domain) {
 		// 1. 承担组织
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
@@ -564,7 +566,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					});
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
-			c("work", domain).aggregate(Domain.getJQ(domain, "查询-工作-阶段需下达的工作计划").set("project_id", com._id).set("match", new Document()).array())
+			c("work", domain)
+					.aggregate(Domain.getJQ(domain, "查询-工作-阶段需下达的工作计划").set("project_id", com._id).set("match", new Document()).array())
 					.forEach((Document w) -> {
 						ids.add(w.getObjectId("_id"));
 						Check.isAssigned(w.getString("chargerId"),
@@ -1654,6 +1657,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					// yangjun 2018/10/31
 					if (Check.equals(obsItem.getRoleId(), changeProcess.getProjectOBSId())) {
 						ProjectChangeTask pct = new ProjectChangeTask();
+						pct.domain = domain;
 						pct.user = obsItem.getManagerId();
 						pct.name = changeProcess.getTaskName();
 						reviewer.add(pct);
@@ -1788,8 +1792,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 发送变更批准通知
-		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，",
-				projectChangeTask.user, pc.getApplicantId(), null, domain);
+		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
+				pc.getApplicantId(), null, domain);
 		if (ProjectChange.STATUS_PASS.equals(status)) {
 			String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
 			sendMessage("项目变更申请已通过", "项目：" + pc.getProjectName() + " 的变更申请已审核通过，", pc.getApplicantId(), pmId, null, domain);
@@ -1859,8 +1863,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 		String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，",
-				projectChangeTask.user, Arrays.asList(pmId, pc.getApplicantId()), null, domain);
+		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
+				Arrays.asList(pmId, pc.getApplicantId()), null, domain);
 
 		return result;
 	}
@@ -1895,7 +1899,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long countReviewerProjectChange(BasicDBObject filter, String userId, String domain) {
-		List<Bson> pipeline = (List<Bson>) Domain.getJQ(domain, "查询-项目变更-待审批").set("userId", userId).set("status", ProjectChange.STATUS_SUBMIT).array();
+		List<Bson> pipeline = (List<Bson>) Domain.getJQ(domain, "查询-项目变更-待审批").set("userId", userId)
+				.set("status", ProjectChange.STATUS_SUBMIT).array();
 
 		if (filter != null)
 			pipeline.add(Aggregates.match(filter));
@@ -1921,7 +1926,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			filter = new BasicDBObject();
 		}
 
-		List<Bson> pipeline = (List<Bson>) Domain.getJQ(domain, "查询-项目变更-待审批").set("userId", userId).set("status", ProjectChange.STATUS_SUBMIT).array();
+		List<Bson> pipeline = (List<Bson>) Domain.getJQ(domain, "查询-项目变更-待审批").set("userId", userId)
+				.set("status", ProjectChange.STATUS_SUBMIT).array();
 
 		appendProject(pipeline);
 		appendUserInfo(pipeline, "applicant", "applicantInfo", domain);
@@ -2091,19 +2097,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<String> legendData = new ArrayList<String>();
 		List<Document> series = new ArrayList<Document>();
 
-		c("organization", domain)
-				.aggregate(
-						Domain.getJQ(domain, "查询-承担部门计划完成率")
-								.set("workmatch",
-										new Document("$expr",
-												new Document("$eq",
-														Arrays.asList(year,
-																new Document("$dateToString",
-																		new Document("format", "%Y").append("date", "$actualFinish"))))))
-								.set("orgmatch", new Document()).set("projectmatch", new Document())// "_id", new Document("$in",
-																									// getAdministratedProjects(userId))))
-								.array())
-				.forEach((Document d) -> {
+		c("organization", domain).aggregate(Domain.getJQ(domain, "查询-承担部门计划完成率").set("workmatch", new Document("$expr",
+				new Document("$eq",
+						Arrays.asList(year, new Document("$dateToString", new Document("format", "%Y").append("date", "$actualFinish"))))))
+				.set("orgmatch", new Document()).set("projectmatch", new Document())// "_id", new Document("$in",
+																					// getAdministratedProjects(userId))))
+				.array()).forEach((Document d) -> {
 					List<Document> project = (List<Document>) d.get("project");
 					if (Check.isAssigned(project)) {
 						String name = d.getString("name");

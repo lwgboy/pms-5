@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
-import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruiengine.service.BruiService;
 import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.Controls;

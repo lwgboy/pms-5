@@ -26,8 +26,9 @@ public class WorkPackage {
 	@Exclude
 	public String domain;
 
-	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv) {
+	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv,String domain) {
 		WorkPackage wp = new WorkPackage();
+		wp.domain = domain;
 		wp.work_id = work.get_id();
 		wp.deadline = work.getPlanFinish();
 		if (tv != null) {

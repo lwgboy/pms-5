@@ -22,7 +22,7 @@ public class CreateProject {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		new Editor<Project>(br.getAssembly("创建项目编辑器"), context)
-				.setInput(new Project().setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(br.operationInfo()))
+				.setInput(br.newInstance(Project.class).setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(br.operationInfo()))
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj, br.getDomain());
 					if (pj != null) {

@@ -29,7 +29,7 @@ public class CreateProjectChangeACT {
 			return;
 		}
 		Editor.open("项目变更编辑器", context,
-				new ProjectChange().setProject_id(project.get_id()).setApplicant(br.getCurrentUserInfo())
+				br.newInstance(ProjectChange.class).setProject_id(project.get_id()).setApplicant(br.getCurrentUserInfo())
 						.setStatus(ProjectChange.STATUS_CREATE).setApplicantDate(new Date()).setApplicantUnitId(project.getImpUnit_id()),
 				(r, o) -> {
 					ProjectChange pc = Services.get(ProjectService.class).createProjectChange(o, br.getDomain());

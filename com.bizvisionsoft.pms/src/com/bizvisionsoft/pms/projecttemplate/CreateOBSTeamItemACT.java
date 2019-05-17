@@ -16,7 +16,6 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CreateOBSTeamItemACT {
 
-	
 	@Inject
 	private IBruiService br;
 
@@ -26,13 +25,13 @@ public class CreateOBSTeamItemACT {
 
 			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 			message = "创建" + message + "下级团队";
-			open(context, em, message, "OBS模板节点编辑器（团队）",false);
+			open(context, em, message, "OBS模板节点编辑器（团队）", false);
 
 		});
 	}
-	
-	protected void open(IBruiContext context, Object em, String message, String editor,boolean isRole) {
-		OBSInTemplate input = new OBSInTemplate().setParent_id(((OBSInTemplate) em).get_id())
+
+	protected void open(IBruiContext context, Object em, String message, String editor, boolean isRole) {
+		OBSInTemplate input = br.newInstance(OBSInTemplate.class).setParent_id(((OBSInTemplate) em).get_id())
 				.setScope_id(((OBSInTemplate) em).getScope_id()).setIsRole(isRole).generateSeq();
 
 		Editor.create(editor, context, input, true).setTitle(message).ok((r, t) -> {

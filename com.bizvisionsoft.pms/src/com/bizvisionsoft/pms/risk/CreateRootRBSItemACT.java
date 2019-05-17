@@ -19,7 +19,7 @@ public class CreateRootRBSItemACT {
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		Editor.open("·çÏÕÏî±à¼­Æ÷", context,
-				new RBSItem().setProject_id(project.get_id()).setCreationInfo(br.operationInfo()), (r, o) -> {
+				br.newInstance(RBSItem.class).setProject_id(project.get_id()).setCreationInfo(br.operationInfo()), (r, o) -> {
 					GridPart grid = (GridPart) context.getContent();
 					grid.doCreate(null, o);
 				});

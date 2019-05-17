@@ -19,7 +19,7 @@ public class CreateSubRBSItemACT {
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(c -> {
 			Project project = (Project) context.getRootInput();
-			Editor.open("·çÏÕÏî±à¼­Æ÷", context, new RBSItem().setProject_id(project.get_id())
+			Editor.open("·çÏÕÏî±à¼­Æ÷", context, br.newInstance(RBSItem.class).setProject_id(project.get_id())
 					.setParent_id(((RBSItem) c).get_id()).setCreationInfo(br.operationInfo()), (r, o) -> {
 						GridPart grid = (GridPart) context.getContent();
 						grid.doCreateSubItem(c, o);

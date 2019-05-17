@@ -33,18 +33,23 @@ public class WorkInfo {
 	@Exclude
 	public String domain;
 
+	private WorkInfo setDomain(String domain) {
+		this.domain = domain;
+		return this;
+	}
+	
 	public static WorkInfo newInstance(Project project) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(project.get_id()).setProjectName(project.getProjectName())
+		return new WorkInfo().setDomain(project.domain).set_id(new ObjectId()).setProject_id(project.get_id()).setProjectName(project.getProjectName())
 				.setProjectNumber(project.getProjectNumber()).setManageLevel("3");
 	}
 
 	public static WorkInfo newInstance(Work work) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
+		return new WorkInfo().setDomain(work.domain).set_id(new ObjectId()).setProject_id(work.getProject_id()).setParent_id(work.get_id())
 				.setProjectName(work.getProjectName()).setProjectNumber(work.getProjectNumber()).setManageLevel("3");
 	}
 
 	public static WorkInfo newInstance(WorkInfo workinfo) {
-		return new WorkInfo().set_id(new ObjectId()).setProject_id(workinfo.getProject_id()).setParent_id(workinfo.get_id())
+		return new WorkInfo().setDomain(workinfo.domain).set_id(new ObjectId()).setProject_id(workinfo.getProject_id()).setParent_id(workinfo.get_id())
 				.setProjectName(workinfo.projectName).setProjectNumber(workinfo.projectNumber).setManageLevel("3");
 	}
 

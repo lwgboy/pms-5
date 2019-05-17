@@ -56,7 +56,7 @@ public class EditProblem {
 	}
 
 	private void create(IBruiContext context) {
-		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(new Problem().setCreationInfo(br.operationInfo())).ok((r, t) -> {
+		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(br.newInstance(Problem.class).setCreationInfo(br.operationInfo())).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);
 			t = service.insertProblem(t, br.getDomain());
 			if (t != null) {

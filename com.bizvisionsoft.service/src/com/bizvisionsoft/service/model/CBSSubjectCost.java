@@ -50,7 +50,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost>, ICBSAmount {
 		this.name = accountItem.getName();
 
 		for (AccountItem a : accountItem.listSubAccountItems()) {
-			children.add(new CBSSubjectCost().setCBSItem(cbsItem).setParent(this).setAccountItem(a));
+			children.add(new CBSSubjectCost().setDomain(domain).setCBSItem(cbsItem).setParent(this).setAccountItem(a));
 		}
 
 		return this;
@@ -79,7 +79,7 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost>, ICBSAmount {
 
 	@Exclude
 	private List<CBSSubject> cbsSubjects;
-	
+
 	@Exclude
 	public String domain;
 
@@ -314,6 +314,11 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost>, ICBSAmount {
 
 	public double getOverspendSummary() {
 		return getCostSummary() - getBudgetSummary();
+	}
+
+	public CBSSubjectCost setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 }

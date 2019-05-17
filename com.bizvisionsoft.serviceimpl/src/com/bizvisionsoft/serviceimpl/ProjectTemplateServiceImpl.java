@@ -182,7 +182,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public OBSInTemplate createRootOBS(ObjectId _id, String domain) {
-		OBSInTemplate obsRoot = OBSInTemplate.getInstanceTeam(_id, null, "项目组", OBSItem.ID_PM, OBSItem.NAME_PM, true);
+		OBSInTemplate obsRoot = OBSInTemplate.getInstanceTeam(_id, null, "项目组", OBSItem.ID_PM, OBSItem.NAME_PM, true, domain);
 		return insert(obsRoot, domain);// 插入记录
 	}
 
@@ -564,15 +564,15 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public List<ProjectTemplate> createEnabledTemplateDataSet(BasicDBObject condition,String domain){
+	public List<ProjectTemplate> createEnabledTemplateDataSet(BasicDBObject condition, String domain) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		if (filter == null){
+		if (filter == null) {
 			filter = new BasicDBObject();
 			condition.append("filter", filter);
 		}
 		filter.append("enabled", true);
 		filter.append("module", new BasicDBObject("$ne", true));
-		return createDataSet(condition, ProjectTemplate.class,domain);
+		return createDataSet(condition, ProjectTemplate.class, domain);
 	}
 
 	public long updateFolderInTemplate(BasicDBObject fu, String domain) {
@@ -586,9 +586,10 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public OBSModule insertOBSModule(OBSModule obsModule, String domain) {
-		obsModule = insert(obsModule,domain);
+		obsModule = insert(obsModule, domain);
 		// 使用组织模板名称和id构建OBSInTemplate的根节点
-		insert(OBSInTemplate.getInstanceTeam(obsModule.get_id(), null, obsModule.getName(), obsModule.getId(), obsModule.getName(), true),domain);// 插入根节点记录
+		insert(OBSInTemplate.getInstanceTeam(obsModule.get_id(), null, obsModule.getName(), obsModule.getId(), obsModule.getName(), true,
+				domain), domain);// 插入根节点记录
 		return obsModule;
 	}
 
@@ -616,7 +617,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public List<OBSInTemplate> getOBSInTemplateByModule(ObjectId module_id, String domain) {
-		return getOBSTemplate(module_id,domain);
+		return getOBSTemplate(module_id, domain);
 	}
 
 	@Override
@@ -630,21 +631,21 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	}
 
 	@Override
-	public void useOBSModule(ObjectId obsModule_id, ObjectId project_id,String domain){
+	public void useOBSModule(ObjectId obsModule_id, ObjectId project_id, String domain) {
 		// 清除除OBS根外的项目OBS节点，
-		c("obs",domain).deleteMany(new Document("scopeRoot", false).append("scope_id", project_id));
+		c("obs", domain).deleteMany(new Document("scopeRoot", false).append("scope_id", project_id));
 		// 准备模板对象和新对象之间的id对应表
 		Map<ObjectId, ObjectId> idMap = new HashMap<ObjectId, ObjectId>();
 		// 保存准备插入数据库的记录
 		List<Document> tobeInsert = new ArrayList<>();
 		// 项目的OBS_ID
-		ObjectId obs_id = c("project",domain).distinct("obs_id", new Document("_id", project_id), ObjectId.class).first();
+		ObjectId obs_id = c("project", domain).distinct("obs_id", new Document("_id", project_id), ObjectId.class).first();
 
 		// 创建组织结构
-		c("obsInTemplate",domain).find(new Document("scope_id", obsModule_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
+		c("obsInTemplate", domain).find(new Document("scope_id", obsModule_id)).sort(new Document("_id", 1)).forEach((Document doc) -> {
 			// 建立项目团队上下级关系
 			ObjectId parent_id = doc.getObjectId("parent_id");
-			if (parent_id == null){
+			if (parent_id == null) {
 				idMap.put(doc.getObjectId("_id"), obs_id);
 			} else {
 				ObjectId _id = new ObjectId();
@@ -655,8 +656,8 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 		});
 		// 插入项目团队
-		if (!tobeInsert.isEmpty()){
-			c("obs",domain).insertMany(tobeInsert);
+		if (!tobeInsert.isEmpty()) {
+			c("obs", domain).insertMany(tobeInsert);
 		}
 	}
 
@@ -706,7 +707,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 	 */
 	private void copyToOBSModule(OBSModule obsModule, String name, Document filter, String domain) {
 		// 1.创建组织模板，
-		obsModule = insert(obsModule,domain);
+		obsModule = insert(obsModule, domain);
 		ObjectId scope_id = obsModule.get_id();
 		OBSInTemplate rootOBS = createRootOBS(scope_id, domain);
 
@@ -715,7 +716,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 		List<Document> tobeInsert = new ArrayList<>();
 
 		// 创建组织结构
-		c(name,domain).find(filter).sort(new Document("_id", 1)).forEach((Document doc) -> {
+		c(name, domain).find(filter).sort(new Document("_id", 1)).forEach((Document doc) -> {
 			// 建立项目团队上下级关系
 			ObjectId parent_id = doc.getObjectId("parent_id");
 			if (parent_id == null) {

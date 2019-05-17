@@ -93,7 +93,7 @@ public class AddProjectModuleACT {
 		List<WorkInTemplate> works = Services.get(ProjectTemplateService.class).listWorks(module.get_id(), br.getDomain());
 		Map<ObjectId, WorkInfo> idMap = new HashMap<ObjectId, WorkInfo>();
 		for (int i = 0; i < works.size(); i++) {
-			WorkInfo work = new WorkInfo();
+			WorkInfo work = br.newInstance(WorkInfo.class);
 			AUtil.simpleCopy(works.get(i), work);
 
 			long duration = planStartInParent.getTime() - works.get(i).getPlanStart().getTime();
@@ -147,7 +147,7 @@ public class AddProjectModuleACT {
 
 		List<WorkLinkInTemplate> links = Services.get(ProjectTemplateService.class).listLinks(module.get_id(), br.getDomain());
 		for (int i = 0; i < links.size(); i++) {
-			WorkLinkInfo link = new WorkLinkInfo();
+			WorkLinkInfo link = br.newInstance(WorkLinkInfo.class);
 			AUtil.simpleCopy(links.get(i), link);
 			link.set_id(new ObjectId());
 

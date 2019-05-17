@@ -862,8 +862,8 @@
           }
         ]
       },
-      "checkLogin": true,
-      "forceCheckLogin": true
+      
+      
     },
     {
       "typeName": "Ò³Ãæ",
@@ -1211,8 +1211,7 @@
           }
         ]
       },
-      "home": true,
-      "checkLogin": true
+      "home": true
     },
     {
       "typeName": "Ò³Ãæ",

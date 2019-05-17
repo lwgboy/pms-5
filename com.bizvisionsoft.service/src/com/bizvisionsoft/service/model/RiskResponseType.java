@@ -57,15 +57,15 @@ public class RiskResponseType {
 		return this;
 	}
 
-	public static RiskResponseType pervent(ObjectId _id) {
+	public static RiskResponseType pervent(ObjectId _id,String domain) {
 		return new RiskResponseType().setType(TYPE_PREVENT).set_id(_id);
 	}
 
-	public static RiskResponseType response(ObjectId _id) {
+	public static RiskResponseType response(ObjectId _id,String domain) {
 		return new RiskResponseType().setType(TYPE_RESPONSE).set_id(_id);
 	}
 
-	public static RiskResponseType emergency(ObjectId _id) {
+	public static RiskResponseType emergency(ObjectId _id,String domain) {
 		return new RiskResponseType().setType(TYPE_EMERGENCY).set_id(_id);
 	}
 

@@ -22,7 +22,7 @@ public class CreateRole {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		ObjectId org_id = ((Organization) context.getInput()).get_id();
-		Role role = new Role().setOrg_id(org_id);
+		Role role = br.newInstance(Role.class).setOrg_id(org_id);
 
 		new Editor<Role>(br.getAssembly("角色编辑器"), context).setTitle("创建角色")
 

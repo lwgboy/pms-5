@@ -927,7 +927,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		ObjectId obsParent_id = Optional.ofNullable(getProject()).map(ps -> ps.getOBS_id()).orElse(null);
 
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-				.set_id(new ObjectId())// 设置_id与项目关联
+				.setDomain(domain)
+			.set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
 				.setParent_id(obsParent_id)// 设置上级的id
 				.setName(text + "团队")// 设置该组织节点的默认名称

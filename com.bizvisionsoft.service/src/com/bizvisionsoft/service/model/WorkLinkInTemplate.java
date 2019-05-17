@@ -140,8 +140,13 @@ public class WorkLinkInTemplate {
 		return _id;
 	}
 
-	public static WorkLinkInTemplate newInstance(ObjectId template_id) {
-		return new WorkLinkInTemplate().set_id(new ObjectId()).setTemplate_id(template_id);
+	public static WorkLinkInTemplate newInstance(ObjectId template_id, String domain) {
+		return new WorkLinkInTemplate().setDomain(domain).set_id(new ObjectId()).setTemplate_id(template_id);
+	}
+
+	private WorkLinkInTemplate setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 	public WorkLinkInTemplate setSource(WorkInTemplate source) {

@@ -318,8 +318,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
-      "forceCheckLogin": false,
       "role": "系统管理员"
     },
     {
@@ -475,8 +473,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
-      "forceCheckLogin": false,
       "role": "业务管理员"
     },
     {
@@ -927,7 +923,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
       "excludeRole": "外部用户"
     },
     {
@@ -996,7 +991,6 @@
         ]
       },
       "home": true,
-      "checkLogin": true,
       "role": "外部用户"
     }
   ],

@@ -150,8 +150,13 @@ public class WorkLinkInfo {
 		return _id;
 	}
 
-	public static WorkLinkInfo newInstance(ObjectId project_id) {
-		return new WorkLinkInfo().set_id(new ObjectId()).setProject_id(project_id);
+	public static WorkLinkInfo newInstance(ObjectId project_id, String domain) {
+		return new WorkLinkInfo().setDomain(domain).set_id(new ObjectId()).setProject_id(project_id);
+	}
+
+	private WorkLinkInfo setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 	public WorkLinkInfo setSource(WorkInfo source) {

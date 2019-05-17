@@ -41,6 +41,7 @@ public class ClassifyProblem {
 	@Structure("new")
 	public ClassifyProblem newSubItem() {
 		ClassifyProblem ci = new ClassifyProblem();
+		ci.domain = domain;
 		ci.parent_id = _id;
 		return ci;
 	}

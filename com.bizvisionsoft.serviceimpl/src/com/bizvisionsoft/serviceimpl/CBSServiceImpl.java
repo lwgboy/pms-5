@@ -349,7 +349,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				.into(new ArrayList<Work>());
 		if (workList.size() > 0) {
 			for (Work work : workList) {
-				CBSItem cbsItem = CBSItem.getInstance(parentCBSItem);
+				CBSItem cbsItem = CBSItem.getInstance(parentCBSItem,domain);
 				cbsItem.setName(work.toString());
 				cbsItem.setParent_id(_id);
 				cbsItemList.add(cbsItem);

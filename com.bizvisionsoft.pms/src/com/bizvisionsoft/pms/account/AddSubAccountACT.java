@@ -1,9 +1,11 @@
 package com.bizvisionsoft.pms.account;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
+import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.model.AccountIncome;
 import com.bizvisionsoft.service.model.AccountItem;
@@ -16,14 +18,17 @@ import com.bizvisionsoft.service.model.AccountItem;
  */
 public class AddSubAccountACT {
 
+	@Inject
+	private IBruiService br;
+
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
 			Object input;
 			if (parent instanceof AccountIncome) {
-				input = new AccountIncome().setParentId(((AccountIncome) parent).getId());
+				input = br.newInstance(AccountIncome.class).setParentId(((AccountIncome) parent).getId());
 			} else if (parent instanceof AccountItem) {
-				input = new AccountItem().setParentId(((AccountItem) parent).getId());
+				input = br.newInstance(AccountItem.class).setParentId(((AccountItem) parent).getId());
 			} else {
 				return;
 			}

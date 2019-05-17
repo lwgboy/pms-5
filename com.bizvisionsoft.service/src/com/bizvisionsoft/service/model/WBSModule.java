@@ -66,6 +66,9 @@ public class WBSModule {
 	@WriteValue
 	@Persistence
 	private String description;
+	
+	@Exclude
+	public String domain;
 
 	public ObjectId get_id() {
 		return _id;

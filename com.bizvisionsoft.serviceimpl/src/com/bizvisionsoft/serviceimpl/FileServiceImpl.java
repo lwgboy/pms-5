@@ -12,10 +12,9 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.FileService;
+import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.RemoteFile;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.Service;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -63,6 +62,7 @@ public class FileServiceImpl extends BasicServiceImpl implements FileService {
 		rf.name = fileName;
 		rf.namepace = namespace;
 		rf.contentType = contentType;
+		rf.domain = domain;
 		return rf;
 	}
 

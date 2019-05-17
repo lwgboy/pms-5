@@ -34,7 +34,7 @@ public class EventHandler {
 
 	@Listener({ "项目甘特图（编辑）/onTaskLinkBefore" })
 	public void onTaskLinkBeforeBySpace(GanttEvent event) {
-		WorkLinkInfo input = WorkLinkInfo.newInstance(wbsspace.getProject_id()).setSource((WorkInfo) event.linkSource)
+		WorkLinkInfo input = WorkLinkInfo.newInstance(wbsspace.getProject_id(),br.getDomain()).setSource((WorkInfo) event.linkSource)
 				.setTarget((WorkInfo) event.linkTarget).setType(event.linkType);
 
 		Editor.open("工作搭接关系编辑器（1对1）", context, input, (r, wi) -> {

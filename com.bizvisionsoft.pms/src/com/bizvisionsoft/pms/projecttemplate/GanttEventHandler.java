@@ -46,7 +46,7 @@ public class GanttEventHandler {
 
 	@Listener({ "项目模板甘特图/onTaskLinkBefore" })
 	public void onTaskLinkBeforeBySpace(GanttEvent event) {
-		WorkLinkInTemplate input = WorkLinkInTemplate.newInstance(template_id)
+		WorkLinkInTemplate input = WorkLinkInTemplate.newInstance(template_id,br.getDomain())
 				.setSource((WorkInTemplate) event.linkSource).setTarget((WorkInTemplate) event.linkTarget)
 				.setType(event.linkType);
 

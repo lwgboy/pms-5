@@ -40,7 +40,7 @@ public class WorkpackageBatchSettingACT {
 			Layer.message("请选择需设置工作包的工作");
 			return;
 		}
-		WorkInTemplate workinfo = new WorkInTemplate();
+		WorkInTemplate workinfo = br.newInstance(WorkInTemplate.class);
 		String editor = "工作属性编辑器";
 		Editor.create(editor, context, workinfo, false).setTitle("设置工作包").ok((r, wi) -> {
 		BasicDBObject set = new BasicDBObject("workPackageSetting",r.get("workPackageSetting"));

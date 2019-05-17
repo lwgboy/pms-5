@@ -1089,9 +1089,7 @@
           }
         ]
       },
-      "home": false,
-      "checkLogin": true,
-      "forceCheckLogin": true
+      "home": false      
     },
     {
       "typeName": "Ò³Ãæ",
@@ -1739,9 +1737,7 @@
           }
         ]
       },
-      "home": true,
-      "checkLogin": true,
-      "forceCheckLogin": false
+      "home": true
     },
     {
       "typeName": "Ò³Ãæ",
@@ -2547,8 +2543,6 @@
         ]
       },
       "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
@@ -2868,8 +2862,6 @@
         ]
       },
       "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
@@ -3599,8 +3591,6 @@
         ]
       },
       "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
@@ -4172,8 +4162,6 @@
         ]
       },
       "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
@@ -4320,8 +4308,6 @@
         ]
       },
       "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false,
       "inputDataSetService": "com.bizvisionsoft.service.ProjectTemplateService"
     },
     {
@@ -4636,9 +4622,7 @@
           }
         ]
       },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false
+      "home": false
     },
     {
       "typeName": "Ò³Ãæ",
@@ -5072,9 +5056,7 @@
           }
         ]
       },
-      "home": false,
-      "checkLogin": false,
-      "forceCheckLogin": false
+      "home": false
     }
   ],
   "assyLib": {

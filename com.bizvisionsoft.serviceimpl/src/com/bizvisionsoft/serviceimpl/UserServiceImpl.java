@@ -34,7 +34,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	public List<User> listConsigned(String userId, String domain) {
 		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter", new BasicDBObject("consigner", userId)),
 				domain);
-		ds.forEach(user -> updateUserRole(user,domain));
+		ds.forEach(user -> updateUserRole(user, domain));
 		return ds;
 	}
 
@@ -59,9 +59,14 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (doc == null)
 			throw new ServiceException("账户无法通过验证");
 		String domain = doc.getString("domain");
-		if(domain ==null)
+		if (domain == null)
 			throw new ServiceException("账户尚未注册应用");
-			
+
+		Document domainData = com.bizvisionsoft.service.common.Service.database.getCollection("domain").find(new Document("_id", domain))
+				.first();
+		if (domainData == null)
+			throw new ServiceException("账户尚未分配域名");
+
 		List<User> ds = createDataSet(
 				new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", new BasicDBObject("userId", userId)), domain);
 		if (ds.size() == 0) {
@@ -69,9 +74,9 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		}
 
 		User user = ds.get(0);
-		updateUserRole(user,domain);
+		updateUserRole(user, domain);
 		user.setDomain(domain);
-		user.setSite(doc.getString("site"));
+		user.setSite(domainData.getString("site"));
 		return user;
 
 	}

@@ -20,7 +20,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.model.CheckItem;
@@ -2523,7 +2522,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 			List<OBSItem> roles = obsServiceImpl.getScopeTeamofRoleId(project_id, OBSItem.ID_PARTICIPATES, domain);
 			if (roles.size() == 0) {
 				ObjectId parent_id = obsServiceImpl.getScopeRootOBS(project_id, domain).get(0).get_id();
-				OBSItem obsItem = new OBSItem().setParent_id(parent_id).setScope_id(project_id).setIsRole(false).generateSeq(domain)
+				OBSItem obsItem = new OBSItem().setDomain(domain).setParent_id(parent_id).setScope_id(project_id).setIsRole(false).generateSeq(domain)
 						.setRoleId(OBSItem.ID_PARTICIPATES)// .setRoleName(OBSItem.NAME_PARTICIPATES)
 						.setName("ÏîÄ¿" + OBSItem.NAME_PARTICIPATES);
 				Document doc = obsItem.encodeDocument();

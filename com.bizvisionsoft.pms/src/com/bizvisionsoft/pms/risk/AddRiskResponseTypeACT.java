@@ -22,7 +22,7 @@ public class AddRiskResponseTypeACT {
 		context.selected(c -> {
 			String type = ((RiskResponseType) c).getType();
 			Editor.create("项目风险应对计划编辑器-" + type, context,
-					new RiskResponse().setType(type).setRBSItem_id(((RiskResponseType) c).get_id()), false)
+					br.newInstance(RiskResponse.class).setType(type).setRBSItem_id(((RiskResponseType) c).get_id()), false)
 					.setTitle("创建 " + type).ok((r, o) -> {
 						Services.get(RiskService.class).insertRiskResponse(o, br.getDomain());
 						GridPart viewer = (GridPart) context.getContent();

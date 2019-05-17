@@ -10,8 +10,8 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public abstract class AbstractCreateOBSItem {
 
 	protected void open(IBruiContext context, Object em, String message, String editor, boolean isRole, String domain) {
-		OBSItem input = new OBSItem().setParent_id(((OBSItem) em).get_id()).setScope_id(((OBSItem) em).getScope_id()).setIsRole(isRole)
-				.generateSeq(domain);
+		OBSItem input = new OBSItem().setDomain(domain).setParent_id(((OBSItem) em).get_id()).setScope_id(((OBSItem) em).getScope_id())
+				.setIsRole(isRole).generateSeq(domain);
 
 		Editor.create(editor, context, input, true).setTitle(message).ok((r, t) -> {
 			OBSItem item = Services.get(OBSService.class).insert(t, domain);

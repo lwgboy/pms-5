@@ -430,4 +430,9 @@ public class OBSItem implements JsonExternalizable {
 	public boolean isRole() {
 		return isRole;
 	}
+
+	public OBSItem setDomain(String domain) {
+		this.domain = domain;
+		return this;
+	}
 }

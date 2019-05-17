@@ -80,7 +80,7 @@ public class WorkPackagePlan {
 
 	public void doCreate() {
 		String editorId = Optional.ofNullable(view).map(t -> t.getEditAssembly()).orElse("编辑工作包-基本");
-		Editor.open(editorId, context, WorkPackage.newInstance(work, view), (r, o) -> {
+		Editor.open(editorId, context, WorkPackage.newInstance(work, view,br.getDomain()), (r, o) -> {
 			grid.doCreate(null, o);
 		});
 	}

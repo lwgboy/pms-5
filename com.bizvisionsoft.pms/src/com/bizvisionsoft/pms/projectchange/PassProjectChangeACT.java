@@ -26,7 +26,7 @@ public class PassProjectChangeACT {
 		InputDialog id = new InputDialog(br.getCurrentShell(), "批准", "请填写批准意见", null, null).setTextMultiline(true);
 		if (id.open() == InputDialog.OK) {
 			List<Result> result = ServicesLoader.get(ProjectService.class).passProjectChange(
-					ProjectChangeTask.getPassInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue()), br.getDomain());
+					ProjectChangeTask.getPassInstance(userid, input.get_id(), input.getConfimName(userid), id.getValue(),br.getDomain()), br.getDomain());
 			if (result.isEmpty()) {
 				Layer.message("变更申请已确认");
 				br.closeCurrentContent();
