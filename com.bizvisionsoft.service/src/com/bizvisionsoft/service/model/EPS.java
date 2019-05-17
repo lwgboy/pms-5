@@ -84,7 +84,6 @@ public class EPS implements Comparable<EPS> {
 		return id.compareTo(o.id);
 	}
 	
-	@Exclude
 	public String domain;
 
 	@Structure({"EPSπ‹¿Ì/list", "EPS—°‘Ò/list"})

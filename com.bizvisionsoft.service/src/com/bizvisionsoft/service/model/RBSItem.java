@@ -202,7 +202,6 @@ public class RBSItem {
 	@Exclude
 	public static final String typeName = "·çÏÕÏî";
 	
-	@Exclude
 	public String domain;
 
 	@Override

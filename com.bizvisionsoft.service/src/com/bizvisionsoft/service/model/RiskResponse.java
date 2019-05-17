@@ -39,7 +39,6 @@ public class RiskResponse {
 	@WriteValue
 	private String chargerId;
 	
-	@Exclude
 	public String domain;
 
 	@WriteValue("charger")

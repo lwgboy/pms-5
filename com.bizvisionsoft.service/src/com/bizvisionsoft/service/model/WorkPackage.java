@@ -17,13 +17,12 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
-import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 
 @PersistenceCollection("workPackage")
 public class WorkPackage {
 	
-	@Exclude
 	public String domain;
 
 	public static WorkPackage newInstance(IWorkPackageMaster work, TrackView tv,String domain) {

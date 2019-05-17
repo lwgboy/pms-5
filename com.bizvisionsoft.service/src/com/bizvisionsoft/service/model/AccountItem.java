@@ -47,7 +47,6 @@ public class AccountItem implements Comparable<AccountItem> {
 	@Exclude
 	public static final String typeName = "财务科目";
 	
-	@Exclude
 	public String domain;
 
 	/**

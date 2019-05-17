@@ -41,7 +41,6 @@ import com.mongodb.BasicDBObject;
 @Strict
 public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster {
 
-	@Exclude
 	public String domain;
 
 	@Override

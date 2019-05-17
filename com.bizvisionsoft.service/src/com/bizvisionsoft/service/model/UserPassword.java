@@ -2,7 +2,6 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.Document;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -19,7 +18,6 @@ public class UserPassword {
 	
 	public boolean changePSW = false;
 	
-	@Exclude
 	public String domain;
 
 	@WriteValue("password2")

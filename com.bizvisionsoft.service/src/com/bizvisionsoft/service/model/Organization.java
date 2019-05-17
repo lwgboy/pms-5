@@ -102,7 +102,6 @@ public class Organization {
 	@Persistence
 	private boolean qualifiedContractor;
 
-	@Exclude
 	public String domain;
 	
 	@WriteValue("manager")

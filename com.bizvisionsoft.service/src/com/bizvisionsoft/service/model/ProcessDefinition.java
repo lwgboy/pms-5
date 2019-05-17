@@ -268,7 +268,6 @@ public class ProcessDefinition {
 		return new Document("name", name).append("type", type).append("_id", _id);
 	}
 
-	@Exclude
 	public String domain;
 	
 	@Structure("工作流定义列表 /list")

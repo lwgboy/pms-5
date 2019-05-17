@@ -74,7 +74,6 @@ public class Role {
 	@WriteValue
 	private ObjectId org_id;
 	
-	@Exclude
 	public String domain;
 
 	public ObjectId get_id() {

@@ -92,7 +92,6 @@ public class FolderInTemplate implements IFolder {
 		return html;
 	}
 	
-	@Exclude
 	public String domain;
 
 	@Structure(DataSet.LIST)

@@ -83,7 +83,6 @@ public class OBSModule {
 	@ReadValue
 	private List<String> obsTeam;
 	
-	@Exclude
 	public String domain;
 
 	public ObjectId get_id() {

@@ -69,7 +69,6 @@ public class AccountIncome implements Comparable<AccountIncome> {
 	@Exclude
 	private transient AccountIncome parent;
 
-	@Exclude
 	public String domain;
 
 	@Exclude

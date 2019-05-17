@@ -207,7 +207,6 @@ public class OBSItem implements JsonExternalizable {
 
 	private boolean isRole;
 	
-	@Exclude
 	public String domain;
 
 	@Structure("项目团队/list")

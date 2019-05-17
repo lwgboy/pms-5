@@ -47,7 +47,6 @@ public class Product {
 	@Exclude
 	public static final String typeName = "²úÆ·";
 	
-	@Exclude
 	public String domain;
 
 	@ReadValue("benchmarking")

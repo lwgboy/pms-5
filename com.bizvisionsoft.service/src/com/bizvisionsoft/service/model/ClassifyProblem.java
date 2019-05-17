@@ -46,7 +46,6 @@ public class ClassifyProblem {
 		return ci;
 	}
 	
-	@Exclude
 	public String domain;
 
 	@Structure("list")

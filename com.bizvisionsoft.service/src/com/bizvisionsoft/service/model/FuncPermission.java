@@ -84,7 +84,6 @@ public class FuncPermission {
 		return creationInfo.date;
 	}
 	
-	@Exclude
 	public String domain;
 	
 	@ReadOptions("role")

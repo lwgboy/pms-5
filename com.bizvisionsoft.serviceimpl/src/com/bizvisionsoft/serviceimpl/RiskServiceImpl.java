@@ -61,7 +61,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	@Override
 	public long countRBSItem(BasicDBObject filter, String domain) {
-		return c("rbsItem", "domain").countDocuments(filter);
+		return c("rbsItem", domain).countDocuments(filter);
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	}
 
 	public int nextRBSItemIndex(ObjectId project_id, String type_id, String domain) {
-		Document doc = c("rbsItem", "domain").find(new BasicDBObject("project_id", project_id).append("rbsType.id", type_id))
+		Document doc = c("rbsItem", domain).find(new BasicDBObject("project_id", project_id).append("rbsType.id", type_id))
 				.sort(new BasicDBObject("index", -1)).projection(new BasicDBObject("index", 1)).first();
 		return Optional.ofNullable(doc).map(d -> d.getInteger("index", 0)).orElse(0) + 1;
 	}
@@ -128,7 +128,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 	@Override
 	public long deleteRBSItem(ObjectId _id, String domain) {
 		List<ObjectId> items = getDesentItems(Arrays.asList(_id), "rbsItem", "parent_id",domain);
-		DeleteResult rs = c("rbsItem", "domain").deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", items)));
+		DeleteResult rs = c("rbsItem", domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", items)));
 		c("riskEffect", domain).deleteMany(new BasicDBObject("rbsItem_id", _id));
 		return rs.getDeletedCount();
 	}
@@ -138,12 +138,12 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 		long count = update(fu, RBSItem.class, domain);
 
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
-		c("rbsItem", "domain").find(filter).forEach((Document doc) -> {
+		c("rbsItem", domain).find(filter).forEach((Document doc) -> {
 			String qty = (String) doc.getString("qtyInf");
 			double cost = doc.getDouble("costInf");
 			int time = doc.getInteger("timeInf");
 			double score = calculateRiskInfValue(qty, cost, time,domain);
-			c("rbsItem", "domain").updateOne(new Document("_id", doc.get("_id")), new Document("$set", new Document("infValue", score)));
+			c("rbsItem", domain).updateOne(new Document("_id", doc.get("_id")), new Document("$set", new Document("infValue", score)));
 		});
 
 		return count;
@@ -461,7 +461,7 @@ public class RiskServiceImpl extends BasicServiceImpl implements RiskService {
 
 	private ArrayList<List<Object>> getRiskProximityData(ObjectId project_id, String domain) {
 		ArrayList<List<Object>> data = new ArrayList<List<Object>>();
-		c("rbsItem", "domain").find(new Document("project_id", project_id)).forEach((Document d) -> {
+		c("rbsItem", domain).find(new Document("project_id", project_id)).forEach((Document d) -> {
 			Double _i = d.getDouble("infValue");
 			Double _p = d.get("probability", 50d);
 			int _d = 10 - d.getInteger("detectable", 1);// 已经确认为int类型，由小到大，1为绝对探测，10为无法探测

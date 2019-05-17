@@ -96,7 +96,6 @@ public class ProjectChange {
 		return applicant;
 	}
 	
-	@Exclude
 	public String domain;
 
 	public User getApplicant() {

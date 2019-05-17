@@ -64,7 +64,6 @@ public class ResourceType implements IResourceAssignment {
 	@ReadValue
 	private double overtimeRate;
 	
-	@Exclude
 	public String domain;
 
 	@WriteValue("资源类型编辑器/basicRate")

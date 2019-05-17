@@ -32,7 +32,6 @@ public class RiskResponseType {
 	@Behavior("项目风险应对计划/添加")
 	private boolean action = true;
 	
-	@Exclude
 	public String domain;
 
 	@ReadValue("title")

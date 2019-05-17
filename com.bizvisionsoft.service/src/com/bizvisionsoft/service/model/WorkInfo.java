@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
@@ -30,7 +29,6 @@ import com.bizvisionsoft.service.tools.Formatter;
 @Strict
 public class WorkInfo {
 	
-	@Exclude
 	public String domain;
 
 	private WorkInfo setDomain(String domain) {

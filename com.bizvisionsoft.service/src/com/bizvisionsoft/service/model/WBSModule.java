@@ -67,7 +67,6 @@ public class WBSModule {
 	@Persistence
 	private String description;
 	
-	@Exclude
 	public String domain;
 
 	public ObjectId get_id() {

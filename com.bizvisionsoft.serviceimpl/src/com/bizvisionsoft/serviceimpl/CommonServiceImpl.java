@@ -460,11 +460,11 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<Message> listMessage(BasicDBObject condition, String userId, String domain) {
-		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId);
+		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId, domain);
 		return c(Message.class, domain).aggregate(pipeline).into(new ArrayList<Message>());
 	}
 
-	private ArrayList<Bson> createUserMessagePippline(BasicDBObject condition, String userId) {
+	private ArrayList<Bson> createUserMessagePippline(BasicDBObject condition, String userId, String domain) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (filter == null) {
 			condition.put("filter", filter = new BasicDBObject());
@@ -489,7 +489,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		appendUserInfoAndHeadPic(pipeline, "sender", "senderInfo", "senderHeadPic");
 
-		appendUserInfo(pipeline, "receiver", "receiverInfo", userId);
+		appendUserInfo(pipeline, "receiver", "receiverInfo", domain);
 		return pipeline;
 	}
 
@@ -508,7 +508,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			condition = new BasicDBObject();
 		}
 		condition.put("read", false);
-		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId);
+		ArrayList<Bson> pipeline = createUserMessagePippline(condition, userId, domain);
 		return c(Message.class, domain).aggregate(pipeline).map(MessageRenderer::render).into(new ArrayList<>());
 
 	}

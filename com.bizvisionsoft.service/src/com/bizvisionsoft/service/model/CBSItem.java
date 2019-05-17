@@ -114,7 +114,6 @@ public class CBSItem implements ICBSAmount {
 	@SetValue
 	public String scopeStatus;
 	
-	@Exclude
 	public String domain;
 
 	@Behavior({ "CBS/±‡º≠∫Õ…Ë∂®" })

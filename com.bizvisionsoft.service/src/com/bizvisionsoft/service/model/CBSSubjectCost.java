@@ -80,7 +80,6 @@ public class CBSSubjectCost implements Comparable<CBSSubjectCost>, ICBSAmount {
 	@Exclude
 	private List<CBSSubject> cbsSubjects;
 
-	@Exclude
 	public String domain;
 
 	public List<CBSSubject> listCBSSubjects() {

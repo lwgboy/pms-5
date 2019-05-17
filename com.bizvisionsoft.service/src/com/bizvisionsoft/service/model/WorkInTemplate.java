@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -26,7 +25,6 @@ import com.bizvisionsoft.service.tools.Formatter;
 @Strict
 public class WorkInTemplate implements IWorkPackageMaster {
 	
-	@Exclude
 	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

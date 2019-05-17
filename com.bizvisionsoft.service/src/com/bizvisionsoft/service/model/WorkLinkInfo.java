@@ -2,7 +2,6 @@ package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.GetValue;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
@@ -17,7 +16,6 @@ import com.bizvisionsoft.service.WorkSpaceService;
 @Strict
 public class WorkLinkInfo {
 	
-	@Exclude
 	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

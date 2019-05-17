@@ -38,7 +38,6 @@ public class ClassifyProblemLost {
 	@WriteValue
 	public ObjectId parent_id;
 	
-	@Exclude
 	public String domain;
 
 	@Structure("new")

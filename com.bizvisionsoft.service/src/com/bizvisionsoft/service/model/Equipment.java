@@ -54,7 +54,6 @@ public class Equipment implements IResourceAssignment {
 	@Exclude
 	public static final String typeName = "设备设施";
 	
-	@Exclude
 	public String domain;
 
 	@WriteValue("organization ")

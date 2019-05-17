@@ -80,7 +80,6 @@ public class Folder implements IFolder{
 		return name;
 	}
 
-	@Exclude
 	public String domain;
 	
 	@Structure(DataSet.LIST)

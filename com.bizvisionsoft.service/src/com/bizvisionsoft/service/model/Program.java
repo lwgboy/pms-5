@@ -186,7 +186,6 @@ public class Program {
 	@Behavior({ "项目集操作", "打开项目集" })
 	private boolean editableBehavior = true;
 	
-	@Exclude
 	public String domain;
 
 }

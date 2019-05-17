@@ -87,7 +87,6 @@ public class OBSInTemplate {
 	@ReadValue
 	private Integer seq;
 
-	@Exclude
 	public String domain;
 
 	/**

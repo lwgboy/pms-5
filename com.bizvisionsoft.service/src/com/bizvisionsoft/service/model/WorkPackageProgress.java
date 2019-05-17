@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
@@ -20,7 +19,6 @@ import com.bizvisionsoft.service.tools.Formatter;
 @PersistenceCollection("workPackageProgress")
 public class WorkPackageProgress {
 
-	@Exclude
 	public String domain;
 
 	public ObjectId _id;

@@ -108,7 +108,6 @@ public class ProjectTemplate implements IScope{
 	}
 	
 	
-	@Exclude
 	public String domain;
 	
 	@Override

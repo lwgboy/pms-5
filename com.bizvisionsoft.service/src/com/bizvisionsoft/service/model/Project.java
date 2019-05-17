@@ -47,7 +47,6 @@ import com.mongodb.BasicDBObject;
 @PersistenceCollection("project")
 public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, IScope {
 
-	@Exclude
 	public String domain;
 
 	@Override

@@ -36,7 +36,6 @@ public class ChangeProcess {
 
 	private String projectOBSName;
 
-	@Exclude
 	public String domain;
 	
 	@ReadOptions("projectOBS")

@@ -17,7 +17,6 @@ public class ProjectChangeTask {
 	@Persistence
 	public String user;
 	
-	@Exclude
 	public String domain;
 
 	@ReadValue("userInfo")

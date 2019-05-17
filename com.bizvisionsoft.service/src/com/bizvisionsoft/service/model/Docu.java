@@ -35,7 +35,6 @@ public class Docu implements JsonExternalizable {
 	@Generator(name = Generator.DEFAULT_NAME, key = "docu", generator = DocNumberGenerator.class, callback = Generator.NONE_CALLBACK)
 	private String id;
 
-	@Exclude
 	public String domain;
 	
 	public String generateId() {

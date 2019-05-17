@@ -94,7 +94,6 @@ public class EPSInfo implements Comparable<EPSInfo> {
 		return id.compareTo(o.id);
 	}
 	
-	@Exclude
 	public String domain;
 	
 	

@@ -23,7 +23,6 @@ public class RemoteFile implements JsonExternalizable {
 	@Persistence
 	public String contentType;
 
-	@Exclude
 	public String domain;
 
 	public String getServerSideURL(String baseURL) {
