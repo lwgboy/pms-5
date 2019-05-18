@@ -139,7 +139,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值生成规则/" + DataSet.UPDATE)
-	public long updateValueRule(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateValueRule(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@POST
@@ -176,7 +176,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("值规则段/" + DataSet.UPDATE)
-	public long updateValueRuleSegment(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateValueRuleSegment(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/valueRuleSegment/maxIndex/")

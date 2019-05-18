@@ -140,7 +140,7 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 
 		JQ jq;
 		if (Check.isAssigned(seg.pipelineJson)) {
-			jq = Domain.getJQ(domain, null);
+			jq = new JQ();
 		} else {
 			// 根据JQ文件取数
 			jq = Domain.getJQ(domain, seg.query);

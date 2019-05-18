@@ -63,7 +63,7 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "项目模板管理/" + DataSet.UPDATE, "WBS模块/" + DataSet.UPDATE })
-	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/ds/")
@@ -246,7 +246,7 @@ public interface ProjectTemplateService {
 	@Path("/{domain}/resourceplan/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateResourcePlan(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateResourcePlan(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/_id/{_id}/resourceplan/hr/{resId}")
@@ -339,7 +339,7 @@ public interface ProjectTemplateService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "组织模板/" + DataSet.UPDATE })
-	public long updateOBSModule(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateOBSModule(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/id/{_id}/obsModule/ds/")

@@ -123,7 +123,8 @@ public interface CBSService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("CBS/update")
-	public long update(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/period/")

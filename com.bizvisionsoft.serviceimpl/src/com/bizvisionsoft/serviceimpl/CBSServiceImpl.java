@@ -212,7 +212,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public List<CBSSubject> getAllSubCBSSubjectByNumber(ObjectId cbs_id, String number, String domain) {
-		List<ObjectId> items = getDesentItems(Arrays.asList(cbs_id), "cbs", domain, "parent_id");
+		List<ObjectId> items = getDesentItems(Arrays.asList(cbs_id), "cbs", "parent_id", domain);
 		return c(CBSSubject.class, domain)
 				.find(new BasicDBObject("cbsItem_id", new BasicDBObject("$in", items)).append("subjectNumber", number))
 				.into(new ArrayList<CBSSubject>());
@@ -259,7 +259,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 			update(new FilterAndUpdate().filter(new BasicDBObject("_id", scope_id)).set(new BasicDBObject("cbs_id", _id)).bson(),
 					Work.class, domain);
 
-			List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "cbs", domain, "parent_id");
+			List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "cbs", "parent_id", domain);
 			update(new FilterAndUpdate().filter(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)))
 					.set(new BasicDBObject("scope_id", scope_id).append("scopename", scopename)).bson(), CBSItem.class, domain);
 
@@ -284,7 +284,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 		}
 		List<ObjectId> list = new ArrayList<ObjectId>();
 		list.add(_id);
-		List<ObjectId> desentItems = getDesentItems(list, "cbs", domain, "parent_id");
+		List<ObjectId> desentItems = getDesentItems(list, "cbs", "parent_id", domain);
 		ur = c(CBSItem.class, domain).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
 				new BasicDBObject("$set", new BasicDBObject("scope_id", parent.getScope_id()).append("scopename", parent.getScopeName())));
 		// TODO ´íÎó·µ»Ø
@@ -349,7 +349,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 				.into(new ArrayList<Work>());
 		if (workList.size() > 0) {
 			for (Work work : workList) {
-				CBSItem cbsItem = CBSItem.getInstance(parentCBSItem,domain);
+				CBSItem cbsItem = CBSItem.getInstance(parentCBSItem, domain);
 				cbsItem.setName(work.toString());
 				cbsItem.setParent_id(_id);
 				cbsItemList.add(cbsItem);

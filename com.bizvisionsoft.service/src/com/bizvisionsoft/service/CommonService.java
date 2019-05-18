@@ -70,7 +70,8 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("消息收件箱/" + DataSet.UPDATE)
-	public long updateMessage(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateMessage(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/unread/msg/userId/{userId}/card/ds")
@@ -134,7 +135,8 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("执业资格列表/" + DataSet.UPDATE)
-	public long updateCertificate(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateCertificate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +169,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资源类型/" + DataSet.UPDATE)
-	public long updateResourceType(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateResourceType(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/restype/{_id}/er")
@@ -220,7 +222,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("设备设施/" + DataSet.UPDATE)
-	public long updateEquipment(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateEquipment(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -271,7 +273,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("工作日历/" + DataSet.UPDATE)
-	public long updateCalendar(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateCalendar(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/cal/wt/{_id}")
@@ -330,7 +332,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("名称字典/" + DataSet.UPDATE)
-	public long updateDictionary(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDictionary(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/dict/count")
@@ -455,14 +457,14 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "费用类科目/" + DataSet.UPDATE })
-	public long updateAccountItem(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateAccountItem(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/accountIncome/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "损益类科目/" + DataSet.UPDATE })
-	public long updateAccountIncome(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateAccountIncome(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/accoutItem/hasParentIds")
@@ -516,7 +518,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("视图和工作包列表/" + DataSet.UPDATE)
-	public long updateTrackView(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateTrackView(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@GET
@@ -563,7 +565,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.UPDATE)
-	public long updateChangeProcess(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateChangeProcess(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/strudata/ds")

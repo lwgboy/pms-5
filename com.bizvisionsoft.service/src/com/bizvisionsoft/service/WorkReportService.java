@@ -222,7 +222,7 @@ public interface WorkReportService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "日报/" + DataSet.UPDATE, "周报/" + DataSet.UPDATE, "月报/" + DataSet.UPDATE, "项目日报/" + DataSet.UPDATE, "项目周报/" + DataSet.UPDATE,
 			"项目月报/" + DataSet.UPDATE })
-	public long update(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/_id/{_id}/item/ds")
@@ -242,7 +242,7 @@ public interface WorkReportService {
 	@Path("/{domain}/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateWorkReportItem(BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateWorkReportItem(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/submitworkreport")

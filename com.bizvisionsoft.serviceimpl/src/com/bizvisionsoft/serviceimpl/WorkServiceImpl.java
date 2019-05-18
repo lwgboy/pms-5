@@ -1327,7 +1327,7 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 	@Override
 	public void assignRoleToStage(ObjectId work_id, String domain) {
 		List<ObjectId> ids = getScopeOBS(work_id, domain);
-		List<ObjectId> workIds = getDesentItems(Arrays.asList(work_id), "work", "parent_id", domain);
+		List<ObjectId> workIds = getDesentItems(Arrays.asList(work_id), "work", "parent_id",domain);
 		Document condition = new Document("_id", new Document("$in", workIds)).append("actualFinish", null);
 		updateWorkRoleAssignment("work", ids, condition, false, domain);
 		updateWorkRoleAssignment("workspace", ids, condition, false, domain);

@@ -413,14 +413,14 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	@Deprecated
-	protected List<ObjectId> getDesentItems(List<ObjectId> inputIds, String cName, String domain, String key) {
+	protected List<ObjectId> getDesentItems(List<ObjectId> inputIds, String cName, String key, String domain) {
 		List<ObjectId> result = new ArrayList<ObjectId>();
 		if (inputIds != null && !inputIds.isEmpty()) {
 			result.addAll(inputIds);
 			List<ObjectId> childrenIds = c(cName, domain)
 					.distinct("_id", new BasicDBObject(key, new BasicDBObject("$in", inputIds)), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
-			result.addAll(getDesentItems(childrenIds, cName, domain, key));
+			result.addAll(getDesentItems(childrenIds, cName,  key,domain));
 		}
 		return result;
 	}

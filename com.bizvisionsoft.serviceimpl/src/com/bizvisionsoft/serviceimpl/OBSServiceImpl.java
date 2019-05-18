@@ -66,7 +66,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	}
 
 	private List<ObjectId> getDesentOBSItem(List<ObjectId> ids, String domain) {
-		return getDesentItems(ids, "obs", "parent_id", domain);
+		return getDesentItems(ids, "obs", "parent_id",domain);
 	}
 
 	@Override

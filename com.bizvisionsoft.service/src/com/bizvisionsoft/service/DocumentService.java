@@ -140,7 +140,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.UPDATE)
-	public long updateDocument(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocument(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docu/ds")
@@ -218,7 +218,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.UPDATE)
-	public long updateDocumentTemplate(BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentTemplate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docuSetting/")
@@ -239,7 +239,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.UPDATE)
-	public long updateDocumentSetting(BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentSetting(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/docuSetting/_id/{_id}")
