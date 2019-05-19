@@ -46,6 +46,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		return r.getModifiedCount();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User check(String userId, String password) {
 		BasicDBObject filter = new BasicDBObject("userId", userId);
@@ -55,10 +56,10 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			logger.debug("已忽略密码验证。");
 		}
 		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
-		Document doc = c.find(filter).first();
-		if (doc == null)
+		Document userDoc = c.find(filter).first();
+		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
-		String domain = doc.getString("domain");
+		String domain = userDoc.getString("domain");
 		if (domain == null)
 			throw new ServiceException("账户尚未注册应用");
 
@@ -76,9 +77,22 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		User user = ds.get(0);
 		updateUserRole(user, domain);
 		user.setDomain(domain);
-		user.setSite(domainData.getString("site"));
+		String site = userDoc.getString("site");
+		List<String> siteList = (List<String>) domainData.get("site");
+		if (site == null) {
+			site = siteList.get(0);
+		}
+		user.setSite(site);
+		user.setSiteList(siteList);
 		return user;
 
+	}
+
+	@Override
+	public long updateUserDefaultSite(String userId, String sitePath) {
+		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
+		UpdateResult result = c.updateOne(new Document("userId", userId), new Document("$set", new Document("site", sitePath)));
+		return result.getModifiedCount();
 	}
 
 	@Deprecated

@@ -158,4 +158,10 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	public long updatePassword(@PathParam("userId") String userId, @PathParam("newPassword") String newPassword);
 
+	@PUT
+	@Path("/updateSite/{userId}/{path}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateUserDefaultSite(@PathParam("userId") String userId, @PathParam("path")  String sitePath);
+
 }

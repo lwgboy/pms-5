@@ -228,6 +228,9 @@ public class User implements IResourceAssignment {
 	@Exclude
 	private String site;
 
+	@Exclude
+	private List<String> siteList;
+
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -310,9 +313,17 @@ public class User implements IResourceAssignment {
 	public void setSite(String site) {
 		this.site = site;
 	}
-	
+
 	public String getSite() {
 		return site;
+	}
+
+	public void setSiteList(List<String> siteList) {
+		this.siteList = siteList;
+	}
+	
+	public List<String> getSiteList() {
+		return siteList;
 	}
 
 }
