@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Check {
 
@@ -177,6 +179,20 @@ public class Check {
 			result = (T) obj;
 		}
 		return Optional.ofNullable(result);
+	}
+
+	public static boolean isValidEmailAddress(String email) {
+		if (email == null)
+			return false;
+		String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		Pattern p;
+		Matcher m;
+		p = Pattern.compile(regEx1);
+		m = p.matcher(email);
+		if (m.matches())
+			return true;
+		else
+			return false;
 	}
 
 }

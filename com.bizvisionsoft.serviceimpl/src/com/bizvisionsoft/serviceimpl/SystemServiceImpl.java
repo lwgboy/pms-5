@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -15,10 +17,14 @@ import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
+import com.bizvisionsoft.serviceimpl.commons.EmailClient;
+import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
+import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.mongotools.MongoDBBackup;
 import com.mongodb.BasicDBObject;
@@ -476,6 +482,125 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	@Override
 	public long updateValueRuleSegment(BasicDBObject filterAndUpdate, String domain) {
 		return update(filterAndUpdate, ValueRuleSegment.class, domain);
+	}
+
+	@Override
+	public void requestDomain(Document data) {
+		ObjectId id = new ObjectId();
+		// TODO 检查用户名是否会重复
+		Service.database.getCollection("request").insertOne(data.append("_id", id).append("activated", false));
+
+		String receiverAddress = data.getString("email");
+		String subject = "欢迎注册WisPlanner账户";
+		String from = "WisPlanner";
+
+		String request = data.getString("request");
+		String content = "请点击以下链接验证您的邮箱地址<br>";
+		content += request + "bvs/verify?r=" + id;
+
+		Document setting = getSystemSetting("邮件设置");
+		String smtpHost = setting.getString("smtpHost");
+		int smtpPort = Integer.parseInt(setting.getString("smtpPort"));
+		boolean smtpUseSSL = Boolean.TRUE.equals(setting.get("smtpUseSSL"));
+		String senderPassword = setting.getString("senderPassword");
+		String senderAddress = setting.getString("senderAddress");
+
+		EmailClient client = new EmailClientBuilder(EmailClientBuilder.HTML)//
+				.setSenderAddress(senderAddress)//
+				.setSenderPassword(senderPassword)//
+				.setSmtpHost(smtpHost)//
+				.setSmtpPort(smtpPort)//
+				.setSmtpUseSSL(smtpUseSSL)//
+				.setCharset("GB2312")//
+				.build();
+		try {
+			client.setSubject(subject)//
+					.setMessage(content)//
+					.setFrom(new NamedAccount(from, senderAddress))//
+					.addCc(new NamedAccount(receiverAddress))//
+					.send();
+			return;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return;
+		}
+	}
+
+	@Override
+	public Document createDomainFromRequest(ObjectId _id) {
+		Document result = Service.database.getCollection("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
+				new Document("$set", new Document("activated", true)));
+		if (result != null) {
+			int code = generateCode("ids", "domain");
+			String domain = "bvs_" + code;
+			String domainRoot = Service.configRoot + "/" + domain;
+			String schemeRoot = Service.configRoot + "/scheme/" + result.getString("scheme");
+
+			// 创建domain
+			List<String> sites = ((List<?>) result.get("site")).stream().map(s -> {
+				File file = new File((String) s);
+				return file.getParentFile().getParentFile().getPath() + "/" + domain + "/" + file.getName();
+			}).collect(Collectors.toList());
+
+			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot).append("site",
+					sites);
+			Service.database.getCollection("domain").insertOne(domainData);
+			// 复制配置文件
+			try {
+
+				FileUtils.copyDirectoryToDirectory(new File(schemeRoot + "/bpmn"), new File(domainRoot));
+				FileUtils.copyDirectoryToDirectory(new File(schemeRoot + "/query"), new File(domainRoot));
+				FileUtils.copyDirectoryToDirectory(new File(schemeRoot + "/rptdesign"), new File(domainRoot));
+				new File(domainRoot + "/dump").mkdirs();
+			} catch (IOException e) {
+				logger.error("复制scheme出错", e);
+				return new Document();
+			}
+			// 启动域
+			new Domain(domainData).start();
+			// 装入演示数据
+			if (result.getBoolean("loadDemoData", false)) {
+				ServerAddress addr = Service.getDatabaseServerList().get(0);
+				String host = addr.getHost();
+				int port = addr.getPort();
+				String dbName = domain;
+				String path = Service.mongoDbBinPath;
+				String archive;
+				File[] files = new File(schemeRoot + "/dump").listFiles(f -> f.isDirectory() && "demo".equals(f.getName()));
+				if (files != null && files.length > 0) {
+					archive = files[0].getPath() + "/bvs_std";
+					new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
+							.archive(archive).build().restore();
+				}
+
+			}
+			// 插入超级用户
+			Service.database.getCollection("user")
+					.insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
+							.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
+							.append("changePSW", false));
+
+			return domainData;
+		}
+		return new Document();
+	}
+
+	@Override
+	public List<Document> listScheme() {
+		return Arrays.asList(new File(Service.configRoot + "/scheme").listFiles()).stream().map(f -> {
+			try {
+				String text = FileTools.readFile(f.getPath() + "/note.txt", "utf-8");
+				return new JQ().doc(text);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return new Document();
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean checkRequest(ObjectId _id) {
+		return Service.database.getCollection("request").countDocuments(new Document("_id", _id).append("activated", false)) == 1;
 	}
 
 }

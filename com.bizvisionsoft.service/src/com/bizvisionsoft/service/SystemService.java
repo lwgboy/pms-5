@@ -184,4 +184,30 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document getMaxSegmentIndex(ObjectId rule_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@POST
+	@Path("/requestDomain/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void requestDomain(Document data);
+
+	@POST
+	@Path("/request/{request}/domain")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document createDomainFromRequest(@PathParam("request") ObjectId _id);
+	
+	@POST
+	@Path("/request/{request}/check")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean checkRequest(@PathParam("request") ObjectId _id);
+
+
+	@GET
+	@Path("/schemes")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Document> listScheme();
+
+
 }

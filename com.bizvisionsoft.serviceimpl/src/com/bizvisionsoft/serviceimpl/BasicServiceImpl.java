@@ -458,6 +458,12 @@ public class BasicServiceImpl {
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("value");
 	}
+	
+	protected int generateCode(String name, String key) {
+		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
+				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
+		return doc.getInteger("value");
+	}
 
 	public double getWorkingHoursPerDay(ObjectId resTypeId, String domain) {
 		// List<? extends Bson> pipeline = Arrays.asList(
@@ -888,6 +894,10 @@ public class BasicServiceImpl {
 
 	public Document getSystemSetting(String name, String domain) {
 		return c("setting", domain).find(new Document("name", name)).first();
+	}
+	
+	public Document getSystemSetting(String name) {
+		return Service.database.getCollection("setting").find(new Document("name",name)).first();
 	}
 
 	public Object getSystemSetting(String name, String parameter, String domain) {

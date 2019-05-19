@@ -204,6 +204,21 @@ public class User implements IResourceAssignment {
 		return buzAdmin;
 	}
 
+	public User setBuzAdmin(boolean buzAdmin) {
+		this.buzAdmin = buzAdmin;
+		return this;
+	}
+
+	public User setAdmin(boolean admin) {
+		this.admin = admin;
+		return this;
+	}
+
+	public User setActivated(boolean activated) {
+		this.activated = activated;
+		return this;
+	}
+
 	public boolean isSU() {
 		return "su".equals(userId);
 	}
@@ -321,7 +336,7 @@ public class User implements IResourceAssignment {
 	public void setSiteList(List<String> siteList) {
 		this.siteList = siteList;
 	}
-	
+
 	public List<String> getSiteList() {
 		return siteList;
 	}

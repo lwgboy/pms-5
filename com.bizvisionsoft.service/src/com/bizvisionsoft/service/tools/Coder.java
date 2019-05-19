@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.tools;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 
 import javax.crypto.KeyGenerator;
@@ -117,24 +119,23 @@ public abstract class Coder {
 		
 		String psw;
 
-//		System.out.println("\n[BASE 64加密解密]");
-//		psw = "abc.中文支持";
-//		System.out.println("原文:"+psw);
-//		psw = Coder.encryptBASE64(psw.getBytes());
-//		System.out.println("密文"+psw);
-//		byte[] res = Coder.decryptBASE64(psw);
-//		psw = new String(res);
-//		System.out.println("明文"+psw);
-//		
-//		System.out.println("\n[生成MD5码]");
-//		psw = "abc.中文支持";
-//		System.out.println("原文:"+psw);
-//		byte[] bytes = Coder.encryptMD5(psw.getBytes());
-//		psw = new String(bytes);
-//		System.out.println("密文"+psw);
+		System.out.println("\n[BASE 64加密解密]");
+		psw = "abc.中文支持";
+		System.out.println("原文:"+psw);
+		psw = Coder.encryptBASE64(psw.getBytes());
+		System.out.println("密文"+psw);
+		byte[] res = Coder.decryptBASE64(psw);
+		psw = new String(res);
+		System.out.println("明文"+psw);
+		
+		System.out.println("\n[生成MD5码]");
+		psw = "abc.中文支持";
+		System.out.println("原文:"+psw);
+		byte[] bytes = Coder.encryptMD5(psw.getBytes());
+		psw = new String(bytes);
+		System.out.println("密文"+psw);
 		
 		System.out.println("\n[RSA加密解密]");
-		psw = "abc.中文支持";
 		System.out.println("原文:"+psw);
 		String[] keys = RSACoderUtil.getKeys();
 		System.out.println("公钥:" + keys[0]);
@@ -142,7 +143,13 @@ public abstract class Coder {
 
 		byte[] data = psw.getBytes();
 		byte[] encrypted = RSACoder.encryptByPublicKey(data, keys[0]);
-		System.out.println("密文"+new String(encrypted));
+		String text = new String(encrypted);
+		System.out.println("密文:"+text);
+		System.out.println("密文压缩:"+text);
+		text = URLEncoder.encode(text, "utf-8");
+		System.out.println("密文转url:"+text);
+		System.out.println(text.length());
+		text  = URLDecoder.decode(text, "utf-8");
 		byte[] decrypted = RSACoder.decryptByPrivateKey(encrypted, keys[1]);
 		System.out.println("明文"+new String(decrypted));
 
