@@ -533,13 +533,13 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		if (result != null) {
 			int code = generateCode("ids", "domain");
 			String domain = "bvs_" + code;
-			String domainRoot = Service.configRoot + "/" + domain;
-			String schemeRoot = Service.configRoot + "/scheme/" + result.getString("scheme");
+			String domainRoot = Service.serverConfigRootPath + "/" + domain;
+			String schemeRoot = Service.serverConfigRootPath + "/scheme/" + result.getString("scheme");
 
 			// ´´½¨domain
 			List<String> sites = ((List<?>) result.get("site")).stream().map(s -> {
 				File file = new File((String) s);
-				return file.getParentFile().getParentFile().getPath() + "/" + domain + "/" + file.getName();
+				return file.getParentFile().getParent() + "/site/" + domain + "." + file.getName();
 			}).collect(Collectors.toList());
 
 			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot).append("site",
@@ -587,7 +587,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public List<Document> listScheme() {
-		return Arrays.asList(new File(Service.configRoot + "/scheme").listFiles()).stream().map(f -> {
+		return Arrays.asList(new File(Service.serverConfigRootPath + "/scheme").listFiles()).stream().map(f -> {
 			try {
 				String text = FileTools.readFile(f.getPath() + "/note.txt", "utf-8");
 				return new JQ().doc(text);
