@@ -66,7 +66,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	}
 
 	private List<ObjectId> getDesentOBSItem(List<ObjectId> ids, String domain) {
-		return getDesentItems(ids, "obs", "parent_id",domain);
+		return getDesentItems(ids, "obs", "parent_id", domain);
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 
 					Object member = d.get("member");
 					if (member instanceof List)
-						userIds.removeAll((List<String>) member);
+						userIds.removeAll((List<?>) member);
 				});
 		if (userIds.size() > 0) {
 			// TODO 没考虑可以建立EPS团队的情况
@@ -382,7 +382,6 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 						new Document("chargerId", new Document("$in", userIds)), new Document("assignerId", new Document("$in", userIds)))))
 						.forEach((Document d) -> {
 							check(domain, userIds, warning, d);
-
 						});
 
 				// 检查工作区未开始的工作

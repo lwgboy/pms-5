@@ -38,9 +38,8 @@ public class AddOBSInTemplateMember {
 			});
 			if (!ids.isEmpty()) {
 				ObjectId obsId = ((OBSInTemplate) context.getInput()).get_id();
-				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", obsId)).update(
-						new BasicDBObject("$addToSet", new BasicDBObject("member", new BasicDBObject("$each", ids))))
-						.bson();
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", obsId))
+						.update(new BasicDBObject("$addToSet", new BasicDBObject("member", new BasicDBObject("$each", ids)))).bson();
 				Services.get(ProjectTemplateService.class).updateOBSModule(fu, br.getDomain());
 			}
 		});

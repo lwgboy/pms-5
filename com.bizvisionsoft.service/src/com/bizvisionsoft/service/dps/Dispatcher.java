@@ -5,6 +5,6 @@ import java.util.Map;
 
 public interface Dispatcher {
 
-	public Map<String, Object> run(List<Map<String, Object>> processors) throws Exception;
+	public Map<String, Object> run(List<Map<String, Object>> processors,String processorTypeId) throws Exception;
 
 }

@@ -29,7 +29,8 @@ public class AppointmentProjectMangerACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) em;
-		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(project.getOBS_id(), "appointmentobsitem", br.getDomain());
+		List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(project.getOBS_id(), "appointmentobsitem",
+				br.getDomain());
 		boolean hasError = false;
 		boolean hasWarning = false;
 		String message = "";

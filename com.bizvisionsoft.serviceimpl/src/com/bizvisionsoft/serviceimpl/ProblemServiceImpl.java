@@ -1534,7 +1534,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 			Dispatcher dispatcher = Service.get(Dispatcher.class);
 			try {
-				Map<String, Object> result = dispatcher.run(processors);
+				Map<String, Object> result = dispatcher.run(processors,
+						"com.bizvpm.dps.processor.dispatch:dispatch.sequential");
 				return (InputStream) result.get("file");
 			} catch (Exception e) {
 				logger.error("DPS ×ª»»³ö´í¡£", e);

@@ -30,7 +30,8 @@ public class AppointmentOBSItem {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSItem element = (OBSItem) em;
 		if (element.getManagerId() != null) {
-			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(element.get_id(), "appointmentobsitem", br.getDomain());
+			List<Result> result = Services.get(OBSService.class).deleteProjectMemberCheck(element.get_id(), "appointmentobsitem",
+					br.getDomain());
 			boolean hasError = false;
 			boolean hasWarning = false;
 			String message = "";
