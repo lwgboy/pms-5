@@ -122,7 +122,7 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 			});
 			String key = sb.toString();
 			if (!key.isEmpty()) {
-				return generateCode("globalCodeGen", key, domain);
+				return generateCode("Id_Gen", key, domain);
 			}
 		}
 		return null;

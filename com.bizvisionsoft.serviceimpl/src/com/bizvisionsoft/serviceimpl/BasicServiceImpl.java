@@ -454,15 +454,15 @@ public class BasicServiceImpl {
 	}
 
 	protected int generateCode(String name, String key, String domain) {
-		Document doc = c(name, domain).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
+		Document doc = c(name, domain).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("next_val", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
-		return doc.getInteger("value");
+		return doc.getInteger("next_val");
 	}
 	
 	protected int generateCode(String name, String key) {
-		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("value", 1),
+		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("next_val", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
-		return doc.getInteger("value");
+		return doc.getInteger("next_val");
 	}
 
 	public double getWorkingHoursPerDay(ObjectId resTypeId, String domain) {

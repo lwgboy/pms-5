@@ -558,20 +558,25 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			}
 			// 启动域
 			new Domain(domainData).start();
-			// 装入演示数据
-			if (result.getBoolean("loadDemoData", false)) {
+			// 装入基础业务数据
+			if (result.getBoolean("loadBasicData", false)) {
 				ServerAddress addr = Service.getDatabaseServerList().get(0);
 				String host = addr.getHost();
 				int port = addr.getPort();
 				String dbName = domain;
 				String path = Service.mongoDbBinPath;
 				String archive;
-				File[] files = new File(schemeRoot + "/dump").listFiles(f -> f.isDirectory() && "demo".equals(f.getName()));
+				File[] files = new File(schemeRoot + "/dump").listFiles(f -> f.isDirectory() && "basic".equals(f.getName()));
 				if (files != null && files.length > 0) {
 					archive = files[0].getPath() + "/bvs_std";
 					new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
 							.archive(archive).build().restore();
 				}
+
+				// 创建根组织
+				c("organization", domain)
+						.insertOne(new Document("name", result.getString("company")).append("fullName", result.getString("company"))
+								.append("id", domain).append("type", "公司").append("externalType", "内部"));
 
 			}
 			// 插入超级用户

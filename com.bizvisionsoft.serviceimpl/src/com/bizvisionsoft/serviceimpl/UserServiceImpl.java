@@ -50,15 +50,16 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public User check(String userId, String password) {
 		BasicDBObject filter = new BasicDBObject("userId", userId);
-		if (!logger.isDebugEnabled()) {
+		if (!logger.isDebugEnabled())
 			filter.append("password", password);
-		} else {
+		else
 			logger.debug("已忽略密码验证。");
-		}
+		
 		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
 		Document userDoc = c.find(filter).first();
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
+
 		String domain = userDoc.getString("domain");
 		if (domain == null)
 			throw new ServiceException("账户尚未注册应用");
@@ -67,15 +68,24 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				.first();
 		if (domainData == null)
 			throw new ServiceException("账户尚未分配域名");
+		if (!domainData.getBoolean("activated", false))
+			throw new ServiceException("您的企业账户尚未激活");
 
-		List<User> ds = createDataSet(
-				new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", new BasicDBObject("userId", userId)), domain);
-		if (ds.size() == 0) {
-			throw new ServiceException("账户尚未注册应用");
+		User user;
+		if (userDoc.getBoolean("admin", false)) {
+			// 系统管理员账号,无需取用户数据
+			user = new User().setDomain(userDoc.getString("domain")).setUserId(userDoc.getString("userId")).setAdmin(true).setName(userDoc.getString("userId"))
+					.setBuzAdmin(userDoc.getBoolean("buzAdmin", false));
+		} else {
+			List<User> ds = createDataSet(
+					new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", new BasicDBObject("userId", userId)), domain);
+			if (ds.size() == 0) {
+				throw new ServiceException("账户尚未注册应用");
+			}
+
+			user = ds.get(0);
+			updateUserRole(user, domain);
 		}
-
-		User user = ds.get(0);
-		updateUserRole(user, domain);
 		user.setDomain(domain);
 		String site = userDoc.getString("site");
 		List<String> siteList = (List<String>) domainData.get("site");

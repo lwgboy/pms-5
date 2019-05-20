@@ -313,28 +313,32 @@ public class User implements IResourceAssignment {
 		return changePSW;
 	}
 
-	public void setChangePSW(boolean changePSW) {
+	public User setChangePSW(boolean changePSW) {
 		this.changePSW = changePSW;
+		return this;
 	}
 
-	public void setDomain(String domain) {
+	public User setDomain(String domain) {
 		this.domain = domain;
+		return this;
 	}
 
 	public String getDomain() {
 		return domain;
 	}
 
-	public void setSite(String site) {
+	public User setSite(String site) {
 		this.site = site;
+		return this;
 	}
 
 	public String getSite() {
 		return site;
 	}
 
-	public void setSiteList(List<String> siteList) {
+	public User setSiteList(List<String> siteList) {
 		this.siteList = siteList;
+		return this;
 	}
 
 	public List<String> getSiteList() {
