@@ -20,7 +20,10 @@ import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/org")
+@Api("/org")
 public interface OrganizationService {
 
 	@POST

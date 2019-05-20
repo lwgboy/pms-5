@@ -21,7 +21,10 @@ import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/eps")
+@Api("/eps")
 public interface EPSService {
 
 	@GET

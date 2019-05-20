@@ -102,11 +102,6 @@ public class ProjectChange {
 		return ServicesLoader.get(UserService.class).get(applicant,domain);
 	}
 
-	public ProjectChange setApplicant(String applicant) {
-		this.applicant = applicant;
-		return this;
-	}
-
 	public ProjectChange setApplicant(User user) {
 		this.applicant = user.getUserId();
 		this.applicantUnitId = user.getOrganizationId();

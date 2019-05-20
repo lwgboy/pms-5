@@ -33,7 +33,10 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.SeverityInd;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/problem")
+@Api("/problem")
 public interface ProblemService {
 
 	/**

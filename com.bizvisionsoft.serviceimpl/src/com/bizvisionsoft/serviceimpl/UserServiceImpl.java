@@ -54,7 +54,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			filter.append("password", password);
 		else
 			logger.debug("已忽略密码验证。");
-		
+
 		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
 		Document userDoc = c.find(filter).first();
 		if (userDoc == null)
@@ -74,8 +74,8 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		User user;
 		if (userDoc.getBoolean("admin", false)) {
 			// 系统管理员账号,无需取用户数据
-			user = new User().setDomain(userDoc.getString("domain")).setUserId(userDoc.getString("userId")).setAdmin(true).setName(userDoc.getString("userId"))
-					.setBuzAdmin(userDoc.getBoolean("buzAdmin", false));
+			user = new User().setDomain(userDoc.getString("domain")).setUserId(userDoc.getString("userId")).setAdmin(true)
+					.setName(userDoc.getString("userId")).setBuzAdmin(userDoc.getBoolean("buzAdmin", false));
 		} else {
 			List<User> ds = createDataSet(
 					new BasicDBObject().append("skip", 0).append("limit", 1).append("filter", new BasicDBObject("userId", userId)), domain);
@@ -99,7 +99,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	}
 
 	@Override
-	public long updateUserDefaultSite(String userId, String sitePath) {
+	public long updateUserDefaultSite(String sitePath, String userId) {
 		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
 		UpdateResult result = c.updateOne(new Document("userId", userId), new Document("$set", new Document("site", sitePath)));
 		return result.getModifiedCount();

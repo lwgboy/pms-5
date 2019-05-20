@@ -17,7 +17,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.RemoteFile;
 
+import io.swagger.annotations.Api;
+
 @Path("/fs")
+@Api("/fs")
 public interface FileService {
 
 	@GET

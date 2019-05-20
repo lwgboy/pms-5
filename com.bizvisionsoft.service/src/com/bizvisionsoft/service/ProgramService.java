@@ -18,7 +18,10 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Program;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/program")
+@Api("/program")
 public interface ProgramService {
 
 	@POST

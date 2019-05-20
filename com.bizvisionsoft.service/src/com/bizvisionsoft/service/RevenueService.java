@@ -18,7 +18,10 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
 
+import io.swagger.annotations.Api;
+
 @Path("/revenue")
+@Api("/revenue")
 public interface RevenueService {
 
 	@GET

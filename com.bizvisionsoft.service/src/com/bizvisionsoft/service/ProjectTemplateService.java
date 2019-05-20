@@ -27,7 +27,10 @@ import com.bizvisionsoft.service.model.WorkLinkInTemplate;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/projectTemplate")
+@Api("/projectTemplate")
 public interface ProjectTemplateService {
 
 	@POST

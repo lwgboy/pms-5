@@ -18,7 +18,10 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.FuncPermission;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/perm")
+@Api("/perm")
 public interface PermissionService {
 
 	@POST

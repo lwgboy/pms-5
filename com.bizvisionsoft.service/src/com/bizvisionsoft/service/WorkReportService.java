@@ -22,7 +22,10 @@ import com.bizvisionsoft.service.model.WorkReportItem;
 import com.bizvisionsoft.service.model.WorkReportSummary;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/workreport")
+@Api("/workreport")
 public interface WorkReportService {
 
 	@POST

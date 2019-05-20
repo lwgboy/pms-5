@@ -21,7 +21,10 @@ import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/sysman")
+@Api("/sysman")
 public interface SystemService {
 
 	@GET

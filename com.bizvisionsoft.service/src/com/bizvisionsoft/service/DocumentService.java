@@ -22,7 +22,10 @@ import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/doc")
+@Api("/doc")
 public interface DocumentService {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

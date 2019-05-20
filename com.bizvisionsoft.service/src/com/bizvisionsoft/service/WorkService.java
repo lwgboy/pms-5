@@ -33,7 +33,10 @@ import com.bizvisionsoft.service.model.WorkResourcePlanDetail;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/work")
+@Api("/work")
 public interface WorkService {
 
 	@POST

@@ -11,7 +11,10 @@ import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 
+import io.swagger.annotations.Api;
+
 @Path("/uds")
+@Api("/uds")
 public interface UniversalDataService {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

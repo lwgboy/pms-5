@@ -22,7 +22,10 @@ import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/workspace")
+@Api("/workspace")
 public interface WorkSpaceService {
 
 	@POST

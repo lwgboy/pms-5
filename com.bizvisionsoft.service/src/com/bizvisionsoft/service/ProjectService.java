@@ -32,7 +32,10 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.Workspace;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/project")
+@Api("/project")
 public interface ProjectService {
 
 	@POST

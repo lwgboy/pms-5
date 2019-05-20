@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "TOPS",
   "version": "1.0",
-  "timestamp": "201905141454",
+  "timestamp": "201905210126",
   "title": "TOPS",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -196,72 +196,28 @@
                 "switchContentToAssemblyId": "162bca813e1",
                 "type": "switch",
                 "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162dc3d1622",
-            "name": "名称字典",
-            "switchContentToAssemblyId": "162dc3fab0c",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640b0e5c64",
-            "name": "用户进程管理",
-            "switchContentToAssemblyId": "16407f0bbdf",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16524c60c3c",
-            "name": "用户审计",
-            "switchContentToAssemblyId": "16524c6b3dc",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16527b11f80",
-            "name": "管理备份",
-            "switchContentToAssemblyId": "16527b473ad",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640b0ecf2a",
-            "name": "查看许可证",
-            "switchContentToAssemblyId": "16407a48f3b",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "165d57032c6",
-            "name": "系统设置",
-            "children": [
+              },
               {
-                "id": "165d5706851",
-                "name": "邮件设置",
+                "id": "1640e3fa0d1",
+                "name": "权限管理",
                 "bundleId": "",
                 "className": "",
-                "type": "system_setting",
+                "switchContentToAssemblyId": "1640675398d",
+                "type": "switch",
                 "verticalSpan": 0
               },
               {
-                "id": "1667dc1acb6",
-                "name": "工作时间设置",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
+                "id": "1640b0e5c64",
+                "name": "用户进程管理",
+                "switchContentToAssemblyId": "16407f0bbdf",
+                "type": "switch",
                 "verticalSpan": 0
               },
               {
-                "id": "166b313d86e",
-                "name": "测试邮件接收账户",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "16524c6b3dc",
+                "type": "switch",
                 "verticalSpan": 0
               },
               {
@@ -272,71 +228,6 @@
               }
             ],
             "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16767bc4980",
-            "name": "调试和维护",
-            "children": [
-              {
-                "id": "16763b894f7",
-                "name": "重建索引",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1677a1661b2",
-                "name": "值生成规则",
-                "bundleId": "",
-                "switchContentToAssemblyId": "1677a197ea4",
-                "type": "switch",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "debug": true
-          },
-          {
-            "id": "1689545822e",
-            "name": "业务管理",
-            "type": "openpage",
-            "openPageName": "业务管理"
-          }
-        ]
-      },
-      "footbar": {},
-      "contentArea": {
-        "typeName": "内容区",
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "id": "16406f27fa2",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": true,
-      "role": "系统管理员"
-    },
-    {
-      "typeName": "页面",
-      "id": "16406d5c996",
-      "name": "业务管理",
-      "title": "业务管理",
-      "headbar": {},
-      "sidebar": {
-        "enabled": true,
-        "width": 240,
-        "header": "16184129060",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "1640cf3219f",
-            "name": "重要提示",
-            "switchContentToAssemblyId": "16406f27fa2",
-            "type": "switch",
             "verticalSpan": 0
           },
           {
@@ -445,19 +336,73 @@
             "type": "customized"
           },
           {
-            "id": "1640e3fa0d1",
-            "name": "权限管理",
-            "bundleId": "",
-            "className": "",
-            "switchContentToAssemblyId": "1640675398d",
-            "type": "switch",
+            "id": "165d57032c6",
+            "name": "系统设置",
+            "children": [
+              {
+                "id": "165d5706851",
+                "name": "邮件设置",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1667dc1acb6",
+                "name": "工作时间设置",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166b313d86e",
+                "name": "测试邮件接收账户",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162dc3d1622",
+                "name": "名称字典",
+                "switchContentToAssemblyId": "162dc3fab0c",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16527b11f80",
+                "name": "管理备份",
+                "switchContentToAssemblyId": "16527b473ad",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0ecf2a",
+                "name": "查看许可证",
+                "switchContentToAssemblyId": "16407a48f3b",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16763b894f7",
+                "name": "重建索引",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
+                "type": "customized",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1677a1661b2",
+                "name": "值生成规则",
+                "bundleId": "",
+                "switchContentToAssemblyId": "1677a197ea4",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
             "verticalSpan": 0
-          },
-          {
-            "id": "16895462ac3",
-            "name": "系统管理",
-            "type": "openpage",
-            "openPageName": "系统管理"
           }
         ]
       },
@@ -473,7 +418,7 @@
         ]
       },
       "home": true,
-      "role": "业务管理员"
+      "role": "系统管理员"
     },
     {
       "typeName": "页面",

@@ -31,7 +31,10 @@ import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/common")
+@Api("/common")
 public interface CommonService {
 
 	@GET

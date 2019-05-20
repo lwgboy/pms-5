@@ -20,7 +20,10 @@ import com.bizvisionsoft.service.model.Product;
 import com.bizvisionsoft.service.model.ProductBenchmark;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/product")
+@Api("/product")
 public interface ProductService {
 
 	@POST

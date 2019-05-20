@@ -9,7 +9,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import io.swagger.annotations.Api;
+
 @Path("/report")
+@Api("/report")
 public interface ReportService {
 
 	@POST

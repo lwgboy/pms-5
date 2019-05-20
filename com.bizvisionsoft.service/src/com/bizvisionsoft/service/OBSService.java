@@ -22,7 +22,10 @@ import com.bizvisionsoft.service.model.ScopeRoleParameter;
 import com.bizvisionsoft.service.model.User;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/obs")
+@Api("/obs")
 public interface OBSService {
 
 	@POST

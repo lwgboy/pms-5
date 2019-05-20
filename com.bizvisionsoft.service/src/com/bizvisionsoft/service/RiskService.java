@@ -27,7 +27,10 @@ import com.bizvisionsoft.service.model.RiskScore;
 import com.bizvisionsoft.service.model.RiskUrgencyInd;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/risk")
+@Api("/risk")
 public interface RiskService {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

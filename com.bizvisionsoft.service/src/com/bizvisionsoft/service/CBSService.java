@@ -25,7 +25,10 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Work;
 import com.mongodb.BasicDBObject;
 
+import io.swagger.annotations.Api;
+
 @Path("/cbs")
+@Api("/cbs")
 public interface CBSService {
 
 	@GET

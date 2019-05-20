@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201905210116",
+  "timestamp": "201905210122",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -2405,6 +2405,44 @@
             "verticalSpan": 0
           },
           {
+            "id": "1640e8bb1bd",
+            "name": "账户管理",
+            "children": [
+              {
+                "id": "162bc7b536f",
+                "name": "账户管理",
+                "switchContentToAssemblyId": "162bca813e1",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0e5c64",
+                "name": "用户进程管理",
+                "switchContentToAssemblyId": "16407f0bbdf",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "16524c6b3dc",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640e3fa0d1",
+                "name": "功能权限",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "1640675398d",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
             "id": "1640ced2f99",
             "name": "组织用户",
             "children": [
@@ -2682,44 +2720,6 @@
               }
             ],
             "type": "customized"
-          },
-          {
-            "id": "1640e8bb1bd",
-            "name": "账户",
-            "children": [
-              {
-                "id": "162bc7b536f",
-                "name": "账户管理",
-                "switchContentToAssemblyId": "162bca813e1",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1640b0e5c64",
-                "name": "用户进程管理",
-                "switchContentToAssemblyId": "16407f0bbdf",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16524c60c3c",
-                "name": "用户审计",
-                "switchContentToAssemblyId": "16524c6b3dc",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1640e3fa0d1",
-                "name": "功能权限",
-                "bundleId": "",
-                "className": "",
-                "switchContentToAssemblyId": "1640675398d",
-                "type": "switch",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
           },
           {
             "id": "165d57032c6",
