@@ -36,7 +36,7 @@ public class Formatter {
 
 	public static Logger logger = LoggerFactory.getLogger(Formatter.class);
 
-	private static char[] array = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
+	private static char[] array = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
 
 	public static final String DATE_FORMAT_JS_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS Z";
 
@@ -332,7 +332,7 @@ public class Formatter {
 		}
 
 		if (i >= 26)
-			return ' ';
+			return 'X';
 		else
 			return alphatable[i];
 	}

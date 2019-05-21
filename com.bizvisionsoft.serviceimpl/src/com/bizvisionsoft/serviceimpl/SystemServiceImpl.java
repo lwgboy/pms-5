@@ -22,6 +22,7 @@ import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
@@ -531,8 +532,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		Document result = hostCol("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
 				new Document("$set", new Document("activated", true)));
 		if (result != null) {
-			int code = generateCode("ids", "domain");
-			String domain = "bvs_" + code;
+			String company = result.getString("company");
+			String domain = createDomain(company);
 			String domainRoot = Service.serverConfigRootPath + "/" + domain;
 			String schemeRoot = Service.serverConfigRootPath + "/scheme/" + result.getString("scheme");
 
@@ -589,6 +590,23 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		return new Document();
 	}
 
+	private static String createDomain(String company) {
+		String str = Formatter.getAlphaString(company);
+		if (str.length() > 4) {
+			str = str.substring(0, 3);
+		} else {
+			for (int i = 0; i < 4 - str.length(); i++) {
+				str = str + "X";
+			}
+		}
+		str = str + "_" + Formatter.dec_n(System.currentTimeMillis(), 32);
+		return str;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(createDomain("ê×Õı¿Æ¼¼"));
+	}
+	
 	@Override
 	public List<Document> listScheme() {
 		return Arrays.asList(new File(Service.serverConfigRootPath + "/scheme").listFiles()).stream().map(f -> {
