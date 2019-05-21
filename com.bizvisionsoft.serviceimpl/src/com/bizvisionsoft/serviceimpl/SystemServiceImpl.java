@@ -488,7 +488,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	public void requestDomain(Document data) {
 		ObjectId id = new ObjectId();
 		// TODO 检查用户名是否会重复
-		Service.database.getCollection("request").insertOne(data.append("_id", id).append("activated", false));
+		hostCol("request").insertOne(data.append("_id", id).append("activated", false));
 
 		String receiverAddress = data.getString("email");
 		String subject = "欢迎注册WisPlanner账户";
@@ -528,7 +528,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public Document createDomainFromRequest(ObjectId _id) {
-		Document result = Service.database.getCollection("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
+		Document result = hostCol("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
 				new Document("$set", new Document("activated", true)));
 		if (result != null) {
 			int code = generateCode("ids", "domain");
@@ -544,7 +544,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot).append("site",
 					sites);
-			Service.database.getCollection("domain").insertOne(domainData);
+			hostCol("domain").insertOne(domainData);
 			// 复制配置文件
 			try {
 
@@ -580,10 +580,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			}
 			// 插入超级用户
-			Service.database.getCollection("user")
-					.insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
-							.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
-							.append("changePSW", false));
+			hostCol("user").insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
+					.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
+					.append("changePSW", false));
 
 			return domainData;
 		}
@@ -605,7 +604,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public boolean checkRequest(ObjectId _id) {
-		return Service.database.getCollection("request").countDocuments(new Document("_id", _id).append("activated", false)) == 1;
+		return hostCol("request").countDocuments(new Document("_id", _id).append("activated", false)) == 1;
 	}
 
 }

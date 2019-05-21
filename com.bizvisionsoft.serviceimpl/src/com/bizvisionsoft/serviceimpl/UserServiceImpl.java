@@ -17,6 +17,7 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -40,7 +41,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public long updatePassword(String userId, String newPassword) {
-		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
+		MongoCollection<Document> c = hostCol("user");
 		UpdateResult r = c.updateOne(new Document("userId", userId),
 				new Document("$set", new Document("password", newPassword).append("changePSW", false)));
 		return r.getModifiedCount();
@@ -55,7 +56,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		else
 			logger.debug("已忽略密码验证。");
 
-		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
+		MongoCollection<Document> c = hostCol("user");
 		Document userDoc = c.find(filter).first();
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
@@ -100,7 +101,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public long updateUserDefaultSite(String sitePath, String userId) {
-		MongoCollection<Document> c = com.bizvisionsoft.service.common.Service.database.getCollection("user");
+		MongoCollection<Document> c = hostCol("user");
 		UpdateResult result = c.updateOne(new Document("userId", userId), new Document("$set", new Document("site", sitePath)));
 		return result.getModifiedCount();
 	}
@@ -145,7 +146,24 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public User insert(User user, String domain) {
-		return insert(user, User.class, domain);
+		// 检查用户名是否重复
+		String userId = user.getUserId();
+		if (hostCol("user").countDocuments(new Document("userId", userId)) != 0)
+			throw new ServiceException("用户Id已被占用");
+		if (userId.length() > 48)
+			throw new ServiceException("用户Id不能操作48个字符");
+		String psw = user.getPassword();
+		Document setting = getSystemSetting("设置用户密码要求", domain);
+		String pswReq = setting.getString("passwordRequest");
+		if (pswReq != null) {
+			if (psw == null || (!psw.matches(pswReq))) {
+				throw new ServiceException("不符合密码要求" + Check.option(setting.getString("desc")).orElse(""));
+			}
+		}
+		hostCol("user").insertOne(new Document("userId", userId).append("admin", false).append("buzAdmin", false).append("password", psw)
+				.append("domain", domain).append("activated", true).append("changePSW", false));
+		user = insert(user, User.class, domain);
+		return user;
 	}
 
 	@Override

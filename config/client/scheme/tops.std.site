@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "TOPS",
   "version": "1.0",
-  "timestamp": "201905210126",
+  "timestamp": "201905211256",
   "title": "TOPS",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -191,8 +191,18 @@
             "name": "账户",
             "children": [
               {
+                "id": "161d7d6b3a5",
+                "name": "组织管理",
+                "text": "组织管理",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "162b3c7c903",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
                 "id": "162bc7b536f",
-                "name": "账户管理",
+                "name": "用户管理",
                 "switchContentToAssemblyId": "162bca813e1",
                 "type": "switch",
                 "verticalSpan": 0
@@ -224,32 +234,6 @@
                 "id": "166e2149515",
                 "name": "设置用户密码要求",
                 "type": "system_setting",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640ced2f99",
-            "name": "组织用户",
-            "children": [
-              {
-                "id": "161d7d6b3a5",
-                "name": "组织管理",
-                "text": "组织管理",
-                "bundleId": "",
-                "className": "",
-                "switchContentToAssemblyId": "162b3c7c903",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162b3c6f761",
-                "name": "用户管理",
-                "text": "用户管理",
-                "switchContentToAssemblyId": "161db822d98",
-                "type": "switch",
                 "verticalSpan": 0
               }
             ],
@@ -378,25 +362,17 @@
                 "verticalSpan": 0
               },
               {
-                "id": "1640b0ecf2a",
-                "name": "查看许可证",
-                "switchContentToAssemblyId": "16407a48f3b",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16763b894f7",
-                "name": "重建索引",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
                 "id": "1677a1661b2",
                 "name": "值生成规则",
                 "bundleId": "",
                 "switchContentToAssemblyId": "1677a197ea4",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0ecf2a",
+                "name": "查看许可证",
+                "switchContentToAssemblyId": "16407a48f3b",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1241,16 +1217,6 @@
                 "formFields": []
               }
             ]
-          },
-          {
-            "id": "162bd59e131",
-            "name": "certificates",
-            "text": "执业资格",
-            "type": "多个对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "162bd6340f5",
-            "enableCreateItem": false,
-            "enableInsertAndCreateItem": false
           },
           {
             "id": "162c6f4f800",
@@ -2413,20 +2379,12 @@
             "type": "行",
             "formFields": [
               {
-                "id": "162bc7e37b7",
-                "name": "admin",
-                "text": "系统管理员",
-                "type": "复选框",
+                "id": "1621d2b257b",
+                "name": "organization",
+                "text": "所属组织",
+                "type": "对象选择框",
                 "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
-                "id": "16406e3b33c",
-                "name": "buzAdmin",
-                "text": "业务管理员",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
+                "selectorAssemblyId": "1621d403c8b"
               },
               {
                 "id": "162bca55fab",
@@ -2437,14 +2395,6 @@
                 "checkStyle": "开关（默认）"
               }
             ]
-          },
-          {
-            "id": "1621d2b257b",
-            "name": "organization",
-            "text": "所属组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "1621d403c8b"
           },
           {
             "id": "1622353f017",

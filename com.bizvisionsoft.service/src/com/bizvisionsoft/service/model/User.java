@@ -42,6 +42,10 @@ public class User implements IResourceAssignment {
 		if (this.password != null && !this.password.isEmpty() && !password.equals(this.password))
 			throw new RuntimeException("两次输入的密码不一致。");
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
 	@Persistence
 	@ReadValue({ "name", "部门工作日程表/label" })
@@ -237,8 +241,7 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	private Boolean trace;
 
-	@Exclude
-	private String domain;
+	public String domain;
 
 	@Exclude
 	private String site;

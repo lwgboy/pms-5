@@ -391,6 +391,10 @@ public class BasicServiceImpl {
 
 		return pipeline;
 	}
+	
+	protected MongoCollection<Document> hostCol(String name) {
+		return com.bizvisionsoft.service.common.Service.database.getCollection(name);
+	}
 
 	protected <T> MongoCollection<T> c(Class<T> clazz, String domain) {
 		return Domain.getCollection(domain, clazz);
