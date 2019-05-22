@@ -38,6 +38,13 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public String mongodbDump(@PathParam("note") String note,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@POST
+	@Path("/dump/notes/{note}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String mongodbDump(@PathParam("note") String note);
+
 
 	@POST
 	@Path("/{domain}/backup/ds")
@@ -211,6 +218,5 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<Document> listScheme();
-
 
 }

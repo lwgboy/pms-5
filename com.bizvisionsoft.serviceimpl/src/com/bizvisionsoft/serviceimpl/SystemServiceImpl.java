@@ -62,6 +62,26 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
+	public String mongodbDump(String note) {
+		hostCol("domain").find().map(d -> d.getString("_id")).forEach((String domain) -> this.mongodbDump(note, domain));
+		ServerAddress addr = Service.getDatabaseServerList().get(0);
+		String host = addr.getHost();
+		int port = addr.getPort();
+		String path = Service.mongoDbBinPath;
+		String dbName = Service.database.getName();
+		String dumpPath = Service.serverConfigRootPath+"/host/dump";
+		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
+				.archive(dumpPath + "\\").build().dump();
+		try {
+			FileTools.writeFile(note, result + "/notes.txt", "utf-8");
+		} catch (IOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+
+		return result;
+	}
+
+	@Override
 	public List<Backup> getBackups(String domain) {
 		List<Backup> result = new ArrayList<>();
 		File folder = new File(Domain.getDumpFolder(domain));
@@ -602,11 +622,11 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		str = str + "_" + Formatter.dec_n(System.currentTimeMillis(), 32);
 		return str;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(createDomain("ê×Õý¿Æ¼¼"));
 	}
-	
+
 	@Override
 	public List<Document> listScheme() {
 		return Arrays.asList(new File(Service.serverConfigRootPath + "/scheme").listFiles()).stream().map(f -> {
