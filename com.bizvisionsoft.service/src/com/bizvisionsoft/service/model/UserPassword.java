@@ -15,20 +15,18 @@ public class UserPassword {
 	@ReadValue
 	@WriteValue
 	public String password;
-	
+
 	public boolean changePSW = false;
-	
-	public String domain;
 
 	@WriteValue("password2")
 	public void setPassword2(String password) {
 		if (this.password != null && !this.password.isEmpty() && !password.equals(this.password))
 			throw new RuntimeException("两次输入的密码不一致。");
-		checkPassword(domain);
+		checkPassword();
 	}
 
-	private void checkPassword(String domain) {
-		Document setting = ServicesLoader.get(CommonService.class).getSetting("设置用户密码要求", domain);
+	private void checkPassword() {
+		Document setting = ServicesLoader.get(CommonService.class).getSetting("设置用户密码要求");
 		if (setting == null || password == null)
 			return;
 		if (!password.matches(setting.getString("passwordRequest")))

@@ -613,12 +613,24 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getSetting(@PathParam("name") String name, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@GET
+	@Path("/setting/{name}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getSetting(@PathParam("name")  String name);
 
 	@PUT
 	@Path("/{domain}/setting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateSetting(Document setting, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@PUT
+	@Path("/setting/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateSetting(Document r);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 

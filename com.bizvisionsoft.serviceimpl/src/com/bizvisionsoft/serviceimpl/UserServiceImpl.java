@@ -153,7 +153,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (userId.length() > 48)
 			throw new ServiceException("用户Id不能操作48个字符");
 		String psw = user.getPassword();
-		Document setting = getSystemSetting("设置用户密码要求", domain);
+		Document setting = getSystemSetting("设置用户密码要求");
 		String pswReq = setting.getString("passwordRequest");
 		if (pswReq != null) {
 			if (psw == null || (!psw.matches(pswReq))) {

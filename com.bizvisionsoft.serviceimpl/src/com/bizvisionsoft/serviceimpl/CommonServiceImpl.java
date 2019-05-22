@@ -31,6 +31,7 @@ import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
@@ -722,15 +723,31 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public Document getSetting(String name) {
+		return super.getSystemSetting(name);
+	}
+
+	@Override
 	public void updateSetting(Document setting, String domain) {
+		MongoCollection<Document> col;
+		if (domain == null) {
+			col = hostCol("setting");
+		} else {
+			col = c("setting", domain);
+		}
 		Object name = setting.get("name");
 		setting.remove("_id");
-		long cnt = c("setting", domain).countDocuments(new Document("name", name));
+		long cnt = col.countDocuments(new Document("name", name));
 		if (cnt == 0) {
-			c("setting", domain).insertOne(setting);
+			col.insertOne(setting);
 		} else {
-			c("setting", domain).updateOne(new Document("name", name), new Document("$set", setting));
+			col.updateOne(new Document("name", name), new Document("$set", setting));
 		}
+	}
+
+	@Override
+	public void updateSetting(Document setting) {
+		updateSetting(setting, null);
 	}
 
 	@Override

@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201905191415",
+  "timestamp": "201905222353",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -18,9 +18,246 @@
     "name": "站点",
     "id": "1626b905a63"
   },
-  "pages": [],
+  "pages": [
+    {
+      "typeName": "页面",
+      "id": "164067d4250",
+      "name": "系统管理",
+      "title": "系统管理",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "16184129060",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "164071f3044",
+            "name": "重要提示",
+            "switchContentToAssemblyId": "16406f27fa2",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "162bc7b536f",
+            "name": "用户管理",
+            "switchContentToAssemblyId": "162bca813e1",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640b0e5c64",
+            "name": "用户进程管理",
+            "switchContentToAssemblyId": "16407f0bbdf",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "166e2149515",
+            "name": "设置用户密码要求",
+            "type": "system_setting",
+            "verticalSpan": 0
+          },
+          {
+            "id": "165d5706851",
+            "name": "邮件设置",
+            "bundleId": "",
+            "className": "",
+            "type": "system_setting",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "16406f27fa2",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": true,
+      "role": ""
+    }
+  ],
   "assyLib": {
     "assys": [
+      {
+        "id": "166b312929c",
+        "name": "测试邮件接收账户",
+        "title": "测试邮件接收账户",
+        "layout": [],
+        "type": "editor",
+        "folderId": "165d57b9f4a",
+        "fields": [
+          {
+            "id": "166b3130287",
+            "name": "testEmail",
+            "text": "账户",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true
+          }
+        ],
+        "smallEditor": true,
+        "tinyEditor": true,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "165d57bc9c2",
+        "name": "邮件设置",
+        "title": "邮件设置",
+        "layout": [],
+        "type": "editor",
+        "folderId": "165d57b9f4a",
+        "fields": [
+          {
+            "id": "165d57c3a0d",
+            "name": "emailNotice",
+            "text": "发送邮件通知",
+            "type": "复选框",
+            "formFields": [],
+            "checkStyle": "开关（默认）"
+          },
+          {
+            "id": "165d57c3ac4",
+            "name": "smtpHost",
+            "text": "服务器地址",
+            "type": "单行文本框",
+            "formFields": []
+          },
+          {
+            "id": "165d57c3b7f",
+            "name": "smtpPort",
+            "text": "端口号",
+            "type": "单行文本框",
+            "formFields": []
+          },
+          {
+            "id": "165d57c3c46",
+            "name": "smtpUseSSL",
+            "text": "使用SSL",
+            "type": "复选框",
+            "formFields": [],
+            "checkStyle": "开关（默认）"
+          },
+          {
+            "id": "165d57c3cfd",
+            "name": "senderAddress",
+            "text": "发送者",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "发送者账户，例如:abc@bizvisionsoft.com"
+          },
+          {
+            "id": "165d57c3da4",
+            "name": "senderPassword",
+            "text": "发送者密码",
+            "type": "单行文本框",
+            "formFields": []
+          },
+          {
+            "id": "165ed218a4c",
+            "name": "notice",
+            "text": "如果系统可连接到安装有本功能的DPS注册服务器，可以开启本开关。",
+            "type": "横幅",
+            "formFields": [],
+            "staticContent": true
+          },
+          {
+            "id": "165ed23e067",
+            "name": "dps",
+            "text": "使用DPS服务",
+            "type": "复选框",
+            "formFields": [],
+            "checkStyle": "开关（默认）"
+          }
+        ],
+        "smallEditor": true,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "166e2135530",
+        "name": "设置用户密码要求",
+        "title": "设置用户密码要求",
+        "layout": [],
+        "type": "editor",
+        "folderId": "165d57b9f4a",
+        "fields": [
+          {
+            "id": "166b3130287",
+            "name": "passwordRequest",
+            "text": "密码要求",
+            "type": "单行文本框",
+            "formFields": [],
+            "textMessage": "Java正则表达式",
+            "required": true
+          },
+          {
+            "id": "166e222bf82",
+            "name": "desc",
+            "text": "验证提示",
+            "type": "单行文本框",
+            "formFields": [],
+            "readOnly": false,
+            "required": true
+          }
+        ],
+        "smallEditor": true,
+        "tinyEditor": true,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16184129060",
+        "name": "标题栏（带有用户头像和产品名称）",
+        "description": "用于侧边栏",
+        "bundleId": "com.bizvisionsoft.pms",
+        "className": "com.bizvisionsoft.pms.assembly.SidebarHeader",
+        "layout": [],
+        "folderId": "1626b905a63",
+        "actions": [],
+        "rowActions": [],
+        "disableInitLoadData": false,
+        "candidates": []
+      },
+      {
+        "id": "16406f27fa2",
+        "name": "系统管理首页面板",
+        "title": "系统管理",
+        "layout": [
+          {
+            "id": "164071a20bd",
+            "name": "默认布局",
+            "columnCount": 1,
+            "makeColumnsEqualWidth": true,
+            "extendVerticalSpace": true,
+            "marginHeight": 64,
+            "marginWidth": 12,
+            "assemblys": [
+              {
+                "id": "16407096c19",
+                "horizontalAlignment": 16777216,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "grabExcessVerticalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": 800,
+                "heightHint": 600
+              }
+            ],
+            "carouselInterval": 0
+          }
+        ],
+        "folderId": "1626b905a63",
+        "actions": [],
+        "rowActions": [],
+        "disableInitLoadData": false,
+        "candidates": []
+      },
       {
         "id": "16187d39041",
         "name": "用户登录组件",
@@ -42,6 +279,424 @@
         "actions": [],
         "rowActions": [],
         "disableInitLoadData": false
+      },
+      {
+        "id": "162bca813e1",
+        "name": "账户管理",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "账户管理",
+        "folderId": "1626b905a63",
+        "gridLineVisiable": true,
+        "gridMultiSelection": true,
+        "gridHeaderVisiable": true,
+        "gridHasHScroll": true,
+        "gridHasVScroll": true,
+        "gridFix": 2,
+        "gridPageControl": true,
+        "gridDataSetService": "com.bizvisionsoft.service.UserService",
+        "gridDataSetBundleId": "",
+        "gridDataSetClassName": "",
+        "columns": [
+          {
+            "id": "161db823fab",
+            "name": "userId",
+            "text": "账号",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 60,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "161db839f32",
+            "name": "name",
+            "text": "姓名",
+            "alignment": 16384,
+            "width": 120,
+            "minimumWidth": 60,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "16507be3c65",
+            "name": "trace",
+            "text": "跟踪",
+            "alignment": 16777216,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "161db85fc50",
+            "name": "activated",
+            "text": "激活",
+            "alignment": 16777216,
+            "width": 60,
+            "minimumWidth": 60,
+            "columns": []
+          },
+          {
+            "id": "1640669a89e",
+            "name": "admin",
+            "text": "管理员",
+            "alignment": 16777216,
+            "width": 60,
+            "columns": []
+          },
+          {
+            "id": "16507b03fad",
+            "name": "consigner",
+            "text": "受托账号",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "161db845953",
+            "name": "联系方式",
+            "text": "联系方式",
+            "alignment": 16777216,
+            "expanded": true,
+            "columns": [
+              {
+                "id": "161db85f29d",
+                "name": "tel",
+                "text": "办公电话",
+                "alignment": 16384,
+                "width": 240,
+                "minimumWidth": 80,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "columns": []
+              },
+              {
+                "id": "161db85edfa",
+                "name": "email",
+                "text": "电子邮件",
+                "alignment": 16384,
+                "width": 240,
+                "minimumWidth": 80,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "columns": []
+              },
+              {
+                "id": "161e5ad2a13",
+                "name": "mobile",
+                "text": "移动电话",
+                "alignment": 16384,
+                "width": 240,
+                "resizeable": true,
+                "detail": true,
+                "columns": []
+              }
+            ]
+          },
+          {
+            "id": "161e5aeb95c",
+            "name": "orgFullName",
+            "text": "所属组织",
+            "alignment": 16384,
+            "width": 260,
+            "resizeable": true,
+            "columns": []
+          }
+        ],
+        "fields": [
+          {
+            "id": "1622d6990eb",
+            "name": "userId",
+            "text": "账号",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "textQueryType": "字符串"
+          },
+          {
+            "id": "1623122bf59",
+            "name": "name",
+            "text": "姓名",
+            "type": "文本输入框（查询）",
+            "formFields": [],
+            "textQueryType": "字符串"
+          },
+          {
+            "id": "16236b38381",
+            "name": "orgIds",
+            "text": "组织",
+            "type": "多个对象选择框（查询）",
+            "formFields": [],
+            "selectorAssemblyId": "1621d403c8b"
+          },
+          {
+            "id": "1623124fb98",
+            "name": "activated",
+            "text": "激活",
+            "type": "复选框（查询）",
+            "formFields": [],
+            "checkStyle": "开关（默认）"
+          }
+        ],
+        "actions": [
+          {
+            "id": "162bc86d504",
+            "name": "创建账户",
+            "text": "创建账户",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.CreateAccountACT",
+            "forceText": true,
+            "style": "normal",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "166e2157337",
+            "name": "要求用户更改密码",
+            "text": "要求用户更改密码",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.RequestAccountChangePasswordACT",
+            "forceText": true,
+            "style": "normal",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "166e2b06814",
+            "name": "要求所有用户更改密码",
+            "text": "要求所有用户更改密码",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.RequestAllAccountChangePasswordACT",
+            "forceText": true,
+            "style": "normal",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "161fab27a2a",
+            "name": "编辑账户",
+            "text": "编辑",
+            "image": "/img/edit_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.bruiengine.app.user.EditAccountACT",
+            "style": "normal",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "162bcceb1a3",
+            "name": "删除账户",
+            "text": "删除",
+            "image": "/img/minus_16_w.svg",
+            "bundleId": "",
+            "className": "",
+            "style": "warning",
+            "type": "delete",
+            "verticalSpan": 0
+          },
+          {
+            "id": "162bcd4ff41",
+            "name": "修改账户密码",
+            "text": "密码",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.EditPasswordACT",
+            "style": "",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16507a7ed03",
+            "name": "账户托管",
+            "text": "托管",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.ConsignACT",
+            "style": "",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16507b8d475",
+            "name": "账户跟踪",
+            "text": "账户跟踪",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.user.TraceUserACT",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "queryBuilderBundle": "com.bizvisionsoft.pms",
+        "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
+        "hasTitlebar": true,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16407f0bbdf",
+        "name": "用户进程管理",
+        "layout": [],
+        "type": "grid",
+        "stickerTitle": "用户进程管理",
+        "folderId": "1626b905a63",
+        "gridLineVisiable": true,
+        "gridHeaderVisiable": true,
+        "gridHasVScroll": true,
+        "gridDataSetBundleId": "com.bizvisionsoft.bruiengine",
+        "gridDataSetClassName": "com.bizvisionsoft.bruiengine.app.sysman.LoginUserDS",
+        "columns": [
+          {
+            "id": "16407f125f2",
+            "name": "loginUser",
+            "text": "用户",
+            "alignment": 16384,
+            "width": 160,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "16407f17feb",
+            "name": "loginTime",
+            "text": "登录时间",
+            "alignment": 16384,
+            "width": 160,
+            "resizeable": true,
+            "columns": [],
+            "format": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "id": "1640b645bff",
+            "name": "loginDuration",
+            "text": "在线",
+            "alignment": 131072,
+            "width": 120,
+            "resizeable": true,
+            "columns": []
+          },
+          {
+            "id": "1640b5249fd",
+            "name": "客户端信息",
+            "text": "客户端信息",
+            "alignment": 16384,
+            "width": 80,
+            "resizeable": true,
+            "columns": [
+              {
+                "id": "16409058450",
+                "name": "remoteAddr",
+                "text": "远程地址",
+                "alignment": 16384,
+                "width": 100,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "columns": []
+              },
+              {
+                "id": "1640b4fcfdf",
+                "name": "remoteHost",
+                "text": "远程主机",
+                "alignment": 16384,
+                "width": 100,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "columns": []
+              },
+              {
+                "id": "1640b500637",
+                "name": "requestURI",
+                "text": "请求URI",
+                "alignment": 16384,
+                "width": 80,
+                "resizeable": true,
+                "detail": true,
+                "summary": true,
+                "columns": []
+              },
+              {
+                "id": "1640b504bb0",
+                "name": "characterEncoding",
+                "text": "字符集",
+                "alignment": 16777216,
+                "width": 60,
+                "resizeable": true,
+                "detail": true,
+                "columns": []
+              },
+              {
+                "id": "1640b506522",
+                "name": "requestSessionId",
+                "text": "请求进程",
+                "alignment": 16384,
+                "width": 80,
+                "resizeable": true,
+                "detail": true,
+                "columns": []
+              },
+              {
+                "id": "1640b51dffe",
+                "name": "userAgent",
+                "text": "User-Agent",
+                "alignment": 16384,
+                "width": 80,
+                "resizeable": true,
+                "detail": true,
+                "columns": []
+              }
+            ]
+          }
+        ],
+        "fields": [],
+        "actions": [],
+        "rowActions": [
+          {
+            "id": "1640bc96fb5",
+            "name": "发消息",
+            "text": "发送通知",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.sysman.SendMessageToUserACT",
+            "style": "info",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640c7c5e59",
+            "name": "延时登出",
+            "text": "延时登出",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.sysman.LogoutUserLaterACT",
+            "style": "warning",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640bb39622",
+            "name": "登出",
+            "text": "立即登出",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.sysman.LogoutUserACT",
+            "style": "serious",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "hasTitlebar": true,
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16407096c19",
+        "name": "警告（系统管理）",
+        "title": "警告",
+        "bundleId": "com.bizvisionsoft.bruiengine",
+        "className": "com.bizvisionsoft.bruiengine.app.sysman.AlertASM",
+        "layout": [],
+        "folderId": "1626b905a63",
+        "actions": [],
+        "rowActions": [],
+        "disableInitLoadData": false,
+        "candidates": []
       }
     ]
   },

@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201905211257",
+  "timestamp": "201905222356",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -2406,45 +2406,7 @@
           },
           {
             "id": "1640e8bb1bd",
-            "name": "账户管理",
-            "children": [
-              {
-                "id": "162bc7b536f",
-                "name": "账户管理",
-                "switchContentToAssemblyId": "162bca813e1",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1640b0e5c64",
-                "name": "用户进程管理",
-                "switchContentToAssemblyId": "16407f0bbdf",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16524c60c3c",
-                "name": "用户审计",
-                "switchContentToAssemblyId": "16524c6b3dc",
-                "type": "switch",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1640e3fa0d1",
-                "name": "功能权限",
-                "bundleId": "",
-                "className": "",
-                "switchContentToAssemblyId": "1640675398d",
-                "type": "switch",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640ced2f99",
-            "name": "组织用户",
+            "name": "组织和用户",
             "children": [
               {
                 "id": "161d7d6b3a5",
@@ -2457,10 +2419,16 @@
                 "verticalSpan": 0
               },
               {
-                "id": "162b3c6f761",
+                "id": "162bc7b536f",
                 "name": "用户管理",
-                "text": "用户管理",
-                "switchContentToAssemblyId": "161db822d98",
+                "switchContentToAssemblyId": "162bca813e1",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "16524c6b3dc",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2471,29 +2439,13 @@
                 "switchContentToAssemblyId": "162bd1b7bb3",
                 "type": "switch",
                 "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16555b265e3",
-            "name": "财务科目",
-            "text": "财务科目",
-            "children": [
-              {
-                "id": "162e58e8ed5",
-                "name": "设置费用类科目",
-                "text": "项目预算和成本科目",
-                "switchContentToAssemblyId": "162e59bc8f7",
-                "type": "switch",
-                "verticalSpan": 0
               },
               {
-                "id": "16555ce76d8",
-                "name": "设置收益类别",
-                "text": "项目损益科目",
-                "switchContentToAssemblyId": "16555c066ed",
+                "id": "1640e3fa0d1",
+                "name": "功能权限",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "1640675398d",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2571,6 +2523,31 @@
               }
             ],
             "type": "customized"
+          },
+          {
+            "id": "16555b265e3",
+            "name": "财务科目",
+            "text": "财务科目",
+            "children": [
+              {
+                "id": "162e58e8ed5",
+                "name": "设置费用类科目",
+                "text": "项目预算和成本科目",
+                "switchContentToAssemblyId": "162e59bc8f7",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16555ce76d8",
+                "name": "设置收益类别",
+                "text": "项目损益科目",
+                "switchContentToAssemblyId": "16555c066ed",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
           },
           {
             "id": "16a85f562e6",
@@ -2726,14 +2703,6 @@
             "name": "系统设置",
             "children": [
               {
-                "id": "165d5706851",
-                "name": "邮件设置",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
-                "verticalSpan": 0
-              },
-              {
                 "id": "1667dc1acb6",
                 "name": "工作时间设置",
                 "bundleId": "",
@@ -2746,12 +2715,6 @@
                 "name": "测试邮件接收账户",
                 "bundleId": "",
                 "className": "",
-                "type": "system_setting",
-                "verticalSpan": 0
-              },
-              {
-                "id": "166e2149515",
-                "name": "设置用户密码要求",
                 "type": "system_setting",
                 "verticalSpan": 0
               },
@@ -32584,7 +32547,7 @@
             "text": "验证提示",
             "type": "单行文本框",
             "formFields": [],
-            "readOnly": true,
+            "readOnly": false,
             "required": true
           }
         ],
