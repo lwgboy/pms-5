@@ -63,13 +63,13 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public String mongodbDump(String note) {
-		hostCol("domain").find().map(d -> d.getString("_id")).forEach((String domain) -> this.mongodbDump(note, domain));
+		c("domain").find().map(d -> d.getString("_id")).forEach((String domain) -> this.mongodbDump(note, domain));
 		ServerAddress addr = Service.getDatabaseServerList().get(0);
 		String host = addr.getHost();
 		int port = addr.getPort();
 		String path = Service.mongoDbBinPath;
 		String dbName = Service.database.getName();
-		String dumpPath = Service.serverConfigRootPath+"/host/dump";
+		String dumpPath = Service.serverConfigRootPath + "/host/dump";
 		String result = new MongoDBBackup.Builder().runtime(Runtime.getRuntime()).path(path).host(host).port(port).dbName(dbName)
 				.archive(dumpPath + "\\").build().dump();
 		try {
@@ -509,7 +509,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	public void requestDomain(Document data) {
 		ObjectId id = new ObjectId();
 		// TODO 检查用户名是否会重复
-		hostCol("request").insertOne(data.append("_id", id).append("activated", false));
+		c("request").insertOne(data.append("_id", id).append("activated", false));
 
 		String receiverAddress = data.getString("email");
 		String subject = "欢迎注册WisPlanner账户";
@@ -549,7 +549,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public Document createDomainFromRequest(ObjectId _id) {
-		Document result = hostCol("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
+		Document result = c("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
 				new Document("$set", new Document("activated", true)));
 		if (result != null) {
 			String company = result.getString("company");
@@ -565,7 +565,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot).append("site",
 					sites);
-			hostCol("domain").insertOne(domainData);
+			c("domain").insertOne(domainData);
 			// 复制配置文件
 			try {
 
@@ -601,7 +601,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			}
 			// 插入超级用户
-			hostCol("user").insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
+			c("user").insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
 					.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
 					.append("changePSW", false));
 
@@ -642,7 +642,22 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public boolean checkRequest(ObjectId _id) {
-		return hostCol("request").countDocuments(new Document("_id", _id).append("activated", false)) == 1;
+		return c("request").countDocuments(new Document("_id", _id).append("activated", false)) == 1;
+	}
+
+	@Override
+	public List<com.bizvisionsoft.service.model.Domain> listDomain(BasicDBObject condition) {
+		return createDataSet(condition, com.bizvisionsoft.service.model.Domain.class, null);
+	}
+
+	@Override
+	public long countDomain(BasicDBObject filter) {
+		return count(filter, "domain", null);
+	}
+
+	@Override
+	public long updateDomain(BasicDBObject fu) {
+		return update(fu, com.bizvisionsoft.service.model.Domain.class, null);
 	}
 
 }

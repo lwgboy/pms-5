@@ -76,6 +76,20 @@ public interface UserService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
+	@Path("/host/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "全域账户管理/" + DataSet.LIST })
+	public List<User> createDataSet(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/host/count/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "全域账户管理/" + DataSet.COUNT })
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
+
+	@POST
 	@Path("/{domain}/delegatable/{userId}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

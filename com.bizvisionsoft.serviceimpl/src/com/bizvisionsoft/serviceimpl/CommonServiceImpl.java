@@ -731,7 +731,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public void updateSetting(Document setting, String domain) {
 		MongoCollection<Document> col;
 		if (domain == null) {
-			col = hostCol("setting");
+			col = c("setting");
 		} else {
 			col = c("setting", domain);
 		}

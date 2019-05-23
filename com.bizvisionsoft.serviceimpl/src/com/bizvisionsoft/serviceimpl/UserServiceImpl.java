@@ -41,7 +41,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public long updatePassword(String userId, String newPassword) {
-		MongoCollection<Document> c = hostCol("user");
+		MongoCollection<Document> c = c("user");
 		UpdateResult r = c.updateOne(new Document("userId", userId),
 				new Document("$set", new Document("password", newPassword).append("changePSW", false)));
 		return r.getModifiedCount();
@@ -56,7 +56,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		else
 			logger.debug("已忽略密码验证。");
 
-		MongoCollection<Document> c = hostCol("user");
+		MongoCollection<Document> c = c("user");
 		Document userDoc = c.find(filter).first();
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
@@ -101,7 +101,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public long updateUserDefaultSite(String sitePath, String userId) {
-		MongoCollection<Document> c = hostCol("user");
+		MongoCollection<Document> c = c("user");
 		UpdateResult result = c.updateOne(new Document("userId", userId), new Document("$set", new Document("site", sitePath)));
 		return result.getModifiedCount();
 	}
@@ -148,7 +148,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	public User insert(User user, String domain) {
 		// 检查用户名是否重复
 		String userId = user.getUserId();
-		if (hostCol("user").countDocuments(new Document("userId", userId)) != 0)
+		if (c("user").countDocuments(new Document("userId", userId)) != 0)
 			throw new ServiceException("用户Id已被占用");
 		if (userId.length() > 48)
 			throw new ServiceException("用户Id不能操作48个字符");
@@ -160,7 +160,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				throw new ServiceException("不符合密码要求" + Check.option(setting.getString("desc")).orElse(""));
 			}
 		}
-		hostCol("user").insertOne(new Document("userId", userId).append("admin", false).append("buzAdmin", false).append("password", psw)
+		c("user").insertOne(new Document("userId", userId).append("admin", false).append("buzAdmin", false).append("password", psw)
 				.append("domain", domain).append("activated", true).append("changePSW", false));
 		user = insert(user, User.class, domain);
 		return user;
@@ -178,6 +178,20 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	@Override
 	public long count(BasicDBObject filter, String domain) {
 		return count(filter, User.class, domain);
+	}
+
+	@Override
+	public List<User> createDataSet(BasicDBObject condition) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		return query(null, skip, limit, filter, sort, pipeline -> appendOrgFullName(pipeline, "org_id", "orgFullName"), User.class, null);
+	}
+
+	@Override
+	public long count(BasicDBObject filter) {
+		return count(filter, User.class, null);
 	}
 
 	@Override
