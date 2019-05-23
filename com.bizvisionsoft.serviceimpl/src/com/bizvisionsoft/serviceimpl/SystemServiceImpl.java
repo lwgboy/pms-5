@@ -20,6 +20,7 @@ import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
+import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -516,8 +517,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		String from = "WisPlanner";
 
 		String request = data.getString("request");
-		String content = "请点击以下链接验证您的邮箱地址<br>";
+		String content = "您好，您申请的WisPlanner账号需要进行邮箱验证，请点击以下链接验证您的邮箱地址<br>";
 		content += request + "bvs/verify?r=" + id;
+		content += "<br>如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。";
 
 		Document setting = getSystemSetting("邮件设置");
 		String smtpHost = setting.getString("smtpHost");
@@ -623,10 +625,6 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		return str;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(createDomain("曜正科技"));
-	}
-
 	@Override
 	public List<Document> listScheme() {
 		return Arrays.asList(new File(Service.serverConfigRootPath + "/scheme").listFiles()).stream().map(f -> {
@@ -658,6 +656,16 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	@Override
 	public long updateDomain(BasicDBObject fu) {
 		return update(fu, com.bizvisionsoft.service.model.Domain.class, null);
+	}
+
+	@Override
+	public List<DomainRequest> listDomainReq(BasicDBObject condition) {
+		return createDataSet(condition, DomainRequest.class, null);
+	}
+
+	@Override
+	public long countDomainReq(BasicDBObject filter) {
+		return count(filter, "request", null);
 	}
 
 }

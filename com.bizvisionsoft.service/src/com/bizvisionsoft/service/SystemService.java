@@ -19,6 +19,7 @@ import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.Domain;
+import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.mongodb.BasicDBObject;
 
@@ -213,6 +214,20 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void requestDomain(Document data);
+	
+	@POST
+	@Path("/host/requestDomain/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("企业域注册请求清单/" + DataSet.LIST)
+	public List<DomainRequest> listDomainReq(@MethodParam(MethodParam.CONDITION) BasicDBObject condition);
+
+	@POST
+	@Path("/host/requestDomain/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("企业域注册请求清单/" + DataSet.COUNT)
+	public long countDomainReq(@MethodParam(MethodParam.FILTER) BasicDBObject filter);
 
 	@POST
 	@Path("/request/{request}/domain")
@@ -254,5 +269,6 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("企业域清单/" + DataSet.UPDATE)
 	public long updateDomain(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate);
+	
 
 }
