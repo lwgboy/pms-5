@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -554,6 +555,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		Document result = c("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
 				new Document("$set", new Document("activated", true)));
 		if (result != null) {
+			String userId = result.getString("email");
+			String dbPsw = RandomStringUtils.randomAlphabetic(8);
 			String company = result.getString("company");
 			String domain = createDomain(company);
 			String domainRoot = Service.serverConfigRootPath + "/" + domain;
@@ -565,8 +568,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 				return file.getParentFile().getParent() + "/site/" + domain + "." + file.getName();
 			}).collect(Collectors.toList());
 
-			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot).append("site",
-					sites);
+			Document domainData = new Document("_id", domain).append("activated", false).append("rootPath", domainRoot)
+					.append("site", sites).append("databaseUser", userId).append("databasePassword", dbPsw);
+
 			c("domain").insertOne(domainData);
 			// 复制配置文件
 			try {
@@ -580,7 +584,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 				return new Document();
 			}
 			// 启动域
-			new Domain(domainData).start();
+			new Domain(domainData).fristStart();
 			// 装入基础业务数据
 			if (result.getBoolean("loadBasicData", false)) {
 				ServerAddress addr = Service.getDatabaseServerList().get(0);
@@ -603,7 +607,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			}
 			// 插入超级用户
-			c("user").insertOne(new Document("userId", result.getString("email")).append("admin", true).append("buzAdmin", true)
+			c("user").insertOne(new Document("userId", userId).append("admin", true).append("buzAdmin", true)
 					.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
 					.append("changePSW", false));
 

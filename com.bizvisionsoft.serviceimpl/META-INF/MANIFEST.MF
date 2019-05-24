@@ -23,7 +23,8 @@ Require-Bundle: slf4j.api,
  org.jboss.spec.javax.resource.jboss-connector-api_1.7_spec;bundle-version="1.0.1",
  com.bizvisionsoft.support;bundle-version="1.0.0",
  com.bizvisionsoft.service.common;bundle-version="1.0.0",
- org.apache.commons.io;bundle-version="2.2.0"
+ org.apache.commons.io;bundle-version="2.2.0",
+ org.apache.commons.lang3
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.bizvisionsoft.serviceimpl.Service
 Export-Package: com.bizvisionsoft.serviceimpl,
