@@ -69,6 +69,18 @@ public class Formatter {
 		return result.length() == 0 ? "0" : result.toString();
 	}
 
+	public static String bytes2HexString(byte[] b) {
+		String ret = "";
+		for (int i = 0; i < b.length; i++) {
+			String hex = Integer.toHexString(b[i] & 0xFF);
+			if (hex.length() == 1) {
+				hex = "0" + hex;
+			}
+			ret += hex;
+		}
+		return ret;
+	}
+
 	/**
 	 * JS 日期字符串转换日期
 	 * 

@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201905131735",
+  "timestamp": "201905222356",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -660,231 +660,6 @@
     "id": "1626b905a63"
   },
   "pages": [
-    {
-      "typeName": "页面",
-      "id": "162c96f406c",
-      "name": "开发环境",
-      "title": "BrUI 在线开发环境",
-      "headbar": {},
-      "sidebar": {
-        "enabled": true,
-        "width": 240,
-        "header": "162c9948c11",
-        "toolbarItems": [
-          {
-            "id": "162c9989881",
-            "name": "保存",
-            "image": "/img/save_w.svg",
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ],
-        "sidebarItems": [
-          {
-            "id": "162c97f3f46",
-            "name": "站点",
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162c97f8c3f",
-            "name": "组件",
-            "children": [
-              {
-                "id": "162c990bcc3",
-                "name": "目录结构",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c99106ac",
-                "name": "表格",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c9910f32",
-                "name": "编辑器",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c99176a5",
-                "name": "甘特图",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c991cd1d",
-                "name": "标题容器",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c991d86f",
-                "name": "弹出式选择器",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "162c99231b3",
-                "name": "自定义组件",
-                "type": "customized",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162c9926c84",
-            "name": "操作",
-            "children": [
-              {
-                "id": "164541255ff",
-                "name": "创建索引",
-                "text": "创建索引",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
-                "forceText": true,
-                "type": "customized",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162c9997b61",
-            "name": "工具",
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162c9a554fe",
-            "name": "测试",
-            "children": [
-              {
-                "id": "16555431524",
-                "name": "测试编辑器",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.model.TestModelACT",
-                "editorAssemblyId": "165553650bd",
-                "type": "customized",
-                "createActionNewInstanceBundleId": "",
-                "createActionNewInstanceClassName": "",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1654e45ea7f",
-                "name": "测试提示",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.model.TestMessage",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1658ef9f702",
-                "name": "同步组织fullName",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.SyncOrgFullName",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16594aae6d8",
-                "name": "创建SAP测试数据",
-                "bundleId": "com.awesometech.leoco",
-                "className": "com.awesometech.leoco.dev.CreateDummySAPDatabase",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16594b474ef",
-                "name": "查询SAP测试数据",
-                "bundleId": "com.awesometech.leoco",
-                "className": "com.awesometech.leoco.dev.QueryDummySAPDatabase",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "165a9116a8e",
-                "name": "创建OA测试数据",
-                "bundleId": "com.awesometech.leoco",
-                "className": "com.awesometech.leoco.dev.CreateDummyOADatabase",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "165a911dfee",
-                "name": "查询OA测试数据",
-                "bundleId": "com.awesometech.leoco",
-                "className": "com.awesometech.leoco.dev.QueryDummyOADatabase",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "16630974acc",
-                "name": "示例报表2",
-                "text": "示例报表2",
-                "bundleId": "com.awesometech.leoco",
-                "className": "com.awesometech.leoco.dev.ReportExample2",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1665e87a01f",
-                "name": "测试导出Excel",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.model.TestPageExport",
-                "type": "customized",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "166754e36c4",
-            "name": "系统更新",
-            "children": [
-              {
-                "id": "166754e63b8",
-                "name": "V5.1-M1-PMO更新",
-                "text": "V5.1-M1-PMO更新",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.UpdatePMOACT",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "166a86eaed3",
-                "name": "V5.1-M1-AccountItem更新",
-                "text": "V5.1-M1-AccountItem更新",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.systemupdate.SystemUpdateV0502_accountitem",
-                "type": "customized",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          }
-        ]
-      },
-      "footbar": {},
-      "contentArea": {
-        "typeName": "内容区",
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "id": "162c98182da",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "role": ""
-    },
     {
       "typeName": "页面",
       "id": "16182ccd795",
@@ -2631,167 +2406,7 @@
           },
           {
             "id": "1640e8bb1bd",
-            "name": "账户",
-            "children": [
-              {
-                "id": "162bc7b536f",
-                "name": "账户管理",
-                "switchContentToAssemblyId": "162bca813e1",
-                "type": "switch",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "163621fae4c",
-            "name": "视图和工作包",
-            "switchContentToAssemblyId": "163622866dc",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "162dc3d1622",
-            "name": "名称字典",
-            "switchContentToAssemblyId": "162dc3fab0c",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640b0e5c64",
-            "name": "用户进程管理",
-            "switchContentToAssemblyId": "16407f0bbdf",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16524c60c3c",
-            "name": "用户审计",
-            "switchContentToAssemblyId": "16524c6b3dc",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16527b11f80",
-            "name": "管理备份",
-            "switchContentToAssemblyId": "16527b473ad",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640b0ecf2a",
-            "name": "查看许可证",
-            "switchContentToAssemblyId": "16407a48f3b",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "165d57032c6",
-            "name": "系统设置",
-            "children": [
-              {
-                "id": "165d5706851",
-                "name": "邮件设置",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1667dc1acb6",
-                "name": "工作时间设置",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
-                "verticalSpan": 0
-              },
-              {
-                "id": "166b313d86e",
-                "name": "测试邮件接收账户",
-                "bundleId": "",
-                "className": "",
-                "type": "system_setting",
-                "verticalSpan": 0
-              },
-              {
-                "id": "166e2149515",
-                "name": "设置用户密码要求",
-                "type": "system_setting",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16767bc4980",
-            "name": "调试和维护",
-            "children": [
-              {
-                "id": "16763b894f7",
-                "name": "重建索引",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
-                "id": "1677a1661b2",
-                "name": "值生成规则",
-                "bundleId": "",
-                "switchContentToAssemblyId": "1677a197ea4",
-                "type": "switch",
-                "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "debug": true
-          },
-          {
-            "id": "168f49f7295",
-            "name": "业务管理",
-            "type": "openpage",
-            "openPageName": "业务管理"
-          }
-        ]
-      },
-      "footbar": {},
-      "contentArea": {
-        "typeName": "内容区",
-        "assemblyLinks": [
-          {
-            "typeName": "组件链接",
-            "id": "16406f27fa2",
-            "defaultAssembly": true
-          }
-        ]
-      },
-      "home": true,
-      "role": "系统管理员"
-    },
-    {
-      "typeName": "页面",
-      "id": "16406d5c996",
-      "name": "业务管理",
-      "title": "业务管理",
-      "headbar": {},
-      "sidebar": {
-        "enabled": true,
-        "width": 240,
-        "header": "16184129060",
-        "toolbarItems": [],
-        "sidebarItems": [
-          {
-            "id": "1640cf3219f",
-            "name": "重要提示",
-            "switchContentToAssemblyId": "16406f27fa2",
-            "type": "switch",
-            "verticalSpan": 0
-          },
-          {
-            "id": "1640ced2f99",
-            "name": "组织用户",
+            "name": "组织和用户",
             "children": [
               {
                 "id": "161d7d6b3a5",
@@ -2804,10 +2419,16 @@
                 "verticalSpan": 0
               },
               {
-                "id": "162b3c6f761",
+                "id": "162bc7b536f",
                 "name": "用户管理",
-                "text": "用户管理",
-                "switchContentToAssemblyId": "161db822d98",
+                "switchContentToAssemblyId": "162bca813e1",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "16524c6b3dc",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2818,29 +2439,13 @@
                 "switchContentToAssemblyId": "162bd1b7bb3",
                 "type": "switch",
                 "verticalSpan": 0
-              }
-            ],
-            "type": "customized",
-            "verticalSpan": 0
-          },
-          {
-            "id": "16555b265e3",
-            "name": "财务科目",
-            "text": "财务科目",
-            "children": [
-              {
-                "id": "162e58e8ed5",
-                "name": "设置费用类科目",
-                "text": "项目预算和成本科目",
-                "switchContentToAssemblyId": "162e59bc8f7",
-                "type": "switch",
-                "verticalSpan": 0
               },
               {
-                "id": "16555ce76d8",
-                "name": "设置收益类别",
-                "text": "项目损益科目",
-                "switchContentToAssemblyId": "16555c066ed",
+                "id": "1640e3fa0d1",
+                "name": "功能权限",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "1640675398d",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2901,9 +2506,48 @@
                 "switchContentToAssemblyId": "1644693c7db",
                 "type": "switch",
                 "verticalSpan": 0
+              },
+              {
+                "id": "163621fae4c",
+                "name": "视图和工作包",
+                "switchContentToAssemblyId": "163622866dc",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162dc3d1622",
+                "name": "名称字典",
+                "switchContentToAssemblyId": "162dc3fab0c",
+                "type": "switch",
+                "verticalSpan": 0
               }
             ],
             "type": "customized"
+          },
+          {
+            "id": "16555b265e3",
+            "name": "财务科目",
+            "text": "财务科目",
+            "children": [
+              {
+                "id": "162e58e8ed5",
+                "name": "设置费用类科目",
+                "text": "项目预算和成本科目",
+                "switchContentToAssemblyId": "162e59bc8f7",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16555ce76d8",
+                "name": "设置收益类别",
+                "text": "项目损益科目",
+                "switchContentToAssemblyId": "16555c066ed",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
           },
           {
             "id": "16a85f562e6",
@@ -3055,12 +2699,57 @@
             "type": "customized"
           },
           {
-            "id": "1640e3fa0d1",
-            "name": "功能权限",
-            "bundleId": "",
-            "className": "",
-            "switchContentToAssemblyId": "1640675398d",
-            "type": "switch",
+            "id": "165d57032c6",
+            "name": "系统设置",
+            "children": [
+              {
+                "id": "1667dc1acb6",
+                "name": "工作时间设置",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166b313d86e",
+                "name": "测试邮件接收账户",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0ecf2a",
+                "name": "查看许可证",
+                "switchContentToAssemblyId": "16407a48f3b",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16527b11f80",
+                "name": "管理备份",
+                "switchContentToAssemblyId": "16527b473ad",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16763b894f7",
+                "name": "重建索引",
+                "bundleId": "com.bizvisionsoft.onlinedesigner",
+                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
+                "type": "customized",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1677a1661b2",
+                "name": "值生成规则",
+                "bundleId": "",
+                "switchContentToAssemblyId": "1677a197ea4",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
             "verticalSpan": 0
           }
         ]
@@ -3076,7 +2765,8 @@
           }
         ]
       },
-      "role": ""
+      "home": true,
+      "role": "系统管理员"
     }
   ],
   "assyLib": {
@@ -5176,38 +4866,22 @@
             "type": "行",
             "formFields": [
               {
-                "id": "164066a20ed",
-                "name": "admin",
-                "text": "系统管理员",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
-                "id": "16406e2b965",
-                "name": "buzAdmin",
-                "text": "业务管理员",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
                 "id": "162bca55fab",
                 "name": "activated",
                 "text": "激活",
                 "type": "复选框",
                 "formFields": [],
                 "checkStyle": "开关（默认）"
+              },
+              {
+                "id": "1621d2b257b",
+                "name": "organization",
+                "text": "所属组织",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "1621d403c8b"
               }
             ]
-          },
-          {
-            "id": "1621d2b257b",
-            "name": "organization",
-            "text": "所属组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "1621d403c8b"
           },
           {
             "id": "1622353f017",
@@ -5569,38 +5243,22 @@
             "type": "行",
             "formFields": [
               {
-                "id": "162bc7e37b7",
-                "name": "admin",
-                "text": "系统管理员",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
-                "id": "16406e3b33c",
-                "name": "buzAdmin",
-                "text": "业务管理员",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
                 "id": "162bca55fab",
                 "name": "activated",
                 "text": "激活",
                 "type": "复选框",
                 "formFields": [],
                 "checkStyle": "开关（默认）"
+              },
+              {
+                "id": "1621d2b257b",
+                "name": "organization",
+                "text": "所属组织",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "1621d403c8b"
               }
             ]
-          },
-          {
-            "id": "1621d2b257b",
-            "name": "organization",
-            "text": "所属组织",
-            "type": "对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "1621d403c8b"
           },
           {
             "id": "1622353f017",
@@ -32889,7 +32547,7 @@
             "text": "验证提示",
             "type": "单行文本框",
             "formFields": [],
-            "readOnly": true,
+            "readOnly": false,
             "required": true
           }
         ],

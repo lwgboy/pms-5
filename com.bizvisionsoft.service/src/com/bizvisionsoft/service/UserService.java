@@ -187,7 +187,7 @@ public interface UserService {
 	@Path("/updatePsw/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updatePassword(@PathParam("userId") String userId, @PathParam("newPassword") String newPassword);
+	public long updatePassword(String newPassword,@PathParam("userId") String userId);
 
 	@PUT
 	@Path("/updateSite/{userId}/")
@@ -195,5 +195,9 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "更新用户的当前默认站点", response = Long.class)
 	public long updateUserDefaultSite(String sitePath, @PathParam("userId") String userId);
+	
+	@POST
+	@Path("/updatepsw")
+	public void updatePassword();
 
 }

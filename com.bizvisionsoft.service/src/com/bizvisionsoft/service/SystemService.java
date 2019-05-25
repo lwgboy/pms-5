@@ -269,6 +269,5 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("企业域清单/" + DataSet.UPDATE)
 	public long updateDomain(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate);
-	
 
 }

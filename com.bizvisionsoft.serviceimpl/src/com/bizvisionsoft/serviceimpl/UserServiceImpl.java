@@ -18,6 +18,8 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.RSACoder;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -40,35 +42,43 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	}
 
 	@Override
-	public long updatePassword(String userId, String newPassword) {
+	public long updatePassword(String newPassword, String userId) {
 		MongoCollection<Document> c = c("user");
-		UpdateResult r = c.updateOne(new Document("userId", userId),
-				new Document("$set", new Document("password", newPassword).append("changePSW", false)));
-		return r.getModifiedCount();
+		Document d = c.find(new Document("userId", userId)).first();
+		if (d == null)
+			return 0;
+		String psw = encryPassword(d.getObjectId("_id").toHexString(), newPassword);
+		c.updateOne(new Document("userId", userId), new Document("$set", new Document("password", psw).append("changePSW", false)));
+		return 1;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public User check(String userId, String password) {
-		BasicDBObject filter = new BasicDBObject("userId", userId);
-		if (!logger.isDebugEnabled())
-			filter.append("password", password);
-		else
-			logger.debug("已忽略密码验证。");
 
 		MongoCollection<Document> c = c("user");
-		Document userDoc = c.find(filter).first();
+		Document userDoc = c.find(new Document("userId", userId)).first();
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
+
+		if (!logger.isDebugEnabled()) {
+			try {
+				String _psw = encryPassword(userDoc.getObjectId("_id").toHexString(), password);
+				if (!userDoc.getString("password").equals(_psw)) {
+					throw new ServiceException("账户无法通过验证");
+				}
+			} catch (Exception e) {
+				throw new ServiceException("账户无法通过验证");
+			}
+		}
 
 		String domain = userDoc.getString("domain");
 		if (domain == null)
 			throw new ServiceException("账户尚未注册应用");
 
-		Document domainData = com.bizvisionsoft.service.common.Service.database.getCollection("domain").find(new Document("_id", domain))
-				.first();
+		Document domainData = c("domain").find(new Document("_id", domain)).first();
 		if (domainData == null)
-			throw new ServiceException("账户尚未分配域名");
+			throw new ServiceException("账户尚未分配企业域");
 		if (!domainData.getBoolean("activated", false))
 			throw new ServiceException("您的企业账户尚未激活");
 
@@ -146,12 +156,17 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@Override
 	public User insert(User user, String domain) {
-		// 检查用户名是否重复
 		String userId = user.getUserId();
+
+		if ("su".equals(userId))// TODO考虑检查表
+			throw new ServiceException("禁用的用户Id");
+
 		if (c("user").countDocuments(new Document("userId", userId)) != 0)
 			throw new ServiceException("用户Id已被占用");
+
 		if (userId.length() > 48)
 			throw new ServiceException("用户Id不能操作48个字符");
+
 		String psw = user.getPassword();
 		Document setting = getSystemSetting("设置用户密码要求");
 		String pswReq = setting.getString("passwordRequest");
@@ -160,8 +175,13 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 				throw new ServiceException("不符合密码要求" + Check.option(setting.getString("desc")).orElse(""));
 			}
 		}
-		c("user").insertOne(new Document("userId", userId).append("admin", false).append("buzAdmin", false).append("password", psw)
-				.append("domain", domain).append("activated", true).append("changePSW", false));
+
+		// 加密密码
+		ObjectId _id = new ObjectId();
+		psw = encryPassword(_id.toHexString(), psw);
+
+		c("user").insertOne(new Document("_id", _id).append("userId", userId).append("admin", false).append("buzAdmin", false)
+				.append("password", psw).append("domain", domain).append("activated", true).append("changePSW", false));
 		user = insert(user, User.class, domain);
 		return user;
 	}
@@ -335,6 +355,28 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (d == null)
 			return 0;
 		return ((Number) d.get("count")).longValue();
+	}
+
+	@Override
+	public void updatePassword() {
+		c("user").find(new Document("scram", new Document("$ne", true))).forEach((Document d) -> {
+			String userId = d.getString("userId");
+			String salt = d.getObjectId("_id").toHexString();
+			String psw = d.getString("password");
+			String psw2 = encryPassword(salt, psw);
+			c("user").updateOne(new Document("userId", userId), new Document("$set", new Document("password", psw2).append("scram", true)));
+		});
+
+	}
+
+	private static String encryPassword(String salt, String psw) {
+		try {
+			byte[] data = RSACoder.encryptSHA((salt + psw).getBytes());
+			String psw2 = Formatter.bytes2HexString(data);
+			return psw2;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }
